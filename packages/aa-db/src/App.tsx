@@ -1,7 +1,8 @@
 import React from 'react';
+import {Container} from "react-bootstrap";
 import Navigation from "./Component/Navigation";
-import Servant from "./Route/Servant";
-import Servants from "./Route/Servants";
+import ServantPage from "./Page/ServantPage";
+import ServantsPage from "./Page/ServantsPage";
 import {
     HashRouter as Router,
     Switch,
@@ -14,11 +15,14 @@ function App() {
     return (
         <Router>
             <Navigation/>
+            <br/>
 
-            <Switch>
-                <Route path="/servants" component={Servants}/>
-                <Route path="/servant/:id" component={Servant}/>
-            </Switch>
+            <Container>
+                <Switch>
+                    <Route path="/servants" component={ServantsPage}/>
+                    <Route path="/servant/:id" component={ServantPage}/>
+                </Switch>
+            </Container>
         </Router>
     );
 }
