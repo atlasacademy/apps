@@ -1,5 +1,6 @@
 import React from "react";
 import {Table} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
 import ServantListEntity from "../Api/Data/ServantListEntity";
 import ClassIcon from "../Component/ClassIcon";
@@ -7,7 +8,7 @@ import Loading from "../Component/Loading";
 import RarityStars from "../Component/RarityStars";
 import ServantThumbnail from "../Component/ServantThumbnail";
 
-import './Servants.css';
+import './ServantsPage.css';
 
 interface IProps {
 }
@@ -17,7 +18,7 @@ interface IState {
     servants: ServantListEntity[];
 }
 
-class Servants extends React.Component<IProps, IState> {
+class ServantsPage extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
@@ -56,14 +57,24 @@ class Servants extends React.Component<IProps, IState> {
                     <tbody>
                     {this.state.servants.map((servant, index) => {
                         return <tr key={index}>
-                            <td align={"center"}>{servant.collectionNo}</td>
+                            <td align={"center"}>
+                                <Link to={`/servant/${servant.collectionNo}`}>
+                                    {servant.collectionNo}
+                                </Link>
+                            </td>
                             <td align={"center"}>
                                 <ClassIcon className={servant.className} rarity={servant.rarity} height={50} />
                             </td>
                             <td align={"center"}>
-                                <ServantThumbnail rarity={servant.rarity} location={servant.face} height={50}/>
+                                <Link to={`/servant/${servant.collectionNo}`}>
+                                    <ServantThumbnail rarity={servant.rarity} location={servant.face} height={50}/>
+                                </Link>
                             </td>
-                            <td>{servant.name}</td>
+                            <td>
+                                <Link to={`/servant/${servant.collectionNo}`}>
+                                    {servant.name}
+                                </Link>
+                            </td>
                             <td>
                                 <RarityStars rarity={servant.rarity}/>
                             </td>
@@ -77,4 +88,4 @@ class Servants extends React.Component<IProps, IState> {
 
 }
 
-export default Servants;
+export default ServantsPage;
