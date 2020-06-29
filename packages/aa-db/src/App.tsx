@@ -1,15 +1,10 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import {Container} from "react-bootstrap";
+import {HashRouter as Router, Route, Switch,} from "react-router-dom";
 import Navigation from "./Component/Navigation";
 import ServantPage from "./Page/ServantPage";
 import ServantsPage from "./Page/ServantsPage";
-import {
-    HashRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (
@@ -20,7 +15,10 @@ function App() {
             <Container>
                 <Switch>
                     <Route path="/servants" component={ServantsPage}/>
-                    <Route path="/servant/:id" component={ServantPage}/>
+                    <Route path="/servant/:id" render={(
+                        props => <ServantPage key={props.match.params.id} id={props.match.params.id}/>
+                    )}/>
+                    <Route path="/" component={ServantsPage}/>
                 </Switch>
             </Container>
         </Router>
