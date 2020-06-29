@@ -1,5 +1,7 @@
 import React from "react";
 import {Col, FormControl, Row} from "react-bootstrap";
+import {withRouter} from 'react-router';
+import {RouteComponentProps} from "react-router-dom";
 import Connection from "../Api/Connection";
 import ServantEntity from "../Api/Data/ServantEntity";
 import ServantListEntity from "../Api/Data/ServantListEntity";
@@ -7,10 +9,9 @@ import BuffIcon from "../Component/BuffIcon";
 import ClassIcon from "../Component/ClassIcon";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
-import {RouteComponentProps} from "react-router-dom";
+import {asPercent} from "../Helper";
 
 import './ServantPage.css';
-import {asPercent} from "../Helper";
 
 const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
     deathChanceIcon = `${buffIconPath}/bufficon_337.png`,
@@ -18,11 +19,8 @@ const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
     npGainIcon = `${buffIconPath}/bufficon_303.png`,
     starGenIcon = `${buffIconPath}/bufficon_310.png`;
 
-interface MatchParams {
+interface IProp extends RouteComponentProps {
     id: string;
-}
-
-interface IProp extends RouteComponentProps<MatchParams> {
 }
 
 interface IState {
@@ -38,7 +36,7 @@ class ServantPage extends React.Component<IProp, IState> {
 
         this.state = {
             loading: true,
-            id: parseInt(this.props.match.params.id),
+            id: parseInt(this.props.id),
             servants: [],
         };
     }
@@ -62,18 +60,6 @@ class ServantPage extends React.Component<IProp, IState> {
 
     changeServant(id: number) {
         this.props.history.push(`/servant/${id}`);
-
-        this.setState(
-            {
-                loading: true,
-                id: id,
-                servants: [],
-                servant: undefined
-            },
-            () => {
-                this.loadServant();
-            }
-        );
     }
 
     render() {
@@ -247,4 +233,4 @@ class ServantPage extends React.Component<IProp, IState> {
     }
 }
 
-export default ServantPage;
+export default withRouter(ServantPage);
