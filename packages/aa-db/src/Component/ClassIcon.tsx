@@ -33,7 +33,7 @@ interface IProps {
 class ClassIcon extends React.Component<IProps> {
     render() {
         return (
-            <img src={this.location()}
+            <img alt={''} src={this.location()}
                  style={this.props.height ? {height: this.props.height} : undefined}/>
         );
     }

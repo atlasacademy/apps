@@ -1,13 +1,22 @@
 import React from "react";
-import {Col, FormControl, Row, Table} from "react-bootstrap";
+import {Col, FormControl, Row} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import ServantEntity from "../Api/Data/ServantEntity";
 import ServantListEntity from "../Api/Data/ServantListEntity";
+import BuffIcon from "../Component/BuffIcon";
 import ClassIcon from "../Component/ClassIcon";
+import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import {RouteComponentProps} from "react-router-dom";
 
 import './ServantPage.css';
+import {asPercent} from "../Helper";
+
+const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
+    deathChanceIcon = `${buffIconPath}/bufficon_337.png`,
+    hitCountIcon = `${buffIconPath}/bufficon_349.png`,
+    npGainIcon = `${buffIconPath}/bufficon_303.png`,
+    starGenIcon = `${buffIconPath}/bufficon_310.png`;
 
 interface MatchParams {
     id: string;
@@ -84,6 +93,10 @@ class ServantPage extends React.Component<IProp, IState> {
                         {this.renderServantPortrait()}
                     </Col>
                 </Row>
+
+                <br/>
+
+                {this.renderServantAdvancedData()}
             </div>
         );
     }
@@ -121,46 +134,22 @@ class ServantPage extends React.Component<IProp, IState> {
                     {this.state.servant.name}
                 </h1>
 
-                <Table bordered hover className={'main-data'}>
-                    <tbody>
-                    <tr>
-                        <th>ID</th>
-                        <td>{this.state.servant.id}</td>
-                    </tr>
-                    <tr>
-                        <th>Collection</th>
-                        <td>{this.state.servant.collectionNo}</td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td>{this.state.servant.name}</td>
-                    </tr>
-                    <tr>
-                        <th>Class</th>
-                        <td>{this.state.servant.className}</td>
-                    </tr>
-                    <tr>
-                        <th>Rarity</th>
-                        <td>{this.state.servant.rarity}</td>
-                    </tr>
-                    <tr>
-                        <th>Cost</th>
-                        <td>{this.state.servant.cost}</td>
-                    </tr>
-                    <tr>
-                        <th>Max Lv.</th>
-                        <td>{this.state.servant.lvMax}</td>
-                    </tr>
-                    <tr>
-                        <th>Gender</th>
-                        <td>{this.state.servant.gender}</td>
-                    </tr>
-                    <tr>
-                        <th>Attribute</th>
-                        <td>{this.state.servant.attribute}</td>
-                    </tr>
-                    </tbody>
-                </Table>
+                <DataTable data={{
+                    "ID": this.state.servant.id,
+                    "Collection": this.state.servant.collectionNo,
+                    "Name": this.state.servant.name,
+                    "Class": this.state.servant.className,
+                    "Rarity": this.state.servant.rarity,
+                    "Cost": this.state.servant.cost,
+                    "Max Lv.": this.state.servant.lvMax,
+                    "Max Hp": this.state.servant.hpMax,
+                    "Max Atk": this.state.servant.atkMax,
+                    "Gender": this.state.servant.gender,
+                    "Attribute": this.state.servant.attribute,
+                    "Traits": this.state.servant.traits.map((trait) => {
+                        return trait.name;
+                    }).join(', '),
+                }}/>
             </div>
         );
     }
@@ -171,9 +160,90 @@ class ServantPage extends React.Component<IProp, IState> {
 
         return (
             <div>
-                <img className={'profile'} src={this.state.servant.extraAssets.charaGraph.ascension["1"]}/>
+                <img alt={this.state.servant.name}
+                     className={'profile'}
+                     src={this.state.servant.extraAssets.charaGraph.ascension["1"]}/>
             </div>
         );
+    }
+
+    renderServantAdvancedData() {
+        if (this.state.servant === undefined)
+            return null;
+
+        const servant = this.state.servant;
+
+        return (
+            <div>
+                <Row>
+                    <Col>
+                        <DataTable
+                            header={(
+                                <div>
+                                    <BuffIcon location={starGenIcon}/>&nbsp;Crit Stars
+                                </div>
+                            )}
+                            data={{
+                                "Star Absorb": servant.starAbsorb,
+                                "Star Gen": asPercent(servant.starGen),
+                            }}/>
+
+                        <DataTable
+                            header={(
+                                <div>
+                                    <BuffIcon location={deathChanceIcon}/>&nbsp;Instant Death
+                                </div>
+                            )}
+                            data={{
+                                "Death Chance": asPercent(servant.instantDeathChance),
+                            }}/>
+                    </Col>
+
+                    <Col>
+                        <DataTable
+                            header={(
+                                <div>
+                                    <BuffIcon location={npGainIcon}/>&nbsp;NP Gain
+                                </div>
+                            )}
+                            data={{
+                                "Buster": asPercent(servant.npGain.buster),
+                                "Arts": asPercent(servant.npGain.arts),
+                                "Quick": asPercent(servant.npGain.quick),
+                                "Extra": asPercent(servant.npGain.extra),
+                                "Defense": asPercent(servant.npGain.defence),
+                            }}/>
+                    </Col>
+
+                    <Col>
+                        <DataTable
+                            header={(
+                                <div>
+                                    <BuffIcon location={hitCountIcon}/>
+                                    &nbsp;
+                                    Hit Count
+                                </div>
+                            )}
+                            data={{
+                                "Buster": ServantPage.showHits(servant.hitsDistribution.buster),
+                                "Arts": ServantPage.showHits(servant.hitsDistribution.arts),
+                                "Quick": ServantPage.showHits(servant.hitsDistribution.quick),
+                                "Extra": ServantPage.showHits(servant.hitsDistribution.extra),
+                            }}/>
+                    </Col>
+                </Row>
+            </div>
+        );
+    }
+
+    private static showHits(hits: number[]): JSX.Element {
+        return <span>
+            {hits.map((hit, index) => {
+                return (index > 0 ? ', ' : '') + hit + '%';
+            })}
+            &nbsp;-&nbsp;
+            {hits.length} Hits
+        </span>
     }
 }
 
