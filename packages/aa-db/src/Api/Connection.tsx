@@ -10,12 +10,15 @@ const fetch = async function <T>(endpoint: string): Promise<T> {
 
     return response.data;
 }
-const region = function (): string {
-    if (Manager.region() === RegionOption.NA)
+const region = function (option?: RegionOption): string {
+    option = option ?? Manager.region();
+
+    if (option === RegionOption.NA)
         return 'NA';
 
     return 'JP';
 }
+const servantListCache = new Map<RegionOption, ServantListEntity[]>();
 
 class Connection {
 
@@ -27,8 +30,34 @@ class Connection {
         return fetch<ServantEntity>(`${host}/nice/${region()}/servant/${id}${query}`);
     }
 
-    public static servantList(): Promise<ServantListEntity[]> {
-        return fetch<ServantListEntity[]>(`${host}/export/${region()}/basic_servant.json`);
+    public static async servantList(): Promise<ServantListEntity[]> {
+        if (Manager.region() === RegionOption.NA) {
+            return Connection.getCacheableServantList(RegionOption.NA);
+        } else if (Manager.region() === RegionOption.JP && Manager.language() === LanguageOption.DEFAULT) {
+            return Connection.getCacheableServantList(RegionOption.JP);
+        }
+
+        const jp = await Connection.getCacheableServantList(RegionOption.JP),
+            na = await Connection.getCacheableServantList(RegionOption.NA),
+            names = new Map<number, string>(na.map(entity => [entity.id, entity.name]));
+
+        return jp.map<ServantListEntity>(entity => {
+            return {
+                ...entity,
+                name: names.get(entity.id) ?? entity.name,
+            };
+        });
+    }
+
+    private static async getCacheableServantList(option: RegionOption): Promise<ServantListEntity[]> {
+        let list = servantListCache.get(option);
+        if (list !== undefined)
+            return list;
+
+        list = await fetch<ServantListEntity[]>(`${host}/export/${region(option)}/basic_servant.json`);
+        servantListCache.set(option, list);
+
+        return list;
     }
 
 }
