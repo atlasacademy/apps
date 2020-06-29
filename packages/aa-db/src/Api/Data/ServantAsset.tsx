@@ -4,7 +4,10 @@ interface AssetMap {
     },
     costume: {
         [key: string]: string
-    }
+    },
+    equip: {
+        [key: string]: string
+    },
 }
 
 interface ServantAsset {

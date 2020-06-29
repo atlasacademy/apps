@@ -1,5 +1,9 @@
 enum Attribute {
-    EARTH = 'earth',
+    HUMAN = "human",
+    SKY = "sky",
+    EARTH = "earth",
+    STAR = "star",
+    BEAST = "beast",
 }
 
 export default Attribute;
