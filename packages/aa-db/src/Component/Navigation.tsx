@@ -1,3 +1,4 @@
+import {faDiscord, faGithub} from "@fortawesome/free-brands-svg-icons";
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Button, Container, Modal, Nav, Navbar, NavItem} from "react-bootstrap";
@@ -29,20 +30,24 @@ class Navigation extends React.Component<any, IState> {
     render() {
         return (
             <div>
-                <Navbar bg={"dark"} expand={"lg"}>
+                <Navbar bg={"dark"} variant={'dark'} expand={"lg"}>
                     <Container>
-                        <Navbar.Brand>
-                            <Link to="/">AA-DB</Link>
-                        </Navbar.Brand>
+                        <Link to="/" className={'navbar-brand'}>AA-DB</Link>
                         <Navbar.Toggle/>
 
                         <Navbar.Collapse>
                             <Nav>
-                                <Link to="/servants">
+                                <Link to="/servants" className={'nav-link'}>
                                     <NavItem>Servants</NavItem>
                                 </Link>
                             </Nav>
                             <Nav className={'ml-auto'}>
+                                <Nav.Link href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
+                                    <FontAwesomeIcon icon={faDiscord}/>
+                                </Nav.Link>
+                                <Nav.Link href={'https://github.com/atlasacademy/aa-db'} target={'_blank'}>
+                                    <FontAwesomeIcon icon={faGithub}/>
+                                </Nav.Link>
                                 <Button variant={"primary"} onClick={() => this.showSettings()}>
                                     <FontAwesomeIcon icon={faCog}/>
                                 </Button>
