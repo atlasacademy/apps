@@ -1,1 +1,0 @@
-{"version":3,"sources":["ServantPage.css","ServantsPage.css"],"names":[],"mappings":"AAAA,uBACI,gBACJ,CAEA,kBACI,UACJ,CCNA,4BACI,qBACJ","file":"main.65e7a1a2.chunk.css","sourcesContent":["#servant .main-data td {\n    text-align: right;\n}\n\n#servant .profile {\n    width: 100%;\n}\n","#servants table>tbody>tr>td {\n    vertical-align: middle;\n}\n"]}

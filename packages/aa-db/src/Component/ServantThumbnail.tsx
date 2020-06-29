@@ -10,7 +10,7 @@ class ServantThumbnail extends React.Component<IProps> {
 
     render() {
         return (
-            <img src={this.props.location}
+            <img alt={''} src={this.props.location}
                  style={this.props.height ? {height: this.props.height} : undefined}/>
         );
     }
