@@ -24,17 +24,17 @@ interface ServantEntity {
     instantDeathChance: number;
     cards: Card[];
     npGain: {
-        buster: number;
-        arts: number;
-        quick: number;
-        extra: number;
-        defence: number;
+        buster?: number;
+        arts?: number;
+        quick?: number;
+        extra?: number;
+        defence?: number;
     }
     hitsDistribution: {
-        buster: number[];
-        arts: number[];
-        quick: number[];
-        extra: number[];
+        buster?: number[];
+        arts?: number[];
+        quick?: number[];
+        extra?: number[];
     },
     atkBase: number;
     atkMax: number;

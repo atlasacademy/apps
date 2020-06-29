@@ -19,6 +19,10 @@ const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
     npGainIcon = `${buffIconPath}/bufficon_303.png`,
     starGenIcon = `${buffIconPath}/bufficon_310.png`;
 
+interface Event extends React.ChangeEvent<HTMLInputElement> {
+
+}
+
 interface IProp extends RouteComponentProps {
     id: string;
 }
@@ -92,7 +96,7 @@ class ServantPage extends React.Component<IProp, IState> {
             <div>
                 Jump to:
                 <FormControl as={"select"} custom
-                             onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                             onChange={(ev: Event) => {
                                  this.changeServant(parseInt(ev.target.value));
                              }}
                              value={this.state.id}>
@@ -222,7 +226,10 @@ class ServantPage extends React.Component<IProp, IState> {
         );
     }
 
-    private static showHits(hits: number[]): JSX.Element {
+    private static showHits(hits: number[] | undefined): JSX.Element | string {
+        if (hits === undefined)
+            return '';
+
         return <span>
             {hits.map((hit, index) => {
                 return (index > 0 ? ', ' : '') + hit + '%';
