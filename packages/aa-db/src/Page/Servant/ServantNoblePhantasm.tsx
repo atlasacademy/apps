@@ -91,7 +91,7 @@ class ServantNoblePhantasm extends React.Component<IProps, IState> {
                     </tbody>
                 </Table>
 
-                <Modal show={this.state.showFunc} onHide={() => this.hideFunc()}>
+                <Modal size={"lg"} show={this.state.showFunc} onHide={() => this.hideFunc()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Raw Function</Modal.Title>
                     </Modal.Header>
