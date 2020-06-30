@@ -34,7 +34,7 @@ class ServantAdvancedData extends React.Component<IProps> {
         return (
             <div>
                 <Row>
-                    <Col>
+                    <Col xs={12} md={4}>
                         <DataTable
                             header={(
                                 <div>
@@ -57,7 +57,7 @@ class ServantAdvancedData extends React.Component<IProps> {
                             }}/>
                     </Col>
 
-                    <Col>
+                    <Col xs={12} md={4}>
                         <DataTable
                             header={(
                                 <div>
@@ -73,7 +73,7 @@ class ServantAdvancedData extends React.Component<IProps> {
                             }}/>
                     </Col>
 
-                    <Col>
+                    <Col xs={12} md={4}>
                         <DataTable
                             header={(
                                 <div>
