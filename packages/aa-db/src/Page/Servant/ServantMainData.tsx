@@ -2,6 +2,7 @@ import React from "react";
 import ServantEntity from "../../Api/Data/ServantEntity";
 import ClassIcon from "../../Component/ClassIcon";
 import DataTable from "../../Component/DataTable";
+import RawDataViewer from "../../Component/RawDataViewer";
 
 interface IProps {
     servant: ServantEntity;
@@ -20,20 +21,20 @@ class ServantMainData extends React.Component<IProps> {
                 </h1>
 
                 <DataTable data={{
+                    "Raw": <RawDataViewer data={servant}/>,
                     "ID": servant.id,
                     "Collection": servant.collectionNo,
                     "Name": servant.name,
                     "Class": servant.className,
                     "Rarity": servant.rarity,
                     "Cost": servant.cost,
-                    "Max Lv.": servant.lvMax,
-                    "Max Hp": servant.hpMax,
-                    "Max Atk": servant.atkMax,
                     "Gender": servant.gender,
                     "Attribute": servant.attribute,
-                    "Traits": servant.traits.map((trait) => {
-                        return trait.name;
-                    }).join(', '),
+                    "Max Lv.": servant.lvMax,
+                    "Base Hp": servant.hpBase,
+                    "Base Atk": servant.atkBase,
+                    "Max Hp": servant.hpMax,
+                    "Max Atk": servant.atkMax,
                 }}/>
             </div>
         );

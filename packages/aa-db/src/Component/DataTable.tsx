@@ -2,11 +2,12 @@ import React from "react";
 import {Table} from "react-bootstrap";
 
 import "./DataTable.css";
+import {Renderable} from "../Helper/Renderable";
 
 interface IProp {
     header?: JSX.Element | string,
     data: {
-        [key: string]: JSX.Element | string | number;
+        [key: string]: Renderable;
     }
 }
 

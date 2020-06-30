@@ -1,14 +1,16 @@
 import React from "react";
-import {Col, Row} from "react-bootstrap";
+import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import ServantEntity from "../Api/Data/ServantEntity";
 import ServantListEntity from "../Api/Data/ServantListEntity";
 import Loading from "../Component/Loading";
-import ServantAdvancedData from "./Servant/ServantAdvancedData";
+import ServantMiscData from "./Servant/ServantMiscData";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantNoblePhantasm from "./Servant/ServantNoblePhantasm";
 import ServantPicker from "./Servant/ServantPicker";
 import ServantPortrait from "./Servant/ServantPortrait";
+import ServantSkill from "./Servant/ServantSkill";
+import ServantTraits from "./Servant/ServantTraits";
 
 import './ServantPage.css';
 
@@ -61,21 +63,36 @@ class ServantPage extends React.Component<IProp, IState> {
                 <hr/>
 
                 <Row>
-                    <Col xs={{span: 12, order: 2}} md={{span: 6, order: 1}}>
+                    <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
                         <ServantMainData servant={this.state.servant}/>
                     </Col>
-                    <Col xs={{span: 12, order: 1}} md={{span: 6, order: 2}}>
+                    <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
                         <ServantPortrait servant={this.state.servant}/>
                     </Col>
                 </Row>
 
-                <br/>
-
-                <ServantAdvancedData servant={this.state.servant}/>
-
-                {this.state.servant.noblePhantasms.map((noblePhantasm, index) => {
-                    return <ServantNoblePhantasm key={index} noblePhantasm={noblePhantasm}/>;
-                })}
+                <Tabs id={'servant-tabs'} defaultActiveKey={'skills'} transition={false}>
+                    <Tab eventKey={'skills'} title={'Skills'}>
+                        <br/>
+                        {this.state.servant.skills.map((skill, index) => {
+                            return <ServantSkill key={index} skill={skill}/>;
+                        })}
+                    </Tab>
+                    <Tab eventKey={'nps'} title={'Noble Phantasms'}>
+                        <br/>
+                        {this.state.servant.noblePhantasms.map((noblePhantasm, index) => {
+                            return <ServantNoblePhantasm key={index} noblePhantasm={noblePhantasm}/>;
+                        })}
+                    </Tab>
+                    <Tab eventKey={'traits'} title={'Traits'}>
+                        <br/>
+                        <ServantTraits traits={this.state.servant.traits}/>
+                    </Tab>
+                    <Tab eventKey={'misc'} title={'Misc'}>
+                        <br/>
+                        <ServantMiscData servant={this.state.servant}/>
+                    </Tab>
+                </Tabs>
             </div>
         );
     }

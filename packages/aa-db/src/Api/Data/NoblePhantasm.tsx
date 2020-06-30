@@ -2,7 +2,7 @@ import Card from "./Card";
 import Func from "./Func";
 import Trait from "./Trait";
 
-interface ServantNoblePhantasm {
+interface NoblePhantasm {
     id: number;
     num: number;
     card: Card;
@@ -20,4 +20,4 @@ interface ServantNoblePhantasm {
     functions: Func[];
 }
 
-export default ServantNoblePhantasm;
+export default NoblePhantasm;

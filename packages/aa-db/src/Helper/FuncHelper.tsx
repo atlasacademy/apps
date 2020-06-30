@@ -1,5 +1,8 @@
+import React from "react";
 import Func, {DataVal, DataValField, FuncTargetType, FuncType} from "../Api/Data/Func";
-import {buffIsFlatValue} from "./BuffHelper";
+import {joinElements} from "./ArrayHelper";
+import {buffIsFlatValue, describeBuff} from "./BuffHelper";
+import {Renderable} from "./Renderable";
 
 const hasChangingDataVals = function (vals: DataVal[]): boolean {
     if (!vals.length)
@@ -20,56 +23,68 @@ const hasUniqueValues = function (values: (number | undefined)[]): boolean {
     return new Set(values).size > 1;
 };
 
-export function describeFunc(func: Func): string {
+export function describeFunc(func: Func): Renderable {
     const isLevel = funcUpdatesByLevel(func),
         isOvercharge = isLevel ? false : funcUpdatesByOvercharge(func),
         dataVals = isLevel ? getLevelDataValList(func) : (isOvercharge ? getOverchargeDataValList(func) : func.svals),
         staticValues = getStaticFieldValues(dataVals);
 
-    let description = '';
+    const parts: (string|JSX.Element)[] = [];
 
     if (staticValues.Rate && staticValues.Rate !== 1000) {
-        description += (staticValues.Rate / 10) + '% Chance to ';
+        parts.push((staticValues.Rate / 10) + '% Chance to');
     }
 
     if (func.funcType === FuncType.DAMAGE_NP) {
-        description += 'Deal damage ';
+        parts.push('Deal damage');
     } else if (func.funcType === FuncType.DAMAGE_NP_PIERCE) {
-        description += 'Deal damage that pierces defence ';
+        parts.push('Deal damage that pierces defence');
     } else if (func.funcType === FuncType.ADD_STATE || func.funcType === FuncType.ADD_STATE_SHORT) {
-        description += 'Apply ' + func.buffs.map(buff => `"${buff.detail}"`).join(' & ') + ' ';
+        parts.push('Apply');
+        func.buffs.forEach((buff, index) => {
+            if (index > 0)
+                parts.push('&');
+
+            parts.push(<span>"{describeBuff(buff)}"</span>);
+        });
     } else if (func.funcType === FuncType.GAIN_NP) {
-        description += 'Charge NP ';
+        parts.push('Charge NP');
     } else if (func.funcType === FuncType.GAIN_HP) {
-        description += 'Gain HP ';
+        parts.push('Gain HP');
     }
 
     if (func.funcTargetType === FuncTargetType.ENEMY_ALL) {
-        description += 'to all enemies ';
+        parts.push('to all enemies');
     } else if (func.funcTargetType === FuncTargetType.PT_ALL) {
-        description += 'to party ';
+        parts.push('to party');
     } else if (func.funcTargetType === FuncTargetType.PT_OTHER) {
-        description += 'to other party members ';
+        parts.push('to other party members');
     } else if (func.funcTargetType === FuncTargetType.SELF) {
-        description += 'to self ';
+        parts.push('to self');
     }
 
     if (staticValues.Turn) {
-        description += (staticValues.Turn === 1 ? '(1 Turn)' : `(${staticValues.Turn} Turns)`) + ' ';
+        parts.push(staticValues.Turn === 1 ? '(1 Turn)' : `(${staticValues.Turn} Turns)`);
     }
 
     if (isLevel) {
-        description += '<LEVEL> ';
+        parts.push('<LEVEL>');
     }
 
     if (isOvercharge) {
-        description += '<OVERCHARGE> ';
+        parts.push('<OVERCHARGE>');
     }
 
-    return description;
+    return (
+        <span>
+            {joinElements(parts, ' ').map(
+                (element, index) => <span key={index}>{element}</span>
+            )}
+        </span>
+    );
 }
 
-export function describeMutators(func: Func): string[] {
+export function describeMutators(func: Func): Renderable[] {
     const isLevel = funcUpdatesByLevel(func),
         isOvercharge = isLevel ? false : funcUpdatesByOvercharge(func),
         dataVals = isLevel ? getLevelDataValList(func) : (isOvercharge ? getOverchargeDataValList(func) : func.svals),
