@@ -3,7 +3,7 @@ import {Col, Row} from "react-bootstrap";
 import ServantEntity from "../../Api/Data/ServantEntity";
 import BuffIcon from "../../Component/BuffIcon";
 import DataTable from "../../Component/DataTable";
-import {asPercent} from "../../Helper";
+import {asPercent} from "../../Helper/OutputHelper";
 
 const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
     deathChanceIcon = `${buffIconPath}/bufficon_337.png`,
@@ -16,7 +16,7 @@ const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
 
         return <span>
             {hits.map((hit, index) => {
-                return (index > 0 ? ', ' : '') + hit + '%';
+                return (index > 0 ? ', ' : '') + asPercent(hit, 0);
             })}
             &nbsp;-&nbsp;
             {hits.length} Hits
@@ -60,7 +60,7 @@ class ServantMiscData extends React.Component<IProps> {
                     )}
                     data={{
                         "Star Absorb": this.props.servant.starAbsorb,
-                        "Star Gen": asPercent(this.props.servant.starGen),
+                        "Star Gen": asPercent(this.props.servant.starGen, 1),
                     }}/>
 
                 <DataTable
@@ -70,7 +70,7 @@ class ServantMiscData extends React.Component<IProps> {
                         </div>
                     )}
                     data={{
-                        "Death Chance": asPercent(this.props.servant.instantDeathChance),
+                        "Death Chance": asPercent(this.props.servant.instantDeathChance, 1),
                     }}/>
             </Col>
         );
@@ -86,11 +86,11 @@ class ServantMiscData extends React.Component<IProps> {
                         </div>
                     )}
                     data={{
-                        "Buster": asPercent(this.props.servant.npGain.buster),
-                        "Arts": asPercent(this.props.servant.npGain.arts),
-                        "Quick": asPercent(this.props.servant.npGain.quick),
-                        "Extra": asPercent(this.props.servant.npGain.extra),
-                        "Defense": asPercent(this.props.servant.npGain.defence),
+                        "Buster": asPercent(this.props.servant.npGain.buster, 2),
+                        "Arts": asPercent(this.props.servant.npGain.arts, 2),
+                        "Quick": asPercent(this.props.servant.npGain.quick, 2),
+                        "Extra": asPercent(this.props.servant.npGain.extra, 2),
+                        "Defense": asPercent(this.props.servant.npGain.defence, 2),
                     }}/>
             </Col>
         );

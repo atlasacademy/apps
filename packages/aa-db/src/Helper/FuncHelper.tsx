@@ -2,6 +2,7 @@ import React from "react";
 import Func, {DataVal, DataValField, FuncTargetType, FuncType} from "../Api/Data/Func";
 import {joinElements} from "./ArrayHelper";
 import {buffIsFlatValue, describeBuff} from "./BuffHelper";
+import {asPercent} from "./OutputHelper";
 import {Renderable} from "./Renderable";
 
 const hasChangingDataVals = function (vals: DataVal[]): boolean {
@@ -91,21 +92,21 @@ export function describeMutators(func: Func): Renderable[] {
         mutatingVals = getMutatingFieldValues(dataVals);
 
     return mutatingVals.map(mutatingVal => {
-        let description = '';
+        let parts:string[] = [];
 
         if (mutatingVal.Value) {
             if (func.buffs[0] && buffIsFlatValue(func.buffs[0])) {
-                description += mutatingVal.Value + ' ';
+                parts.push(mutatingVal.Value.toString());
             } else if (func.funcType === FuncType.GAIN_NP || func.funcType === FuncType.LOSS_NP) {
-                description += (mutatingVal.Value / 100) + '% ';
+                parts.push(asPercent(mutatingVal.Value, 2));
             } else if (func.funcType === FuncType.GAIN_HP || func.funcType === FuncType.LOSS_HP) {
-                description += mutatingVal.Value + ' ';
+                parts.push(mutatingVal.Value.toString());
             } else {
-                description += (mutatingVal.Value / 10) + '% ';
+                parts.push(asPercent(mutatingVal.Value, 1));
             }
         }
 
-        return description;
+        return parts.join(' ');
     }).filter(description => description.length);
 }
 
