@@ -3,6 +3,7 @@ import Card from "./Card";
 import ClassName from "./ClassName";
 import Gender from "./Gender";
 import ServantAsset from "./ServantAsset";
+import ServantNoblePhantasm from "./ServantNoblePhantasm";
 import ServantType from "./ServantType";
 import Trait from "./Trait";
 
@@ -44,6 +45,7 @@ interface ServantEntity {
     atkGrowth: number[];
     hpGrowth: number[];
     bondGrowth: number[];
+    noblePhantasms: ServantNoblePhantasm[];
 }
 
 export default ServantEntity;
