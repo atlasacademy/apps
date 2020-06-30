@@ -61,10 +61,10 @@ class ServantPage extends React.Component<IProp, IState> {
                 <hr/>
 
                 <Row>
-                    <Col>
+                    <Col xs={{span: 12, order: 2}} md={{span: 6, order: 1}}>
                         <ServantMainData servant={this.state.servant}/>
                     </Col>
-                    <Col>
+                    <Col xs={{span: 12, order: 1}} md={{span: 6, order: 2}}>
                         <ServantPortrait servant={this.state.servant}/>
                     </Col>
                 </Row>
@@ -74,7 +74,7 @@ class ServantPage extends React.Component<IProp, IState> {
                 <ServantAdvancedData servant={this.state.servant}/>
 
                 {this.state.servant.noblePhantasms.map((noblePhantasm, index) => {
-                    return <ServantNoblePhantasm key={index} noblePhantasm={noblePhantasm} />;
+                    return <ServantNoblePhantasm key={index} noblePhantasm={noblePhantasm}/>;
                 })}
             </div>
         );
