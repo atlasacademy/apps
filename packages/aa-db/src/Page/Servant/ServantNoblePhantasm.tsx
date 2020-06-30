@@ -1,10 +1,10 @@
-import {faSearchPlus} from "@fortawesome/free-solid-svg-icons";
+import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Modal, Table} from "react-bootstrap";
-import ReactJson from "react-json-view";
+import {Table} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import Func from "../../Api/Data/Func";
-import {default as ServantNoblePhantasmData} from "../../Api/Data/ServantNoblePhantasm";
+import {default as ServantNoblePhantasmData} from "../../Api/Data/NoblePhantasm";
 import {describeFunc, describeMutators} from "../../Helper/FuncHelper";
 
 interface IProps {
@@ -25,29 +25,21 @@ class ServantNoblePhantasm extends React.Component<IProps, IState> {
         };
     }
 
-    private showFunc(func: Func) {
-        this.setState({
-            showFunc: true,
-            func: func
-        });
-    }
-
-    private hideFunc() {
-        this.setState({
-            showFunc: false,
-            func: undefined
-        });
-    }
-
     render() {
         const np = this.props.noblePhantasm;
 
         return (
             <div>
-                <h3>{np.name}</h3>
+                <h3>
+                    {np.name}
+                    &nbsp;
+                    <Link to={`/noble-phantasm/${np.id}`}>
+                        <FontAwesomeIcon icon={faShare}/>
+                    </Link>
+                </h3>
                 <p>{np.detail}</p>
 
-                <Table>
+                <Table responsive>
                     <thead>
                     <tr>
                         <th>Effect</th>
@@ -72,13 +64,10 @@ class ServantNoblePhantasm extends React.Component<IProps, IState> {
                             <tr key={index}>
                                 <td>
                                     {funcDescription}
-                                    <span className={'text-primary'}
-                                          style={{cursor: "pointer"}}
-                                          onClick={() => {
-                                              this.showFunc(func);
-                                          }}>
-                                        <FontAwesomeIcon icon={faSearchPlus}/>
-                                    </span>
+                                    &nbsp;
+                                    <Link to={`/func/${func.funcId}`}>
+                                        <FontAwesomeIcon icon={faShare}/>
+                                    </Link>
                                 </td>
                                 {mutatingDescriptions.map((description, index) => {
                                     return (
@@ -90,15 +79,6 @@ class ServantNoblePhantasm extends React.Component<IProps, IState> {
                     })}
                     </tbody>
                 </Table>
-
-                <Modal size={"lg"} show={this.state.showFunc} onHide={() => this.hideFunc()}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Raw Function</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <ReactJson src={this.state.func ?? {}}/>
-                    </Modal.Body>
-                </Modal>
             </div>
         );
     }

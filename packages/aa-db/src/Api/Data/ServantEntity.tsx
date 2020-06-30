@@ -3,8 +3,9 @@ import Card from "./Card";
 import ClassName from "./ClassName";
 import Gender from "./Gender";
 import ServantAsset from "./ServantAsset";
-import ServantNoblePhantasm from "./ServantNoblePhantasm";
+import NoblePhantasm from "./NoblePhantasm";
 import ServantType from "./ServantType";
+import Skill from "./Skill";
 import Trait from "./Trait";
 
 interface ServantEntity {
@@ -45,7 +46,12 @@ interface ServantEntity {
     atkGrowth: number[];
     hpGrowth: number[];
     bondGrowth: number[];
-    noblePhantasms: ServantNoblePhantasm[];
+    // ascensionMaterials
+    // skillMaterials
+    skills: Skill[];
+    // classPassive
+    noblePhantasms: NoblePhantasm[];
+    // profile
 }
 
 export default ServantEntity;

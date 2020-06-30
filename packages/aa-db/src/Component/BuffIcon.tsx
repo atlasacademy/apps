@@ -9,7 +9,10 @@ class BuffIcon extends React.Component<IProp> {
 
     render() {
         return (
-            <img alt={''} src={this.props.location} style={{height: this.props.height ?? 25}}/>
+            <img alt={''} src={this.props.location} style={{
+                height: this.props.height ?? 25,
+                verticalAlign: "bottom",
+            }}/>
         );
     }
 

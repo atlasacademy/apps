@@ -3,6 +3,9 @@ import React from 'react';
 import {Container} from "react-bootstrap";
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
 import Navigation from "./Component/Navigation";
+import BuffPage from "./Page/BuffPage";
+import FuncPage from './Page/FuncPage';
+import NoblePhantasmPage from "./Page/NoblePhantasmPage";
 import ServantPage from "./Page/ServantPage";
 import ServantsPage from "./Page/ServantsPage";
 import Manager from "./Setting/Manager";
@@ -13,7 +16,7 @@ interface IState {
     language: LanguageOption,
 }
 
-class App extends React.Component<any, IState>{
+class App extends React.Component<any, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -39,10 +42,19 @@ class App extends React.Component<any, IState>{
 
                 <Container key={`${this.state.region}-${this.state.language}`}>
                     <Switch>
-                        <Route path="/servants" component={ServantsPage}/>
+                        <Route path="/buff/:id" render={(
+                            props => <BuffPage key={props.match.params.id} id={props.match.params.id}/>
+                        )}/>
+                        <Route path="/func/:id" render={(
+                            props => <FuncPage key={props.match.params.id} id={props.match.params.id}/>
+                        )}/>
+                        <Route path="/noble-phantasm/:id" render={(
+                            props => <NoblePhantasmPage key={props.match.params.id} id={props.match.params.id}/>
+                        )}/>
                         <Route path="/servant/:id" render={(
                             props => <ServantPage key={props.match.params.id} id={props.match.params.id}/>
                         )}/>
+                        <Route path="/servants" component={ServantsPage}/>
                         <Route path="/" component={ServantsPage}/>
                     </Switch>
                 </Container>

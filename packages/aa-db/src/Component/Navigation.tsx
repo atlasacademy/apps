@@ -1,9 +1,9 @@
 import {faDiscord, faGithub} from "@fortawesome/free-brands-svg-icons";
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import React from "react";
 import {Button, Container, Modal, Nav, Navbar, NavItem} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import React from "react";
 import SettingForm from "../Setting/SettingForm";
 
 interface IState {

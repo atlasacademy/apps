@@ -1,6 +1,8 @@
 import axios from "axios";
 import Manager from "../Setting/Manager";
 import {LanguageOption, RegionOption} from "../Setting/Option";
+import Buff from "./Data/Buff";
+import Func from "./Data/Func";
 import ServantEntity from "./Data/ServantEntity";
 import ServantListEntity from "./Data/ServantListEntity";
 
@@ -21,6 +23,22 @@ const region = function (option?: RegionOption): string {
 const servantListCache = new Map<RegionOption, ServantListEntity[]>();
 
 class Connection {
+
+    static buff(id: number): Promise<Buff> {
+        let query = '?reverse=true' + (
+            Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
+        );
+
+        return fetch<Buff>(`${host}/nice/${region()}/buff/${id}${query}`);
+    }
+
+    static func(id: number): Promise<Func> {
+        let query = '?reverse=true' + (
+            Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
+        );
+
+        return fetch<Func>(`${host}/nice/${region()}/function/${id}${query}`);
+    }
 
     public static servant(id: number): Promise<ServantEntity> {
         let query = '?lore=true' + (
@@ -59,7 +77,6 @@ class Connection {
 
         return list;
     }
-
 }
 
 export default Connection;
