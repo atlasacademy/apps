@@ -1,18 +1,18 @@
-interface AssetMap {
-    ascension: {
-        [key: string]: string
-    },
-    costume: {
-        [key: string]: string
-    },
-    equip: {
-        [key: string]: string
-    },
+export interface AssetMap {
+    [key: string]: string;
+}
+
+export interface ServantAssetMap {
+    ascension?: AssetMap;
+    costume?: AssetMap;
+    equip?: AssetMap;
+    [key: string]: AssetMap | undefined;
 }
 
 interface ServantAsset {
-    charaGraph: AssetMap;
-    faces: AssetMap;
+    charaGraph: ServantAssetMap;
+    faces: ServantAssetMap;
+    [key: string]: ServantAssetMap;
 }
 
 export default ServantAsset;
