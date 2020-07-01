@@ -142,6 +142,7 @@ export default interface Func {
     funcPopupIcon?: string;
     functvals: Trait[];
     funcquestTvals: number[];
+    traitVals?: Trait[];
     buffs: Buff[];
     svals: DataVal[];
     svals2?: DataVal[];
