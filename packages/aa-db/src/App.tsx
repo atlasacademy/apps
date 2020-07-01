@@ -6,8 +6,10 @@ import Navigation from "./Component/Navigation";
 import BuffPage from "./Page/BuffPage";
 import FuncPage from './Page/FuncPage';
 import NoblePhantasmPage from "./Page/NoblePhantasmPage";
+import QuestPage from "./Page/QuestPage";
 import ServantPage from "./Page/ServantPage";
 import ServantsPage from "./Page/ServantsPage";
+import SkillPage from "./Page/SkillPage";
 import Manager from "./Setting/Manager";
 import {LanguageOption, RegionOption} from "./Setting/Option";
 
@@ -51,8 +53,19 @@ class App extends React.Component<any, IState> {
                         <Route path="/noble-phantasm/:id" render={(
                             props => <NoblePhantasmPage key={props.match.params.id} id={props.match.params.id}/>
                         )}/>
+                        <Route path="/quest/:id/:phase" render={(
+                            props => (
+                                <QuestPage
+                                    key={`${props.match.params.id}-${props.match.params.phase}`}
+                                    id={props.match.params.id}
+                                    phase={props.match.params.phase}/>
+                            )
+                        )}/>
                         <Route path="/servant/:id" render={(
                             props => <ServantPage key={props.match.params.id} id={props.match.params.id}/>
+                        )}/>
+                        <Route path="/skill/:id" render={(
+                            props => <SkillPage key={props.match.params.id} id={props.match.params.id}/>
                         )}/>
                         <Route path="/servants" component={ServantsPage}/>
                         <Route path="/" component={ServantsPage}/>

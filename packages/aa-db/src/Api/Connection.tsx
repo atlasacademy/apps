@@ -3,8 +3,11 @@ import Manager from "../Setting/Manager";
 import {LanguageOption, RegionOption} from "../Setting/Option";
 import Buff from "./Data/Buff";
 import Func from "./Data/Func";
+import NoblePhantasm from "./Data/NoblePhantasm";
+import Quest from "./Data/Quest";
 import ServantEntity from "./Data/ServantEntity";
 import ServantListEntity from "./Data/ServantListEntity";
+import Skill from "./Data/Skill";
 
 const host = 'https://api.atlasacademy.io';
 const fetch = async function <T>(endpoint: string): Promise<T> {
@@ -40,6 +43,18 @@ class Connection {
         return fetch<Func>(`${host}/nice/${region()}/function/${id}${query}`);
     }
 
+    static noblePhantasm(id: number): Promise<NoblePhantasm> {
+        let query = '?reverse=true' + (
+            Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
+        );
+
+        return fetch<NoblePhantasm>(`${host}/nice/${region()}/NP/${id}${query}`);
+    }
+
+    static quest(id: number, phase: number): Promise<Quest> {
+        return fetch<Quest>(`${host}/nice/${region()}/quest/${id}/${phase}`);
+    }
+
     public static servant(id: number): Promise<ServantEntity> {
         let query = '?lore=true' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
@@ -65,6 +80,14 @@ class Connection {
                 name: names.get(entity.id) ?? entity.name,
             };
         });
+    }
+
+    static async skill(id: number): Promise<Skill> {
+        let query = '?reverse=true' + (
+            Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
+        );
+
+        return fetch<Skill>(`${host}/nice/${region()}/skill/${id}${query}`);
     }
 
     private static async getCacheableServantList(option: RegionOption): Promise<ServantListEntity[]> {

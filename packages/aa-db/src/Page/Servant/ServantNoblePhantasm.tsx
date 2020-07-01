@@ -1,30 +1,17 @@
 import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Table} from "react-bootstrap";
+import {Alert, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import Func from "../../Api/Data/Func";
 import {default as ServantNoblePhantasmData} from "../../Api/Data/NoblePhantasm";
 import {describeFunc, describeMutators} from "../../Helper/FuncHelper";
+import {describeQuestType} from "../../Helper/QuestHelper";
 
 interface IProps {
     noblePhantasm: ServantNoblePhantasmData;
 }
 
-interface IState {
-    showFunc: boolean;
-    func?: Func;
-}
-
-class ServantNoblePhantasm extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
-
-        this.state = {
-            showFunc: false
-        };
-    }
-
+class ServantNoblePhantasm extends React.Component<IProps> {
     render() {
         const np = this.props.noblePhantasm;
 
@@ -37,6 +24,17 @@ class ServantNoblePhantasm extends React.Component<IProps, IState> {
                         <FontAwesomeIcon icon={faShare}/>
                     </Link>
                 </h3>
+
+                {np.condQuestId && np.condQuestPhase ? (
+                    <Alert variant={'primary'}>
+                        <Link to={`/quest/${np.condQuestId}/${np.condQuestPhase}`}>
+                            Available after {describeQuestType(np.condQuestId, np.condQuestPhase)}
+                            &nbsp;
+                            <FontAwesomeIcon icon={faShare}/>
+                        </Link>
+                    </Alert>
+                ): null}
+
                 <p>{np.detail}</p>
 
                 <Table responsive>
