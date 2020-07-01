@@ -64,7 +64,18 @@ export function describeFunc(region: Region, func: Func): Renderable {
             });
             sectionFlags.targetPreposition = 'on';
         } else if (func.funcType === FuncType.SUB_STATE) {
-            parts.push('Cleanse debuffs');
+            parts.push('Remove effects');
+
+            if (func.traitVals?.length) {
+                parts.push('with');
+
+                func.traitVals.forEach((trait, index) => {
+                    if (index > 0)
+                        parts.push('&');
+
+                    parts.push(<TraitDescription region={region} trait={trait}/>);
+                });
+            }
             sectionFlags.targetPreposition = 'for';
         } else if (func.funcType === FuncType.DAMAGE_NP) {
             parts.push('Deal damage');
