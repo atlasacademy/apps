@@ -1,9 +1,11 @@
 import React from "react";
+import {Tab, Tabs} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import NoblePhantasm from "../Api/Data/NoblePhantasm";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
+import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 
 interface IProps {
     id: number;
@@ -56,6 +58,24 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     "Detail": noblePhantasm.detail,
                     "Card Type": noblePhantasm.card,
                 }}/>
+
+                <Tabs id={'np-tabs'} defaultActiveKey={'n1o1'} transition={false}>
+                    {[1, 2, 3, 4, 5].map(level => {
+                        return [1, 2, 3, 4, 5].map(overcharge => {
+                            const key = `n${level}o${overcharge}`,
+                                title = `NP${level}-OC${overcharge}`;
+
+                            return (
+                                <Tab key={key} eventKey={key} title={title}>
+                                    <br/>
+                                    <NoblePhantasmVersion noblePhantasm={noblePhantasm}
+                                                          level={level}
+                                                          overcharge={overcharge}/>
+                                </Tab>
+                            );
+                        });
+                    })}
+                </Tabs>
             </div>
         );
     }

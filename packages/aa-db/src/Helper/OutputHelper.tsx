@@ -18,6 +18,9 @@ export function handleNewLine(text: string): Renderable {
 export function joinElements(elements: Renderable[], separator: Renderable): Renderable[] {
     const parts: Renderable[] = [],
         pushElement = function (element: Renderable) {
+            if (element === undefined)
+                return;
+
             if (typeof element === 'object') {
                 parts.push(element);
                 return;

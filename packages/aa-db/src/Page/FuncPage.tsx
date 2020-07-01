@@ -2,9 +2,8 @@ import React from "react";
 import Connection from "../Api/Connection";
 import Func from "../Api/Data/Func";
 import BuffIcon from "../Component/BuffIcon";
-import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
-import RawDataViewer from "../Component/RawDataViewer";
+import FuncMainData from "./Func/FuncMainData";
 
 interface IProps {
     id: number;
@@ -56,14 +55,7 @@ class FuncPage extends React.Component<IProps, IState> {
                 </h1>
                 <br/>
 
-                <DataTable data={{
-                    "Raw": <RawDataViewer data={func}/>,
-                    "ID": func.funcId,
-                    "Type": func.funcType,
-                    "Target": func.funcTargetType,
-                    "Affects Players/Enemies": func.funcTargetTeam,
-                    "Popup Text": func.funcPopupText,
-                }}/>
+                <FuncMainData func={func}/>
             </div>
         );
     }
