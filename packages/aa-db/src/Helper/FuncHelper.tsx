@@ -1,5 +1,6 @@
 import React from "react";
 import Func, {DataVal, DataValField, FuncTargetType, FuncType} from "../Api/Data/Func";
+import Region from "../Api/Data/Region";
 import BuffDescription from "../Component/BuffDescription";
 import TraitDescription from "../Component/TraitDescription";
 import {describeBuffValue} from "./BuffHelper";
@@ -25,7 +26,7 @@ const hasUniqueValues = function (values: (number | undefined)[]): boolean {
     return new Set(values).size > 1;
 };
 
-export function describeFunc(func: Func): Renderable {
+export function describeFunc(region: Region, func: Func): Renderable {
     const isLevel = funcUpdatesByLevel(func),
         isOvercharge = funcUpdatesByOvercharge(func),
         dataVals = isLevel && isOvercharge
@@ -59,7 +60,7 @@ export function describeFunc(func: Func): Renderable {
                 if (index > 0)
                     parts.push('&');
 
-                parts.push(<BuffDescription buff={buff}/>);
+                parts.push(<BuffDescription region={region} buff={buff}/>);
             });
             sectionFlags.targetPreposition = 'on';
         } else if (func.funcType === FuncType.DAMAGE_NP) {
@@ -72,7 +73,7 @@ export function describeFunc(func: Func): Renderable {
             if (staticValues.Target) {
                 parts.push(
                     <span>Deal damage (additional to targets with {
-                        <TraitDescription trait={staticValues.Target}/>
+                        <TraitDescription region={region} trait={staticValues.Target}/>
                     })</span>
                 );
             } else {
@@ -123,7 +124,7 @@ export function describeFunc(func: Func): Renderable {
             if (index > 0)
                 parts.push('&');
 
-            parts.push(<TraitDescription trait={trait}/>);
+            parts.push(<TraitDescription region={region} trait={trait}/>);
         });
     }
 

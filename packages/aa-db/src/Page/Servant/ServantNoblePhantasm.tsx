@@ -4,11 +4,13 @@ import React from "react";
 import {Alert, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {default as ServantNoblePhantasmData} from "../../Api/Data/NoblePhantasm";
+import Region from "../../Api/Data/Region";
 import {describeFunc, describeMutators} from "../../Helper/FuncHelper";
 import {handleNewLine} from "../../Helper/OutputHelper";
 import {describeQuestType} from "../../Helper/QuestHelper";
 
 interface IProps {
+    region: Region;
     noblePhantasm: ServantNoblePhantasmData;
 }
 
@@ -21,14 +23,14 @@ class ServantNoblePhantasm extends React.Component<IProps> {
                 <h3>
                     {np.name}
                     &nbsp;
-                    <Link to={`/noble-phantasm/${np.id}`}>
+                    <Link to={`/${this.props.region}/noble-phantasm/${np.id}`}>
                         <FontAwesomeIcon icon={faShare}/>
                     </Link>
                 </h3>
 
                 {np.condQuestId && np.condQuestPhase ? (
                     <Alert variant={'primary'}>
-                        <Link to={`/quest/${np.condQuestId}/${np.condQuestPhase}`}>
+                        <Link to={`/${this.props.region}/quest/${np.condQuestId}/${np.condQuestPhase}`}>
                             Available after {describeQuestType(np.condQuestId, np.condQuestPhase)}
                             &nbsp;
                             <FontAwesomeIcon icon={faShare}/>
@@ -51,7 +53,7 @@ class ServantNoblePhantasm extends React.Component<IProps> {
                     </thead>
                     <tbody>
                     {np.functions.map((func, index) => {
-                        let funcDescription = describeFunc(func),
+                        let funcDescription = describeFunc(this.props.region, func),
                             mutatingDescriptions = describeMutators(func);
 
                         for (let i = 0; i < 5; i++) {
@@ -64,7 +66,7 @@ class ServantNoblePhantasm extends React.Component<IProps> {
                                 <td>
                                     {funcDescription}
                                     &nbsp;
-                                    <Link to={`/func/${func.funcId}`}>
+                                    <Link to={`/${this.props.region}/func/${func.funcId}`}>
                                         <FontAwesomeIcon icon={faShare}/>
                                     </Link>
                                 </td>

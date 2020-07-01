@@ -3,7 +3,3 @@ export enum LanguageOption {
     ENGLISH = 'English',
 }
 
-export enum RegionOption {
-    JP = 'JP',
-    NA = 'NA'
-}

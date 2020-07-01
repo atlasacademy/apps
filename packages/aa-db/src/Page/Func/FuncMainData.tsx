@@ -1,10 +1,12 @@
 import React from "react";
 import Func from "../../Api/Data/Func";
+import Region from "../../Api/Data/Region";
 import BuffDescription from "../../Component/BuffDescription";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 
 interface IProps {
+    region: Region;
     func: Func;
 }
 
@@ -23,7 +25,7 @@ class FuncMainData extends React.Component<IProps> {
                 "Buffs": (
                     <div>
                         {func.buffs.map(
-                            (buff, index) => <BuffDescription key={index} buff={buff}/>
+                            (buff, index) => <BuffDescription key={index} region={this.props.region} buff={buff}/>
                         )}
                     </div>
                 )

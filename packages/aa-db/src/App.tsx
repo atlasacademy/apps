@@ -11,10 +11,9 @@ import ServantPage from "./Page/ServantPage";
 import ServantsPage from "./Page/ServantsPage";
 import SkillPage from "./Page/SkillPage";
 import Manager from "./Setting/Manager";
-import {LanguageOption, RegionOption} from "./Setting/Option";
+import {LanguageOption} from "./Setting/Option";
 
 interface IState {
-    region: RegionOption,
     language: LanguageOption,
 }
 
@@ -22,7 +21,6 @@ class App extends React.Component<any, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            region: Manager.region(),
             language: Manager.language(),
         };
 
@@ -31,7 +29,6 @@ class App extends React.Component<any, IState> {
 
     private updateSettings() {
         this.setState({
-            region: Manager.region(),
             language: Manager.language(),
         });
     }
@@ -42,33 +39,50 @@ class App extends React.Component<any, IState> {
                 <Navigation/>
                 <br/>
 
-                <Container key={`${this.state.region}-${this.state.language}`}>
+                <Container key={`${this.state.language}`}>
                     <Switch>
-                        <Route path="/buff/:id" render={(
-                            props => <BuffPage key={props.match.params.id} id={props.match.params.id}/>
-                        )}/>
-                        <Route path="/func/:id" render={(
-                            props => <FuncPage key={props.match.params.id} id={props.match.params.id}/>
-                        )}/>
-                        <Route path="/noble-phantasm/:id" render={(
-                            props => <NoblePhantasmPage key={props.match.params.id} id={props.match.params.id}/>
-                        )}/>
-                        <Route path="/quest/:id/:phase" render={(
-                            props => (
-                                <QuestPage
-                                    key={`${props.match.params.id}-${props.match.params.phase}`}
-                                    id={props.match.params.id}
-                                    phase={props.match.params.phase}/>
-                            )
-                        )}/>
-                        <Route path="/servant/:id" render={(
-                            props => <ServantPage key={props.match.params.id} id={props.match.params.id}/>
-                        )}/>
-                        <Route path="/skill/:id" render={(
-                            props => <SkillPage key={props.match.params.id} id={props.match.params.id}/>
-                        )}/>
-                        <Route path="/servants" component={ServantsPage}/>
-                        <Route path="/" component={ServantsPage}/>
+                        <Route path="/:region(JP|NA)/buff/:id([0-9]+)" render={props => {
+                            const region = props.match.params.region,
+                                id = props.match.params.id,
+                                key = `${region}-${id}`;
+                            return <BuffPage key={key} region={region} id={id}/>;
+                        }}/>
+                        <Route path="/:region(JP|NA)/func/:id([0-9]+)" render={props => {
+                            const region = props.match.params.region,
+                                id = props.match.params.id,
+                                key = `${region}-${id}`;
+                            return <FuncPage key={key} region={region} id={id}/>;
+                        }}/>
+                        <Route path="/:region(JP|NA)/noble-phantasm/:id([0-9]+)" render={props => {
+                            const region = props.match.params.region,
+                                id = props.match.params.id,
+                                key = `${region}-${id}`;
+                            return <NoblePhantasmPage key={key} region={region} id={id}/>;
+                        }}/>
+                        <Route path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)" render={props => {
+                            const region = props.match.params.region,
+                                id = props.match.params.id,
+                                phase = props.match.params.phase,
+                                key = `${region}-${id}-${phase}`;
+                            return <QuestPage key={key} region={region} id={id} phase={phase}/>;
+                        }}/>
+                        <Route path="/:region(JP|NA)/servant/:id([0-9]+)" render={props => {
+                            const region = props.match.params.region,
+                                id = props.match.params.id,
+                                key = `${region}-${id}`;
+                            return <ServantPage key={key} region={region} id={id}/>;
+                        }}/>
+                        <Route path="/:region(JP|NA)/skill/:id([0-9]+)" render={props => {
+                            const region = props.match.params.region,
+                                id = props.match.params.id,
+                                key = `${region}-${id}`;
+                            return <SkillPage key={key} region={region} id={id}/>
+                        }}/>
+                        <Route path="/:region(JP|NA)/servants" render={props => {
+                            const region = props.match.params.region;
+                            return <ServantsPage key={region} region={region}/>;
+                        }}/>
+                        {/*<Route exact path="/" component={ServantsPage}/>*/}
                     </Switch>
                 </Container>
             </Router>

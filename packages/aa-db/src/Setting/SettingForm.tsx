@@ -1,14 +1,13 @@
 import React from "react";
 import {Form} from "react-bootstrap";
 import Manager from "./Manager";
-import {LanguageOption, RegionOption} from "./Option";
+import {LanguageOption} from "./Option";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
 }
 
 interface IState {
-    region: RegionOption,
     language: LanguageOption
 }
 
@@ -17,7 +16,6 @@ class SettingForm extends React.Component<any, IState> {
         super(props);
 
         this.state = {
-            region: Manager.region(),
             language: Manager.language(),
         }
 
@@ -26,7 +24,6 @@ class SettingForm extends React.Component<any, IState> {
 
     private syncSettings() {
         this.setState({
-            region: Manager.region(),
             language: Manager.language(),
         });
     }
@@ -35,24 +32,10 @@ class SettingForm extends React.Component<any, IState> {
         Manager.setLanguage(value);
     }
 
-    updateRegion(value: string) {
-        Manager.setRegion(value);
-    }
-
     render() {
         return (
             <div>
                 <Form>
-                    <Form.Group>
-                        <Form.Label>Region</Form.Label>
-                        <Form.Control as={'select'} value={this.state.region}
-                                      onChange={(ev: Event) => this.updateRegion(ev.target.value)}>
-                            {Object.values(RegionOption).map(v => (
-                                <option value={v}>{v}</option>
-                            ))}
-                        </Form.Control>
-                    </Form.Group>
-
                     <Form.Group>
                         <Form.Label>Language</Form.Label>
                         <Form.Control as={'select'} value={this.state.language}
