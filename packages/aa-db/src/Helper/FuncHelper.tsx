@@ -1,10 +1,10 @@
 import React from "react";
 import Func, {DataVal, DataValField, FuncTargetType, FuncType} from "../Api/Data/Func";
-import {joinElements} from "./ArrayHelper";
-import {describeBuff, describeBuffValue} from "./BuffHelper";
-import {asPercent} from "./OutputHelper";
+import BuffDescription from "../Component/BuffDescription";
+import TraitDescription from "../Component/TraitDescription";
+import {describeBuffValue} from "./BuffHelper";
+import {asPercent, joinElements} from "./OutputHelper";
 import {Renderable} from "./Renderable";
-import {describeTrait} from "./TraitHelper";
 
 const hasChangingDataVals = function (vals: DataVal[]): boolean {
     if (!vals.length)
@@ -27,16 +27,20 @@ const hasUniqueValues = function (values: (number | undefined)[]): boolean {
 
 export function describeFunc(func: Func): Renderable {
     const isLevel = funcUpdatesByLevel(func),
-        isOvercharge = isLevel ? false : funcUpdatesByOvercharge(func),
-        dataVals = isLevel ? getLevelDataValList(func) : (isOvercharge ? getOverchargeDataValList(func) : func.svals),
+        isOvercharge = funcUpdatesByOvercharge(func),
+        dataVals = isLevel && isOvercharge
+            ? getMixedDataValList(func)
+            : (isOvercharge ? getOverchargeDataValList(func) : getLevelDataValList(func)),
         staticValues = getStaticFieldValues(dataVals);
 
-    const parts: (string | JSX.Element)[] = [],
+    const parts: Renderable[] = [],
         sectionFlags = {
             chance: true,
             action: true,
+            amountPreposition: 'of',
             amount: true,
             affects: true,
+            targetPreposition: 'to',
             target: true,
             duration: true,
             scaling: true,
@@ -44,6 +48,8 @@ export function describeFunc(func: Func): Renderable {
 
     if (sectionFlags.chance && staticValues.Rate && staticValues.Rate !== 1000) {
         parts.push((staticValues.Rate / 10) + '% Chance to');
+    } else if (!staticValues.Rate && func.funcType !== FuncType.NONE) {
+        parts.push('Chance to');
     }
 
     if (sectionFlags.action) {
@@ -53,21 +59,48 @@ export function describeFunc(func: Func): Renderable {
                 if (index > 0)
                     parts.push('&');
 
-                parts.push(<span>"{describeBuff(buff)}"</span>);
+                parts.push(<BuffDescription buff={buff}/>);
             });
+            sectionFlags.targetPreposition = 'on';
         } else if (func.funcType === FuncType.DAMAGE_NP) {
             parts.push('Deal damage');
+            sectionFlags.amountPreposition = 'for';
+        } else if (
+            func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL
+            || func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX
+        ) {
+            if (staticValues.Target) {
+                parts.push(
+                    <span>Deal damage (additional to targets with {
+                        <TraitDescription trait={staticValues.Target}/>
+                    })</span>
+                );
+            } else {
+                parts.push('Deal damage');
+            }
+            sectionFlags.amountPreposition = 'for';
         } else if (func.funcType === FuncType.DAMAGE_NP_PIERCE) {
             parts.push('Deal damage that pierces defence');
+            sectionFlags.amountPreposition = 'for';
+        } else if (func.funcType === FuncType.DELAY_NPTURN) {
+            parts.push('Drain Charge');
+            sectionFlags.targetPreposition = 'from';
         } else if (func.funcType === FuncType.GAIN_HP) {
             parts.push('Gain HP');
+            sectionFlags.targetPreposition = 'on';
         } else if (func.funcType === FuncType.GAIN_NP) {
             parts.push('Charge NP');
+            sectionFlags.targetPreposition = 'for';
         } else if (func.funcType === FuncType.GAIN_STAR) {
             parts.push('Gain Critical Stars');
             sectionFlags.target = false;
+        } else if (func.funcType === FuncType.INSTANT_DEATH) {
+            parts.push('Apply Death');
         } else if (func.funcType === FuncType.LOSS_HP_SAFE) {
             parts.push('Lose HP')
+            sectionFlags.target = false;
+        } else if (func.funcType === FuncType.NONE) {
+            parts.push('No Effect');
             sectionFlags.target = false;
         }
     }
@@ -76,7 +109,11 @@ export function describeFunc(func: Func): Renderable {
         if (func.buffs[0]) {
             parts.push('of ' + describeBuffValue(func.buffs[0], staticValues.Value));
         } else {
-            parts.push('of ' + describeFuncValue(func, staticValues.Value));
+            // there are some properties that we don't want back as the description
+            const prunedValues = {...staticValues};
+            prunedValues.Rate = undefined;
+
+            parts.push('of ' + describeFuncValue(func, prunedValues));
         }
     }
 
@@ -86,23 +123,24 @@ export function describeFunc(func: Func): Renderable {
             if (index > 0)
                 parts.push('&');
 
-            parts.push(<span>"{describeTrait(trait)}"</span>);
+            parts.push(<TraitDescription trait={trait}/>);
         });
     }
 
     if (sectionFlags.target) {
+        parts.push(sectionFlags.targetPreposition);
         if (func.funcTargetType === FuncTargetType.ENEMY) {
-            parts.push('to enemy');
+            parts.push('enemy');
         } else if (func.funcTargetType === FuncTargetType.ENEMY_ALL) {
-            parts.push('to all enemies');
+            parts.push('all enemies');
         } else if (func.funcTargetType === FuncTargetType.PT_ALL) {
-            parts.push('to party');
+            parts.push('party');
         } else if (func.funcTargetType === FuncTargetType.PT_ONE) {
-            parts.push('to party member');
+            parts.push('party member');
         } else if (func.funcTargetType === FuncTargetType.PT_OTHER) {
-            parts.push('to party except self');
+            parts.push('party except self');
         } else if (func.funcTargetType === FuncTargetType.SELF) {
-            parts.push('to self');
+            parts.push('self');
         }
     }
 
@@ -138,37 +176,67 @@ export function describeFunc(func: Func): Renderable {
     );
 }
 
-export function describeFuncValue(func: Func, value: number): string {
-    switch (func.funcType) {
-        case FuncType.ADD_STATE:
-        case FuncType.ADD_STATE_SHORT:
-            return describeBuffValue(func.buffs[0], value);
-        case FuncType.DAMAGE_NP:
-        case FuncType.DAMAGE_NP_PIERCE:
-            return asPercent(value, 1);
-        case FuncType.GAIN_NP:
-        case FuncType.LOSS_NP:
-            return asPercent(value, 2);
-        default:
-            return value.toString();
+export function describeFuncValue(func: Func, dataVal: DataVal): string {
+    let valueDescription = "";
+    if (dataVal.Value !== undefined) {
+        switch (func.funcType) {
+            case FuncType.ADD_STATE:
+            case FuncType.ADD_STATE_SHORT:
+                valueDescription = describeBuffValue(func.buffs[0], dataVal.Value);
+                break;
+            case FuncType.DAMAGE_NP:
+            case FuncType.DAMAGE_NP_INDIVIDUAL:
+            case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+            case FuncType.DAMAGE_NP_PIERCE:
+                valueDescription = asPercent(dataVal.Value, 1);
+                break;
+            case FuncType.GAIN_NP:
+            case FuncType.LOSS_NP:
+                valueDescription = asPercent(dataVal.Value, 2);
+                break;
+            default:
+                valueDescription = dataVal.Value.toString();
+        }
     }
+
+    let correctionDescription = "";
+    if (dataVal.Correction !== undefined) {
+        switch (func.funcType) {
+            case FuncType.DAMAGE_NP_INDIVIDUAL:
+            case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+                correctionDescription = asPercent(dataVal.Correction, 1);
+                break;
+            default:
+                correctionDescription = dataVal.Correction.toString();
+        }
+    }
+
+    let chanceDescription = "";
+    if (dataVal.Rate !== undefined) {
+        chanceDescription = asPercent(dataVal.Rate, 1);
+    }
+
+    if (valueDescription && correctionDescription)
+        return `${valueDescription} + ${correctionDescription}`;
+    else if (chanceDescription)
+        return chanceDescription;
+    else if (correctionDescription)
+        return correctionDescription;
+    else
+        return valueDescription;
 }
 
 export function describeMutators(func: Func): Renderable[] {
     const isLevel = funcUpdatesByLevel(func),
-        isOvercharge = isLevel ? false : funcUpdatesByOvercharge(func),
-        dataVals = isLevel ? getLevelDataValList(func) : (isOvercharge ? getOverchargeDataValList(func) : func.svals),
+        isOvercharge = funcUpdatesByOvercharge(func),
+        dataVals = isLevel && isOvercharge
+            ? getMixedDataValList(func)
+            : (isOvercharge ? getOverchargeDataValList(func) : getLevelDataValList(func)),
         mutatingVals = getMutatingFieldValues(dataVals);
 
-    return mutatingVals.map(mutatingVal => {
-        let parts: string[] = [];
-
-        if (mutatingVal.Value) {
-            parts.push(describeFuncValue(func, mutatingVal.Value));
-        }
-
-        return parts.join(' ');
-    }).filter(description => description.length);
+    return mutatingVals
+        .map(mutatingVal => describeFuncValue(func, mutatingVal))
+        .filter(description => description.length);
 }
 
 export function funcUpdatesByLevel(func: Func): boolean {
@@ -181,6 +249,16 @@ export function funcUpdatesByOvercharge(func: Func): boolean {
 
 export function getLevelDataValList(func: Func): DataVal[] {
     return func.svals;
+}
+
+export function getMixedDataValList(func: Func): DataVal[] {
+    return [
+        func.svals[0],
+        func.svals2 ? func.svals2[1] : func.svals[1],
+        func.svals3 ? func.svals3[2] : func.svals[2],
+        func.svals4 ? func.svals4[3] : func.svals[3],
+        func.svals5 ? func.svals5[4] : func.svals[4],
+    ];
 }
 
 export function getMutatingFieldNames(vals: DataVal[]): DataValField[] {

@@ -11,7 +11,7 @@ interface Skill {
     condQuestId: number;
     condQuestPhase: number;
     icon: string;
-    cooldown: number[];
+    coolDown: number[];
     actIndividuality: Trait[];
     functions: Func[];
 }

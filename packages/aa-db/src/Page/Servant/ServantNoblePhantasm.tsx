@@ -5,6 +5,7 @@ import {Alert, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {default as ServantNoblePhantasmData} from "../../Api/Data/NoblePhantasm";
 import {describeFunc, describeMutators} from "../../Helper/FuncHelper";
+import {handleNewLine} from "../../Helper/OutputHelper";
 import {describeQuestType} from "../../Helper/QuestHelper";
 
 interface IProps {
@@ -35,7 +36,7 @@ class ServantNoblePhantasm extends React.Component<IProps> {
                     </Alert>
                 ): null}
 
-                <p>{np.detail}</p>
+                <p>{handleNewLine(np.detail)}</p>
 
                 <Table responsive>
                     <thead>

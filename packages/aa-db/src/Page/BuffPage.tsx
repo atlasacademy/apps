@@ -5,7 +5,7 @@ import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
-import {joinElements} from "../Helper/ArrayHelper";
+import {joinElements} from "../Helper/OutputHelper";
 
 interface IProps {
     id: number;
