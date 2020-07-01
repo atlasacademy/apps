@@ -1,5 +1,5 @@
 import React from "react";
-import {Tab, Tabs} from "react-bootstrap";
+import {Col, Form, Row} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import NoblePhantasm from "../Api/Data/NoblePhantasm";
 import Region from "../Api/Data/Region";
@@ -7,6 +7,10 @@ import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
+
+interface Event extends React.ChangeEvent<HTMLInputElement> {
+
+}
 
 interface IProps {
     region: Region;
@@ -16,6 +20,8 @@ interface IProps {
 interface IState {
     loading: boolean;
     noblePhantasm?: NoblePhantasm;
+    level: number;
+    overcharge: number;
 }
 
 class NoblePhantasmPage extends React.Component<IProps, IState> {
@@ -23,7 +29,9 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            loading: true
+            loading: true,
+            level: 1,
+            overcharge: 1,
         };
     }
 
@@ -37,6 +45,18 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
         this.setState({
             loading: false,
             noblePhantasm: noblePhantasm,
+        });
+    }
+
+    private changeLevel(level: number) {
+        this.setState({
+            level: level
+        });
+    }
+
+    private changeOvercharge(level: number) {
+        this.setState({
+            overcharge: level
         });
     }
 
@@ -61,24 +81,35 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     "Card Type": noblePhantasm.card,
                 }}/>
 
-                <Tabs id={'np-tabs'} defaultActiveKey={'n1o1'} transition={false}>
-                    {[1, 2, 3, 4, 5].map(level => {
-                        return [1, 2, 3, 4, 5].map(overcharge => {
-                            const key = `n${level}o${overcharge}`,
-                                title = `NP${level}-OC${overcharge}`;
+                <br/>
+                <Row>
+                    <Col>
+                        <Form inline style={{justifyContent: 'flex-end'}}>
+                            <Form.Control as={'select'} value={this.state.level}
+                                          onChange={(ev: Event) => this.changeLevel(parseInt(ev.target.value))}>
+                                {[1, 2, 3, 4, 5].map(level => (
+                                    <option key={level} value={level}>NP LEVEL {level}</option>
+                                ))}
+                            </Form.Control>
+                        </Form>
+                    </Col>
+                    <Col>
+                        <Form inline>
+                            <Form.Control as={'select'} value={this.state.overcharge}
+                                          onChange={(ev: Event) => this.changeOvercharge(parseInt(ev.target.value))}>
+                                {[1, 2, 3, 4, 5].map(level => (
+                                    <option key={level} value={level}>OVERCHARGE {level}</option>
+                                ))}
+                            </Form.Control>
+                        </Form>
+                    </Col>
+                </Row>
 
-                            return (
-                                <Tab key={key} eventKey={key} title={title}>
-                                    <br/>
-                                    <NoblePhantasmVersion region={this.props.region}
-                                                          noblePhantasm={noblePhantasm}
-                                                          level={level}
-                                                          overcharge={overcharge}/>
-                                </Tab>
-                            );
-                        });
-                    })}
-                </Tabs>
+                <br/>
+                <NoblePhantasmVersion region={this.props.region}
+                                      noblePhantasm={noblePhantasm}
+                                      level={this.state.level}
+                                      overcharge={this.state.overcharge}/>
             </div>
         );
     }
