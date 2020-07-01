@@ -63,7 +63,7 @@ class ServantPage extends React.Component<IProp, IState> {
 
         return (
             <div id={'servant'}>
-                <ServantPicker servants={this.state.servants} id={this.state.servant.collectionNo}/>
+                <ServantPicker region={this.props.region} servants={this.state.servants} id={this.state.servant.collectionNo}/>
                 <hr/>
 
                 <Row>

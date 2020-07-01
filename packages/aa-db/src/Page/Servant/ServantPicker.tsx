@@ -2,6 +2,7 @@ import React from "react";
 import {FormControl} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
+import Region from "../../Api/Data/Region";
 import ServantListEntity from "../../Api/Data/ServantListEntity";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
@@ -9,13 +10,14 @@ interface Event extends React.ChangeEvent<HTMLInputElement> {
 }
 
 interface IProps extends RouteComponentProps {
+    region: Region;
     id: number;
     servants: ServantListEntity[];
 }
 
 class ServantPicker extends React.Component<IProps> {
     private changeServant(id: number) {
-        this.props.history.push(`/servant/${id}`);
+        this.props.history.push(`/${this.props.region}/servant/${id}`);
     }
 
     render() {
