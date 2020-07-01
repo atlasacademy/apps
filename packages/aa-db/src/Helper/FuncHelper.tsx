@@ -252,7 +252,7 @@ export function funcUpdatesByOvercharge(func: Func): boolean {
 }
 
 export function getLevelDataValList(func: Func): DataVal[] {
-    return [1,2,3,4,5].map(i => getTargetVersionValues(func, i, 1));
+    return func.svals;
 }
 
 export function getMixedDataValList(func: Func): DataVal[] {
