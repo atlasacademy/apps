@@ -1,4 +1,5 @@
 import React from "react";
+import {Form} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import Region from "../Api/Data/Region";
 import Skill from "../Api/Data/Skill";
@@ -6,6 +7,11 @@ import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
+import SkillVersion from "./Skill/SkillVersion";
+
+interface Event extends React.ChangeEvent<HTMLInputElement> {
+
+}
 
 interface IProps {
     region: Region;
@@ -15,6 +21,7 @@ interface IProps {
 interface IState {
     loading: boolean;
     skill?: Skill;
+    level: number;
 }
 
 class SkillPage extends React.Component<IProps, IState> {
@@ -22,7 +29,8 @@ class SkillPage extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            loading: true
+            loading: true,
+            level: 1
         };
     }
 
@@ -36,6 +44,12 @@ class SkillPage extends React.Component<IProps, IState> {
         this.setState({
             loading: false,
             skill: skill,
+        });
+    }
+
+    private changeLevel(level: number) {
+        this.setState({
+            level: level
         });
     }
 
@@ -61,6 +75,21 @@ class SkillPage extends React.Component<IProps, IState> {
                     "Name": skill.name,
                     "Detail": skill.detail,
                 }}/>
+
+                <br/>
+                <Form inline style={{justifyContent: 'center'}}>
+                    <Form.Control as={'select'} value={this.state.level}
+                                  onChange={(ev: Event) => this.changeLevel(parseInt(ev.target.value))}>
+                        {[1, 2, 3, 4, 5].map(level => (
+                            <option key={level} value={level}>LEVEL {level}</option>
+                        ))}
+                    </Form.Control>
+                </Form>
+
+                <br/>
+                <SkillVersion region={this.props.region}
+                              skill={skill}
+                              level={this.state.level}/>
             </div>
         );
     }
