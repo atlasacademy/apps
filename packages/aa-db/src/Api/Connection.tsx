@@ -8,6 +8,7 @@ import Quest from "./Data/Quest";
 import ServantEntity from "./Data/ServantEntity";
 import ServantListEntity from "./Data/ServantListEntity";
 import Skill from "./Data/Skill";
+import TraitMap from "./Data/TraitMap";
 
 const host = 'https://api.atlasacademy.io';
 const fetch = async function <T>(endpoint: string): Promise<T> {
@@ -23,12 +24,13 @@ const region = function (option?: RegionOption): string {
 
     return 'JP';
 }
-const servantListCache = new Map<RegionOption, ServantListEntity[]>();
+const servantListCache = new Map<RegionOption, ServantListEntity[]>(),
+    traitMapCache = new Map<RegionOption, TraitMap>();
 
 class Connection {
 
     static buff(id: number): Promise<Buff> {
-        let query = '?reverse=true' + (
+        let query = '?' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
 
@@ -36,7 +38,7 @@ class Connection {
     }
 
     static func(id: number): Promise<Func> {
-        let query = '?reverse=true' + (
+        let query = '?' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
 
@@ -44,7 +46,7 @@ class Connection {
     }
 
     static noblePhantasm(id: number): Promise<NoblePhantasm> {
-        let query = '?reverse=true' + (
+        let query = '?' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
 
@@ -55,7 +57,7 @@ class Connection {
         return fetch<Quest>(`${host}/nice/${region()}/quest/${id}/${phase}`);
     }
 
-    public static servant(id: number): Promise<ServantEntity> {
+    static servant(id: number): Promise<ServantEntity> {
         let query = '?lore=true' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
@@ -63,7 +65,7 @@ class Connection {
         return fetch<ServantEntity>(`${host}/nice/${region()}/servant/${id}${query}`);
     }
 
-    public static async servantList(): Promise<ServantListEntity[]> {
+    static async servantList(): Promise<ServantListEntity[]> {
         if (Manager.region() === RegionOption.NA) {
             return Connection.getCacheableServantList(RegionOption.NA);
         } else if (Manager.region() === RegionOption.JP && Manager.language() === LanguageOption.DEFAULT) {
@@ -82,12 +84,16 @@ class Connection {
         });
     }
 
-    static async skill(id: number): Promise<Skill> {
+    static skill(id: number): Promise<Skill> {
         let query = '?reverse=true' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
 
         return fetch<Skill>(`${host}/nice/${region()}/skill/${id}${query}`);
+    }
+
+    static traitMap(): Promise<TraitMap> {
+        return Connection.getCacheableTraitMap(RegionOption.NA);
     }
 
     private static async getCacheableServantList(option: RegionOption): Promise<ServantListEntity[]> {
@@ -97,6 +103,17 @@ class Connection {
 
         list = await fetch<ServantListEntity[]>(`${host}/export/${region(option)}/basic_servant.json`);
         servantListCache.set(option, list);
+
+        return list;
+    }
+
+    private static async getCacheableTraitMap(option: RegionOption): Promise<TraitMap> {
+        let list = traitMapCache.get(option);
+        if (list !== undefined)
+            return list;
+
+        list = await fetch<TraitMap>(`${host}/export/${region(option)}/nice_trait.json`);
+        traitMapCache.set(option, list);
 
         return list;
     }

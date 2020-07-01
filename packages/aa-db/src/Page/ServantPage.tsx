@@ -3,6 +3,7 @@ import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import ServantEntity from "../Api/Data/ServantEntity";
 import ServantListEntity from "../Api/Data/ServantListEntity";
+import TraitMap from "../Api/Data/TraitMap";
 import Loading from "../Component/Loading";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantMiscData from "./Servant/ServantMiscData";
@@ -41,9 +42,10 @@ class ServantPage extends React.Component<IProp, IState> {
     }
 
     async loadServant() {
-        let [servants, servant] = await Promise.all([
+        let [servants, servant] = await Promise.all<ServantListEntity[], ServantEntity, TraitMap>([
             Connection.servantList(),
-            Connection.servant(this.state.id)
+            Connection.servant(this.state.id),
+            Connection.traitMap()
         ]);
 
         this.setState({

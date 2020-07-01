@@ -5,6 +5,7 @@ import {Alert, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Skill from "../../Api/Data/Skill";
 import {describeFunc, describeMutators} from "../../Helper/FuncHelper";
+import {handleNewLine} from "../../Helper/OutputHelper";
 import {describeQuestType} from "../../Helper/QuestHelper";
 
 interface IProps {
@@ -34,7 +35,7 @@ class ServantSkill extends React.Component<IProps, any> {
                     </Alert>
                 ): null}
 
-                <p>{skill.detail}</p>
+                <p>{handleNewLine(skill.detail)}</p>
 
                 <Table responsive>
                     <thead>
@@ -53,6 +54,12 @@ class ServantSkill extends React.Component<IProps, any> {
                     </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td>Cooldown</td>
+                        {skill.coolDown.map((cooldown, index) => {
+                            return <td key={index}>{cooldown}</td>;
+                        })}
+                    </tr>
                     {skill.functions.map((func, index) => {
                         let funcDescription = describeFunc(func),
                             mutatingDescriptions = describeMutators(func);

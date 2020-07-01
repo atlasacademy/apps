@@ -1,7 +1,7 @@
 import React from "react";
 import Trait from "../../Api/Data/Trait";
-import {joinElements} from "../../Helper/ArrayHelper";
-import {describeTrait} from "../../Helper/TraitHelper";
+import TraitDescription from "../../Component/TraitDescription";
+import {joinElements} from "../../Helper/OutputHelper";
 
 interface IProps {
     traits: Trait[];
@@ -12,7 +12,7 @@ class ServantTraits extends React.Component<IProps> {
         return (
             <div>
                 {joinElements(
-                    this.props.traits.map(trait => describeTrait(trait)),
+                    this.props.traits.map(trait => <TraitDescription trait={trait}/>),
                     ', '
                 ).map(
                     (element, index) => <span key={index}>{element}</span>
