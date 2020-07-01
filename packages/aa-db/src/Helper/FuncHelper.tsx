@@ -248,17 +248,11 @@ export function funcUpdatesByOvercharge(func: Func): boolean {
 }
 
 export function getLevelDataValList(func: Func): DataVal[] {
-    return func.svals;
+    return [1,2,3,4,5].map(i => getTargetVersionValues(func, i, 1));
 }
 
 export function getMixedDataValList(func: Func): DataVal[] {
-    return [
-        func.svals[0],
-        func.svals2 ? func.svals2[1] : func.svals[1],
-        func.svals3 ? func.svals3[2] : func.svals[2],
-        func.svals4 ? func.svals4[3] : func.svals[3],
-        func.svals5 ? func.svals5[4] : func.svals[4],
-    ];
+    return [1,2,3,4,5].map(i => getTargetVersionValues(func, i, i));
 }
 
 export function getMutatingFieldNames(vals: DataVal[]): DataValField[] {
@@ -287,18 +281,7 @@ export function getMutatingFieldValues(vals: DataVal[]): DataVal[] {
 }
 
 export function getOverchargeDataValList(func: Func): DataVal[] {
-    let vals = [func.svals[0]];
-
-    if (func.svals2)
-        vals.push(func.svals2[0]);
-    if (func.svals3)
-        vals.push(func.svals3[0]);
-    if (func.svals4)
-        vals.push(func.svals4[0]);
-    if (func.svals5)
-        vals.push(func.svals5[0]);
-
-    return vals.filter(val => val !== undefined);
+    return [1,2,3,4,5].map(i => getTargetVersionValues(func, 1, i));
 }
 
 export function getStaticFieldNames(vals: DataVal[]): DataValField[] {
@@ -321,4 +304,21 @@ export function getStaticFieldValues(vals: DataVal[]): DataVal {
     }
 
     return staticVals;
+}
+
+export function getTargetVersionValues(func: Func, level: number, overcharge: number = 1): DataVal {
+    let dataVals;
+
+    if (overcharge === 2 && func.svals2)
+        dataVals = func.svals2;
+    else if (overcharge === 3 && func.svals3)
+        dataVals = func.svals3;
+    else if (overcharge === 4 && func.svals4)
+        dataVals = func.svals4;
+    else if (overcharge === 5 && func.svals5)
+        dataVals = func.svals5;
+    else
+        dataVals = func.svals;
+
+    return dataVals[level-1];
 }
