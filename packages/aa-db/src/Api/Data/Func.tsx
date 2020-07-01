@@ -139,7 +139,7 @@ export default interface Func {
     funcTargetType: FuncTargetType;
     funcTargetTeam: FuncTargetTeam;
     funcPopupText: string;
-    funcPopupIcon: string;
+    funcPopupIcon?: string;
     functvals: Trait[];
     funcquestTvals: number[];
     buffs: Buff[];

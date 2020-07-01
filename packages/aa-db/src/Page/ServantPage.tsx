@@ -4,8 +4,8 @@ import Connection from "../Api/Connection";
 import ServantEntity from "../Api/Data/ServantEntity";
 import ServantListEntity from "../Api/Data/ServantListEntity";
 import Loading from "../Component/Loading";
-import ServantMiscData from "./Servant/ServantMiscData";
 import ServantMainData from "./Servant/ServantMainData";
+import ServantMiscData from "./Servant/ServantMiscData";
 import ServantNoblePhantasm from "./Servant/ServantNoblePhantasm";
 import ServantPicker from "./Servant/ServantPicker";
 import ServantPortrait from "./Servant/ServantPortrait";
@@ -71,18 +71,38 @@ class ServantPage extends React.Component<IProp, IState> {
                     </Col>
                 </Row>
 
-                <Tabs id={'servant-tabs'} defaultActiveKey={'skills'} transition={false}>
-                    <Tab eventKey={'skills'} title={'Skills'}>
+                <Tabs id={'servant-tabs'} defaultActiveKey={'skill-1'} transition={false}>
+                    <Tab eventKey={'skill-1'} title={'Skill 1'}>
                         <br/>
-                        {this.state.servant.skills.map((skill, index) => {
-                            return <ServantSkill key={index} skill={skill}/>;
-                        })}
+                        {this.state.servant.skills
+                            .filter(skill => skill.num === 1)
+                            .map((skill, index) => {
+                                return <ServantSkill key={index} skill={skill}/>;
+                            })}
+                    </Tab>
+                    <Tab eventKey={'skill-2'} title={'Skill 2'}>
+                        <br/>
+                        {this.state.servant.skills
+                            .filter(skill => skill.num === 2)
+                            .map((skill, index) => {
+                                return <ServantSkill key={index} skill={skill}/>;
+                            })}
+                    </Tab>
+                    <Tab eventKey={'skill-3'} title={'Skill 3'}>
+                        <br/>
+                        {this.state.servant.skills
+                            .filter(skill => skill.num === 3)
+                            .map((skill, index) => {
+                                return <ServantSkill key={index} skill={skill}/>;
+                            })}
                     </Tab>
                     <Tab eventKey={'nps'} title={'Noble Phantasms'}>
                         <br/>
-                        {this.state.servant.noblePhantasms.map((noblePhantasm, index) => {
-                            return <ServantNoblePhantasm key={index} noblePhantasm={noblePhantasm}/>;
-                        })}
+                        {this.state.servant.noblePhantasms
+                            .filter(noblePhantasm => noblePhantasm.functions.length > 0)
+                            .map((noblePhantasm, index) => {
+                                return <ServantNoblePhantasm key={index} noblePhantasm={noblePhantasm}/>;
+                            })}
                     </Tab>
                     <Tab eventKey={'traits'} title={'Traits'}>
                         <br/>

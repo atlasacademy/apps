@@ -47,7 +47,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                         <Modal.Title>Raw Data Viewer</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <ReactJson src={this.props.data}/>
+                        <ReactJson src={this.props.data} collapsed={1}/>
                     </Modal.Body>
                 </Modal>
             </div>
