@@ -1,9 +1,9 @@
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import Connection from "../Api/Connection";
+import BasicListEntity from "../Api/Data/BasicListEntity";
 import Region from "../Api/Data/Region";
-import ServantEntity from "../Api/Data/ServantEntity";
-import ServantListEntity from "../Api/Data/ServantListEntity";
+import Servant from "../Api/Data/Servant";
 import TraitMap from "../Api/Data/TraitMap";
 import Loading from "../Component/Loading";
 import ServantMainData from "./Servant/ServantMainData";
@@ -14,27 +14,25 @@ import ServantPortrait from "./Servant/ServantPortrait";
 import ServantSkill from "./Servant/ServantSkill";
 import ServantTraits from "./Servant/ServantTraits";
 
-import './ServantPage.css';
-
-interface IProp {
+interface IProps {
     region: Region;
-    id: string;
+    id: number;
 }
 
 interface IState {
     loading: boolean;
     id: number;
-    servants: ServantListEntity[];
-    servant?: ServantEntity;
+    servants: BasicListEntity[];
+    servant?: Servant;
 }
 
-class ServantPage extends React.Component<IProp, IState> {
-    constructor(props: IProp) {
+class ServantPage extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {
             loading: true,
-            id: parseInt(this.props.id),
+            id: this.props.id,
             servants: [],
         };
     }
@@ -44,7 +42,7 @@ class ServantPage extends React.Component<IProp, IState> {
     }
 
     async loadServant() {
-        let [servants, servant] = await Promise.all<ServantListEntity[], ServantEntity, TraitMap>([
+        let [servants, servant] = await Promise.all<BasicListEntity[], Servant, TraitMap>([
             Connection.servantList(this.props.region),
             Connection.servant(this.props.region, this.state.id),
             Connection.traitMap(this.props.region)
@@ -63,7 +61,9 @@ class ServantPage extends React.Component<IProp, IState> {
 
         return (
             <div id={'servant'}>
-                <ServantPicker region={this.props.region} servants={this.state.servants} id={this.state.servant.collectionNo}/>
+                <ServantPicker region={this.props.region}
+                               servants={this.state.servants}
+                               id={this.state.servant.collectionNo}/>
                 <hr/>
 
                 <Row>

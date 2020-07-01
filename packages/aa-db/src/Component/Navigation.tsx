@@ -46,6 +46,16 @@ class Navigation extends React.Component<any, IState> {
                                     <NavItem>NA Servants</NavItem>
                                 </Link>
                             </Nav>
+                            <Nav>
+                                <Link to="/JP/craft-essences" className={'nav-link'}>
+                                    <NavItem>JP CE</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
+                                <Link to="/NA/craft-essences" className={'nav-link'}>
+                                    <NavItem>NA CE</NavItem>
+                                </Link>
+                            </Nav>
                             <Nav className={'ml-auto'}>
                                 <Nav.Link href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
                                     <FontAwesomeIcon icon={faDiscord}/>

@@ -1,11 +1,11 @@
 import React from "react";
-import ServantEntity from "../../Api/Data/ServantEntity";
+import Servant from "../../Api/Data/Servant";
 import ClassIcon from "../../Component/ClassIcon";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 
 interface IProps {
-    servant: ServantEntity;
+    servant: Servant;
 }
 
 class ServantMainData extends React.Component<IProps> {

@@ -1,6 +1,6 @@
 import React from "react";
 import {Col, Row} from "react-bootstrap";
-import ServantEntity from "../../Api/Data/ServantEntity";
+import Servant from "../../Api/Data/Servant";
 import BuffIcon from "../../Component/BuffIcon";
 import DataTable from "../../Component/DataTable";
 import {asPercent} from "../../Helper/OutputHelper";
@@ -24,7 +24,7 @@ const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
     };
 
 interface IProps {
-    servant: ServantEntity;
+    servant: Servant;
 }
 
 class ServantMiscData extends React.Component<IProps> {

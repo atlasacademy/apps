@@ -2,40 +2,38 @@ import React from "react";
 import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
-import Region from "../Api/Data/Region";
 import BasicListEntity from "../Api/Data/BasicListEntity";
-import ClassIcon from "../Component/ClassIcon";
+import Region from "../Api/Data/Region";
+import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityStars from "../Component/RarityStars";
-import FaceIcon from "../Component/FaceIcon";
 
-import './ServantsPage.css';
+import "./CraftEssencesPage.css";
 
 interface IProps {
-    region: Region,
+    region: Region;
 }
 
 interface IState {
     loading: boolean;
-    servants: BasicListEntity[];
+    craftEssences: BasicListEntity[];
 }
 
-class ServantsPage extends React.Component<IProps, IState> {
-
+class CraftEssencesPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {
             loading: true,
-            servants: [],
+            craftEssences: []
         };
     }
 
     componentDidMount() {
-        Connection.servantList(this.props.region).then(servantList => {
+        Connection.craftEssenceList(this.props.region).then(list => {
             this.setState({
                 loading: false,
-                servants: servantList
+                craftEssences: list
             });
         });
     }
@@ -45,45 +43,41 @@ class ServantsPage extends React.Component<IProps, IState> {
             return <Loading/>;
 
         return (
-            <div id="servants">
+            <div id={'craft-essences'}>
                 <Table striped bordered hover>
                     <thead>
                     <tr>
                         <th style={{textAlign: "center", width: '1px'}}>#</th>
-                        <th style={{textAlign: "center", width: '1px'}}>Class</th>
                         <th style={{textAlign: "center", width: '1px'}}>Thumbnail</th>
                         <th>Name</th>
                         <th>Rarity</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.servants.reverse().map((servant, index) => {
-                        const route = `/${this.props.region}/servant/${servant.collectionNo}`;
+                    {this.state.craftEssences.reverse().map((craftEssence, index) => {
+                        const route = `/${this.props.region}/craft-essence/${craftEssence.collectionNo}`;
 
                         return <tr key={index}>
                             <td align={"center"}>
                                 <Link to={route}>
-                                    {servant.collectionNo}
+                                    {craftEssence.collectionNo}
                                 </Link>
                             </td>
                             <td align={"center"}>
-                                <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
-                            </td>
-                            <td align={"center"}>
                                 <Link to={route}>
-                                    <FaceIcon type={servant.type}
-                                              rarity={servant.rarity}
-                                              location={servant.face}
+                                    <FaceIcon type={craftEssence.type}
+                                              rarity={craftEssence.rarity}
+                                              location={craftEssence.face}
                                               height={50}/>
                                 </Link>
                             </td>
                             <td>
                                 <Link to={route}>
-                                    {servant.name}
+                                    {craftEssence.name}
                                 </Link>
                             </td>
                             <td>
-                                <RarityStars rarity={servant.rarity}/>
+                                <RarityStars rarity={craftEssence.rarity}/>
                             </td>
                         </tr>
                     })}
@@ -92,7 +86,6 @@ class ServantsPage extends React.Component<IProps, IState> {
             </div>
         );
     }
-
 }
 
-export default ServantsPage;
+export default CraftEssencesPage;

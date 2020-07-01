@@ -12,12 +12,12 @@ interface Event extends React.ChangeEvent<HTMLInputElement> {
 interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
-    servants: BasicListEntity[];
+    craftEssences: BasicListEntity[];
 }
 
-class ServantPicker extends React.Component<IProps> {
-    private changeServant(id: number) {
-        this.props.history.push(`/${this.props.region}/servant/${id}`);
+class CraftEssencePicker extends React.Component<IProps> {
+    private changeCraftEssence(id: number) {
+        this.props.history.push(`/${this.props.region}/craft-essence/${id}`);
     }
 
     render() {
@@ -26,13 +26,13 @@ class ServantPicker extends React.Component<IProps> {
                 Jump to:
                 <FormControl as={"select"} custom
                              onChange={(ev: Event) => {
-                                 this.changeServant(parseInt(ev.target.value));
+                                 this.changeCraftEssence(parseInt(ev.target.value));
                              }}
                              value={this.props.id}>
-                    {this.props.servants.reverse().map((servant, index) => {
+                    {this.props.craftEssences.reverse().map((craftEssence, index) => {
                         return (
-                            <option key={index} value={servant.collectionNo}>
-                                {servant.name}
+                            <option key={index} value={craftEssence.collectionNo}>
+                                {craftEssence.name}
                             </option>
                         );
                     })}
@@ -42,4 +42,4 @@ class ServantPicker extends React.Component<IProps> {
     }
 }
 
-export default withRouter(ServantPicker);
+export default withRouter(CraftEssencePicker);

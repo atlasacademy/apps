@@ -1,12 +1,14 @@
 import React from "react";
+import EntityType from "../Api/Data/EntityType";
 
 interface IProps {
+    type: EntityType;
     rarity: number;
     location: string;
     height?: number;
 }
 
-class ServantThumbnail extends React.Component<IProps> {
+class FaceIcon extends React.Component<IProps> {
 
     render() {
         return (
@@ -17,4 +19,4 @@ class ServantThumbnail extends React.Component<IProps> {
 
 }
 
-export default ServantThumbnail;
+export default FaceIcon;
