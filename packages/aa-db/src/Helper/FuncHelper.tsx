@@ -63,6 +63,9 @@ export function describeFunc(region: Region, func: Func): Renderable {
                 parts.push(<BuffDescription region={region} buff={buff}/>);
             });
             sectionFlags.targetPreposition = 'on';
+        } else if (func.funcType === FuncType.SUB_STATE) {
+            parts.push('Cleanse debuffs');
+            sectionFlags.targetPreposition = 'for';
         } else if (func.funcType === FuncType.DAMAGE_NP) {
             parts.push('Deal damage');
             sectionFlags.amountPreposition = 'for';
