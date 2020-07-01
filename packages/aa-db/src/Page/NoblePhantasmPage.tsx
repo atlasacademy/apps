@@ -2,12 +2,14 @@ import React from "react";
 import {Tab, Tabs} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import NoblePhantasm from "../Api/Data/NoblePhantasm";
+import Region from "../Api/Data/Region";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 
 interface IProps {
+    region: Region;
     id: number;
 }
 
@@ -30,7 +32,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
     }
 
     async loadNp() {
-        const noblePhantasm = await Connection.noblePhantasm(this.props.id);
+        const noblePhantasm = await Connection.noblePhantasm(this.props.region, this.props.id);
 
         this.setState({
             loading: false,
@@ -68,7 +70,8 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                             return (
                                 <Tab key={key} eventKey={key} title={title}>
                                     <br/>
-                                    <NoblePhantasmVersion noblePhantasm={noblePhantasm}
+                                    <NoblePhantasmVersion region={this.props.region}
+                                                          noblePhantasm={noblePhantasm}
                                                           level={level}
                                                           overcharge={overcharge}/>
                                 </Tab>

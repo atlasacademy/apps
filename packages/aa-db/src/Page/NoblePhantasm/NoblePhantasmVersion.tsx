@@ -1,11 +1,13 @@
 import React from "react";
 import {Col, Row} from "react-bootstrap";
 import NoblePhantasm from "../../Api/Data/NoblePhantasm";
+import Region from "../../Api/Data/Region";
 import {getTargetVersionValues} from "../../Helper/FuncHelper";
 import DataValMainData from "../Func/DataValMainData";
 import FuncMainData from "../Func/FuncMainData";
 
 interface IProps {
+    region: Region;
     noblePhantasm: NoblePhantasm;
     level: number;
     overcharge: number;
@@ -25,7 +27,7 @@ class NoblePhantasmVersion extends React.Component<IProps> {
                             <Row>
                                 <Col xs={12} md={6}>
                                     <h5>Function</h5>
-                                    <FuncMainData func={func}/>
+                                    <FuncMainData region={this.props.region} func={func}/>
                                 </Col>
                                 <Col xs={12} md={6}>
                                     <h5>Values</h5>

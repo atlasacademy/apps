@@ -1,8 +1,10 @@
 import React from "react";
 import Connection from "../Api/Connection";
+import Region from "../Api/Data/Region";
 import Trait from "../Api/Data/Trait";
 
 interface IProps {
+    region: Region;
     trait: Trait | number;
 }
 
@@ -25,7 +27,7 @@ class TraitDescription extends React.Component<IProps, IState> {
         if (this.state.trait)
             return;
 
-        const traitMap = await Connection.traitMap();
+        const traitMap = await Connection.traitMap(this.props.region);
         if (traitMap[this.state.id] !== undefined)
             this.setState({
                 trait: {

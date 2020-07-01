@@ -1,11 +1,13 @@
 import React from "react";
 import Connection from "../Api/Connection";
 import Quest from "../Api/Data/Quest";
+import Region from "../Api/Data/Region";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 
 interface IProps {
+    region: Region;
     id: number;
     phase: number;
 }
@@ -29,7 +31,7 @@ class QuestPage extends React.Component<IProps, IState> {
     }
 
     async loadQuest() {
-        const quest = await Connection.quest(this.props.id, this.props.phase);
+        const quest = await Connection.quest(this.props.region, this.props.id, this.props.phase);
 
         this.setState({
             loading: false,

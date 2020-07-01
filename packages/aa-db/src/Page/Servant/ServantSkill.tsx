@@ -3,12 +3,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Alert, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import Region from "../../Api/Data/Region";
 import Skill from "../../Api/Data/Skill";
 import {describeFunc, describeMutators} from "../../Helper/FuncHelper";
 import {handleNewLine} from "../../Helper/OutputHelper";
 import {describeQuestType} from "../../Helper/QuestHelper";
 
 interface IProps {
+    region: Region;
     skill: Skill;
 }
 
@@ -20,14 +22,14 @@ class ServantSkill extends React.Component<IProps, any> {
                 <h3>
                     {skill.name}
                     &nbsp;
-                    <Link to={`/skill/${skill.id}`}>
+                    <Link to={`/${this.props.region}/skill/${skill.id}`}>
                         <FontAwesomeIcon icon={faShare}/>
                     </Link>
                 </h3>
 
                 {skill.condQuestId && skill.condQuestPhase ? (
                     <Alert variant={'primary'}>
-                        <Link to={`/quest/${skill.condQuestId}/${skill.condQuestPhase}`}>
+                        <Link to={`/${this.props.region}/quest/${skill.condQuestId}/${skill.condQuestPhase}`}>
                             Available after {describeQuestType(skill.condQuestId, skill.condQuestPhase)}
                             &nbsp;
                             <FontAwesomeIcon icon={faShare}/>
@@ -61,7 +63,7 @@ class ServantSkill extends React.Component<IProps, any> {
                         })}
                     </tr>
                     {skill.functions.map((func, index) => {
-                        let funcDescription = describeFunc(func),
+                        let funcDescription = describeFunc(this.props.region, func),
                             mutatingDescriptions = describeMutators(func);
 
                         for (let i = 0; i < 10; i++) {
@@ -74,7 +76,7 @@ class ServantSkill extends React.Component<IProps, any> {
                                 <td>
                                     {funcDescription}
                                     &nbsp;
-                                    <Link to={`/func/${func.funcId}`}>
+                                    <Link to={`/${this.props.region}/func/${func.funcId}`}>
                                         <FontAwesomeIcon icon={faShare}/>
                                     </Link>
                                 </td>

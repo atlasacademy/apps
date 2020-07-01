@@ -1,11 +1,13 @@
 import React from "react";
 import Connection from "../Api/Connection";
 import Func from "../Api/Data/Func";
+import Region from "../Api/Data/Region";
 import BuffIcon from "../Component/BuffIcon";
 import Loading from "../Component/Loading";
 import FuncMainData from "./Func/FuncMainData";
 
 interface IProps {
+    region: Region;
     id: number;
 }
 
@@ -28,7 +30,7 @@ class FuncPage extends React.Component<IProps, IState> {
     }
 
     async loadFunc() {
-        const func = await Connection.func(this.props.id);
+        const func = await Connection.func(this.props.region, this.props.id);
 
         this.setState({
             loading: false,
@@ -55,7 +57,7 @@ class FuncPage extends React.Component<IProps, IState> {
                 </h1>
                 <br/>
 
-                <FuncMainData func={func}/>
+                <FuncMainData region={this.props.region} func={func}/>
             </div>
         );
     }

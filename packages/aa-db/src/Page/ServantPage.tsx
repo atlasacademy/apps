@@ -1,6 +1,7 @@
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import Connection from "../Api/Connection";
+import Region from "../Api/Data/Region";
 import ServantEntity from "../Api/Data/ServantEntity";
 import ServantListEntity from "../Api/Data/ServantListEntity";
 import TraitMap from "../Api/Data/TraitMap";
@@ -16,6 +17,7 @@ import ServantTraits from "./Servant/ServantTraits";
 import './ServantPage.css';
 
 interface IProp {
+    region: Region;
     id: string;
 }
 
@@ -43,9 +45,9 @@ class ServantPage extends React.Component<IProp, IState> {
 
     async loadServant() {
         let [servants, servant] = await Promise.all<ServantListEntity[], ServantEntity, TraitMap>([
-            Connection.servantList(),
-            Connection.servant(this.state.id),
-            Connection.traitMap()
+            Connection.servantList(this.props.region),
+            Connection.servant(this.props.region, this.state.id),
+            Connection.traitMap(this.props.region)
         ]);
 
         this.setState({
@@ -79,7 +81,7 @@ class ServantPage extends React.Component<IProp, IState> {
                         {this.state.servant.skills
                             .filter(skill => skill.num === 1)
                             .map((skill, index) => {
-                                return <ServantSkill key={index} skill={skill}/>;
+                                return <ServantSkill region={this.props.region} key={index} skill={skill}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'skill-2'} title={'Skill 2'}>
@@ -87,7 +89,7 @@ class ServantPage extends React.Component<IProp, IState> {
                         {this.state.servant.skills
                             .filter(skill => skill.num === 2)
                             .map((skill, index) => {
-                                return <ServantSkill key={index} skill={skill}/>;
+                                return <ServantSkill region={this.props.region} key={index} skill={skill}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'skill-3'} title={'Skill 3'}>
@@ -95,7 +97,7 @@ class ServantPage extends React.Component<IProp, IState> {
                         {this.state.servant.skills
                             .filter(skill => skill.num === 3)
                             .map((skill, index) => {
-                                return <ServantSkill key={index} skill={skill}/>;
+                                return <ServantSkill region={this.props.region} key={index} skill={skill}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'nps'} title={'Noble Phantasms'}>
@@ -103,12 +105,13 @@ class ServantPage extends React.Component<IProp, IState> {
                         {this.state.servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
                             .map((noblePhantasm, index) => {
-                                return <ServantNoblePhantasm key={index} noblePhantasm={noblePhantasm}/>;
+                                return <ServantNoblePhantasm region={this.props.region} key={index}
+                                                             noblePhantasm={noblePhantasm}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'traits'} title={'Traits'}>
                         <br/>
-                        <ServantTraits traits={this.state.servant.traits}/>
+                        <ServantTraits region={this.props.region} traits={this.state.servant.traits}/>
                     </Tab>
                     <Tab eventKey={'misc'} title={'Misc'}>
                         <br/>

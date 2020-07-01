@@ -1,10 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import Buff, {BuffType} from "../Api/Data/Buff";
+import Region from "../Api/Data/Region";
 import {hasTraitId} from "../Helper/TraitHelper";
 import BuffIcon from "./BuffIcon";
 
 interface IProps {
+    region: Region;
     buff: Buff;
 }
 
@@ -20,7 +22,7 @@ class BuffDescription extends React.Component<IProps>{
         }
 
         return (
-            <Link to={`/buff/${buff.id}`}>
+            <Link to={`/${this.props.region}/buff/${buff.id}`}>
                 [{description} <BuffIcon location={buff.icon}/>]
             </Link>
         );

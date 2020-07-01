@@ -37,8 +37,13 @@ class Navigation extends React.Component<any, IState> {
 
                         <Navbar.Collapse>
                             <Nav>
-                                <Link to="/servants" className={'nav-link'}>
-                                    <NavItem>Servants</NavItem>
+                                <Link to="/JP/servants" className={'nav-link'}>
+                                    <NavItem>JP Servants</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
+                                <Link to="/NA/servants" className={'nav-link'}>
+                                    <NavItem>NA Servants</NavItem>
                                 </Link>
                             </Nav>
                             <Nav className={'ml-auto'}>

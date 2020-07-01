@@ -1,5 +1,6 @@
 import React from "react";
 import Connection from "../Api/Connection";
+import Region from "../Api/Data/Region";
 import Skill from "../Api/Data/Skill";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
@@ -7,6 +8,7 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 
 interface IProps {
+    region: Region;
     id: number;
 }
 
@@ -29,7 +31,7 @@ class SkillPage extends React.Component<IProps, IState> {
     }
 
     async loadSkill() {
-        const skill = await Connection.skill(this.props.id);
+        const skill = await Connection.skill(this.props.region, this.props.id);
 
         this.setState({
             loading: false,

@@ -1,6 +1,7 @@
 import React from "react";
 import Connection from "../Api/Connection";
 import Buff from "../Api/Data/Buff";
+import Region from "../Api/Data/Region";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
@@ -8,6 +9,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import {joinElements} from "../Helper/OutputHelper";
 
 interface IProps {
+    region: Region;
     id: number;
 }
 
@@ -30,7 +32,7 @@ class BuffPage extends React.Component<IProps, IState>{
     }
 
     async loadBuff() {
-        const buff = await Connection.buff(this.props.id);
+        const buff = await Connection.buff(this.props.region, this.props.id);
 
         this.setState({
             loading: false,
