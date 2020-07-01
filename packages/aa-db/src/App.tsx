@@ -4,6 +4,8 @@ import {Container} from "react-bootstrap";
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
 import Navigation from "./Component/Navigation";
 import BuffPage from "./Page/BuffPage";
+import CraftEssencePage from "./Page/CraftEssencePage";
+import CraftEssencesPage from "./Page/CraftEssencesPage";
 import FuncPage from './Page/FuncPage';
 import NoblePhantasmPage from "./Page/NoblePhantasmPage";
 import QuestPage from "./Page/QuestPage";
@@ -47,6 +49,12 @@ class App extends React.Component<any, IState> {
                                 key = `${region}-${id}`;
                             return <BuffPage key={key} region={region} id={id}/>;
                         }}/>
+                        <Route path="/:region(JP|NA)/craft-essence/:id([0-9]+)" render={props => {
+                            const region = props.match.params.region,
+                                id = props.match.params.id,
+                                key = `${region}-${id}`;
+                            return <CraftEssencePage key={key} region={region} id={id}/>;
+                        }}/>
                         <Route path="/:region(JP|NA)/func/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
@@ -77,6 +85,10 @@ class App extends React.Component<any, IState> {
                                 id = props.match.params.id,
                                 key = `${region}-${id}`;
                             return <SkillPage key={key} region={region} id={id}/>
+                        }}/>
+                        <Route path="/:region(JP|NA)/craft-essences" render={props => {
+                            const region = props.match.params.region;
+                            return <CraftEssencesPage key={region} region={region}/>;
                         }}/>
                         <Route path="/:region(JP|NA)/servants" render={props => {
                             const region = props.match.params.region;

@@ -1,13 +1,14 @@
 import axios from "axios";
 import Manager from "../Setting/Manager";
 import {LanguageOption} from "../Setting/Option";
+import BasicListEntity from "./Data/BasicListEntity";
 import Buff from "./Data/Buff";
+import CraftEssence from "./Data/CraftEssence";
 import Func from "./Data/Func";
 import NoblePhantasm from "./Data/NoblePhantasm";
 import Quest from "./Data/Quest";
 import Region from "./Data/Region";
-import ServantEntity from "./Data/ServantEntity";
-import ServantListEntity from "./Data/ServantListEntity";
+import Servant from "./Data/Servant";
 import Skill from "./Data/Skill";
 import TraitMap from "./Data/TraitMap";
 
@@ -17,7 +18,8 @@ const fetch = async function <T>(endpoint: string): Promise<T> {
 
     return response.data;
 }
-const servantListCache = new Map<Region, ServantListEntity[]>(),
+const craftEssenceListCache = new Map<Region, BasicListEntity[]>(),
+    servantListCache = new Map<Region, BasicListEntity[]>(),
     traitMapCache = new Map<Region, TraitMap>();
 
 class Connection {
@@ -27,6 +29,14 @@ class Connection {
         );
 
         return fetch<Buff>(`${host}/nice/${region}/buff/${id}${query}`);
+    }
+
+    static craftEssence(region: Region, id: number): Promise<CraftEssence> {
+        let query = '?lore=true' + (
+            Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
+        );
+
+        return fetch<Servant>(`${host}/nice/${region}/equip/${id}${query}`);
     }
 
     static func(region: Region, id: number): Promise<Func> {
@@ -49,15 +59,34 @@ class Connection {
         return fetch<Quest>(`${host}/nice/${region}/quest/${id}/${phase}`);
     }
 
-    static servant(region: Region, id: number): Promise<ServantEntity> {
+    static servant(region: Region, id: number): Promise<Servant> {
         let query = '?lore=true' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
 
-        return fetch<ServantEntity>(`${host}/nice/${region}/servant/${id}${query}`);
+        return fetch<Servant>(`${host}/nice/${region}/servant/${id}${query}`);
     }
 
-    static async servantList(region: Region): Promise<ServantListEntity[]> {
+    static async craftEssenceList(region: Region): Promise<BasicListEntity[]> {
+        if (region === Region.NA) {
+            return Connection.getCacheableCraftEssenceList(Region.NA);
+        } else if (region === Region.JP && Manager.language() === LanguageOption.DEFAULT) {
+            return Connection.getCacheableCraftEssenceList(Region.JP);
+        }
+
+        const jp = await Connection.getCacheableCraftEssenceList(Region.JP),
+            na = await Connection.getCacheableCraftEssenceList(Region.NA),
+            names = new Map<number, string>(na.map(entity => [entity.id, entity.name]));
+
+        return jp.map<BasicListEntity>(entity => {
+            return {
+                ...entity,
+                name: names.get(entity.id) ?? entity.name,
+            };
+        });
+    }
+
+    static async servantList(region: Region): Promise<BasicListEntity[]> {
         if (region === Region.NA) {
             return Connection.getCacheableServantList(Region.NA);
         } else if (region === Region.JP && Manager.language() === LanguageOption.DEFAULT) {
@@ -68,7 +97,7 @@ class Connection {
             na = await Connection.getCacheableServantList(Region.NA),
             names = new Map<number, string>(na.map(entity => [entity.id, entity.name]));
 
-        return jp.map<ServantListEntity>(entity => {
+        return jp.map<BasicListEntity>(entity => {
             return {
                 ...entity,
                 name: names.get(entity.id) ?? entity.name,
@@ -88,12 +117,23 @@ class Connection {
         return Connection.getCacheableTraitMap(region);
     }
 
-    private static async getCacheableServantList(region: Region): Promise<ServantListEntity[]> {
+    private static async getCacheableCraftEssenceList(region: Region): Promise<BasicListEntity[]> {
+        let list = craftEssenceListCache.get(region);
+        if (list !== undefined)
+            return list;
+
+        list = await fetch<BasicListEntity[]>(`${host}/export/${region}/basic_equip.json`);
+        craftEssenceListCache.set(region, list);
+
+        return list;
+    }
+
+    private static async getCacheableServantList(region: Region): Promise<BasicListEntity[]> {
         let list = servantListCache.get(region);
         if (list !== undefined)
             return list;
 
-        list = await fetch<ServantListEntity[]>(`${host}/export/${region}/basic_servant.json`);
+        list = await fetch<BasicListEntity[]>(`${host}/export/${region}/basic_servant.json`);
         servantListCache.set(region, list);
 
         return list;

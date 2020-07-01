@@ -1,11 +1,11 @@
 import React from "react";
 import {AssetMap} from "../../Api/Data/AssetCollection";
-import Servant from "../../Api/Data/Servant";
+import CraftEssence from "../../Api/Data/CraftEssence";
 
-import "./ServantPortrait.css";
+import "./CraftEssencePortrait.css";
 
 interface IProps {
-    servant: Servant;
+    craftEssence: CraftEssence;
 }
 
 interface IState {
@@ -13,13 +13,13 @@ interface IState {
     assetKey?: string;
 }
 
-class ServantPortrait extends React.Component<IProps, IState> {
+class CraftEssencePortrait extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
         const assetMap = (
-                props.servant.extraAssets.charaGraph.ascension
-                ?? Object.values(props.servant.extraAssets.charaGraph).shift()
+                props.craftEssence.extraAssets.charaGraph.ascension
+                ?? Object.values(props.craftEssence.extraAssets.charaGraph).shift()
             ),
             assetKey = assetMap === undefined ? undefined : Object.keys(assetMap).shift();
 
@@ -29,8 +29,8 @@ class ServantPortrait extends React.Component<IProps, IState> {
     render() {
         return (
             <div>
-                <img alt={this.props.servant.name}
-                     id={'servant-portrait'}
+                <img alt={this.props.craftEssence.name}
+                     id={'craft-essence-portrait'}
                      src={(
                          this.state.assetMap && this.state.assetKey
                              ? this.state.assetMap[this.state.assetKey]
@@ -41,4 +41,4 @@ class ServantPortrait extends React.Component<IProps, IState> {
     }
 }
 
-export default ServantPortrait;
+export default CraftEssencePortrait;

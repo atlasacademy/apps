@@ -1,4 +1,4 @@
-enum ServantType {
+enum EntityType {
     NORMAL = "normal",
     HEROINE = "heroine",
     COMBINE_MATERIAL = "combineMaterial",
@@ -12,4 +12,4 @@ enum ServantType {
     COMMAND_CODE = "commandCode",
 }
 
-export default ServantType;
+export default EntityType;

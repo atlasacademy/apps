@@ -2,22 +2,22 @@ import Attribute from "./Attribute";
 import Card from "./Card";
 import ClassName from "./ClassName";
 import Gender from "./Gender";
-import ServantAsset from "./ServantAsset";
+import AssetCollection from "./AssetCollection";
 import NoblePhantasm from "./NoblePhantasm";
-import ServantType from "./ServantType";
+import EntityType from "./EntityType";
 import Skill from "./Skill";
 import Trait from "./Trait";
 
-interface ServantEntity {
+interface Servant {
     id: number;
     collectionNo: number;
     name: string;
     className: ClassName;
-    type: ServantType;
+    type: EntityType;
     rarity: number;
     cost: number;
     lvMax: number;
-    extraAssets: ServantAsset;
+    extraAssets: AssetCollection;
     gender: Gender;
     attribute: Attribute;
     traits: Trait[];
@@ -54,4 +54,4 @@ interface ServantEntity {
     // profile
 }
 
-export default ServantEntity;
+export default Servant;

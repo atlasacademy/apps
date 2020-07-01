@@ -21,6 +21,7 @@ interface IProps {
 interface IState {
     loading: boolean;
     skill?: Skill;
+    levels: number;
     level: number;
 }
 
@@ -30,6 +31,7 @@ class SkillPage extends React.Component<IProps, IState> {
 
         this.state = {
             loading: true,
+            levels: 1,
             level: 1
         };
     }
@@ -44,6 +46,7 @@ class SkillPage extends React.Component<IProps, IState> {
         this.setState({
             loading: false,
             skill: skill,
+            levels: skill.functions[0].svals.length ?? 1,
         });
     }
 
@@ -80,7 +83,7 @@ class SkillPage extends React.Component<IProps, IState> {
                 <Form inline style={{justifyContent: 'center'}}>
                     <Form.Control as={'select'} value={this.state.level}
                                   onChange={(ev: Event) => this.changeLevel(parseInt(ev.target.value))}>
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(level => (
+                        {Array.from(Array(this.state.levels).keys()).map(i => i + 1).map(level => (
                             <option key={level} value={level}>LEVEL {level}</option>
                         ))}
                     </Form.Control>

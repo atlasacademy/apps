@@ -1,14 +1,14 @@
 import ClassName from "./ClassName";
-import ServantType from "./ServantType";
+import EntityType from "./EntityType";
 
-interface ServantListEntity {
+interface BasicListEntity {
     id: number;
     collectionNo: number;
-    type: ServantType;
+    type: EntityType;
     name: string;
     className: ClassName;
     rarity: number;
     face: string;
 }
 
-export default ServantListEntity;
+export default BasicListEntity;
