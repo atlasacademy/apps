@@ -21,6 +21,13 @@ const classIds = new Map<ClassName, number>([
     [ClassName.RULER, 9],
     [ClassName.ALTER_EGO, 10],
     [ClassName.AVENGER, 11],
+    [ClassName.MOON_CANCER, 23],
+    [ClassName.FOREIGNER, 25],
+    [ClassName.BEAST_I, 20],
+    [ClassName.BEAST_II, 20],
+    [ClassName.BEAST_IIIL, 20],
+    [ClassName.BEAST_IIIR, 20],
+    [ClassName.BEAST_UNKNOWN, 20],
 ]);
 const unknownClassId = 12;
 

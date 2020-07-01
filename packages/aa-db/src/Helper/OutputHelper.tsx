@@ -7,7 +7,10 @@ export function asPercent(value: number | undefined, pow: number): string {
     return `${decimal}%`;
 }
 
-export function handleNewLine(text: string): Renderable {
+export function handleNewLine(text?: string): Renderable {
+    if (!text)
+        return "";
+
     return (
         <span>
             {joinElements(text.split("\n"), <br/>)}

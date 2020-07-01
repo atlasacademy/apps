@@ -57,7 +57,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.servants.map((servant, index) => {
+                    {this.state.servants.reverse().map((servant, index) => {
                         const route = `/${this.props.region}/servant/${servant.collectionNo}`;
 
                         return <tr key={index}>
