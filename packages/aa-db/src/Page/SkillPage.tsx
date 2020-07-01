@@ -80,7 +80,7 @@ class SkillPage extends React.Component<IProps, IState> {
                 <Form inline style={{justifyContent: 'center'}}>
                     <Form.Control as={'select'} value={this.state.level}
                                   onChange={(ev: Event) => this.changeLevel(parseInt(ev.target.value))}>
-                        {[1, 2, 3, 4, 5].map(level => (
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(level => (
                             <option key={level} value={level}>LEVEL {level}</option>
                         ))}
                     </Form.Control>
