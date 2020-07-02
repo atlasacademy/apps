@@ -29,13 +29,17 @@ class CraftEssencePicker extends React.Component<IProps> {
                                  this.changeCraftEssence(parseInt(ev.target.value));
                              }}
                              value={this.props.id}>
-                    {this.props.craftEssences.reverse().map((craftEssence, index) => {
-                        return (
-                            <option key={index} value={craftEssence.collectionNo}>
-                                {craftEssence.name}
-                            </option>
-                        );
-                    })}
+                    {this.props.craftEssences
+                        .slice()
+                        .reverse()
+                        .map((craftEssence, index) => {
+                            return (
+                                <option key={index} value={craftEssence.collectionNo}>
+                                    {craftEssence.name}
+                                </option>
+                            );
+                        })
+                    }
                 </FormControl>
             </div>
         );

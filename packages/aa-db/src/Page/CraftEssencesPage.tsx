@@ -54,33 +54,37 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.craftEssences.reverse().map((craftEssence, index) => {
-                        const route = `/${this.props.region}/craft-essence/${craftEssence.collectionNo}`;
+                    {this.state.craftEssences
+                        .slice()
+                        .reverse()
+                        .map((craftEssence, index) => {
+                            const route = `/${this.props.region}/craft-essence/${craftEssence.collectionNo}`;
 
-                        return <tr key={index}>
-                            <td align={"center"}>
-                                <Link to={route}>
-                                    {craftEssence.collectionNo}
-                                </Link>
-                            </td>
-                            <td align={"center"}>
-                                <Link to={route}>
-                                    <FaceIcon type={craftEssence.type}
-                                              rarity={craftEssence.rarity}
-                                              location={craftEssence.face}
-                                              height={50}/>
-                                </Link>
-                            </td>
-                            <td>
-                                <Link to={route}>
-                                    {craftEssence.name}
-                                </Link>
-                            </td>
-                            <td>
-                                <RarityStars rarity={craftEssence.rarity}/>
-                            </td>
-                        </tr>
-                    })}
+                            return <tr key={index}>
+                                <td align={"center"}>
+                                    <Link to={route}>
+                                        {craftEssence.collectionNo}
+                                    </Link>
+                                </td>
+                                <td align={"center"}>
+                                    <Link to={route}>
+                                        <FaceIcon type={craftEssence.type}
+                                                  rarity={craftEssence.rarity}
+                                                  location={craftEssence.face}
+                                                  height={50}/>
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Link to={route}>
+                                        {craftEssence.name}
+                                    </Link>
+                                </td>
+                                <td>
+                                    <RarityStars rarity={craftEssence.rarity}/>
+                                </td>
+                            </tr>
+                        })
+                    }
                     </tbody>
                 </Table>
             </div>
