@@ -2,6 +2,7 @@ import React from "react";
 import {Col, Row} from "react-bootstrap";
 import NoblePhantasm from "../../Api/Data/NoblePhantasm";
 import Region from "../../Api/Data/Region";
+import FuncDescriptor from "../../Descriptor/FuncDescriptor";
 import {getTargetVersionValues} from "../../Helper/FuncHelper";
 import DataValMainData from "../Func/DataValMainData";
 import FuncMainData from "../Func/FuncMainData";
@@ -23,6 +24,9 @@ class NoblePhantasmVersion extends React.Component<IProps> {
                     return (
                         <div key={index}>
                             <h3>Effect #{index + 1}</h3>
+                            <p>
+                                <FuncDescriptor region={this.props.region} func={func}/>
+                            </p>
 
                             <Row>
                                 <Col xs={12} md={6}>
