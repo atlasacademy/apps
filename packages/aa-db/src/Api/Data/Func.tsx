@@ -1,4 +1,6 @@
 import Buff from "./Buff";
+import NoblePhantasm from "./NoblePhantasm";
+import Skill from "./Skill";
 import Trait from "./Trait";
 
 export enum FuncType {
@@ -144,9 +146,11 @@ export default interface Func {
     funcquestTvals: number[];
     traitVals?: Trait[];
     buffs: Buff[];
-    svals: DataVal[];
+    svals?: DataVal[];
     svals2?: DataVal[];
     svals3?: DataVal[];
     svals4?: DataVal[];
     svals5?: DataVal[];
+    reverseSkills: Skill[];
+    reverseTds: NoblePhantasm[];
 }

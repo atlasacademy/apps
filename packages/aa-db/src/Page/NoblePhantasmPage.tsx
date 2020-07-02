@@ -1,6 +1,8 @@
 import React from "react";
 import {Col, Form, Row} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
+import EntityType from "../Api/Data/EntityType";
 import NoblePhantasm from "../Api/Data/NoblePhantasm";
 import Region from "../Api/Data/Region";
 import DataTable from "../Component/DataTable";
@@ -79,6 +81,25 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     "Rank": noblePhantasm.rank,
                     "Detail": noblePhantasm.detail,
                     "Card Type": noblePhantasm.card,
+                    "Owner": (
+                        <div>
+                            {noblePhantasm.reverseServants
+                                .filter(servant => {
+                                    return servant.type === EntityType.NORMAL
+                                        || servant.type === EntityType.HEROINE
+                                })
+                                .map((servant, index) => {
+                                    const base = `/${this.props.region}/servant`;
+                                    return (
+                                        <Link to={`${base}/${servant.id}`}>
+                                            &nbsp;
+                                            {servant.name}
+                                        </Link>
+                                    );
+                                })
+                            }
+                        </div>
+                    )
                 }}/>
 
                 <br/>

@@ -1,5 +1,6 @@
 import Card from "./Card";
 import Func from "./Func";
+import Servant from "./Servant";
 import Trait from "./Trait";
 
 interface NoblePhantasm {
@@ -18,6 +19,7 @@ interface NoblePhantasm {
     condQuestPhase: number;
     individuality: Trait[];
     functions: Func[];
+    reverseServants: Servant[];
 }
 
 export default NoblePhantasm;

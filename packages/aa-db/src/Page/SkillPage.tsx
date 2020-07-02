@@ -1,6 +1,8 @@
 import React from "react";
 import {Form} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
+import EntityType from "../Api/Data/EntityType";
 import Region from "../Api/Data/Region";
 import Skill from "../Api/Data/Skill";
 import BuffIcon from "../Component/BuffIcon";
@@ -46,7 +48,7 @@ class SkillPage extends React.Component<IProps, IState> {
         this.setState({
             loading: false,
             skill: skill,
-            levels: skill.functions[0].svals.length ?? 1,
+            levels: skill.functions[0].svals?.length ?? 1,
         });
     }
 
@@ -77,6 +79,27 @@ class SkillPage extends React.Component<IProps, IState> {
                     "ID": skill.id,
                     "Name": skill.name,
                     "Detail": skill.detail,
+                    "Owner": (
+                        <div>
+                            {skill.reverseServants
+                                .filter(entity => {
+                                    return entity.type === EntityType.NORMAL
+                                        || entity.type === EntityType.HEROINE
+                                        || entity.type === EntityType.SERVANT_EQUIP;
+                                })
+                                .map((entity, index) => {
+                                    const base = "/" + this.props.region
+                                        + "/" + (entity.type === EntityType.SERVANT_EQUIP ? 'craft-essence' : 'servant');
+                                    return (
+                                        <Link to={`${base}/${entity.id}`}>
+                                            &nbsp;
+                                            {entity.name}
+                                        </Link>
+                                    );
+                                })
+                            }
+                        </div>
+                    )
                 }}/>
 
                 <br/>

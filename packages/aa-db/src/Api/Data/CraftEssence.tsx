@@ -1,10 +1,14 @@
 import AssetCollection from "./AssetCollection";
+import ClassName from "./ClassName";
+import EntityType from "./EntityType";
 import Skill from "./Skill";
 
 interface CraftEssence {
     id: number;
     collectionNo: number;
     name: string;
+    className: ClassName;
+    type: EntityType;
     rarity: number;
     cost: number;
     lvMax: number;

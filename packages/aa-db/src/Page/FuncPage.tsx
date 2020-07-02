@@ -1,4 +1,8 @@
+import {faShare} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
+import {Col, Row} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
 import Func from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
@@ -58,6 +62,39 @@ class FuncPage extends React.Component<IProps, IState> {
                 <br/>
 
                 <FuncMainData region={this.props.region} func={func}/>
+
+                <Row>
+                    <Col xs={12} lg={6}>
+                        <h3>Related Skills</h3>
+                        {func.reverseSkills.map((skill, index) => {
+                            return (
+                                <p key={index}>
+                                    <BuffIcon location={skill.icon}/>
+                                    &nbsp;
+                                    {skill.name}
+                                    &nbsp;
+                                    <Link to={`/${this.props.region}/skill/${skill.id}`}>
+                                        <FontAwesomeIcon icon={faShare}/>
+                                    </Link>
+                                </p>
+                            )
+                        })}
+                    </Col>
+                    <Col xs={12} lg={6}>
+                        <h3>Related Noble Phantasms</h3>
+                        {func.reverseTds.map((noblePhantasm, index) => {
+                            return (
+                                <p key={index}>
+                                    {noblePhantasm.name}
+                                    &nbsp;
+                                    <Link to={`/${this.props.region}/noble-phantasm/${noblePhantasm.id}`}>
+                                        <FontAwesomeIcon icon={faShare}/>
+                                    </Link>
+                                </p>
+                            )
+                        })}
+                    </Col>
+                </Row>
             </div>
         );
     }
