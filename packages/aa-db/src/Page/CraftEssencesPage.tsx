@@ -6,9 +6,13 @@ import BasicListEntity from "../Api/Data/BasicListEntity";
 import Region from "../Api/Data/Region";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
-import RarityStars from "../Component/RarityStars";
+import RarityDescriptor from "../Descriptor/RarityDescriptor";
 
 import "./CraftEssencesPage.css";
+
+interface Event extends React.MouseEvent<HTMLInputElement> {
+
+}
 
 interface IProps {
     region: Region;
@@ -17,6 +21,7 @@ interface IProps {
 interface IState {
     loading: boolean;
     craftEssences: BasicListEntity[];
+    activeRarityFilters: number[];
 }
 
 class CraftEssencesPage extends React.Component<IProps, IState> {
@@ -25,7 +30,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
         this.state = {
             loading: true,
-            craftEssences: []
+            craftEssences: [],
+            activeRarityFilters: [1, 2, 3, 4, 5],
         };
     }
 
@@ -38,12 +44,60 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         });
     }
 
+    private toggleRarityFilter(rarity: number): void {
+        const exists = this.state.activeRarityFilters.indexOf(rarity) !== -1;
+
+        if (exists) {
+            this.setState({
+                activeRarityFilters: this.state.activeRarityFilters.filter(activeRarity => activeRarity !== rarity)
+            });
+        } else {
+            this.setState({
+                activeRarityFilters: [
+                    ...this.state.activeRarityFilters,
+                    rarity
+                ]
+            });
+        }
+    }
+
+    private craftEssences(): BasicListEntity[] {
+        let list = this.state.craftEssences.slice().reverse();
+
+        if (this.state.activeRarityFilters.length !== 5) {
+            list = list.filter(entity => {
+                return this.state.activeRarityFilters.indexOf(entity.rarity) !== -1;
+            });
+        }
+
+        return list;
+    }
+
     render() {
         if (this.state.loading)
             return <Loading/>;
 
         return (
             <div id={'craft-essences'}>
+                <p className={'text-center'}>
+                    {[1, 2, 3, 4, 5].map(rarity => {
+                        const active = this.state.activeRarityFilters.indexOf(rarity) !== -1;
+
+                        return (
+                            <span key={rarity}
+                                  className={'filter'}
+                                  style={{opacity: active ? 1 : 0.5}}
+                                  onClick={(ev: Event) => {
+                                      this.toggleRarityFilter(rarity);
+                                  }}>
+                                <RarityDescriptor rarity={rarity} height={20}/>
+                            </span>
+                        );
+                    })}
+                </p>
+
+                <hr/>
+
                 <Table striped bordered hover>
                     <thead>
                     <tr>
@@ -54,9 +108,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.craftEssences
-                        .slice()
-                        .reverse()
+                    {this.craftEssences()
                         .map((craftEssence, index) => {
                             const route = `/${this.props.region}/craft-essence/${craftEssence.collectionNo}`;
 
@@ -80,7 +132,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                     </Link>
                                 </td>
                                 <td>
-                                    <RarityStars rarity={craftEssence.rarity}/>
+                                    <RarityDescriptor rarity={craftEssence.rarity}/>
                                 </td>
                             </tr>
                         })

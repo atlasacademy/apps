@@ -23,11 +23,15 @@ const classIds = new Map<ClassName, number>([
     [ClassName.AVENGER, 11],
     [ClassName.MOON_CANCER, 23],
     [ClassName.FOREIGNER, 25],
+    [ClassName.GRAND_CASTER, 5],
     [ClassName.BEAST_I, 20],
     [ClassName.BEAST_II, 20],
     [ClassName.BEAST_IIIL, 20],
     [ClassName.BEAST_IIIR, 20],
     [ClassName.BEAST_UNKNOWN, 20],
+
+    [ClassName.ALL, 1001],
+    [ClassName.EXTRA, 1002],
 ]);
 const unknownClassId = 12;
 
@@ -41,7 +45,7 @@ class ClassIcon extends React.Component<IProps> {
     render() {
         return (
             <img alt={''} src={this.location()}
-                 style={this.props.height ? {height: this.props.height} : undefined}/>
+                 style={{height: this.props.height ?? 24}}/>
         );
     }
 

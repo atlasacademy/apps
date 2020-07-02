@@ -3,6 +3,7 @@ import Servant from "../../Api/Data/Servant";
 import ClassIcon from "../../Component/ClassIcon";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
+import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 
 interface IProps {
     servant: Servant;
@@ -26,7 +27,7 @@ class ServantMainData extends React.Component<IProps> {
                     "Collection": servant.collectionNo,
                     "Name": servant.name,
                     "Class": servant.className,
-                    "Rarity": servant.rarity,
+                    "Rarity": <RarityDescriptor rarity={servant.rarity}/>,
                     "Cost": servant.cost,
                     "Gender": servant.gender,
                     "Attribute": servant.attribute,
