@@ -85,6 +85,13 @@ export enum FuncTargetType {
     PTSELECT_ONE_SUB = "ptselectOneSub",
     PTSELECT_SUB = "ptselectSub",
     PT_ONE_ANOTHER_RANDOM = "ptOneAnotherRandom",
+    PT_SELF_ANOTHER_RANDOM = "ptSelfAnotherRandom",
+    ENEMY_ONE_ANOTHER_RANDOM = "enemyOneAnotherRandom",
+    PT_SELF_ANOTHER_FIRST = "ptSelfAnotherFirst",
+    PT_SELF_BEFORE = "ptSelfBefore",
+    PT_SELF_AFTER = "ptSelfAfter",
+    PT_SELF_ANOTHER_LAST = "ptSelfAnotherLast",
+    COMMAND_TYPE_SELF_TREASURE_DEVICE = "commandTypeSelfTreasureDevice",
 }
 
 export enum FuncTargetTeam {
