@@ -269,7 +269,7 @@ export function getLevelDataValList(func: Func): DataVal[] {
 export function getMixedDataValList(func: Func): DataVal[] {
     const dataVals = [];
 
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i <= 5; i++) {
         let dataVal = getTargetVersionValues(func, i, i);
         if (dataVal !== undefined)
             dataVals.push(dataVal);
@@ -306,7 +306,7 @@ export function getMutatingFieldValues(vals: DataVal[]): DataVal[] {
 export function getOverchargeDataValList(func: Func): DataVal[] {
     const dataVals = [];
 
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i <= 5; i++) {
         let dataVal = getTargetVersionValues(func, 1, i);
         if (dataVal !== undefined)
             dataVals.push(dataVal);
