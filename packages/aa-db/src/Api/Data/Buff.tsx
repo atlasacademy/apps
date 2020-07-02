@@ -1,3 +1,4 @@
+import Func from "./Func";
 import Trait from "./Trait";
 
 export enum BuffType {
@@ -135,4 +136,5 @@ export default interface Buff {
     ckSelfIndv: Trait[];
     ckOpIndv: Trait[];
     maxRate: number;
+    reverseFunctions: Func[];
 }

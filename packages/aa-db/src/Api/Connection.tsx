@@ -24,7 +24,7 @@ const craftEssenceListCache = new Map<Region, BasicListEntity[]>(),
 
 class Connection {
     static buff(region: Region, id: number): Promise<Buff> {
-        let query = '?' + (
+        let query = '?reverse=true' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
 
@@ -40,7 +40,7 @@ class Connection {
     }
 
     static func(region: Region, id: number): Promise<Func> {
-        let query = '?' + (
+        let query = '?reverse=true' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
 
@@ -48,7 +48,7 @@ class Connection {
     }
 
     static noblePhantasm(region: Region, id: number): Promise<NoblePhantasm> {
-        let query = '?' + (
+        let query = '?reverse=true' + (
             Manager.language() === LanguageOption.ENGLISH ? '&lang=en' : ''
         );
 

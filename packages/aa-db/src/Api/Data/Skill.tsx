@@ -1,4 +1,6 @@
+import CraftEssence from "./CraftEssence";
 import Func from "./Func";
+import Servant from "./Servant";
 import Trait from "./Trait";
 
 interface Skill {
@@ -14,6 +16,7 @@ interface Skill {
     coolDown: number[];
     actIndividuality: Trait[];
     functions: Func[];
+    reverseServants: (Servant | CraftEssence)[];
 }
 
 export default Skill;

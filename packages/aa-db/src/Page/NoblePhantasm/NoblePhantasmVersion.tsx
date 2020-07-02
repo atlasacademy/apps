@@ -31,7 +31,7 @@ class NoblePhantasmVersion extends React.Component<IProps> {
                                 </Col>
                                 <Col xs={12} md={6}>
                                     <h5>Values</h5>
-                                    <DataValMainData dataVal={dataVal}/>
+                                    <DataValMainData dataVal={dataVal ?? {}}/>
                                 </Col>
                             </Row>
 
