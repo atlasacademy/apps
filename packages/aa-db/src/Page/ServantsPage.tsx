@@ -2,14 +2,31 @@ import React from "react";
 import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
-import Region from "../Api/Data/Region";
 import BasicListEntity from "../Api/Data/BasicListEntity";
+import ClassName from "../Api/Data/ClassName";
+import Region from "../Api/Data/Region";
 import ClassIcon from "../Component/ClassIcon";
-import Loading from "../Component/Loading";
-import RarityStars from "../Component/RarityStars";
 import FaceIcon from "../Component/FaceIcon";
+import Loading from "../Component/Loading";
+import RarityDescriptor from "../Descriptor/RarityDescriptor";
 
 import './ServantsPage.css';
+
+const classFilters: ClassName[] = [
+    ClassName.ALL,
+    ClassName.SABER,
+    ClassName.ARCHER,
+    ClassName.LANCER,
+    ClassName.RIDER,
+    ClassName.CASTER,
+    ClassName.ASSASSIN,
+    ClassName.BERSERKER,
+    ClassName.EXTRA,
+];
+
+interface Event extends React.MouseEvent<HTMLInputElement> {
+
+}
 
 interface IProps {
     region: Region,
@@ -18,6 +35,8 @@ interface IProps {
 interface IState {
     loading: boolean;
     servants: BasicListEntity[];
+    activeClassFilters: ClassName[];
+    activeRarityFilters: number[];
 }
 
 class ServantsPage extends React.Component<IProps, IState> {
@@ -28,6 +47,8 @@ class ServantsPage extends React.Component<IProps, IState> {
         this.state = {
             loading: true,
             servants: [],
+            activeClassFilters: classFilters.slice(),
+            activeRarityFilters: [1, 2, 3, 4, 5],
         };
     }
 
@@ -40,12 +61,142 @@ class ServantsPage extends React.Component<IProps, IState> {
         });
     }
 
+    private isClassFilterActive(className: ClassName): boolean {
+        return this.state.activeClassFilters.indexOf(className) !== -1;
+    }
+
+    private isExtra(className: ClassName): boolean {
+        return !(className === ClassName.SABER
+            || className === ClassName.ARCHER
+            || className === ClassName.LANCER
+            || className === ClassName.RIDER
+            || className === ClassName.CASTER
+            || className === ClassName.ASSASSIN
+            || className === ClassName.BERSERKER);
+    }
+
+    private toggleClassFilter(className: ClassName): void {
+        if (className === ClassName.ALL) {
+            if (this.isClassFilterActive(className)) {
+                this.setState({
+                    activeClassFilters: [],
+                    activeRarityFilters: [],
+                });
+            } else {
+                this.setState({
+                    activeClassFilters: classFilters.slice(),
+                    activeRarityFilters: [1, 2, 3, 4, 5],
+                });
+            }
+        } else {
+            let exists = false,
+                activeFilters = this.state.activeClassFilters.filter(activeClassName => {
+                    if (activeClassName === ClassName.ALL)
+                        return false;
+
+                    if (activeClassName === className) {
+                        exists = true;
+                        return false;
+                    }
+
+                    return true;
+                });
+
+            if (!exists)
+                activeFilters.push(className);
+
+            this.setState({activeClassFilters: activeFilters});
+        }
+    }
+
+    private toggleRarityFilter(rarity: number): void {
+        const exists = this.state.activeRarityFilters.indexOf(rarity) !== -1;
+
+        if (exists) {
+            this.setState({
+                activeClassFilters: this.state.activeClassFilters.filter(activeClass => activeClass !== ClassName.ALL),
+                activeRarityFilters: this.state.activeRarityFilters.filter(activeRarity => activeRarity !== rarity)
+            });
+        } else {
+            this.setState({
+                activeClassFilters: this.state.activeClassFilters.filter(activeClass => activeClass !== ClassName.ALL),
+                activeRarityFilters: [
+                    ...this.state.activeRarityFilters,
+                    rarity
+                ]
+            });
+        }
+    }
+
+    private servants(): BasicListEntity[] {
+        let list = this.state.servants.slice().reverse();
+
+        if (this.state.activeRarityFilters.length !== 5) {
+            list = list.filter(entity => {
+                return this.state.activeRarityFilters.indexOf(entity.rarity) !== -1;
+            });
+        }
+
+        if (!this.isClassFilterActive(ClassName.ALL)) {
+            list = list.filter(entity => {
+                for (let x in this.state.activeClassFilters) {
+                    const className = this.state.activeClassFilters[x];
+
+                    if (className === ClassName.EXTRA && this.isExtra(entity.className)) {
+                        return true;
+                    } else if (entity.className === className) {
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+        }
+
+        return list;
+    }
+
     render() {
         if (this.state.loading)
             return <Loading/>;
 
         return (
             <div id="servants">
+                <p className={'text-center'}>
+                    {classFilters.map(className => {
+                        const active = this.isClassFilterActive(className);
+                        return (
+                            <span key={className}
+                                  className={'filter'}
+                                  style={{opacity: active ? 1 : 0.5}}
+                                  onClick={(ev: Event) => {
+                                      this.toggleClassFilter(className);
+                                  }}>
+                                <ClassIcon height={50} rarity={active ? 5 : 3} className={className}/>
+                            </span>
+                        );
+                    })}
+                </p>
+
+                <p className={'text-center'}>
+                    {[1, 2, 3, 4, 5].map(rarity => {
+                        const active = this.state.activeRarityFilters.indexOf(rarity) !== -1;
+
+                        return (
+                            <span key={rarity}
+                                  className={'filter'}
+                                  style={{opacity: active ? 1 : 0.5}}
+                                  onClick={(ev: Event) => {
+                                      this.toggleRarityFilter(rarity);
+                                  }}>
+                                <RarityDescriptor rarity={rarity} height={20}/>
+                            </span>
+                        );
+                    })}
+                </p>
+
+                <hr/>
+
                 <Table striped bordered hover>
                     <thead>
                     <tr>
@@ -57,9 +208,8 @@ class ServantsPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.servants
-                        .slice()
-                        .reverse()
+                    {this
+                        .servants()
                         .map((servant, index) => {
                             const route = `/${this.props.region}/servant/${servant.collectionNo}`;
 
@@ -86,7 +236,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                     </Link>
                                 </td>
                                 <td>
-                                    <RarityStars rarity={servant.rarity}/>
+                                    <RarityDescriptor rarity={servant.rarity}/>
                                 </td>
                             </tr>
                         })

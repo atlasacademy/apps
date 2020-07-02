@@ -2,6 +2,7 @@ import React from "react";
 import CraftEssence from "../../Api/Data/CraftEssence";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
+import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 
 interface IProps {
     craftEssence: CraftEssence;
@@ -22,7 +23,7 @@ class CraftEssenceMainData extends React.Component<IProps> {
                     "ID": craftEssence.id,
                     "Collection": craftEssence.collectionNo,
                     "Name": craftEssence.name,
-                    "Rarity": craftEssence.rarity,
+                    "Rarity": <RarityDescriptor rarity={craftEssence.rarity}/>,
                     "Cost": craftEssence.cost,
                     "Max Lv.": craftEssence.lvMax,
                     "Base Hp": craftEssence.hpBase,

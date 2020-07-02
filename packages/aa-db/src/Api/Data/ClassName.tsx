@@ -19,6 +19,7 @@ enum ClassName {
     BEAST_IIIL = "beastIIIL",
     BEAST_UNKNOWN = "beastUnknown",
     ALL = "ALL",
+    EXTRA = "EXTRA",
 }
 
 export default ClassName;
