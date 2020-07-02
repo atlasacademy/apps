@@ -1,0 +1,38 @@
+#loading {
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+#loading .fou {
+    animation: loading-animation 1s steps(4) infinite;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+}
+
+#loading .fou.f2 {
+    visibility: hidden;
+    -webkit-animation-delay: 0.25s;
+}
+#loading .fou.f3 {
+    visibility: hidden;
+    -webkit-animation-delay: 0.50s;
+}
+#loading .fou.f4 {
+    visibility: hidden;
+    -webkit-animation-delay: 0.75s;
+}
+
+@keyframes loading-animation {
+    0% {visibility: visible;}
+    25% {visibility: hidden;}
+    50% {visibility: hidden;}
+    75% {visibility: hidden;}
+    100% {visibility: hidden;}
+}
