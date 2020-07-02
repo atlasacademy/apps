@@ -1,14 +1,17 @@
 import React from "react";
 import {Form} from "react-bootstrap";
-import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
+import CraftEssence from "../Api/Data/CraftEssence";
 import EntityType from "../Api/Data/EntityType";
 import Region from "../Api/Data/Region";
+import Servant from "../Api/Data/Servant";
 import Skill from "../Api/Data/Skill";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
+import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
+import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import SkillVersion from "./Skill/SkillVersion";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
@@ -88,14 +91,22 @@ class SkillPage extends React.Component<IProps, IState> {
                                         || entity.type === EntityType.SERVANT_EQUIP;
                                 })
                                 .map((entity, index) => {
-                                    const base = "/" + this.props.region
-                                        + "/" + (entity.type === EntityType.SERVANT_EQUIP ? 'craft-essence' : 'servant');
-                                    return (
-                                        <Link to={`${base}/${entity.id}`}>
-                                            &nbsp;
-                                            {entity.name}
-                                        </Link>
-                                    );
+                                    if (entity.type === EntityType.SERVANT_EQUIP) {
+                                        return (
+                                            <div key={index}>
+                                                <CraftEssenceDescriptor region={this.props.region}
+                                                                        craftEssence={entity as CraftEssence}/>
+                                            </div>
+                                        );
+                                    } else {
+                                        return (
+                                            <div key={index}>
+                                                <ServantDescriptor region={this.props.region}
+                                                                   servant={entity as Servant}
+                                                                   iconHeight={24}/>
+                                            </div>
+                                        );
+                                    }
                                 })
                             }
                         </div>

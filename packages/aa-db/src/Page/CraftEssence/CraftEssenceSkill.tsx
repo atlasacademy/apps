@@ -1,13 +1,11 @@
-import {faShare} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Alert, Table} from "react-bootstrap";
-import {Link} from "react-router-dom";
 import Region from "../../Api/Data/Region";
 import Skill from "../../Api/Data/Skill";
-import {describeFunc} from "../../Helper/FuncHelper";
+import FuncDescriptor from "../../Descriptor/FuncDescriptor";
+import QuestDescriptor from "../../Descriptor/QuestDescriptor";
+import SkillDescriptor from "../../Descriptor/SkillDescriptor";
 import {handleNewLine} from "../../Helper/OutputHelper";
-import {describeQuestType} from "../../Helper/QuestHelper";
 
 interface IProps {
     region: Region;
@@ -20,20 +18,14 @@ class CraftEssenceSkill extends React.Component<IProps, any> {
         return (
             <div>
                 <h3>
-                    {skill.name}
-                    &nbsp;
-                    <Link to={`/${this.props.region}/skill/${skill.id}`}>
-                        <FontAwesomeIcon icon={faShare}/>
-                    </Link>
+                    <SkillDescriptor region={this.props.region} skill={skill} iconHeight={33}/>
                 </h3>
 
                 {skill.condQuestId && skill.condQuestPhase ? (
                     <Alert variant={'primary'}>
-                        <Link to={`/${this.props.region}/quest/${skill.condQuestId}/${skill.condQuestPhase}`}>
-                            Available after {describeQuestType(skill.condQuestId, skill.condQuestPhase)}
-                            &nbsp;
-                            <FontAwesomeIcon icon={faShare}/>
-                        </Link>
+                        Available after <QuestDescriptor region={this.props.region}
+                                                         questId={skill.condQuestId}
+                                                         questPhase={skill.condQuestPhase}/>
                     </Alert>
                 ) : null}
 
@@ -47,16 +39,10 @@ class CraftEssenceSkill extends React.Component<IProps, any> {
                     </thead>
                     <tbody>
                     {skill.functions.map((func, index) => {
-                        let funcDescription = describeFunc(this.props.region, func);
-
                         return (
                             <tr key={index}>
                                 <td>
-                                    {funcDescription}
-                                    &nbsp;
-                                    <Link to={`/${this.props.region}/func/${func.funcId}`}>
-                                        <FontAwesomeIcon icon={faShare}/>
-                                    </Link>
+                                    <FuncDescriptor region={this.props.region} func={func}/>
                                 </td>
                             </tr>
                         );

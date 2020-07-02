@@ -1,13 +1,12 @@
-import {faShare} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Alert, Table} from "react-bootstrap";
-import {Link} from "react-router-dom";
 import {default as ServantNoblePhantasmData} from "../../Api/Data/NoblePhantasm";
 import Region from "../../Api/Data/Region";
-import {describeFunc, describeMutators} from "../../Helper/FuncHelper";
+import FuncDescriptor from "../../Descriptor/FuncDescriptor";
+import NoblePhantasmDescriptor from "../../Descriptor/NoblePhantasmDescriptor";
+import QuestDescriptor from "../../Descriptor/QuestDescriptor";
+import {describeMutators} from "../../Helper/FuncHelper";
 import {handleNewLine} from "../../Helper/OutputHelper";
-import {describeQuestType} from "../../Helper/QuestHelper";
 
 interface IProps {
     region: Region;
@@ -21,22 +20,16 @@ class ServantNoblePhantasm extends React.Component<IProps> {
         return (
             <div>
                 <h3>
-                    {np.name}
-                    &nbsp;
-                    <Link to={`/${this.props.region}/noble-phantasm/${np.id}`}>
-                        <FontAwesomeIcon icon={faShare}/>
-                    </Link>
+                    <NoblePhantasmDescriptor region={this.props.region} noblePhantasm={np}/>
                 </h3>
 
                 {np.condQuestId && np.condQuestPhase ? (
                     <Alert variant={'primary'}>
-                        <Link to={`/${this.props.region}/quest/${np.condQuestId}/${np.condQuestPhase}`}>
-                            Available after {describeQuestType(np.condQuestId, np.condQuestPhase)}
-                            &nbsp;
-                            <FontAwesomeIcon icon={faShare}/>
-                        </Link>
+                        Available after <QuestDescriptor region={this.props.region}
+                                                         questId={np.condQuestId}
+                                                         questPhase={np.condQuestPhase}/>
                     </Alert>
-                ): null}
+                ) : null}
 
                 <p>{handleNewLine(np.detail)}</p>
 
@@ -53,8 +46,7 @@ class ServantNoblePhantasm extends React.Component<IProps> {
                     </thead>
                     <tbody>
                     {np.functions.map((func, index) => {
-                        let funcDescription = describeFunc(this.props.region, func),
-                            mutatingDescriptions = describeMutators(func);
+                        let mutatingDescriptions = describeMutators(this.props.region, func);
 
                         for (let i = 0; i < 5; i++) {
                             if (!mutatingDescriptions[i])
@@ -64,11 +56,7 @@ class ServantNoblePhantasm extends React.Component<IProps> {
                         return (
                             <tr key={index}>
                                 <td>
-                                    {funcDescription}
-                                    &nbsp;
-                                    <Link to={`/${this.props.region}/func/${func.funcId}`}>
-                                        <FontAwesomeIcon icon={faShare}/>
-                                    </Link>
+                                    <FuncDescriptor region={this.props.region} func={func}/>
                                 </td>
                                 {mutatingDescriptions.map((description, index) => {
                                     return (
