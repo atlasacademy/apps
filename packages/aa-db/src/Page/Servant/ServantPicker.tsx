@@ -29,13 +29,17 @@ class ServantPicker extends React.Component<IProps> {
                                  this.changeServant(parseInt(ev.target.value));
                              }}
                              value={this.props.id}>
-                    {this.props.servants.reverse().map((servant, index) => {
-                        return (
-                            <option key={index} value={servant.collectionNo}>
-                                {servant.name}
-                            </option>
-                        );
-                    })}
+                    {this.props.servants
+                        .slice()
+                        .reverse()
+                        .map((servant, index) => {
+                            return (
+                                <option key={index} value={servant.collectionNo}>
+                                    {servant.name}
+                                </option>
+                            );
+                        })
+                    }
                 </FormControl>
             </div>
         );

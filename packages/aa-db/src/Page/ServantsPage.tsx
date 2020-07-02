@@ -57,36 +57,40 @@ class ServantsPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.servants.reverse().map((servant, index) => {
-                        const route = `/${this.props.region}/servant/${servant.collectionNo}`;
+                    {this.state.servants
+                        .slice()
+                        .reverse()
+                        .map((servant, index) => {
+                            const route = `/${this.props.region}/servant/${servant.collectionNo}`;
 
-                        return <tr key={index}>
-                            <td align={"center"}>
-                                <Link to={route}>
-                                    {servant.collectionNo}
-                                </Link>
-                            </td>
-                            <td align={"center"}>
-                                <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
-                            </td>
-                            <td align={"center"}>
-                                <Link to={route}>
-                                    <FaceIcon type={servant.type}
-                                              rarity={servant.rarity}
-                                              location={servant.face}
-                                              height={50}/>
-                                </Link>
-                            </td>
-                            <td>
-                                <Link to={route}>
-                                    {servant.name}
-                                </Link>
-                            </td>
-                            <td>
-                                <RarityStars rarity={servant.rarity}/>
-                            </td>
-                        </tr>
-                    })}
+                            return <tr key={index}>
+                                <td align={"center"}>
+                                    <Link to={route}>
+                                        {servant.collectionNo}
+                                    </Link>
+                                </td>
+                                <td align={"center"}>
+                                    <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
+                                </td>
+                                <td align={"center"}>
+                                    <Link to={route}>
+                                        <FaceIcon type={servant.type}
+                                                  rarity={servant.rarity}
+                                                  location={servant.face}
+                                                  height={50}/>
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Link to={route}>
+                                        {servant.name}
+                                    </Link>
+                                </td>
+                                <td>
+                                    <RarityStars rarity={servant.rarity}/>
+                                </td>
+                            </tr>
+                        })
+                    }
                     </tbody>
                 </Table>
             </div>
