@@ -1,13 +1,12 @@
-import {faShare} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Col, Row} from "react-bootstrap";
-import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
 import Func from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
 import BuffIcon from "../Component/BuffIcon";
 import Loading from "../Component/Loading";
+import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
+import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import FuncMainData from "./Func/FuncMainData";
 
 interface IProps {
@@ -69,13 +68,7 @@ class FuncPage extends React.Component<IProps, IState> {
                         {func.reverseSkills.map((skill, index) => {
                             return (
                                 <p key={index}>
-                                    <BuffIcon location={skill.icon}/>
-                                    &nbsp;
-                                    {skill.name}
-                                    &nbsp;
-                                    <Link to={`/${this.props.region}/skill/${skill.id}`}>
-                                        <FontAwesomeIcon icon={faShare}/>
-                                    </Link>
+                                    <SkillDescriptor region={this.props.region} skill={skill}/>
                                 </p>
                             )
                         })}
@@ -85,11 +78,7 @@ class FuncPage extends React.Component<IProps, IState> {
                         {func.reverseTds.map((noblePhantasm, index) => {
                             return (
                                 <p key={index}>
-                                    {noblePhantasm.name}
-                                    &nbsp;
-                                    <Link to={`/${this.props.region}/noble-phantasm/${noblePhantasm.id}`}>
-                                        <FontAwesomeIcon icon={faShare}/>
-                                    </Link>
+                                    <NoblePhantasmDescriptor region={this.props.region} noblePhantasm={noblePhantasm}/>
                                 </p>
                             )
                         })}

@@ -1,5 +1,11 @@
 import React from "react";
-import {Renderable} from "./Renderable";
+
+export type Renderable = (
+    JSX.Element
+    | string
+    | number
+    | undefined
+    )
 
 export function asPercent(value: number | undefined, pow: number): string {
     const decimal = (value ?? 0) / Math.pow(10, pow);

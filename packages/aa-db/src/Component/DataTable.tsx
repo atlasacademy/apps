@@ -2,7 +2,7 @@ import React from "react";
 import {Table} from "react-bootstrap";
 
 import "./DataTable.css";
-import {Renderable} from "../Helper/Renderable";
+import {Renderable} from "../Helper/OutputHelper";
 
 interface IProp {
     header?: JSX.Element | string,

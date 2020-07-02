@@ -1,6 +1,5 @@
 import React from "react";
 import {Col, Form, Row} from "react-bootstrap";
-import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
 import EntityType from "../Api/Data/EntityType";
 import NoblePhantasm from "../Api/Data/NoblePhantasm";
@@ -8,6 +7,7 @@ import Region from "../Api/Data/Region";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
+import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
@@ -89,12 +89,12 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                                         || servant.type === EntityType.HEROINE
                                 })
                                 .map((servant, index) => {
-                                    const base = `/${this.props.region}/servant`;
                                     return (
-                                        <Link to={`${base}/${servant.id}`}>
-                                            &nbsp;
-                                            {servant.name}
-                                        </Link>
+                                        <div>
+                                            <ServantDescriptor region={this.props.region}
+                                                               servant={servant}
+                                                               iconHeight={24}/>
+                                        </div>
                                     );
                                 })
                             }

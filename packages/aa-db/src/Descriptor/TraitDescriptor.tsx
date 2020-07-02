@@ -13,7 +13,7 @@ interface IState {
     trait?: Trait;
 }
 
-class TraitDescription extends React.Component<IProps, IState> {
+class TraitDescriptor extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
@@ -49,4 +49,4 @@ class TraitDescription extends React.Component<IProps, IState> {
     }
 }
 
-export default TraitDescription;
+export default TraitDescriptor;

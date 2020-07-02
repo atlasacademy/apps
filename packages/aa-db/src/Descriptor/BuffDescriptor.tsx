@@ -2,21 +2,20 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Buff, {BuffType} from "../Api/Data/Buff";
 import Region from "../Api/Data/Region";
-import {hasTraitId} from "../Helper/TraitHelper";
-import BuffIcon from "./BuffIcon";
+import BuffIcon from "../Component/BuffIcon";
 
 interface IProps {
     region: Region;
     buff: Buff;
 }
 
-class BuffDescription extends React.Component<IProps>{
+class BuffDescriptor extends React.Component<IProps>{
     render() {
         const buff = this.props.buff;
 
         let description = buff.name;
         if (buff.type === BuffType.DONOT_ACT) {
-            if (hasTraitId(buff.vals, 3012)) {
+            if (buff.vals.filter(trait => trait.id === 3012).length > 0) {
                 description = 'Charm';
             }
         }
@@ -29,4 +28,4 @@ class BuffDescription extends React.Component<IProps>{
     }
 }
 
-export default BuffDescription;
+export default BuffDescriptor;

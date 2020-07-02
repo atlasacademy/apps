@@ -1,7 +1,4 @@
-import {faShare} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
 import Buff from "../Api/Data/Buff";
 import Region from "../Api/Data/Region";
@@ -9,7 +6,7 @@ import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
-import {describeFunc} from "../Helper/FuncHelper";
+import FuncDescriptor from "../Descriptor/FuncDescriptor";
 import {joinElements} from "../Helper/OutputHelper";
 
 interface IProps {
@@ -22,8 +19,8 @@ interface IState {
     buff?: Buff;
 }
 
-class BuffPage extends React.Component<IProps, IState>{
-    constructor(props:IProps) {
+class BuffPage extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {
@@ -77,13 +74,9 @@ class BuffPage extends React.Component<IProps, IState>{
                 {buff.reverseFunctions.map((func, index) => {
                     return (
                         <p key={index}>
-                            {describeFunc(this.props.region, func)}
-                            &nbsp;
-                            <Link to={`/${this.props.region}/func/${func.funcId}`}>
-                                <FontAwesomeIcon icon={faShare}/>
-                            </Link>
+                            <FuncDescriptor region={this.props.region} func={func}/>
                         </p>
-                    )
+                    );
                 })}
             </div>
         );
