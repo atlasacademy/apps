@@ -1,9 +1,11 @@
+import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import Func from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
 import BuffIcon from "../Component/BuffIcon";
+import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
@@ -15,6 +17,7 @@ interface IProps {
 }
 
 interface IState {
+    error?: AxiosError;
     loading: boolean;
     func?: Func;
 }
@@ -33,15 +36,24 @@ class FuncPage extends React.Component<IProps, IState> {
     }
 
     async loadFunc() {
-        const func = await Connection.func(this.props.region, this.props.id);
+        try {
+            const func = await Connection.func(this.props.region, this.props.id);
 
-        this.setState({
-            loading: false,
-            func: func,
-        });
+            this.setState({
+                loading: false,
+                func: func,
+            });
+        } catch (e) {
+            this.setState({
+                error: e
+            });
+        }
     }
 
     render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error} />;
+
         if (this.state.loading || !this.state.func)
             return <Loading/>;
 

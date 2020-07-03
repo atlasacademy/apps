@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import {Container} from "react-bootstrap";
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
+import ErrorStatus from "./Component/ErrorStatus";
 import Navigation from "./Component/Navigation";
 import BuffPage from "./Page/BuffPage";
 import CraftEssencePage from "./Page/CraftEssencePage";
@@ -43,58 +44,63 @@ class App extends React.Component<any, IState> {
 
                 <Container key={`${this.state.language}`}>
                     <Switch>
-                        <Route path="/:region(JP|NA)/buff/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/buff/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
                                 key = `${region}-${id}`;
                             return <BuffPage key={key} region={region} id={id}/>;
                         }}/>
-                        <Route path="/:region(JP|NA)/craft-essence/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/craft-essence/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
                                 key = `${region}-${id}`;
                             return <CraftEssencePage key={key} region={region} id={id}/>;
                         }}/>
-                        <Route path="/:region(JP|NA)/func/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/func/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
                                 key = `${region}-${id}`;
                             return <FuncPage key={key} region={region} id={id}/>;
                         }}/>
-                        <Route path="/:region(JP|NA)/noble-phantasm/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/noble-phantasm/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
                                 key = `${region}-${id}`;
                             return <NoblePhantasmPage key={key} region={region} id={id}/>;
                         }}/>
-                        <Route path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
                                 phase = props.match.params.phase,
                                 key = `${region}-${id}-${phase}`;
                             return <QuestPage key={key} region={region} id={id} phase={phase}/>;
                         }}/>
-                        <Route path="/:region(JP|NA)/servant/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/servant/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
                                 key = `${region}-${id}`;
                             return <ServantPage key={key} region={region} id={id}/>;
                         }}/>
-                        <Route path="/:region(JP|NA)/skill/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/skill/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
                                 key = `${region}-${id}`;
                             return <SkillPage key={key} region={region} id={id}/>
                         }}/>
-                        <Route path="/:region(JP|NA)/craft-essences" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/craft-essences" render={props => {
                             const region = props.match.params.region;
                             return <CraftEssencesPage key={region} region={region}/>;
                         }}/>
-                        <Route path="/:region(JP|NA)/servants" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/servants" render={props => {
                             const region = props.match.params.region;
                             return <ServantsPage key={region} region={region}/>;
                         }}/>
-                        {/*<Route exact path="/" component={ServantsPage}/>*/}
+                        <Route path="/" exact={true} render={props => {
+                            return "";
+                        }}/>
+                        <Route path="*" exact={true} render={props => {
+                            return <ErrorStatus/>;
+                        }}/>
                     </Switch>
                 </Container>
             </Router>
