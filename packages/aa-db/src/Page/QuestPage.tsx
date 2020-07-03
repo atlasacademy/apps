@@ -1,8 +1,10 @@
+import {AxiosError} from "axios";
 import React from "react";
 import Connection from "../Api/Connection";
 import Quest from "../Api/Data/Quest";
 import Region from "../Api/Data/Region";
 import DataTable from "../Component/DataTable";
+import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 
@@ -13,6 +15,7 @@ interface IProps {
 }
 
 interface IState {
+    error?: AxiosError;
     loading: boolean;
     quest?: Quest;
 }
@@ -31,15 +34,24 @@ class QuestPage extends React.Component<IProps, IState> {
     }
 
     async loadQuest() {
-        const quest = await Connection.quest(this.props.region, this.props.id, this.props.phase);
+        try {
+            const quest = await Connection.quest(this.props.region, this.props.id, this.props.phase);
 
-        this.setState({
-            loading: false,
-            quest: quest,
-        });
+            this.setState({
+                loading: false,
+                quest: quest,
+            });
+        } catch (e) {
+            this.setState({
+                error: e
+            });
+        }
     }
 
     render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error} />;
+
         if (this.state.loading || !this.state.quest)
             return <Loading/>;
 

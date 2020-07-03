@@ -1,3 +1,4 @@
+import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import Connection from "../Api/Connection";
@@ -5,6 +6,7 @@ import BasicListEntity from "../Api/Data/BasicListEntity";
 import Region from "../Api/Data/Region";
 import Servant from "../Api/Data/Servant";
 import TraitMap from "../Api/Data/TraitMap";
+import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantMiscData from "./Servant/ServantMiscData";
@@ -20,6 +22,7 @@ interface IProps {
 }
 
 interface IState {
+    error?: AxiosError;
     loading: boolean;
     id: number;
     servants: BasicListEntity[];
@@ -42,20 +45,29 @@ class ServantPage extends React.Component<IProps, IState> {
     }
 
     async loadServant() {
-        let [servants, servant] = await Promise.all<BasicListEntity[], Servant, TraitMap>([
-            Connection.servantList(this.props.region),
-            Connection.servant(this.props.region, this.state.id),
-            Connection.traitMap(this.props.region)
-        ]);
+        try {
+            let [servants, servant] = await Promise.all<BasicListEntity[], Servant, TraitMap>([
+                Connection.servantList(this.props.region),
+                Connection.servant(this.props.region, this.state.id),
+                Connection.traitMap(this.props.region)
+            ]);
 
-        this.setState({
-            loading: false,
-            servants,
-            servant
-        });
+            this.setState({
+                loading: false,
+                servants,
+                servant
+            });
+        } catch (e) {
+            this.setState({
+                error: e
+            });
+        }
     }
 
     render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error}/>;
+
         if (this.state.loading || !this.state.servant)
             return <Loading/>;
 

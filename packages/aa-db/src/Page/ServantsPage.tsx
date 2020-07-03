@@ -1,3 +1,4 @@
+import {AxiosError} from "axios";
 import React from "react";
 import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -6,6 +7,7 @@ import BasicListEntity from "../Api/Data/BasicListEntity";
 import ClassName from "../Api/Data/ClassName";
 import Region from "../Api/Data/Region";
 import ClassIcon from "../Component/ClassIcon";
+import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
@@ -33,6 +35,7 @@ interface IProps {
 }
 
 interface IState {
+    error?: AxiosError;
     loading: boolean;
     servants: BasicListEntity[];
     activeClassFilters: ClassName[];
@@ -53,12 +56,18 @@ class ServantsPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        Connection.servantList(this.props.region).then(servantList => {
-            this.setState({
-                loading: false,
-                servants: servantList
+        try {
+            Connection.servantList(this.props.region).then(servantList => {
+                this.setState({
+                    loading: false,
+                    servants: servantList
+                });
             });
-        });
+        } catch (e) {
+            this.setState({
+                error: e
+            });
+        }
     }
 
     private isClassFilterActive(className: ClassName): boolean {
@@ -157,6 +166,9 @@ class ServantsPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error}/>;
+
         if (this.state.loading)
             return <Loading/>;
 
