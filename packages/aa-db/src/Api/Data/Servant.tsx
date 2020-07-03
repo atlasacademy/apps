@@ -25,13 +25,6 @@ interface Servant {
     starGen: number;
     instantDeathChance: number;
     cards: Card[];
-    npGain: {
-        buster?: number;
-        arts?: number;
-        quick?: number;
-        extra?: number;
-        defence?: number;
-    }
     hitsDistribution: {
         buster?: number[];
         arts?: number[];

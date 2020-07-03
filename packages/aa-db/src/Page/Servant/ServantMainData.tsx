@@ -16,7 +16,7 @@ class ServantMainData extends React.Component<IProps> {
         return (
             <div>
                 <h1>
-                    <ClassIcon className={servant.className} rarity={servant.rarity}/>
+                    <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
                     &nbsp;
                     {servant.name}
                 </h1>

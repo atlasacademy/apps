@@ -15,5 +15,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push(dataVal.Turn === 1 ? '(1 Turn)' : `(${dataVal.Turn} Turns)`);
     } else if (dataVal.Count && dataVal.Count > 0) {
         parts.push(dataVal.Count === 1 ? '(1 Time)' : `(${dataVal.Count} Times)`);
+    } else {
+        section.showing = false;
     }
 }

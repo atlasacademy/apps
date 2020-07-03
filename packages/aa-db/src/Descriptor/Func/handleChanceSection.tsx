@@ -10,5 +10,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push((dataVal.Rate / 10) + '% Chance to');
     } else if (!dataVal.Rate && func.funcType !== FuncType.NONE) {
         parts.push('Chance to');
+    } else {
+        section.showing = false;
     }
 }

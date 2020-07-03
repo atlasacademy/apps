@@ -9,6 +9,11 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         isLevel = funcUpdatesByLevel(func),
         isOvercharge = funcUpdatesByOvercharge(func);
 
+    if (!isLevel && !isOvercharge) {
+        section.showing = false;
+        return;
+    }
+
     if (isLevel) {
         parts.push('<LEVEL>');
     }
