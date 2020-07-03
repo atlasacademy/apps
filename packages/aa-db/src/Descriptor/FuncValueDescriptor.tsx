@@ -42,6 +42,15 @@ class FuncValueDescriptor extends React.Component<IProps> {
             }
         }
 
+        if (dataVal.Value2 !== undefined || dataVal.SkillLV !== undefined) {
+            switch (func.funcType) {
+                case FuncType.ADD_STATE:
+                case FuncType.ADD_STATE_SHORT:
+                    parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
+                    break;
+            }
+        }
+
         if (dataVal.Correction !== undefined) {
             switch (func.funcType) {
                 case FuncType.DAMAGE_NP_INDIVIDUAL:

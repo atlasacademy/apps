@@ -17,19 +17,23 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     }
 
     if (func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION) {
-        section.preposition = 'that triggers';
+        section.preposition = undefined;
+        parts.push('that triggers');
         parts.push(
             <Link to={`/${region}/skill/${dataVal.Value}`}>
                 [Skill: {dataVal.Value}]
             </Link>
-        )
+        );
+        parts.push('on attack');
     } else if (func.buffs[0]?.type === BuffType.NPATTACK_PREV_BUFF) {
-        section.preposition = 'that triggers';
+        section.preposition = undefined;
+        parts.push('that triggers');
         parts.push(
             <Link to={`/${region}/skill/${dataVal.SkillID}`}>
                 [Skill: {dataVal.SkillID}]
             </Link>
-        )
+        );
+        parts.push('on noble phantasm')
     } else if (func.buffs[0]) {
         parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
     } else {
