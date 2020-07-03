@@ -8,13 +8,16 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     const section = sections.affects,
         parts = section.parts;
 
-    if (func.functvals.length) {
-        parts.push('for all');
-        func.functvals.forEach((trait, index) => {
-            if (index > 0)
-                parts.push('&');
-
-            parts.push(<TraitDescriptor region={region} trait={trait}/>);
-        });
+    if (!func.functvals.length) {
+        section.showing = false;
+        return;
     }
+
+    parts.push('for all');
+    func.functvals.forEach((trait, index) => {
+        if (index > 0)
+            parts.push('&');
+
+        parts.push(<TraitDescriptor region={region} trait={trait}/>);
+    });
 }
