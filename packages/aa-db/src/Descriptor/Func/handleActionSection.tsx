@@ -1,4 +1,5 @@
 import React from "react";
+import {BuffType} from "../../Api/Data/Buff";
 import Func, {DataVal, FuncType} from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
 import BuffDescriptor from "../BuffDescriptor";
@@ -19,6 +20,12 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         });
 
         sections.target.preposition = 'on';
+        if (
+            func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION
+            || func.buffs[0]?.type === BuffType.NPATTACK_PREV_BUFF
+        ) {
+            sections.target.preposition = 'for';
+        }
     } else if (func.funcType === FuncType.SUB_STATE) {
         parts.push('Remove effects');
 

@@ -30,6 +30,14 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.DOWN_TOLERANCE:
                 value = asPercent(this.props.dataVal.Value, 1);
                 break;
+            case BuffType.COMMANDATTACK_FUNCTION:
+                if (this.props.dataVal.Value2)
+                    value = 'Lv. ' + this.props.dataVal.Value2;
+                break;
+            case BuffType.NPATTACK_PREV_BUFF:
+                if (this.props.dataVal.SkillLV)
+                    value = 'Lv. ' + this.props.dataVal.SkillLV;
+                break;
             default:
                 value = this.props.dataVal.Value?.toString() ?? "";
         }
