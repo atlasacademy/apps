@@ -1,3 +1,4 @@
+import {AxiosError} from "axios";
 import React from "react";
 import {Col, Form, Row} from "react-bootstrap";
 import Connection from "../Api/Connection";
@@ -5,6 +6,7 @@ import EntityType from "../Api/Data/EntityType";
 import NoblePhantasm from "../Api/Data/NoblePhantasm";
 import Region from "../Api/Data/Region";
 import DataTable from "../Component/DataTable";
+import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
@@ -20,6 +22,7 @@ interface IProps {
 }
 
 interface IState {
+    error?: AxiosError;
     loading: boolean;
     noblePhantasm?: NoblePhantasm;
     level: number;
@@ -42,12 +45,18 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
     }
 
     async loadNp() {
-        const noblePhantasm = await Connection.noblePhantasm(this.props.region, this.props.id);
+        try {
+            const noblePhantasm = await Connection.noblePhantasm(this.props.region, this.props.id);
 
-        this.setState({
-            loading: false,
-            noblePhantasm: noblePhantasm,
-        });
+            this.setState({
+                loading: false,
+                noblePhantasm: noblePhantasm,
+            });
+        } catch (e) {
+            this.setState({
+                error: e
+            });
+        }
     }
 
     private changeLevel(level: number) {
@@ -63,6 +72,9 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error} />;
+
         if (this.state.loading || !this.state.noblePhantasm)
             return <Loading/>;
 

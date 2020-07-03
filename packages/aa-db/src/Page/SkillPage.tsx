@@ -1,3 +1,4 @@
+import {AxiosError} from "axios";
 import React from "react";
 import {Form} from "react-bootstrap";
 import Connection from "../Api/Connection";
@@ -8,6 +9,7 @@ import Servant from "../Api/Data/Servant";
 import Skill from "../Api/Data/Skill";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
+import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
@@ -24,6 +26,7 @@ interface IProps {
 }
 
 interface IState {
+    error?: AxiosError;
     loading: boolean;
     skill?: Skill;
     levels: number;
@@ -46,13 +49,19 @@ class SkillPage extends React.Component<IProps, IState> {
     }
 
     async loadSkill() {
-        const skill = await Connection.skill(this.props.region, this.props.id);
+        try {
+            const skill = await Connection.skill(this.props.region, this.props.id);
 
-        this.setState({
-            loading: false,
-            skill: skill,
-            levels: skill.functions[0].svals?.length ?? 1,
-        });
+            this.setState({
+                loading: false,
+                skill: skill,
+                levels: skill.functions[0].svals?.length ?? 1,
+            });
+        } catch (e) {
+            this.setState({
+                error: e
+            });
+        }
     }
 
     private changeLevel(level: number) {
@@ -62,6 +71,9 @@ class SkillPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error}/>;
+
         if (this.state.loading || !this.state.skill)
             return <Loading/>;
 

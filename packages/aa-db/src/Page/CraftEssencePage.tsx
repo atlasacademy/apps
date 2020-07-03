@@ -1,3 +1,4 @@
+import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row} from "react-bootstrap";
 import Connection from "../Api/Connection";
@@ -5,6 +6,7 @@ import BasicListEntity from "../Api/Data/BasicListEntity";
 import CraftEssence from "../Api/Data/CraftEssence";
 import Region from "../Api/Data/Region";
 import TraitMap from "../Api/Data/TraitMap";
+import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import CraftEssenceMainData from "./CraftEssence/CraftEssenceMainData";
 import CraftEssencePicker from "./CraftEssence/CraftEssencePicker";
@@ -17,6 +19,7 @@ interface IProps {
 }
 
 interface IState {
+    error?: AxiosError;
     loading: boolean;
     id: number;
     craftEssences: BasicListEntity[];
@@ -35,24 +38,33 @@ class CraftEssencePage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        this.loadServant();
+        this.loadCraftEssence();
     }
 
-    async loadServant() {
-        let [craftEssences, craftEssence] = await Promise.all<BasicListEntity[], CraftEssence, TraitMap>([
-            Connection.craftEssenceList(this.props.region),
-            Connection.craftEssence(this.props.region, this.state.id),
-            Connection.traitMap(this.props.region)
-        ]);
+    async loadCraftEssence() {
+        try {
+            let [craftEssences, craftEssence] = await Promise.all<BasicListEntity[], CraftEssence, TraitMap>([
+                Connection.craftEssenceList(this.props.region),
+                Connection.craftEssence(this.props.region, this.state.id),
+                Connection.traitMap(this.props.region)
+            ]);
 
-        this.setState({
-            loading: false,
-            craftEssences,
-            craftEssence
-        });
+            this.setState({
+                loading: false,
+                craftEssences,
+                craftEssence
+            });
+        } catch (e) {
+            this.setState({
+                error: e
+            });
+        }
     }
 
     render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error}/>;
+
         if (this.state.loading || !this.state.craftEssence)
             return <Loading/>;
 

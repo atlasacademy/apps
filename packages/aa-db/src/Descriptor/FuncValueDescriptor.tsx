@@ -56,7 +56,12 @@ class FuncValueDescriptor extends React.Component<IProps> {
         if (!parts.length)
             return <span>-</span>;
 
-        return <span>{joinElements(parts, ' + ')}</span>;
+        return <span>
+            {joinElements(parts, ' + ')
+                .map((element, index) => {
+                    return <React.Fragment key={index}>{element}</React.Fragment>;
+                })}
+        </span>;
     }
 }
 

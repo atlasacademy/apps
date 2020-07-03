@@ -1,9 +1,11 @@
+import {AxiosError} from "axios";
 import React from "react";
 import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
 import BasicListEntity from "../Api/Data/BasicListEntity";
 import Region from "../Api/Data/Region";
+import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
@@ -19,6 +21,7 @@ interface IProps {
 }
 
 interface IState {
+    error?: AxiosError;
     loading: boolean;
     craftEssences: BasicListEntity[];
     activeRarityFilters: number[];
@@ -36,12 +39,18 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        Connection.craftEssenceList(this.props.region).then(list => {
-            this.setState({
-                loading: false,
-                craftEssences: list
+        try {
+            Connection.craftEssenceList(this.props.region).then(list => {
+                this.setState({
+                    loading: false,
+                    craftEssences: list
+                });
             });
-        });
+        } catch (e) {
+            this.setState({
+                error: e
+            });
+        }
     }
 
     private toggleRarityFilter(rarity: number): void {
@@ -74,6 +83,9 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error}/>;
+
         if (this.state.loading)
             return <Loading/>;
 
