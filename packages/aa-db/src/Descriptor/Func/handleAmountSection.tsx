@@ -5,6 +5,7 @@ import Region from "../../Api/Data/Region";
 import BuffValueDescriptor from "../BuffValueDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
 import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
+import TraitDescriptor from "../TraitDescriptor";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
@@ -16,7 +17,11 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         return;
     }
 
-    if (func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION) {
+    if (func.buffs[0]?.type === BuffType.ADD_INDIVIDUALITY) {
+        parts.push(
+            <TraitDescriptor region={region} trait={dataVal.Value}/>
+        );
+    } else if (func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION) {
         section.preposition = undefined;
         parts.push('that triggers');
         parts.push(
@@ -40,6 +45,6 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         const prunedValues = {...dataVal};
         prunedValues.Rate = undefined;
 
-        parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal}/>);
+        parts.push(<FuncValueDescriptor region={region} func={func} dataVal={prunedValues}/>);
     }
 }

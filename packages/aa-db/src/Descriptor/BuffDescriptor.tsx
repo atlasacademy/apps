@@ -7,13 +7,17 @@ import {joinElements} from "../Helper/OutputHelper";
 import TraitDescriptor from "./TraitDescriptor";
 
 const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
+    {up: BuffType.UP_ATK, down: BuffType.DOWN_ATK, description: "ATK"},
     {up: BuffType.UP_CHAGETD, down: undefined, description: "Overcharge"},
     {up: BuffType.UP_COMMANDATK, down: BuffType.DOWN_COMMANDATK, description: "ATK"},
     {up: BuffType.UP_CRITICALDAMAGE, down: BuffType.DOWN_CRITICALDAMAGE, description: "Critical"},
+    {up: BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN, down: BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN, description: "Critical Rate Taken"},
     {up: BuffType.UP_DAMAGE, down: BuffType.DOWN_DAMAGE, description: "SP.DMG"},
     {up: BuffType.UP_DEFENCE, down: BuffType.DOWN_DEFENCE, description: "DEF"},
+    {up: BuffType.UP_DEFENCECOMMANDALL, down: BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},
     {up: BuffType.UP_DROPNP, down: BuffType.DOWN_DROPNP, description: "NP Gain"},
     {up: BuffType.UP_GRANT_INSTANTDEATH, down: BuffType.DOWN_GRANT_INSTANTDEATH, description: "Death Chance"},
+    {up: BuffType.UP_NPDAMAGE, down: BuffType.DOWN_NPDAMAGE, description: "NP Damage"},
     {up: BuffType.UP_STARWEIGHT, down: BuffType.DOWN_STARWEIGHT, description: "Star Weight"},
 ];
 
@@ -25,7 +29,9 @@ const traitDescriptions = new Map<number, string>([
 
 const typeDescriptions = new Map<BuffType, string>([
     [BuffType.AVOID_INSTANTDEATH, 'Immune to Death'],
+    [BuffType.AVOID_STATE, 'Immunity'],
     [BuffType.ADD_DAMAGE, 'Damage Plus'],
+    [BuffType.ADD_INDIVIDUALITY, 'Add Trait'],
     [BuffType.AVOIDANCE, 'Evade'],
     [BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
     [BuffType.INVINCIBLE, 'Invincible'],
