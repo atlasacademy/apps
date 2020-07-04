@@ -3,6 +3,16 @@ import Connection from "../Api/Connection";
 import Region from "../Api/Data/Region";
 import Trait from "../Api/Data/Trait";
 
+const traitDescriptions = new Map<number, string>([
+    [202, "Human Attribute"],
+    [1000, "Servant"],
+    [2019, "Demonic"],
+    [3005, "Debuff"],
+    [3007, "Buff:Defensive"],
+    [3015, "Burn"],
+    [4001, "Arts Card"],
+]);
+
 interface IProps {
     region: Region;
     trait: Trait | number;
@@ -37,13 +47,24 @@ class TraitDescriptor extends React.Component<IProps, IState> {
             });
     }
 
+    private getDescription() : string {
+        let description;
+
+        description = traitDescriptions.get(this.state.id);
+        if (description) {
+            return description;
+        }
+
+        if (this.state.trait && this.state.trait.name !== 'unknown')
+            return this.state.trait.name;
+
+        return `unknown(${this.state.id})`;
+    }
+
     render() {
         return (
             <span>
-                [
-                {this.state.trait ? this.state.trait.name : 'unknown'}
-                {this.state.trait === undefined || this.state.trait.name === 'unknown' ? `(${this.state.id})` : null}
-                ]
+                [{this.getDescription()}]
             </span>
         );
     }

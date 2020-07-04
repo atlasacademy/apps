@@ -22,7 +22,6 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push(
             <SkillReferenceDescriptor region={region} id={dataVal.Value}/>
         );
-        parts.push('on attack');
     } else if (func.buffs[0]?.type === BuffType.NPATTACK_PREV_BUFF) {
         if (dataVal.SkillID === undefined) {
             section.showing = false;
@@ -34,7 +33,6 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push(
             <SkillReferenceDescriptor region={region} id={dataVal.SkillID}/>
         );
-        parts.push('on noble phantasm')
     } else if (func.buffs[0]) {
         parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
     } else {
