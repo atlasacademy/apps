@@ -2,6 +2,7 @@ import React from "react";
 import {BuffType} from "../../Api/Data/Buff";
 import Func, {DataVal, FuncType} from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
+import {joinElements} from "../../Helper/OutputHelper";
 import BuffDescriptor from "../BuffDescriptor";
 import TraitDescriptor from "../TraitDescriptor";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
@@ -60,6 +61,31 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         }
 
         sections.amount.preposition = 'for';
+    } else if (func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
+        let additional = [];
+
+        if (dataVal.TargetList) {
+            additional.push('to targets with');
+            additional.push(<TraitDescriptor region={region} trait={dataVal.TargetList}/>);
+        }
+
+        if (dataVal.ParamAddMaxCount) {
+            additional.push(`[Limit ${dataVal.ParamAddMaxCount}]`);
+        }
+
+        parts.push('Deal damage');
+
+        if (additional.length) {
+            parts.push(<React.Fragment>
+                (additional
+                {' '}
+                {joinElements(additional, ' ')
+                    .map((element, index) => {
+                        return <React.Fragment key={index}>{element}</React.Fragment>;
+                    })
+                })
+            </React.Fragment>)
+        }
     } else if (func.funcType === FuncType.DAMAGE_NP_PIERCE) {
         parts.push('Deal damage that pierces defence');
 

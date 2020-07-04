@@ -63,6 +63,11 @@ export enum FuncType {
     ENEMY_ENCOUNT_COPY_RATE_UP = "enemyEncountCopyRateUp",
     ENEMY_ENCOUNT_RATE_UP = "enemyEncountRateUp",
     ENEMY_PROB_DOWN = "enemyProbDown",
+    GET_REWARD_GIFT = "getRewardGift",
+    SEND_SUPPORT_FRIEND_POINT = "sendSupportFriendPoint",
+    MOVE_POSITION = "movePosition",
+    REVIVAL = "revival",
+    DAMAGE_NP_INDIVIDUAL_SUM = "damageNpIndividualSum",
 }
 
 export enum FuncTargetType {
@@ -136,6 +141,25 @@ export enum DataValField {
     TARGET_LIST = "TargetList",
     OPPONENT_ONLY = "OpponentOnly",
     TARGET_RARITY_LIST = "TargetRarityList",
+    DEPEND_FUNC_ID = "DependFuncId",
+    DEPEND_FUNC_VALS = "DependFuncVals",
+    INVALID_HIDE = "InvalidHide",
+    OUT_ENEMY_NPC_ID = "OutEnemyNpcId",
+    IN_ENEMY_NPC_ID = "InEnemyNpcId",
+    OUT_ENEMY_POSITION = "OutEnemyPosition",
+    IGNORE_INDIVIDUALITY = "IgnoreIndividuality",
+    STAR_HIGHER = "StarHigher",
+    CHANGE_TD_COMMAND_TYPE = "ChangeTDCommandType",
+    SHIFT_NPC_ID = "ShiftNpcId",
+    DISPLAY_LAST_FUNC_INVALID_TYPE = "DisplayLastFuncInvalidType",
+    AND_CHECK_INDIVIDUALITY_LIST = "AndCheckIndividualityList",
+    WIN_BATTLE_NOT_RELATED_SURVIVAL_STATUS = "WinBattleNotRelatedSurvivalStatus",
+    FORCE_SELF_INSTANT_DEATH = "ForceSelfInstantDeath",
+    CHANGE_MAX_BREAK_GAUGE = "ChangeMaxBreakGauge",
+    PARAM_ADD_MAX_VALUE = "ParamAddMaxValue",
+    PARAM_ADD_MAX_COUNT = "ParamAddMaxCount",
+    LOSS_HP_NO_CHANGE_DAMAGE = "LossHpNoChangeDamage",
+    INCLUDE_PASSIVE_INDIVIDUALITY = "IncludePassiveIndividuality",
 }
 
 export type DataVal = {

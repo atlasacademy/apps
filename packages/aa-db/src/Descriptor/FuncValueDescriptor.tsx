@@ -29,8 +29,9 @@ class FuncValueDescriptor extends React.Component<IProps> {
                     break;
                 case FuncType.DAMAGE_NP:
                 case FuncType.DAMAGE_NP_INDIVIDUAL:
-                case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+                case FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                 case FuncType.DAMAGE_NP_PIERCE:
+                case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                     parts.push(asPercent(dataVal.Value, 1));
                     break;
                 case FuncType.GAIN_NP:
@@ -48,6 +49,8 @@ class FuncValueDescriptor extends React.Component<IProps> {
                 case FuncType.ADD_STATE_SHORT:
                     parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
                     break;
+                case FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
+                    parts.push("additional " + asPercent(dataVal.Value2, 1));
             }
         }
 
@@ -56,6 +59,9 @@ class FuncValueDescriptor extends React.Component<IProps> {
                 case FuncType.DAMAGE_NP_INDIVIDUAL:
                 case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                     parts.push(asPercent(dataVal.Correction, 1));
+                    break;
+                case FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
+                    parts.push("(" + asPercent(dataVal.Correction, 1) + " x count)");
                     break;
                 default:
                     parts.push(dataVal.Correction.toString());
