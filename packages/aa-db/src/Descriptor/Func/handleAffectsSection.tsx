@@ -1,5 +1,5 @@
 import React from "react";
-import Func, {DataVal, FuncType} from "../../Api/Data/Func";
+import Func, {DataVal} from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
 import TraitDescriptor from "../TraitDescriptor";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
@@ -9,19 +9,13 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts = section.parts;
 
     if (func.functvals.length) {
-        parts.push('for all');
-        func.functvals.forEach((trait, index) => {
-            if (index > 0)
-                parts.push('&');
+        parts.push('for');
 
-            parts.push(<TraitDescriptor region={region} trait={trait}/>);
-        });
-    } else if (
-        (func.funcType === FuncType.ADD_STATE || func.funcType === FuncType.ADD_STATE_SHORT)
-        && func.buffs[0] && func.buffs[0].ckSelfIndv.length
-    ) {
-        parts.push('of');
-        func.buffs[0].ckSelfIndv.forEach((trait, index) => {
+        if (func.functvals.length > 1) {
+            parts.push('all');
+        }
+
+        func.functvals.forEach((trait, index) => {
             if (index > 0)
                 parts.push('&');
 

@@ -40,7 +40,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             });
         }
 
-        sections.target.preposition = 'for';
+        sections.target.preposition = 'on';
     } else if (func.funcType === FuncType.DAMAGE_NP) {
         parts.push('Deal damage');
 
@@ -69,9 +69,9 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
 
         sections.target.preposition = 'from';
     } else if (func.funcType === FuncType.GAIN_HP) {
-        parts.push('Gain HP');
+        parts.push('Restore HP');
 
-        sections.target.preposition = 'on';
+        sections.target.preposition = 'for';
     } else if (func.funcType === FuncType.GAIN_NP) {
         parts.push('Charge NP');
 
