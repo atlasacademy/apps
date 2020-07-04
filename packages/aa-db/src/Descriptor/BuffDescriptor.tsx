@@ -34,6 +34,7 @@ const typeDescriptions = new Map<BuffType, string>([
     [BuffType.ADD_INDIVIDUALITY, 'Add Trait'],
     [BuffType.AVOIDANCE, 'Evade'],
     [BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
+    [BuffType.GUTS, 'Guts'],
     [BuffType.INVINCIBLE, 'Invincible'],
     [BuffType.REGAIN_HP, 'HP Per Turn'],
     [BuffType.SUB_SELFDAMAGE, 'Damage Cut'],
@@ -195,6 +196,10 @@ class BuffDescriptor extends React.Component<IProps> {
         } else if (buff.type === BuffType.COMMANDATTACK_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill on {this.getTraitFilters()} attacks
+            </React.Fragment>;
+        } else if (buff.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION) {
+            description = <React.Fragment>
+                Trigger Skill before {this.getTraitFilters()} attacks
             </React.Fragment>;
         } else if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
             description = <React.Fragment>

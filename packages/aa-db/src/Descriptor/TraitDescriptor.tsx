@@ -51,6 +51,7 @@ const traitDescriptions = new Map<number, string>([
     [4002, "Card:Buster"],
     [4003, "Card:Quick"],
     [4004, "Card:Extra"],
+    [4008, "Player Card"],
     [4100, "Critical Hit"],
 ]);
 

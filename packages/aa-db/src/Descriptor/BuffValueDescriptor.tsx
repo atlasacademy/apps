@@ -35,6 +35,7 @@ class BuffValueDescriptor extends React.Component<IProps>{
                 value = asPercent(this.props.dataVal.Value, 1);
                 break;
             case BuffType.COMMANDATTACK_FUNCTION:
+            case BuffType.COMMANDATTACK_BEFORE_FUNCTION:
                 if (this.props.dataVal.Value2)
                     value = 'Lv. ' + this.props.dataVal.Value2;
                 break;

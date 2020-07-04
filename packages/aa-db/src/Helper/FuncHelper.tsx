@@ -107,7 +107,10 @@ export function getRelatedSkillIds(func: Func): number[] {
         return [];
 
     const buff = func.buffs[0];
-    if (buff.type === BuffType.COMMANDATTACK_FUNCTION) {
+    if (
+        buff.type === BuffType.COMMANDATTACK_FUNCTION
+        || buff.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION
+    ) {
         const dataVals = getDataValList(func),
             dataVal = dataVals[0];
 
@@ -119,30 +122,6 @@ export function getRelatedSkillIds(func: Func): number[] {
             dataVal = dataVals[0];
 
         return dataVal.SkillID ? [dataVal.SkillID] : [];
-    }
-
-    return [];
-}
-
-export function getRelatedSkillLevels(func: Func): number[][] {
-    if (func.funcType !== FuncType.ADD_STATE && func.funcType !== FuncType.ADD_STATE_SHORT)
-        return [];
-
-    const buff = func.buffs[0];
-    if (buff.type === BuffType.COMMANDATTACK_FUNCTION) {
-        const dataVals = getDataValList(func);
-
-        return [
-            dataVals.map(dataVal => dataVal.Value2 ?? 1)
-        ];
-    }
-
-    if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
-        const dataVals = getDataValList(func);
-
-        return [
-            dataVals.map(dataVal => dataVal.SkillLV ?? 1)
-        ]
     }
 
     return [];
