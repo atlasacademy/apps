@@ -21,11 +21,15 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.DOWN_COMMANDALL:
             case BuffType.UP_CRITICALDAMAGE:
             case BuffType.DOWN_CRITICALDAMAGE:
+            case BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN:
+            case BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN:
             case BuffType.UP_DEFENCE:
             case BuffType.DOWN_DEFENCE:
             case BuffType.UP_DROPNP:
             case BuffType.DOWN_DROPNP:
             case BuffType.UP_HATE:
+            case BuffType.UP_NPDAMAGE:
+            case BuffType.DOWN_NPDAMAGE:
             case BuffType.UP_TOLERANCE:
             case BuffType.DOWN_TOLERANCE:
                 value = asPercent(this.props.dataVal.Value, 1);

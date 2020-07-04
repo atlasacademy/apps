@@ -23,6 +23,13 @@ class FuncMainData extends React.Component<IProps> {
                 "Target": func.funcTargetType,
                 "Affects Players/Enemies": func.funcTargetTeam,
                 "Popup Text": func.funcPopupText,
+                "Target Traits": (
+                    <div>
+                        {func.functvals.map((trait, index) => {
+                            return <TraitDescriptor key={index} region={this.props.region} trait={trait}/>;
+                        })}
+                    </div>
+                ),
                 "Affects Traits": (
                     <div>
                         {func.traitVals?.map((trait, index) => {
