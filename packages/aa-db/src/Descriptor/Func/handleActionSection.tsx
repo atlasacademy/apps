@@ -94,6 +94,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('Drain Charge');
 
         sections.target.preposition = 'from';
+    } else if (func.funcType === FuncType.FORCE_INSTANT_DEATH) {
+        parts.push('Force Instant Death');
+
+        sections.target.preposition = 'on';
     } else if (func.funcType === FuncType.GAIN_HP) {
         parts.push('Restore HP');
 

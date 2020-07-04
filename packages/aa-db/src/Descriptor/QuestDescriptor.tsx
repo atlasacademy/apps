@@ -23,7 +23,7 @@ class QuestDescriptor extends React.Component<IProps>{
                 type = 'Strengthening';
                 break;
             default:
-                type = 'Main Quest';
+                type = 'Main';
                 break;
         }
 

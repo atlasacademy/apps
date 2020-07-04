@@ -23,9 +23,9 @@ const targetMap = new Map<FuncTargetType, string>([
     [FuncTargetType.PTSELECT_SUB, 'reserve party member'],
     // PT_ONE_ANOTHER_RANDOM
     [FuncTargetType.PT_ONE_ANOTHER_RANDOM, 'other random party member'],
-    [FuncTargetType.PT_SELF_ANOTHER_RANDOM, 'other random party member (or self)'],
+    [FuncTargetType.PT_SELF_ANOTHER_RANDOM, 'other random party member (except self)'],
     [FuncTargetType.ENEMY_ONE_ANOTHER_RANDOM, 'other random enemy'],
-    [FuncTargetType.PT_SELF_ANOTHER_FIRST, 'first other party member (or self)'],
+    [FuncTargetType.PT_SELF_ANOTHER_FIRST, 'first other party member (except self)'],
     // PT_SELF_BEFORE
     // PT_SELF_AFTER
     // PT_SELF_ANOTHER_LAST

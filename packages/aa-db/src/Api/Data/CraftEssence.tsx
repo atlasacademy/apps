@@ -1,6 +1,7 @@
 import AssetCollection from "./AssetCollection";
 import ClassName from "./ClassName";
 import EntityType from "./EntityType";
+import Profile from "./Profile";
 import Skill from "./Skill";
 
 interface CraftEssence {
@@ -21,6 +22,7 @@ interface CraftEssence {
     atkGrowth: number[];
     hpGrowth: number[];
     skills: Skill[];
+    profile: Profile;
 }
 
 export default CraftEssence;

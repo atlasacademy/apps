@@ -1,6 +1,6 @@
 import {AxiosError} from "axios";
 import React from "react";
-import {Col, Row} from "react-bootstrap";
+import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import BasicListEntity from "../Api/Data/BasicListEntity";
 import CraftEssence from "../Api/Data/CraftEssence";
@@ -11,6 +11,7 @@ import Loading from "../Component/Loading";
 import CraftEssenceMainData from "./CraftEssence/CraftEssenceMainData";
 import CraftEssencePicker from "./CraftEssence/CraftEssencePicker";
 import CraftEssencePortrait from "./CraftEssence/CraftEssencePortrait";
+import CraftEssenceProfileComments from "./CraftEssence/CraftEssenceProfileComments";
 import CraftEssenceSkill from "./CraftEssence/CraftEssenceSkill";
 
 interface IProps {
@@ -68,6 +69,8 @@ class CraftEssencePage extends React.Component<IProps, IState> {
         if (this.state.loading || !this.state.craftEssence)
             return <Loading/>;
 
+        const craftEssence = this.state.craftEssence;
+
         return (
             <div>
                 <CraftEssencePicker region={this.props.region}
@@ -84,18 +87,27 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
 
-                <br/>
-                <Row>
-                    {this.state.craftEssence.skills
-                        .filter(skill => skill.num === 1)
-                        .map((skill, index) => {
-                            return (
-                                <Col key={index} xs={12} lg={6}>
-                                    <CraftEssenceSkill region={this.props.region} skill={skill}/>
-                                </Col>
-                            );
-                        })}
-                </Row>
+                <Tabs id={'ce-tabs'} defaultActiveKey={'effects'} transition={false}>
+                    <Tab eventKey={'effects'} title={'Effects'}>
+                        <br/>
+                        <Row>
+                            {this.state.craftEssence.skills
+                                .filter(skill => skill.num === 1)
+                                .map((skill, index) => {
+                                    return (
+                                        <Col key={index} xs={12} lg={craftEssence.skills.length > 1 ? 6 : 12}>
+                                            <CraftEssenceSkill region={this.props.region} skill={skill}/>
+                                        </Col>
+                                    );
+                                })}
+                        </Row>
+                    </Tab>
+                    <Tab eventKey={'profile'} title={'Profile'}>
+                        <br/>
+                        <CraftEssenceProfileComments region={this.props.region}
+                                                     comments={craftEssence.profile.comments}/>
+                    </Tab>
+                </Tabs>
             </div>
         );
     }
