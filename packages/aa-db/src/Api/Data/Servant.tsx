@@ -5,6 +5,7 @@ import Gender from "./Gender";
 import AssetCollection from "./AssetCollection";
 import NoblePhantasm from "./NoblePhantasm";
 import EntityType from "./EntityType";
+import Profile from "./Profile";
 import Skill from "./Skill";
 import Trait from "./Trait";
 
@@ -42,9 +43,9 @@ interface Servant {
     // ascensionMaterials
     // skillMaterials
     skills: Skill[];
-    // classPassive
+    classPassive: Skill[],
     noblePhantasms: NoblePhantasm[];
-    // profile
+    profile: Profile,
 }
 
 export default Servant;
