@@ -1,10 +1,10 @@
 import React from "react";
-import {Link} from "react-router-dom";
 import {BuffType} from "../../Api/Data/Buff";
 import Func, {DataVal} from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
 import BuffValueDescriptor from "../BuffValueDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
+import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
@@ -20,18 +20,19 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         section.preposition = undefined;
         parts.push('that triggers');
         parts.push(
-            <Link to={`/${region}/skill/${dataVal.Value}`}>
-                [Skill: {dataVal.Value}]
-            </Link>
+            <SkillReferenceDescriptor region={region} id={dataVal.Value}/>
         );
         parts.push('on attack');
     } else if (func.buffs[0]?.type === BuffType.NPATTACK_PREV_BUFF) {
+        if (dataVal.SkillID === undefined) {
+            section.showing = false;
+            return;
+        }
+
         section.preposition = undefined;
         parts.push('that triggers');
         parts.push(
-            <Link to={`/${region}/skill/${dataVal.SkillID}`}>
-                [Skill: {dataVal.SkillID}]
-            </Link>
+            <SkillReferenceDescriptor region={region} id={dataVal.SkillID}/>
         );
         parts.push('on noble phantasm')
     } else if (func.buffs[0]) {

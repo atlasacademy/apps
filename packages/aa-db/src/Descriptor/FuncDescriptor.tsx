@@ -4,14 +4,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Func from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
-import {
-    funcUpdatesByLevel,
-    funcUpdatesByOvercharge,
-    getLevelDataValList,
-    getMixedDataValList,
-    getOverchargeDataValList,
-    getStaticFieldValues
-} from "../Helper/FuncHelper";
+import {getDataValList, getStaticFieldValues} from "../Helper/FuncHelper";
 import {joinElements, Renderable} from "../Helper/OutputHelper";
 import {FuncDescriptorSections} from "./Func/FuncDescriptorSections";
 import handleActionSection from "./Func/handleActionSection";
@@ -31,11 +24,7 @@ class FuncDescriptor extends React.Component<IProps> {
     render() {
         const region = this.props.region,
             func = this.props.func,
-            isLevel = funcUpdatesByLevel(func),
-            isOvercharge = funcUpdatesByOvercharge(func),
-            dataVals = isLevel && isOvercharge
-                ? getMixedDataValList(func)
-                : (isOvercharge ? getOverchargeDataValList(func) : getLevelDataValList(func)),
+            dataVals = getDataValList(func),
             staticValues = getStaticFieldValues(dataVals);
 
         const sections = new FuncDescriptorSections();
