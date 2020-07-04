@@ -1,5 +1,6 @@
 import React from "react";
-import Func, {DataVal, DataValField} from "../Api/Data/Func";
+import {BuffType} from "../Api/Data/Buff";
+import Func, {DataVal, DataValField, FuncType} from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
 import FuncValueDescriptor from "../Descriptor/FuncValueDescriptor";
 import {Renderable} from "./OutputHelper";
@@ -24,11 +25,7 @@ const hasUniqueValues = function (values: (number | undefined)[]): boolean {
 };
 
 export function describeMutators(region: Region, func: Func): Renderable[] {
-    const isLevel = funcUpdatesByLevel(func),
-        isOvercharge = funcUpdatesByOvercharge(func),
-        dataVals = isLevel && isOvercharge
-            ? getMixedDataValList(func)
-            : (isOvercharge ? getOverchargeDataValList(func) : getLevelDataValList(func)),
+    const dataVals = getDataValList(func),
         mutatingVals = getMutatingFieldValues(dataVals);
 
     return mutatingVals
@@ -41,6 +38,15 @@ export function funcUpdatesByLevel(func: Func): boolean {
 
 export function funcUpdatesByOvercharge(func: Func): boolean {
     return hasChangingDataVals(getOverchargeDataValList(func));
+}
+
+export function getDataValList(func: Func): DataVal[] {
+    const isLevel = funcUpdatesByLevel(func),
+        isOvercharge = funcUpdatesByOvercharge(func);
+
+    return isLevel && isOvercharge
+        ? getMixedDataValList(func)
+        : (isOvercharge ? getOverchargeDataValList(func) : getLevelDataValList(func));
 }
 
 export function getLevelDataValList(func: Func): DataVal[] {
@@ -94,6 +100,52 @@ export function getOverchargeDataValList(func: Func): DataVal[] {
     }
 
     return dataVals;
+}
+
+export function getRelatedSkillIds(func: Func): number[] {
+    if (func.funcType !== FuncType.ADD_STATE && func.funcType !== FuncType.ADD_STATE_SHORT)
+        return [];
+
+    const buff = func.buffs[0];
+    if (buff.type === BuffType.COMMANDATTACK_FUNCTION) {
+        const dataVals = getDataValList(func),
+            dataVal = dataVals[0];
+
+        return dataVal.Value ? [dataVal.Value] : [];
+    }
+
+    if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
+        const dataVals = getDataValList(func),
+            dataVal = dataVals[0];
+
+        return dataVal.SkillID ? [dataVal.SkillID] : [];
+    }
+
+    return [];
+}
+
+export function getRelatedSkillLevels(func: Func): number[][] {
+    if (func.funcType !== FuncType.ADD_STATE && func.funcType !== FuncType.ADD_STATE_SHORT)
+        return [];
+
+    const buff = func.buffs[0];
+    if (buff.type === BuffType.COMMANDATTACK_FUNCTION) {
+        const dataVals = getDataValList(func);
+
+        return [
+            dataVals.map(dataVal => dataVal.Value2 ?? 1)
+        ];
+    }
+
+    if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
+        const dataVals = getDataValList(func);
+
+        return [
+            dataVals.map(dataVal => dataVal.SkillLV ?? 1)
+        ]
+    }
+
+    return [];
 }
 
 export function getStaticFieldNames(vals: DataVal[]): DataValField[] {
