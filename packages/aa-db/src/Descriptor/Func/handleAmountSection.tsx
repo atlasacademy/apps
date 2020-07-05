@@ -22,6 +22,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION
             || func.buffs[0]?.type === BuffType.DAMAGE_FUNCTION
+            || func.buffs[0]?.type === BuffType.SELFTURNEND_FUNCTION
         )
         && dataVal.Value
     ) {

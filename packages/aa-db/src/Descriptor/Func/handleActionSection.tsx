@@ -20,6 +20,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             parts.push(<BuffDescriptor region={region} buff={buff}/>);
         });
 
+        if (func.buffs[0]?.type === BuffType.FIELD_INDIVIDUALITY) {
+            sections.amount.preposition = 'to';
+        }
+
         sections.target.preposition = 'on';
         if (
             func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION

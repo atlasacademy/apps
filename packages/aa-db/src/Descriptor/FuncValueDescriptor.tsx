@@ -25,6 +25,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
                 dataVal.Value
                 || (func.buffs[0].type === BuffType.DAMAGE_FUNCTION && dataVal.Value2)
                 || (func.buffs[0].type === BuffType.NPATTACK_PREV_BUFF && dataVal.SkillID)
+                || (func.buffs[0].type === BuffType.SELFTURNEND_FUNCTION && dataVal.Value2)
             )
         ) {
             return <BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>;

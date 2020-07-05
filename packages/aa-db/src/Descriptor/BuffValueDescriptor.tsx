@@ -3,6 +3,7 @@ import Buff, {BuffType} from "../Api/Data/Buff";
 import {DataVal} from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
 import {asPercent} from "../Helper/OutputHelper";
+import TraitDescriptor from "./TraitDescriptor";
 
 interface IProps {
     region: Region;
@@ -10,9 +11,9 @@ interface IProps {
     dataVal: DataVal;
 }
 
-class BuffValueDescriptor extends React.Component<IProps>{
+class BuffValueDescriptor extends React.Component<IProps> {
     render() {
-        let value: string | null = "";
+        let value: JSX.Element | string | null = null;
 
         switch (this.props.buff.type) {
             case BuffType.UP_ATK:
@@ -38,6 +39,7 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.UP_FUNC_HP_REDUCE:
             case BuffType.DOWN_FUNC_HP_REDUCE:
             case BuffType.UP_HATE:
+            case BuffType.UP_NONRESIST_INSTANTDEATH:
             case BuffType.UP_NPDAMAGE:
             case BuffType.DOWN_NPDAMAGE:
             case BuffType.UP_STARWEIGHT:
@@ -55,12 +57,17 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.COMMANDATTACK_FUNCTION:
             case BuffType.COMMANDATTACK_BEFORE_FUNCTION:
             case BuffType.DAMAGE_FUNCTION:
+            case BuffType.SELFTURNEND_FUNCTION:
                 if (this.props.dataVal.Value2)
                     value = 'Lv. ' + this.props.dataVal.Value2;
                 break;
             case BuffType.NPATTACK_PREV_BUFF:
                 if (this.props.dataVal.SkillLV)
                     value = 'Lv. ' + this.props.dataVal.SkillLV;
+                break;
+            case BuffType.FIELD_INDIVIDUALITY:
+                if (this.props.dataVal.Value)
+                    value = <TraitDescriptor region={this.props.region} trait={this.props.dataVal.Value}/>;
                 break;
             default:
                 value = this.props.dataVal.Value?.toString() ?? "";
