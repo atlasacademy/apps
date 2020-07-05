@@ -12,7 +12,7 @@ interface IProps {
 
 class BuffValueDescriptor extends React.Component<IProps>{
     render() {
-        let value = "";
+        let value: string | null = "";
 
         switch (this.props.buff.type) {
             case BuffType.UP_ATK:
@@ -23,6 +23,8 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.DOWN_CRITICALDAMAGE:
             case BuffType.UP_CRITICALPOINT:
             case BuffType.DOWN_CRITICALPOINT:
+            case BuffType.UP_CRITICALRATE:
+            case BuffType.DOWN_CRITICALRATE:
             case BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN:
             case BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN:
             case BuffType.UP_DAMAGE:
@@ -33,9 +35,13 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.DOWN_DEFENCE:
             case BuffType.UP_DROPNP:
             case BuffType.DOWN_DROPNP:
+            case BuffType.UP_FUNC_HP_REDUCE:
+            case BuffType.DOWN_FUNC_HP_REDUCE:
             case BuffType.UP_HATE:
             case BuffType.UP_NPDAMAGE:
             case BuffType.DOWN_NPDAMAGE:
+            case BuffType.UP_STARWEIGHT:
+            case BuffType.DOWN_STARWEIGHT:
             case BuffType.UP_TOLERANCE:
             case BuffType.DOWN_TOLERANCE:
             case BuffType.UP_TOLERANCE_SUBSTATE:
@@ -48,6 +54,7 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.ATTACK_FUNCTION:
             case BuffType.COMMANDATTACK_FUNCTION:
             case BuffType.COMMANDATTACK_BEFORE_FUNCTION:
+            case BuffType.DAMAGE_FUNCTION:
                 if (this.props.dataVal.Value2)
                     value = 'Lv. ' + this.props.dataVal.Value2;
                 break;

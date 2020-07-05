@@ -106,6 +106,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('Charge NP');
 
         sections.target.preposition = 'for';
+    } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
+        parts.push('Drain 1 Charge from All and Charge NP');
+
+        sections.target.preposition = 'for';
     } else if (func.funcType === FuncType.GAIN_STAR) {
         parts.push('Gain Critical Stars');
 

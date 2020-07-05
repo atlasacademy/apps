@@ -10,14 +10,16 @@ const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
     {up: BuffType.UP_ATK, down: BuffType.DOWN_ATK, description: "ATK"},
     {up: BuffType.UP_CHAGETD, down: undefined, description: "Overcharge"},
     {up: BuffType.UP_COMMANDATK, down: BuffType.DOWN_COMMANDATK, description: "ATK"},
-    {up: BuffType.UP_CRITICALDAMAGE, down: BuffType.DOWN_CRITICALDAMAGE, description: "Critical"},
+    {up: BuffType.UP_CRITICALDAMAGE, down: BuffType.DOWN_CRITICALDAMAGE, description: "Critical Damage"},
     {up: BuffType.UP_CRITICALPOINT, down: BuffType.DOWN_CRITICALPOINT, description: "Star Drop Rate"},
+    {up: BuffType.UP_CRITICALRATE, down: BuffType.DOWN_CRITICALRATE, description: "Critical Rate"},
     {up: BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN, down: BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN, description: "Critical Rate Taken"},
     {up: BuffType.UP_DAMAGE, down: BuffType.DOWN_DAMAGE, description: "SP.DMG"},
     {up: BuffType.UP_DAMAGEDROPNP, down: BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged"},
     {up: BuffType.UP_DEFENCE, down: BuffType.DOWN_DEFENCE, description: "DEF"},
     {up: BuffType.UP_DEFENCECOMMANDALL, down: BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},
     {up: BuffType.UP_DROPNP, down: BuffType.DOWN_DROPNP, description: "NP Gain"},
+    {up: BuffType.UP_FUNC_HP_REDUCE, down: BuffType.DOWN_FUNC_HP_REDUCE, description: "Poison Effectiveness"},
     {up: BuffType.UP_GRANT_INSTANTDEATH, down: BuffType.DOWN_GRANT_INSTANTDEATH, description: "Death Chance"},
     {up: BuffType.UP_NPDAMAGE, down: BuffType.DOWN_NPDAMAGE, description: "NP Damage"},
     {up: BuffType.UP_STARWEIGHT, down: BuffType.DOWN_STARWEIGHT, description: "Star Weight"},
@@ -38,6 +40,7 @@ const typeDescriptions = new Map<BuffType, string>([
     [BuffType.ADD_INDIVIDUALITY, 'Add Trait'],
     [BuffType.AVOIDANCE, 'Evade'],
     [BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
+    [BuffType.DONOT_RECOVERY, 'Recovery Disabled'],
     [BuffType.GUTS, 'Guts'],
     [BuffType.INVINCIBLE, 'Invincible'],
     [BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],
@@ -211,6 +214,10 @@ class BuffDescriptor extends React.Component<IProps> {
         } else if (buff.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill before {this.getTraitFilters()} cards
+            </React.Fragment>;
+        } else if (buff.type === BuffType.DAMAGE_FUNCTION) {
+            description = <React.Fragment>
+                Trigger Skill on receiving {this.getTraitFilters()} attacks
             </React.Fragment>;
         } else if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
             description = <React.Fragment>

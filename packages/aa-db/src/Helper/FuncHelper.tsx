@@ -111,6 +111,7 @@ export function getRelatedSkillIds(func: Func): number[] {
         buff.type === BuffType.ATTACK_FUNCTION
         || buff.type === BuffType.COMMANDATTACK_FUNCTION
         || buff.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION
+        || buff.type === BuffType.DAMAGE_FUNCTION
     ) {
         const dataVals = getDataValList(func),
             dataVal = dataVals[0];

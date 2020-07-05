@@ -3,7 +3,7 @@ import {Table} from "react-bootstrap";
 import {ProfileComment} from "../../Api/Data/Profile";
 import Region from "../../Api/Data/Region";
 import ProfileConditionDescriptor from "../../Descriptor/ProfileConditionDescriptor";
-import {joinElements} from "../../Helper/OutputHelper";
+import {handleNewLine} from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
@@ -30,14 +30,7 @@ class ServantProfileComments extends React.Component<IProps> {
                                 <td>
                                     <ProfileConditionDescriptor region={this.props.region} comment={comment}/>
                                 </td>
-                                <td>
-                                    {joinElements(
-                                        comment.comment.split("\n"),
-                                        <br/>
-                                    ).map((element, index) => {
-                                        return <React.Fragment key={index}>{element}</React.Fragment>;
-                                    })}
-                                </td>
+                                <td>{handleNewLine(comment.comment)}</td>
                             </tr>
                         )
                     })}
