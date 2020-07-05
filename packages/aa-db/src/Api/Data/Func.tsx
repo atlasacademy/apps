@@ -158,9 +158,17 @@ export enum DataValField {
     RATIO_HP_RANGE_LOW = "RatioHPRangeLow",
     TARGET_LIST = "TargetList",
     OPPONENT_ONLY = "OpponentOnly",
+    STATUS_EFFECT_ID = "StatusEffectId",
+    END_BATTLE = "EndBattle",
+    LOSE_BATTLE = "LoseBattle",
+    ADD_INDIVIDUALTY = "AddIndividualty",
+    ADD_LINKAGE_TARGET_INDIVIDUALTY = "AddLinkageTargetIndividualty",
+    SAME_BUFF_LIMIT_TARGET_INDIVIDUALITY = "SameBuffLimitTargetIndividuality",
+    SAME_BUFF_LIMIT_NUM = "SameBuffLimitNum",
+    CHECK_DUPLICATE = "CheckDuplicate",
+    ON_FIELD_COUNT = "OnFieldCount",
     TARGET_RARITY_LIST = "TargetRarityList",
     DEPEND_FUNC_ID = "DependFuncId",
-    DEPEND_FUNC_VALS = "DependFuncVals",
     INVALID_HIDE = "InvalidHide",
     OUT_ENEMY_NPC_ID = "OutEnemyNpcId",
     IN_ENEMY_NPC_ID = "InEnemyNpcId",
@@ -180,9 +188,12 @@ export enum DataValField {
     INCLUDE_PASSIVE_INDIVIDUALITY = "IncludePassiveIndividuality",
 }
 
-export type DataVal = {
-    [key in DataValField]?: number;
-}
+type BaseDataVal = { [key in DataValField]?: number; };
+
+export type DataVal = (
+    BaseDataVal
+    & { DependFuncVals?: BaseDataVal; }
+    );
 
 export default interface Func {
     funcId: number;

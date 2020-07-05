@@ -41,6 +41,14 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             prunedValues.Rate = undefined;
 
         parts.push(<FuncValueDescriptor region={region} func={func} dataVal={prunedValues}/>);
+    } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
+        const chargeAmount = dataVal.DependFuncVals?.Value2;
+
+        if (chargeAmount !== undefined) {
+            parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal}/>);
+        } else {
+            section.showing = false;
+        }
     } else if (func.buffs[0]?.type === BuffType.NPATTACK_PREV_BUFF) {
         if (dataVal.SkillID === undefined) {
             section.showing = false;

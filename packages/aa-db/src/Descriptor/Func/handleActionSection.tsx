@@ -115,7 +115,23 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
 
         sections.target.preposition = 'for';
     } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
-        parts.push('Drain 1 Charge from All and Charge NP');
+        let drainAmount,
+            drainTargets;
+
+        switch (dataVal.DependFuncId) {
+            case 474:
+                drainAmount = `${dataVal.DependFuncVals?.Value ?? 1} Charge`;
+                drainTargets = "All Enemies";
+                break;
+            case 3962:
+                drainAmount = "NP";
+                drainTargets = "All Other Allies";
+                break;
+        }
+
+        parts.push(
+            `Drain ${drainAmount} from ${drainTargets} and Charge NP`
+        );
 
         sections.target.preposition = 'for';
     } else if (func.funcType === FuncType.GAIN_STAR) {

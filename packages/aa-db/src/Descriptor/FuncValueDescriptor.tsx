@@ -78,6 +78,27 @@ class FuncValueDescriptor extends React.Component<IProps> {
             }
         }
 
+        if (dataVal.DependFuncId !== undefined && dataVal.DependFuncVals !== undefined) {
+            switch (func.funcType) {
+                case FuncType.GAIN_NP_FROM_TARGETS:
+                    let chargeAmount;
+
+                    switch (dataVal.DependFuncId) {
+                        case 474:
+                            chargeAmount = dataVal.DependFuncVals.Value2;
+                            break;
+                        case 3962:
+                            chargeAmount = dataVal.DependFuncVals.Value;
+                            break;
+                    }
+
+                    if (chargeAmount !== undefined) {
+                        parts.push(asPercent(chargeAmount, 2));
+                    }
+                    break;
+            }
+        }
+
         if (!parts.length)
             return <span>-</span>;
 

@@ -7,11 +7,24 @@ import {Renderable} from "../Helper/OutputHelper";
 interface IProp {
     header?: JSX.Element | string,
     data: {
-        [key: string]: Renderable;
+        [key: string]: Renderable | object;
     }
 }
 
 class DataTable extends React.Component<IProp> {
+    private static dumpValue(value: Renderable | object): Renderable {
+        if (typeof value === "object") {
+            const element = value as JSX.Element;
+            if (element.key !== undefined && element.props !== undefined && element.type !== undefined) {
+                return element;
+            } else {
+                return JSON.stringify(value);
+            }
+        }
+
+        return value;
+    }
+
     render() {
         return (
             <div>
@@ -27,7 +40,7 @@ class DataTable extends React.Component<IProp> {
                         return (
                             <tr key={index}>
                                 <th>{key}</th>
-                                <td>{this.props.data[key]}</td>
+                                <td>{DataTable.dumpValue(this.props.data[key])}</td>
                             </tr>
                         );
                     })}
