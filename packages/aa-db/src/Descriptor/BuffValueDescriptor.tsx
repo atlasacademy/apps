@@ -34,6 +34,8 @@ class BuffValueDescriptor extends React.Component<IProps> {
             case BuffType.DOWN_DAMAGEDROPNP:
             case BuffType.UP_DEFENCE:
             case BuffType.DOWN_DEFENCE:
+            case BuffType.UP_DEFENCECOMMANDALL:
+            case BuffType.DOWN_DEFENCECOMMANDALL:
             case BuffType.UP_DROPNP:
             case BuffType.DOWN_DROPNP:
             case BuffType.UP_FUNC_HP_REDUCE:
@@ -57,6 +59,7 @@ class BuffValueDescriptor extends React.Component<IProps> {
             case BuffType.COMMANDATTACK_FUNCTION:
             case BuffType.COMMANDATTACK_BEFORE_FUNCTION:
             case BuffType.DAMAGE_FUNCTION:
+            case BuffType.DELAY_FUNCTION:
             case BuffType.SELFTURNEND_FUNCTION:
                 if (this.props.dataVal.Value2)
                     value = 'Lv. ' + this.props.dataVal.Value2;
