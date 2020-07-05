@@ -27,6 +27,7 @@ class ServantEffectBreakdown extends React.Component<IProps> {
                 </thead>
                 <tbody>
                 <ServantEffectBreakdownContent region={this.props.region}
+                                               cooldowns={this.props.cooldowns}
                                                funcs={this.props.funcs}
                                                levels={this.props.levels}/>
                 </tbody>

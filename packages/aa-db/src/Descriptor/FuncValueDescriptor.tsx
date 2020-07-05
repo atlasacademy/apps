@@ -1,7 +1,8 @@
 import React from "react";
+import {BuffType} from "../Api/Data/Buff";
 import Func, {DataVal, FuncType} from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
-import {asPercent, joinElements, Renderable} from "../Helper/OutputHelper";
+import {asPercent, mergeElements, Renderable} from "../Helper/OutputHelper";
 import BuffValueDescriptor from "./BuffValueDescriptor";
 
 interface IProps {
@@ -17,16 +18,24 @@ class FuncValueDescriptor extends React.Component<IProps> {
             dataVal = this.props.dataVal,
             parts: Renderable[] = [];
 
+        if (
+            (func.funcType === FuncType.ADD_STATE || func.funcType === FuncType.ADD_STATE_SHORT)
+            && func.buffs[0]
+            && (
+                dataVal.Value
+                || (func.buffs[0].type === BuffType.DAMAGE_FUNCTION && dataVal.Value2)
+                || (func.buffs[0].type === BuffType.NPATTACK_PREV_BUFF && dataVal.SkillID)
+            )
+        ) {
+            return <BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>;
+        }
+
         if (dataVal.Rate !== undefined) {
             parts.push(asPercent(dataVal.Rate, 1));
         }
 
         if (dataVal.Value !== undefined) {
             switch (func.funcType) {
-                case FuncType.ADD_STATE:
-                case FuncType.ADD_STATE_SHORT:
-                    parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
-                    break;
                 case FuncType.DAMAGE_NP:
                 case FuncType.DAMAGE_NP_INDIVIDUAL:
                 case FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
@@ -43,11 +52,10 @@ class FuncValueDescriptor extends React.Component<IProps> {
             }
         }
 
-        if (dataVal.Value2 !== undefined || dataVal.SkillLV !== undefined) {
+        if (dataVal.Value2 !== undefined) {
             switch (func.funcType) {
-                case FuncType.ADD_STATE:
-                case FuncType.ADD_STATE_SHORT:
-                    parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
+                case FuncType.GAIN_NP_FROM_TARGETS:
+                    parts.push(asPercent(dataVal.Value2, 2));
                     break;
                 case FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                     parts.push("additional " + asPercent(dataVal.Value2, 1));
@@ -71,12 +79,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
         if (!parts.length)
             return <span>-</span>;
 
-        return <span>
-            {joinElements(parts, ' + ')
-                .map((element, index) => {
-                    return <React.Fragment key={index}>{element}</React.Fragment>;
-                })}
-        </span>;
+        return <span>{mergeElements(parts, ' + ')}</span>;
     }
 }
 

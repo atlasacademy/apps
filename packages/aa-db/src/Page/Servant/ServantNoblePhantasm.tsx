@@ -4,7 +4,7 @@ import {default as ServantNoblePhantasmData} from "../../Api/Data/NoblePhantasm"
 import Region from "../../Api/Data/Region";
 import NoblePhantasmDescriptor from "../../Descriptor/NoblePhantasmDescriptor";
 import QuestDescriptor from "../../Descriptor/QuestDescriptor";
-import {handleNewLine} from "../../Helper/OutputHelper";
+import {asPercent, handleNewLine, mergeElements} from "../../Helper/OutputHelper";
 import ServantEffectBreakdown from "./ServantEffectBreakdown";
 
 interface IProps {
@@ -31,6 +31,12 @@ class ServantNoblePhantasm extends React.Component<IProps> {
                 ) : null}
 
                 <p>{handleNewLine(np.detail)}</p>
+
+                <p>
+                    Card: {np.card}<br/>
+                    Hits: {np.npDistribution.length} Hits
+                    - {mergeElements(np.npDistribution.map(hit => asPercent(hit, 0)), ', ')}
+                </p>
 
                 <ServantEffectBreakdown region={this.props.region}
                                         funcs={np.functions}

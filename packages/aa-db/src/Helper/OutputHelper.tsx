@@ -19,7 +19,7 @@ export function handleNewLine(text?: string): Renderable {
 
     return (
         <span>
-            {joinElements(text.split("\n"), <br/>)}
+            {mergeElements(text.split("\n"), <br/>)}
         </span>
     );
 }
@@ -57,4 +57,12 @@ export function joinElements(elements: Renderable[], separator: Renderable): Ren
     });
 
     return parts;
+}
+
+export function mergeElements(elements: Renderable[], seperator: Renderable): Renderable {
+    return <React.Fragment>
+        {joinElements(elements, seperator).map((element, index) => {
+            return <React.Fragment key={index}>{element}</React.Fragment>;
+        })}
+    </React.Fragment>
 }
