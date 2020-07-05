@@ -108,7 +108,8 @@ export function getRelatedSkillIds(func: Func): number[] {
 
     const buff = func.buffs[0];
     if (
-        buff.type === BuffType.COMMANDATTACK_FUNCTION
+        buff.type === BuffType.ATTACK_FUNCTION
+        || buff.type === BuffType.COMMANDATTACK_FUNCTION
         || buff.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION
     ) {
         const dataVals = getDataValList(func),

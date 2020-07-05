@@ -21,8 +21,14 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.DOWN_COMMANDALL:
             case BuffType.UP_CRITICALDAMAGE:
             case BuffType.DOWN_CRITICALDAMAGE:
+            case BuffType.UP_CRITICALPOINT:
+            case BuffType.DOWN_CRITICALPOINT:
             case BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN:
             case BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN:
+            case BuffType.UP_DAMAGE:
+            case BuffType.DOWN_DAMAGE:
+            case BuffType.UP_DAMAGEDROPNP:
+            case BuffType.DOWN_DAMAGEDROPNP:
             case BuffType.UP_DEFENCE:
             case BuffType.DOWN_DEFENCE:
             case BuffType.UP_DROPNP:
@@ -32,8 +38,14 @@ class BuffValueDescriptor extends React.Component<IProps>{
             case BuffType.DOWN_NPDAMAGE:
             case BuffType.UP_TOLERANCE:
             case BuffType.DOWN_TOLERANCE:
+            case BuffType.UP_TOLERANCE_SUBSTATE:
+            case BuffType.DOWN_TOLERANCE_SUBSTATE:
                 value = asPercent(this.props.dataVal.Value, 1);
                 break;
+            case BuffType.REGAIN_NP:
+                value = asPercent(this.props.dataVal.Value, 2);
+                break;
+            case BuffType.ATTACK_FUNCTION:
             case BuffType.COMMANDATTACK_FUNCTION:
             case BuffType.COMMANDATTACK_BEFORE_FUNCTION:
                 if (this.props.dataVal.Value2)

@@ -11,14 +11,18 @@ const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
     {up: BuffType.UP_CHAGETD, down: undefined, description: "Overcharge"},
     {up: BuffType.UP_COMMANDATK, down: BuffType.DOWN_COMMANDATK, description: "ATK"},
     {up: BuffType.UP_CRITICALDAMAGE, down: BuffType.DOWN_CRITICALDAMAGE, description: "Critical"},
+    {up: BuffType.UP_CRITICALPOINT, down: BuffType.DOWN_CRITICALPOINT, description: "Star Drop Rate"},
     {up: BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN, down: BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN, description: "Critical Rate Taken"},
     {up: BuffType.UP_DAMAGE, down: BuffType.DOWN_DAMAGE, description: "SP.DMG"},
+    {up: BuffType.UP_DAMAGEDROPNP, down: BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged"},
     {up: BuffType.UP_DEFENCE, down: BuffType.DOWN_DEFENCE, description: "DEF"},
     {up: BuffType.UP_DEFENCECOMMANDALL, down: BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},
     {up: BuffType.UP_DROPNP, down: BuffType.DOWN_DROPNP, description: "NP Gain"},
     {up: BuffType.UP_GRANT_INSTANTDEATH, down: BuffType.DOWN_GRANT_INSTANTDEATH, description: "Death Chance"},
     {up: BuffType.UP_NPDAMAGE, down: BuffType.DOWN_NPDAMAGE, description: "NP Damage"},
     {up: BuffType.UP_STARWEIGHT, down: BuffType.DOWN_STARWEIGHT, description: "Star Weight"},
+    {up: BuffType.UP_TOLERANCE, down: BuffType.DOWN_TOLERANCE, description: "Debuff Resist"},
+    {up: BuffType.UP_TOLERANCE_SUBSTATE, down: BuffType.DOWN_TOLERANCE_SUBSTATE, description: "Buff Removal Resist"},
 ];
 
 const traitDescriptions = new Map<number, string>([
@@ -36,7 +40,10 @@ const typeDescriptions = new Map<BuffType, string>([
     [BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
     [BuffType.GUTS, 'Guts'],
     [BuffType.INVINCIBLE, 'Invincible'],
+    [BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],
     [BuffType.REGAIN_HP, 'HP Per Turn'],
+    [BuffType.REGAIN_NP, 'NP Per Turn'],
+    [BuffType.REGAIN_STAR, 'Stars Per Turn'],
     [BuffType.SUB_SELFDAMAGE, 'Damage Cut'],
     [BuffType.UP_HATE, 'Taunt'],
 ]);
@@ -193,13 +200,17 @@ class BuffDescriptor extends React.Component<IProps> {
             description = this.getCommandCardTypes() + ' Up';
         } else if (buff.type === BuffType.DOWN_COMMANDALL) {
             description = this.getCommandCardTypes() + ' Down';
-        } else if (buff.type === BuffType.COMMANDATTACK_FUNCTION) {
+        } else if (buff.type === BuffType.ATTACK_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill on {this.getTraitFilters()} attacks
             </React.Fragment>;
+        } else if (buff.type === BuffType.COMMANDATTACK_FUNCTION) {
+            description = <React.Fragment>
+                Trigger Skill on {this.getTraitFilters()} cards
+            </React.Fragment>;
         } else if (buff.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION) {
             description = <React.Fragment>
-                Trigger Skill before {this.getTraitFilters()} attacks
+                Trigger Skill before {this.getTraitFilters()} cards
             </React.Fragment>;
         } else if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
             description = <React.Fragment>

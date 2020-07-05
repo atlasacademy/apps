@@ -18,7 +18,8 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         );
     } else if (
         (
-            func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION
+            func.buffs[0]?.type === BuffType.ATTACK_FUNCTION
+            || func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION
         )
         && dataVal.Value
