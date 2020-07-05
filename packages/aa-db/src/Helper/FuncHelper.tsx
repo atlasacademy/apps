@@ -77,13 +77,26 @@ export function getMutatingFieldValues(vals: DataVal[]): DataVal[] {
     if (!vals.length)
         return [];
 
-    const fields = getMutatingFieldNames(vals);
+    const fields = getMutatingFieldNames(vals),
+        hasDependingVals = vals.filter(val => val.DependFuncVals !== undefined).length > 0,
+        dependingVals: (DataVal[] | undefined) = (
+            hasDependingVals
+                ? vals.map(val => (val.DependFuncVals ?? {}) as DataVal)
+                : undefined
+        ),
+        dependingMutatingValues = dependingVals ? getMutatingFieldValues(dependingVals) : [],
+        staticValues = getStaticFieldValues(vals);
 
-    return vals.map(val => {
+    return vals.map((val, index) => {
         const mutatingVals: DataVal = {};
 
         for (let x in fields) {
             mutatingVals[fields[x]] = val[fields[x]];
+        }
+
+        if (staticValues.DependFuncId && dependingMutatingValues[index]) {
+            mutatingVals.DependFuncId = staticValues.DependFuncId;
+            mutatingVals.DependFuncVals = dependingMutatingValues[index];
         }
 
         return mutatingVals;
@@ -144,11 +157,21 @@ export function getStaticFieldValues(vals: DataVal[]): DataVal {
         return {};
 
     const fields = getStaticFieldNames(vals),
-        staticVals: DataVal = {};
+        staticVals: DataVal = {},
+        hasDependingVals = vals.filter(val => val.DependFuncVals !== undefined).length > 0,
+        dependingVals: (DataVal[] | undefined) = (
+            hasDependingVals
+                ? vals.map(val => (val.DependFuncVals ?? {}) as DataVal)
+                : undefined
+        ),
+        dependingStaticValues = dependingVals ? getStaticFieldValues(dependingVals) : undefined;
 
     for (let x in fields) {
         staticVals[fields[x]] = vals[0][fields[x]];
     }
+
+    if (hasDependingVals)
+        staticVals.DependFuncVals = dependingStaticValues;
 
     return staticVals;
 }
