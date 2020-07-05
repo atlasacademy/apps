@@ -46,6 +46,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         }
 
         sections.target.preposition = 'on';
+    } else if (func.funcType === FuncType.CARD_RESET) {
+        parts.push('Shuffle Cards');
+
+        sections.target.showing = false;
     } else if (func.funcType === FuncType.DAMAGE_NP) {
         parts.push('Deal damage');
 
@@ -124,6 +128,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('Lose HP');
 
         sections.target.showing = false;
+    } else if (func.funcType === FuncType.LOSS_NP) {
+        parts.push('Lose NP');
+
+        sections.target.preposition = 'for';
     } else if (func.funcType === FuncType.NONE) {
         parts.push('No Effect');
 

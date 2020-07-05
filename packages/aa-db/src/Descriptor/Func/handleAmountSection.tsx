@@ -22,6 +22,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION
             || func.buffs[0]?.type === BuffType.DAMAGE_FUNCTION
+            || func.buffs[0]?.type === BuffType.DELAY_FUNCTION
             || func.buffs[0]?.type === BuffType.SELFTURNEND_FUNCTION
         )
         && dataVal.Value
@@ -31,6 +32,9 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push(
             <SkillReferenceDescriptor region={region} id={dataVal.Value}/>
         );
+    } else if (func.funcType === FuncType.CARD_RESET && dataVal.Value) {
+        section.preposition = undefined;
+        parts.push(`${dataVal.Value} time${dataVal.Value > 1 ? 's' : ''}`);
     } else if (func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
         const prunedValues = {...dataVal};
         if (prunedValues.Rate === 1000)

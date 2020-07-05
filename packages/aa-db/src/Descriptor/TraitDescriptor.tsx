@@ -55,6 +55,7 @@ const traitDescriptions = new Map<number, string>([
     [3011, "Poison"],
     [3012, "Charm"],
     [3015, "Burn"],
+    [3021, "Evade"],
     [3026, "Curse"],
     [3047, "Pigify"],
     [4001, "Card:Arts"],
