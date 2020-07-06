@@ -20,7 +20,7 @@ const hasChangingDataVals = function (vals: DataVal[]): boolean {
     return false;
 };
 
-const hasUniqueValues = function (values: (number | undefined)[]): boolean {
+const hasUniqueValues = function (values: (number | string | undefined)[]): boolean {
     return new Set(values).size > 1;
 };
 
@@ -131,14 +131,14 @@ export function getRelatedSkillIds(func: Func): number[] {
         const dataVals = getDataValList(func),
             dataVal = dataVals[0];
 
-        return dataVal.Value ? [dataVal.Value] : [];
+        return typeof dataVal.Value === "number" ? [dataVal.Value] : [];
     }
 
     if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
         const dataVals = getDataValList(func),
             dataVal = dataVals[0];
 
-        return dataVal.SkillID ? [dataVal.SkillID] : [];
+        return typeof dataVal.SkillID === "number" ? [dataVal.SkillID] : [];
     }
 
     return [];

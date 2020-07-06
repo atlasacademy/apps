@@ -42,6 +42,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
                 case FuncType.DAMAGE_NP_INDIVIDUAL:
                 case FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                 case FuncType.DAMAGE_NP_PIERCE:
+                case FuncType.DAMAGE_NP_RARE:
                 case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                     parts.push(asPercent(dataVal.Value, 1));
                     break;
@@ -67,6 +68,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
         if (dataVal.Correction !== undefined) {
             switch (func.funcType) {
                 case FuncType.DAMAGE_NP_INDIVIDUAL:
+                case FuncType.DAMAGE_NP_RARE:
                 case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                     parts.push(asPercent(dataVal.Correction, 1));
                     break;

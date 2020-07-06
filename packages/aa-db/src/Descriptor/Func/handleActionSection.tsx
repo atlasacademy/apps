@@ -58,7 +58,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL
         || func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX
     ) {
-        if (dataVal.Target) {
+        if (typeof dataVal.Target === "number") {
             parts.push(
                 <span>Deal damage (additional to targets with {
                     <TraitDescriptor region={region} trait={dataVal.Target}/>
@@ -72,7 +72,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     } else if (func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
         let additional = [];
 
-        if (dataVal.TargetList) {
+        if (typeof dataVal.TargetList === "number") {
             additional.push('to targets with');
             additional.push(<TraitDescriptor region={region} trait={dataVal.TargetList}/>);
         }
@@ -94,6 +94,16 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
                 })
             </React.Fragment>)
         }
+    } else if (func.funcType === FuncType.DAMAGE_NP_RARE) {
+        parts.push('Deal damage');
+
+        if (typeof dataVal.TargetRarityList === "string") {
+            parts.push('that deals additional to');
+            parts.push(dataVal.TargetRarityList);
+            parts.push(dataVal.TargetRarityList.split('/').length > 1 ? 'rarities' : 'rarity');
+        }
+
+        sections.amount.preposition = 'for';
     } else if (func.funcType === FuncType.DAMAGE_NP_PIERCE) {
         parts.push('Deal damage that pierces defence');
 
@@ -138,16 +148,21 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('Gain Critical Stars');
 
         sections.target.showing = false;
+    } else if (func.funcType === FuncType.HASTEN_NPTURN) {
+        parts.push('Charge NP');
+
+        sections.amount.preposition = 'by';
+        sections.target.preposition = 'for';
     } else if (func.funcType === FuncType.INSTANT_DEATH) {
         parts.push('Apply Death');
     } else if (func.funcType === FuncType.LOSS_HP_SAFE) {
-        parts.push('Lose HP');
+        parts.push('Drain HP');
 
-        sections.target.showing = false;
+        sections.target.preposition = 'from';
     } else if (func.funcType === FuncType.LOSS_NP) {
-        parts.push('Lose NP');
+        parts.push('Drain NP');
 
-        sections.target.preposition = 'for';
+        sections.target.preposition = 'from';
     } else if (func.funcType === FuncType.NONE) {
         parts.push('No Effect');
 

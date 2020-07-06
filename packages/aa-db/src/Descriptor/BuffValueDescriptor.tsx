@@ -69,7 +69,7 @@ class BuffValueDescriptor extends React.Component<IProps> {
                     value = 'Lv. ' + this.props.dataVal.SkillLV;
                 break;
             case BuffType.FIELD_INDIVIDUALITY:
-                if (this.props.dataVal.Value)
+                if (typeof this.props.dataVal.Value === "number")
                     value = <TraitDescriptor region={this.props.region} trait={this.props.dataVal.Value}/>;
                 break;
             default:
