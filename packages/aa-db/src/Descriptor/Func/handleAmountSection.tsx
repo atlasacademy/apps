@@ -12,7 +12,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     const section = sections.amount,
         parts = section.parts;
 
-    if (func.buffs[0]?.type === BuffType.ADD_INDIVIDUALITY && dataVal.Value) {
+    if (func.buffs[0]?.type === BuffType.ADD_INDIVIDUALITY && typeof dataVal.Value === "number") {
         parts.push(
             <TraitDescriptor region={region} trait={dataVal.Value}/>
         );
@@ -25,7 +25,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             || func.buffs[0]?.type === BuffType.DELAY_FUNCTION
             || func.buffs[0]?.type === BuffType.SELFTURNEND_FUNCTION
         )
-        && dataVal.Value
+        && typeof dataVal.Value === "number"
     ) {
         section.preposition = undefined;
         parts.push('that triggers');
@@ -50,7 +50,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             section.showing = false;
         }
     } else if (func.buffs[0]?.type === BuffType.NPATTACK_PREV_BUFF) {
-        if (dataVal.SkillID === undefined) {
+        if (typeof dataVal.SkillID !== "number") {
             section.showing = false;
             return;
         }

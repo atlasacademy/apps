@@ -19,7 +19,7 @@ const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
     {up: BuffType.UP_DEFENCE, down: BuffType.DOWN_DEFENCE, description: "DEF"},
     {up: BuffType.UP_DEFENCECOMMANDALL, down: BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},
     {up: BuffType.UP_DROPNP, down: BuffType.DOWN_DROPNP, description: "NP Gain"},
-    {up: BuffType.UP_FUNC_HP_REDUCE, down: BuffType.DOWN_FUNC_HP_REDUCE, description: "Poison Effectiveness"},
+    {up: BuffType.UP_FUNC_HP_REDUCE, down: BuffType.DOWN_FUNC_HP_REDUCE, description: "DoT Effectiveness"},
     {up: BuffType.UP_GRANT_INSTANTDEATH, down: BuffType.DOWN_GRANT_INSTANTDEATH, description: "Death Chance"},
     {up: BuffType.UP_GRANTSTATE, down: BuffType.DOWN_GRANTSTATE, description: "Buff Chance"},
     {up: undefined, down: BuffType.UP_NONRESIST_INSTANTDEATH, description: "Death Resist"},
@@ -32,6 +32,7 @@ const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
 const traitDescriptions = new Map<number, string>([
     [3012, 'Charm'],
     [3015, 'Burn'],
+    [3026, 'Curse'],
     [3045, 'Stun'],
 ]);
 
@@ -44,12 +45,14 @@ const typeDescriptions = new Map<BuffType, string>([
     [BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
     [BuffType.DELAY_FUNCTION, 'Trigger Skill after Duration'],
     [BuffType.DONOT_NOBLE, 'NP Seal'],
+    [BuffType.DONOT_NOBLE_COND_MISMATCH, 'NP Block if Condition Failed'],
     [BuffType.DONOT_RECOVERY, 'Recovery Disabled'],
     [BuffType.DONOT_SELECT_COMMANDCARD, 'Do Not Shuffle In Cards'],
     [BuffType.DONOT_SKILL, 'Skill Seal'],
     [BuffType.FIELD_INDIVIDUALITY, 'Change Field Type'],
     [BuffType.GUTS, 'Guts'],
     [BuffType.INVINCIBLE, 'Invincible'],
+    [BuffType.MULTIATTACK, 'Multiple Hits'],
     [BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],
     [BuffType.REGAIN_HP, 'HP Per Turn'],
     [BuffType.REGAIN_NP, 'NP Per Turn'],
@@ -66,6 +69,13 @@ interface IProps {
 }
 
 class BuffDescriptor extends React.Component<IProps> {
+    private getTraitFilterAppend(): JSX.Element | undefined {
+        if (!this.getTraitFilters())
+            return undefined;
+
+        return <React.Fragment> for {this.getTraitFilters()}</React.Fragment>;
+    }
+
     private getCommandCardTypes(): string {
         const cards = [];
 
@@ -207,11 +217,18 @@ class BuffDescriptor extends React.Component<IProps> {
         let description: JSX.Element | string = buff.name;
 
         if (this.isUpDownBuff()) {
-            description = this.getUpDownDescription();
+            description = <React.Fragment>
+                {this.getUpDownDescription()}
+                {this.getTraitFilterAppend()}
+            </React.Fragment>
         } else if (buff.type === BuffType.UP_COMMANDALL) {
-            description = this.getCommandCardTypes() + ' Up';
+            description = <React.Fragment>
+                {this.getCommandCardTypes()} Up
+            </React.Fragment>
         } else if (buff.type === BuffType.DOWN_COMMANDALL) {
-            description = this.getCommandCardTypes() + ' Down';
+            description = <React.Fragment>
+                {this.getCommandCardTypes()} Down
+            </React.Fragment>
         } else if (buff.type === BuffType.ATTACK_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill on {this.getTraitFilters()} attacks
@@ -233,9 +250,15 @@ class BuffDescriptor extends React.Component<IProps> {
                 Trigger Skill on {this.getTraitFilters()} NP
             </React.Fragment>;
         } else if (this.hasTypeDescription()) {
-            description = this.getTypeDescription();
+            description = <React.Fragment>
+                {this.getTypeDescription()}
+                {this.getTraitFilterAppend()}
+            </React.Fragment>;
         } else if (this.hasTraitDescription()) {
-            description = this.getTraitDescription();
+            description = <React.Fragment>
+                {this.getTraitDescription()}
+                {this.getTraitFilterAppend()}
+            </React.Fragment>;
         }
 
         return (

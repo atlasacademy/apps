@@ -188,7 +188,7 @@ export enum DataValField {
     INCLUDE_PASSIVE_INDIVIDUALITY = "IncludePassiveIndividuality",
 }
 
-type BaseDataVal = { [key in DataValField]?: number; };
+type BaseDataVal = { [key in DataValField]?: number | string; };
 
 export type DataVal = (
     BaseDataVal

@@ -7,7 +7,10 @@ export type Renderable = (
     | undefined
     )
 
-export function asPercent(value: number | undefined, pow: number): string {
+export function asPercent(value: number | string | undefined, pow: number): string {
+    if (typeof value === "string")
+        return asPercent(parseInt(value), pow);
+
     const decimal = (value ?? 0) / Math.pow(10, pow);
 
     return `${decimal}%`;

@@ -8,7 +8,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
 
     if (dataVal.Rate && dataVal.Rate === -1000) {
         parts.push('Guaranteed to');
-    } else if (dataVal.Rate && dataVal.Rate !== 1000) {
+    } else if (typeof dataVal.Rate === "number" && dataVal.Rate !== 1000) {
         parts.push((dataVal.Rate / 10) + '% Chance to');
     } else if (!dataVal.Rate && func.funcType !== FuncType.NONE) {
         parts.push('Chance to');
