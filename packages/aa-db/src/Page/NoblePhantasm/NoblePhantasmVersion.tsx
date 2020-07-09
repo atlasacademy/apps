@@ -25,7 +25,10 @@ class NoblePhantasmVersion extends React.Component<IProps> {
                         <div key={index}>
                             <h3>Effect #{index + 1}</h3>
                             <p>
-                                <FuncDescriptor region={this.props.region} func={func}/>
+                                <FuncDescriptor region={this.props.region}
+                                                func={func}
+                                                level={this.props.level}
+                                                overcharge={this.props.overcharge}/>
                             </p>
 
                             <Row>
