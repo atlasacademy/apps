@@ -2,9 +2,9 @@ import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Link} from "react-router-dom";
-import Func from "../Api/Data/Func";
+import Func, {DataVal} from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
-import {getDataValList, getStaticFieldValues} from "../Helper/FuncHelper";
+import {getDataValList, getStaticFieldValues, getTargetVersionValues} from "../Helper/FuncHelper";
 import {joinElements, Renderable} from "../Helper/OutputHelper";
 import {FuncDescriptorSections} from "./Func/FuncDescriptorSections";
 import handleActionSection from "./Func/handleActionSection";
@@ -19,25 +19,37 @@ import handleTeamSection from "./Func/handleTeamSection";
 interface IProps {
     region: Region;
     func: Func;
+    level?: number;
+    overcharge?: number;
 }
 
 class FuncDescriptor extends React.Component<IProps> {
+    getDataVal(): DataVal {
+        const func = this.props.func;
+
+        if (this.props.level) {
+            return getTargetVersionValues(func, this.props.level, this.props.overcharge ?? 1) ?? {};
+        } else {
+            const dataVals = getDataValList(func);
+
+            return getStaticFieldValues(dataVals);
+        }
+    }
     render() {
         const region = this.props.region,
             func = this.props.func,
-            dataVals = getDataValList(func),
-            staticValues = getStaticFieldValues(dataVals);
+            dataVal = this.getDataVal();
 
         const sections = new FuncDescriptorSections();
 
-        handleTeamSection(region, sections, func, staticValues);
-        handleChanceSection(region, sections, func, staticValues);
-        handleActionSection(region, sections, func, staticValues);
-        handleAmountSection(region, sections, func, staticValues);
-        handleAffectsSection(region, sections, func, staticValues);
-        handleTargetSection(region, sections, func, staticValues);
-        handleDurationSection(region, sections, func, staticValues);
-        handleScalingSection(region, sections, func, staticValues);
+        handleTeamSection(region, sections, func, dataVal);
+        handleChanceSection(region, sections, func, dataVal);
+        handleActionSection(region, sections, func, dataVal);
+        handleAmountSection(region, sections, func, dataVal);
+        handleAffectsSection(region, sections, func, dataVal);
+        handleTargetSection(region, sections, func, dataVal);
+        handleDurationSection(region, sections, func, dataVal);
+        handleScalingSection(region, sections, func, dataVal);
 
         let parts: Renderable[] = [];
 

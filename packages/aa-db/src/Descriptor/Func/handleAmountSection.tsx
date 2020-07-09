@@ -22,6 +22,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION
             || func.buffs[0]?.type === BuffType.DAMAGE_FUNCTION
+            || func.buffs[0]?.type === BuffType.DEAD_FUNCTION
             || func.buffs[0]?.type === BuffType.DELAY_FUNCTION
             || func.buffs[0]?.type === BuffType.SELFTURNEND_FUNCTION
         )
@@ -36,16 +37,14 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         section.preposition = undefined;
         parts.push(`${dataVal.Value} time${dataVal.Value > 1 ? 's' : ''}`);
     } else if (func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
-        const prunedValues = {...dataVal};
-        if (prunedValues.Rate === 1000)
-            prunedValues.Rate = undefined;
-
-        parts.push(<FuncValueDescriptor region={region} func={func} dataVal={prunedValues}/>);
+        parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
+    } else if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
+        section.showing = false;
     } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
         const chargeAmount = dataVal.DependFuncVals?.Value2;
 
         if (chargeAmount !== undefined) {
-            parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal}/>);
+            parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
         } else {
             section.showing = false;
         }
@@ -63,11 +62,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     } else if (func.buffs[0] && dataVal.Value) {
         parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
     } else if (dataVal.Value) {
-        // there are some properties that we don't want back as the description
-        const prunedValues = {...dataVal};
-        prunedValues.Rate = undefined;
-
-        parts.push(<FuncValueDescriptor region={region} func={func} dataVal={prunedValues}/>);
+        parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
     } else {
         section.showing = false;
     }

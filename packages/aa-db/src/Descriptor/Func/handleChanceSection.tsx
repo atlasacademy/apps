@@ -6,7 +6,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     const section = sections.chance,
         parts = section.parts;
 
-    if (dataVal.Rate && dataVal.Rate === -1000) {
+    if (dataVal.Rate && dataVal.Rate < 0) {
         parts.push('Guaranteed to');
     } else if (typeof dataVal.Rate === "number" && dataVal.Rate !== 1000) {
         parts.push((dataVal.Rate / 10) + '% Chance to');

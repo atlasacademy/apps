@@ -13,7 +13,11 @@ const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
     {up: BuffType.UP_CRITICALDAMAGE, down: BuffType.DOWN_CRITICALDAMAGE, description: "Critical Damage"},
     {up: BuffType.UP_CRITICALPOINT, down: BuffType.DOWN_CRITICALPOINT, description: "Star Drop Rate"},
     {up: BuffType.UP_CRITICALRATE, down: BuffType.DOWN_CRITICALRATE, description: "Critical Rate"},
-    {up: BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN, down: BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN, description: "Critical Rate Taken"},
+    {
+        up: BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN,
+        down: BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN,
+        description: "Critical Rate Taken"
+    },
     {up: BuffType.UP_DAMAGE, down: BuffType.DOWN_DAMAGE, description: "SP.DMG"},
     {up: BuffType.UP_DAMAGEDROPNP, down: BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged"},
     {up: BuffType.UP_DEFENCE, down: BuffType.DOWN_DEFENCE, description: "DEF"},
@@ -74,6 +78,29 @@ class BuffDescriptor extends React.Component<IProps> {
             return undefined;
 
         return <React.Fragment> for {this.getTraitFilters()}</React.Fragment>;
+    }
+
+    private getTraitFilterAppendWithoutCards(): JSX.Element | undefined {
+        const traits = this.props.buff.ckSelfIndv.filter(
+            trait => [4001, 4002, 4003, 4004].indexOf(trait.id) === -1
+        );
+
+        if (!traits.length)
+            return undefined;
+
+        return (
+            <React.Fragment>
+                {' '}
+                for
+                {' '}
+                {joinElements(
+                    traits.map(
+                        trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                    ),
+                    ' & '
+                )}
+            </React.Fragment>
+        );
     }
 
     private getCommandCardTypes(): string {
@@ -224,10 +251,12 @@ class BuffDescriptor extends React.Component<IProps> {
         } else if (buff.type === BuffType.UP_COMMANDALL) {
             description = <React.Fragment>
                 {this.getCommandCardTypes()} Up
+                {this.getTraitFilterAppendWithoutCards()}
             </React.Fragment>
         } else if (buff.type === BuffType.DOWN_COMMANDALL) {
             description = <React.Fragment>
                 {this.getCommandCardTypes()} Down
+                {this.getTraitFilterAppendWithoutCards()}
             </React.Fragment>
         } else if (buff.type === BuffType.ATTACK_FUNCTION) {
             description = <React.Fragment>
@@ -244,6 +273,11 @@ class BuffDescriptor extends React.Component<IProps> {
         } else if (buff.type === BuffType.DAMAGE_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill on receiving {this.getTraitFilters()} attacks
+            </React.Fragment>;
+        } else if (buff.type === BuffType.DEAD_FUNCTION) {
+            description = <React.Fragment>
+                Trigger Skill on death
+                {this.getTraitFilterAppend()}
             </React.Fragment>;
         } else if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
             description = <React.Fragment>

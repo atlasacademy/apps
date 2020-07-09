@@ -124,6 +124,22 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('Charge NP');
 
         sections.target.preposition = 'for';
+    } else if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
+        let drainAmount,
+            drainTargets;
+
+        switch (dataVal.DependFuncId) {
+            case 711:
+                drainAmount = `${dataVal.DependFuncVals?.Value ?? ''} HP`;
+                drainTargets = "All Enemies";
+                break;
+        }
+
+        parts.push(
+            `Drain ${drainAmount} from ${drainTargets} and Restore HP`
+        );
+
+        sections.target.preposition = 'for';
     } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
         let drainAmount,
             drainTargets;

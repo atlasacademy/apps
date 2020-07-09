@@ -59,6 +59,7 @@ class BuffValueDescriptor extends React.Component<IProps> {
             case BuffType.COMMANDATTACK_FUNCTION:
             case BuffType.COMMANDATTACK_BEFORE_FUNCTION:
             case BuffType.DAMAGE_FUNCTION:
+            case BuffType.DEAD_FUNCTION:
             case BuffType.DELAY_FUNCTION:
             case BuffType.SELFTURNEND_FUNCTION:
                 if (this.props.dataVal.Value2)

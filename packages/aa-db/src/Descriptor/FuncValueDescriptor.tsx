@@ -9,6 +9,7 @@ interface IProps {
     region: Region;
     func: Func;
     dataVal: DataVal;
+    hideRate?: boolean;
 }
 
 class FuncValueDescriptor extends React.Component<IProps> {
@@ -24,6 +25,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
             && (
                 dataVal.Value
                 || (func.buffs[0].type === BuffType.DAMAGE_FUNCTION && dataVal.Value2)
+                || (func.buffs[0].type === BuffType.DEAD_FUNCTION && dataVal.Value2)
                 || (func.buffs[0].type === BuffType.DELAY_FUNCTION && dataVal.Value2)
                 || (func.buffs[0].type === BuffType.NPATTACK_PREV_BUFF && dataVal.SkillID)
                 || (func.buffs[0].type === BuffType.SELFTURNEND_FUNCTION && dataVal.Value2)
@@ -32,7 +34,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
             return <BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>;
         }
 
-        if (dataVal.Rate !== undefined) {
+        if (!this.props.hideRate && dataVal.Rate !== undefined) {
             parts.push(asPercent(dataVal.Rate, 1));
         }
 
@@ -82,6 +84,20 @@ class FuncValueDescriptor extends React.Component<IProps> {
 
         if (dataVal.DependFuncId !== undefined && dataVal.DependFuncVals !== undefined) {
             switch (func.funcType) {
+                case FuncType.GAIN_HP_FROM_TARGETS:
+                    let amount;
+
+                    switch (dataVal.DependFuncId) {
+                        case 711:
+                            amount = dataVal.DependFuncVals.Value;
+                            break;
+                    }
+
+                    if (amount !== undefined) {
+                        parts.push(amount);
+                    }
+
+                    break;
                 case FuncType.GAIN_NP_FROM_TARGETS:
                     let chargeAmount;
 
