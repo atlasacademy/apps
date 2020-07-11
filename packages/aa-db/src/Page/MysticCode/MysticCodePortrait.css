@@ -1,0 +1,20 @@
+#mystic-code-portrait-wrapper {
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+#mystic-code-portrait-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+#mystic-code-portrait {
+    left: 25%;
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    width: 100%;
+}

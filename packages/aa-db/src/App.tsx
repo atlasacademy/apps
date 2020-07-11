@@ -9,6 +9,8 @@ import CraftEssencePage from "./Page/CraftEssencePage";
 import CraftEssencesPage from "./Page/CraftEssencesPage";
 import FuncPage from './Page/FuncPage';
 import HomePage from "./Page/HomePage";
+import MysticCodePage from "./Page/MysticCodePage";
+import MysticCodesPage from "./Page/MysticCodesPage";
 import NoblePhantasmPage from "./Page/NoblePhantasmPage";
 import QuestPage from "./Page/QuestPage";
 import ServantPage from "./Page/ServantPage";
@@ -63,6 +65,12 @@ class App extends React.Component<any, IState> {
                                 key = `${region}-${id}`;
                             return <FuncPage key={key} region={region} id={id}/>;
                         }}/>
+                        <Route exact={true} path="/:region(JP|NA)/mystic-code/:id([0-9]+)" render={props => {
+                            const region = props.match.params.region,
+                                id = props.match.params.id,
+                                key = `${region}-${id}`;
+                            return <MysticCodePage key={key} region={region} id={id}/>;
+                        }}/>
                         <Route exact={true} path="/:region(JP|NA)/noble-phantasm/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,
                                 id = props.match.params.id,
@@ -91,6 +99,10 @@ class App extends React.Component<any, IState> {
                         <Route exact={true} path="/:region(JP|NA)/craft-essences" render={props => {
                             const region = props.match.params.region;
                             return <CraftEssencesPage key={region} region={region}/>;
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/mystic-codes" render={props => {
+                            const region = props.match.params.region;
+                            return <MysticCodesPage key={region} region={region}/>;
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/servants" render={props => {
                             const region = props.match.params.region;

@@ -15,7 +15,6 @@ import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import './ServantsPage.css';
 
 const classFilters: ClassName[] = [
-    ClassName.ALL,
     ClassName.SABER,
     ClassName.ARCHER,
     ClassName.LANCER,
@@ -50,8 +49,8 @@ class ServantsPage extends React.Component<IProps, IState> {
         this.state = {
             loading: true,
             servants: [],
-            activeClassFilters: classFilters.slice(),
-            activeRarityFilters: [1, 2, 3, 4, 5],
+            activeClassFilters: [],
+            activeRarityFilters: [],
         };
     }
 
@@ -85,37 +84,23 @@ class ServantsPage extends React.Component<IProps, IState> {
     }
 
     private toggleClassFilter(className: ClassName): void {
-        if (className === ClassName.ALL) {
-            if (this.isClassFilterActive(className)) {
-                this.setState({
-                    activeClassFilters: [],
-                    activeRarityFilters: [],
-                });
-            } else {
-                this.setState({
-                    activeClassFilters: classFilters.slice(),
-                    activeRarityFilters: [1, 2, 3, 4, 5],
-                });
-            }
-        } else {
-            let exists = false,
-                activeFilters = this.state.activeClassFilters.filter(activeClassName => {
-                    if (activeClassName === ClassName.ALL)
-                        return false;
+        let exists = false,
+            activeFilters = this.state.activeClassFilters.filter(activeClassName => {
+                if (activeClassName === ClassName.ALL)
+                    return false;
 
-                    if (activeClassName === className) {
-                        exists = true;
-                        return false;
-                    }
+                if (activeClassName === className) {
+                    exists = true;
+                    return false;
+                }
 
-                    return true;
-                });
+                return true;
+            });
 
-            if (!exists)
-                activeFilters.push(className);
+        if (!exists)
+            activeFilters.push(className);
 
-            this.setState({activeClassFilters: activeFilters});
-        }
+        this.setState({activeClassFilters: activeFilters});
     }
 
     private toggleRarityFilter(rarity: number): void {
@@ -140,13 +125,13 @@ class ServantsPage extends React.Component<IProps, IState> {
     private servants(): BasicListEntity[] {
         let list = this.state.servants.slice().reverse();
 
-        if (this.state.activeRarityFilters.length !== 5) {
+        if (this.state.activeRarityFilters.length > 0) {
             list = list.filter(entity => {
                 return this.state.activeRarityFilters.indexOf(entity.rarity) !== -1;
             });
         }
 
-        if (!this.isClassFilterActive(ClassName.ALL)) {
+        if (this.state.activeClassFilters.length > 0) {
             list = list.filter(entity => {
                 for (let x in this.state.activeClassFilters) {
                     const className = this.state.activeClassFilters[x];
@@ -185,23 +170,6 @@ class ServantsPage extends React.Component<IProps, IState> {
                                       this.toggleClassFilter(className);
                                   }}>
                                 <ClassIcon height={50} rarity={active ? 5 : 3} className={className}/>
-                            </span>
-                        );
-                    })}
-                </p>
-
-                <p className={'text-center'}>
-                    {[1, 2, 3, 4, 5].map(rarity => {
-                        const active = this.state.activeRarityFilters.indexOf(rarity) !== -1;
-
-                        return (
-                            <span key={rarity}
-                                  className={'filter'}
-                                  style={{opacity: active ? 1 : 0.5}}
-                                  onClick={(ev: Event) => {
-                                      this.toggleRarityFilter(rarity);
-                                  }}>
-                                <RarityDescriptor rarity={rarity} height={20}/>
                             </span>
                         );
                     })}

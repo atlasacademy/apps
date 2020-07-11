@@ -5,6 +5,7 @@ import BasicListEntity from "./Data/BasicListEntity";
 import Buff from "./Data/Buff";
 import CraftEssence from "./Data/CraftEssence";
 import Func from "./Data/Func";
+import MysticCode from "./Data/MysticCode";
 import NoblePhantasm from "./Data/NoblePhantasm";
 import Quest from "./Data/Quest";
 import Region from "./Data/Region";
@@ -25,6 +26,8 @@ const host = 'https://api.atlasacademy.io',
         craftEssence: new ResultCache<string, CraftEssence>(),
         craftEssenceList: new ResultCache<Region, BasicListEntity[]>(),
         func: new ResultCache<string, Func>(),
+        mysticCode: new ResultCache<string, MysticCode>(),
+        mysticCodeList: new ResultCache<Region, MysticCode[]>(),
         noblePhantasm: new ResultCache<string, NoblePhantasm>(),
         quest: new ResultCache<string, Quest>(),
         servant: new ResultCache<string, Servant>(),
@@ -102,6 +105,37 @@ class Connection {
             },
             cacheDuration
         );
+    }
+
+    static mysticCode(region: Region, id: number): Promise<MysticCode> {
+        const key = `${region}-${id}`;
+
+        return cache.mysticCode.get(
+            key,
+            () => {
+                return fetch<MysticCode>(`${host}/nice/${region}/MC/${id}`);
+            },
+            cacheDuration
+        );
+    }
+
+    static async mysticCodeList(region: Region): Promise<MysticCode[]> {
+        if (region === Region.NA) {
+            return Connection.getCacheableMysticCodeList(Region.NA);
+        } else if (region === Region.JP && Manager.language() === LanguageOption.DEFAULT) {
+            return Connection.getCacheableMysticCodeList(Region.JP);
+        }
+
+        const jp = await Connection.getCacheableMysticCodeList(Region.JP),
+            na = await Connection.getCacheableMysticCodeList(Region.NA),
+            names = new Map<number, string>(na.map(entity => [entity.id, entity.name]));
+
+        return jp.map<MysticCode>(entity => {
+            return {
+                ...entity,
+                name: names.get(entity.id) ?? entity.name,
+            };
+        });
     }
 
     static noblePhantasm(region: Region, id: number): Promise<NoblePhantasm> {
@@ -201,6 +235,16 @@ class Connection {
             region,
             () => {
                 return fetch<BasicListEntity[]>(`${host}/export/${region}/basic_equip.json`);
+            },
+            null
+        );
+    }
+
+    private static async getCacheableMysticCodeList(region: Region): Promise<MysticCode[]> {
+        return cache.mysticCodeList.get(
+            region,
+            () => {
+                return fetch<BasicListEntity[]>(`${host}/export/${region}/nice_mystic_code.json`);
             },
             null
         );

@@ -1,8 +1,20 @@
-import AssetCollection from "./AssetCollection";
+import AssetCollection, {AssetBundle, AssetMap} from "./AssetCollection";
 import ClassName from "./ClassName";
 import EntityType from "./EntityType";
 import Profile from "./Profile";
 import Skill from "./Skill";
+
+export interface CraftEssenceAssetBundle extends AssetBundle {
+    ascension: AssetMap;
+    costume: AssetMap;
+    equip: AssetMap;
+    cc: AssetMap;
+}
+
+export interface CraftEssenceAssetCollection extends AssetCollection {
+    charaGraph: CraftEssenceAssetBundle;
+    faces: CraftEssenceAssetBundle;
+}
 
 interface CraftEssence {
     id: number;
@@ -13,7 +25,7 @@ interface CraftEssence {
     rarity: number;
     cost: number;
     lvMax: number;
-    extraAssets: AssetCollection;
+    extraAssets: CraftEssenceAssetCollection;
     atkBase: number;
     atkMax: number;
     hpBase: number;
