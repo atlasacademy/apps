@@ -56,6 +56,16 @@ class Navigation extends React.Component<any, IState> {
                                     <NavItem>NA CE</NavItem>
                                 </Link>
                             </Nav>
+                            <Nav>
+                                <Link to="/JP/mystic-codes" className={'nav-link'}>
+                                    <NavItem>JP Mystic Codes</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
+                                <Link to="/NA/mystic-codes" className={'nav-link'}>
+                                    <NavItem>NA Mystic Codes</NavItem>
+                                </Link>
+                            </Nav>
                             <Nav className={'ml-auto'}>
                                 <Nav.Link href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
                                     <FontAwesomeIcon icon={faDiscord}/>

@@ -3,15 +3,15 @@ export interface AssetMap {
 }
 
 export interface AssetBundle {
-    ascension?: AssetMap;
-    costume?: AssetMap;
-    equip?: AssetMap;
-    [key: string]: AssetMap | undefined;
+    // ascension?: AssetMap;
+    // costume?: AssetMap;
+    // equip?: AssetMap;
+    [key: string]: AssetMap;
 }
 
 interface AssetCollection {
-    charaGraph: AssetBundle;
-    faces: AssetBundle;
+    // charaGraph: AssetBundle;
+    // faces: AssetBundle;
     [key: string]: AssetBundle;
 }
 

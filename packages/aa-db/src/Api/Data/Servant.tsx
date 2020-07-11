@@ -2,12 +2,24 @@ import Attribute from "./Attribute";
 import Card from "./Card";
 import ClassName from "./ClassName";
 import Gender from "./Gender";
-import AssetCollection from "./AssetCollection";
+import AssetCollection, {AssetBundle, AssetMap} from "./AssetCollection";
 import NoblePhantasm from "./NoblePhantasm";
 import EntityType from "./EntityType";
 import Profile from "./Profile";
 import Skill from "./Skill";
 import Trait from "./Trait";
+
+export interface ServantAssetBundle extends AssetBundle {
+    ascension: AssetMap;
+    costume: AssetMap;
+    equip: AssetMap;
+    cc: AssetMap;
+}
+
+export interface ServantAssetCollection extends AssetCollection {
+    charaGraph: ServantAssetBundle;
+    faces: ServantAssetBundle;
+}
 
 interface Servant {
     id: number;
@@ -18,7 +30,7 @@ interface Servant {
     rarity: number;
     cost: number;
     lvMax: number;
-    extraAssets: AssetCollection;
+    extraAssets: ServantAssetCollection;
     gender: Gender;
     attribute: Attribute;
     traits: Trait[];

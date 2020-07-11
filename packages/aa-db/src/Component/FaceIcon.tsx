@@ -2,8 +2,8 @@ import React from "react";
 import EntityType from "../Api/Data/EntityType";
 
 interface IProps {
-    type: EntityType;
-    rarity: number;
+    type?: EntityType;
+    rarity?: number;
     location: string;
     height?: number;
 }
