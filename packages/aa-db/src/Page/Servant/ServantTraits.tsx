@@ -19,6 +19,10 @@ class ServantTraits extends React.Component<IProps> {
                 ).map(
                     (element, index) => <span key={index}>{element}</span>
                 )}
+
+                <br/>
+                <br/>
+                <br/>
             </div>
         );
     }

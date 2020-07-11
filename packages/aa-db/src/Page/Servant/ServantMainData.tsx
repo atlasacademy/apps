@@ -1,6 +1,7 @@
 import React from "react";
 import Servant from "../../Api/Data/Servant";
 import ClassIcon from "../../Component/ClassIcon";
+import CommandCard from "../../Component/CommandCard";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
@@ -29,13 +30,26 @@ class ServantMainData extends React.Component<IProps> {
                     "Class": servant.className,
                     "Rarity": <RarityDescriptor rarity={servant.rarity}/>,
                     "Cost": servant.cost,
-                    "Gender": servant.gender,
                     "Attribute": servant.attribute,
                     "Max Lv.": servant.lvMax,
-                    "Base Hp": servant.hpBase,
-                    "Base Atk": servant.atkBase,
-                    "Max Hp": servant.hpMax,
-                    "Max Atk": servant.atkMax,
+                    "Hp": <div>
+                        Base: {servant.hpBase}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Max: {servant.hpMax}
+                    </div>,
+                    "Atk": <div>
+                        Base: {servant.atkBase}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Max: {servant.atkMax}
+                    </div>,
+                    "Cards": <div>
+                        {servant.cards.map((card, index) => {
+                            return <CommandCard key={index}
+                                                height={60}
+                                                card={card}
+                                                servant={servant}/>;
+                        })}
+                    </div>,
                 }}/>
             </div>
         );

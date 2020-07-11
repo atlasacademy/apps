@@ -10,15 +10,17 @@ import Skill from "./Skill";
 import Trait from "./Trait";
 
 export interface ServantAssetBundle extends AssetBundle {
-    ascension: AssetMap;
-    costume: AssetMap;
-    equip: AssetMap;
-    cc: AssetMap;
+    ascension?: AssetMap;
+    costume?: AssetMap;
+    equip?: AssetMap;
+    cc?: AssetMap;
 }
 
 export interface ServantAssetCollection extends AssetCollection {
     charaGraph: ServantAssetBundle;
     faces: ServantAssetBundle;
+    commands: ServantAssetBundle;
+    status: ServantAssetBundle;
 }
 
 interface Servant {
