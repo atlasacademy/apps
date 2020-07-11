@@ -8,6 +8,7 @@ import BuffPage from "./Page/BuffPage";
 import CraftEssencePage from "./Page/CraftEssencePage";
 import CraftEssencesPage from "./Page/CraftEssencesPage";
 import FuncPage from './Page/FuncPage';
+import HomePage from "./Page/HomePage";
 import NoblePhantasmPage from "./Page/NoblePhantasmPage";
 import QuestPage from "./Page/QuestPage";
 import ServantPage from "./Page/ServantPage";
@@ -96,7 +97,7 @@ class App extends React.Component<any, IState> {
                             return <ServantsPage key={region} region={region}/>;
                         }}/>
                         <Route path="/" exact={true} render={props => {
-                            return "";
+                            return <HomePage/>;
                         }}/>
                         <Route path="*" exact={true} render={props => {
                             return <ErrorStatus/>;
