@@ -3,6 +3,15 @@ import Func from "./Func";
 import Servant from "./Servant";
 import Trait from "./Trait";
 
+export interface NoblePhantasmGain {
+    buster: number[];
+    arts: number[];
+    quick: number[];
+    extra: number[];
+    defence: number[];
+    np: number[];
+}
+
 interface NoblePhantasm {
     id: number;
     num: number;
@@ -11,7 +20,7 @@ interface NoblePhantasm {
     rank: string;
     type: string;
     detail: string;
-    npNpGain: number;
+    npGain: NoblePhantasmGain;
     npDistribution: number[];
     strengthStatus: number;
     priority: number;

@@ -2,6 +2,7 @@ import React from "react";
 import {Alert} from "react-bootstrap";
 import {default as ServantNoblePhantasmData} from "../../Api/Data/NoblePhantasm";
 import Region from "../../Api/Data/Region";
+import CardType from "../../Component/CardType";
 import NoblePhantasmDescriptor from "../../Descriptor/NoblePhantasmDescriptor";
 import QuestDescriptor from "../../Descriptor/QuestDescriptor";
 import {asPercent, handleNewLine, mergeElements} from "../../Helper/OutputHelper";
@@ -33,13 +34,14 @@ class ServantNoblePhantasm extends React.Component<IProps> {
                 <p>{handleNewLine(np.detail)}</p>
 
                 <p>
-                    Card: {np.card}<br/>
+                    Card: <CardType card={np.card} height={60}/><br/>
                     Hits: {np.npDistribution.length} Hits
                     - {mergeElements(np.npDistribution.map(hit => asPercent(hit, 0)), ', ')}
                 </p>
 
                 <ServantEffectBreakdown region={this.props.region}
                                         funcs={np.functions}
+                                        gain={np.npGain}
                                         levels={5}/>
             </div>
         );

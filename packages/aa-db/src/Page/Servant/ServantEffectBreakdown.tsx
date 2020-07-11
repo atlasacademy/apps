@@ -1,6 +1,7 @@
 import React from "react";
 import {Table} from "react-bootstrap";
 import Func from "../../Api/Data/Func";
+import {NoblePhantasmGain} from "../../Api/Data/NoblePhantasm";
 import Region from "../../Api/Data/Region";
 
 import "./ServantEffectBreakdown.css";
@@ -10,6 +11,7 @@ interface IProps {
     region: Region;
     cooldowns?: number[];
     funcs: Func[];
+    gain?: NoblePhantasmGain;
     levels: number;
 }
 
@@ -29,6 +31,7 @@ class ServantEffectBreakdown extends React.Component<IProps> {
                 <ServantEffectBreakdownContent region={this.props.region}
                                                cooldowns={this.props.cooldowns}
                                                funcs={this.props.funcs}
+                                               gain={this.props.gain}
                                                levels={this.props.levels}/>
                 </tbody>
             </Table>
