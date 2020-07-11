@@ -2,7 +2,7 @@ import React from "react";
 import ClassName from "../Api/Data/ClassName";
 
 const classTypes = new Map<number, number>([
-    [0, 1],
+    [0, 0],
     [1, 1],
     [2, 1],
     [3, 2],

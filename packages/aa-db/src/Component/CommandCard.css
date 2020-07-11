@@ -1,0 +1,50 @@
+.command-card {
+    display: inline-block;
+    height: 1em;
+    position: relative;
+}
+
+.command-card-ratio {
+    height: 100%;
+}
+
+.command-card-bg, .command-card-icon, .command-card-portrait, .command-card-text {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.command-card-bg {
+    /**
+        (170 - 130) / 170 / 2
+        40 / 340
+    **/
+    left: calc(40% / 3.40);
+}
+
+.command-card-icon {
+    /**
+        133 / 185
+     */
+    height: calc(calc(133% / 1.85) - 10%);
+    left: 10%;
+    /**
+        (185 - 133) / 185
+        52 / 185
+     */
+    top: calc(calc(52% / 1.85) + 20%);
+}
+
+.command-card-text {
+    /**
+        73 / 150
+     */
+    height: calc(calc(73% / 1.50) - 10%);
+    left: 10%;
+    /**
+        (150 - 73) / 150
+        77 / 150
+     */
+    top: calc(calc(77% / 1.50) + 8.5%);
+}

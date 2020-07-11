@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import Buff, {BuffType} from "../Api/Data/Buff";
 import Region from "../Api/Data/Region";
 import BuffIcon from "../Component/BuffIcon";
-import {joinElements} from "../Helper/OutputHelper";
+import {joinElements, mergeElements} from "../Helper/OutputHelper";
 import TraitDescriptor from "./TraitDescriptor";
 
 const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
@@ -171,7 +171,7 @@ class BuffDescriptor extends React.Component<IProps> {
 
         return (
             <React.Fragment>
-                {joinElements(
+                {mergeElements(
                     this.props.buff.ckSelfIndv.map(
                         trait => <TraitDescriptor region={this.props.region} trait={trait}/>
                     ),

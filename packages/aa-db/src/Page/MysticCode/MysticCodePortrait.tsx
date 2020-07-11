@@ -16,7 +16,7 @@ class MysticCodePortrait extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        const assetMap = props.mysticCode.extraAssets.masterFace,
+        const assetMap = props.mysticCode.extraAssets.masterFigure,
             assetKey = assetMap === undefined ? undefined : Object.keys(assetMap).shift();
 
         this.state = {assetMap, assetKey};

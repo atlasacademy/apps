@@ -11,6 +11,7 @@ import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
 import RawDataViewer from "../Component/RawDataViewer";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
@@ -119,6 +120,15 @@ class SkillPage extends React.Component<IProps, IState> {
                                             </div>
                                         );
                                     }
+                                })
+                            }
+                            {skill.reverseMC
+                                .map((mysticCode, index) => {
+                                    return (
+                                        <MysticCodeDescriptor key={index}
+                                                              region={this.props.region}
+                                                              mysticCode={mysticCode}/>
+                                    );
                                 })
                             }
                         </div>

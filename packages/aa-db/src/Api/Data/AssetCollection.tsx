@@ -1,18 +1,13 @@
 export interface AssetMap {
-    [key: string]: string;
+    [key: string]: string | undefined;
 }
 
 export interface AssetBundle {
-    // ascension?: AssetMap;
-    // costume?: AssetMap;
-    // equip?: AssetMap;
-    [key: string]: AssetMap;
+    [key: string]: AssetMap | undefined;
 }
 
 interface AssetCollection {
-    // charaGraph: AssetBundle;
-    // faces: AssetBundle;
-    [key: string]: AssetBundle;
+    [key: string]: AssetBundle | undefined;
 }
 
 export default AssetCollection;
