@@ -4,7 +4,6 @@ import Item, {ItemBackgroundType, ItemType} from "../../Api/Data/Item";
 import Region from "../../Api/Data/Region";
 import {ServantLevelUpMaterialProgression} from "../../Api/Data/Servant";
 import ItemIcon from "../../Component/ItemIcon";
-import {mergeElements, Renderable} from "../../Helper/OutputHelper";
 
 const qpItem: Item = {
     id: 1,
@@ -31,15 +30,14 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
         return counts.length ? Math.max(...counts) : 0;
     }
 
-    private populateRemainingCells(max: number, count: number): Renderable {
+    private populateRemainingCells(max: number, count: number) {
         if (count >= max) {
-            return undefined;
+            return [];
         }
 
-        return mergeElements(
-            Array(max - count).fill(<td>&nbsp;</td>),
-            ''
-        );
+        return [
+            ...Array(max - count)
+        ].map((_, index) => <td key={index}></td>);
     }
 
     render() {

@@ -1,24 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { Suspense } from 'react';
+import React, {Suspense} from 'react';
 import {Container} from "react-bootstrap";
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
+
+import "./App.css";
 import ErrorStatus from "./Component/ErrorStatus";
+import Loading from "./Component/Loading";
 import Navigation from "./Component/Navigation";
-// import BuffPage from "./Page/BuffPage";
-// import CraftEssencePage from "./Page/CraftEssencePage";
-// import CraftEssencesPage from "./Page/CraftEssencesPage";
-// import FuncPage from './Page/FuncPage';
 import HomePage from "./Page/HomePage";
-// import MysticCodePage from "./Page/MysticCodePage";
-// import MysticCodesPage from "./Page/MysticCodesPage";
-// import NoblePhantasmPage from "./Page/NoblePhantasmPage";
-// import QuestPage from "./Page/QuestPage";
-// import ServantPage from "./Page/ServantPage";
-// import ServantsPage from "./Page/ServantsPage";
-// import SkillPage from "./Page/SkillPage";
 import Manager from "./Setting/Manager";
 import {LanguageOption} from "./Setting/Option";
-import Loading from "./Component/Loading";
 
 const BuffPage = React.lazy(() => import("./Page/BuffPage"));
 const CraftEssencePage = React.lazy(() => import("./Page/CraftEssencePage"));
@@ -33,7 +24,6 @@ const ServantPage = React.lazy(() => import("./Page/ServantPage"));
 const ServantsPage = React.lazy(() => import("./Page/ServantsPage"));
 const SkillPage = React.lazy(() => import("./Page/SkillPage"));
 
-import "./App.css";
 
 interface IState {
     language: LanguageOption,
@@ -64,89 +54,89 @@ class App extends React.Component<any, IState> {
                 <Container id={'app'} key={`${this.state.language}`}>
                     <Switch>
                         <Route exact={true} path="/:region(JP|NA)/buff/:id([0-9]+)" render={props => {
-                            const { region, id } = props.match.params
+                            const {region, id} = props.match.params
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <BuffPage key={`${region}-${id}`} region={region} id={id}/>
                                 </Suspense>
                             );
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/craft-essence/:id([0-9]+)" render={props => {
-                            const { region, id } = props.match.params
+                            const {region, id} = props.match.params
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <CraftEssencePage key={`${region}-${id}`} region={region} id={id}/>
                                 </Suspense>
                             );
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/func/:id([0-9]+)" render={props => {
-                            const { region, id } = props.match.params
+                            const {region, id} = props.match.params
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <FuncPage key={`${region}-${id}`} region={region} id={id}/>
                                 </Suspense>
                             );
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/mystic-code/:id([0-9]+)" render={props => {
-                            const { region, id } = props.match.params
+                            const {region, id} = props.match.params
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <MysticCodePage key={`${region}-${id}`} region={region} id={id}/>
                                 </Suspense>
                             );
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/noble-phantasm/:id([0-9]+)" render={props => {
-                            const { region, id } = props.match.params
+                            const {region, id} = props.match.params
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <NoblePhantasmPage key={`${region}-${id}`} region={region} id={id}/>
                                 </Suspense>
                             );
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)" render={props => {
-                            const { region, id, phase } = props.match.params
+                            const {region, id, phase} = props.match.params
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <QuestPage key={`${region}-${id}-${phase}`} region={region} id={id} phase={phase}/>
                                 </Suspense>
                             )
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/servant/:id([0-9]+)" render={props => {
-                            const { region, id } = props.match.params
+                            const {region, id} = props.match.params
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <ServantPage key={`${region}-${id}`} region={region} id={id}/>;
                                 </Suspense>
                             )
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/skill/:id([0-9]+)" render={props => {
-                            const { region, id } = props.match.params
+                            const {region, id} = props.match.params
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <SkillPage key={`${region}-${id}`} region={region} id={id}/>
                                 </Suspense>
                             )
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/craft-essences" render={props => {
-                            const { region } = props.match.params;
+                            const {region} = props.match.params;
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <CraftEssencesPage key={region} region={region}/>
                                 </Suspense>
                             );
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/mystic-codes" render={props => {
-                            const { region } = props.match.params;
+                            const {region} = props.match.params;
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <MysticCodesPage key={region} region={region}/>
                                 </Suspense>
                             )
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/servants" render={props => {
-                            const { region } = props.match.params;
+                            const {region} = props.match.params;
                             return (
-                                <Suspense fallback={<Loading />}>
+                                <Suspense fallback={<Loading/>}>
                                     <ServantsPage key={region} region={region}/>
                                 </Suspense>
                             )
