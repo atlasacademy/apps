@@ -105,7 +105,7 @@ class App extends React.Component<any, IState> {
                             const {region, id} = props.match.params
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <ServantPage key={`${region}-${id}`} region={region} id={id}/>;
+                                    <ServantPage key={`${region}-${id}`} region={region} id={id}/>
                                 </Suspense>
                             )
                         }}/>
