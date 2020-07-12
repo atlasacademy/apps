@@ -1,0 +1,36 @@
+.item-icon {
+    display: inline-block;
+    position: relative;
+}
+
+.item-icon-ratio {
+    height: 100%;
+}
+
+.item-icon-bg, .item-icon-image, .item-icon-quantity {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.item-icon-image {
+    object-fit: contain;
+    height: 70%;
+    left: 50%;
+    margin-left: -40%;
+    margin-top: -35%;
+    top: 50%;
+    width: 70%;
+}
+
+.item-icon-quantity {
+    bottom: 5%;
+    color: #ffffff;
+    font-size: 0.75em;
+    left: auto;
+    height: 1.5em;
+    right: 16%;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+    top: auto;
+}
