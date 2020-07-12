@@ -19,6 +19,8 @@ import SkillPage from "./Page/SkillPage";
 import Manager from "./Setting/Manager";
 import {LanguageOption} from "./Setting/Option";
 
+import "./App.css";
+
 interface IState {
     language: LanguageOption,
 }
@@ -45,7 +47,7 @@ class App extends React.Component<any, IState> {
                 <Navigation/>
                 <br/>
 
-                <Container key={`${this.state.language}`}>
+                <Container id={'app'} key={`${this.state.language}`}>
                     <Switch>
                         <Route exact={true} path="/:region(JP|NA)/buff/:id([0-9]+)" render={props => {
                             const region = props.match.params.region,

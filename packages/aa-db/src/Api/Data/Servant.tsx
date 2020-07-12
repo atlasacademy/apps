@@ -3,6 +3,7 @@ import Card from "./Card";
 import ClassName from "./ClassName";
 import Gender from "./Gender";
 import AssetCollection, {AssetBundle, AssetMap} from "./AssetCollection";
+import Item from "./Item";
 import NoblePhantasm from "./NoblePhantasm";
 import EntityType from "./EntityType";
 import Profile from "./Profile";
@@ -21,6 +22,15 @@ export interface ServantAssetCollection extends AssetCollection {
     faces: ServantAssetBundle;
     commands: ServantAssetBundle;
     status: ServantAssetBundle;
+}
+
+export interface ServantLevelUpMaterials {
+    items: { item: Item, amount: number }[],
+    qp: number,
+}
+
+export interface ServantLevelUpMaterialProgression {
+    [key: string]: ServantLevelUpMaterials;
 }
 
 interface Servant {
@@ -54,8 +64,8 @@ interface Servant {
     atkGrowth: number[];
     hpGrowth: number[];
     bondGrowth: number[];
-    // ascensionMaterials
-    // skillMaterials
+    ascensionMaterials: ServantLevelUpMaterialProgression;
+    skillMaterials: ServantLevelUpMaterialProgression;
     skills: Skill[];
     classPassive: Skill[],
     noblePhantasms: NoblePhantasm[];

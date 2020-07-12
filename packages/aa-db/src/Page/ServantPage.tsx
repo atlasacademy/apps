@@ -9,6 +9,7 @@ import TraitMap from "../Api/Data/TraitMap";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import ServantMainData from "./Servant/ServantMainData";
+import ServantMaterialBreakdown from "./Servant/ServantMaterialBreakdown";
 import ServantMiscData from "./Servant/ServantMiscData";
 import ServantNoblePhantasm from "./Servant/ServantNoblePhantasm";
 import ServantPassive from "./Servant/ServantPassive";
@@ -153,6 +154,21 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantProfileStats region={this.props.region} stats={servant.profile.stats}/>
                         <hr/>
                         <ServantProfileComments region={this.props.region} comments={servant.profile.comments}/>
+                    </Tab>
+                    <Tab eventKey={'materials'} title={'Materials'}>
+                        <br/>
+                        <Row>
+                            <Col xs={12} lg={6}>
+                                <ServantMaterialBreakdown region={this.props.region}
+                                                          materials={servant.ascensionMaterials}
+                                                          title={'Ascension Materials'}/>
+                            </Col>
+                            <Col xs={12} lg={6}>
+                                <ServantMaterialBreakdown region={this.props.region}
+                                                          materials={servant.skillMaterials}
+                                                          title={'Skill Materials'}/>
+                            </Col>
+                        </Row>
                     </Tab>
                 </Tabs>
             </div>
