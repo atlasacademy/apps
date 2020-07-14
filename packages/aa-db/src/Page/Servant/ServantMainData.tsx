@@ -9,6 +9,8 @@ import {formatNumber} from "../../Helper/OutputHelper";
 
 interface IProps {
     servant: Servant;
+    assetType?: string;
+    assetId?: string;
 }
 
 class ServantMainData extends React.Component<IProps> {
@@ -48,7 +50,9 @@ class ServantMainData extends React.Component<IProps> {
                             return <CommandCard key={index}
                                                 height={60}
                                                 card={card}
-                                                servant={servant}/>;
+                                                servant={servant}
+                                                assetType={this.props.assetType}
+                                                assetId={this.props.assetId}/>;
                         })}
                     </div>,
                 }}/>
