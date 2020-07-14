@@ -8,6 +8,7 @@ import Servant from "../Api/Data/Servant";
 import TraitMap from "../Api/Data/TraitMap";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import ServantAssets from "./Servant/ServantAssets";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantMaterialBreakdown from "./Servant/ServantMaterialBreakdown";
 import ServantMiscData from "./Servant/ServantMiscData";
@@ -32,6 +33,8 @@ interface IState {
     id: number;
     servants: BasicListEntity[];
     servant?: Servant;
+    assetType?: string;
+    assetId?: string;
 }
 
 class ServantPage extends React.Component<IProps, IState> {
@@ -57,16 +60,26 @@ class ServantPage extends React.Component<IProps, IState> {
                 Connection.traitMap(this.props.region)
             ]);
 
+            const assetType = Object.keys(servant.extraAssets.charaGraph)[0],
+                assetMap = assetType ? servant.extraAssets.charaGraph[assetType] : undefined,
+                assetId = assetMap ? Object.keys(assetMap)[0] : undefined;
+
             this.setState({
                 loading: false,
                 servants,
-                servant
+                servant,
+                assetType,
+                assetId
             });
         } catch (e) {
             this.setState({
                 error: e
             });
         }
+    }
+
+    private updatePortrait(assetType: string, assetId: string) {
+        this.setState({assetType, assetId});
     }
 
     render() {
@@ -87,10 +100,19 @@ class ServantPage extends React.Component<IProps, IState> {
 
                 <Row>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
-                        <ServantMainData servant={this.state.servant}/>
+                        <ServantMainData servant={this.state.servant}
+                                         assetType={this.state.assetType}
+                                         assetId={this.state.assetId}/>
                     </Col>
                     <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
-                        <ServantPortrait servant={this.state.servant}/>
+                        <ServantPortrait servant={this.state.servant}
+                                         assetType={this.state.assetType}
+                                         assetId={this.state.assetId}
+                                         updatePortraitCallback={
+                                             (assetType: string, assetId: string) => {
+                                                 this.updatePortrait(assetType, assetId)
+                                             }
+                                         }/>
                     </Col>
                 </Row>
 
@@ -174,6 +196,10 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantProfileStats region={this.props.region} stats={servant.profile.stats}/>
                         <hr/>
                         <ServantProfileComments region={this.props.region} comments={servant.profile.comments}/>
+                    </Tab>
+                    <Tab eventKey={'assets'} title={'Assets'}>
+                        <br/>
+                        <ServantAssets region={this.props.region} servant={servant}/>
                     </Tab>
                 </Tabs>
             </div>

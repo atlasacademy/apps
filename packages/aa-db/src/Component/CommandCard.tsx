@@ -14,10 +14,21 @@ interface IProps {
     card: Card;
     servant: Servant;
     height?: string | number;
+    assetType?: string;
+    assetId?: string;
 }
 
 class CommandCard extends React.Component<IProps> {
     private getPortrait(): string | undefined {
+        if (this.props.assetType && this.props.assetId) {
+            const assetMap = this.props.servant.extraAssets.commands[this.props.assetType];
+            if (assetMap !== undefined) {
+                const asset = assetMap[this.props.assetId];
+
+                return asset ? asset : Object.values(assetMap).pop();
+            }
+        }
+
         const commandBundle = this.props.servant.extraAssets.commands,
             ascensionMap = commandBundle.ascension;
 
