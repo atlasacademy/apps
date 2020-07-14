@@ -1,6 +1,7 @@
 import React from "react";
 import Item, {ItemBackgroundType} from "../Api/Data/Item";
 import Region from "../Api/Data/Region";
+import {formatNumber} from "../Helper/OutputHelper";
 
 import "./ItemIcon.css";
 
@@ -26,7 +27,7 @@ class ItemIcon extends React.Component<IProps> {
             return undefined;
 
         const int = Math.floor(this.props.quantity),
-            quantity = String(int).replace(/(.)(?=(\d{3})+$)/g, '$1,'),
+            quantity = formatNumber(int),
             height = this.props.quantityHeight ?? '1em';
 
         return <span className={'item-icon-quantity'} style={{fontSize: height}}>{quantity}</span>;

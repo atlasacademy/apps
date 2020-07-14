@@ -5,6 +5,7 @@ import CommandCard from "../../Component/CommandCard";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
+import {formatNumber} from "../../Helper/OutputHelper";
 
 interface IProps {
     servant: Servant;
@@ -33,14 +34,14 @@ class ServantMainData extends React.Component<IProps> {
                     "Attribute": servant.attribute,
                     "Max Lv.": servant.lvMax,
                     "Hp": <div>
-                        Base: {servant.hpBase}
+                        Base: {formatNumber(servant.hpBase)}
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        Max: {servant.hpMax}
+                        Max: {formatNumber(servant.hpMax)}
                     </div>,
                     "Atk": <div>
-                        Base: {servant.atkBase}
+                        Base: {formatNumber(servant.atkBase)}
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        Max: {servant.atkMax}
+                        Max: {formatNumber(servant.atkMax)}
                     </div>,
                     "Cards": <div>
                         {servant.cards.map((card, index) => {

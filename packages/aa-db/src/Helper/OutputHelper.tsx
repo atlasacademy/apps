@@ -16,6 +16,10 @@ export function asPercent(value: number | string | undefined, pow: number): stri
     return `${decimal}%`;
 }
 
+export function formatNumber(value: number): string {
+    return String(value).replace(/(.)(?=(\d{3})+$)/g, '$1,');
+}
+
 export function handleNewLine(text?: string): Renderable {
     if (!text)
         return "";
