@@ -13,6 +13,7 @@ import CraftEssencePicker from "./CraftEssence/CraftEssencePicker";
 import CraftEssencePortrait from "./CraftEssence/CraftEssencePortrait";
 import CraftEssenceProfileComments from "./CraftEssence/CraftEssenceProfileComments";
 import CraftEssenceSkill from "./CraftEssence/CraftEssenceSkill";
+import CraftEssenceStatGrowth from "./CraftEssence/CraftEssenceStatGrowth";
 
 interface IProps {
     region: Region;
@@ -101,6 +102,10 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                                     );
                                 })}
                         </Row>
+                    </Tab>
+                    <Tab eventKey={'stat-growth'} title={'Stat Growth'}>
+                        <br/>
+                        <CraftEssenceStatGrowth region={this.props.region} craftEssence={craftEssence}/>
                     </Tab>
                     <Tab eventKey={'profile'} title={'Profile'}>
                         <br/>

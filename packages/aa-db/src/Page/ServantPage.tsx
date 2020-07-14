@@ -18,6 +18,7 @@ import ServantPortrait from "./Servant/ServantPortrait";
 import ServantProfileComments from "./Servant/ServantProfileComments";
 import ServantProfileStats from "./Servant/ServantProfileStats";
 import ServantSkill from "./Servant/ServantSkill";
+import ServantStatGrowth from "./Servant/ServantStatGrowth";
 import ServantTraits from "./Servant/ServantTraits";
 
 interface IProps {
@@ -145,16 +146,6 @@ class ServantPage extends React.Component<IProps, IState> {
                         <br/>
                         <ServantTraits region={this.props.region} traits={this.state.servant.traits}/>
                     </Tab>
-                    <Tab eventKey={'misc'} title={'Misc'}>
-                        <br/>
-                        <ServantMiscData servant={this.state.servant}/>
-                    </Tab>
-                    <Tab eventKey={'lore'} title={'Profile'}>
-                        <br/>
-                        <ServantProfileStats region={this.props.region} stats={servant.profile.stats}/>
-                        <hr/>
-                        <ServantProfileComments region={this.props.region} comments={servant.profile.comments}/>
-                    </Tab>
                     <Tab eventKey={'materials'} title={'Materials'}>
                         <br/>
                         <Row>
@@ -169,6 +160,20 @@ class ServantPage extends React.Component<IProps, IState> {
                                                           title={'Skill Materials'}/>
                             </Col>
                         </Row>
+                    </Tab>
+                    <Tab eventKey={'stat-growth'} title={'Stat Growth'}>
+                        <br/>
+                        <ServantStatGrowth region={this.props.region} servant={servant}/>
+                    </Tab>
+                    <Tab eventKey={'misc'} title={'Misc'}>
+                        <br/>
+                        <ServantMiscData servant={this.state.servant}/>
+                    </Tab>
+                    <Tab eventKey={'lore'} title={'Profile'}>
+                        <br/>
+                        <ServantProfileStats region={this.props.region} stats={servant.profile.stats}/>
+                        <hr/>
+                        <ServantProfileComments region={this.props.region} comments={servant.profile.comments}/>
                     </Tab>
                 </Tabs>
             </div>
