@@ -9,7 +9,8 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
-import {joinElements} from "../Helper/OutputHelper";
+import TraitDescriptor from "../Descriptor/TraitDescriptor";
+import {mergeElements} from "../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
@@ -75,11 +76,46 @@ class BuffPage extends React.Component<IProps, IState> {
                     "Name": buff.name,
                     "Detail": buff.detail,
                     "Type": buff.type,
-                    "Gained Traits": (
+                    "Buff Traits": (
                         <div>
-                            {joinElements(buff.vals.map(trait => trait.name), ', ')}
+                            {mergeElements(
+                                buff.vals.map(
+                                    trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                                ),
+                                ' '
+                            )}
                         </div>
                     ),
+                    "Target Traits": (
+                        <div>
+                            {mergeElements(
+                                buff.tvals.map(
+                                    trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                                ),
+                                ' '
+                            )}
+                        </div>
+                    ),
+                    "Required Self Traits": (
+                        <div>
+                            {mergeElements(
+                                buff.ckSelfIndv.map(
+                                    trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                                ),
+                                ' '
+                            )}
+                        </div>
+                    ),
+                    "Required Opponent Traits": (
+                        <div>
+                            {mergeElements(
+                                buff.ckOpIndv.map(
+                                    trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                                ),
+                                ' '
+                            )}
+                        </div>
+                    )
                 }}/>
 
                 <h3>Related Functions</h3>

@@ -6,7 +6,7 @@ import BuffIcon from "../Component/BuffIcon";
 import {joinElements, mergeElements} from "../Helper/OutputHelper";
 import TraitDescriptor from "./TraitDescriptor";
 
-const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
+export const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
     {up: BuffType.UP_ATK, down: BuffType.DOWN_ATK, description: "ATK"},
     {up: BuffType.UP_CHAGETD, down: undefined, description: "Overcharge"},
     {up: BuffType.UP_COMMANDATK, down: BuffType.DOWN_COMMANDATK, description: "ATK"},
@@ -33,14 +33,14 @@ const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
     {up: BuffType.UP_TOLERANCE_SUBSTATE, down: BuffType.DOWN_TOLERANCE_SUBSTATE, description: "Buff Removal Resist"},
 ];
 
-const traitDescriptions = new Map<number, string>([
+export const traitDescriptions = new Map<number, string>([
     [3012, 'Charm'],
     [3015, 'Burn'],
     [3026, 'Curse'],
     [3045, 'Stun'],
 ]);
 
-const typeDescriptions = new Map<BuffType, string>([
+export const typeDescriptions = new Map<BuffType, string>([
     [BuffType.AVOID_INSTANTDEATH, 'Immune to Death'],
     [BuffType.AVOID_STATE, 'Immunity'],
     [BuffType.ADD_DAMAGE, 'Damage Plus'],
