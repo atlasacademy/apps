@@ -1,6 +1,8 @@
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
+import {withRouter} from "react-router";
+import {RouteComponentProps} from "react-router-dom";
 import Connection from "../Api/Connection";
 import MysticCode from "../Api/Data/MysticCode";
 import Region from "../Api/Data/Region";
@@ -11,9 +13,10 @@ import MysticCodePicker from "./MysticCode/MysticCodePicker";
 import MysticCodePortrait from "./MysticCode/MysticCodePortrait";
 import MysticCodeSkill from "./MysticCode/MysticCodeSkill";
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
+    tab?: string;
 }
 
 interface IState {
@@ -78,7 +81,10 @@ class MysticCodePage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
 
-                <Tabs id={'mystic-code-tabs'} defaultActiveKey={'skill-1'} transition={false}>
+                <Tabs id={'mystic-code-tabs'} defaultActiveKey={this.props.tab ?? 'skill-1'} transition={false}
+                      onSelect={(key: string) => {
+                          this.props.history.replace(`/${this.props.region}/mystic-code/${this.props.id}/${key}`);
+                      }}>
                     <Tab eventKey={'skill-1'} title={'Skill 1'}>
                         <br/>
                         {this.state.mysticCode.skills[0] ? (
@@ -105,4 +111,4 @@ class MysticCodePage extends React.Component<IProps, IState> {
     }
 }
 
-export default MysticCodePage;
+export default withRouter(MysticCodePage);
