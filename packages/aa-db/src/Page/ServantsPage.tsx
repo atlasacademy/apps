@@ -1,6 +1,6 @@
 import {AxiosError} from "axios";
 import React from "react";
-import {Table} from "react-bootstrap";
+import {Form, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
 import BasicListEntity from "../Api/Data/BasicListEntity";
@@ -25,7 +25,11 @@ const classFilters: ClassName[] = [
     ClassName.EXTRA,
 ];
 
-interface Event extends React.MouseEvent<HTMLInputElement> {
+interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
+
+}
+
+interface MouseEvent extends React.MouseEvent<HTMLInputElement> {
 
 }
 
@@ -39,6 +43,7 @@ interface IState {
     servants: BasicListEntity[];
     activeClassFilters: ClassName[];
     activeRarityFilters: number[];
+    search?: string;
 }
 
 class ServantsPage extends React.Component<IProps, IState> {
@@ -147,6 +152,15 @@ class ServantsPage extends React.Component<IProps, IState> {
             });
         }
 
+        if (this.state.search) {
+            const words = this.state.search
+                .split(' ')
+                .filter(word => word)
+                .map(word => word.toLowerCase());
+
+            list = list.filter(entity => words.every(word => entity.name.toLowerCase().includes(word)));
+        }
+
         return list;
     }
 
@@ -159,21 +173,25 @@ class ServantsPage extends React.Component<IProps, IState> {
 
         return (
             <div id="servants">
-                <p className={'text-center'}>
+                <Form inline style={{justifyContent: 'center'}}>
                     {classFilters.map(className => {
                         const active = this.isClassFilterActive(className);
                         return (
                             <span key={className}
                                   className={'filter'}
                                   style={{opacity: active ? 1 : 0.5}}
-                                  onClick={(ev: Event) => {
+                                  onClick={(ev: MouseEvent) => {
                                       this.toggleClassFilter(className);
                                   }}>
                                 <ClassIcon height={50} rarity={active ? 5 : 3} className={className}/>
                             </span>
                         );
                     })}
-                </p>
+                    <Form.Control style={{marginLeft: 'auto'}} placeholder={'Search'} value={this.state.search ?? ''}
+                                  onChange={(ev: ChangeEvent) => {
+                                      this.setState({search: ev.target.value});
+                                  }}/>
+                </Form>
 
                 <hr/>
 
