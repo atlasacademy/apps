@@ -1,6 +1,6 @@
 import {AxiosError} from "axios";
 import React from "react";
-import {Table} from "react-bootstrap";
+import {Form, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Connection from "../Api/Connection";
 import BasicListEntity from "../Api/Data/BasicListEntity";
@@ -12,7 +12,11 @@ import RarityDescriptor from "../Descriptor/RarityDescriptor";
 
 import "./CraftEssencesPage.css";
 
-interface Event extends React.MouseEvent<HTMLInputElement> {
+interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
+
+}
+
+interface MouseEvent extends React.MouseEvent<HTMLInputElement> {
 
 }
 
@@ -25,6 +29,7 @@ interface IState {
     loading: boolean;
     craftEssences: BasicListEntity[];
     activeRarityFilters: number[];
+    search?: string;
 }
 
 class CraftEssencesPage extends React.Component<IProps, IState> {
@@ -62,6 +67,15 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             });
         }
 
+        if (this.state.search) {
+            const words = this.state.search
+                .split(' ')
+                .filter(word => word)
+                .map(word => word.toLowerCase());
+
+            list = list.filter(entity => words.every(word => entity.name.toLowerCase().includes(word)));
+        }
+
         return list;
     }
 
@@ -74,6 +88,15 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
         return (
             <div id={'craft-essences'}>
+                <Form inline style={{justifyContent: 'center'}}>
+                    <Form.Control style={{marginLeft: 'auto'}} placeholder={'Search'} value={this.state.search ?? ''}
+                                  onChange={(ev: ChangeEvent) => {
+                                      this.setState({search: ev.target.value});
+                                  }}/>
+                </Form>
+
+                <hr/>
+
                 <Table striped bordered hover>
                     <thead>
                     <tr>
