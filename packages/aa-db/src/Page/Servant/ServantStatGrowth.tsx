@@ -30,7 +30,7 @@ class ServantStatGrowth extends React.Component<IProps> {
                         const index = 100 - i - 1;
 
                         return (
-                            <tr>
+                            <tr key={i}>
                                 <td>
                                     {index >= this.props.servant.lvMax ? <BuffIcon location={grailIcon}/> : null}
                                 </td>
