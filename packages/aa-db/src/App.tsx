@@ -12,10 +12,11 @@ import Manager from "./Setting/Manager";
 import {LanguageOption} from "./Setting/Option";
 
 const BuffPage = React.lazy(() => import("./Page/BuffPage"));
+const BuffsPage = React.lazy(() => import("./Page/BuffsPage"));
 const CraftEssencePage = React.lazy(() => import("./Page/CraftEssencePage"));
 const CraftEssencesPage = React.lazy(() => import("./Page/CraftEssencesPage"));
 const FuncPage = React.lazy(() => import('./Page/FuncPage'));
-
+const FuncsPage = React.lazy(() => import('./Page/FuncsPage'));
 const MysticCodePage = React.lazy(() => import("./Page/MysticCodePage"));
 const MysticCodesPage = React.lazy(() => import("./Page/MysticCodesPage"));
 const NoblePhantasmPage = React.lazy(() => import("./Page/NoblePhantasmPage"));
@@ -117,11 +118,27 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
+                        <Route exact={true} path="/:region(JP|NA)/buffs" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <BuffsPage key={region} region={region}/>
+                                </Suspense>
+                            );
+                        }}/>
                         <Route exact={true} path="/:region(JP|NA)/craft-essences" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
                                     <CraftEssencesPage key={region} region={region}/>
+                                </Suspense>
+                            );
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/funcs" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <FuncsPage key={region} region={region}/>
                                 </Suspense>
                             );
                         }}/>

@@ -80,6 +80,16 @@ class Navigation extends React.Component<IProps, IState> {
                                     <NavItem>Mystic Codes</NavItem>
                                 </Link>
                             </Nav>
+                            <Nav>
+                                <Link to={`/${this.region()}/buffs`} className={'nav-link'}>
+                                    <NavItem>Buffs</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
+                                <Link to={`/${this.region()}/funcs`} className={'nav-link'}>
+                                    <NavItem>Functions</NavItem>
+                                </Link>
+                            </Nav>
                             <Nav className={'ml-auto icons'}>
                                 <Link to={this.regionLink(Region.JP)}
                                       className={`nav-link ${this.regionClass(Region.JP)}`}>

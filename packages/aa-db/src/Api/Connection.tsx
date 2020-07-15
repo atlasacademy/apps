@@ -2,9 +2,9 @@ import axios from "axios";
 import Manager from "../Setting/Manager";
 import {LanguageOption} from "../Setting/Option";
 import BasicListEntity from "./Data/BasicListEntity";
-import Buff from "./Data/Buff";
+import Buff, {BuffType} from "./Data/Buff";
 import CraftEssence from "./Data/CraftEssence";
-import Func from "./Data/Func";
+import Func, {FuncTargetTeam, FuncTargetType, FuncType} from "./Data/Func";
 import MysticCode from "./Data/MysticCode";
 import NoblePhantasm from "./Data/NoblePhantasm";
 import Quest from "./Data/Quest";
@@ -228,6 +228,44 @@ class Connection {
             },
             null
         );
+    }
+
+    static searchBuffs(region: Region, name?: string, type?: BuffType): Promise<Buff[]> {
+        const language = Manager.language();
+
+        let query = "?reverse=true";
+
+        if (language === LanguageOption.ENGLISH)
+            query += "&lang=en";
+        if (name)
+            query += "&name=" + encodeURI(name);
+        if (type)
+            query += "&type=" + type;
+
+        return fetch<Buff[]>(`${host}/nice/${region}/buff/search${query}`);
+    }
+
+    static searchFuncs(region: Region,
+                       text?: string,
+                       type?: FuncType,
+                       target?: FuncTargetType,
+                       team?: FuncTargetTeam): Promise<Func[]> {
+        const language = Manager.language();
+
+        let query = "?reverse=true";
+
+        if (language === LanguageOption.ENGLISH)
+            query += "&lang=en";
+        if (text)
+            query += "&popupText=" + encodeURI(text);
+        if (type)
+            query += "&type=" + type;
+        if (target)
+            query += "&targetType=" + target;
+        if (team)
+            query += "&targetTeam=" + team;
+
+        return fetch<Func[]>(`${host}/nice/${region}/function/search${query}`);
     }
 
     private static async getCacheableCraftEssenceList(region: Region): Promise<BasicListEntity[]> {
