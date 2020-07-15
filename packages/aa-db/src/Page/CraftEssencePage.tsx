@@ -1,6 +1,8 @@
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
+import {withRouter} from "react-router";
+import {RouteComponentProps} from "react-router-dom";
 import Connection from "../Api/Connection";
 import BasicListEntity from "../Api/Data/BasicListEntity";
 import CraftEssence from "../Api/Data/CraftEssence";
@@ -15,9 +17,10 @@ import CraftEssenceProfileComments from "./CraftEssence/CraftEssenceProfileComme
 import CraftEssenceSkill from "./CraftEssence/CraftEssenceSkill";
 import CraftEssenceStatGrowth from "./CraftEssence/CraftEssenceStatGrowth";
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
+    tab?: string;
 }
 
 interface IState {
@@ -88,7 +91,10 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
 
-                <Tabs id={'ce-tabs'} defaultActiveKey={'effects'} transition={false}>
+                <Tabs id={'ce-tabs'} defaultActiveKey={this.props.tab ?? 'effects'} transition={false}
+                      onSelect={(key: string) => {
+                          this.props.history.replace(`/${this.props.region}/craft-essence/${this.props.id}/${key}`);
+                      }}>
                     <Tab eventKey={'effects'} title={'Effects'}>
                         <br/>
                         <Row>
@@ -118,4 +124,4 @@ class CraftEssencePage extends React.Component<IProps, IState> {
     }
 }
 
-export default CraftEssencePage;
+export default withRouter(CraftEssencePage);

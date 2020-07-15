@@ -26,7 +26,7 @@ class CraftEssenceStatGrowth extends React.Component<IProps> {
                         const index = this.props.craftEssence.lvMax - i - 1;
 
                         return (
-                            <tr>
+                            <tr key={i}>
                                 <td>{index + 1}</td>
                                 <td>{formatNumber(this.props.craftEssence.hpGrowth[index])}</td>
                                 <td>{formatNumber(this.props.craftEssence.atkGrowth[index])}</td>

@@ -1,6 +1,8 @@
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
+import {withRouter} from "react-router";
+import {RouteComponentProps} from "react-router-dom";
 import Connection from "../Api/Connection";
 import BasicListEntity from "../Api/Data/BasicListEntity";
 import Region from "../Api/Data/Region";
@@ -22,9 +24,10 @@ import ServantSkill from "./Servant/ServantSkill";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
 import ServantTraits from "./Servant/ServantTraits";
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
+    tab?: string;
 }
 
 interface IState {
@@ -116,7 +119,10 @@ class ServantPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
 
-                <Tabs id={'servant-tabs'} defaultActiveKey={'skill-1'} transition={false}>
+                <Tabs id={'servant-tabs'} defaultActiveKey={this.props.tab ?? 'skill-1'} transition={false}
+                      onSelect={(key: string) => {
+                          this.props.history.replace(`/${this.props.region}/servant/${this.props.id}/${key}`);
+                      }}>
                     <Tab eventKey={'skill-1'} title={'Skill 1'}>
                         <br/>
                         {this.state.servant.skills
@@ -141,7 +147,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                 return <ServantSkill region={this.props.region} key={index} skill={skill}/>;
                             })}
                     </Tab>
-                    <Tab eventKey={'nps'} title={'Noble Phantasms'}>
+                    <Tab eventKey={'noble-phantasms'} title={'Noble Phantasms'}>
                         <br/>
                         {this.state.servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
@@ -207,4 +213,4 @@ class ServantPage extends React.Component<IProps, IState> {
     }
 }
 
-export default ServantPage;
+export default withRouter(ServantPage);

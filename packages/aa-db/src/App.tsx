@@ -62,11 +62,11 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/craft-essence/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params
+                        <Route exact={true} path="/:region(JP|NA)/craft-essence/:id([0-9]+)/:tab([a-z0-9\-]+)?" render={props => {
+                            const {region, id, tab} = props.match.params
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <CraftEssencePage key={`${region}-${id}`} region={region} id={id}/>
+                                    <CraftEssencePage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
                                 </Suspense>
                             );
                         }}/>
@@ -78,11 +78,11 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/mystic-code/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params
+                        <Route exact={true} path="/:region(JP|NA)/mystic-code/:id([0-9]+)/:tab([a-z0-9\-]+)?" render={props => {
+                            const {region, id, tab} = props.match.params
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <MysticCodePage key={`${region}-${id}`} region={region} id={id}/>
+                                    <MysticCodePage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
                                 </Suspense>
                             );
                         }}/>
@@ -102,11 +102,11 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/servant/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params
+                        <Route exact={true} path="/:region(JP|NA)/servant/:id([0-9]+)/:tab([a-z0-9\-]+)?" render={props => {
+                            const {region, id, tab} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <ServantPage key={`${region}-${id}`} region={region} id={id}/>
+                                    <ServantPage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
                                 </Suspense>
                             )
                         }}/>
