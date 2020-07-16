@@ -44,6 +44,8 @@ class BuffValueDescriptor extends React.Component<IProps> {
             case BuffType.UP_NONRESIST_INSTANTDEATH:
             case BuffType.UP_NPDAMAGE:
             case BuffType.DOWN_NPDAMAGE:
+            case BuffType.UP_SPECIALDEFENCE:
+            case BuffType.DOWN_SPECIALDEFENCE:
             case BuffType.UP_STARWEIGHT:
             case BuffType.DOWN_STARWEIGHT:
             case BuffType.UP_TOLERANCE:

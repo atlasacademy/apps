@@ -7,6 +7,7 @@ import {joinElements, mergeElements} from "../Helper/OutputHelper";
 import TraitDescriptor from "./TraitDescriptor";
 
 export const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
+    {up: BuffType.ADD_MAXHP, down: BuffType.SUB_MAXHP, description: "Max HP"},
     {up: BuffType.UP_ATK, down: BuffType.DOWN_ATK, description: "ATK"},
     {up: BuffType.UP_CHAGETD, down: undefined, description: "Overcharge"},
     {up: BuffType.UP_COMMANDATK, down: BuffType.DOWN_COMMANDATK, description: "ATK"},
@@ -28,6 +29,7 @@ export const upDownBuffs: { up?: BuffType, down?: BuffType, description: string 
     {up: BuffType.UP_GRANTSTATE, down: BuffType.DOWN_GRANTSTATE, description: "Buff Chance"},
     {up: undefined, down: BuffType.UP_NONRESIST_INSTANTDEATH, description: "Death Resist"},
     {up: BuffType.UP_NPDAMAGE, down: BuffType.DOWN_NPDAMAGE, description: "NP Damage"},
+    {up: BuffType.UP_SPECIALDEFENCE, down: BuffType.DOWN_SPECIALDEFENCE, description: "SP.DEF"},
     {up: BuffType.UP_STARWEIGHT, down: BuffType.DOWN_STARWEIGHT, description: "Star Weight"},
     {up: BuffType.UP_TOLERANCE, down: BuffType.DOWN_TOLERANCE, description: "Debuff Resist"},
     {up: BuffType.UP_TOLERANCE_SUBSTATE, down: BuffType.DOWN_TOLERANCE_SUBSTATE, description: "Buff Removal Resist"},
@@ -46,6 +48,7 @@ export const typeDescriptions = new Map<BuffType, string>([
     [BuffType.ADD_DAMAGE, 'Damage Plus'],
     [BuffType.ADD_INDIVIDUALITY, 'Add Trait'],
     [BuffType.AVOIDANCE, 'Evade'],
+    [BuffType.COMMANDCODEATTACK_FUNCTION, 'Command Code Effect'],
     [BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
     [BuffType.DELAY_FUNCTION, 'Trigger Skill after Duration'],
     [BuffType.DONOT_NOBLE, 'NP Seal'],
@@ -61,7 +64,7 @@ export const typeDescriptions = new Map<BuffType, string>([
     [BuffType.REGAIN_HP, 'HP Per Turn'],
     [BuffType.REGAIN_NP, 'NP Per Turn'],
     [BuffType.REGAIN_STAR, 'Stars Per Turn'],
-    [BuffType.SELFTURNEND_FUNCTION, 'Trigger Skill after Duration'],
+    [BuffType.SELFTURNEND_FUNCTION, 'Trigger Skill every Turn'],
     [BuffType.SUB_SELFDAMAGE, 'Damage Cut'],
     [BuffType.TD_TYPE_CHANGE, 'Change Noble Phantasm'],
     [BuffType.UP_HATE, 'Taunt'],

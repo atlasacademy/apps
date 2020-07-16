@@ -21,6 +21,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             func.buffs[0]?.type === BuffType.ATTACK_FUNCTION
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_FUNCTION
             || func.buffs[0]?.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION
+            || func.buffs[0]?.type === BuffType.COMMANDCODEATTACK_FUNCTION
             || func.buffs[0]?.type === BuffType.DAMAGE_FUNCTION
             || func.buffs[0]?.type === BuffType.DEAD_FUNCTION
             || func.buffs[0]?.type === BuffType.DELAY_FUNCTION

@@ -7,6 +7,11 @@ import BuffDescriptor from "../BuffDescriptor";
 import TraitDescriptor from "../TraitDescriptor";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
+export const funcDescriptions = new Map<FuncType, string>([
+    [FuncType.ADD_STATE, 'Apply Buff'],
+    [FuncType.EXP_UP, 'Increase Master Exp'],
+]);
+
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
     const section = sections.action,
         parts = section.parts;
@@ -112,6 +117,12 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('Drain Charge');
 
         sections.target.preposition = 'from';
+    } else if (func.funcType === FuncType.EXP_UP) {
+        parts.push(funcDescriptions.get(FuncType.EXP_UP) ?? func.funcType);
+
+        sections.chance.showing = false;
+        sections.amount.preposition = 'by';
+        sections.target.showing = false;
     } else if (func.funcType === FuncType.FORCE_INSTANT_DEATH) {
         parts.push('Force Instant Death');
 

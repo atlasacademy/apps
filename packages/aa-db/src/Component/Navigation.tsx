@@ -76,6 +76,11 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Link>
                             </Nav>
                             <Nav>
+                                <Link to={`/${this.region()}/command-codes`} className={'nav-link'}>
+                                    <NavItem>Command Codes</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
                                 <Link to={`/${this.region()}/mystic-codes`} className={'nav-link'}>
                                     <NavItem>Mystic Codes</NavItem>
                                 </Link>

@@ -6,12 +6,12 @@ import {RouteComponentProps} from "react-router-dom";
 import Connection from "../Api/Connection";
 import MysticCode from "../Api/Data/MysticCode";
 import Region from "../Api/Data/Region";
+import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import MysticCodeMainData from "./MysticCode/MysticCodeMainData";
 import MysticCodePicker from "./MysticCode/MysticCodePicker";
 import MysticCodePortrait from "./MysticCode/MysticCodePortrait";
-import MysticCodeSkill from "./MysticCode/MysticCodeSkill";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -88,21 +88,30 @@ class MysticCodePage extends React.Component<IProps, IState> {
                     <Tab eventKey={'skill-1'} title={'Skill 1'}>
                         <br/>
                         {this.state.mysticCode.skills[0] ? (
-                            <MysticCodeSkill region={this.props.region} skill={this.state.mysticCode.skills[0]}/>
+                            <SkillBreakdown region={this.props.region}
+                                            skill={this.state.mysticCode.skills[0]}
+                                            cooldowns={true}
+                                            levels={10}/>
                         ) : null}
                     </Tab>
 
                     <Tab eventKey={'skill-2'} title={'Skill 2'}>
                         <br/>
                         {this.state.mysticCode.skills[1] ? (
-                            <MysticCodeSkill region={this.props.region} skill={this.state.mysticCode.skills[1]}/>
+                            <SkillBreakdown region={this.props.region}
+                                            skill={this.state.mysticCode.skills[1]}
+                                            cooldowns={true}
+                                            levels={10}/>
                         ) : null}
                     </Tab>
 
                     <Tab eventKey={'skill-3'} title={'Skill 3'}>
                         <br/>
                         {this.state.mysticCode.skills[2] ? (
-                            <MysticCodeSkill region={this.props.region} skill={this.state.mysticCode.skills[2]}/>
+                            <SkillBreakdown region={this.props.region}
+                                            skill={this.state.mysticCode.skills[2]}
+                                            cooldowns={true}
+                                            levels={10}/>
                         ) : null}
                     </Tab>
                 </Tabs>

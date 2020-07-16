@@ -8,6 +8,7 @@ import Func, {FuncTargetTeam, FuncTargetType, FuncType} from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import {funcDescriptions} from "../Descriptor/Func/handleActionSection";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 
 let stateCache = new Map<Region, IState>([]);
@@ -45,7 +46,11 @@ class FuncsPage extends React.Component<IProps, IState> {
     }
 
     private describeFuncType(type: FuncType): string {
-        return type;
+        const description = funcDescriptions.get(type);
+
+        return description
+            ? `${description} - ${type}`
+            : `(${type})`;
     }
 
     private async search() {
