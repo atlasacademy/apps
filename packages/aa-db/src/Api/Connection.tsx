@@ -3,6 +3,7 @@ import Manager from "../Setting/Manager";
 import {LanguageOption} from "../Setting/Option";
 import BasicListEntity from "./Data/BasicListEntity";
 import Buff, {BuffType} from "./Data/Buff";
+import CommandCode from "./Data/CommandCode";
 import CraftEssence from "./Data/CraftEssence";
 import Func, {FuncTargetTeam, FuncTargetType, FuncType} from "./Data/Func";
 import MysticCode from "./Data/MysticCode";
@@ -23,6 +24,8 @@ const host = 'https://api.atlasacademy.io',
     },
     cache = {
         buff: new ResultCache<string, Buff>(),
+        commandCode: new ResultCache<string, CommandCode>(),
+        commandCodes: new ResultCache<Region, CommandCode[]>(),
         craftEssence: new ResultCache<string, CraftEssence>(),
         craftEssenceList: new ResultCache<Region, BasicListEntity[]>(),
         func: new ResultCache<string, Func>(),
@@ -52,6 +55,37 @@ class Connection {
             },
             cacheDuration
         );
+    }
+
+    static commandCode(region: Region, id: number): Promise<CommandCode> {
+        const key = `${region}-${id}`;
+
+        return cache.commandCode.get(
+            key,
+            () => {
+                return fetch<CommandCode>(`${host}/nice/${region}/CC/${id}`);
+            },
+            cacheDuration
+        );
+    }
+
+    static async commandCodeList(region: Region): Promise<CommandCode[]> {
+        if (region === Region.NA) {
+            return Connection.getCommandCodeEssenceList(Region.NA);
+        } else if (region === Region.JP && Manager.language() === LanguageOption.DEFAULT) {
+            return Connection.getCommandCodeEssenceList(Region.JP);
+        }
+
+        const jp = await Connection.getCommandCodeEssenceList(Region.JP),
+            na = await Connection.getCommandCodeEssenceList(Region.NA),
+            names = new Map<number, string>(na.map(entity => [entity.id, entity.name]));
+
+        return jp.map(entity => {
+            return {
+                ...entity,
+                name: names.get(entity.id) ?? entity.name,
+            };
+        });
     }
 
     static craftEssence(region: Region, id: number): Promise<CraftEssence> {
@@ -266,6 +300,16 @@ class Connection {
             query += "&targetTeam=" + team;
 
         return fetch<Func[]>(`${host}/nice/${region}/function/search${query}`);
+    }
+
+    private static async getCommandCodeEssenceList(region: Region): Promise<CommandCode[]> {
+        return cache.commandCodes.get(
+            region,
+            () => {
+                return fetch<CommandCode[]>(`${host}/export/${region}/nice_command_code.json`);
+            },
+            null
+        );
     }
 
     private static async getCacheableCraftEssenceList(region: Region): Promise<BasicListEntity[]> {

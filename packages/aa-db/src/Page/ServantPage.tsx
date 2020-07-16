@@ -8,19 +8,18 @@ import BasicListEntity from "../Api/Data/BasicListEntity";
 import Region from "../Api/Data/Region";
 import Servant from "../Api/Data/Servant";
 import TraitMap from "../Api/Data/TraitMap";
+import NoblePhantasmBreakdown from "../Breakdown/NoblePhantasmBreakdown";
+import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import ServantAssets from "./Servant/ServantAssets";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantMaterialBreakdown from "./Servant/ServantMaterialBreakdown";
 import ServantMiscData from "./Servant/ServantMiscData";
-import ServantNoblePhantasm from "./Servant/ServantNoblePhantasm";
-import ServantPassive from "./Servant/ServantPassive";
 import ServantPicker from "./Servant/ServantPicker";
 import ServantPortrait from "./Servant/ServantPortrait";
 import ServantProfileComments from "./Servant/ServantProfileComments";
 import ServantProfileStats from "./Servant/ServantProfileStats";
-import ServantSkill from "./Servant/ServantSkill";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
 import ServantTraits from "./Servant/ServantTraits";
 
@@ -128,7 +127,11 @@ class ServantPage extends React.Component<IProps, IState> {
                         {this.state.servant.skills
                             .filter(skill => skill.num === 1)
                             .map((skill, index) => {
-                                return <ServantSkill region={this.props.region} key={index} skill={skill}/>;
+                                return <SkillBreakdown region={this.props.region}
+                                                       key={index}
+                                                       skill={skill}
+                                                       cooldowns={true}
+                                                       levels={10}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'skill-2'} title={'Skill 2'}>
@@ -136,7 +139,11 @@ class ServantPage extends React.Component<IProps, IState> {
                         {this.state.servant.skills
                             .filter(skill => skill.num === 2)
                             .map((skill, index) => {
-                                return <ServantSkill region={this.props.region} key={index} skill={skill}/>;
+                                return <SkillBreakdown region={this.props.region}
+                                                       key={index}
+                                                       skill={skill}
+                                                       cooldowns={true}
+                                                       levels={10}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'skill-3'} title={'Skill 3'}>
@@ -144,7 +151,11 @@ class ServantPage extends React.Component<IProps, IState> {
                         {this.state.servant.skills
                             .filter(skill => skill.num === 3)
                             .map((skill, index) => {
-                                return <ServantSkill region={this.props.region} key={index} skill={skill}/>;
+                                return <SkillBreakdown region={this.props.region}
+                                                       key={index}
+                                                       skill={skill}
+                                                       cooldowns={true}
+                                                       levels={10}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'noble-phantasms'} title={'Noble Phantasms'}>
@@ -152,8 +163,8 @@ class ServantPage extends React.Component<IProps, IState> {
                         {this.state.servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
                             .map((noblePhantasm, index) => {
-                                return <ServantNoblePhantasm region={this.props.region} key={index}
-                                                             noblePhantasm={noblePhantasm}/>;
+                                return <NoblePhantasmBreakdown region={this.props.region} key={index}
+                                                               noblePhantasm={noblePhantasm}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'passives'} title={'Passives'}>
@@ -164,7 +175,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                     <Col xs={12}
                                          lg={(servant.classPassive.length ?? 1) > 1 ? 6 : 12}
                                          key={index}>
-                                        <ServantPassive region={this.props.region} skill={skill}/>
+                                        <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
                                     </Col>
                                 );
                             })}

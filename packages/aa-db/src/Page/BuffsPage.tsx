@@ -43,15 +43,23 @@ class BuffsPage extends React.Component<IProps, IState> {
     }
 
     private describeBuffType(type: BuffType): string {
+        let description;
+
         for (let x in upDownBuffs) {
             if (upDownBuffs[x].up === type)
-                return upDownBuffs[x].description + ' Up';
+                description = upDownBuffs[x].description + ' Up';
 
             if (upDownBuffs[x].down === type)
-                return upDownBuffs[x].description + ' Down';
+                description = upDownBuffs[x].description + ' Down';
         }
 
-        return typeDescriptions.get(type) ?? type;
+        if (description === undefined) {
+            description = typeDescriptions.get(type);
+        }
+
+        return description
+            ? `${description} - ${type}`
+            : `(${type})`;
     }
 
     private async search() {
