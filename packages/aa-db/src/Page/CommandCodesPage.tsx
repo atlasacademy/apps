@@ -85,7 +85,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
 
                 <hr/>
 
-                <Table striped bordered hover>
+                <Table striped bordered hover responsive>
                     <thead>
                     <tr>
                         <th style={{textAlign: "center", width: '1px'}}>#</th>

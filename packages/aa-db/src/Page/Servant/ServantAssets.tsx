@@ -36,7 +36,7 @@ class ServantAssets extends React.Component<IProps>{
 
         return mergeElements(
             assets.map(asset => <a href={asset} target={'_blank'} rel={'noopener noreferrer'}>
-                <img alt={''} src={asset}/>
+                <img alt={''} src={asset} style={{maxWidth: "100%"}}/>
             </a>),
             ''
         );

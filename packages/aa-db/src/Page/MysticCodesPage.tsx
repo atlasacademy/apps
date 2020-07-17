@@ -55,7 +55,7 @@ class MysticCodesPage extends React.Component<IProps, IState> {
 
         return (
             <div id={'mystic-codes'}>
-                <Table striped bordered hover>
+                <Table striped bordered hover responsive>
                     <thead>
                     <tr>
                         <th style={{textAlign: "center", width: '1px'}}>#</th>
