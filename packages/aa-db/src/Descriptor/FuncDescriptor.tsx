@@ -45,8 +45,8 @@ class FuncDescriptor extends React.Component<IProps> {
         handleTeamSection(region, sections, func, dataVal);
         handleChanceSection(region, sections, func, dataVal);
         handleActionSection(region, sections, func, dataVal);
-        handleAmountSection(region, sections, func, dataVal);
         handleAffectsSection(region, sections, func, dataVal);
+        handleAmountSection(region, sections, func, dataVal);
         handleTargetSection(region, sections, func, dataVal);
         handleDurationSection(region, sections, func, dataVal);
         handleScalingSection(region, sections, func, dataVal);

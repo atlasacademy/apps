@@ -1,5 +1,5 @@
 import React from "react";
-import Func, {DataVal} from "../../Api/Data/Func";
+import Func, {DataVal, FuncType} from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
 import {mergeElements} from "../../Helper/OutputHelper";
 import TraitDescriptor from "../TraitDescriptor";
@@ -8,6 +8,35 @@ import {FuncDescriptorSections} from "./FuncDescriptorSections";
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
     const section = sections.affects,
         parts = section.parts;
+
+    if (typeof dataVal.Target === "number"
+        && (
+            func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL
+            || func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX
+        )
+    ) {
+        parts.push(
+            <span>(additional to targets with {
+                <TraitDescriptor region={region} trait={dataVal.Target}/>
+            })</span>
+        );
+    } else if (typeof dataVal.TargetList === "number" && func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
+        parts.push(
+            <span>(bonus per trait of {
+                <TraitDescriptor region={region} trait={dataVal.TargetList}/>
+            }{
+                dataVal.ParamAddMaxCount ? `[Limit ${dataVal.ParamAddMaxCount}]` : null
+            })</span>
+        );
+    } else if (typeof dataVal.TargetRarityList === "string" && func.funcType === FuncType.DAMAGE_NP_RARE) {
+        parts.push(
+            <span>(bonus to {dataVal.TargetRarityList} {
+                dataVal.TargetRarityList.split('/').length > 1 ? 'rarities' : 'rarity'
+            })</span>
+        )
+    } else if (func.funcType === FuncType.DAMAGE_NP_PIERCE) {
+        parts.push('(that pierces defense)');
+    }
 
     if (func.funcquestTvals.length) {
         parts.push('if on field');

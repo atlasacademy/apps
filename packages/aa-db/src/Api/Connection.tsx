@@ -34,7 +34,7 @@ const host = 'https://api.atlasacademy.io',
         noblePhantasm: new ResultCache<string, NoblePhantasm>(),
         quest: new ResultCache<string, Quest>(),
         servant: new ResultCache<string, Servant>(),
-        servantList: new ResultCache<Region, BasicListEntity[]>(),
+        servantList: new ResultCache<string, BasicListEntity[]>(),
         skill: new ResultCache<string, Skill>(),
         traitMap: new ResultCache<Region, TraitMap>(),
     };
@@ -219,22 +219,26 @@ class Connection {
     }
 
     static async servantList(region: Region): Promise<BasicListEntity[]> {
+        const language = Manager.language(),
+            key = `${region}-${language}`;
+
+        let source: string;
+
         if (region === Region.NA) {
-            return Connection.getCacheableServantList(Region.NA);
-        } else if (region === Region.JP && Manager.language() === LanguageOption.DEFAULT) {
-            return Connection.getCacheableServantList(Region.JP);
+            source = `${host}/export/NA/basic_servant.json`;
+        } else if (region === Region.JP && language === LanguageOption.DEFAULT) {
+            source = `${host}/export/JP/basic_servant.json`;
+        } else {
+            source = `${host}/export/JP/basic_servant_lang_en.json`;
         }
 
-        const jp = await Connection.getCacheableServantList(Region.JP),
-            na = await Connection.getCacheableServantList(Region.NA),
-            names = new Map<number, string>(na.map(entity => [entity.id, entity.name]));
-
-        return jp.map<BasicListEntity>(entity => {
-            return {
-                ...entity,
-                name: names.get(entity.id) ?? entity.name,
-            };
-        });
+        return cache.servantList.get(
+            key,
+            () => {
+                return fetch<BasicListEntity[]>(source);
+            },
+            null
+        );
     }
 
     static skill(region: Region, id: number): Promise<Skill> {
@@ -327,16 +331,6 @@ class Connection {
             region,
             () => {
                 return fetch<BasicListEntity[]>(`${host}/export/${region}/nice_mystic_code.json`);
-            },
-            null
-        );
-    }
-
-    private static async getCacheableServantList(region: Region): Promise<BasicListEntity[]> {
-        return cache.servantList.get(
-            region,
-            () => {
-                return fetch<BasicListEntity[]>(`${host}/export/${region}/basic_servant.json`);
             },
             null
         );
