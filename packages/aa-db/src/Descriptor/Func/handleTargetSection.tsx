@@ -2,7 +2,7 @@ import Func, {DataVal, FuncTargetType, FuncType} from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-const targetMap = new Map<FuncTargetType, string>([
+export const targetDescriptions = new Map<FuncTargetType, string>([
     [FuncTargetType.SELF, 'self'],
     [FuncTargetType.PT_ONE, 'party member'],
     // PT_ANOTHER
@@ -51,6 +51,6 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     }
 
     if (targetType) {
-        parts.push(targetMap.get(targetType) ?? targetType);
+        parts.push(targetDescriptions.get(targetType) ?? targetType);
     }
 }

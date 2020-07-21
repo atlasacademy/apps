@@ -9,6 +9,7 @@ import Region from "../Api/Data/Region";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import {funcDescriptions} from "../Descriptor/Func/handleActionSection";
+import {targetDescriptions} from "../Descriptor/Func/handleTargetSection";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 
 let stateCache = new Map<Region, IState>([]);
@@ -43,6 +44,14 @@ class FuncsPage extends React.Component<IProps, IState> {
 
     componentDidUpdate() {
         stateCache.set(this.props.region, {...this.state});
+    }
+
+    private describeFuncTarget(target: FuncTargetType): string {
+        const description = targetDescriptions.get(target);
+
+        return description
+            ? `${description} - ${target}`
+            : `(${target})`;
     }
 
     private describeFuncType(type: FuncType): string {
@@ -133,7 +142,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             {Object.values(FuncTargetType).map((target, index) => {
                                 return (
                                     <option key={index} value={target}>
-                                        {target}
+                                        {this.describeFuncTarget(target)}
                                     </option>
                                 );
                             })}
