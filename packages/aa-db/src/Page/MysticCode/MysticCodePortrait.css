@@ -11,10 +11,20 @@
     padding-top: 100%;
 }
 
-#mystic-code-portrait {
-    left: 25%;
+.mystic-code-portrait {
+    display: block;
+    left: 0;
     position: absolute;
-    object-fit: cover;
     top: 0;
+    width: 80%;
+}
+
+.mystic-code-portrait:nth-child(even) {
+    left: 40%;
+}
+
+.mystic-code-portrait>img {
+    display: block;
+    object-fit: cover;
     width: 100%;
 }
