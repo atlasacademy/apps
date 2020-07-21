@@ -39,8 +39,12 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push(`${dataVal.Value} time${dataVal.Value > 1 ? 's' : ''}`);
     } else if (func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
         parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
-    } else if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
-        section.showing = false;
+    } else if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS && dataVal.DependFuncId) {
+        if (dataVal.DependFuncVals?.Value) {
+            section.parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
+        } else {
+            section.showing = false;
+        }
     } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
         const chargeAmount = dataVal.DependFuncVals?.Value2;
 

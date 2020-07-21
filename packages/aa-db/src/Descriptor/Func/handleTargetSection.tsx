@@ -1,4 +1,4 @@
-import Func, {DataVal, FuncTargetType} from "../../Api/Data/Func";
+import Func, {DataVal, FuncTargetType, FuncType} from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
@@ -36,9 +36,21 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     const section = sections.target,
         parts = section.parts;
 
-    if (targetMap.has(func.funcTargetType)) {
-        parts.push(targetMap.get(func.funcTargetType));
-    } else {
-        parts.push(func.funcTargetType);
+    let targetType: FuncTargetType | undefined = func.funcTargetType;
+
+    if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
+        switch (dataVal.DependFuncId) {
+            case 711:
+                targetType = FuncTargetType.ENEMY_ALL;
+                break;
+            default:
+                targetType = undefined;
+                section.showing = false;
+                break;
+        }
+    }
+
+    if (targetType) {
+        parts.push(targetMap.get(targetType) ?? targetType);
     }
 }
