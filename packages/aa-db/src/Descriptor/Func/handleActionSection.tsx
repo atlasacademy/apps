@@ -7,10 +7,12 @@ import TraitDescriptor from "../TraitDescriptor";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export const funcDescriptions = new Map<FuncType, string>([
+    [FuncType.ABSORB_NPTURN, 'Absorb Charge'],
     [FuncType.ADD_STATE, 'Apply Buff'],
     [FuncType.ADD_STATE_SHORT, 'Apply Buff'],
     [FuncType.CARD_RESET, 'Shuffle Cards'],
     [FuncType.DAMAGE_NP, 'Deal Damage'],
+    [FuncType.DAMAGE_NP_HPRATIO_LOW, 'Deal Damage with Bonus for Low Health'],
     [FuncType.DAMAGE_NP_INDIVIDUAL, 'Deal Damage with Bonus to Trait'],
     [FuncType.DAMAGE_NP_INDIVIDUAL_SUM, 'Deal Damage with Bonus per Trait'],
     [FuncType.DAMAGE_NP_PIERCE, 'Deal Damage that pierces defense'],
@@ -18,17 +20,21 @@ export const funcDescriptions = new Map<FuncType, string>([
     [FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX, 'Deal Damage with Bonus to Trait'],
     [FuncType.DELAY_NPTURN, 'Drain Charge'],
     [FuncType.EXP_UP, 'Increase Master Exp'],
+    [FuncType.EXTEND_SKILL, 'Increase Cooldowns'],
     [FuncType.FORCE_INSTANT_DEATH, 'Force Instant Death'],
     [FuncType.GAIN_HP, 'Restore HP'],
     [FuncType.GAIN_HP_FROM_TARGETS, 'Absorb HP'],
-    [FuncType.GAIN_NP_FROM_TARGETS, 'Absorb NP'],
+    [FuncType.GAIN_HP_PER, 'Restore HP to Percent'],
     [FuncType.GAIN_NP, 'Charge NP'],
+    [FuncType.GAIN_NP_FROM_TARGETS, 'Absorb NP'],
     [FuncType.GAIN_STAR, 'Gain Critical Stars'],
     [FuncType.HASTEN_NPTURN, 'Increase Charge'],
     [FuncType.INSTANT_DEATH, 'Apply Death'],
+    [FuncType.LOSS_HP, 'Drain HP'],
     [FuncType.LOSS_HP_SAFE, 'Drain HP without killing'],
     [FuncType.LOSS_NP, 'Drain NP'],
     [FuncType.NONE, 'No Effect'],
+    [FuncType.SHORTEN_SKILL, 'Reduce Cooldowns'],
     [FuncType.SUB_STATE, 'Remove Effects'],
 ]);
 
@@ -83,10 +89,15 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
 
     if (func.funcType === FuncType.ADD_STATE || func.funcType === FuncType.ADD_STATE_SHORT) {
         handleBuffActionSection(region, sections, func, dataVal);
+
+        return;
     } else if (func.funcType === FuncType.SUB_STATE) {
         handleCleanseActionSection(region, sections, func, dataVal);
+
+        return;
     } else if (
         func.funcType === FuncType.DAMAGE_NP
+        || func.funcType === FuncType.DAMAGE_NP_HPRATIO_LOW
         || func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL
         || func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM
         || func.funcType === FuncType.DAMAGE_NP_PIERCE
@@ -94,51 +105,53 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         || func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX
     ) {
         parts.push('Deal damage');
-
         sections.amount.preposition = 'of';
-    } else if (
-        func.funcType === FuncType.CARD_RESET
-        || func.funcType === FuncType.GAIN_STAR
-        || func.funcType === FuncType.NONE
-    ) {
-        parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 
-        sections.target.showing = false;
-    } else if (
-        func.funcType === FuncType.DELAY_NPTURN
-        || func.funcType === FuncType.GAIN_HP_FROM_TARGETS
-        || func.funcType === FuncType.GAIN_NP_FROM_TARGETS
-        || func.funcType === FuncType.LOSS_HP_SAFE
-        || func.funcType === FuncType.LOSS_NP
-    ) {
-        parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
-
-        sections.amount.preposition = 'of';
-        sections.target.preposition = 'from';
-    } else if (func.funcType === FuncType.EXP_UP) {
-        parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
-
-        sections.chance.showing = false;
-        sections.amount.preposition = 'by';
-        sections.target.showing = false;
-    } else if (
-        func.funcType === FuncType.FORCE_INSTANT_DEATH
-        || func.funcType === FuncType.INSTANT_DEATH
-    ) {
-        parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
-
-        sections.amount.showing = false;
-        sections.target.preposition = 'on';
-    } else if (
-        func.funcType === FuncType.GAIN_HP
-        || func.funcType === FuncType.GAIN_NP
-        || func.funcType === FuncType.HASTEN_NPTURN
-    ) {
-        parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
-
-        sections.amount.preposition = 'by';
-        sections.target.preposition = 'for';
-    } else {
-        parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
+        return;
     }
+
+    switch (func.funcType) {
+        case FuncType.ABSORB_NPTURN:
+        case FuncType.GAIN_HP_FROM_TARGETS:
+        case FuncType.GAIN_NP_FROM_TARGETS:
+            sections.amount.preposition = 'of';
+            sections.target.preposition = 'from';
+            break;
+        case FuncType.CARD_RESET:
+        case FuncType.GAIN_STAR:
+        case FuncType.NONE:
+            sections.target.showing = false;
+            break;
+        case FuncType.DELAY_NPTURN:
+        case FuncType.LOSS_HP:
+        case FuncType.LOSS_HP_SAFE:
+        case FuncType.LOSS_NP:
+            sections.amount.preposition = 'by';
+            sections.target.preposition = 'from';
+            break;
+        case FuncType.EXP_UP:
+            sections.chance.showing = false;
+            sections.amount.preposition = 'by';
+            sections.target.showing = false;
+            break;
+        case FuncType.EXTEND_SKILL:
+        case FuncType.GAIN_HP:
+        case FuncType.GAIN_NP:
+        case FuncType.HASTEN_NPTURN:
+        case FuncType.SHORTEN_SKILL:
+            sections.amount.preposition = 'by';
+            sections.target.preposition = 'for';
+            break;
+        case FuncType.FORCE_INSTANT_DEATH:
+        case FuncType.INSTANT_DEATH:
+            sections.amount.showing = false;
+            sections.target.preposition = 'on';
+            break;
+        case FuncType.GAIN_HP_PER:
+            sections.amount.preposition = 'of';
+            sections.target.preposition = 'for';
+            break;
+    }
+
+    parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 }

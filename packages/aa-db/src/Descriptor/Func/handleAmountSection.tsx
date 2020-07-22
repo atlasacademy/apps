@@ -41,7 +41,8 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal} hideRate={true}/>);
     } else if (
         (
-            func.funcType === FuncType.GAIN_HP_FROM_TARGETS
+            func.funcType === FuncType.ABSORB_NPTURN
+            || func.funcType === FuncType.GAIN_HP_FROM_TARGETS
             || func.funcType === FuncType.GAIN_NP_FROM_TARGETS
         ) && dataVal.DependFuncId
     ) {

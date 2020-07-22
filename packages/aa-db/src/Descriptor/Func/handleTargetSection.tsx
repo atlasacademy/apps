@@ -38,7 +38,16 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
 
     let targetType: FuncTargetType | undefined = func.funcTargetType;
 
-    if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
+    if (func.funcType === FuncType.ABSORB_NPTURN) {
+        switch (dataVal.DependFuncId) {
+            case 469:
+                targetType = FuncTargetType.ENEMY_ALL;
+                break;
+            case 5061:
+                targetType = FuncTargetType.PT_OTHER;
+                break;
+        }
+    } else if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
         switch (dataVal.DependFuncId) {
             case 711:
                 targetType = FuncTargetType.ENEMY_ALL;

@@ -20,22 +20,61 @@ class FuncValueDescriptor extends React.Component<IProps> {
             dataVal = this.props.dataVal,
             parts: Renderable[] = [];
 
-        if (this.props.func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
+        if (func.funcType === FuncType.ABSORB_NPTURN) {
+            switch (this.props.staticDataVal.DependFuncId) {
+                case 469:
+                    const npAbsorbParts = [];
+                    if (dataVal.DependFuncVals?.Value) {
+                        npAbsorbParts.push(`${asPercent(dataVal.DependFuncVals.Value, 2)}`);
+                    }
+
+                    if (typeof dataVal.DependFuncVals?.Value2 === "number") {
+                        npAbsorbParts.push(`${dataVal.DependFuncVals.Value2/100} Charge`);
+                    }
+
+                    if (npAbsorbParts.length) {
+                        parts.push(<React.Fragment>
+                            ({mergeElements(npAbsorbParts, ' => ')})
+                        </React.Fragment>);
+                    }
+                    break;
+                case 5061:
+                    if (dataVal.DependFuncVals?.Value)
+                        parts.push(dataVal.DependFuncVals.Value.toString());
+                    break;
+            }
+        }
+
+        if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
+            switch (this.props.staticDataVal.DependFuncId) {
+                case 711:
+                    if (dataVal.DependFuncVals?.Value)
+                        parts.push(dataVal.DependFuncVals?.Value.toString());
+                    break;
+            }
+        }
+
+        if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
             switch (this.props.staticDataVal.DependFuncId) {
                 case 474:
-                    if (this.props.dataVal.DependFuncVals?.Value) {
-                        parts.push(`${this.props.dataVal.DependFuncVals.Value} Charge`);
+                    const npAbsorbParts = [];
+                    if (dataVal.DependFuncVals?.Value) {
+                        npAbsorbParts.push(`${dataVal.DependFuncVals.Value} Charge`);
                     }
 
-                    if (this.props.dataVal.DependFuncVals?.Value2) {
-                        parts.push(`${asPercent(this.props.dataVal.DependFuncVals.Value2, 2)}`);
+                    if (dataVal.DependFuncVals?.Value2) {
+                        npAbsorbParts.push(`${asPercent(dataVal.DependFuncVals.Value2, 2)}`);
                     }
 
-                    if (parts.length) {
-                        return <React.Fragment>
-                            ({mergeElements(parts, ' => ')})
-                        </React.Fragment>;
+                    if (npAbsorbParts.length) {
+                        parts.push(<React.Fragment>
+                            ({mergeElements(npAbsorbParts, ' => ')})
+                        </React.Fragment>);
                     }
+                    break;
+                case 3962:
+                    if (dataVal.DependFuncVals?.Value)
+                        parts.push(asPercent(dataVal.DependFuncVals?.Value, 2));
                     break;
             }
         }
@@ -62,11 +101,13 @@ class FuncValueDescriptor extends React.Component<IProps> {
         if (dataVal.Value !== undefined) {
             switch (func.funcType) {
                 case FuncType.DAMAGE_NP:
+                case FuncType.DAMAGE_NP_HPRATIO_LOW:
                 case FuncType.DAMAGE_NP_INDIVIDUAL:
                 case FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                 case FuncType.DAMAGE_NP_PIERCE:
                 case FuncType.DAMAGE_NP_RARE:
                 case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+                case FuncType.GAIN_HP_PER:
                     parts.push(asPercent(dataVal.Value, 1));
                     break;
                 case FuncType.GAIN_NP:
@@ -103,38 +144,13 @@ class FuncValueDescriptor extends React.Component<IProps> {
             }
         }
 
-        if (dataVal.DependFuncId !== undefined && dataVal.DependFuncVals !== undefined) {
+        if (dataVal.Target !== undefined) {
             switch (func.funcType) {
-                case FuncType.GAIN_HP_FROM_TARGETS:
-                    let amount;
-
-                    switch (dataVal.DependFuncId) {
-                        case 711:
-                            amount = dataVal.DependFuncVals.Value;
-                            break;
-                    }
-
-                    if (amount !== undefined) {
-                        parts.push(amount);
-                    }
-
+                case FuncType.DAMAGE_NP_HPRATIO_LOW:
+                    parts.push(asPercent(dataVal.Target, 1));
                     break;
-                case FuncType.GAIN_NP_FROM_TARGETS:
-                    let chargeAmount;
-
-                    switch (dataVal.DependFuncId) {
-                        case 474:
-                            chargeAmount = dataVal.DependFuncVals.Value2;
-                            break;
-                        case 3962:
-                            chargeAmount = dataVal.DependFuncVals.Value;
-                            break;
-                    }
-
-                    if (chargeAmount !== undefined) {
-                        parts.push(asPercent(chargeAmount, 2));
-                    }
-                    break;
+                default:
+                    parts.push(dataVal.Target.toString());
             }
         }
 

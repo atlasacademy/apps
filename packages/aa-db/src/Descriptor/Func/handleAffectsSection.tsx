@@ -9,7 +9,9 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     const section = sections.affects,
         parts = section.parts;
 
-    if (typeof dataVal.Target === "number"
+    if (func.funcType === FuncType.DAMAGE_NP_HPRATIO_LOW) {
+        parts.push('(additional for low HP)');
+    } else if (typeof dataVal.Target === "number"
         && (
             func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL
             || func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX
