@@ -84,7 +84,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
 
                 <Row>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
-                        <CraftEssenceMainData craftEssence={this.state.craftEssence}/>
+                        <CraftEssenceMainData region={this.props.region} craftEssence={this.state.craftEssence}/>
                     </Col>
                     <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
                         <CraftEssencePortrait craftEssence={this.state.craftEssence}/>

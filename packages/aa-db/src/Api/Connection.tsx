@@ -47,7 +47,7 @@ class Connection {
         return cache.buff.get(
             key,
             () => {
-                let query = '?reverse=true' + (
+                let query = '?reverse=true&reverseDepth=skillNp' + (
                     language === LanguageOption.ENGLISH ? '&lang=en' : ''
                 );
 
@@ -131,7 +131,7 @@ class Connection {
         return cache.func.get(
             key,
             () => {
-                let query = '?reverse=true' + (
+                let query = '?reverse=true&reverseDepth=servant' + (
                     language === LanguageOption.ENGLISH ? '&lang=en' : ''
                 );
 

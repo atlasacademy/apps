@@ -1,5 +1,6 @@
 import {AxiosError} from "axios";
 import React from "react";
+import {Table} from "react-bootstrap";
 import Connection from "../Api/Connection";
 import Buff from "../Api/Data/Buff";
 import Region from "../Api/Data/Region";
@@ -71,7 +72,9 @@ class BuffPage extends React.Component<IProps, IState> {
                 <br/>
 
                 <DataTable data={{
-                    "Raw": <RawDataViewer data={buff}/>,
+                    "Data": <RawDataViewer data={buff}/>,
+                    "Raw": <RawDataViewer
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/buff/${buff.id}`}/>,
                     "ID": buff.id,
                     "Name": buff.name,
                     "Detail": buff.detail,
@@ -119,13 +122,28 @@ class BuffPage extends React.Component<IProps, IState> {
                 }}/>
 
                 <h3>Related Functions</h3>
-                {buff.reverseFunctions.map((func, index) => {
-                    return (
-                        <p key={index}>
-                            <FuncDescriptor region={this.props.region} func={func}/>
-                        </p>
-                    );
-                })}
+                <Table>
+                    <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Usage Count</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {buff.reverseFunctions.map((func, index) => {
+                        return (
+                            <tr key={index}>
+                                <td>
+                                    <FuncDescriptor region={this.props.region} func={func}/>
+                                </td>
+                                <td>
+                                    {func.reverseTds.length + func.reverseSkills.length}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                    </tbody>
+                </Table>
             </div>
         );
     }

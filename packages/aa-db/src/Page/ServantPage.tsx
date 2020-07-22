@@ -102,7 +102,8 @@ class ServantPage extends React.Component<IProps, IState> {
 
                 <Row>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
-                        <ServantMainData servant={this.state.servant}
+                        <ServantMainData region={this.props.region}
+                                         servant={this.state.servant}
                                          assetType={this.state.assetType}
                                          assetId={this.state.assetId}/>
                     </Col>

@@ -86,7 +86,8 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 <br/>
 
                 <DataTable data={{
-                    "Raw": <RawDataViewer data={noblePhantasm}/>,
+                    "Data": <RawDataViewer data={noblePhantasm}/>,
+                    "Raw": <RawDataViewer data={`https://api.atlasacademy.io/raw/${this.props.region}/NP/${noblePhantasm.id}?expand=true`}/>,
                     "ID": noblePhantasm.id,
                     "Name": noblePhantasm.name,
                     "Type": noblePhantasm.type,

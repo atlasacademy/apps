@@ -1,9 +1,9 @@
 import React from "react";
 import Func from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
-import BuffDescriptor from "../../Descriptor/BuffDescriptor";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
+import BuffDescriptor from "../../Descriptor/BuffDescriptor";
 import TraitDescriptor from "../../Descriptor/TraitDescriptor";
 
 interface IProps {
@@ -17,7 +17,9 @@ class FuncMainData extends React.Component<IProps> {
 
         return (
             <DataTable data={{
-                "Raw": <RawDataViewer data={func}/>,
+                "Data": <RawDataViewer data={func}/>,
+                "Raw": <RawDataViewer
+                    data={`https://api.atlasacademy.io/raw/${this.props.region}/function/${func.funcId}?expand=true`}/>,
                 "ID": func.funcId,
                 "Type": func.funcType,
                 "Target": func.funcTargetType,

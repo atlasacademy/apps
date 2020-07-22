@@ -26,10 +26,11 @@ const hasUniqueValues = function (values: (number | string | undefined)[]): bool
 
 export function describeMutators(region: Region, func: Func): Renderable[] {
     const dataVals = getDataValList(func),
+        staticVals = getStaticFieldValues(dataVals),
         mutatingVals = getMutatingFieldValues(dataVals);
 
     return mutatingVals
-        .map(mutatingVal => <FuncValueDescriptor region={region} func={func} dataVal={mutatingVal}/>);
+        .map(mutatingVal => <FuncValueDescriptor region={region} func={func} staticDataVal={staticVals} dataVal={mutatingVal}/>);
 }
 
 export function funcUpdatesByLevel(func: Func): boolean {

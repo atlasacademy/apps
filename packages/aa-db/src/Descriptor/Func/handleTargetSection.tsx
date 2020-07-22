@@ -48,6 +48,15 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
                 section.showing = false;
                 break;
         }
+    } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
+        switch (dataVal.DependFuncId) {
+            case 474:
+                targetType = FuncTargetType.ENEMY_ALL;
+                break;
+            case 3962:
+                targetType = FuncTargetType.PT_OTHER;
+                break;
+        }
     }
 
     if (targetType) {

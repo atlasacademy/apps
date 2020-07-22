@@ -8,6 +8,7 @@ import BuffValueDescriptor from "./BuffValueDescriptor";
 interface IProps {
     region: Region;
     func: Func;
+    staticDataVal: DataVal;
     dataVal: DataVal;
     hideRate?: boolean;
 }
@@ -18,6 +19,26 @@ class FuncValueDescriptor extends React.Component<IProps> {
             func = this.props.func,
             dataVal = this.props.dataVal,
             parts: Renderable[] = [];
+
+        if (this.props.func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
+            switch (this.props.staticDataVal.DependFuncId) {
+                case 474:
+                    if (this.props.dataVal.DependFuncVals?.Value) {
+                        parts.push(`${this.props.dataVal.DependFuncVals.Value} Charge`);
+                    }
+
+                    if (this.props.dataVal.DependFuncVals?.Value2) {
+                        parts.push(`${asPercent(this.props.dataVal.DependFuncVals.Value2, 2)}`);
+                    }
+
+                    if (parts.length) {
+                        return <React.Fragment>
+                            ({mergeElements(parts, ' => ')})
+                        </React.Fragment>;
+                    }
+                    break;
+            }
+        }
 
         if (
             (func.funcType === FuncType.ADD_STATE || func.funcType === FuncType.ADD_STATE_SHORT)
