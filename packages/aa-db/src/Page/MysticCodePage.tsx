@@ -74,7 +74,7 @@ class MysticCodePage extends React.Component<IProps, IState> {
 
                 <Row>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
-                        <MysticCodeMainData mysticCode={this.state.mysticCode}/>
+                        <MysticCodeMainData region={this.props.region} mysticCode={this.state.mysticCode}/>
                     </Col>
                     <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
                         <MysticCodePortrait mysticCode={this.state.mysticCode}/>

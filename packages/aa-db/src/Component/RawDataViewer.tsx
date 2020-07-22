@@ -1,14 +1,16 @@
 import {faSearchPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import React from "react";
 import {Modal} from "react-bootstrap";
 import ReactJson from "react-json-view";
 
 interface IProps {
-    data: object;
+    data: object | string;
 }
 
 interface IState {
+    data?: object;
     showing: boolean;
 }
 
@@ -25,8 +27,24 @@ class RawDataViewer extends React.Component<IProps, IState> {
         this.setState({showing: false});
     }
 
-    show() {
-        this.setState({showing: true});
+    async show() {
+        if (this.state.data) {
+            this.setState({showing: true});
+        } else if (typeof this.props.data === "object") {
+            this.setState({showing: true, data: this.props.data});
+        } else {
+            try {
+                this.setState({
+                    showing: true,
+                    data: (await axios.get(this.props.data)).data,
+                });
+            } catch (e) {
+                this.setState({
+                    showing: true,
+                    data: {error: e}
+                });
+            }
+        }
     }
 
     render() {
@@ -37,7 +55,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                       onClick={() => {
                           this.show();
                       }}>
-                    View Raw
+                    View
                     &nbsp;
                     <FontAwesomeIcon icon={faSearchPlus}/>
                 </span>
@@ -47,7 +65,9 @@ class RawDataViewer extends React.Component<IProps, IState> {
                         <Modal.Title>Raw Data Viewer</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <ReactJson src={this.props.data} collapsed={1}/>
+                        {this.state.data ? (
+                            <ReactJson src={this.state.data} collapsed={1}/>
+                        ) : null}
                     </Modal.Body>
                 </Modal>
             </div>

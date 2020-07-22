@@ -1,10 +1,12 @@
 import React from "react";
 import CraftEssence from "../../Api/Data/CraftEssence";
+import Region from "../../Api/Data/Region";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 
 interface IProps {
+    region: Region;
     craftEssence: CraftEssence;
 }
 
@@ -19,7 +21,8 @@ class CraftEssenceMainData extends React.Component<IProps> {
                 </h1>
 
                 <DataTable data={{
-                    "Raw": <RawDataViewer data={craftEssence}/>,
+                    "Data": <RawDataViewer data={craftEssence}/>,
+                    "Raw": <RawDataViewer data={`https://api.atlasacademy.io/raw/${this.props.region}/equip/${craftEssence.id}?expand=true&lore=true`}/>,
                     "ID": craftEssence.id,
                     "Collection": craftEssence.collectionNo,
                     "Name": craftEssence.name,

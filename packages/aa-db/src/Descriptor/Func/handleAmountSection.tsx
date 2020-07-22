@@ -38,18 +38,15 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         section.preposition = undefined;
         parts.push(`${dataVal.Value} time${dataVal.Value > 1 ? 's' : ''}`);
     } else if (func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
-        parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
-    } else if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS && dataVal.DependFuncId) {
+        parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal} hideRate={true}/>);
+    } else if (
+        (
+            func.funcType === FuncType.GAIN_HP_FROM_TARGETS
+            || func.funcType === FuncType.GAIN_NP_FROM_TARGETS
+        ) && dataVal.DependFuncId
+    ) {
         if (dataVal.DependFuncVals?.Value) {
-            section.parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
-        } else {
-            section.showing = false;
-        }
-    } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
-        const chargeAmount = dataVal.DependFuncVals?.Value2;
-
-        if (chargeAmount !== undefined) {
-            parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
+            section.parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal} hideRate={true}/>);
         } else {
             section.showing = false;
         }
@@ -67,7 +64,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     } else if (func.buffs[0] && dataVal.Value) {
         parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
     } else if (dataVal.Value) {
-        parts.push(<FuncValueDescriptor region={region} func={func} dataVal={dataVal} hideRate={true}/>);
+        parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal} hideRate={true}/>);
     } else {
         section.showing = false;
     }

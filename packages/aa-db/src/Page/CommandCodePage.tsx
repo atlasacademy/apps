@@ -81,7 +81,7 @@ class CommandCodePage extends React.Component<IProps, IState> {
 
                 <Row>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
-                        <CommandCodeMainData commandCode={commandCode}/>
+                        <CommandCodeMainData region={this.props.region} commandCode={commandCode}/>
                     </Col>
                     <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
                         <CommandCodePortrait commandCode={commandCode}/>

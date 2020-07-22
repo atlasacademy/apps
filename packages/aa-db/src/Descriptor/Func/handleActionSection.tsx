@@ -21,8 +21,13 @@ export const funcDescriptions = new Map<FuncType, string>([
     [FuncType.FORCE_INSTANT_DEATH, 'Force Instant Death'],
     [FuncType.GAIN_HP, 'Restore HP'],
     [FuncType.GAIN_HP_FROM_TARGETS, 'Absorb HP'],
+    [FuncType.GAIN_NP_FROM_TARGETS, 'Absorb NP'],
     [FuncType.GAIN_NP, 'Charge NP'],
     [FuncType.GAIN_STAR, 'Gain Critical Stars'],
+    [FuncType.HASTEN_NPTURN, 'Increase Charge'],
+    [FuncType.INSTANT_DEATH, 'Apply Death'],
+    [FuncType.LOSS_HP_SAFE, 'Drain HP without killing'],
+    [FuncType.LOSS_NP, 'Drain NP'],
     [FuncType.NONE, 'No Effect'],
     [FuncType.SUB_STATE, 'Remove Effects'],
 ]);
@@ -99,9 +104,16 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 
         sections.target.showing = false;
-    } else if (func.funcType === FuncType.DELAY_NPTURN) {
+    } else if (
+        func.funcType === FuncType.DELAY_NPTURN
+        || func.funcType === FuncType.GAIN_HP_FROM_TARGETS
+        || func.funcType === FuncType.GAIN_NP_FROM_TARGETS
+        || func.funcType === FuncType.LOSS_HP_SAFE
+        || func.funcType === FuncType.LOSS_NP
+    ) {
         parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 
+        sections.amount.preposition = 'of';
         sections.target.preposition = 'from';
     } else if (func.funcType === FuncType.EXP_UP) {
         parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
@@ -109,58 +121,23 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         sections.chance.showing = false;
         sections.amount.preposition = 'by';
         sections.target.showing = false;
-    } else if (func.funcType === FuncType.FORCE_INSTANT_DEATH) {
+    } else if (
+        func.funcType === FuncType.FORCE_INSTANT_DEATH
+        || func.funcType === FuncType.INSTANT_DEATH
+    ) {
         parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 
+        sections.amount.showing = false;
         sections.target.preposition = 'on';
     } else if (
         func.funcType === FuncType.GAIN_HP
         || func.funcType === FuncType.GAIN_NP
+        || func.funcType === FuncType.HASTEN_NPTURN
     ) {
         parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 
         sections.amount.preposition = 'by';
         sections.target.preposition = 'for';
-    } else if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
-        parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
-
-        sections.amount.preposition = 'of';
-        sections.target.preposition = 'from';
-    } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
-        let drainAmount,
-            drainTargets;
-
-        switch (dataVal.DependFuncId) {
-            case 474:
-                drainAmount = `${dataVal.DependFuncVals?.Value ?? 1} Charge`;
-                drainTargets = "All Enemies";
-                break;
-            case 3962:
-                drainAmount = "NP";
-                drainTargets = "All Other Allies";
-                break;
-        }
-
-        parts.push(
-            `Drain ${drainAmount} from ${drainTargets} and Charge NP`
-        );
-
-        sections.target.preposition = 'for';
-    } else if (func.funcType === FuncType.HASTEN_NPTURN) {
-        parts.push('Charge NP');
-
-        sections.amount.preposition = 'by';
-        sections.target.preposition = 'for';
-    } else if (func.funcType === FuncType.INSTANT_DEATH) {
-        parts.push('Apply Death');
-    } else if (func.funcType === FuncType.LOSS_HP_SAFE) {
-        parts.push('Drain HP');
-
-        sections.target.preposition = 'from';
-    } else if (func.funcType === FuncType.LOSS_NP) {
-        parts.push('Drain NP');
-
-        sections.target.preposition = 'from';
     } else {
         parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
     }

@@ -1,4 +1,5 @@
 import React from "react";
+import Region from "../../Api/Data/Region";
 import Servant from "../../Api/Data/Servant";
 import ClassIcon from "../../Component/ClassIcon";
 import CommandCard from "../../Component/CommandCard";
@@ -8,6 +9,7 @@ import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import {formatNumber} from "../../Helper/OutputHelper";
 
 interface IProps {
+    region: Region;
     servant: Servant;
     assetType?: string;
     assetId?: string;
@@ -26,7 +28,8 @@ class ServantMainData extends React.Component<IProps> {
                 </h1>
 
                 <DataTable data={{
-                    "Raw": <RawDataViewer data={servant}/>,
+                    "Data": <RawDataViewer data={servant}/>,
+                    "Raw": <RawDataViewer data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${this.props.servant.id}?expand=true&lore=true`}/>,
                     "ID": servant.id,
                     "Collection": servant.collectionNo,
                     "Name": servant.name,
