@@ -13,7 +13,7 @@ interface IProps {
 class CraftEssenceDescriptor extends React.Component<IProps> {
     render() {
         return (
-            <Link to={`/${this.props.region}/craft-essence/${this.props.craftEssence.id}`}>
+            <Link to={`/${this.props.region}/craft-essence/${this.props.craftEssence.collectionNo}`}>
                 {this.props.craftEssence.name}
                 {' '}
                 <FontAwesomeIcon icon={faShare} />
