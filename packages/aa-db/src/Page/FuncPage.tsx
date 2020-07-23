@@ -11,6 +11,7 @@ import BuffIcon from "../Component/BuffIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
+import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
@@ -104,6 +105,12 @@ class FuncPage extends React.Component<IProps, IState> {
                                                 }
 
                                                 return '';
+                                            })}
+                                            {skill.reverseMC.map((mysticCode, index) => {
+                                                return <p key={index}>
+                                                    <MysticCodeDescriptor region={this.props.region}
+                                                                          mysticCode={mysticCode}/>
+                                                </p>
                                             })}
                                         </td>
                                         <td>

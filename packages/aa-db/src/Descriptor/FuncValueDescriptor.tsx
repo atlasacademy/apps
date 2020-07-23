@@ -108,9 +108,11 @@ class FuncValueDescriptor extends React.Component<IProps> {
                 case FuncType.DAMAGE_NP_RARE:
                 case FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                 case FuncType.GAIN_HP_PER:
+                case FuncType.QP_DROP_UP:
                     parts.push(asPercent(dataVal.Value, 1));
                     break;
                 case FuncType.GAIN_NP:
+                case FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM:
                 case FuncType.LOSS_NP:
                     parts.push(asPercent(dataVal.Value, 2));
                     break;
@@ -151,6 +153,14 @@ class FuncValueDescriptor extends React.Component<IProps> {
                     break;
                 default:
                     parts.push(dataVal.Target.toString());
+            }
+        }
+
+        if (dataVal.RateCount) {
+            switch (func.funcType) {
+                case FuncType.SERVANT_FRIENDSHIP_UP:
+                    parts.push(asPercent(dataVal.RateCount, 1));
+                    break;
             }
         }
 

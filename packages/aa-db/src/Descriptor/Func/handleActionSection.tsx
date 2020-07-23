@@ -26,6 +26,7 @@ export const funcDescriptions = new Map<FuncType, string>([
     [FuncType.GAIN_HP_FROM_TARGETS, 'Absorb HP'],
     [FuncType.GAIN_HP_PER, 'Restore HP to Percent'],
     [FuncType.GAIN_NP, 'Charge NP'],
+    [FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM, 'Charge NP per Trait'],
     [FuncType.GAIN_NP_FROM_TARGETS, 'Absorb NP'],
     [FuncType.GAIN_STAR, 'Gain Critical Stars'],
     [FuncType.HASTEN_NPTURN, 'Increase Charge'],
@@ -33,7 +34,12 @@ export const funcDescriptions = new Map<FuncType, string>([
     [FuncType.LOSS_HP, 'Drain HP'],
     [FuncType.LOSS_HP_SAFE, 'Drain HP without killing'],
     [FuncType.LOSS_NP, 'Drain NP'],
+    [FuncType.LOSS_STAR, 'Remove Critical Stars'],
     [FuncType.NONE, 'No Effect'],
+    [FuncType.QP_DROP_UP, 'Increase QP Reward'],
+    [FuncType.QP_UP, 'Increase QP Reward'],
+    [FuncType.REPLACE_MEMBER, 'Swap members'],
+    [FuncType.SERVANT_FRIENDSHIP_UP, 'Increase Bond Gain'],
     [FuncType.SHORTEN_SKILL, 'Reduce Cooldowns'],
     [FuncType.SUB_STATE, 'Remove Effects'],
 ]);
@@ -74,13 +80,34 @@ function handleCleanseActionSection(region: Region, sections: FuncDescriptorSect
 
         func.traitVals.forEach((trait, index) => {
             if (index > 0)
-                parts.push('&');
+                parts.push('or');
 
             parts.push(<TraitDescriptor region={region} trait={trait}/>);
         });
     }
 
     sections.target.preposition = 'on';
+}
+
+function handleChargeNpPerTraitActionSection(region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
+    const section = sections.action,
+        parts = section.parts;
+
+    parts.push('Charge NP per');
+
+    if (func.traitVals?.length) {
+        func.traitVals.forEach((trait, index) => {
+            if (index > 0)
+                parts.push('&');
+
+            parts.push(<TraitDescriptor region={region} trait={trait}/>);
+        });
+    }
+
+    parts.push('traits');
+
+    sections.amount.preposition = 'by';
+    sections.target.preposition = 'for';
 }
 
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
@@ -93,6 +120,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         return;
     } else if (func.funcType === FuncType.SUB_STATE) {
         handleCleanseActionSection(region, sections, func, dataVal);
+
+        return;
+    } else if (func.funcType === FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM) {
+        handleChargeNpPerTraitActionSection(region, sections, func, dataVal);
 
         return;
     } else if (
@@ -119,6 +150,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             break;
         case FuncType.CARD_RESET:
         case FuncType.GAIN_STAR:
+        case FuncType.LOSS_STAR:
         case FuncType.NONE:
             sections.target.showing = false;
             break;
@@ -130,6 +162,9 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             sections.target.preposition = 'from';
             break;
         case FuncType.EXP_UP:
+        case FuncType.QP_DROP_UP:
+        case FuncType.QP_UP:
+        case FuncType.SERVANT_FRIENDSHIP_UP:
             sections.chance.showing = false;
             sections.amount.preposition = 'by';
             sections.target.showing = false;
@@ -150,6 +185,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         case FuncType.GAIN_HP_PER:
             sections.amount.preposition = 'of';
             sections.target.preposition = 'for';
+            break;
+        case FuncType.REPLACE_MEMBER:
+            sections.amount.showing = false;
+            sections.target.preposition = 'with';
             break;
     }
 

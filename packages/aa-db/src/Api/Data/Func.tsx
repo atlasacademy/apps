@@ -186,13 +186,17 @@ export enum DataValField {
     PARAM_ADD_MAX_COUNT = "ParamAddMaxCount",
     LOSS_HP_NO_CHANGE_DAMAGE = "LossHpNoChangeDamage",
     INCLUDE_PASSIVE_INDIVIDUALITY = "IncludePassiveIndividuality",
+    INDIVIDUALITY = "Individuality",
+    EVENT_ID = "EventId",
+    ADD_COUNT = "AddCount",
+    RATE_COUNT = "RateCount",
 }
 
 type BaseDataVal = { [key in DataValField]?: number | string; };
 
 export type DataVal = (
     BaseDataVal
-    & { DependFuncVals?: BaseDataVal; }
+    & { FriendshipTarget?: FuncTargetType, DependFuncVals?: BaseDataVal; }
     );
 
 export default interface Func {

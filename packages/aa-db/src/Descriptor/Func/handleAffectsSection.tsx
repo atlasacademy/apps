@@ -51,7 +51,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     }
 
     if (func.functvals.length) {
-        parts.push('for');
+        parts.push('for targets');
 
         if (func.functvals.length > 1) {
             parts.push('all');
