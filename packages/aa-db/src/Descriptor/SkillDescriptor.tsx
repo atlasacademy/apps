@@ -14,11 +14,9 @@ class SkillDescriptor extends React.Component<IProps> {
     render() {
         return (
             <Link to={`/${this.props.region}/skill/${this.props.skill.id}`}>
-                [
                 <BuffIcon location={this.props.skill.icon} height={this.props.iconHeight}/>
                 {' '}
-                {this.props.skill.name ? this.props.skill.name : `Skill: ${this.props.skill.id}`}
-                ]
+                [{this.props.skill.name ? this.props.skill.name : `Skill: ${this.props.skill.id}`}]
             </Link>
         );
     }
