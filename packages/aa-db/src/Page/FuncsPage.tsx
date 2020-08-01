@@ -8,6 +8,7 @@ import Func, {FuncTargetTeam, FuncTargetType, FuncType} from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import SearchableSelect from "../Component/SearchableSelect";
 import {funcDescriptions} from "../Descriptor/Func/handleActionSection";
 import {targetDescriptions} from "../Descriptor/Func/handleTargetSection";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
@@ -44,22 +45,6 @@ class FuncsPage extends React.Component<IProps, IState> {
 
     componentDidUpdate() {
         stateCache.set(this.props.region, {...this.state});
-    }
-
-    private describeFuncTarget(target: FuncTargetType): string {
-        const description = targetDescriptions.get(target);
-
-        return description
-            ? `${description} - ${target}`
-            : `(${target})`;
-    }
-
-    private describeFuncType(type: FuncType): string {
-        const description = funcDescriptions.get(type);
-
-        return description
-            ? `${description} - ${type}`
-            : `(${type})`;
     }
 
     private async search() {
@@ -110,63 +95,34 @@ class FuncsPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Type</Form.Label>
-                        <Form.Control as={'select'}
-                                      value={this.state.type ?? 'all'}
-                                      onChange={(ev: ChangeEvent) => {
-                                          if (ev.target.value === 'all')
-                                              this.setState({type: undefined});
-                                          else
-                                              this.setState({type: ev.target.value as FuncType});
-                                      }}>
-                            <option value={'all'}>All</option>
-                            {Object.values(FuncType).map((type, index) => {
-                                return (
-                                    <option key={index} value={type}>
-                                        {this.describeFuncType(type)}
-                                    </option>
-                                );
-                            })}
-                        </Form.Control>
+                        <SearchableSelect<FuncType> id='select-FuncType'
+                                                    options={Object.values(FuncType)}
+                                                    labels={funcDescriptions}
+                                                    onChange={(value?: FuncType) => {
+                                                        this.setState({type: value});
+                                                    }}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Target</Form.Label>
-                        <Form.Control as={'select'}
-                                      value={this.state.target ?? 'all'}
-                                      onChange={(ev: ChangeEvent) => {
-                                          if (ev.target.value === 'all')
-                                              this.setState({target: undefined});
-                                          else
-                                              this.setState({target: ev.target.value as FuncTargetType});
-                                      }}>
-                            <option value={'all'}>All</option>
-                            {Object.values(FuncTargetType).map((target, index) => {
-                                return (
-                                    <option key={index} value={target}>
-                                        {this.describeFuncTarget(target)}
-                                    </option>
-                                );
-                            })}
-                        </Form.Control>
+                        <SearchableSelect<FuncTargetType> id='select-FuncTargetType'
+                                                    options={Object.values(FuncTargetType)}
+                                                    labels={targetDescriptions}
+                                                    onChange={(value?: FuncTargetType) => {
+                                                        this.setState({target: value});
+                                                    }}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Affects Players/Enemies</Form.Label>
-                        <Form.Control as={'select'}
-                                      value={this.state.team ?? 'all'}
-                                      onChange={(ev: ChangeEvent) => {
-                                          if (ev.target.value === 'all')
-                                              this.setState({team: undefined});
-                                          else
-                                              this.setState({team: ev.target.value as FuncTargetTeam});
-                                      }}>
-                            <option value={'all'}>All</option>
-                            {Object.values(FuncTargetTeam).map((team, index) => {
-                                return (
-                                    <option key={index} value={team}>
-                                        {team}
-                                    </option>
-                                );
-                            })}
-                        </Form.Control>
+                        <SearchableSelect<FuncTargetTeam> id='select-FuncTargetTeam'
+                                                          options={Object.values(FuncTargetTeam)}
+                                                          labels={new Map<FuncTargetTeam, string>([
+                                                              [FuncTargetTeam.PLAYER_AND_ENEMY, 'Players and Enemies'],
+                                                              [FuncTargetTeam.PLAYER, 'Players only'],
+                                                              [FuncTargetTeam.ENEMY, 'Enemies only'],
+                                                          ])}
+                                                          onChange={(value?: FuncTargetTeam) => {
+                                                              this.setState({team: value});
+                                                          }}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>
                         Search

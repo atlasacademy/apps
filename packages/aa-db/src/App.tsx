@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {Suspense} from 'react';
 import {Container} from "react-bootstrap";
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
 
 import "./App.css";
