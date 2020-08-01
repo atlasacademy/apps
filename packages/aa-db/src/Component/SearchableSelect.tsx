@@ -85,6 +85,7 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
                        placeholder={'All'}
                        selected={this.state.results && this.state.selected ? [this.getOption(this.state.selected)] : []}
                        ignoreDiacritics={true}
+                       maxResults={1000}
                        onBlur={() => {
                            this.resetInput();
                        }}
