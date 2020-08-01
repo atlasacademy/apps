@@ -29,7 +29,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
                     }
 
                     if (typeof dataVal.DependFuncVals?.Value2 === "number") {
-                        npAbsorbParts.push(`${dataVal.DependFuncVals.Value2/100} Charge`);
+                        npAbsorbParts.push(`${dataVal.DependFuncVals.Value2 / 100} Charge`);
                     }
 
                     if (npAbsorbParts.length) {
@@ -151,8 +151,15 @@ class FuncValueDescriptor extends React.Component<IProps> {
                 case FuncType.DAMAGE_NP_HPRATIO_LOW:
                     parts.push(asPercent(dataVal.Target, 1));
                     break;
+                // default:
+                //     parts.push(dataVal.Target.toString());
+            }
+        }
+
+        if (dataVal.AddCount !== undefined) {
+            switch (func.funcType) {
                 default:
-                    parts.push(dataVal.Target.toString());
+                    parts.push(dataVal.AddCount);
             }
         }
 

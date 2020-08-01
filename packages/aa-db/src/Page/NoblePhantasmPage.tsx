@@ -103,7 +103,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                                 })
                                 .map((servant, index) => {
                                     return (
-                                        <div>
+                                        <div key={index}>
                                             <ServantDescriptor region={this.props.region}
                                                                servant={servant}
                                                                iconHeight={24}/>

@@ -19,8 +19,12 @@ export const funcDescriptions = new Map<FuncType, string>([
     [FuncType.DAMAGE_NP_RARE, 'Deal Damage with Bonus to Rarity'],
     [FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX, 'Deal Damage with Bonus to Trait'],
     [FuncType.DELAY_NPTURN, 'Drain Charge'],
+    [FuncType.EVENT_DROP_UP, 'Increase Drop Amount'],
+    [FuncType.ENEMY_ENCOUNT_COPY_RATE_UP, 'Create Clone of Enemy'],
+    [FuncType.ENEMY_ENCOUNT_RATE_UP, 'Improve Appearance Rate of Enemy'],
     [FuncType.EXP_UP, 'Increase Master Exp'],
     [FuncType.EXTEND_SKILL, 'Increase Cooldowns'],
+    [FuncType.FIX_COMMANDCARD, 'Lock Command Cards'],
     [FuncType.FORCE_INSTANT_DEATH, 'Force Instant Death'],
     [FuncType.GAIN_HP, 'Restore HP'],
     [FuncType.GAIN_HP_FROM_TARGETS, 'Absorb HP'],
@@ -161,6 +165,13 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             sections.amount.preposition = 'by';
             sections.target.preposition = 'from';
             break;
+        case FuncType.ENEMY_ENCOUNT_COPY_RATE_UP:
+        case FuncType.ENEMY_ENCOUNT_RATE_UP:
+        case FuncType.FIX_COMMANDCARD:
+            sections.amount.showing = false;
+            sections.target.showing = false;
+            break;
+        case FuncType.EVENT_DROP_UP:
         case FuncType.EXP_UP:
         case FuncType.QP_DROP_UP:
         case FuncType.QP_UP:

@@ -5,6 +5,7 @@ import ClassIcon from "../../Component/ClassIcon";
 import CommandCard from "../../Component/CommandCard";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
+import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import {formatNumber} from "../../Helper/OutputHelper";
 
@@ -29,7 +30,8 @@ class ServantMainData extends React.Component<IProps> {
 
                 <DataTable data={{
                     "Data": <RawDataViewer data={servant}/>,
-                    "Raw": <RawDataViewer data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${this.props.servant.id}?expand=true&lore=true`}/>,
+                    "Raw": <RawDataViewer
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${this.props.servant.id}?expand=true&lore=true`}/>,
                     "ID": servant.id,
                     "Collection": servant.collectionNo,
                     "Name": servant.name,
@@ -37,7 +39,6 @@ class ServantMainData extends React.Component<IProps> {
                     "Rarity": <RarityDescriptor rarity={servant.rarity}/>,
                     "Cost": servant.cost,
                     "Attribute": servant.attribute,
-                    "Max Lv.": servant.lvMax,
                     "Hp": <div>
                         Base: {formatNumber(servant.hpBase)}
                         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -58,6 +59,11 @@ class ServantMainData extends React.Component<IProps> {
                                                 assetId={this.props.assetId}/>;
                         })}
                     </div>,
+                    "Bond CE": (
+                        servant.bondEquip
+                            ? <CraftEssenceReferenceDescriptor region={this.props.region} id={servant.bondEquip}/>
+                            : ''
+                    )
                 }}/>
             </div>
         );

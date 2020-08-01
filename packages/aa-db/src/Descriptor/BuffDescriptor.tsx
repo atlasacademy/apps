@@ -57,6 +57,7 @@ export const typeDescriptions = new Map<BuffType, string>([
     [BuffType.DONOT_SELECT_COMMANDCARD, 'Do Not Shuffle In Cards'],
     [BuffType.DONOT_SKILL, 'Skill Seal'],
     [BuffType.FIELD_INDIVIDUALITY, 'Change Field Type'],
+    [BuffType.FIX_COMMANDCARD, 'Freeze Command Cards'],
     [BuffType.GUTS, 'Guts'],
     [BuffType.INVINCIBLE, 'Invincible'],
     [BuffType.MULTIATTACK, 'Multiple Hits'],

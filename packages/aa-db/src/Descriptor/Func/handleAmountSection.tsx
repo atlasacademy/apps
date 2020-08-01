@@ -53,6 +53,8 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         } else {
             section.showing = false;
         }
+    } else if (dataVal.AddCount && func.funcType === FuncType.EVENT_DROP_UP) {
+        parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
     } else if (func.funcType === FuncType.SERVANT_FRIENDSHIP_UP && dataVal.RateCount) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
     } else if (func.buffs[0]?.type === BuffType.NPATTACK_PREV_BUFF) {

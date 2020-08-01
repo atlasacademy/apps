@@ -110,7 +110,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Type</Form.Label>
-                        <SearchableSelect<BuffType> id='select-FuncType'
+                        <SearchableSelect<BuffType> id='select-BuffType'
                                                     options={Object.values(BuffType)}
                                                     labels={buffDescriptions}
                                                     onChange={(value?: BuffType) => {

@@ -21,6 +21,7 @@ interface IProps<T> {
 interface IState<T> {
     ref: RefObject<any>,
     selected?: T,
+    focused: boolean,
     results: boolean,
 }
 
@@ -31,7 +32,8 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
         this.state = {
             ref: React.createRef(),
             selected: props.selected,
-            results: true,
+            focused: false,
+            results: false,
         };
     }
 
@@ -40,15 +42,19 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
         this.state.ref.current.clear();
     }
 
-    private getOption(value?: T): Option<T> {
-        if (value === undefined) {
-            return {label: 'All', value};
-        }
+    private getDescription(value?: T): string {
+        if (value === undefined)
+            return 'All';
 
-        const description = this.props.labels.get(value),
-            label = description
-                ? `${description} - ${value}`
-                : `(${value})`;
+        const description = this.props.labels.get(value);
+
+        return description
+            ? `${description} - ${value}`
+            : `(${value})`;
+    }
+
+    private getOption(value?: T): Option<T> {
+        const label = this.getDescription(value);
 
         return {label, value};
     }
@@ -60,10 +66,7 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
     }
 
     private resetInput() {
-        if (this.state.results)
-            return;
-
-        this.setState({results: true});
+        this.setState({focused: false, results: false});
     }
 
     private async selectOption(options: Option<T>[]) {
@@ -82,8 +85,8 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
             <Typeahead ref={this.state.ref}
                        id={this.props.id}
                        options={this.getOptions()}
-                       placeholder={'All'}
-                       selected={this.state.results && this.state.selected ? [this.getOption(this.state.selected)] : []}
+                       placeholder={this.getDescription(this.state.selected)}
+                       selected={this.state.focused && this.state.results ? [this.getOption(this.state.selected)] : []}
                        ignoreDiacritics={true}
                        maxResults={1000}
                        onBlur={() => {
@@ -91,6 +94,9 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
                        }}
                        onChange={(selected) => {
                            this.selectOption(selected);
+                       }}
+                       onFocus={() => {
+                           this.setState({focused: true});
                        }}>
                 <button className='searchable-select-clear'
                         onClick={e => {

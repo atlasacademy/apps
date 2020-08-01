@@ -64,6 +64,7 @@ interface Servant {
     atkGrowth: number[];
     hpGrowth: number[];
     bondGrowth: number[];
+    bondEquip: number;
     ascensionMaterials: ServantLevelUpMaterialProgression;
     skillMaterials: ServantLevelUpMaterialProgression;
     skills: Skill[];

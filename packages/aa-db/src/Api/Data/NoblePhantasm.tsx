@@ -17,6 +17,7 @@ interface NoblePhantasm {
     num: number;
     card: Card;
     name: string;
+    icon: string;
     rank: string;
     type: string;
     detail: string;
