@@ -13,6 +13,8 @@ const supportedCardTypes = [
 interface IProps {
     card: Card;
     servant: Servant;
+    npText?: string;
+    npTextBottom?: boolean;
     height?: string | number;
     assetType?: string;
     assetId?: string;
@@ -56,7 +58,7 @@ class CommandCard extends React.Component<IProps> {
         const height = this.props.height ?? '1em',
             portrait = this.getPortrait();
 
-        let bg, icon, txt;
+        let bg, icon, txt, np = false;
 
         switch (this.props.card) {
             case Card.ARTS:
@@ -76,13 +78,20 @@ class CommandCard extends React.Component<IProps> {
                 break;
         }
 
+        if (this.props.npText) {
+            txt = this.props.npText;
+            np = true;
+        }
+
         return <span className={'command-card'} style={{height: height}}>
             <img alt={''} className={'command-card-ratio'}
                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
             <img alt={''} className={'command-card-bg'} src={bg}/>
             <img alt={''} className={'command-card-portrait'} src={portrait}/>
             <img alt={''} className={'command-card-icon'} src={icon}/>
-            <img alt={''} className={'command-card-text'} src={txt}/>
+            <div className={'command-card-text' + (np ? ' np' : '') + (this.props.npTextBottom ? ' bottom' : '')}>
+                <img alt={''} src={txt}/>
+            </div>
         </span>;
     }
 }

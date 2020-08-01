@@ -164,8 +164,12 @@ class ServantPage extends React.Component<IProps, IState> {
                         {this.state.servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
                             .map((noblePhantasm, index) => {
-                                return <NoblePhantasmBreakdown region={this.props.region} key={index}
-                                                               noblePhantasm={noblePhantasm}/>;
+                                return <NoblePhantasmBreakdown key={index}
+                                                               region={this.props.region}
+                                                               servant={servant}
+                                                               noblePhantasm={noblePhantasm}
+                                                               assetType={this.state.assetType}
+                                                               assetId={this.state.assetId}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'passives'} title={'Passives'}>

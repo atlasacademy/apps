@@ -40,6 +40,24 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('(that pierces defense)');
     }
 
+    if (
+        func.funcType === FuncType.ENEMY_ENCOUNT_COPY_RATE_UP
+        || func.funcType === FuncType.ENEMY_ENCOUNT_RATE_UP
+        || func.funcType === FuncType.EVENT_DROP_UP
+    ) {
+        if (dataVal.Individuality) {
+            parts.push(
+                <span>with <TraitDescriptor region={region} trait={Number(dataVal.Individuality)}/></span>
+            )
+        }
+
+        if (dataVal.EventId) {
+            parts.push(
+                <span>during event <TraitDescriptor region={region} trait={Number(dataVal.EventId)}/></span>
+            )
+        }
+    }
+
     if (func.funcquestTvals.length) {
         parts.push('if on field');
         parts.push(

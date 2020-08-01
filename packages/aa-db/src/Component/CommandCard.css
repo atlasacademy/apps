@@ -48,3 +48,23 @@
      */
     top: calc(calc(77% / 1.50) + 8.5%);
 }
+
+.command-card-text>img {
+    display: block;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.command-card-text.np {
+    height: 50%;
+    left: 0;
+    overflow: hidden;
+    top: 50%;
+    width: 100%;
+}
+
+.command-card-text.np.bottom>img {
+    top: -100%;
+}

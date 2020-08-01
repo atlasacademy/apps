@@ -1,5 +1,6 @@
 import Func, {DataVal, FuncType} from "../../Api/Data/Func";
 import Region from "../../Api/Data/Region";
+import {asPercent} from "../../Helper/OutputHelper";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
@@ -10,6 +11,11 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('Guaranteed to');
     } else if (typeof dataVal.Rate === "number" && dataVal.Rate !== 1000) {
         parts.push((dataVal.Rate / 10) + '% Chance to');
+    } else if (dataVal.RateCount && (
+        func.funcType === FuncType.ENEMY_ENCOUNT_COPY_RATE_UP
+        || func.funcType === FuncType.ENEMY_ENCOUNT_RATE_UP
+    )) {
+        parts.push(asPercent(dataVal.RateCount, 1) + ' Chance per Target to');
     } else if (!dataVal.Rate && func.funcType !== FuncType.NONE) {
         parts.push('Chance to');
     } else {
