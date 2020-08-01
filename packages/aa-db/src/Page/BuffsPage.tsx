@@ -8,6 +8,7 @@ import Buff, {BuffType} from "../Api/Data/Buff";
 import Region from "../Api/Data/Region";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import SearchableSelect from "../Component/SearchableSelect";
 import BuffDescriptor, {typeDescriptions, upDownBuffs} from "../Descriptor/BuffDescriptor";
 
 let stateCache = new Map<Region, IState>([]);
@@ -28,6 +29,27 @@ interface IState {
     type?: BuffType;
 }
 
+const buffDescriptions = new Map<BuffType, string>();
+Object.values(BuffType).forEach(type => {
+    let description;
+
+    for (let x in upDownBuffs) {
+        if (upDownBuffs[x].up === type)
+            description = upDownBuffs[x].description + ' Up';
+
+        if (upDownBuffs[x].down === type)
+            description = upDownBuffs[x].description + ' Down';
+    }
+
+    if (description === undefined) {
+        description = typeDescriptions.get(type);
+    }
+
+    if (description !== undefined) {
+        buffDescriptions.set(type, description);
+    }
+})
+
 class BuffsPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
@@ -40,26 +62,6 @@ class BuffsPage extends React.Component<IProps, IState> {
 
     componentDidUpdate() {
         stateCache.set(this.props.region, {...this.state});
-    }
-
-    private describeBuffType(type: BuffType): string {
-        let description;
-
-        for (let x in upDownBuffs) {
-            if (upDownBuffs[x].up === type)
-                description = upDownBuffs[x].description + ' Up';
-
-            if (upDownBuffs[x].down === type)
-                description = upDownBuffs[x].description + ' Down';
-        }
-
-        if (description === undefined) {
-            description = typeDescriptions.get(type);
-        }
-
-        return description
-            ? `${description} - ${type}`
-            : `(${type})`;
     }
 
     private async search() {
@@ -108,23 +110,12 @@ class BuffsPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Type</Form.Label>
-                        <Form.Control as={'select'}
-                                      value={this.state.type ?? 'all'}
-                                      onChange={(ev: ChangeEvent) => {
-                                          if (ev.target.value === 'all')
-                                              this.setState({type: undefined});
-                                          else
-                                              this.setState({type: ev.target.value as BuffType});
-                                      }}>
-                            <option value={'all'}>All</option>
-                            {Object.values(BuffType).map((type, index) => {
-                                return (
-                                    <option key={index} value={type}>
-                                        {this.describeBuffType(type)}
-                                    </option>
-                                );
-                            })}
-                        </Form.Control>
+                        <SearchableSelect<BuffType> id='select-FuncType'
+                                                    options={Object.values(BuffType)}
+                                                    labels={buffDescriptions}
+                                                    onChange={(value?: BuffType) => {
+                                                        this.setState({type: value});
+                                                    }}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>
                         Search
