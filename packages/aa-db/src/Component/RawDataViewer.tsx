@@ -1,6 +1,7 @@
 import {faSearchPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import copy from 'copy-to-clipboard';
 import React from "react";
 import {Modal} from "react-bootstrap";
 import ReactJson from "react-json-view";
@@ -66,7 +67,12 @@ class RawDataViewer extends React.Component<IProps, IState> {
                     </Modal.Header>
                     <Modal.Body>
                         {this.state.data ? (
-                            <ReactJson src={this.state.data} collapsed={1}/>
+                            <ReactJson src={this.state.data} collapsed={1}
+                                       enableClipboard={clipboard => {
+                                           if (typeof clipboard.src === "string") {
+                                               copy(clipboard.src);
+                                           }
+                                       }}/>
                         ) : null}
                     </Modal.Body>
                 </Modal>
