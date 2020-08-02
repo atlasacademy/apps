@@ -89,9 +89,13 @@ class CommandCard extends React.Component<IProps> {
             <img alt={''} className={'command-card-bg'} src={bg}/>
             <img alt={''} className={'command-card-portrait'} src={portrait}/>
             <img alt={''} className={'command-card-icon'} src={icon}/>
-            <div className={'command-card-text' + (np ? ' np' : '') + (this.props.npTextBottom ? ' bottom' : '')}>
-                <img alt={''} src={txt}/>
-            </div>
+            {
+                np
+                    ? <div className={'command-card-text-np' + (this.props.npTextBottom ? ' bottom' : '')}>
+                        <img alt={''} src={txt}/>
+                    </div>
+                    : <img className={'command-card-text-card'} alt={''} src={txt}/>
+            }
         </span>;
     }
 }
