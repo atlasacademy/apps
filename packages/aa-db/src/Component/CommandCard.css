@@ -8,7 +8,7 @@
     height: 100%;
 }
 
-.command-card-bg, .command-card-icon, .command-card-portrait, .command-card-text {
+.command-card-bg, .command-card-icon, .command-card-portrait, .command-card-text-card, .command-card-text-np {
     height: 100%;
     left: 0;
     position: absolute;
@@ -34,9 +34,10 @@
         52 / 185
      */
     top: calc(calc(52% / 1.85) + 20%);
+    z-index: 1;
 }
 
-.command-card-text {
+.command-card-text-card {
     /**
         73 / 150
      */
@@ -47,9 +48,19 @@
         77 / 150
      */
     top: calc(calc(77% / 1.50) + 8.5%);
+    z-index: 2;
 }
 
-.command-card-text>img {
+.command-card-text-np {
+    height: 50%;
+    left: 0;
+    overflow: hidden;
+    top: 50%;
+    width: 100%;
+    z-index: 2;
+}
+
+.command-card-text-np>img {
     display: block;
     left: 0;
     position: absolute;
@@ -57,14 +68,6 @@
     width: 100%;
 }
 
-.command-card-text.np {
-    height: 50%;
-    left: 0;
-    overflow: hidden;
-    top: 50%;
-    width: 100%;
-}
-
-.command-card-text.np.bottom>img {
+.command-card-text-np.bottom>img {
     top: -100%;
 }
