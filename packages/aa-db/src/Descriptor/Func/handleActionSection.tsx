@@ -46,6 +46,7 @@ export const funcDescriptions = new Map<FuncType, string>([
     [FuncType.SERVANT_FRIENDSHIP_UP, 'Increase Bond Gain'],
     [FuncType.SHORTEN_SKILL, 'Reduce Cooldowns'],
     [FuncType.SUB_STATE, 'Remove Effects'],
+    [FuncType.USER_EQUIP_EXP_UP, 'Increase Mystic Code Exp'],
 ]);
 
 function handleBuffActionSection(region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
@@ -176,6 +177,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         case FuncType.QP_DROP_UP:
         case FuncType.QP_UP:
         case FuncType.SERVANT_FRIENDSHIP_UP:
+        case FuncType.USER_EQUIP_EXP_UP:
             sections.chance.showing = false;
             sections.amount.preposition = 'by';
             sections.target.showing = false;

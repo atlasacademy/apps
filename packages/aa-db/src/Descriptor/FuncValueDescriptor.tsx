@@ -165,9 +165,13 @@ class FuncValueDescriptor extends React.Component<IProps> {
 
         if (dataVal.RateCount) {
             switch (func.funcType) {
+                case FuncType.QP_DROP_UP:
                 case FuncType.SERVANT_FRIENDSHIP_UP:
+                case FuncType.USER_EQUIP_EXP_UP:
                     parts.push(asPercent(dataVal.RateCount, 1));
                     break;
+                default:
+                    parts.push(dataVal.RateCount);
             }
         }
 

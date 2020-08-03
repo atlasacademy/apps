@@ -36,7 +36,8 @@ class SkillBreakdown extends React.Component<IProps> {
                 <EffectBreakdown region={this.props.region}
                                  cooldowns={this.props.cooldowns ? skill.coolDown : undefined}
                                  funcs={this.props.skill.functions}
-                                 levels={this.props.levels}/>
+                                 levels={this.props.levels}
+                                 scripts={this.props.skill.script}/>
             </div>
         );
     }
