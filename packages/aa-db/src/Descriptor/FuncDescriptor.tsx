@@ -4,7 +4,13 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Func, {DataVal} from "../Api/Data/Func";
 import Region from "../Api/Data/Region";
-import {getDataValList, getStaticFieldValues, getTargetVersionValues} from "../Helper/FuncHelper";
+import {
+    getDataValList, getFollowerDataValList,
+    getStaticFieldValues,
+    getTargetFollowerVersionValues,
+    getTargetVersionValues,
+    hasFollowerDataVals
+} from "../Helper/FuncHelper";
 import {joinElements, Renderable} from "../Helper/OutputHelper";
 import {FuncDescriptorSections} from "./Func/FuncDescriptorSections";
 import handleActionSection from "./Func/handleActionSection";
@@ -35,10 +41,27 @@ class FuncDescriptor extends React.Component<IProps> {
             return getStaticFieldValues(dataVals);
         }
     }
+
+    getFollowerDataVal(): DataVal | undefined {
+        const func = this.props.func;
+
+        if (!hasFollowerDataVals(func))
+            return undefined;
+
+        if (this.props.level) {
+            return getTargetFollowerVersionValues(func, this.props.level) ?? {};
+        } else {
+            const dataVals = getFollowerDataValList(func);
+
+            return getStaticFieldValues(dataVals);
+        }
+    }
+
     render() {
         const region = this.props.region,
             func = this.props.func,
-            dataVal = this.getDataVal();
+            dataVal = this.getDataVal(),
+            followerDataVal = this.getFollowerDataVal();
 
         const sections = new FuncDescriptorSections();
 
@@ -47,6 +70,9 @@ class FuncDescriptor extends React.Component<IProps> {
         handleActionSection(region, sections, func, dataVal);
         handleAffectsSection(region, sections, func, dataVal);
         handleAmountSection(region, sections, func, dataVal);
+        if (followerDataVal) {
+            handleAmountSection(region, sections, func, followerDataVal, true);
+        }
         handleTargetSection(region, sections, func, dataVal);
         handleDurationSection(region, sections, func, dataVal);
         handleScalingSection(region, sections, func, dataVal);

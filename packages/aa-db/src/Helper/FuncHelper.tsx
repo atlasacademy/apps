@@ -30,7 +30,8 @@ export function describeMutators(region: Region, func: Func): Renderable[] {
         mutatingVals = getMutatingFieldValues(dataVals);
 
     return mutatingVals
-        .map(mutatingVal => <FuncValueDescriptor region={region} func={func} staticDataVal={staticVals} dataVal={mutatingVal}/>);
+        .map(mutatingVal => <FuncValueDescriptor region={region} func={func} staticDataVal={staticVals}
+                                                 dataVal={mutatingVal}/>);
 }
 
 export function funcUpdatesByLevel(func: Func): boolean {
@@ -48,6 +49,10 @@ export function getDataValList(func: Func): DataVal[] {
     return isLevel && isOvercharge
         ? getMixedDataValList(func)
         : (isOvercharge ? getOverchargeDataValList(func) : getLevelDataValList(func));
+}
+
+export function getFollowerDataValList(func: Func): DataVal[] {
+    return func.followerVals ?? [];
 }
 
 export function getLevelDataValList(func: Func): DataVal[] {
@@ -179,6 +184,13 @@ export function getStaticFieldValues(vals: DataVal[]): DataVal {
     return staticVals;
 }
 
+export function getTargetFollowerVersionValues(func: Func, level: number): DataVal | undefined {
+    if (func.followerVals === undefined)
+        return undefined;
+
+    return func.followerVals[level - 1];
+}
+
 export function getTargetVersionValues(func: Func, level: number, overcharge: number = 1): DataVal | undefined {
     if (func.svals === undefined)
         return undefined;
@@ -197,4 +209,8 @@ export function getTargetVersionValues(func: Func, level: number, overcharge: nu
         dataVals = func.svals;
 
     return dataVals[level - 1];
+}
+
+export function hasFollowerDataVals(func: Func): boolean {
+    return func.followerVals !== undefined;
 }

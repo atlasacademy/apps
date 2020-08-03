@@ -3,12 +3,14 @@ import Card from "../Api/Data/Card";
 import Func from "../Api/Data/Func";
 import {NoblePhantasmGain} from "../Api/Data/NoblePhantasm";
 import Region from "../Api/Data/Region";
+import {SkillScript} from "../Api/Data/Skill";
 import CardType from "../Component/CardType";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 import SkillReferenceDescriptor from "../Descriptor/SkillReferenceDescriptor";
 import {describeMutators, getRelatedSkillIds} from "../Helper/FuncHelper";
 import {asPercent} from "../Helper/OutputHelper";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
+import ScriptBreakdown from "./ScriptBreakdown";
 
 interface IProps {
     region: Region;
@@ -16,6 +18,7 @@ interface IProps {
     funcs: Func[];
     gain?: NoblePhantasmGain;
     levels?: number;
+    scripts?: SkillScript;
     relatedSkillId?: number;
 }
 
@@ -31,6 +34,9 @@ class EffectBreakdownLines extends React.Component<IProps> {
                         })}
                     </tr>
                 ) : null}
+                {this.props.scripts
+                    ? <ScriptBreakdown region={this.props.region} scripts={this.props.scripts}/>
+                    : null}
                 {this.props.gain ? (
                     <tr>
                         <td className={'effect'}>NP Gain</td>

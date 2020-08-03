@@ -215,6 +215,7 @@ export default interface Func {
     svals3?: DataVal[];
     svals4?: DataVal[];
     svals5?: DataVal[];
+    followerVals?: DataVal[];
     reverseSkills: Skill[];
     reverseTds: NoblePhantasm[];
 }

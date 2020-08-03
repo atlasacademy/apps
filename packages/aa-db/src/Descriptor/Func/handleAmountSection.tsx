@@ -8,9 +8,13 @@ import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
 import TraitDescriptor from "../TraitDescriptor";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
+export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal, support?: boolean): void {
     const section = sections.amount,
         parts = section.parts;
+
+    if (support) {
+        parts.push('( Support only:');
+    }
 
     if (func.buffs[0]?.type === BuffType.ADD_INDIVIDUALITY && typeof dataVal.Value === "number") {
         parts.push(
@@ -53,9 +57,18 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         } else {
             section.showing = false;
         }
-    } else if (dataVal.AddCount && func.funcType === FuncType.EVENT_DROP_UP) {
+    } else if (dataVal.AddCount && (
+        func.funcType === FuncType.EVENT_DROP_UP
+        || func.funcType === FuncType.EXP_UP
+        || func.funcType === FuncType.QP_UP
+        || func.funcType === FuncType.USER_EQUIP_EXP_UP
+    )) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
-    } else if (func.funcType === FuncType.SERVANT_FRIENDSHIP_UP && dataVal.RateCount) {
+    } else if (dataVal.RateCount && (
+        func.funcType === FuncType.QP_DROP_UP
+        || func.funcType === FuncType.SERVANT_FRIENDSHIP_UP
+        || func.funcType === FuncType.USER_EQUIP_EXP_UP
+    )) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
     } else if (func.buffs[0]?.type === BuffType.NPATTACK_PREV_BUFF) {
         if (typeof dataVal.SkillID !== "number") {
@@ -75,5 +88,9 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
                                         hideRate={true}/>);
     } else {
         section.showing = false;
+    }
+
+    if (support) {
+        parts.push(')');
     }
 }

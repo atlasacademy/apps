@@ -1,1 +1,0 @@
-{"version":3,"sources":["CraftEssencesPage.css"],"names":[],"mappings":"AAAA,wBACI,cAAe,CACf,aACJ,CAEA,kCACI,qBACJ","file":"18.6ed6c924.chunk.css","sourcesContent":["#craft-essences .filter {\n    cursor: pointer;\n    margin: 0 10px;\n}\n\n#craft-essences table>tbody>tr>td {\n    vertical-align: middle;\n}\n"]}
