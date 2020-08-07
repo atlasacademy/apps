@@ -86,6 +86,11 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     } else if (dataVal.Value) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}
                                         hideRate={true}/>);
+    } else if (!dataVal.Value && dataVal.Correction) {
+        section.preposition = 'with';
+        parts.push('bonus');
+        parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}
+                                        hideRate={true}/>);
     } else {
         section.showing = false;
     }
