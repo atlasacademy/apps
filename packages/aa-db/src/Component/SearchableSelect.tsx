@@ -16,6 +16,10 @@ interface IProps<T> {
     labels: Map<T, string>,
     onChange: Function,
     selected?: T,
+    hideAll?: boolean,
+    hideReset?: boolean,
+    disableLabelStyling?: boolean,
+    maxResults?: number,
 }
 
 interface IState<T> {
@@ -48,6 +52,13 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
 
         const description = this.props.labels.get(value);
 
+        if (this.props.disableLabelStyling) {
+            if (description)
+                return description;
+
+            return typeof value === 'string' ? value : 'Unknown';
+        }
+
         return description
             ? `${description} - ${value}`
             : `(${value})`;
@@ -60,9 +71,10 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
     }
 
     private getOptions(): Option<T>[] {
-        return [this.getOption()].concat(
-            this.props.options.map(value => this.getOption(value))
-        );
+        return (this.props.hideAll ? [] : [this.getOption()])
+            .concat(
+                this.props.options.map(value => this.getOption(value))
+            );
     }
 
     private resetInput() {
@@ -88,7 +100,7 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
                        placeholder={this.getDescription(this.state.selected)}
                        selected={this.state.focused && this.state.results ? [this.getOption(this.state.selected)] : []}
                        ignoreDiacritics={true}
-                       maxResults={1000}
+                       maxResults={this.props.maxResults ?? 1000}
                        onBlur={() => {
                            this.resetInput();
                        }}
@@ -98,17 +110,20 @@ class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
                        onFocus={() => {
                            this.setState({focused: true});
                        }}>
-                <button className='searchable-select-clear'
-                        onClick={e => {
-                            e.preventDefault();
-                            this.clearSelection();
-                        }}
-                        onMouseDown={e => {
-                            // Prevent input from losing focus.
-                            e.preventDefault();
-                        }}>
-                    <FontAwesomeIcon icon={faTimes}/>
-                </button>
+
+                {this.props.hideReset ? null : (
+                    <button className='searchable-select-clear'
+                            onClick={e => {
+                                e.preventDefault();
+                                this.clearSelection();
+                            }}
+                            onMouseDown={e => {
+                                // Prevent input from losing focus.
+                                e.preventDefault();
+                            }}>
+                        <FontAwesomeIcon icon={faTimes}/>
+                    </button>
+                )}
             </Typeahead>
         );
     }
