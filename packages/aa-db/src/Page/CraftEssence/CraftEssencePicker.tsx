@@ -25,7 +25,7 @@ class CraftEssencePicker extends React.Component<IProps> {
         const craftEssences = this.props.craftEssences.slice().reverse(),
             craftEssenceLabels = new Map<number, string>(craftEssences.map(craftEssences => [
                 craftEssences.collectionNo,
-                `${craftEssences.collectionNo} - ${craftEssences.name}`
+                `${craftEssences.collectionNo.toString().padStart(4, '0')} - ${craftEssences.name}`
             ]));
 
         return (
