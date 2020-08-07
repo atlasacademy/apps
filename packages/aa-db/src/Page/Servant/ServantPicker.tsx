@@ -25,7 +25,7 @@ class ServantPicker extends React.Component<IProps> {
         const servants = this.props.servants.slice().reverse(),
             servantLabels = new Map<number, string>(servants.map(servant => [
                 servant.collectionNo,
-                `${servant.collectionNo} - ${servant.name}`
+                `${servant.collectionNo.toString().padStart(3, '0')} - ${servant.name}`
             ]));
 
         return (
