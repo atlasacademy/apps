@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {Suspense} from 'react';
 import {Container} from "react-bootstrap";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import {Helmet} from "react-helmet";
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
 
 import "./App.css";
@@ -11,6 +12,7 @@ import Navigation from "./Component/Navigation";
 import HomePage from "./Page/HomePage";
 import Manager from "./Setting/Manager";
 import {LanguageOption} from "./Setting/Option";
+import {Theme} from "./Setting/Theme";
 
 const BuffPage = React.lazy(() => import("./Page/BuffPage"));
 const BuffsPage = React.lazy(() => import("./Page/BuffsPage"));
@@ -28,9 +30,9 @@ const ServantPage = React.lazy(() => import("./Page/ServantPage"));
 const ServantsPage = React.lazy(() => import("./Page/ServantsPage"));
 const SkillPage = React.lazy(() => import("./Page/SkillPage"));
 
-
 interface IState {
     language: LanguageOption,
+    theme: Theme,
 }
 
 class App extends React.Component<any, IState> {
@@ -38,6 +40,7 @@ class App extends React.Component<any, IState> {
         super(props);
         this.state = {
             language: Manager.language(),
+            theme: Manager.theme(),
         };
 
         Manager.onUpdate(() => this.updateSettings());
@@ -46,16 +49,23 @@ class App extends React.Component<any, IState> {
     private updateSettings() {
         this.setState({
             language: Manager.language(),
+            theme: Manager.theme(),
         });
     }
 
     render() {
         return (
             <Router>
-                <Navigation/>
+                <Navigation language={this.state.language} theme={this.state.theme}/>
                 <br/>
 
                 <Container id={'app'} key={`${this.state.language}`}>
+                    <Helmet>
+                        {this.state.theme === Theme.DEFAULT ? null : (
+                            <link key='theme' rel="stylesheet"
+                                  href={`https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/${this.state.theme}/bootstrap.min.css`}/>
+                        )}
+                    </Helmet>
                     <Switch>
                         <Route exact={true} path="/:region(JP|NA)/buff/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params
