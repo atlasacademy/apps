@@ -6,11 +6,15 @@ import {Button, Container, Modal, Nav, Navbar, NavItem} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Region from "../Api/Data/Region";
+import {LanguageOption} from "../Setting/Option";
 import SettingForm from "../Setting/SettingForm";
 
 import "./Navigation.css";
+import {Theme} from "../Setting/Theme";
 
 interface IProps extends RouteComponentProps {
+    language: LanguageOption;
+    theme: Theme;
 }
 
 interface IState {
@@ -123,7 +127,7 @@ class Navigation extends React.Component<IProps, IState> {
                         <Modal.Title>Settings</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <SettingForm/>
+                        <SettingForm language={this.props.language} theme={this.props.theme}/>
                     </Modal.Body>
                 </Modal>
             </div>

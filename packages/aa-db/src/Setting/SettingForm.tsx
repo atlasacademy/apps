@@ -2,34 +2,24 @@ import React from "react";
 import {Form} from "react-bootstrap";
 import Manager from "./Manager";
 import {LanguageOption} from "./Option";
+import {Theme} from "./Theme";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
 }
 
-interface IState {
-    language: LanguageOption
+interface IProps {
+    language: LanguageOption,
+    theme: Theme,
 }
 
-class SettingForm extends React.Component<any, IState> {
-    constructor(props: any) {
-        super(props);
-
-        this.state = {
-            language: Manager.language(),
-        }
-
-        Manager.onUpdate(() => this.syncSettings());
-    }
-
-    private syncSettings() {
-        this.setState({
-            language: Manager.language(),
-        });
-    }
-
+class SettingForm extends React.Component<IProps> {
     updateLanguage(value: string) {
         Manager.setLanguage(value);
+    }
+
+    updateTheme(value: string) {
+        Manager.setTheme(value);
     }
 
     render() {
@@ -38,10 +28,19 @@ class SettingForm extends React.Component<any, IState> {
                 <Form>
                     <Form.Group>
                         <Form.Label>Language</Form.Label>
-                        <Form.Control as={'select'} value={this.state.language}
+                        <Form.Control as={'select'} value={this.props.language}
                                       onChange={(ev: Event) => this.updateLanguage(ev.target.value)}>
                             {Object.values(LanguageOption).map(v => (
-                                <option value={v}>{v}</option>
+                                <option key={v} value={v}>{v}</option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Theme</Form.Label>
+                        <Form.Control as={'select'} value={this.props.theme}
+                                      onChange={(ev: Event) => this.updateTheme(ev.target.value)}>
+                            {Object.values(Theme).map(v => (
+                                <option key={v} value={v}>{v}</option>
                             ))}
                         </Form.Control>
                     </Form.Group>
