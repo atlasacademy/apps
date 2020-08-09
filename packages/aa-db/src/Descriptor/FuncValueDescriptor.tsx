@@ -131,7 +131,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
             }
         }
 
-        if (dataVal.Correction !== undefined) {
+        if (dataVal.Correction) {
             switch (func.funcType) {
                 case FuncType.DAMAGE_NP_INDIVIDUAL:
                 case FuncType.DAMAGE_NP_RARE:
