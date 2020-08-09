@@ -22,11 +22,17 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
                 <TraitDescriptor region={region} trait={dataVal.Target}/>
             })</span>
         );
-    } else if (typeof dataVal.TargetList === "number" && func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
+    } else if (
+        (typeof dataVal.TargetList === "number" || typeof dataVal.TargetList === "string")
+        && func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM
+    ) {
+        const traitIds = typeof dataVal.TargetList === "number"
+            ? [dataVal.TargetList]
+            : dataVal.TargetList.split('/').map(v => parseInt(v)),
+            traits = traitIds.map(id => <TraitDescriptor region={region} trait={id}/>);
+
         parts.push(
-            <span>(bonus per trait of {
-                <TraitDescriptor region={region} trait={dataVal.TargetList}/>
-            }{
+            <span>(bonus per trait of {mergeElements(traits, ' or ')}{
                 dataVal.ParamAddMaxCount ? `[Limit ${dataVal.ParamAddMaxCount}]` : null
             })</span>
         );
