@@ -1,0 +1,25 @@
+{
+  "name": "@atlasacademy/api-connector",
+  "version": "1.0.1",
+  "description": "Library to interface with api.atlasacademy.io",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "link": "npm run build && cd dist && npm link",
+    "watch": "tsc -w"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "install": "^0.13.0",
+    "only": "0.0.2"
+  }
+}
