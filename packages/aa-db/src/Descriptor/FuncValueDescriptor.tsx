@@ -84,7 +84,8 @@ class FuncValueDescriptor extends React.Component<IProps> {
             (func.funcType === FuncType.ADD_STATE || func.funcType === FuncType.ADD_STATE_SHORT)
             && func.buffs[0]
             && (
-                (func.buffs[0].type === BuffType.COMMANDATTACK_FUNCTION && this.props.staticDataVal.Value)
+                this.props.dataVal.Value
+                || (func.buffs[0].type === BuffType.COMMANDATTACK_FUNCTION && this.props.staticDataVal.Value)
                 || (func.buffs[0].type === BuffType.DAMAGE_FUNCTION && this.props.staticDataVal.Value2)
                 || (func.buffs[0].type === BuffType.DEAD_FUNCTION && this.props.staticDataVal.Value2)
                 || (func.buffs[0].type === BuffType.DELAY_FUNCTION && this.props.staticDataVal.Value2)
