@@ -1,3 +1,4 @@
+import {Language} from "@atlasacademy/api-connector";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {Suspense} from 'react';
 import {Container} from "react-bootstrap";
@@ -6,12 +7,12 @@ import {Helmet} from "react-helmet";
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
 
 import "./App.css";
+import Api from "./Api";
 import ErrorStatus from "./Component/ErrorStatus";
 import Loading from "./Component/Loading";
 import Navigation from "./Component/Navigation";
 import HomePage from "./Page/HomePage";
 import Manager from "./Setting/Manager";
-import {LanguageOption} from "./Setting/Option";
 import {Theme} from "./Setting/Theme";
 
 const BuffPage = React.lazy(() => import("./Page/BuffPage"));
@@ -31,7 +32,7 @@ const ServantsPage = React.lazy(() => import("./Page/ServantsPage"));
 const SkillPage = React.lazy(() => import("./Page/SkillPage"));
 
 interface IState {
-    language: LanguageOption,
+    language: Language,
     theme: Theme,
 }
 
@@ -43,7 +44,12 @@ class App extends React.Component<any, IState> {
             theme: Manager.theme(),
         };
 
-        Manager.onUpdate(() => this.updateSettings());
+        Api.init(Manager.region(), Manager.language());
+
+        Manager.onUpdate(() => {
+            Api.init(Manager.region(), Manager.language());
+            this.updateSettings()
+        });
     }
 
     private updateSettings() {

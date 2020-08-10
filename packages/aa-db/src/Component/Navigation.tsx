@@ -1,3 +1,4 @@
+import {Language, Region} from "@atlasacademy/api-connector";
 import {faDiscord, faGithub} from "@fortawesome/free-brands-svg-icons";
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -5,15 +6,14 @@ import React from "react";
 import {Button, Container, Modal, Nav, Navbar, NavItem} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
-import Region from "../Api/Data/Region";
-import {LanguageOption} from "../Setting/Option";
+import Manager from "../Setting/Manager";
 import SettingForm from "../Setting/SettingForm";
-
-import "./Navigation.css";
 import {Theme} from "../Setting/Theme";
 
+import "./Navigation.css";
+
 interface IProps extends RouteComponentProps {
-    language: LanguageOption;
+    language: Language;
     theme: Theme;
 }
 
@@ -34,17 +34,9 @@ class Navigation extends React.Component<IProps, IState> {
         this.setState({showSettings: false});
     }
 
-    private region(): Region {
-        const {pathname} = this.props.location,
-            matches = pathname.match(/^\/(JP|NA)(?:\/|$)/),
-            region = matches ? matches[1] : 'JP';
-
-        return region === 'NA' ? Region.NA : Region.JP;
-    }
-
     private regionClass(region: Region): string {
         return 'flag '
-            + (this.region() === region ? '' : 'inactive');
+            + (Manager.region() === region ? '' : 'inactive');
     }
 
     private regionLink(region: Region): string {
@@ -70,32 +62,32 @@ class Navigation extends React.Component<IProps, IState> {
 
                         <Navbar.Collapse>
                             <Nav>
-                                <Link to={`/${this.region()}/servants`} className={'nav-link'}>
+                                <Link to={`/${Manager.region()}/servants`} className={'nav-link'}>
                                     <NavItem>Servants</NavItem>
                                 </Link>
                             </Nav>
                             <Nav>
-                                <Link to={`/${this.region()}/craft-essences`} className={'nav-link'}>
+                                <Link to={`/${Manager.region()}/craft-essences`} className={'nav-link'}>
                                     <NavItem>Craft Essences</NavItem>
                                 </Link>
                             </Nav>
                             <Nav>
-                                <Link to={`/${this.region()}/command-codes`} className={'nav-link'}>
+                                <Link to={`/${Manager.region()}/command-codes`} className={'nav-link'}>
                                     <NavItem>Command Codes</NavItem>
                                 </Link>
                             </Nav>
                             <Nav>
-                                <Link to={`/${this.region()}/mystic-codes`} className={'nav-link'}>
+                                <Link to={`/${Manager.region()}/mystic-codes`} className={'nav-link'}>
                                     <NavItem>Mystic Codes</NavItem>
                                 </Link>
                             </Nav>
                             <Nav>
-                                <Link to={`/${this.region()}/buffs`} className={'nav-link'}>
+                                <Link to={`/${Manager.region()}/buffs`} className={'nav-link'}>
                                     <NavItem>Buffs</NavItem>
                                 </Link>
                             </Nav>
                             <Nav>
-                                <Link to={`/${this.region()}/funcs`} className={'nav-link'}>
+                                <Link to={`/${Manager.region()}/funcs`} className={'nav-link'}>
                                     <NavItem>Functions</NavItem>
                                 </Link>
                             </Nav>

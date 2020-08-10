@@ -1,6 +1,6 @@
+import {Region, Servant} from "@atlasacademy/api-connector";
+import {ServantAssetMap} from "@atlasacademy/api-connector/dist/Schema/Servant";
 import React from "react";
-import Region from "../../Api/Data/Region";
-import Servant from "../../Api/Data/Servant";
 import {mergeElements} from "../../Helper/OutputHelper";
 
 interface IProps {
@@ -8,31 +8,24 @@ interface IProps {
     servant: Servant;
 }
 
-class ServantAssets extends React.Component<IProps>{
-    private flattenAssetMap(type: string): string[] {
-        const assetBundle = this.props.servant.extraAssets[type];
-        if (!assetBundle)
+class ServantAssets extends React.Component<IProps> {
+    private flattenAssets(assetMap: ServantAssetMap | undefined): string[] {
+        if (!assetMap)
             return [];
 
-        const assets : string[] = [];
+        const assets = [];
 
-        Object.values(assetBundle).forEach(assetMap => {
-            if (!assetMap)
-                return;
+        if (assetMap.ascension)
+            assets.push(...Object.values(assetMap.ascension));
 
-            Object.values(assetMap).forEach(asset => {
-                if (!asset)
-                    return;
-
-                assets.push(asset)
-            });
-        });
+        if (assetMap.costume)
+            assets.push(...Object.values(assetMap.costume));
 
         return assets;
     }
 
-    private displayAssets(key: string) {
-        const assets = this.flattenAssetMap(key);
+    private displayAssets(assetMap: ServantAssetMap | undefined) {
+        const assets = this.flattenAssets(assetMap);
 
         return mergeElements(
             assets.map(asset => <a href={asset} target={'_blank'} rel={'noopener noreferrer'}>
@@ -47,28 +40,28 @@ class ServantAssets extends React.Component<IProps>{
             <div>
                 <h3>Portraits</h3>
                 <div>
-                    {this.displayAssets('charaGraph')}
+                    {this.displayAssets(this.props.servant.extraAssets.charaGraph)}
                 </div>
 
                 <hr/>
 
                 <h3>Status</h3>
                 <div>
-                    {this.displayAssets('status')}
+                    {this.displayAssets(this.props.servant.extraAssets.status)}
                 </div>
 
                 <hr/>
 
                 <h3>Command</h3>
                 <div>
-                    {this.displayAssets('commands')}
+                    {this.displayAssets(this.props.servant.extraAssets.commands)}
                 </div>
 
                 <hr/>
 
                 <h3>Thumbnail</h3>
                 <div>
-                    {this.displayAssets('faces')}
+                    {this.displayAssets(this.props.servant.extraAssets.faces)}
                 </div>
             </div>
         );

@@ -1,6 +1,5 @@
+import {MysticCode, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import MysticCode from "../../Api/Data/MysticCode";
-import Region from "../../Api/Data/Region";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 

@@ -1,5 +1,5 @@
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
-import {DataVal} from "../../Api/Data/Func";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 

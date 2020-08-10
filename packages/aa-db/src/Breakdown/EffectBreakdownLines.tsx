@@ -1,9 +1,8 @@
+import {Func, Region} from "@atlasacademy/api-connector";
+import Card from "@atlasacademy/api-connector/dist/Enum/Card";
+import {NoblePhantasmGain} from "@atlasacademy/api-connector/dist/Schema/NoblePhantasm";
+import {SkillScript} from "@atlasacademy/api-connector/dist/Schema/Skill";
 import React from "react";
-import Card from "../Api/Data/Card";
-import Func from "../Api/Data/Func";
-import {NoblePhantasmGain} from "../Api/Data/NoblePhantasm";
-import Region from "../Api/Data/Region";
-import {SkillScript} from "../Api/Data/Skill";
 import CardType from "../Component/CardType";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 import SkillReferenceDescriptor from "../Descriptor/SkillReferenceDescriptor";

@@ -1,6 +1,5 @@
+import {CraftEssence} from "@atlasacademy/api-connector";
 import React from "react";
-import {AssetMap} from "../../Api/Data/AssetCollection";
-import CraftEssence from "../../Api/Data/CraftEssence";
 
 import "./CraftEssencePortrait.css";
 
@@ -8,34 +7,24 @@ interface IProps {
     craftEssence: CraftEssence;
 }
 
-interface IState {
-    assetMap?: AssetMap;
-    assetKey?: string;
-}
+class CraftEssencePortrait extends React.Component<IProps> {
 
-class CraftEssencePortrait extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
+    private asset(): string | undefined {
+        const assetMap = this.props.craftEssence.extraAssets.charaGraph;
+        if (!assetMap)
+            return undefined;
 
-        const assetMap = (
-                props.craftEssence.extraAssets.charaGraph.ascension
-                ?? Object.values(props.craftEssence.extraAssets.charaGraph).shift()
-            ),
-            assetKey = assetMap === undefined ? undefined : Object.keys(assetMap).shift();
-
-        this.state = {assetMap, assetKey};
+        return Object.values(assetMap).shift();
     }
 
     render() {
+        const asset = this.asset();
+
         return (
             <div>
                 <img alt={this.props.craftEssence.name}
                      id={'craft-essence-portrait'}
-                     src={(
-                         this.state.assetMap && this.state.assetKey
-                             ? this.state.assetMap[this.state.assetKey]
-                             : undefined
-                     )}/>
+                     src={asset}/>
             </div>
         );
     }

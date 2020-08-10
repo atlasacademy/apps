@@ -1,5 +1,6 @@
-import Func, {DataVal, FuncType} from "../../Api/Data/Func";
-import Region from "../../Api/Data/Region";
+import {Func, Region} from "@atlasacademy/api-connector";
+import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import {asPercent} from "../../Helper/OutputHelper";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 

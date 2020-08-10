@@ -1,15 +1,14 @@
+import {CommandCode, Region, Trait} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
-import Connection from "../Api/Connection";
-import CommandCode from "../Api/Data/CommandCode";
-import Region from "../Api/Data/Region";
-import TraitMap from "../Api/Data/TraitMap";
+import Api from "../Api";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import Manager from "../Setting/Manager";
 import CommandCodeMainData from "./CommandCode/CommandCodeMainData";
 import CommandCodePicker from "./CommandCode/CommandCodePicker";
 import CommandCodePortrait from "./CommandCode/CommandCodePortrait";
@@ -40,15 +39,16 @@ class CommandCodePage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        Manager.setRegion(this.props.region);
         this.loadCraftEssence();
     }
 
     async loadCraftEssence() {
         try {
-            let [commandCodes, commandCode] = await Promise.all<CommandCode[], CommandCode, TraitMap>([
-                Connection.commandCodeList(this.props.region),
-                Connection.commandCode(this.props.region, this.state.id),
-                Connection.traitMap(this.props.region)
+            let [commandCodes, commandCode] = await Promise.all<CommandCode[], CommandCode, Trait[]>([
+                Api.commandCodeList(),
+                Api.commandCode(this.state.id),
+                Api.traitList()
             ]);
 
             this.setState({

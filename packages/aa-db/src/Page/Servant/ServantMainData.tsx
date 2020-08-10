@@ -1,6 +1,5 @@
+import {Region, Servant} from "@atlasacademy/api-connector";
 import React from "react";
-import Region from "../../Api/Data/Region";
-import Servant from "../../Api/Data/Servant";
 import ClassIcon from "../../Component/ClassIcon";
 import CommandCard from "../../Component/CommandCard";
 import DataTable from "../../Component/DataTable";
@@ -12,8 +11,8 @@ import {formatNumber} from "../../Helper/OutputHelper";
 interface IProps {
     region: Region;
     servant: Servant;
-    assetType?: string;
-    assetId?: string;
+    assetType?: "ascension" | "costume";
+    assetId?: number;
 }
 
 class ServantMainData extends React.Component<IProps> {

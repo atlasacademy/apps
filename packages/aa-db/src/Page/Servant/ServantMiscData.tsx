@@ -1,6 +1,6 @@
+import {Servant} from "@atlasacademy/api-connector";
 import React from "react";
 import {Col, Row} from "react-bootstrap";
-import Servant from "../../Api/Data/Servant";
 import BuffIcon from "../../Component/BuffIcon";
 import DataTable from "../../Component/DataTable";
 import {asPercent} from "../../Helper/OutputHelper";

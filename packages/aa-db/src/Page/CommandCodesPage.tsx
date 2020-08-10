@@ -1,16 +1,16 @@
+import {CommandCode, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Form, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import Connection from "../Api/Connection";
-import CommandCode from "../Api/Data/CommandCode";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 
 import "./CommandCodesPage.css";
+import Manager from "../Setting/Manager";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
@@ -39,7 +39,8 @@ class CommandCodesPage extends React.Component<IProps, IState> {
 
     componentDidMount() {
         try {
-            Connection.commandCodeList(this.props.region).then(list => {
+            Manager.setRegion(this.props.region);
+            Api.commandCodeList().then(list => {
                 this.setState({
                     loading: false,
                     commandCodes: list
@@ -108,7 +109,11 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                                 <td align={"center"}>
                                     <Link to={route}>
                                         <FaceIcon rarity={commandCode.rarity}
-                                                  location={commandCode.extraAssets.faces.cc[commandCode.id] ?? ''}
+                                                  location={(
+                                                      commandCode.extraAssets.faces.cc
+                                                          ? commandCode.extraAssets.faces.cc[commandCode.id] ?? ''
+                                                          : ''
+                                                  )}
                                                   height={50}/>
                                     </Link>
                                 </td>

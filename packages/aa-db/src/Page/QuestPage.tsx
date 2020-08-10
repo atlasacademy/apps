@@ -1,12 +1,12 @@
+import {QuestPhase, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
-import Connection from "../Api/Connection";
-import Quest from "../Api/Data/Quest";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
+import Manager from "../Setting/Manager";
 
 interface IProps {
     region: Region;
@@ -17,7 +17,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    quest?: Quest;
+    quest?: QuestPhase;
 }
 
 class QuestPage extends React.Component<IProps, IState> {
@@ -30,12 +30,13 @@ class QuestPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        Manager.setRegion(this.props.region);
         this.loadQuest();
     }
 
     async loadQuest() {
         try {
-            const quest = await Connection.quest(this.props.region, this.props.id, this.props.phase);
+            const quest = await Api.questPhase(this.props.id, this.props.phase);
 
             this.setState({
                 loading: false,

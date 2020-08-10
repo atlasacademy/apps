@@ -1,6 +1,5 @@
+import {CraftEssence, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import CraftEssence from "../../Api/Data/CraftEssence";
-import Region from "../../Api/Data/Region";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";

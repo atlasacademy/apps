@@ -1,7 +1,6 @@
+import {Region, Trait} from "@atlasacademy/api-connector";
 import React from "react";
-import Connection from "../Api/Connection";
-import Region from "../Api/Data/Region";
-import Trait from "../Api/Data/Trait";
+import Api from "../Api";
 
 const traitDescriptions = new Map<number, string>([
     [1, "Gender:Male"],
@@ -94,14 +93,17 @@ class TraitDescriptor extends React.Component<IProps, IState> {
         if (this.state.trait)
             return;
 
-        const traitMap = await Connection.traitMap(this.props.region);
-        if (traitMap[this.state.id] !== undefined)
-            this.setState({
-                trait: {
-                    id: this.state.id,
-                    name: traitMap[this.state.id]
-                }
-            });
+        const traitList = await Api.traitList();
+
+        for (let i = 0; i < traitList.length; i++) {
+            const trait = traitList[i];
+
+            if (trait.id === this.state.id) {
+                this.setState({ trait });
+
+                return;
+            }
+        }
     }
 
     private getDescription() : string {

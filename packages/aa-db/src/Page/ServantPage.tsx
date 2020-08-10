@@ -1,17 +1,15 @@
+import {Region, Servant, ServantBasic, Trait} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
-import Connection from "../Api/Connection";
-import BasicListEntity from "../Api/Data/BasicListEntity";
-import Region from "../Api/Data/Region";
-import Servant from "../Api/Data/Servant";
-import TraitMap from "../Api/Data/TraitMap";
+import Api from "../Api";
 import NoblePhantasmBreakdown from "../Breakdown/NoblePhantasmBreakdown";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import Manager from "../Setting/Manager";
 import ServantAssets from "./Servant/ServantAssets";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantMaterialBreakdown from "./Servant/ServantMaterialBreakdown";
@@ -23,6 +21,8 @@ import ServantProfileStats from "./Servant/ServantProfileStats";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
 import ServantTraits from "./Servant/ServantTraits";
 
+type AssetType = "ascension" | "costume";
+
 interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
@@ -33,10 +33,10 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     id: number;
-    servants: BasicListEntity[];
+    servants: ServantBasic[];
     servant?: Servant;
-    assetType?: string;
-    assetId?: string;
+    assetType?: AssetType;
+    assetId?: number;
 }
 
 class ServantPage extends React.Component<IProps, IState> {
@@ -51,20 +51,34 @@ class ServantPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        Manager.setRegion(this.props.region);
         this.loadServant();
     }
 
     async loadServant() {
         try {
-            let [servants, servant] = await Promise.all<BasicListEntity[], Servant, TraitMap>([
-                Connection.servantList(this.props.region),
-                Connection.servant(this.props.region, this.state.id),
-                Connection.traitMap(this.props.region)
+            let [servants, servant] = await Promise.all<ServantBasic[], Servant, Trait[]>([
+                Api.servantList(),
+                Api.servant(this.state.id),
+                Api.traitList()
             ]);
 
-            const assetType = Object.keys(servant.extraAssets.charaGraph)[0],
-                assetMap = assetType ? servant.extraAssets.charaGraph[assetType] : undefined,
-                assetId = assetMap ? Object.keys(assetMap)[0] : undefined;
+            let assetType: AssetType | undefined,
+                assetId;
+
+            if (servant.extraAssets.charaGraph.ascension) {
+                assetType = 'ascension';
+                assetId = Object.keys(servant.extraAssets.charaGraph.ascension).shift();
+                if (assetId !== undefined)
+                    assetId = parseInt(assetId);
+            }
+
+            if (assetId === undefined && servant.extraAssets.charaGraph.costume) {
+                assetType = 'costume';
+                assetId = Object.keys(servant.extraAssets.charaGraph.costume).shift();
+                if (assetId !== undefined)
+                    assetId = parseInt(assetId);
+            }
 
             this.setState({
                 loading: false,
@@ -80,7 +94,7 @@ class ServantPage extends React.Component<IProps, IState> {
         }
     }
 
-    private updatePortrait(assetType: string, assetId: string) {
+    private updatePortrait(assetType: AssetType, assetId: number) {
         this.setState({assetType, assetId});
     }
 
@@ -112,7 +126,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                          assetType={this.state.assetType}
                                          assetId={this.state.assetId}
                                          updatePortraitCallback={
-                                             (assetType: string, assetId: string) => {
+                                             (assetType: AssetType, assetId: number) => {
                                                  this.updatePortrait(assetType, assetId)
                                              }
                                          }/>
@@ -215,9 +229,9 @@ class ServantPage extends React.Component<IProps, IState> {
                     </Tab>
                     <Tab eventKey={'lore'} title={'Profile'}>
                         <br/>
-                        <ServantProfileStats region={this.props.region} stats={servant.profile.stats}/>
+                        <ServantProfileStats region={this.props.region} profile={servant.profile}/>
                         <hr/>
-                        <ServantProfileComments region={this.props.region} comments={servant.profile.comments}/>
+                        <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []}/>
                     </Tab>
                     <Tab eventKey={'assets'} title={'Assets'}>
                         <br/>

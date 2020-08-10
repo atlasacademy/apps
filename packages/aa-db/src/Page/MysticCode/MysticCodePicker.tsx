@@ -1,9 +1,8 @@
+import {MysticCode, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {FormControl} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
-import MysticCode from "../../Api/Data/MysticCode";
-import Region from "../../Api/Data/Region";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 

@@ -1,4 +1,5 @@
-import {LanguageOption} from "./Option";
+import {Language} from "@atlasacademy/api-connector";
+import Region from "@atlasacademy/api-connector/dist/Enum/Region";
 import {Theme} from "./Theme";
 
 const languageKey = 'language',
@@ -6,20 +7,31 @@ const languageKey = 'language',
 
 const callbacks: Function[] = [];
 
-class Manager {
-    static language(): LanguageOption {
-        const value = window.localStorage.getItem(languageKey),
-            language = Object.values(LanguageOption).find(v => v === value);
+let region: Region = Region.JP;
 
-        return language ?? LanguageOption.DEFAULT;
+class Manager {
+    static language(): Language {
+        const value = window.localStorage.getItem(languageKey),
+            language: Language | undefined = Object.values(Language).find(v => v === value);
+
+        return language ?? Language.DEFAULT;
     }
 
     static setLanguage(value: string) {
-        const language = Object.values(LanguageOption).find(v => v === value);
+        const language = Object.values(Language).find(v => v === value);
         if (language === undefined)
             return;
 
         window.localStorage.setItem(languageKey, language);
+        Manager.triggerCallbacks();
+    }
+
+    static region(): Region {
+        return region;
+    }
+
+    static setRegion(_region: Region) {
+        region = _region;
         Manager.triggerCallbacks();
     }
 

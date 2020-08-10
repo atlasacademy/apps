@@ -1,5 +1,5 @@
-import Func, {DataVal} from "../../Api/Data/Func";
-import Region from "../../Api/Data/Region";
+import {Func, Region} from "@atlasacademy/api-connector";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import {funcUpdatesByLevel, funcUpdatesByOvercharge} from "../../Helper/FuncHelper";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 

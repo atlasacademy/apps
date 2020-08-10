@@ -1,11 +1,12 @@
+import {Func, Region} from "@atlasacademy/api-connector";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Link} from "react-router-dom";
-import Func, {DataVal} from "../Api/Data/Func";
-import Region from "../Api/Data/Region";
 import {
-    getDataValList, getFollowerDataValList,
+    getDataValList,
+    getFollowerDataValList,
     getStaticFieldValues,
     getTargetFollowerVersionValues,
     getTargetVersionValues,

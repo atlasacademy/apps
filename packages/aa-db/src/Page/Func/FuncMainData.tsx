@@ -1,6 +1,5 @@
+import {Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import Func from "../../Api/Data/Func";
-import Region from "../../Api/Data/Region";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import BuffDescriptor from "../../Descriptor/BuffDescriptor";

@@ -1,7 +1,6 @@
+import {NoblePhantasm, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Link} from "react-router-dom";
-import NoblePhantasm from "../Api/Data/NoblePhantasm";
-import Region from "../Api/Data/Region";
 
 interface IProps {
     region: Region;

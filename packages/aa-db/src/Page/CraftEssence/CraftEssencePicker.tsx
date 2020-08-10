@@ -1,9 +1,8 @@
+import {CraftEssenceBasic, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Form} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
-import BasicListEntity from "../../Api/Data/BasicListEntity";
-import Region from "../../Api/Data/Region";
 import SearchableSelect from "../../Component/SearchableSelect";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
@@ -13,7 +12,7 @@ interface Event extends React.ChangeEvent<HTMLInputElement> {
 interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
-    craftEssences: BasicListEntity[];
+    craftEssences: CraftEssenceBasic[];
 }
 
 class CraftEssencePicker extends React.Component<IProps> {

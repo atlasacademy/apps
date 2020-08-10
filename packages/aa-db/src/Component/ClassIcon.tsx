@@ -1,5 +1,5 @@
+import {ClassName} from "@atlasacademy/api-connector";
 import React from "react";
-import ClassName from "../Api/Data/ClassName";
 
 const classTypes = new Map<number, number>([
     [0, 0],

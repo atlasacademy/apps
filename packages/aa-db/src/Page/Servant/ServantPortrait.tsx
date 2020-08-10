@@ -1,29 +1,23 @@
+import {Servant} from "@atlasacademy/api-connector";
 import React from "react";
-import {AssetMap} from "../../Api/Data/AssetCollection";
-import Servant from "../../Api/Data/Servant";
 
 import "./ServantPortrait.css";
 
 const arrowImage = 'assets/img_arrow_load.png';
 
 interface AssetReference {
-    assetType: string;
-    assetId: string;
+    assetType: "ascension" | "costume";
+    assetId: number;
 }
 
 interface IProps {
     servant: Servant;
-    assetType?: string;
-    assetId?: string;
+    assetType?: "ascension" | "costume";
+    assetId?: number;
     updatePortraitCallback: Function;
 }
 
-interface IState {
-    assetMap?: AssetMap;
-    assetKey?: string;
-}
-
-class ServantPortrait extends React.Component<IProps, IState> {
+class ServantPortrait extends React.Component<IProps> {
     constructor(props: IProps) {
         super(props);
 
@@ -40,30 +34,51 @@ class ServantPortrait extends React.Component<IProps, IState> {
         if (!this.props.servant.extraAssets.charaGraph)
             return [];
 
+        const assetMap = this.props.servant.extraAssets.charaGraph;
         const assetArray: AssetReference[] = [];
 
-        Object.keys(this.props.servant.extraAssets.charaGraph).forEach(assetType => {
-            const assetMap = this.props.servant.extraAssets.charaGraph[assetType];
-            if (!assetMap)
-                return;
+        if (assetMap.ascension) {
+            Object.keys(assetMap.ascension).forEach(key => {
+                assetArray.push({
+                    assetType: 'ascension',
+                    assetId: parseInt(key),
+                });
+            })
+        }
 
-            Object.keys(assetMap).forEach(assetId => {
-                assetArray.push({assetType, assetId});
-            });
-        });
+        if (assetMap.costume) {
+            Object.keys(assetMap.costume).forEach(key => {
+                assetArray.push({
+                    assetType: 'costume',
+                    assetId: parseInt(key),
+                });
+            })
+        }
 
         return assetArray;
     }
 
     private getAssetLocation(): string | undefined {
-        if (!this.props.assetType || !this.props.assetId)
+        if (
+            this.props.assetType === undefined
+            || this.props.assetId === undefined
+            || !this.props.servant.extraAssets.charaGraph
+        )
             return undefined;
 
-        const assetMap = this.props.servant.extraAssets.charaGraph[this.props.assetType];
-        if (!assetMap)
-            return undefined;
+        if (this.props.assetType === 'ascension') {
+            const assets = this.props.servant.extraAssets.charaGraph.ascension;
 
-        return assetMap[this.props.assetId];
+            return assets ? assets[this.props.assetId] : undefined;
+        }
+
+        if (this.props.assetType === 'costume') {
+            const assets = this.props.servant.extraAssets.charaGraph.costume;
+
+            return assets ? assets[this.props.assetId] : undefined;
+        }
+
+        return undefined;
     }
 
     private getArrow(assetArray: AssetReference[], next: boolean) {

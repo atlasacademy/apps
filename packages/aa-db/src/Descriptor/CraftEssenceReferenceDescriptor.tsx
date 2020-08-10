@@ -1,8 +1,7 @@
+import {CraftEssence, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Link} from "react-router-dom";
-import Connection from "../Api/Connection";
-import CraftEssence from "../Api/Data/CraftEssence";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import CraftEssenceDescriptor from "./CraftEssenceDescriptor";
 
 interface IProps {
@@ -24,7 +23,7 @@ class CraftEssenceReferenceDescriptor extends React.Component<IProps, IState> {
     async componentDidMount() {
         try {
             this.setState({
-                craftEssence: await Connection.craftEssence(this.props.region, this.props.id)
+                craftEssence: await Api.craftEssence(this.props.id)
             });
         } catch (e) {
             // do nothing

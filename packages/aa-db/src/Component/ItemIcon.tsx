@@ -1,6 +1,5 @@
+import {Item, ItemBackgroundType, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import Item, {ItemBackgroundType} from "../Api/Data/Item";
-import Region from "../Api/Data/Region";
 import {formatNumber} from "../Helper/OutputHelper";
 
 import "./ItemIcon.css";

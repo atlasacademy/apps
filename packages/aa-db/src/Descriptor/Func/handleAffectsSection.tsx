@@ -1,6 +1,7 @@
+import {Func, Region} from "@atlasacademy/api-connector";
+import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
-import Func, {DataVal, FuncType} from "../../Api/Data/Func";
-import Region from "../../Api/Data/Region";
 import {mergeElements} from "../../Helper/OutputHelper";
 import TraitDescriptor from "../TraitDescriptor";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
@@ -23,12 +24,11 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             })</span>
         );
     } else if (
-        (typeof dataVal.TargetList === "number" || typeof dataVal.TargetList === "string")
+        dataVal.TargetList
+        && dataVal.TargetList.length > 0
         && func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM
     ) {
-        const traitIds = typeof dataVal.TargetList === "number"
-            ? [dataVal.TargetList]
-            : dataVal.TargetList.split('/').map(v => parseInt(v)),
+        const traitIds = dataVal.TargetList,
             traits = traitIds.map(id => <TraitDescriptor region={region} trait={id}/>);
 
         parts.push(
@@ -36,10 +36,14 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
                 dataVal.ParamAddMaxCount ? `[Limit ${dataVal.ParamAddMaxCount}]` : null
             })</span>
         );
-    } else if (typeof dataVal.TargetRarityList === "string" && func.funcType === FuncType.DAMAGE_NP_RARE) {
+    } else if (
+        dataVal.TargetRarityList
+        && dataVal.TargetRarityList.length > 0
+        && func.funcType === FuncType.DAMAGE_NP_RARE
+    ) {
         parts.push(
-            <span>(bonus to {dataVal.TargetRarityList} {
-                dataVal.TargetRarityList.split('/').length > 1 ? 'rarities' : 'rarity'
+            <span>(bonus to {dataVal.TargetRarityList.join('/')} {
+                dataVal.TargetRarityList.length > 1 ? 'rarities' : 'rarity'
             })</span>
         )
     } else if (func.funcType === FuncType.DAMAGE_NP_PIERCE) {

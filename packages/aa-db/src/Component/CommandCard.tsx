@@ -1,6 +1,6 @@
+import {Servant} from "@atlasacademy/api-connector";
+import Card from "@atlasacademy/api-connector/dist/Enum/Card";
 import React from "react";
-import Card from "../Api/Data/Card";
-import Servant from "../Api/Data/Servant";
 
 import "./CommandCard.css";
 
@@ -16,8 +16,8 @@ interface IProps {
     npText?: string;
     npTextBottom?: boolean;
     height?: string | number;
-    assetType?: string;
-    assetId?: string;
+    assetType?: "ascension" | "costume";
+    assetId?: number;
 }
 
 class CommandCard extends React.Component<IProps> {
@@ -31,23 +31,25 @@ class CommandCard extends React.Component<IProps> {
             }
         }
 
-        const commandBundle = this.props.servant.extraAssets.commands,
-            ascensionMap = commandBundle.ascension;
+        const commandBundle = this.props.servant.extraAssets.commands;
 
-        if (ascensionMap) {
-            const assets = Object.values(ascensionMap);
+        if (commandBundle.ascension) {
+            const assets = Object.values(commandBundle.ascension);
 
             if (assets.length > 0) {
                 return assets[0];
             }
         }
 
-        const firstMap = Object.values(commandBundle).shift();
-        if (!firstMap) {
-            return undefined;
+        if (commandBundle.costume) {
+            const assets = Object.values(commandBundle.costume);
+
+            if (assets.length > 0) {
+                return assets[0];
+            }
         }
 
-        return Object.values(firstMap).shift();
+        return undefined;
     }
 
     render() {

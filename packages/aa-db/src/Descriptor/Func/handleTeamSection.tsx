@@ -1,5 +1,6 @@
-import Func, {DataVal, FuncTargetTeam} from "../../Api/Data/Func";
-import Region from "../../Api/Data/Region";
+import {Func, Region} from "@atlasacademy/api-connector";
+import FuncTargetTeam from "@atlasacademy/api-connector/dist/Enum/FuncTargetTeam";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {

@@ -1,17 +1,20 @@
+import {Func, Region} from "@atlasacademy/api-connector";
+import FuncTargetTeam from "@atlasacademy/api-connector/dist/Enum/FuncTargetTeam";
+import FuncTargetType from "@atlasacademy/api-connector/dist/Enum/FuncTargetType";
+import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AxiosError} from "axios";
 import React from "react";
 import {Button, Form, Table} from "react-bootstrap";
-import Connection from "../Api/Connection";
-import Func, {FuncTargetTeam, FuncTargetType, FuncType} from "../Api/Data/Func";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
 import {funcDescriptions} from "../Descriptor/Func/handleActionSection";
 import {targetDescriptions} from "../Descriptor/Func/handleTargetSection";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
+import Manager from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
 
@@ -41,6 +44,8 @@ class FuncsPage extends React.Component<IProps, IState> {
             searching: false,
             funcs: []
         };
+
+        Manager.setRegion(this.props.region);
     }
 
     componentDidUpdate() {
@@ -58,8 +63,7 @@ class FuncsPage extends React.Component<IProps, IState> {
         try {
             await this.setState({searching: true, funcs: []});
 
-            const funcs = await Connection.searchFuncs(
-                this.props.region,
+            const funcs = await Api.searchFuncs(
                 this.state.text,
                 this.state.type,
                 this.state.target,
@@ -150,7 +154,10 @@ class FuncsPage extends React.Component<IProps, IState> {
                                     <FuncDescriptor region={this.props.region} func={func}/>
                                 </td>
                                 <td>
-                                    {func.reverseTds.length + func.reverseSkills.length}
+                                    {
+                                        (func.reverse?.nice?.NP ?? []).length
+                                        + (func.reverse?.nice?.skill ?? []).length
+                                    }
                                 </td>
                             </tr>
                         )

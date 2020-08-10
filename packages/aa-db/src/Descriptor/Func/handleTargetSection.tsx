@@ -1,5 +1,7 @@
-import Func, {DataVal, FuncTargetType, FuncType} from "../../Api/Data/Func";
-import Region from "../../Api/Data/Region";
+import {Func, Region} from "@atlasacademy/api-connector";
+import FuncTargetType from "@atlasacademy/api-connector/dist/Enum/FuncTargetType";
+import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export const targetDescriptions = new Map<FuncTargetType, string>([

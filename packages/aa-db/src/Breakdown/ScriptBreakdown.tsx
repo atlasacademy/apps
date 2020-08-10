@@ -1,6 +1,6 @@
+import {Region} from "@atlasacademy/api-connector";
+import {SkillScript} from "@atlasacademy/api-connector/dist/Schema/Skill";
 import React from "react";
-import Region from "../Api/Data/Region";
-import {SkillScript} from "../Api/Data/Skill";
 import {asPercent, Renderable} from "../Helper/OutputHelper";
 
 interface IProps {

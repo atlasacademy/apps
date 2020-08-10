@@ -1,7 +1,6 @@
+import {Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
 import {Col, Row} from "react-bootstrap";
-import Region from "../../Api/Data/Region";
-import Skill from "../../Api/Data/Skill";
 import FuncDescriptor from "../../Descriptor/FuncDescriptor";
 import {getTargetVersionValues} from "../../Helper/FuncHelper";
 import DataValMainData from "../Func/DataValMainData";

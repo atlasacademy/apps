@@ -1,11 +1,9 @@
+import {ClassName, Region, ServantBasic} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Form, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import Connection from "../Api/Connection";
-import BasicListEntity from "../Api/Data/BasicListEntity";
-import ClassName from "../Api/Data/ClassName";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import ClassIcon from "../Component/ClassIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
@@ -13,6 +11,7 @@ import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 
 import './ServantsPage.css';
+import Manager from "../Setting/Manager";
 
 const classFilters: ClassName[] = [
     ClassName.SABER,
@@ -40,7 +39,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    servants: BasicListEntity[];
+    servants: ServantBasic[];
     activeClassFilters: ClassName[];
     activeRarityFilters: number[];
     search?: string;
@@ -61,7 +60,8 @@ class ServantsPage extends React.Component<IProps, IState> {
 
     componentDidMount() {
         try {
-            Connection.servantList(this.props.region).then(servantList => {
+            Manager.setRegion(this.props.region);
+            Api.servantList().then(servantList => {
                 this.setState({
                     loading: false,
                     servants: servantList
@@ -127,7 +127,7 @@ class ServantsPage extends React.Component<IProps, IState> {
         }
     }
 
-    private servants(): BasicListEntity[] {
+    private servants(): ServantBasic[] {
         let list = this.state.servants.slice().reverse();
 
         if (this.state.activeRarityFilters.length > 0) {

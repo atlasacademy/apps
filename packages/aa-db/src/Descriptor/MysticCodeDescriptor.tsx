@@ -1,7 +1,6 @@
+import {MysticCode, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Link} from "react-router-dom";
-import MysticCode from "../Api/Data/MysticCode";
-import Region from "../Api/Data/Region";
 import FaceIcon from "../Component/FaceIcon";
 
 interface IProps {
