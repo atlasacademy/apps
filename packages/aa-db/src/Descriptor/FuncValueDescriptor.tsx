@@ -175,6 +175,10 @@ class FuncValueDescriptor extends React.Component<IProps> {
             }
         }
 
+        if (dataVal.Count) {
+            parts.push(`${dataVal.Count} Time${dataVal.Count > 1 ? 's' : ''}`)
+        }
+
         if (!parts.length)
             return <span>-</span>;
 
