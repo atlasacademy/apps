@@ -1,4 +1,5 @@
-import {BuffType, Func, Region} from "@atlasacademy/api-connector";
+import {Func, Region} from "@atlasacademy/api-connector";
+import BuffType from "@atlasacademy/api-connector/dist/Enum/BuffType";
 import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
 import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
@@ -61,7 +62,10 @@ function handleBuffActionSection(region: Region, sections: FuncDescriptorSection
         parts.push(<BuffDescriptor region={region} buff={buff}/>);
     });
 
-    if (func.buffs[0]?.type === BuffType.FIELD_INDIVIDUALITY) {
+    if (
+        func.buffs[0]?.type === BuffType.FIELD_INDIVIDUALITY
+        || func.buffs[0]?.type === BuffType.CHANGE_COMMAND_CARD_TYPE
+    ) {
         sections.amount.preposition = 'to';
     }
 

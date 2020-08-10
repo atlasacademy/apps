@@ -47,6 +47,7 @@ export const typeDescriptions = new Map<BuffType, string>([
     [BuffType.ADD_DAMAGE, 'Damage Plus'],
     [BuffType.ADD_INDIVIDUALITY, 'Add Trait'],
     [BuffType.AVOIDANCE, 'Evade'],
+    [BuffType.CHANGE_COMMAND_CARD_TYPE, 'Change Command Card Types'],
     [BuffType.COMMANDCODEATTACK_FUNCTION, 'Command Code Effect'],
     [BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
     [BuffType.DELAY_FUNCTION, 'Trigger Skill after Duration'],
@@ -58,6 +59,7 @@ export const typeDescriptions = new Map<BuffType, string>([
     [BuffType.FIELD_INDIVIDUALITY, 'Change Field Type'],
     [BuffType.FIX_COMMANDCARD, 'Freeze Command Cards'],
     [BuffType.GUTS, 'Guts'],
+    [BuffType.GUTS_FUNCTION, 'Trigger Skill on Guts'],
     [BuffType.INVINCIBLE, 'Invincible'],
     [BuffType.MULTIATTACK, 'Multiple Hits'],
     [BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],
@@ -65,8 +67,12 @@ export const typeDescriptions = new Map<BuffType, string>([
     [BuffType.REGAIN_NP, 'NP Per Turn'],
     [BuffType.REGAIN_STAR, 'Stars Per Turn'],
     [BuffType.SELFTURNEND_FUNCTION, 'Trigger Skill every Turn'],
+    [BuffType.SPECIAL_INVINCIBLE, 'Special invincible'],
     [BuffType.SUB_SELFDAMAGE, 'Damage Cut'],
     [BuffType.TD_TYPE_CHANGE, 'Change Noble Phantasm'],
+    [BuffType.TD_TYPE_CHANGE_ARTS, 'Set Noble Phantasm: Arts'],
+    [BuffType.TD_TYPE_CHANGE_BUSTER, 'Set Noble Phantasm: Buster'],
+    [BuffType.TD_TYPE_CHANGE_QUICK, 'Set Noble Phantasm: Quick'],
     [BuffType.UP_HATE, 'Taunt'],
 ]);
 

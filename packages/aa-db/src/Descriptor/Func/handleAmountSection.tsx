@@ -29,6 +29,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             || func.buffs[0]?.type === BuffType.DAMAGE_FUNCTION
             || func.buffs[0]?.type === BuffType.DEAD_FUNCTION
             || func.buffs[0]?.type === BuffType.DELAY_FUNCTION
+            || func.buffs[0]?.type === BuffType.GUTS_FUNCTION
             || func.buffs[0]?.type === BuffType.SELFTURNEND_FUNCTION
         )
         && typeof dataVal.Value === "number"
