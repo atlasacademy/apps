@@ -1,6 +1,6 @@
 {
   "name": "@atlasacademy/api-connector",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Library to interface with api.atlasacademy.io",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

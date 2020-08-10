@@ -138,6 +138,8 @@ enum BuffType {
     DOWN_CRITICAL_RATE_DAMAGE_TAKEN = "downCriticalRateDamageTaken",
     UP_CRITICAL_STAR_DAMAGE_TAKEN = "upCriticalStarDamageTaken",
     DOWN_CRITICAL_STAR_DAMAGE_TAKEN = "downCriticalStarDamageTaken",
+    CHANGE_COMMAND_CARD_TYPE = "changeCommandCardType",
+    SPECIAL_INVINCIBLE = "specialInvincible",
 }
 
 export default BuffType;
