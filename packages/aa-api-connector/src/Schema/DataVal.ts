@@ -1,11 +1,74 @@
-import DataValField from "../Enum/DataValField";
-import FuncTargetType from "../Enum/FuncTargetType";
+interface BaseDataVal {
+    Rate?: number;
+    Turn?: number;
+    Count?: number;
+    Value?: number;
+    Value2?: number;
+    UseRate?: number;
+    Target?: number;
+    Correction?: number;
+    ParamAdd?: number;
+    ParamMax?: number;
+    HideMiss?: number;
+    OnField?: number;
+    HideNoEffect?: number;
+    Unaffected?: number;
+    ShowState?: number;
+    AuraEffectId?: number;
+    ActSet?: number;
+    ActSetWeight?: number;
+    ShowQuestNoEffect?: number;
+    CheckDead?: number;
+    RatioHPHigh?: number;
+    RatioHPLow?: number;
+    SetPassiveFrame?: number;
+    ProcPassive?: number;
+    ProcActive?: number;
+    HideParam?: number;
+    SkillID?: number;
+    SkillLV?: number;
+    ShowCardOnly?: number;
+    EffectSummon?: number;
+    RatioHPRangeHigh?: number;
+    RatioHPRangeLow?: number;
+    TargetList?: number[];
+    OpponentOnly?: number;
+    StatusEffectId?: number;
+    EndBattle?: number;
+    LoseBattle?: number;
+    AddIndividualty?: number;
+    AddLinkageTargetIndividualty?: number;
+    SameBuffLimitTargetIndividuality?: number;
+    SameBuffLimitNum?: number;
+    CheckDuplicate?: number;
+    OnFieldCount?: number;
+    TargetRarityList?: number[];
+    DependFuncId?: number;
+    InvalidHide?: number;
+    OutEnemyNpcId?: number;
+    InEnemyNpcId?: number;
+    OutEnemyPosition?: number;
+    IgnoreIndividuality?: number;
+    StarHigher?: number;
+    ChangeTDCommandType?: number;
+    ShiftNpcId?: number;
+    DisplayLastFuncInvalidType?: number;
+    AndCheckIndividualityList?: number[];
+    WinBattleNotRelatedSurvivalStatus?: number;
+    ForceSelfInstantDeath?: number;
+    ChangeMaxBreakGauge?: number;
+    ParamAddMaxValue?: number;
+    ParamAddMaxCount?: number;
+    LossHpNoChangeDamage?: number;
+    IncludePassiveIndividuality?: number;
+    Individuality?: number;
+    EventId?: number;
+    AddCount?: number;
+    RateCount?: number;
+}
 
-type BaseDataVal = { [key in DataValField]?: number | string; };
-
-type DataVal = (
-    BaseDataVal
-    & { FriendshipTarget?: FuncTargetType, DependFuncVals?: BaseDataVal; }
-    );
+interface DataVal extends BaseDataVal {
+    DependFuncVals?: BaseDataVal;
+}
 
 export default DataVal;

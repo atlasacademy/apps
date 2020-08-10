@@ -29,7 +29,11 @@ interface NoblePhantasm {
     condQuestPhase: number;
     individuality: Trait[];
     functions: Func[];
-    reverseServants?: Servant[];
+    reverse?: {
+        nice?: {
+            servant?: Servant[];
+        }
+    }
 }
 
 export default NoblePhantasm;

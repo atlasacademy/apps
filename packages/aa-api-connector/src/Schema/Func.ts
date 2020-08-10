@@ -24,6 +24,10 @@ export default interface Func {
     svals4?: DataVal[];
     svals5?: DataVal[];
     followerVals?: DataVal[];
-    reverseSkills?: Skill[];
-    reverseTds?: NoblePhantasm[];
+    reverse?: {
+        nice?: {
+            NP?: NoblePhantasm[];
+            skill?: Skill[];
+        }
+    }
 }

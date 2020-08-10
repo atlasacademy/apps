@@ -13,5 +13,9 @@ export default interface Buff {
     ckSelfIndv: Trait[];
     ckOpIndv: Trait[];
     maxRate: number;
-    reverseFunctions?: Func[];
+    reverse?: {
+        nice?: {
+            function?: Func[];
+        }
+    }
 }

@@ -1,4 +1,5 @@
 import SkillType from "../Enum/SkillType";
+import CommandCode from "./CommandCode";
 import CraftEssence from "./CraftEssence";
 import Func from "./Func";
 import MysticCode from "./MysticCode";
@@ -31,8 +32,13 @@ interface Skill {
     actIndividuality: Trait[];
     script: SkillScript;
     functions: Func[];
-    reverseServants?: (Servant | CraftEssence)[];
-    reverseMC?: MysticCode[];
+    reverse?: {
+        nice?: {
+            servant?: (Servant | CraftEssence)[],
+            MC?: MysticCode[],
+            CC?: CommandCode[],
+        }
+    }
 }
 
 export default Skill;
