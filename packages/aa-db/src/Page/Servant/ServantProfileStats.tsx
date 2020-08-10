@@ -1,16 +1,15 @@
+import {Profile, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
-import {ProfileStats} from "../../Api/Data/Profile";
-import Region from "../../Api/Data/Region";
 
 interface IProps {
     region: Region;
-    stats: ProfileStats;
+    profile?: Profile;
 }
 
 class ServantProfileStats extends React.Component<IProps> {
     render() {
-        const stats = this.props.stats;
+        const stats = this.props.profile?.stats;
 
         return (
             <div>
@@ -29,12 +28,12 @@ class ServantProfileStats extends React.Component<IProps> {
                     </thead>
                     <tbody>
                     <tr>
-                        <td>{stats.strength}</td>
-                        <td>{stats.endurance}</td>
-                        <td>{stats.agility}</td>
-                        <td>{stats.magic}</td>
-                        <td>{stats.luck}</td>
-                        <td>{stats.np}</td>
+                        <td>{stats?.strength}</td>
+                        <td>{stats?.endurance}</td>
+                        <td>{stats?.agility}</td>
+                        <td>{stats?.magic}</td>
+                        <td>{stats?.luck}</td>
+                        <td>{stats?.np}</td>
                     </tr>
                     </tbody>
                 </Table>

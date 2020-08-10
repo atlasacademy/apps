@@ -1,15 +1,15 @@
+import {Buff, BuffType, Region} from "@atlasacademy/api-connector";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AxiosError} from "axios";
 import React from "react";
 import {Button, Form, Table} from "react-bootstrap";
-import Connection from "../Api/Connection";
-import Buff, {BuffType} from "../Api/Data/Buff";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
 import BuffDescriptor, {typeDescriptions, upDownBuffs} from "../Descriptor/BuffDescriptor";
+import Manager from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
 
@@ -61,6 +61,7 @@ class BuffsPage extends React.Component<IProps, IState> {
     }
 
     componentDidUpdate() {
+        Manager.setRegion(this.props.region);
         stateCache.set(this.props.region, {...this.state});
     }
 
@@ -75,8 +76,7 @@ class BuffsPage extends React.Component<IProps, IState> {
         try {
             await this.setState({searching: true, buffs: []});
 
-            const buffs = await Connection.searchBuffs(
-                this.props.region,
+            const buffs = await Api.searchBuffs(
                 this.state.name,
                 this.state.type
             );
@@ -143,7 +143,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                                     <BuffDescriptor region={this.props.region} buff={buff}/>
                                 </td>
                                 <td>
-                                    {buff.reverseFunctions.length}
+                                    {(buff.reverse?.nice?.function ?? []).length}
                                 </td>
                             </tr>
                         )

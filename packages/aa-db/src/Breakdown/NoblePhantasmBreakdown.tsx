@@ -1,8 +1,6 @@
+import {NoblePhantasm, Region, Servant} from "@atlasacademy/api-connector";
 import React from "react";
 import {Alert, Col, Row} from "react-bootstrap";
-import {default as ServantNoblePhantasmData} from "../Api/Data/NoblePhantasm";
-import Region from "../Api/Data/Region";
-import Servant from "../Api/Data/Servant";
 import CardType from "../Component/CardType";
 import CommandCard from "../Component/CommandCard";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
@@ -13,9 +11,9 @@ import EffectBreakdown from "./EffectBreakdown";
 interface IProps {
     region: Region;
     servant: Servant;
-    noblePhantasm: ServantNoblePhantasmData;
-    assetType?: string;
-    assetId?: string;
+    noblePhantasm: NoblePhantasm;
+    assetType?: "ascension" | "costume";
+    assetId?: number;
 }
 
 class NoblePhantasmBreakdown extends React.Component<IProps> {

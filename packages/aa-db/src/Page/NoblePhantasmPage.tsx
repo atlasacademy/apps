@@ -1,15 +1,14 @@
+import {EntityType, NoblePhantasm, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Form, Row} from "react-bootstrap";
-import Connection from "../Api/Connection";
-import EntityType from "../Api/Data/EntityType";
-import NoblePhantasm from "../Api/Data/NoblePhantasm";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
+import Manager from "../Setting/Manager";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
@@ -41,12 +40,13 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        Manager.setRegion(this.props.region);
         this.loadNp();
     }
 
     async loadNp() {
         try {
-            const noblePhantasm = await Connection.noblePhantasm(this.props.region, this.props.id);
+            const noblePhantasm = await Api.noblePhantasm(this.props.id);
 
             this.setState({
                 loading: false,
@@ -73,7 +73,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
 
     render() {
         if (this.state.error)
-            return <ErrorStatus error={this.state.error} />;
+            return <ErrorStatus error={this.state.error}/>;
 
         if (this.state.loading || !this.state.noblePhantasm)
             return <Loading/>;
@@ -87,7 +87,8 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
 
                 <DataTable data={{
                     "Data": <RawDataViewer data={noblePhantasm}/>,
-                    "Raw": <RawDataViewer data={`https://api.atlasacademy.io/raw/${this.props.region}/NP/${noblePhantasm.id}?expand=true`}/>,
+                    "Raw": <RawDataViewer
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/NP/${noblePhantasm.id}?expand=true`}/>,
                     "ID": noblePhantasm.id,
                     "Name": noblePhantasm.name,
                     "Type": noblePhantasm.type,
@@ -96,7 +97,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     "Card Type": noblePhantasm.card,
                     "Owner": (
                         <div>
-                            {noblePhantasm.reverseServants
+                            {(noblePhantasm.reverse?.nice?.servant ?? [])
                                 .filter(servant => {
                                     return servant.type === EntityType.NORMAL
                                         || servant.type === EntityType.HEROINE

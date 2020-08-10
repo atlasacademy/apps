@@ -1,12 +1,8 @@
+import {CraftEssence, EntityType, Func, Region, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Table} from "react-bootstrap";
-import Connection from "../Api/Connection";
-import CraftEssence from "../Api/Data/CraftEssence";
-import EntityType from "../Api/Data/EntityType";
-import Func from "../Api/Data/Func";
-import Region from "../Api/Data/Region";
-import Servant from "../Api/Data/Servant";
+import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -15,6 +11,7 @@ import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
+import Manager from "../Setting/Manager";
 import FuncMainData from "./Func/FuncMainData";
 
 interface IProps {
@@ -38,12 +35,13 @@ class FuncPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        Manager.setRegion(this.props.region);
         this.loadFunc();
     }
 
     async loadFunc() {
         try {
-            const func = await Connection.func(this.props.region, this.props.id);
+            const func = await Api.func(this.props.id);
 
             this.setState({
                 loading: false,
@@ -85,11 +83,11 @@ class FuncPage extends React.Component<IProps, IState> {
                         <h3>Related Skills</h3>
                         <Table style={{fontSize: "0.8em"}}>
                             <tbody>
-                            {func.reverseSkills.map((skill, index) => {
+                            {(func.reverse?.nice?.skill ?? []).map((skill, index) => {
                                 return (
                                     <tr key={index}>
                                         <td>
-                                            {skill.reverseServants.map((entity, index) => {
+                                            {(skill.reverse?.nice?.servant ?? []).map((entity, index) => {
                                                 if (entity.type === EntityType.SERVANT_EQUIP) {
                                                     return <p key={index}>
                                                         <CraftEssenceDescriptor region={this.props.region}
@@ -106,7 +104,8 @@ class FuncPage extends React.Component<IProps, IState> {
 
                                                 return '';
                                             })}
-                                            {skill.reverseMC.map((mysticCode, index) => {
+                                            {/*TODO: Command Code Reverse Mapping*/}
+                                            {(skill.reverse?.nice?.MC ?? []).map((mysticCode, index) => {
                                                 return <p key={index}>
                                                     <MysticCodeDescriptor region={this.props.region}
                                                                           mysticCode={mysticCode}/>
@@ -126,11 +125,11 @@ class FuncPage extends React.Component<IProps, IState> {
                         <h3>Related Noble Phantasms</h3>
                         <Table style={{fontSize: "0.8em"}}>
                             <tbody>
-                            {func.reverseTds.map((noblePhantasm, index) => {
+                            {(func.reverse?.nice?.NP ?? []).map((noblePhantasm, index) => {
                                 return (
                                     <tr key={index}>
                                         <td>
-                                            {noblePhantasm.reverseServants.map((entity, index) => {
+                                            {(noblePhantasm.reverse?.nice?.servant ?? []).map((entity, index) => {
                                                 if (entity.type === EntityType.SERVANT_EQUIP) {
                                                     return <p key={index}>
                                                         <CraftEssenceDescriptor region={this.props.region}

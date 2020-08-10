@@ -1,7 +1,6 @@
+import {Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
 import {Alert} from "react-bootstrap";
-import Region from "../Api/Data/Region";
-import Skill from "../Api/Data/Skill";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import {handleNewLine} from "../Helper/OutputHelper";

@@ -1,16 +1,16 @@
+import {CraftEssenceBasic, EntityType, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Form, Pagination, Row, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import Connection from "../Api/Connection";
-import BasicListEntity from "../Api/Data/BasicListEntity";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 
 import "./CraftEssencesPage.css";
+import Manager from "../Setting/Manager";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
@@ -27,7 +27,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    craftEssences: BasicListEntity[];
+    craftEssences: CraftEssenceBasic[];
     activeRarityFilters: number[];
     perPage: number;
     page: number;
@@ -49,7 +49,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
     componentDidMount() {
         try {
-            Connection.craftEssenceList(this.props.region).then(list => {
+            Manager.setRegion(this.props.region);
+            Api.craftEssenceList().then(list => {
                 this.setState({
                     loading: false,
                     craftEssences: list
@@ -62,7 +63,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         }
     }
 
-    private craftEssences(): BasicListEntity[] {
+    private craftEssences(): CraftEssenceBasic[] {
         let list = this.state.craftEssences.slice().reverse();
 
         if (this.state.activeRarityFilters.length > 0) {
@@ -205,7 +206,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                             </td>
                             <td align={"center"}>
                                 <Link to={route}>
-                                    <FaceIcon type={craftEssence.type}
+                                    <FaceIcon type={EntityType.SERVANT_EQUIP}
                                               rarity={craftEssence.rarity}
                                               location={craftEssence.face}
                                               height={50}/>

@@ -1,0 +1,1 @@
+{"version":3,"sources":["ServantsPage.css"],"names":[],"mappings":"AAAA,kBACI,cAAe,CACf,aACJ,CAEA,4BACI,qBACJ","file":"12.933befcb.chunk.css","sourcesContent":["#servants .filter {\n    cursor: pointer;\n    margin: 0 10px;\n}\n\n#servants table>tbody>tr>td {\n    vertical-align: middle;\n}\n"]}

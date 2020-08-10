@@ -1,8 +1,7 @@
+import {Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
 import {Link} from "react-router-dom";
-import Connection from "../Api/Connection";
-import Region from "../Api/Data/Region";
-import Skill from "../Api/Data/Skill";
+import Api from "../Api";
 import SkillDescriptor from "./SkillDescriptor";
 
 interface IProps {
@@ -24,7 +23,7 @@ class SkillReferenceDescriptor extends React.Component<IProps, IState> {
     async componentDidMount() {
         try {
             this.setState({
-                skill: await Connection.skill(this.props.region, this.props.id)
+                skill: await Api.skill(this.props.id)
             });
         } catch (e) {
             // do nothing

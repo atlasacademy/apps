@@ -1,5 +1,5 @@
+import Card from "@atlasacademy/api-connector/dist/Enum/Card";
 import React from "react";
-import Card from "../Api/Data/Card";
 
 import "./CardType.css";
 

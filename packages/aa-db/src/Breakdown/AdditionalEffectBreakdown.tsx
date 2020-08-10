@@ -1,7 +1,6 @@
+import {Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
-import Connection from "../Api/Connection";
-import Region from "../Api/Data/Region";
-import Skill from "../Api/Data/Skill";
+import Api from "../Api";
 import EffectBreakdownLines from "./EffectBreakdownLines";
 
 interface IProps {
@@ -24,7 +23,7 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
     async componentDidMount() {
         try {
             this.setState({
-                skill: await Connection.skill(this.props.region, this.props.skillId)
+                skill: await Api.skill(this.props.skillId)
             });
         } catch (e) {
             // do nothing on failure

@@ -1,15 +1,15 @@
+import {MysticCode, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import Connection from "../Api/Connection";
-import MysticCode from "../Api/Data/MysticCode";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 
 import "./MysticCodesPage.css";
+import Manager from "../Setting/Manager";
 
 interface IProps {
     region: Region;
@@ -33,7 +33,8 @@ class MysticCodesPage extends React.Component<IProps, IState> {
 
     componentDidMount() {
         try {
-            Connection.mysticCodeList(this.props.region).then(list => {
+            Manager.setRegion(this.props.region);
+            Api.mysticCodeList().then(list => {
                 this.setState({
                     loading: false,
                     mysticCodes: list

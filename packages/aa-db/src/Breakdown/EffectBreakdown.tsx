@@ -1,9 +1,8 @@
+import {Func, Region} from "@atlasacademy/api-connector";
+import {NoblePhantasmGain} from "@atlasacademy/api-connector/dist/Schema/NoblePhantasm";
+import {SkillScript} from "@atlasacademy/api-connector/dist/Schema/Skill";
 import React from "react";
 import {Table} from "react-bootstrap";
-import Func from "../Api/Data/Func";
-import {NoblePhantasmGain} from "../Api/Data/NoblePhantasm";
-import Region from "../Api/Data/Region";
-import {SkillScript} from "../Api/Data/Skill";
 import EffectBreakdownLines from "./EffectBreakdownLines";
 
 import "./EffectBreakdown.css";

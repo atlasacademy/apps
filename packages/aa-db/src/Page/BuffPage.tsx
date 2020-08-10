@@ -1,9 +1,8 @@
+import {Buff, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Table} from "react-bootstrap";
-import Connection from "../Api/Connection";
-import Buff from "../Api/Data/Buff";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -12,6 +11,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 import TraitDescriptor from "../Descriptor/TraitDescriptor";
 import {mergeElements} from "../Helper/OutputHelper";
+import Manager from "../Setting/Manager";
 
 interface IProps {
     region: Region;
@@ -34,12 +34,13 @@ class BuffPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        Manager.setRegion(this.props.region);
         this.loadBuff();
     }
 
     async loadBuff() {
         try {
-            const buff = await Connection.buff(this.props.region, this.props.id);
+            const buff = await Api.buff(this.props.id);
 
             this.setState({
                 loading: false,
@@ -64,8 +65,10 @@ class BuffPage extends React.Component<IProps, IState> {
         return (
             <div>
                 <h1>
-                    <BuffIcon location={buff.icon} height={48}/>
-                    &nbsp;
+                    {buff.icon ? (
+                        <BuffIcon location={buff.icon} height={48}/>
+                    ) : undefined}
+                    {buff.icon ? ' ' : undefined}
                     {buff.name}
                 </h1>
 
@@ -130,18 +133,23 @@ class BuffPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {buff.reverseFunctions.map((func, index) => {
-                        return (
-                            <tr key={index}>
-                                <td>
-                                    <FuncDescriptor region={this.props.region} func={func}/>
-                                </td>
-                                <td>
-                                    {func.reverseTds.length + func.reverseSkills.length}
-                                </td>
-                            </tr>
-                        );
-                    })}
+                    {buff.reverse?.nice?.function ? (
+                        buff.reverse.nice.function.map((func, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>
+                                        <FuncDescriptor region={this.props.region} func={func}/>
+                                    </td>
+                                    <td>
+                                        {
+                                            (func.reverse?.nice?.NP ?? []).length
+                                            + (func.reverse?.nice?.skill ?? []).length
+                                        }
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    ) : undefined}
                     </tbody>
                 </Table>
             </div>

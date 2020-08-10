@@ -1,7 +1,6 @@
+import {CraftEssence, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
-import CraftEssence from "../../Api/Data/CraftEssence";
-import Region from "../../Api/Data/Region";
 import {formatNumber} from "../../Helper/OutputHelper";
 
 interface IProps {

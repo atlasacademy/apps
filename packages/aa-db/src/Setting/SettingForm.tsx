@@ -1,7 +1,7 @@
+import {Language} from "@atlasacademy/api-connector";
 import React from "react";
 import {Form} from "react-bootstrap";
 import Manager from "./Manager";
-import {LanguageOption} from "./Option";
 import {Theme} from "./Theme";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
@@ -9,7 +9,7 @@ interface Event extends React.ChangeEvent<HTMLInputElement> {
 }
 
 interface IProps {
-    language: LanguageOption,
+    language: Language,
     theme: Theme,
 }
 
@@ -30,7 +30,7 @@ class SettingForm extends React.Component<IProps> {
                         <Form.Label>Language</Form.Label>
                         <Form.Control as={'select'} value={this.props.language}
                                       onChange={(ev: Event) => this.updateLanguage(ev.target.value)}>
-                            {Object.values(LanguageOption).map(v => (
+                            {Object.values(Language).map(v => (
                                 <option key={v} value={v}>{v}</option>
                             ))}
                         </Form.Control>

@@ -1,6 +1,5 @@
+import {CommandCode} from "@atlasacademy/api-connector";
 import React from "react";
-import {AssetMap} from "../../Api/Data/AssetCollection";
-import CommandCode from "../../Api/Data/CommandCode";
 
 import "./CommandCodePortrait.css";
 
@@ -8,34 +7,22 @@ interface IProps {
     commandCode: CommandCode;
 }
 
-interface IState {
-    assetMap?: AssetMap;
-    assetKey?: string;
-}
+class CommandCodePortrait extends React.Component<IProps> {
 
-class CommandCodePortrait extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
+    private asset(): string | undefined {
+        const assetMap = this.props.commandCode.extraAssets.charaGraph.cc;
 
-        const assetMap = (
-                props.commandCode.extraAssets.charaGraph.ascension
-                ?? Object.values(props.commandCode.extraAssets.charaGraph).shift()
-            ),
-            assetKey = assetMap === undefined ? undefined : Object.keys(assetMap).shift();
-
-        this.state = {assetMap, assetKey};
+        return assetMap ? Object.values(assetMap).shift() : undefined;
     }
 
     render() {
+        const asset = this.asset();
+
         return (
             <div>
                 <img alt={this.props.commandCode.name}
                      id={'command-code-portrait'}
-                     src={(
-                         this.state.assetMap && this.state.assetKey
-                             ? this.state.assetMap[this.state.assetKey]
-                             : undefined
-                     )}/>
+                     src={asset}/>
             </div>
         );
     }

@@ -1,12 +1,8 @@
+import {CraftEssence, EntityType, Region, Servant, Skill} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Form} from "react-bootstrap";
-import Connection from "../Api/Connection";
-import CraftEssence from "../Api/Data/CraftEssence";
-import EntityType from "../Api/Data/EntityType";
-import Region from "../Api/Data/Region";
-import Servant from "../Api/Data/Servant";
-import Skill from "../Api/Data/Skill";
+import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -15,6 +11,7 @@ import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
 import RawDataViewer from "../Component/RawDataViewer";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
+import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
@@ -46,12 +43,13 @@ class SkillPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        Manager.setRegion(this.props.region);
         this.loadSkill();
     }
 
     async loadSkill() {
         try {
-            const skill = await Connection.skill(this.props.region, this.props.id);
+            const skill = await Api.skill(this.props.id);
 
             this.setState({
                 loading: false,
@@ -83,8 +81,10 @@ class SkillPage extends React.Component<IProps, IState> {
         return (
             <div>
                 <h1>
-                    <BuffIcon location={skill.icon} height={48}/>
-                    &nbsp;
+                    {skill.icon ? (
+                        <BuffIcon location={skill.icon} height={48}/>
+                    ) : undefined}
+                    {skill.icon ? ' ' : undefined}
                     {skill.name}
                 </h1>
 
@@ -98,7 +98,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     "Detail": skill.detail,
                     "Owner": (
                         <div>
-                            {skill.reverseServants
+                            {(skill.reverse?.nice?.servant ?? [])
                                 .filter(entity => {
                                     return entity.type === EntityType.NORMAL
                                         || entity.type === EntityType.HEROINE
@@ -123,7 +123,8 @@ class SkillPage extends React.Component<IProps, IState> {
                                     }
                                 })
                             }
-                            {skill.reverseMC
+                            {/* TODO: Command Code reverse mapping */}
+                            {(skill.reverse?.nice?.MC ?? [])
                                 .map((mysticCode, index) => {
                                     return (
                                         <MysticCodeDescriptor key={index}

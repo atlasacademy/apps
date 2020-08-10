@@ -1,9 +1,9 @@
+import {CraftEssence, Region} from "@atlasacademy/api-connector";
+import EntityType from "@atlasacademy/api-connector/dist/Enum/EntityType";
 import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Link} from "react-router-dom";
-import CraftEssence from "../Api/Data/CraftEssence";
-import Region from "../Api/Data/Region";
 import FaceIcon from "../Component/FaceIcon";
 
 interface IProps {
@@ -13,13 +13,18 @@ interface IProps {
 
 class CraftEssenceDescriptor extends React.Component<IProps> {
     render() {
+        const assetMap = this.props.craftEssence.extraAssets.faces.equip,
+            asset = assetMap ? assetMap[this.props.craftEssence.id] : undefined;
+
         return (
             <Link to={`/${this.props.region}/craft-essence/${this.props.craftEssence.collectionNo}`}>
-                <FaceIcon type={this.props.craftEssence.type}
-                          rarity={this.props.craftEssence.rarity}
-                          location={this.props.craftEssence.extraAssets.faces.equip[this.props.craftEssence.id] ?? ''}
-                          height={'2em'}/>
-                {' '}
+                {asset ? (
+                    <FaceIcon type={EntityType.SERVANT_EQUIP}
+                              rarity={this.props.craftEssence.rarity}
+                              location={asset}
+                              height={'2em'}/>
+                ) : undefined}
+                {asset ? ' ' : undefined}
                 {this.props.craftEssence.name}
                 {' '}
                 <FontAwesomeIcon icon={faShare}/>

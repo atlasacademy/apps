@@ -1,7 +1,7 @@
+import {Region} from "@atlasacademy/api-connector";
+import {ProfileComment} from "@atlasacademy/api-connector/dist/Schema/Profile";
 import React from "react";
 import {Table} from "react-bootstrap";
-import {ProfileComment} from "../../Api/Data/Profile";
-import Region from "../../Api/Data/Region";
 import ProfileConditionDescriptor from "../../Descriptor/ProfileConditionDescriptor";
 import {handleNewLine} from "../../Helper/OutputHelper";
 

@@ -1,7 +1,7 @@
+import {BuffType, Func, Region} from "@atlasacademy/api-connector";
+import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
-import {BuffType} from "../Api/Data/Buff";
-import Func, {DataVal, FuncType} from "../Api/Data/Func";
-import Region from "../Api/Data/Region";
 import {asPercent, mergeElements, Renderable} from "../Helper/OutputHelper";
 import BuffValueDescriptor from "./BuffValueDescriptor";
 

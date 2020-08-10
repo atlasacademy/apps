@@ -1,7 +1,6 @@
+import {Buff, BuffType, Region} from "@atlasacademy/api-connector";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
-import Buff, {BuffType} from "../Api/Data/Buff";
-import {DataVal} from "../Api/Data/Func";
-import Region from "../Api/Data/Region";
 import {asPercent} from "../Helper/OutputHelper";
 import TraitDescriptor from "./TraitDescriptor";
 

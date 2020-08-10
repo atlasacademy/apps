@@ -1,5 +1,5 @@
+import EntityType from "@atlasacademy/api-connector/dist/Enum/EntityType";
 import React from "react";
-import EntityType from "../Api/Data/EntityType";
 
 interface IProps {
     type?: EntityType;

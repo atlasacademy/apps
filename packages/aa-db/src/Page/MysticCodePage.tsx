@@ -1,14 +1,14 @@
+import {MysticCode, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
-import Connection from "../Api/Connection";
-import MysticCode from "../Api/Data/MysticCode";
-import Region from "../Api/Data/Region";
+import Api from "../Api";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import Manager from "../Setting/Manager";
 import MysticCodeMainData from "./MysticCode/MysticCodeMainData";
 import MysticCodePicker from "./MysticCode/MysticCodePicker";
 import MysticCodePortrait from "./MysticCode/MysticCodePortrait";
@@ -40,9 +40,10 @@ class MysticCodePage extends React.Component<IProps, IState> {
 
     async componentDidMount() {
         try {
+            Manager.setRegion(this.props.region);
             let [mysticCodes, mysticCode] = await Promise.all<MysticCode[], MysticCode>([
-                Connection.mysticCodeList(this.props.region),
-                Connection.mysticCode(this.props.region, this.state.id),
+                Api.mysticCodeList(),
+                Api.mysticCode(this.state.id),
             ]);
 
             this.setState({

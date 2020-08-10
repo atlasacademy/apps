@@ -1,8 +1,7 @@
+import {Item, ItemBackgroundType, ItemType, Region} from "@atlasacademy/api-connector";
+import {ServantLevelUpMaterialProgression} from "@atlasacademy/api-connector/dist/Schema/Servant";
 import React from "react";
 import {Table} from "react-bootstrap";
-import Item, {ItemBackgroundType, ItemType} from "../../Api/Data/Item";
-import Region from "../../Api/Data/Region";
-import {ServantLevelUpMaterialProgression} from "../../Api/Data/Servant";
 import ItemIcon from "../../Component/ItemIcon";
 
 const qpItem: Item = {

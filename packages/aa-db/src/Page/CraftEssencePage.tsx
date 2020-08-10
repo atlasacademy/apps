@@ -1,16 +1,14 @@
+import {CraftEssence, CraftEssenceBasic, Region, Trait} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
-import Connection from "../Api/Connection";
-import BasicListEntity from "../Api/Data/BasicListEntity";
-import CraftEssence from "../Api/Data/CraftEssence";
-import Region from "../Api/Data/Region";
-import TraitMap from "../Api/Data/TraitMap";
+import Api from "../Api";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import Manager from "../Setting/Manager";
 import CraftEssenceMainData from "./CraftEssence/CraftEssenceMainData";
 import CraftEssencePicker from "./CraftEssence/CraftEssencePicker";
 import CraftEssencePortrait from "./CraftEssence/CraftEssencePortrait";
@@ -27,7 +25,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     id: number;
-    craftEssences: BasicListEntity[];
+    craftEssences: CraftEssenceBasic[];
     craftEssence?: CraftEssence;
 }
 
@@ -43,15 +41,16 @@ class CraftEssencePage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        Manager.setRegion(this.props.region);
         this.loadCraftEssence();
     }
 
     async loadCraftEssence() {
         try {
-            let [craftEssences, craftEssence] = await Promise.all<BasicListEntity[], CraftEssence, TraitMap>([
-                Connection.craftEssenceList(this.props.region),
-                Connection.craftEssence(this.props.region, this.state.id),
-                Connection.traitMap(this.props.region)
+            let [craftEssences, craftEssence] = await Promise.all<CraftEssenceBasic[], CraftEssence, Trait[]>([
+                Api.craftEssenceList(),
+                Api.craftEssence(this.state.id),
+                Api.traitList()
             ]);
 
             this.setState({
@@ -117,7 +116,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                     <Tab eventKey={'profile'} title={'Profile'}>
                         <br/>
                         <CraftEssenceProfileComments region={this.props.region}
-                                                     comments={craftEssence.profile.comments}/>
+                                                     comments={craftEssence.profile?.comments ?? []}/>
                     </Tab>
                 </Tabs>
             </div>

@@ -1,7 +1,6 @@
+import {Region, Servant} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
-import Region from "../../Api/Data/Region";
-import Servant from "../../Api/Data/Servant";
 import BuffIcon from "../../Component/BuffIcon";
 import {formatNumber} from "../../Helper/OutputHelper";
 

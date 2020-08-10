@@ -1,7 +1,6 @@
+import {Buff, BuffType, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Link} from "react-router-dom";
-import Buff, {BuffType} from "../Api/Data/Buff";
-import Region from "../Api/Data/Region";
 import BuffIcon from "../Component/BuffIcon";
 import {joinElements, mergeElements} from "../Helper/OutputHelper";
 import TraitDescriptor from "./TraitDescriptor";
@@ -302,8 +301,8 @@ class BuffDescriptor extends React.Component<IProps> {
         return (
             <Link to={`/${this.props.region}/buff/${buff.id}`}>
                 [
-                <BuffIcon location={buff.icon}/>
-                {' '}
+                {buff.icon ? <BuffIcon location={buff.icon}/> : undefined}
+                {buff.icon ? ' ' : undefined}
                 {description}
                 {this.getEffectiveTargetsDescriptions()}
                 ]

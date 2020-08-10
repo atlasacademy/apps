@@ -1,7 +1,7 @@
+import {BuffType, DataValField, Func, Region} from "@atlasacademy/api-connector";
+import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
+import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
-import {BuffType} from "../Api/Data/Buff";
-import Func, {DataVal, DataValField, FuncType} from "../Api/Data/Func";
-import Region from "../Api/Data/Region";
 import FuncValueDescriptor from "../Descriptor/FuncValueDescriptor";
 import {Renderable} from "./OutputHelper";
 
@@ -20,8 +20,18 @@ const hasChangingDataVals = function (vals: DataVal[]): boolean {
     return false;
 };
 
-const hasUniqueValues = function (values: (number | string | undefined)[]): boolean {
-    return new Set(values).size > 1;
+const hasUniqueValues = function (values: (number | number[] | undefined)[]): boolean {
+    if (values.length === 0)
+        return false;
+
+    return new Set(
+        values.map(value => {
+            if (Array.isArray(value))
+                return value.join(',');
+
+            return value;
+        })
+    ).size > 1;
 };
 
 export function describeMutators(region: Region, func: Func): Renderable[] {
@@ -97,7 +107,10 @@ export function getMutatingFieldValues(vals: DataVal[]): DataVal[] {
         const mutatingVals: DataVal = {};
 
         for (let x in fields) {
-            mutatingVals[fields[x]] = val[fields[x]];
+            const fieldName = fields[x];
+
+            // @ts-ignore
+            mutatingVals[fieldName] = val[fieldName];
         }
 
         if (staticValues.DependFuncId && dependingMutatingValues[index]) {
@@ -175,6 +188,7 @@ export function getStaticFieldValues(vals: DataVal[]): DataVal {
         dependingStaticValues = dependingVals ? getStaticFieldValues(dependingVals) : undefined;
 
     for (let x in fields) {
+        // @ts-ignore
         staticVals[fields[x]] = vals[0][fields[x]];
     }
 

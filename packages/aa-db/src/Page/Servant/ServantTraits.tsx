@@ -1,6 +1,5 @@
+import {Region, Trait} from "@atlasacademy/api-connector";
 import React from "react";
-import Region from "../../Api/Data/Region";
-import Trait from "../../Api/Data/Trait";
 import TraitDescriptor from "../../Descriptor/TraitDescriptor";
 import {joinElements} from "../../Helper/OutputHelper";
 

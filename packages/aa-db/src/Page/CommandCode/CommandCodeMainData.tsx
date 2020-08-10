@@ -1,6 +1,5 @@
+import {CommandCode, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import CommandCode from "../../Api/Data/CommandCode";
-import Region from "../../Api/Data/Region";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
