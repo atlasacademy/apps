@@ -1,4 +1,5 @@
-import {BuffType, Func, Region} from "@atlasacademy/api-connector";
+import {Func, Region} from "@atlasacademy/api-connector";
+import BuffType from "@atlasacademy/api-connector/dist/Enum/BuffType";
 import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
 import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
@@ -83,12 +84,12 @@ class FuncValueDescriptor extends React.Component<IProps> {
             (func.funcType === FuncType.ADD_STATE || func.funcType === FuncType.ADD_STATE_SHORT)
             && func.buffs[0]
             && (
-                dataVal.Value
-                || (func.buffs[0].type === BuffType.DAMAGE_FUNCTION && dataVal.Value2)
-                || (func.buffs[0].type === BuffType.DEAD_FUNCTION && dataVal.Value2)
-                || (func.buffs[0].type === BuffType.DELAY_FUNCTION && dataVal.Value2)
-                || (func.buffs[0].type === BuffType.NPATTACK_PREV_BUFF && dataVal.SkillID)
-                || (func.buffs[0].type === BuffType.SELFTURNEND_FUNCTION && dataVal.Value2)
+                (func.buffs[0].type === BuffType.COMMANDATTACK_FUNCTION && this.props.staticDataVal.Value)
+                || (func.buffs[0].type === BuffType.DAMAGE_FUNCTION && this.props.staticDataVal.Value2)
+                || (func.buffs[0].type === BuffType.DEAD_FUNCTION && this.props.staticDataVal.Value2)
+                || (func.buffs[0].type === BuffType.DELAY_FUNCTION && this.props.staticDataVal.Value2)
+                || (func.buffs[0].type === BuffType.NPATTACK_PREV_BUFF && this.props.staticDataVal.SkillID)
+                || (func.buffs[0].type === BuffType.SELFTURNEND_FUNCTION && this.props.staticDataVal.Value2)
             )
         ) {
             return <BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>;

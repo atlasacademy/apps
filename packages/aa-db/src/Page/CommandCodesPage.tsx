@@ -1,5 +1,6 @@
 import {CommandCode, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
+import minimatch from "minimatch";
 import React from "react";
 import {Form, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -8,6 +9,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
+import diacritics from 'diacritics';
 
 import "./CommandCodesPage.css";
 import Manager from "../Setting/Manager";
@@ -57,12 +59,18 @@ class CommandCodesPage extends React.Component<IProps, IState> {
         let list = this.state.commandCodes.slice().reverse();
 
         if (this.state.search) {
-            const words = this.state.search
+            const glob = diacritics.remove(this.state.search.toLowerCase())
                 .split(' ')
                 .filter(word => word)
-                .map(word => word.toLowerCase());
+                .join('*');
 
-            list = list.filter(entity => words.every(word => entity.name.toLowerCase().includes(word)));
+            list = list.filter(
+                entity => {
+                    const normalizedName = diacritics.remove(entity.name.toLowerCase());
+
+                    return minimatch(normalizedName, `*${glob}*`);
+                }
+            );
         }
 
         return list;

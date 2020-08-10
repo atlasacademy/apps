@@ -1,7 +1,8 @@
-import {Buff, BuffType, Region} from "@atlasacademy/api-connector";
+import {Buff, Region} from "@atlasacademy/api-connector";
+import BuffType from "@atlasacademy/api-connector/dist/Enum/BuffType";
 import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
-import {asPercent} from "../Helper/OutputHelper";
+import {asPercent, mergeElements, Renderable} from "../Helper/OutputHelper";
 import TraitDescriptor from "./TraitDescriptor";
 
 interface IProps {
@@ -11,8 +12,8 @@ interface IProps {
 }
 
 class BuffValueDescriptor extends React.Component<IProps> {
-    render() {
-        let value: JSX.Element | string | null = null;
+    descrbibeValue(value: number): Renderable {
+        let part: Renderable;
 
         switch (this.props.buff.type) {
             case BuffType.UP_ATK:
@@ -51,10 +52,10 @@ class BuffValueDescriptor extends React.Component<IProps> {
             case BuffType.DOWN_TOLERANCE:
             case BuffType.UP_TOLERANCE_SUBSTATE:
             case BuffType.DOWN_TOLERANCE_SUBSTATE:
-                value = asPercent(this.props.dataVal.Value, 1);
+                part = asPercent(value, 1);
                 break;
             case BuffType.REGAIN_NP:
-                value = asPercent(this.props.dataVal.Value, 2);
+                part = asPercent(value, 2);
                 break;
             case BuffType.ATTACK_FUNCTION:
             case BuffType.COMMANDATTACK_FUNCTION:
@@ -62,23 +63,69 @@ class BuffValueDescriptor extends React.Component<IProps> {
             case BuffType.DAMAGE_FUNCTION:
             case BuffType.DEAD_FUNCTION:
             case BuffType.DELAY_FUNCTION:
-            case BuffType.SELFTURNEND_FUNCTION:
+            case BuffType.FIELD_INDIVIDUALITY:
+                    part = <TraitDescriptor region={this.props.region} trait={value}/>;
+                break;
+            case BuffType.CHANGE_COMMAND_CARD_TYPE:
+                // TODO: CardDescriptor
+                switch (value) {
+                    case 1:
+                        part = "[Card: Arts]";
+                        break;
+                    case 2:
+                        part = "[Card: Buster]";
+                        break;
+                    case 3:
+                        part = "[Card: Quick]";
+                        break;
+                    case 4:
+                        part = "[Card: Extra]";
+                        break;
+                    default:
+                        part = value.toString();
+                }
+                break;
+            default:
+                part = value.toString();
+        }
+
+        return part;
+    }
+
+    render() {
+        const parts: Renderable[] = [];
+
+        switch (this.props.buff.type) {
+            case BuffType.COMMANDATTACK_FUNCTION:
                 if (this.props.dataVal.Value2)
-                    value = 'Lv. ' + this.props.dataVal.Value2;
+                    parts.push('Lv. ' + this.props.dataVal.Value2);
                 break;
             case BuffType.NPATTACK_PREV_BUFF:
                 if (this.props.dataVal.SkillLV)
-                    value = 'Lv. ' + this.props.dataVal.SkillLV;
+                    parts.push('Lv. ' + this.props.dataVal.SkillLV);
                 break;
-            case BuffType.FIELD_INDIVIDUALITY:
-                if (typeof this.props.dataVal.Value === "number")
-                    value = <TraitDescriptor region={this.props.region} trait={this.props.dataVal.Value}/>;
+            case BuffType.SELFTURNEND_FUNCTION:
+                if (this.props.dataVal.Value2)
+                    parts.push('Lv. ' + this.props.dataVal.Value2);
                 break;
-            default:
-                value = this.props.dataVal.Value?.toString() ?? "";
         }
 
-        return value;
+        if (this.props.dataVal.Value !== undefined) {
+            parts.push(this.descrbibeValue(this.props.dataVal.Value));
+        }
+
+        if (this.props.dataVal.RatioHPLow !== undefined) {
+            parts.push(<React.Fragment>
+                ({this.descrbibeValue(this.props.dataVal.RatioHPLow)} Scales by Low HP)
+            </React.Fragment>)
+        }
+
+        if (parts.length === 0)
+            parts.push('-');
+
+        return (
+            mergeElements(parts, ' + ')
+        );
     }
 }
 

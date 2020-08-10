@@ -1,5 +1,7 @@
 import {ClassName, Region, ServantBasic} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
+
+import diacritics from 'diacritics';
 import React from "react";
 import {Form, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -9,9 +11,10 @@ import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
+import Manager from "../Setting/Manager";
+import minimatch from "minimatch";
 
 import './ServantsPage.css';
-import Manager from "../Setting/Manager";
 
 const classFilters: ClassName[] = [
     ClassName.SABER,
@@ -153,12 +156,18 @@ class ServantsPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const words = this.state.search
+            const glob = diacritics.remove(this.state.search.toLowerCase())
                 .split(' ')
                 .filter(word => word)
-                .map(word => word.toLowerCase());
+                .join('*');
 
-            list = list.filter(entity => words.every(word => entity.name.toLowerCase().includes(word)));
+            list = list.filter(
+                entity => {
+                    const normalizedName = diacritics.remove(entity.name.toLowerCase());
+
+                    return minimatch(normalizedName, `*${glob}*`);
+                }
+            );
         }
 
         return list;

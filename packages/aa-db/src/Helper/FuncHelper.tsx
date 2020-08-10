@@ -147,6 +147,7 @@ export function getRelatedSkillIds(func: Func): number[] {
         || buff.type === BuffType.DAMAGE_FUNCTION
         || buff.type === BuffType.DEAD_FUNCTION
         || buff.type === BuffType.DELAY_FUNCTION
+        || buff.type === BuffType.GUTS_FUNCTION
         || buff.type === BuffType.SELFTURNEND_FUNCTION
     ) {
         const dataVals = getDataValList(func),

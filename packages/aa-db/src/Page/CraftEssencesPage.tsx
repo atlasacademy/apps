@@ -1,5 +1,7 @@
 import {CraftEssenceBasic, EntityType, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
+import diacritics from "diacritics";
+import minimatch from "minimatch";
 import React from "react";
 import {Col, Form, Pagination, Row, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -73,12 +75,18 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const words = this.state.search
+            const glob = diacritics.remove(this.state.search.toLowerCase())
                 .split(' ')
                 .filter(word => word)
-                .map(word => word.toLowerCase());
+                .join('*');
 
-            list = list.filter(entity => words.every(word => entity.name.toLowerCase().includes(word)));
+            list = list.filter(
+                entity => {
+                    const normalizedName = diacritics.remove(entity.name.toLowerCase());
+
+                    return minimatch(normalizedName, `*${glob}*`);
+                }
+            );
         }
 
         return list;

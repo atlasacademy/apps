@@ -42,6 +42,7 @@ const traitDescriptions = new Map<number, string>([
     [1000, "Servant"],
     [1002, "Undead"],
     [1122, "Shadow Servant"],
+    [1172, "Threats against Humanity"],
     [2004, "Roman"],
     [2005, "Beasts"],
     [2019, "Demonic"],

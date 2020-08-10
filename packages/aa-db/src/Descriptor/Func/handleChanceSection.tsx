@@ -8,6 +8,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     const section = sections.chance,
         parts = section.parts;
 
+    if (dataVal.ActSet && dataVal.ActSetWeight) {
+        parts.push(`[Weight: ${dataVal.ActSetWeight}]`);
+    }
+
     if (dataVal.Rate && dataVal.Rate < 0) {
         parts.push('Guaranteed to');
     } else if (typeof dataVal.Rate === "number" && dataVal.Rate !== 1000) {
@@ -19,7 +23,9 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push(asPercent(dataVal.RateCount, 1) + ' Chance per Target to');
     } else if (!dataVal.Rate && func.funcType !== FuncType.NONE) {
         parts.push('Chance to');
-    } else {
+    }
+
+    if (parts.length === 0) {
         section.showing = false;
     }
 }
