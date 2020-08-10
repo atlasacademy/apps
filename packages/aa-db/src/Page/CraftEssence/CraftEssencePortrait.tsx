@@ -10,7 +10,7 @@ interface IProps {
 class CraftEssencePortrait extends React.Component<IProps> {
 
     private asset(): string | undefined {
-        const assetMap = this.props.craftEssence.extraAssets.charaGraph;
+        const assetMap = this.props.craftEssence.extraAssets.charaGraph.equip;
         if (!assetMap)
             return undefined;
 
