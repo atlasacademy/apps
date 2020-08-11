@@ -1,5 +1,5 @@
 import {Region, Servant} from "@atlasacademy/api-connector";
-import {ServantAssetMap} from "@atlasacademy/api-connector/dist/Schema/Servant";
+import {EntityAssetMap} from "@atlasacademy/api-connector/dist/Schema/BaseEntity";
 import React from "react";
 import {mergeElements} from "../../Helper/OutputHelper";
 
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 class ServantAssets extends React.Component<IProps> {
-    private flattenAssets(assetMap: ServantAssetMap | undefined): string[] {
+    private flattenAssets(assetMap: EntityAssetMap | undefined): string[] {
         if (!assetMap)
             return [];
 
@@ -24,7 +24,7 @@ class ServantAssets extends React.Component<IProps> {
         return assets;
     }
 
-    private displayAssets(assetMap: ServantAssetMap | undefined) {
+    private displayAssets(assetMap: EntityAssetMap | undefined) {
         const assets = this.flattenAssets(assetMap);
 
         return mergeElements(

@@ -14,6 +14,8 @@ interface IProps {
     noblePhantasm: NoblePhantasm;
     assetType?: "ascension" | "costume";
     assetId?: number;
+    hideCard?: boolean;
+    hideGain?: boolean;
 }
 
 class NoblePhantasmBreakdown extends React.Component<IProps> {
@@ -61,7 +63,7 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                     </Col>
 
                     <Col lg={3} className={'text-right d-none d-lg-block d-xl-block'}>
-                        {this.npCommandCard()}
+                        {this.props.hideCard ? null : this.npCommandCard()}
                         <br/>
                     </Col>
                 </Row>
@@ -70,7 +72,7 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                     <Col>
                         <EffectBreakdown region={this.props.region}
                                          funcs={np.functions}
-                                         gain={np.npGain}
+                                         gain={this.props.hideGain ? undefined : np.npGain}
                                          levels={5}/>
                     </Col>
                 </Row>

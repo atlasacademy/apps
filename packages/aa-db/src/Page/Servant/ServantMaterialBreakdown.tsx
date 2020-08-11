@@ -1,5 +1,5 @@
 import {Item, ItemBackgroundType, ItemType, Region} from "@atlasacademy/api-connector";
-import {ServantLevelUpMaterialProgression} from "@atlasacademy/api-connector/dist/Schema/Servant";
+import {EntityLevelUpMaterialProgression} from "@atlasacademy/api-connector/dist/Schema/BaseEntity";
 import React from "react";
 import {Table} from "react-bootstrap";
 import ItemIcon from "../../Component/ItemIcon";
@@ -16,7 +16,7 @@ const iconHeight = 75;
 
 interface IProps {
     region: Region;
-    materials: ServantLevelUpMaterialProgression;
+    materials: EntityLevelUpMaterialProgression;
     title: string;
 }
 

@@ -1,4 +1,5 @@
 import {EntityType, NoblePhantasm, Region} from "@atlasacademy/api-connector";
+import Servant from "@atlasacademy/api-connector/dist/Schema/Servant";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Form, Row} from "react-bootstrap";
@@ -106,7 +107,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                                     return (
                                         <div key={index}>
                                             <ServantDescriptor region={this.props.region}
-                                                               servant={servant}
+                                                               servant={servant as Servant}
                                                                iconHeight={24}/>
                                         </div>
                                     );
