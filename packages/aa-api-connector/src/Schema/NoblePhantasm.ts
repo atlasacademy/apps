@@ -1,6 +1,6 @@
 import Card from "../Enum/Card";
+import BaseEntity from "./BaseEntity";
 import Func from "./Func";
-import Servant from "./Servant";
 import Trait from "./Trait";
 
 export interface NoblePhantasmGain {
@@ -31,7 +31,7 @@ interface NoblePhantasm {
     functions: Func[];
     reverse?: {
         nice?: {
-            servant?: Servant[];
+            servant?: BaseEntity[];
         }
     }
 }

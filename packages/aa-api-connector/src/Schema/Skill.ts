@@ -1,4 +1,5 @@
 import SkillType from "../Enum/SkillType";
+import BaseEntity from "./BaseEntity";
 import CommandCode from "./CommandCode";
 import CraftEssence from "./CraftEssence";
 import Func from "./Func";
@@ -34,7 +35,7 @@ interface Skill {
     functions: Func[];
     reverse?: {
         nice?: {
-            servant?: (Servant | CraftEssence)[],
+            servant?: BaseEntity[],
             MC?: MysticCode[],
             CC?: CommandCode[],
         }

@@ -10,6 +10,7 @@ import Buff from "./Schema/Buff";
 import CommandCode from "./Schema/CommandCode";
 import CraftEssence from "./Schema/CraftEssence";
 import CraftEssenceBasic from "./Schema/CraftEssenceBasic";
+import Enemy from "./Schema/Enemy";
 import Func from "./Schema/Func";
 import MysticCode from "./Schema/MysticCode";
 import NoblePhantasm from "./Schema/NoblePhantasm";
@@ -47,6 +48,7 @@ class ApiConnector {
         commandCodeList: new ResultCache<null, CommandCode[]>(),
         craftEssence: new ResultCache<number, CraftEssence>(),
         craftEssenceList: new ResultCache<null, CraftEssenceBasic[]>(),
+        enemy: new ResultCache<number, Enemy>(),
         func: new ResultCache<number, Func>(),
         mysticCode: new ResultCache<number, MysticCode>(),
         mysticCodeList: new ResultCache<null, MysticCode[]>(),
@@ -137,6 +139,19 @@ class ApiConnector {
             return fetch();
 
         return this.cache.craftEssenceList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    enemy(id: number, cacheDuration?: number): Promise<Enemy> {
+        const fetch = () => {
+            return ApiConnector.fetch<Enemy>(
+                `${this.host}/nice/${this.region}/svt/${id}`
+            );
+        };
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.enemy.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     func(id: number, cacheDuration?: number): Promise<Func> {
