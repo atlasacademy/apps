@@ -5,9 +5,9 @@ import {Container} from "react-bootstrap";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import {Helmet} from "react-helmet";
 import {HashRouter as Router, Route, Switch,} from "react-router-dom";
+import Api from "./Api";
 
 import "./App.css";
-import Api from "./Api";
 import ErrorStatus from "./Component/ErrorStatus";
 import Loading from "./Component/Loading";
 import Navigation from "./Component/Navigation";
@@ -21,6 +21,7 @@ const CommandCodePage = React.lazy(() => import("./Page/CommandCodePage"));
 const CommandCodesPage = React.lazy(() => import("./Page/CommandCodesPage"));
 const CraftEssencePage = React.lazy(() => import("./Page/CraftEssencePage"));
 const CraftEssencesPage = React.lazy(() => import("./Page/CraftEssencesPage"));
+const EnemyPage = React.lazy(() => import('./Page/EnemyPage'));
 const FuncPage = React.lazy(() => import('./Page/FuncPage'));
 const FuncsPage = React.lazy(() => import('./Page/FuncsPage'));
 const MysticCodePage = React.lazy(() => import("./Page/MysticCodePage"));
@@ -96,6 +97,15 @@ class App extends React.Component<any, IState> {
                                    return (
                                        <Suspense fallback={<Loading/>}>
                                            <CraftEssencePage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
+                                       </Suspense>
+                                   );
+                               }}/>
+                        <Route exact={true} path="/:region(JP|NA)/enemy/:id([0-9]+)/:tab([a-z0-9\-]+)?"
+                               render={props => {
+                                   const {region, id} = props.match.params
+                                   return (
+                                       <Suspense fallback={<Loading/>}>
+                                           <EnemyPage key={`${region}-${id}`} region={region} id={id}/>
                                        </Suspense>
                                    );
                                }}/>

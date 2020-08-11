@@ -16,6 +16,7 @@ import {
     Skill,
     Trait
 } from "@atlasacademy/api-connector";
+import Enemy from "@atlasacademy/api-connector/dist/Schema/Enemy";
 import Manager from "./Setting/Manager";
 
 const host = 'https://api.atlasacademy.io',
@@ -50,6 +51,10 @@ class Api {
 
     static async craftEssenceList(): Promise<CraftEssenceBasic[]> {
         return apiConnector.craftEssenceList(-1);
+    }
+
+    static async enemy(id: number): Promise<Enemy> {
+        return apiConnector.enemy(id);
     }
 
     static func(id: number): Promise<Func> {
