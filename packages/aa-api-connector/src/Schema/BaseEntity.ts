@@ -24,9 +24,12 @@ export interface EntityAssetMap {
 }
 
 export interface EntityAssets {
+    charaFigure: EntityAssetMap;
     charaGraph: EntityAssetMap;
-    faces: EntityAssetMap;
     commands: EntityAssetMap;
+    equipFace: EntityAssetMap;
+    faces: EntityAssetMap;
+    narrowFigure: EntityAssetMap;
     status: EntityAssetMap;
 }
 
