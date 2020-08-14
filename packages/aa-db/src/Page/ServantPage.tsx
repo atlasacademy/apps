@@ -134,7 +134,7 @@ class ServantPage extends React.Component<IProps, IState> {
                 </Row>
 
                 <Tabs id={'servant-tabs'} defaultActiveKey={this.props.tab ?? 'skill-1'} transition={false}
-                      onSelect={(key: string) => {
+                      onSelect={(key?: string) => {
                           this.props.history.replace(`/${this.props.region}/servant/${this.props.id}/${key}`);
                       }}>
                     <Tab eventKey={'skill-1'} title={'Skill 1'}>

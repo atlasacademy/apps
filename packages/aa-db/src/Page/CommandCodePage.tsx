@@ -89,8 +89,8 @@ class CommandCodePage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
 
-                <Tabs id={'ce-tabs'} defaultActiveKey={this.props.tab ?? 'effects'} transition={false}
-                      onSelect={(key: string) => {
+                <Tabs id={'cc-tabs'} defaultActiveKey={this.props.tab ?? 'effects'} transition={false}
+                      onSelect={(key?: string) => {
                           this.props.history.replace(`/${this.props.region}/command-code/${this.props.id}/${key}`);
                       }}>
                     <Tab eventKey={'effects'} title={'Effects'}>
