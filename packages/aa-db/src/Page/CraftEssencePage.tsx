@@ -9,6 +9,7 @@ import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
+import CraftEssenceAssets from "./CraftEssence/CraftEssenceAssets";
 import CraftEssenceMainData from "./CraftEssence/CraftEssenceMainData";
 import CraftEssencePicker from "./CraftEssence/CraftEssencePicker";
 import CraftEssencePortrait from "./CraftEssence/CraftEssencePortrait";
@@ -117,6 +118,11 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                         <br/>
                         <CraftEssenceProfileComments region={this.props.region}
                                                      comments={craftEssence.profile?.comments ?? []}/>
+                    </Tab>
+                    <Tab eventKey={'assets'} title={'Assets'}>
+                        <br/>
+                        <CraftEssenceAssets region={this.props.region}
+                                            craftEssence={craftEssence}/>
                     </Tab>
                 </Tabs>
             </div>

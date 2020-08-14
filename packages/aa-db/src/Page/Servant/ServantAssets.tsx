@@ -59,9 +59,23 @@ class ServantAssets extends React.Component<IProps> {
 
                 <hr/>
 
+                <h3>Formation</h3>
+                <div>
+                    {this.displayAssets(this.props.servant.extraAssets.narrowFigure)}
+                </div>
+
+                <hr/>
+
                 <h3>Thumbnail</h3>
                 <div>
                     {this.displayAssets(this.props.servant.extraAssets.faces)}
+                </div>
+
+                <hr/>
+
+                <h3>Figure</h3>
+                <div>
+                    {this.displayAssets(this.props.servant.extraAssets.charaFigure)}
                 </div>
             </div>
         );
