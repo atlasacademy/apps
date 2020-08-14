@@ -1,5 +1,6 @@
 import {Region, Trait} from "@atlasacademy/api-connector";
 import React from "react";
+import {Link} from "react-router-dom";
 import Api from "../Api";
 
 export const traitDescriptions = new Map<number, string>([
@@ -73,6 +74,7 @@ export const traitDescriptions = new Map<number, string>([
 interface IProps {
     region: Region;
     trait: Trait | number;
+    disableLink?: boolean;
 }
 
 interface IState {
@@ -100,14 +102,14 @@ class TraitDescriptor extends React.Component<IProps, IState> {
             const trait = traitList[i];
 
             if (trait.id === this.state.id) {
-                this.setState({ trait });
+                this.setState({trait});
 
                 return;
             }
         }
     }
 
-    private getDescription() : string {
+    private getDescription(): string {
         let description;
 
         description = traitDescriptions.get(this.state.id);
@@ -121,11 +123,15 @@ class TraitDescriptor extends React.Component<IProps, IState> {
         return `unknown(${this.state.id})`;
     }
 
+    private getLocation(): string {
+        return `/${this.props.region}/entities/trait/${this.state.id}`;
+    }
+
     render() {
         return (
-            <span>
-                [{this.getDescription()}]
-            </span>
+            this.props.disableLink
+                ? <span>[{this.getDescription()}]</span>
+                : <Link to={this.getLocation()}>[{this.getDescription()}]</Link>
         );
     }
 }

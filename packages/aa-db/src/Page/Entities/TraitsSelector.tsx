@@ -91,7 +91,7 @@ class TraitsSelector extends React.Component<IProps, IState> {
                                   this.removeTrait(trait);
                               }}>
                             <Badge variant='primary'>
-                                <TraitDescriptor region={this.props.region} trait={trait}/>
+                                <TraitDescriptor region={this.props.region} trait={trait} disableLink={true}/>
                                 &nbsp;
                                 <FontAwesomeIcon icon={faTimesCircle}/>
                             </Badge>

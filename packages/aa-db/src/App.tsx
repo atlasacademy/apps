@@ -184,6 +184,14 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
+                        <Route exact={true} path="/:region(JP|NA)/entities/trait/:id([0-9]+)" render={props => {
+                            const {region, id} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <EntitiesPage key={region} region={region} traitSelected={parseInt(id)}/>
+                                </Suspense>
+                            );
+                        }}/>
                         <Route exact={true} path="/:region(JP|NA)/entities" render={props => {
                             const {region} = props.match.params;
                             return (

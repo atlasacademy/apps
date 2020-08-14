@@ -4,7 +4,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AxiosError} from "axios";
 import React from "react";
 import {Button, Form, Table} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {withRouter} from "react-router";
+import {Link, RouteComponentProps} from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
@@ -33,8 +34,9 @@ interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
 }
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     region: Region;
+    traitSelected?: number;
 }
 
 interface IState {
@@ -55,13 +57,22 @@ class EntitiesPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = stateCache.get(props.region) ?? {
+        const defaultState : IState = {
             loading: true,
             traitList: [],
             searching: false,
             entities: [],
-            traits: [],
+            traits: []
         };
+
+        if (props.traitSelected) {
+            this.state = {
+                ...defaultState,
+                traits: [props.traitSelected]
+            }
+        } else {
+            this.state = stateCache.get(props.region) ?? defaultState;
+        }
     }
 
     async componentDidMount() {
@@ -69,6 +80,10 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
         try {
             const traitList = await Api.traitList();
+            if (this.props.traitSelected) {
+                await this.search();
+                this.props.history.replace(`/${this.props.region}/entities`);
+            }
 
             this.setState({
                 loading: false,
@@ -144,6 +159,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
         return (
             <div>
                 {this.state.searching ? <Loading/> : null}
+
+                <h1>Entities Search</h1>
 
                 <form onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
@@ -261,4 +278,4 @@ class EntitiesPage extends React.Component<IProps, IState> {
     }
 }
 
-export default EntitiesPage;
+export default withRouter(EntitiesPage);
