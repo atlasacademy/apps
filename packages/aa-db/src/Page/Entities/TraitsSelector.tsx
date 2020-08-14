@@ -39,12 +39,11 @@ class TraitsSelector extends React.Component<IProps, IState> {
         });
     }
 
-    private resetInput() {
+    private resetInput(resetField = true) {
         this.setState({
             input: ''
         });
-
-        this.state.ref.current.clear();
+        if (resetField) this.state.ref.current.clear();
     }
 
     private addInputTrait() {
@@ -107,7 +106,7 @@ class TraitsSelector extends React.Component<IProps, IState> {
                            ignoreDiacritics={true}
                            selected={[]}
                            onBlur={() => {
-                               this.resetInput();
+                               this.resetInput(false);
                            }}
                            onChange={(selected) => {
                                if (selected.length > 0) {
