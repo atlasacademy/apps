@@ -98,6 +98,8 @@ class BuffsPage extends React.Component<IProps, IState> {
             <div>
                 {this.state.searching ? <Loading/> : null}
 
+                <h1>Buffs Search</h1>
+
                 <form onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
                     this.search();
