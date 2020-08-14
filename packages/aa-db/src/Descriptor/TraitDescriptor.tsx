@@ -2,7 +2,7 @@ import {Region, Trait} from "@atlasacademy/api-connector";
 import React from "react";
 import Api from "../Api";
 
-const traitDescriptions = new Map<number, string>([
+export const traitDescriptions = new Map<number, string>([
     [1, "Gender:Male"],
     [2, "Gender:Female"],
     [3, "Gender:Unknown"],
@@ -27,7 +27,7 @@ const traitDescriptions = new Map<number, string>([
     [118, "Beast IIIL"],
     [119, "Beast Unknown"],
     [200, "Attribute:Sky"],
-    [201, "Attribute:Eart"],
+    [201, "Attribute:Earth"],
     [202, "Attribute:Human"],
     [203, "Attribute:Star"],
     [204, "Attribute:Beast"],

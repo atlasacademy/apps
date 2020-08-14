@@ -87,6 +87,11 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Link>
                             </Nav>
                             <Nav>
+                                <Link to={`/${Manager.region()}/entities`} className={'nav-link'}>
+                                    <NavItem>Entities</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
                                 <Link to={`/${Manager.region()}/funcs`} className={'nav-link'}>
                                     <NavItem>Functions</NavItem>
                                 </Link>

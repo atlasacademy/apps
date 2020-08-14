@@ -1,5 +1,4 @@
-import {Func, Region} from "@atlasacademy/api-connector";
-import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
+import {DataVal, Func, Region} from "@atlasacademy/api-connector";
 import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";

@@ -102,6 +102,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                         <SearchableSelect<FuncType> id='select-FuncType'
                                                     options={Object.values(FuncType)}
                                                     labels={funcDescriptions}
+                                                    selected={this.state.type}
                                                     onChange={(value?: FuncType) => {
                                                         this.setState({type: value});
                                                     }}/>
@@ -109,11 +110,12 @@ class FuncsPage extends React.Component<IProps, IState> {
                     <Form.Group>
                         <Form.Label>Target</Form.Label>
                         <SearchableSelect<FuncTargetType> id='select-FuncTargetType'
-                                                    options={Object.values(FuncTargetType)}
-                                                    labels={targetDescriptions}
-                                                    onChange={(value?: FuncTargetType) => {
-                                                        this.setState({target: value});
-                                                    }}/>
+                                                          options={Object.values(FuncTargetType)}
+                                                          labels={targetDescriptions}
+                                                          selected={this.state.target}
+                                                          onChange={(value?: FuncTargetType) => {
+                                                              this.setState({target: value});
+                                                          }}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Affects Players/Enemies</Form.Label>
@@ -124,6 +126,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                                                               [FuncTargetTeam.PLAYER, 'Players only'],
                                                               [FuncTargetTeam.ENEMY, 'Enemies only'],
                                                           ])}
+                                                          selected={this.state.team}
                                                           onChange={(value?: FuncTargetTeam) => {
                                                               this.setState({team: value});
                                                           }}/>

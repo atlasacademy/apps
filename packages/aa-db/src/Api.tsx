@@ -1,22 +1,32 @@
 import {
     ApiConnector,
+    Attribute,
+    BaseEntityBasic,
     Buff,
     BuffType,
+    ClassName,
     CommandCode,
-    CraftEssence, CraftEssenceBasic,
+    CommandCodeBasic,
+    CraftEssence,
+    CraftEssenceBasic,
+    Enemy,
+    EntityType,
     Func,
     FuncTargetTeam,
     FuncTargetType,
     FuncType,
+    Gender,
     Language,
     MysticCode,
-    NoblePhantasm, QuestPhase,
+    MysticCodeBasic,
+    NoblePhantasm,
+    QuestPhase,
     Region,
-    Servant, ServantBasic,
+    Servant,
+    ServantBasic,
     Skill,
     Trait
 } from "@atlasacademy/api-connector";
-import Enemy from "@atlasacademy/api-connector/dist/Schema/Enemy";
 import Manager from "./Setting/Manager";
 
 const host = 'https://api.atlasacademy.io',
@@ -41,7 +51,7 @@ class Api {
         return apiConnector.commandCode(id, cacheDuration);
     }
 
-    static async commandCodeList(): Promise<CommandCode[]> {
+    static async commandCodeList(): Promise<CommandCodeBasic[]> {
         return apiConnector.commandCodeList(-1);
     }
 
@@ -65,7 +75,7 @@ class Api {
         return apiConnector.mysticCode(id, cacheDuration);
     }
 
-    static async mysticCodeList(): Promise<MysticCode[]> {
+    static async mysticCodeList(): Promise<MysticCodeBasic[]> {
         return apiConnector.mysticCodeList(-1);
     }
 
@@ -95,6 +105,17 @@ class Api {
 
     static searchBuffs(name?: string, type?: BuffType): Promise<Buff[]> {
         return apiConnector.searchBuff({name, type});
+    }
+
+    static searchEntity(name?: string,
+                        type?: EntityType,
+                        className?: ClassName,
+                        gender?: Gender,
+                        attribute?: Attribute,
+                        traits?: number[]): Promise<BaseEntityBasic[]> {
+        return apiConnector.searchEntity({
+            name, type, className, gender, attribute, traits
+        });
     }
 
     static searchFuncs(text?: string,
