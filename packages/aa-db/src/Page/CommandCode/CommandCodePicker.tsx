@@ -1,4 +1,5 @@
-import {CommandCode, Region} from "@atlasacademy/api-connector";
+import {Region} from "@atlasacademy/api-connector";
+import CommandCodeBasic from "@atlasacademy/api-connector/dist/Schema/CommandCodeBasic";
 import React from "react";
 import {FormControl} from "react-bootstrap";
 import {withRouter} from "react-router";
@@ -11,7 +12,7 @@ interface Event extends React.ChangeEvent<HTMLInputElement> {
 interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
-    commandCodes: CommandCode[];
+    commandCodes: CommandCodeBasic[];
 }
 
 class CommandCodePicker extends React.Component<IProps> {

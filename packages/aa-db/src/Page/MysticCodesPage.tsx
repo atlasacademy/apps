@@ -1,4 +1,5 @@
-import {MysticCode, Region} from "@atlasacademy/api-connector";
+import {Region} from "@atlasacademy/api-connector";
+import MysticCodeBasic from "@atlasacademy/api-connector/dist/Schema/MysticCodeBasic";
 import {AxiosError} from "axios";
 import React from "react";
 import {Table} from "react-bootstrap";
@@ -7,9 +8,9 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
+import Manager from "../Setting/Manager";
 
 import "./MysticCodesPage.css";
-import Manager from "../Setting/Manager";
 
 interface IProps {
     region: Region;
@@ -18,7 +19,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    mysticCodes: MysticCode[];
+    mysticCodes: MysticCodeBasic[];
 }
 
 class MysticCodesPage extends React.Component<IProps, IState> {
@@ -77,8 +78,8 @@ class MysticCodesPage extends React.Component<IProps, IState> {
                                 </td>
                                 <td align={"center"}>
                                     <Link to={route}>
-                                        <FaceIcon location={mysticCode.extraAssets.item.male} height={50}/>
-                                        <FaceIcon location={mysticCode.extraAssets.item.female} height={50}/>
+                                        <FaceIcon location={mysticCode.item.male} height={50}/>
+                                        <FaceIcon location={mysticCode.item.female} height={50}/>
                                     </Link>
                                 </td>
                                 <td>

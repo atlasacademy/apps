@@ -1,4 +1,5 @@
 import {CommandCode, Region, Trait} from "@atlasacademy/api-connector";
+import CommandCodeBasic from "@atlasacademy/api-connector/dist/Schema/CommandCodeBasic";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -23,7 +24,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     id: number;
-    commandCodes: CommandCode[];
+    commandCodes: CommandCodeBasic[];
     commandCode?: CommandCode;
 }
 
@@ -45,7 +46,7 @@ class CommandCodePage extends React.Component<IProps, IState> {
 
     async loadCraftEssence() {
         try {
-            let [commandCodes, commandCode] = await Promise.all<CommandCode[], CommandCode, Trait[]>([
+            let [commandCodes, commandCode] = await Promise.all<CommandCodeBasic[], CommandCode, Trait[]>([
                 Api.commandCodeList(),
                 Api.commandCode(this.state.id),
                 Api.traitList()

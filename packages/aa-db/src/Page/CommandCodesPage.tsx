@@ -1,5 +1,7 @@
-import {CommandCode, Region} from "@atlasacademy/api-connector";
+import {Region} from "@atlasacademy/api-connector";
+import CommandCodeBasic from "@atlasacademy/api-connector/dist/Schema/CommandCodeBasic";
 import {AxiosError} from "axios";
+import diacritics from 'diacritics';
 import minimatch from "minimatch";
 import React from "react";
 import {Form, Table} from "react-bootstrap";
@@ -9,10 +11,9 @@ import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
-import diacritics from 'diacritics';
+import Manager from "../Setting/Manager";
 
 import "./CommandCodesPage.css";
-import Manager from "../Setting/Manager";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
@@ -25,7 +26,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    commandCodes: CommandCode[];
+    commandCodes: CommandCodeBasic[];
     search?: string;
 }
 
@@ -55,7 +56,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
         }
     }
 
-    private commandCodes(): CommandCode[] {
+    private commandCodes(): CommandCodeBasic[] {
         let list = this.state.commandCodes.slice().reverse();
 
         if (this.state.search) {
@@ -117,11 +118,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                                 <td align={"center"}>
                                     <Link to={route}>
                                         <FaceIcon rarity={commandCode.rarity}
-                                                  location={(
-                                                      commandCode.extraAssets.faces.cc
-                                                          ? commandCode.extraAssets.faces.cc[commandCode.id] ?? ''
-                                                          : ''
-                                                  )}
+                                                  location={commandCode.face}
                                                   height={50}/>
                                     </Link>
                                 </td>

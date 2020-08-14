@@ -1,4 +1,5 @@
 import {MysticCode, Region} from "@atlasacademy/api-connector";
+import MysticCodeBasic from "@atlasacademy/api-connector/dist/Schema/MysticCodeBasic";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -23,7 +24,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     id: number;
-    mysticCodes: MysticCode[];
+    mysticCodes: MysticCodeBasic[];
     mysticCode?: MysticCode;
 }
 
@@ -41,7 +42,7 @@ class MysticCodePage extends React.Component<IProps, IState> {
     async componentDidMount() {
         try {
             Manager.setRegion(this.props.region);
-            let [mysticCodes, mysticCode] = await Promise.all<MysticCode[], MysticCode>([
+            let [mysticCodes, mysticCode] = await Promise.all<MysticCodeBasic[], MysticCode>([
                 Api.mysticCodeList(),
                 Api.mysticCode(this.state.id),
             ]);

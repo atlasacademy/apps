@@ -58,10 +58,11 @@ class BuffsPage extends React.Component<IProps, IState> {
             searching: false,
             buffs: []
         };
+
+        Manager.setRegion(this.props.region);
     }
 
     componentDidUpdate() {
-        Manager.setRegion(this.props.region);
         stateCache.set(this.props.region, {...this.state});
     }
 
@@ -113,6 +114,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         <SearchableSelect<BuffType> id='select-BuffType'
                                                     options={Object.values(BuffType)}
                                                     labels={buffDescriptions}
+                                                    selected={this.state.type}
                                                     onChange={(value?: BuffType) => {
                                                         this.setState({type: value});
                                                     }}/>
