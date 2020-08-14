@@ -70,6 +70,10 @@ class TraitsSelector extends React.Component<IProps, IState> {
     }
 
     private removeTrait(trait: number) {
+        console.log(
+            trait,
+            this.props.traits.filter(_trait => _trait !== trait)
+        );
         this.props.onUpdate(
             this.props.traits.filter(_trait => _trait !== trait)
         );
@@ -81,7 +85,8 @@ class TraitsSelector extends React.Component<IProps, IState> {
 
                 <p>
                     {this.props.traits.length > 0 ? mergeElements(this.props.traits.map(trait => (
-                        <span style={{cursor: 'pointer'}}
+                        <span key={trait}
+                              style={{cursor: 'pointer'}}
                               onClick={(e) => {
                                   e.preventDefault();
                                   this.removeTrait(trait);
