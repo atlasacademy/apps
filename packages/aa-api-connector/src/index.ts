@@ -17,14 +17,19 @@ import QuestConsumeType from "./Enum/QuestConsumeType";
 import QuestType from "./Enum/QuestType";
 import Region from "./Enum/Region";
 import SkillType from "./Enum/SkillType";
+import BaseEntity from "./Schema/BaseEntity";
+import BaseEntityBasic from "./Schema/BaseEntityBasic";
 import Buff from "./Schema/Buff";
 import CommandCode from "./Schema/CommandCode";
+import CommandCodeBasic from "./Schema/CommandCodeBasic";
 import CraftEssence from "./Schema/CraftEssence";
 import CraftEssenceBasic from "./Schema/CraftEssenceBasic";
 import DataVal from "./Schema/DataVal";
+import Enemy from "./Schema/Enemy";
 import Func from "./Schema/Func";
 import Item from "./Schema/Item";
 import MysticCode from "./Schema/MysticCode";
+import MysticCodeBasic from "./Schema/MysticCodeBasic";
 import NoblePhantasm from "./Schema/NoblePhantasm";
 import Profile from "./Schema/Profile";
 import QuestPhase from "./Schema/QuestPhase";
@@ -36,16 +41,20 @@ import Trait from "./Schema/Trait";
 export {
     ApiConnector,
     Attribute,
+    BaseEntity,
+    BaseEntityBasic,
     Buff,
     BuffType,
     Card,
     ClassName,
     CommandCode,
+    CommandCodeBasic,
     CraftEssence,
     CraftEssenceBasic,
     DataVal,
     DataValField,
     EntityType,
+    Enemy,
     Func,
     FuncTargetTeam,
     FuncTargetType,
@@ -56,6 +65,7 @@ export {
     ItemType,
     Language,
     MysticCode,
+    MysticCodeBasic,
     NoblePhantasm,
     Profile,
     ProfileCommentConditionType,

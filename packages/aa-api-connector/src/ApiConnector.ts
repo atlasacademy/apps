@@ -1,18 +1,26 @@
 import axios from 'axios';
+import Attribute from "./Enum/Attribute";
 import BuffType from "./Enum/BuffType";
+import ClassName from "./Enum/ClassName";
+import EntityType from "./Enum/EntityType";
 import FuncTargetTeam from "./Enum/FuncTargetTeam";
 import FuncTargetType from "./Enum/FuncTargetType";
 import FuncType from "./Enum/FuncType";
+import Gender from "./Enum/Gender";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import ResultCache from "./ResultCache";
+import BaseEntity from "./Schema/BaseEntity";
+import BaseEntityBasic from "./Schema/BaseEntityBasic";
 import Buff from "./Schema/Buff";
 import CommandCode from "./Schema/CommandCode";
+import CommandCodeBasic from "./Schema/CommandCodeBasic";
 import CraftEssence from "./Schema/CraftEssence";
 import CraftEssenceBasic from "./Schema/CraftEssenceBasic";
 import Enemy from "./Schema/Enemy";
 import Func from "./Schema/Func";
 import MysticCode from "./Schema/MysticCode";
+import MysticCodeBasic from "./Schema/MysticCodeBasic";
 import NoblePhantasm from "./Schema/NoblePhantasm";
 import QuestPhase from "./Schema/QuestPhase";
 import Servant from "./Schema/Servant";
@@ -23,6 +31,15 @@ import Trait from "./Schema/Trait";
 interface BuffSearchOptions {
     name?: string;
     type?: BuffType;
+}
+
+interface EntitySearchOptions {
+    name?: string;
+    type?: EntityType;
+    className?: ClassName;
+    gender?: Gender;
+    attribute?: Attribute;
+    traits?: number[];
 }
 
 interface FuncSearchOptions {
@@ -45,13 +62,13 @@ class ApiConnector {
     private cache = {
         buff: new ResultCache<number, Buff>(),
         commandCode: new ResultCache<number, CommandCode>(),
-        commandCodeList: new ResultCache<null, CommandCode[]>(),
+        commandCodeList: new ResultCache<null, CommandCodeBasic[]>(),
         craftEssence: new ResultCache<number, CraftEssence>(),
         craftEssenceList: new ResultCache<null, CraftEssenceBasic[]>(),
         enemy: new ResultCache<number, Enemy>(),
         func: new ResultCache<number, Func>(),
         mysticCode: new ResultCache<number, MysticCode>(),
-        mysticCodeList: new ResultCache<null, MysticCode[]>(),
+        mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
         questPhase: new ResultCache<{ id: number, phase: number }, QuestPhase>(),
         servant: new ResultCache<number, Servant>(),
@@ -101,10 +118,10 @@ class ApiConnector {
         return this.cache.commandCode.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    async commandCodeList(cacheDuration?: number): Promise<CommandCode[]> {
+    async commandCodeList(cacheDuration?: number): Promise<CommandCodeBasic[]> {
         const fetch = () => {
-            return ApiConnector.fetch<CommandCode[]>(
-                `${this.host}/export/${this.region}/nice_command_code.json`
+            return ApiConnector.fetch<CommandCodeBasic[]>(
+                `${this.host}/export/${this.region}/basic_command_code.json`
             );
         };
 
@@ -183,10 +200,10 @@ class ApiConnector {
         return this.cache.mysticCode.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    mysticCodeList(cacheDuration?: number): Promise<MysticCode[]> {
+    mysticCodeList(cacheDuration?: number): Promise<MysticCodeBasic[]> {
         const fetch = () => {
-            return ApiConnector.fetch<MysticCode[]>(
-                `${this.host}/export/${this.region}/nice_mystic_code.json`
+            return ApiConnector.fetch<MysticCodeBasic[]>(
+                `${this.host}/export/${this.region}/basic_mystic_code.json`
             );
         }
 
@@ -305,7 +322,7 @@ class ApiConnector {
     }
 
     searchBuff(options: BuffSearchOptions): Promise<Buff[]> {
-        let query = "?reverse=true";
+        let query = "?reverse=true&reverseDepth=function";
 
         if (this.language === Language.ENGLISH)
             query += "&lang=en";
@@ -319,8 +336,33 @@ class ApiConnector {
         );
     }
 
+    searchEntity(options: EntitySearchOptions): Promise<BaseEntityBasic[]> {
+        const queryParts: string[] = [];
+
+        if (this.language === Language.ENGLISH)
+            queryParts.push('lang=en');
+        if (options.name)
+            queryParts.push('name=' + encodeURI(options.name));
+        if (options.type)
+            queryParts.push('type=' + options.type);
+        if (options.className)
+            queryParts.push('className=' + options.className);
+        if (options.gender)
+            queryParts.push('gender=' + options.gender);
+        if (options.attribute)
+            queryParts.push('attribute=' + options.attribute);
+        if (options.traits && options.traits.length > 0)
+            queryParts.push(...options.traits.map(trait => 'trait=' + trait));
+
+        const query = '?' + queryParts.join('&');
+
+        return ApiConnector.fetch<BaseEntityBasic[]>(
+            `${this.host}/basic/${this.region}/svt/search${query}`
+        );
+    }
+
     searchFunc(options: FuncSearchOptions): Promise<Func[]> {
-        let query = "?reverse=true";
+        let query = "?reverse=true&reverseDepth=servant";
 
         if (this.language === Language.ENGLISH)
             query += "&lang=en";

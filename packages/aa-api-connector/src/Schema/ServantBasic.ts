@@ -1,14 +1,8 @@
-import ClassName from "../Enum/ClassName";
 import EntityType from "../Enum/EntityType";
+import BaseEntityBasic from "./BaseEntityBasic";
 
-interface ServantBasic {
-    id: number,
-    collectionNo: number;
-    name: string;
-    type: EntityType;
-    className: ClassName;
-    rarity: number;
-    face: string;
+interface ServantBasic extends BaseEntityBasic {
+    type: EntityType.NORMAL | EntityType.HEROINE;
 }
 
 export default ServantBasic;

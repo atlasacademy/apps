@@ -9,7 +9,7 @@ enum EntityType {
     SVT_EQUIP_MATERIAL = "svtEquipMaterial",
     ENEMY_COLLECTION_DETAIL = "enemyCollectionDetail",
     ALL = "all",
-    COMMAND_CODE = "commandCode",
+    // COMMAND_CODE = "commandCode",
 }
 
 export default EntityType;
