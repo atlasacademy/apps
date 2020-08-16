@@ -3,7 +3,7 @@ import React from "react";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import BuffDescriptor from "../../Descriptor/BuffDescriptor";
-import TraitDescriptor from "../../Descriptor/TraitDescriptor";
+import TraitDescription from "../../Descriptor/TraitDescription";
 
 interface IProps {
     region: Region;
@@ -27,14 +27,14 @@ class FuncMainData extends React.Component<IProps> {
                 "Target Traits": (
                     <div>
                         {func.functvals.map((trait, index) => {
-                            return <TraitDescriptor key={index} region={this.props.region} trait={trait}/>;
+                            return <TraitDescription key={index} region={this.props.region} trait={trait}/>;
                         })}
                     </div>
                 ),
                 "Affects Traits": (
                     <div>
                         {func.traitVals?.map((trait, index) => {
-                            return <TraitDescriptor key={index} region={this.props.region} trait={trait}/>;
+                            return <TraitDescription key={index} region={this.props.region} trait={trait}/>;
                         })}
                     </div>
                 ),

@@ -3,7 +3,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import BuffIcon from "../Component/BuffIcon";
 import {joinElements, mergeElements} from "../Helper/OutputHelper";
-import TraitDescriptor from "./TraitDescriptor";
+import TraitDescription from "./TraitDescription";
 
 export const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
     {up: BuffType.ADD_MAXHP, down: BuffType.SUB_MAXHP, description: "Max HP"},
@@ -104,7 +104,7 @@ class BuffDescriptor extends React.Component<IProps> {
                 {' '}
                 {joinElements(
                     traits.map(
-                        trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                        trait => <TraitDescription region={this.props.region} trait={trait}/>
                     ),
                     ' & '
                 )}
@@ -149,7 +149,7 @@ class BuffDescriptor extends React.Component<IProps> {
                 {' vs. '}
                 {joinElements(
                     buff.ckOpIndv.map(trait => {
-                        return <TraitDescriptor region={this.props.region} trait={trait}/>;
+                        return <TraitDescription region={this.props.region} trait={trait}/>;
                     }),
                     ' & '
                 ).map((element, index) => {
@@ -182,7 +182,7 @@ class BuffDescriptor extends React.Component<IProps> {
             <React.Fragment>
                 {mergeElements(
                     this.props.buff.ckSelfIndv.map(
-                        trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                        trait => <TraitDescription region={this.props.region} trait={trait}/>
                     ),
                     ' & '
                 )}

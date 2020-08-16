@@ -3,7 +3,7 @@ import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
 import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
 import {mergeElements} from "../../Helper/OutputHelper";
-import TraitDescriptor from "../TraitDescriptor";
+import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal): void {
@@ -20,7 +20,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     ) {
         parts.push(
             <span>(additional to targets with {
-                <TraitDescriptor region={region} trait={dataVal.Target}/>
+                <TraitDescription region={region} trait={dataVal.Target}/>
             })</span>
         );
     } else if (
@@ -29,7 +29,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         && func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL_SUM
     ) {
         const traitIds = dataVal.TargetList,
-            traits = traitIds.map(id => <TraitDescriptor region={region} trait={id}/>);
+            traits = traitIds.map(id => <TraitDescription region={region} trait={id}/>);
 
         parts.push(
             <span>(bonus per trait of {mergeElements(traits, ' or ')}{
@@ -57,13 +57,13 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     ) {
         if (dataVal.Individuality) {
             parts.push(
-                <span>with <TraitDescriptor region={region} trait={Number(dataVal.Individuality)}/></span>
+                <span>with <TraitDescription region={region} trait={Number(dataVal.Individuality)}/></span>
             )
         }
 
         if (dataVal.EventId) {
             parts.push(
-                <span>during event <TraitDescriptor region={region} trait={Number(dataVal.EventId)}/></span>
+                <span>during event <TraitDescription region={region} trait={Number(dataVal.EventId)}/></span>
             )
         }
     }
@@ -72,7 +72,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('if on field');
         parts.push(
             mergeElements(
-                func.funcquestTvals.map(trait => <TraitDescriptor region={region} trait={trait}/>),
+                func.funcquestTvals.map(trait => <TraitDescription region={region} trait={trait}/>),
                 ' & '
             )
         );
@@ -89,7 +89,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             if (index > 0)
                 parts.push('&');
 
-            parts.push(<TraitDescriptor region={region} trait={trait}/>);
+            parts.push(<TraitDescription region={region} trait={trait}/>);
         });
     }
 

@@ -5,7 +5,7 @@ import React from "react";
 import BuffValueDescriptor from "../BuffValueDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
 import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
-import TraitDescriptor from "../TraitDescriptor";
+import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export default function (region: Region, sections: FuncDescriptorSections, func: Func, dataVal: DataVal, support?: boolean): void {
@@ -18,7 +18,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
 
     if (func.buffs[0]?.type === BuffType.ADD_INDIVIDUALITY && typeof dataVal.Value === "number") {
         parts.push(
-            <TraitDescriptor region={region} trait={dataVal.Value}/>
+            <TraitDescription region={region} trait={dataVal.Value}/>
         );
     } else if (
         (

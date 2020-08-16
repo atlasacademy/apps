@@ -9,7 +9,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
-import TraitDescriptor from "../Descriptor/TraitDescriptor";
+import TraitDescription from "../Descriptor/TraitDescription";
 import {mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 
@@ -86,7 +86,7 @@ class BuffPage extends React.Component<IProps, IState> {
                         <div>
                             {mergeElements(
                                 buff.vals.map(
-                                    trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                                    trait => <TraitDescription region={this.props.region} trait={trait}/>
                                 ),
                                 ' '
                             )}
@@ -96,7 +96,7 @@ class BuffPage extends React.Component<IProps, IState> {
                         <div>
                             {mergeElements(
                                 buff.tvals.map(
-                                    trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                                    trait => <TraitDescription region={this.props.region} trait={trait}/>
                                 ),
                                 ' '
                             )}
@@ -106,7 +106,7 @@ class BuffPage extends React.Component<IProps, IState> {
                         <div>
                             {mergeElements(
                                 buff.ckSelfIndv.map(
-                                    trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                                    trait => <TraitDescription region={this.props.region} trait={trait}/>
                                 ),
                                 ' '
                             )}
@@ -116,7 +116,7 @@ class BuffPage extends React.Component<IProps, IState> {
                         <div>
                             {mergeElements(
                                 buff.ckOpIndv.map(
-                                    trait => <TraitDescriptor region={this.props.region} trait={trait}/>
+                                    trait => <TraitDescription region={this.props.region} trait={trait}/>
                                 ),
                                 ' '
                             )}

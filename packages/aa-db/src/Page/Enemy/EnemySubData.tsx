@@ -2,7 +2,7 @@ import {Card, Region} from "@atlasacademy/api-connector";
 import Enemy from "@atlasacademy/api-connector/dist/Schema/Enemy";
 import React from "react";
 import DataTable from "../../Component/DataTable";
-import TraitDescriptor from "../../Descriptor/TraitDescriptor";
+import TraitDescription from "../../Descriptor/TraitDescription";
 import {asPercent, mergeElements, Renderable} from "../../Helper/OutputHelper";
 
 interface IProps {
@@ -53,7 +53,7 @@ class EnemySubData extends React.Component<IProps> {
 
     private traitList() {
         const parts = this.props.enemy.traits
-            .map(trait => <TraitDescriptor region={this.props.region} trait={trait}/>);
+            .map(trait => <TraitDescription region={this.props.region} trait={trait}/>);
 
         return <div>
             {mergeElements(parts, <br/>)}
