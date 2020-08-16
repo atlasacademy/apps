@@ -22,9 +22,9 @@ class Description extends React.Component<IProps> {
         return partial.value;
     }
 
-    private renderReference(partial: ReferencePartial, key: number) {
+    private static renderReferenceAsString(partial: ReferencePartial): string {
         if (partial.referenceType === ReferenceType.TRAIT) {
-            return <TraitDescription key={key} region={this.props.region} trait={partial.value}/>
+            return TraitDescription.renderAsString(partial.value);
         }
 
         return partial.value.toString();
@@ -61,6 +61,14 @@ class Description extends React.Component<IProps> {
         }
 
         return fragments.join();
+    }
+
+    private renderReference(partial: ReferencePartial, key: number) {
+        if (partial.referenceType === ReferenceType.TRAIT) {
+            return <TraitDescription key={key} region={this.props.region} trait={partial.value}/>
+        }
+
+        return partial.value.toString();
     }
 
     render() {

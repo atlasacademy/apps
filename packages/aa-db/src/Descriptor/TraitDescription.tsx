@@ -26,6 +26,12 @@ class TraitDescription extends React.Component<IProps, IState> {
         };
     }
 
+    static renderAsString(trait: Trait.Trait | number): string {
+        const descriptor = TraitDescriptor.describe(trait);
+
+        return Description.renderAsString(descriptor);
+    }
+
     async componentDidMount() {
         if (this.state.trait)
             return;

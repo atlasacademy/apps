@@ -1,4 +1,5 @@
 import {Buff, Region} from "@atlasacademy/api-connector";
+import {BuffDescriptor} from "@atlasacademy/api-descriptor";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AxiosError} from "axios";
@@ -8,7 +9,7 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
-import BuffDescriptor, {typeDescriptions, upDownBuffs} from "../Descriptor/BuffDescriptor";
+import BuffDescription from "../Descriptor/BuffDescription";
 import Manager from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
@@ -29,26 +30,11 @@ interface IState {
     type?: Buff.BuffType;
 }
 
-const buffDescriptions = new Map<Buff.BuffType, string>();
-Object.values(Buff.BuffType).forEach(type => {
-    let description;
-
-    for (let x in upDownBuffs) {
-        if (upDownBuffs[x].up === type)
-            description = upDownBuffs[x].description + ' Up';
-
-        if (upDownBuffs[x].down === type)
-            description = upDownBuffs[x].description + ' Down';
-    }
-
-    if (description === undefined) {
-        description = typeDescriptions.get(type);
-    }
-
-    if (description !== undefined) {
-        buffDescriptions.set(type, description);
-    }
-})
+const buffDescriptions = new Map<Buff.BuffType, string>(
+    Object.values(Buff.BuffType).map(type => {
+        return [type, BuffDescriptor.describeType(type)];
+    })
+);
 
 class BuffsPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -144,7 +130,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             <tr key={index}>
                                 <td>{buff.id}</td>
                                 <td>
-                                    <BuffDescriptor region={this.props.region} buff={buff}/>
+                                    <BuffDescription region={this.props.region} buff={buff}/>
                                 </td>
                                 <td>
                                     {(buff.reverse?.nice?.function ?? []).length}
