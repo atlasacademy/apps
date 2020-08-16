@@ -1,10 +1,11 @@
-import EntityType from "../Enum/EntityType";
-import BaseEntity from "./BaseEntity";
-import Profile from "./Profile";
+import {Entity, EntityBasic, EntityType} from "./Entity";
+import {Profile} from "./Profile";
 
-interface Servant extends BaseEntity {
+export interface Servant extends Entity {
     type: EntityType.NORMAL | EntityType.HEROINE;
     profile?: Profile,
 }
 
-export default Servant;
+export interface ServantBasic extends EntityBasic {
+    type: EntityType.NORMAL | EntityType.HEROINE;
+}

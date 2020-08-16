@@ -1,7 +1,7 @@
 import Card from "../Enum/Card";
-import BaseEntity from "./BaseEntity";
-import Func from "./Func";
-import Trait from "./Trait";
+import {Entity} from "./Entity";
+import {Func} from "./Func";
+import {Trait} from "./Trait";
 
 export interface NoblePhantasmGain {
     buster: number[];
@@ -12,7 +12,7 @@ export interface NoblePhantasmGain {
     np: number[];
 }
 
-interface NoblePhantasm {
+export interface NoblePhantasm {
     id: number;
     num: number;
     card: Card;
@@ -31,9 +31,7 @@ interface NoblePhantasm {
     functions: Func[];
     reverse?: {
         nice?: {
-            servant?: BaseEntity[];
+            servant?: Entity[];
         }
     }
 }
-
-export default NoblePhantasm;

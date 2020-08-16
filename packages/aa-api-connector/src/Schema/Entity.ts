@@ -1,12 +1,37 @@
-import Attribute from "../Enum/Attribute";
 import Card from "../Enum/Card";
 import ClassName from "../Enum/ClassName";
-import EntityType from "../Enum/EntityType";
-import Gender from "../Enum/Gender";
-import Item from "./Item";
-import NoblePhantasm from "./NoblePhantasm";
-import Skill from "./Skill";
-import Trait from "./Trait";
+import {Item} from "./Item";
+import {NoblePhantasm} from "./NoblePhantasm";
+import {Skill} from "./Skill";
+import {Trait} from "./Trait";
+
+export enum Attribute {
+    HUMAN = "human",
+    SKY = "sky",
+    EARTH = "earth",
+    STAR = "star",
+    BEAST = "beast",
+}
+
+export enum EntityType {
+    NORMAL = "normal",
+    HEROINE = "heroine",
+    COMBINE_MATERIAL = "combineMaterial",
+    ENEMY = "enemy",
+    ENEMY_COLLECTION = "enemyCollection",
+    SERVANT_EQUIP = "servantEquip",
+    STATUS_UP = "statusUp",
+    SVT_EQUIP_MATERIAL = "svtEquipMaterial",
+    ENEMY_COLLECTION_DETAIL = "enemyCollectionDetail",
+    ALL = "all",
+    // COMMAND_CODE = "commandCode",
+}
+
+export enum Gender {
+    MALE = "male",
+    FEMALE = "female",
+    UNKNOWN = "unknown",
+}
 
 export interface EntityAssetMap {
     ascension?: {
@@ -42,7 +67,7 @@ export interface EntityLevelUpMaterialProgression {
     [key: string]: EntityLevelUpMaterials;
 }
 
-interface BaseEntity {
+export interface Entity {
     id: number;
     collectionNo: number;
     name: string;
@@ -83,4 +108,12 @@ interface BaseEntity {
     noblePhantasms: NoblePhantasm[];
 }
 
-export default BaseEntity;
+export interface EntityBasic {
+    id: number,
+    collectionNo: number;
+    name: string;
+    type: EntityType;
+    className: ClassName;
+    rarity: number;
+    face: string;
+}

@@ -1,17 +1,17 @@
-import Skill from "./Skill";
+import {Skill} from "./Skill";
 
-export interface CraftEssenceAssetMap {
+export interface CommandCodeAssetMap {
     cc?: {
         [key: number]: string;
     }
 }
 
 export interface CommandCodeAssets {
-    charaGraph: CraftEssenceAssetMap;
-    faces: CraftEssenceAssetMap;
+    charaGraph: CommandCodeAssetMap;
+    faces: CommandCodeAssetMap;
 }
 
-interface CommandCode {
+export interface CommandCode {
     id: number;
     collectionNo: number;
     name: string;
@@ -21,4 +21,10 @@ interface CommandCode {
     comment: string;
 }
 
-export default CommandCode;
+export interface CommandCodeBasic {
+    id: number;
+    collectionNo: number;
+    name: string;
+    rarity: number;
+    face: string;
+}

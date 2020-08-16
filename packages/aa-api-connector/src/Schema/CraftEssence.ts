@@ -1,10 +1,11 @@
-import EntityType from "../Enum/EntityType";
-import BaseEntity from "./BaseEntity";
-import Profile from "./Profile";
+import {Entity, EntityBasic, EntityType} from "./Entity";
+import {Profile} from "./Profile";
 
-interface CraftEssence extends BaseEntity {
+export interface CraftEssence extends Entity {
     type: EntityType.SERVANT_EQUIP;
     profile?: Profile;
 }
 
-export default CraftEssence;
+export interface CraftEssenceBasic extends EntityBasic {
+    type: EntityType.SERVANT_EQUIP;
+}

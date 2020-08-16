@@ -1,9 +1,23 @@
 import ClassName from "../Enum/ClassName";
-import QuestConsumeType from "../Enum/QuestConsumeType";
-import QuestType from "../Enum/QuestType";
-import Trait from "./Trait";
+import {Trait} from "./Trait";
 
-interface QuestPhase {
+export enum QuestConsumeType {
+    NONE = "none",
+    AP = "ap",
+    RP = "rp",
+    ITEM = "item",
+    AP_ADD_ITEM = "apAddItem",
+}
+
+export enum QuestType {
+    MAIN = "main",
+    FREE = "free",
+    FRIENDSHIP = "friendship",
+    EVENT = "event",
+    HERO_BALLAD = "heroballad",
+}
+
+export interface QuestPhase {
     id: number;
     phase: number;
     name: string;
@@ -20,5 +34,3 @@ interface QuestPhase {
     openedAt: number;
     closedAt: number;
 }
-
-export default QuestPhase;

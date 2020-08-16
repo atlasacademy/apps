@@ -1,4 +1,4 @@
-import Skill from "./Skill";
+import {Skill} from "./Skill";
 
 export interface MysticCodeAssets {
     item: {
@@ -15,7 +15,7 @@ export interface MysticCodeAssets {
     }
 }
 
-interface MysticCode {
+export interface MysticCode {
     id: number;
     name: string;
     detail: string;
@@ -25,4 +25,11 @@ interface MysticCode {
     expRequired: number[];
 }
 
-export default MysticCode;
+export interface MysticCodeBasic {
+    id: number;
+    name: string;
+    item: {
+        male: string;
+        female: string;
+    }
+}

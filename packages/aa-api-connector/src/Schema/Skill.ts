@@ -1,11 +1,13 @@
-import SkillType from "../Enum/SkillType";
-import BaseEntity from "./BaseEntity";
-import CommandCode from "./CommandCode";
-import CraftEssence from "./CraftEssence";
-import Func from "./Func";
-import MysticCode from "./MysticCode";
-import Servant from "./Servant";
-import Trait from "./Trait";
+import {CommandCode} from "./CommandCode";
+import {Entity} from "./Entity";
+import {Func} from "./Func";
+import {MysticCode} from "./MysticCode";
+import {Trait} from "./Trait";
+
+export enum SkillType {
+    ACTIVE = 'active',
+    PASSIVE = 'passive'
+}
 
 export interface SkillScript {
     NP_HIGHER?: number[];
@@ -18,7 +20,7 @@ export interface SkillScript {
     HP_PER_LOWER?: number[];
 }
 
-interface Skill {
+export interface Skill {
     id: number;
     num?: number;
     name: string;
@@ -35,11 +37,9 @@ interface Skill {
     functions: Func[];
     reverse?: {
         nice?: {
-            servant?: BaseEntity[],
+            servant?: Entity[],
             MC?: MysticCode[],
             CC?: CommandCode[],
         }
     }
 }
-
-export default Skill;

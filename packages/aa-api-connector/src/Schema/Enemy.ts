@@ -1,8 +1,5 @@
-import EntityType from "../Enum/EntityType";
-import BaseEntity from "./BaseEntity";
+import {Entity, EntityType} from "./Entity";
 
-interface Enemy extends BaseEntity {
+export interface Enemy extends Entity {
     type: EntityType.ENEMY;
 }
-
-export default Enemy;

@@ -1,81 +1,45 @@
 import ApiConnector from "./ApiConnector";
-import Attribute from "./Enum/Attribute";
-import BuffType from "./Enum/BuffType";
 import Card from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
-import DataValField from "./Enum/DataValField";
-import EntityType from "./Enum/EntityType";
-import FuncTargetTeam from "./Enum/FuncTargetTeam";
-import FuncTargetType from "./Enum/FuncTargetType";
-import FuncType from "./Enum/FuncType";
-import Gender from "./Enum/Gender";
-import ItemBackgroundType from "./Enum/ItemBackgroundType";
-import ItemType from "./Enum/ItemType";
 import Language from "./Enum/Language";
-import ProfileCommentConditionType from "./Enum/ProfileCommentConditionType";
-import QuestConsumeType from "./Enum/QuestConsumeType";
-import QuestType from "./Enum/QuestType";
 import Region from "./Enum/Region";
-import SkillType from "./Enum/SkillType";
-import BaseEntity from "./Schema/BaseEntity";
-import BaseEntityBasic from "./Schema/BaseEntityBasic";
-import Buff from "./Schema/Buff";
-import CommandCode from "./Schema/CommandCode";
-import CommandCodeBasic from "./Schema/CommandCodeBasic";
-import CraftEssence from "./Schema/CraftEssence";
-import CraftEssenceBasic from "./Schema/CraftEssenceBasic";
-import DataVal from "./Schema/DataVal";
-import Enemy from "./Schema/Enemy";
-import Func from "./Schema/Func";
-import Item from "./Schema/Item";
-import MysticCode from "./Schema/MysticCode";
-import MysticCodeBasic from "./Schema/MysticCodeBasic";
-import NoblePhantasm from "./Schema/NoblePhantasm";
-import Profile from "./Schema/Profile";
-import QuestPhase from "./Schema/QuestPhase";
-import Servant from "./Schema/Servant";
-import ServantBasic from "./Schema/ServantBasic";
-import Skill from "./Schema/Skill";
-import Trait from "./Schema/Trait";
+import * as Buff from "./Schema/Buff";
+import * as CommandCode from "./Schema/CommandCode";
+import * as CraftEssence from "./Schema/CraftEssence";
+import * as DataVal from "./Schema/DataVal";
+import * as Enemy from "./Schema/Enemy";
+import * as Entity from "./Schema/Entity";
+import * as Func from "./Schema/Func";
+import * as Item from "./Schema/Item";
+import * as MysticCode from "./Schema/MysticCode";
+import * as NoblePhantasm from "./Schema/NoblePhantasm";
+import * as Profile from "./Schema/Profile";
+import * as Quest from "./Schema/Quest";
+import * as Servant from "./Schema/Servant";
+import * as Skill from "./Schema/Skill";
+import * as Trait from "./Schema/Trait";
 
 export {
     ApiConnector,
-    Attribute,
-    BaseEntity,
-    BaseEntityBasic,
-    Buff,
-    BuffType,
+
     Card,
     ClassName,
-    CommandCode,
-    CommandCodeBasic,
-    CraftEssence,
-    CraftEssenceBasic,
-    DataVal,
-    DataValField,
-    EntityType,
-    Enemy,
-    Func,
-    FuncTargetTeam,
-    FuncTargetType,
-    FuncType,
-    Gender,
-    Item,
-    ItemBackgroundType,
-    ItemType,
     Language,
+    Region,
+
+    Buff,
+    CommandCode,
+    CraftEssence,
+    DataVal,
+    Enemy,
+    Entity,
+    Func,
+    Item,
     MysticCode,
-    MysticCodeBasic,
     NoblePhantasm,
     Profile,
-    ProfileCommentConditionType,
-    QuestConsumeType,
-    QuestPhase,
-    QuestType,
-    Region,
+    Quest,
     Servant,
-    ServantBasic,
     Skill,
-    SkillType,
-    Trait
-};
+    Trait,
+}

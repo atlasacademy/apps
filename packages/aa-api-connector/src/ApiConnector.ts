@@ -1,32 +1,20 @@
 import axios from 'axios';
-import Attribute from "./Enum/Attribute";
-import BuffType from "./Enum/BuffType";
 import ClassName from "./Enum/ClassName";
-import EntityType from "./Enum/EntityType";
-import FuncTargetTeam from "./Enum/FuncTargetTeam";
-import FuncTargetType from "./Enum/FuncTargetType";
-import FuncType from "./Enum/FuncType";
-import Gender from "./Enum/Gender";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import ResultCache from "./ResultCache";
-import BaseEntity from "./Schema/BaseEntity";
-import BaseEntityBasic from "./Schema/BaseEntityBasic";
-import Buff from "./Schema/Buff";
-import CommandCode from "./Schema/CommandCode";
-import CommandCodeBasic from "./Schema/CommandCodeBasic";
-import CraftEssence from "./Schema/CraftEssence";
-import CraftEssenceBasic from "./Schema/CraftEssenceBasic";
-import Enemy from "./Schema/Enemy";
-import Func from "./Schema/Func";
-import MysticCode from "./Schema/MysticCode";
-import MysticCodeBasic from "./Schema/MysticCodeBasic";
-import NoblePhantasm from "./Schema/NoblePhantasm";
-import QuestPhase from "./Schema/QuestPhase";
-import Servant from "./Schema/Servant";
-import ServantBasic from "./Schema/ServantBasic";
-import Skill from "./Schema/Skill";
-import Trait from "./Schema/Trait";
+import {Buff, BuffType} from "./Schema/Buff";
+import {CommandCode, CommandCodeBasic} from "./Schema/CommandCode";
+import {CraftEssence, CraftEssenceBasic} from "./Schema/CraftEssence";
+import {Enemy} from "./Schema/Enemy";
+import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
+import {Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
+import {MysticCode, MysticCodeBasic} from "./Schema/MysticCode";
+import {NoblePhantasm} from "./Schema/NoblePhantasm";
+import {QuestPhase} from "./Schema/Quest";
+import {Servant, ServantBasic} from "./Schema/Servant";
+import {Skill} from "./Schema/Skill";
+import {Trait} from "./Schema/Trait";
 
 interface BuffSearchOptions {
     name?: string;
@@ -336,7 +324,7 @@ class ApiConnector {
         );
     }
 
-    searchEntity(options: EntitySearchOptions): Promise<BaseEntityBasic[]> {
+    searchEntity(options: EntitySearchOptions): Promise<EntityBasic[]> {
         const queryParts: string[] = [];
 
         if (this.language === Language.ENGLISH)
@@ -356,7 +344,7 @@ class ApiConnector {
 
         const query = '?' + queryParts.join('&');
 
-        return ApiConnector.fetch<BaseEntityBasic[]>(
+        return ApiConnector.fetch<EntityBasic[]>(
             `${this.host}/basic/${this.region}/svt/search${query}`
         );
     }
