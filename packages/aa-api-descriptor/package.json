@@ -1,6 +1,6 @@
 {
   "name": "@atlasacademy/api-descriptor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Library to describe entities from api.atlasacademy.io",
   "homepage": "https://github.com/atlasacademy/aa-api-descriptor",
   "main": "dist/index.js",

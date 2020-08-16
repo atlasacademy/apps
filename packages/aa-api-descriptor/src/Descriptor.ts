@@ -6,6 +6,7 @@ export enum PartialType {
 }
 
 export enum ReferenceType {
+    BUFF = 'buff',
     TRAIT = 'trait',
 }
 
