@@ -4,7 +4,7 @@ import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
 import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
 import BuffDescriptor from "../BuffDescriptor";
-import TraitDescriptor from "../TraitDescriptor";
+import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export const funcDescriptions = new Map<FuncType, string>([
@@ -91,7 +91,7 @@ function handleCleanseActionSection(region: Region, sections: FuncDescriptorSect
             if (index > 0)
                 parts.push('or');
 
-            parts.push(<TraitDescriptor region={region} trait={trait}/>);
+            parts.push(<TraitDescription region={region} trait={trait}/>);
         });
     }
 
@@ -109,7 +109,7 @@ function handleChargeNpPerTraitActionSection(region: Region, sections: FuncDescr
             if (index > 0)
                 parts.push('&');
 
-            parts.push(<TraitDescriptor region={region} trait={trait}/>);
+            parts.push(<TraitDescription region={region} trait={trait}/>);
         });
     }
 

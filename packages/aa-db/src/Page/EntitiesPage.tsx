@@ -57,7 +57,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        const defaultState : IState = {
+        const defaultState: IState = {
             loading: true,
             traitList: [],
             searching: false,
@@ -104,7 +104,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
         switch (entity.type) {
             case EntityType.NORMAL:
             case EntityType.HEROINE:
-                return `/${this.props.region}/servant/${entity.id}`;
+                return entity.collectionNo === 0
+                    ? `/${this.props.region}/enemy/${entity.id}`
+                    : `/${this.props.region}/servant/${entity.id}`;
             case EntityType.SERVANT_EQUIP:
                 return `/${this.props.region}/craft-essence/${entity.id}`;
             case EntityType.ENEMY:
@@ -119,6 +121,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
     private async search() {
         // no filter set
         if (!this.state.name
+            && !this.state.type
             && !this.state.className
             && !this.state.gender
             && !this.state.attribute

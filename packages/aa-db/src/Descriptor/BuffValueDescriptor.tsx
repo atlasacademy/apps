@@ -3,7 +3,7 @@ import BuffType from "@atlasacademy/api-connector/dist/Enum/BuffType";
 import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import React from "react";
 import {asPercent, mergeElements, Renderable} from "../Helper/OutputHelper";
-import TraitDescriptor from "./TraitDescriptor";
+import TraitDescription from "./TraitDescription";
 
 interface IProps {
     region: Region;
@@ -64,7 +64,7 @@ class BuffValueDescriptor extends React.Component<IProps> {
             case BuffType.DEAD_FUNCTION:
             case BuffType.DELAY_FUNCTION:
             case BuffType.FIELD_INDIVIDUALITY:
-                    part = <TraitDescriptor region={this.props.region} trait={value}/>;
+                    part = <TraitDescription region={this.props.region} trait={value}/>;
                 break;
             case BuffType.CHANGE_COMMAND_CARD_TYPE:
                 // TODO: CardDescriptor

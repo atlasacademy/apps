@@ -1,6 +1,6 @@
 import {Region, Trait} from "@atlasacademy/api-connector";
 import React from "react";
-import TraitDescriptor from "../../Descriptor/TraitDescriptor";
+import TraitDescription from "../../Descriptor/TraitDescription";
 import {joinElements} from "../../Helper/OutputHelper";
 
 interface IProps {
@@ -13,7 +13,7 @@ class ServantTraits extends React.Component<IProps> {
         return (
             <div>
                 {joinElements(
-                    this.props.traits.map(trait => <TraitDescriptor region={this.props.region} trait={trait}/>),
+                    this.props.traits.map(trait => <TraitDescription region={this.props.region} trait={trait}/>),
                     ', '
                 ).map(
                     (element, index) => <span key={index}>{element}</span>

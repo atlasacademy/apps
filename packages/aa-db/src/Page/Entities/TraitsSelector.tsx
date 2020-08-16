@@ -1,10 +1,12 @@
 import {Region, Trait} from "@atlasacademy/api-connector";
+import {TraitDescriptor} from "@atlasacademy/api-descriptor";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {RefObject} from "react";
 import {Badge} from "react-bootstrap";
 import {Typeahead} from "react-bootstrap-typeahead";
-import TraitDescriptor, {traitDescriptions} from "../../Descriptor/TraitDescriptor";
+import Description from "../../Descriptor/Description";
+import TraitDescription from "../../Descriptor/TraitDescription";
 import {mergeElements} from "../../Helper/OutputHelper";
 
 interface IProps {
@@ -30,7 +32,8 @@ class TraitsSelector extends React.Component<IProps, IState> {
 
     private options() {
         return this.props.traitList.map(trait => {
-            let label = traitDescriptions.get(trait.id) ?? `(${trait.name})`;
+            const descriptor = TraitDescriptor.describe(trait),
+                label = Description.renderAsString(descriptor);
 
             return {
                 label: `${trait.id.toString().padStart(4, '0')} - ${label}`,
@@ -91,7 +94,7 @@ class TraitsSelector extends React.Component<IProps, IState> {
                                   this.removeTrait(trait);
                               }}>
                             <Badge variant='primary'>
-                                <TraitDescriptor region={this.props.region} trait={trait} disableLink={true}/>
+                                <TraitDescription region={this.props.region} trait={trait} disableLink={true}/>
                                 &nbsp;
                                 <FontAwesomeIcon icon={faTimesCircle}/>
                             </Badge>
