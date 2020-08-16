@@ -1,7 +1,7 @@
-import {ClassName, Region, ServantBasic} from "@atlasacademy/api-connector";
+import {ClassName, Region, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
-
 import diacritics from 'diacritics';
+import minimatch from "minimatch";
 import React from "react";
 import {Form, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -12,7 +12,6 @@ import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import Manager from "../Setting/Manager";
-import minimatch from "minimatch";
 
 import './ServantsPage.css';
 
@@ -42,7 +41,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    servants: ServantBasic[];
+    servants: Servant.ServantBasic[];
     activeClassFilters: ClassName[];
     activeRarityFilters: number[];
     search?: string;
@@ -130,7 +129,7 @@ class ServantsPage extends React.Component<IProps, IState> {
         }
     }
 
-    private servants(): ServantBasic[] {
+    private servants(): Servant.ServantBasic[] {
         let list = this.state.servants.slice().reverse();
 
         if (this.state.activeRarityFilters.length > 0) {

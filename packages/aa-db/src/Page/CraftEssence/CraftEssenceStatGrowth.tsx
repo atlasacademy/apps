@@ -5,7 +5,7 @@ import {formatNumber} from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
-    craftEssence: CraftEssence;
+    craftEssence: CraftEssence.CraftEssence;
 }
 
 class CraftEssenceStatGrowth extends React.Component<IProps> {

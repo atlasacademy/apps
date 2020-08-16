@@ -4,7 +4,7 @@ import {Table} from "react-bootstrap";
 
 interface IProps {
     region: Region;
-    profile?: Profile;
+    profile?: Profile.Profile;
 }
 
 class ServantProfileStats extends React.Component<IProps> {

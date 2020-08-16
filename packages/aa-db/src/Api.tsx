@@ -1,29 +1,18 @@
 import {
     ApiConnector,
-    Attribute,
-    BaseEntityBasic,
     Buff,
-    BuffType,
     ClassName,
     CommandCode,
-    CommandCodeBasic,
     CraftEssence,
-    CraftEssenceBasic,
     Enemy,
-    EntityType,
+    Entity,
     Func,
-    FuncTargetTeam,
-    FuncTargetType,
-    FuncType,
-    Gender,
     Language,
     MysticCode,
-    MysticCodeBasic,
     NoblePhantasm,
-    QuestPhase,
+    Quest,
     Region,
     Servant,
-    ServantBasic,
     Skill,
     Trait
 } from "@atlasacademy/api-connector";
@@ -43,85 +32,85 @@ class Api {
         apiConnector = new ApiConnector({host, region, language});
     }
 
-    static buff(id: number): Promise<Buff> {
+    static buff(id: number): Promise<Buff.Buff> {
         return apiConnector.buff(id, cacheDuration);
     }
 
-    static commandCode(id: number): Promise<CommandCode> {
+    static commandCode(id: number): Promise<CommandCode.CommandCode> {
         return apiConnector.commandCode(id, cacheDuration);
     }
 
-    static async commandCodeList(): Promise<CommandCodeBasic[]> {
+    static async commandCodeList(): Promise<CommandCode.CommandCodeBasic[]> {
         return apiConnector.commandCodeList(-1);
     }
 
-    static craftEssence(id: number): Promise<CraftEssence> {
+    static craftEssence(id: number): Promise<CraftEssence.CraftEssence> {
         return apiConnector.craftEssence(id, cacheDuration);
     }
 
-    static async craftEssenceList(): Promise<CraftEssenceBasic[]> {
+    static async craftEssenceList(): Promise<CraftEssence.CraftEssenceBasic[]> {
         return apiConnector.craftEssenceList(-1);
     }
 
-    static async enemy(id: number): Promise<Enemy> {
+    static async enemy(id: number): Promise<Enemy.Enemy> {
         return apiConnector.enemy(id);
     }
 
-    static func(id: number): Promise<Func> {
+    static func(id: number): Promise<Func.Func> {
         return apiConnector.func(id, cacheDuration);
     }
 
-    static mysticCode(id: number): Promise<MysticCode> {
+    static mysticCode(id: number): Promise<MysticCode.MysticCode> {
         return apiConnector.mysticCode(id, cacheDuration);
     }
 
-    static async mysticCodeList(): Promise<MysticCodeBasic[]> {
+    static async mysticCodeList(): Promise<MysticCode.MysticCodeBasic[]> {
         return apiConnector.mysticCodeList(-1);
     }
 
-    static noblePhantasm(id: number): Promise<NoblePhantasm> {
+    static noblePhantasm(id: number): Promise<NoblePhantasm.NoblePhantasm> {
         return apiConnector.noblePhantasm(id, cacheDuration);
     }
 
-    static questPhase(id: number, phase: number): Promise<QuestPhase> {
+    static questPhase(id: number, phase: number): Promise<Quest.QuestPhase> {
         return apiConnector.questPhase(id, phase, cacheDuration);
     }
 
-    static servant(id: number): Promise<Servant> {
+    static servant(id: number): Promise<Servant.Servant> {
         return apiConnector.servant(id, cacheDuration);
     }
 
-    static async servantList(): Promise<ServantBasic[]> {
+    static async servantList(): Promise<Servant.ServantBasic[]> {
         return apiConnector.servantList(-1);
     }
 
-    static skill(id: number): Promise<Skill> {
+    static skill(id: number): Promise<Skill.Skill> {
         return apiConnector.skill(id, cacheDuration);
     }
 
-    static traitList(): Promise<Trait[]> {
+    static traitList(): Promise<Trait.Trait[]> {
         return apiConnector.traitList(-1);
     }
 
-    static searchBuffs(name?: string, type?: BuffType): Promise<Buff[]> {
+    static searchBuffs(name?: string, type?: Buff.BuffType): Promise<Buff.Buff[]> {
         return apiConnector.searchBuff({name, type});
     }
 
     static searchEntity(name?: string,
-                        type?: EntityType,
+                        type?: Entity.EntityType,
                         className?: ClassName,
-                        gender?: Gender,
-                        attribute?: Attribute,
-                        traits?: number[]): Promise<BaseEntityBasic[]> {
+                        gender?: Entity.Gender,
+                        attribute?: Entity.Attribute,
+                        traits?: number[]): Promise<Entity.EntityBasic[]> {
         return apiConnector.searchEntity({
             name, type, className, gender, attribute, traits
         });
     }
 
     static searchFuncs(text?: string,
-                       type?: FuncType,
-                       target?: FuncTargetType,
-                       team?: FuncTargetTeam): Promise<Func[]> {
+                       type?: Func.FuncType,
+                       target?: Func.FuncTargetType,
+                       team?: Func.FuncTargetTeam): Promise<Func.Func[]> {
         return apiConnector.searchFunc({text, type, target, team});
     }
 

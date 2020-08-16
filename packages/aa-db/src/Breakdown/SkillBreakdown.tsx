@@ -8,7 +8,7 @@ import EffectBreakdown from "./EffectBreakdown";
 
 interface IProps {
     region: Region;
-    skill: Skill;
+    skill: Skill.Skill;
     cooldowns: boolean;
     levels?: number;
 }

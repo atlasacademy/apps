@@ -7,13 +7,13 @@ import Description from "./Description";
 
 interface IProps {
     region: Region;
-    trait: Trait | number;
+    trait: Trait.Trait | number;
     disableLink?: boolean;
 }
 
 interface IState {
     id: number;
-    trait?: Trait;
+    trait?: Trait.Trait;
 }
 
 class TraitDescription extends React.Component<IProps, IState> {
@@ -43,7 +43,7 @@ class TraitDescription extends React.Component<IProps, IState> {
         }
     }
 
-    private getDescription(trait: Trait | number) {
+    private getDescription(trait: Trait.Trait | number) {
         const descriptor = TraitDescriptor.describe(trait);
 
         return <Description region={this.props.region} descriptor={descriptor}/>;

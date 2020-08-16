@@ -1,4 +1,4 @@
-import {Attribute, BaseEntityBasic, ClassName, EntityType, Gender, Region, Trait} from "@atlasacademy/api-connector";
+import {ClassName, Entity, Region, Trait} from "@atlasacademy/api-connector";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AxiosError} from "axios";
@@ -14,19 +14,19 @@ import SearchableSelect from "../Component/SearchableSelect";
 import Manager from "../Setting/Manager";
 import TraitsSelector from "./Entities/TraitsSelector";
 
-const attributeDescriptions = new Map<Attribute, string>(),
+const attributeDescriptions = new Map<Entity.Attribute, string>(),
     classNameDescriptions = new Map<ClassName, string>(),
-    entityTypeDescriptions = new Map<EntityType, string>([
-        [EntityType.NORMAL, 'Servant'],
-        [EntityType.HEROINE, 'Servant (Mash)'],
-        [EntityType.COMBINE_MATERIAL, 'Exp Card'],
-        [EntityType.ENEMY, 'Enemy'],
-        [EntityType.ENEMY_COLLECTION, 'Enemy Servant'],
-        [EntityType.ENEMY_COLLECTION_DETAIL, 'Boss'],
-        [EntityType.SERVANT_EQUIP, 'Craft Essence'],
-        [EntityType.STATUS_UP, 'Fou Card'],
+    entityTypeDescriptions = new Map<Entity.EntityType, string>([
+        [Entity.EntityType.NORMAL, 'Servant'],
+        [Entity.EntityType.HEROINE, 'Servant (Mash)'],
+        [Entity.EntityType.COMBINE_MATERIAL, 'Exp Card'],
+        [Entity.EntityType.ENEMY, 'Enemy'],
+        [Entity.EntityType.ENEMY_COLLECTION, 'Enemy Servant'],
+        [Entity.EntityType.ENEMY_COLLECTION_DETAIL, 'Boss'],
+        [Entity.EntityType.SERVANT_EQUIP, 'Craft Essence'],
+        [Entity.EntityType.STATUS_UP, 'Fou Card'],
     ]),
-    genderDescriptions = new Map<Gender, string>();
+    genderDescriptions = new Map<Entity.Gender, string>();
 
 let stateCache = new Map<Region, IState>([]);
 
@@ -42,14 +42,14 @@ interface IProps extends RouteComponentProps {
 interface IState {
     loading: boolean;
     error?: AxiosError;
-    traitList: Trait[];
+    traitList: Trait.Trait[];
     searching: boolean;
-    entities: BaseEntityBasic[];
+    entities: Entity.EntityBasic[];
     name?: string;
-    type?: EntityType;
+    type?: Entity.EntityType;
     className?: ClassName;
-    gender?: Gender;
-    attribute?: Attribute;
+    gender?: Entity.Gender;
+    attribute?: Entity.Attribute;
     traits: number[];
 }
 
@@ -100,18 +100,18 @@ class EntitiesPage extends React.Component<IProps, IState> {
         stateCache.set(this.props.region, {...this.state});
     }
 
-    private location(entity: BaseEntityBasic): string | undefined {
+    private location(entity: Entity.EntityBasic): string | undefined {
         switch (entity.type) {
-            case EntityType.NORMAL:
-            case EntityType.HEROINE:
+            case Entity.EntityType.NORMAL:
+            case Entity.EntityType.HEROINE:
                 return entity.collectionNo === 0
                     ? `/${this.props.region}/enemy/${entity.id}`
                     : `/${this.props.region}/servant/${entity.id}`;
-            case EntityType.SERVANT_EQUIP:
+            case Entity.EntityType.SERVANT_EQUIP:
                 return `/${this.props.region}/craft-essence/${entity.id}`;
-            case EntityType.ENEMY:
-            case EntityType.ENEMY_COLLECTION:
-            case EntityType.ENEMY_COLLECTION_DETAIL:
+            case Entity.EntityType.ENEMY:
+            case Entity.EntityType.ENEMY_COLLECTION:
+            case Entity.EntityType.ENEMY_COLLECTION_DETAIL:
                 return `/${this.props.region}/enemy/${entity.id}`;
         }
 
@@ -180,11 +180,11 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
                     <Form.Group>
                         <Form.Label>Type</Form.Label>
-                        <SearchableSelect<EntityType> id='select-EntityType'
-                                                      options={Object.values(EntityType)}
+                        <SearchableSelect<Entity.EntityType> id='select-EntityType'
+                                                      options={Object.values(Entity.EntityType)}
                                                       labels={entityTypeDescriptions}
                                                       selected={this.state.type}
-                                                      onChange={(value?: EntityType) => {
+                                                      onChange={(value?: Entity.EntityType) => {
                                                           this.setState({type: value});
                                                       }}/>
                     </Form.Group>
@@ -206,22 +206,22 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
                     <Form.Group>
                         <Form.Label>Gender</Form.Label>
-                        <SearchableSelect<Gender> id='select-Gender'
-                                                  options={Object.values(Gender)}
+                        <SearchableSelect<Entity.Gender> id='select-Gender'
+                                                  options={Object.values(Entity.Gender)}
                                                   labels={genderDescriptions}
                                                   selected={this.state.gender}
-                                                  onChange={(value?: Gender) => {
+                                                  onChange={(value?: Entity.Gender) => {
                                                       this.setState({gender: value});
                                                   }}/>
                     </Form.Group>
 
                     <Form.Group>
                         <Form.Label>Attribute</Form.Label>
-                        <SearchableSelect<Attribute> id='select-Attribute'
-                                                     options={Object.values(Attribute)}
+                        <SearchableSelect<Entity.Attribute> id='select-Attribute'
+                                                     options={Object.values(Entity.Attribute)}
                                                      labels={attributeDescriptions}
                                                      selected={this.state.attribute}
-                                                     onChange={(value?: Attribute) => {
+                                                     onChange={(value?: Entity.Attribute) => {
                                                          this.setState({attribute: value});
                                                      }}/>
                     </Form.Group>

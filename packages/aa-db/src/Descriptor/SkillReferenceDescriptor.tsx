@@ -10,11 +10,11 @@ interface IProps {
 }
 
 interface IState {
-    skill?: Skill;
+    skill?: Skill.Skill;
 }
 
 class SkillReferenceDescriptor extends React.Component<IProps, IState> {
-    constructor(props:IProps) {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {};

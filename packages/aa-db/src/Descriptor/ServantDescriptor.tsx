@@ -6,7 +6,7 @@ import FaceIcon from "../Component/FaceIcon";
 
 interface IProps {
     region: Region;
-    servant: Servant;
+    servant: Servant.Servant;
     iconHeight?: number;
 }
 

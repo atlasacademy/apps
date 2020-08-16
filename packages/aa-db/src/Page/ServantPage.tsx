@@ -1,4 +1,4 @@
-import {Region, Servant, ServantBasic, Trait} from "@atlasacademy/api-connector";
+import {Region, Servant, Trait} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -33,8 +33,8 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     id: number;
-    servants: ServantBasic[];
-    servant?: Servant;
+    servants: Servant.ServantBasic[];
+    servant?: Servant.Servant;
     assetType?: AssetType;
     assetId?: number;
 }
@@ -57,7 +57,7 @@ class ServantPage extends React.Component<IProps, IState> {
 
     async loadServant() {
         try {
-            let [servants, servant] = await Promise.all<ServantBasic[], Servant, Trait[]>([
+            let [servants, servant] = await Promise.all<Servant.ServantBasic[], Servant.Servant, Trait.Trait[]>([
                 Api.servantList(),
                 Api.servant(this.state.id),
                 Api.traitList()

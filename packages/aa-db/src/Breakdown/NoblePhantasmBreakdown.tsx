@@ -10,8 +10,8 @@ import EffectBreakdown from "./EffectBreakdown";
 
 interface IProps {
     region: Region;
-    servant: Servant;
-    noblePhantasm: NoblePhantasm;
+    servant: Servant.Servant;
+    noblePhantasm: NoblePhantasm.NoblePhantasm;
     assetType?: "ascension" | "costume";
     assetId?: number;
     hideCard?: boolean;

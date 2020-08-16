@@ -1,5 +1,4 @@
-import {CraftEssence, Region} from "@atlasacademy/api-connector";
-import EntityType from "@atlasacademy/api-connector/dist/Enum/EntityType";
+import {CraftEssence, Entity, Region} from "@atlasacademy/api-connector";
 import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -8,7 +7,7 @@ import FaceIcon from "../Component/FaceIcon";
 
 interface IProps {
     region: Region;
-    craftEssence: CraftEssence;
+    craftEssence: CraftEssence.CraftEssence;
 }
 
 class CraftEssenceDescriptor extends React.Component<IProps> {
@@ -19,7 +18,7 @@ class CraftEssenceDescriptor extends React.Component<IProps> {
         return (
             <Link to={`/${this.props.region}/craft-essence/${this.props.craftEssence.collectionNo}`}>
                 {asset ? (
-                    <FaceIcon type={EntityType.SERVANT_EQUIP}
+                    <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
                               rarity={this.props.craftEssence.rarity}
                               location={asset}
                               height={'2em'}/>

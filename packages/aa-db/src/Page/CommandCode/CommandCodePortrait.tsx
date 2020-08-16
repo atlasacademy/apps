@@ -4,7 +4,7 @@ import React from "react";
 import "./CommandCodePortrait.css";
 
 interface IProps {
-    commandCode: CommandCode;
+    commandCode: CommandCode.CommandCode;
 }
 
 class CommandCodePortrait extends React.Component<IProps> {

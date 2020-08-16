@@ -11,7 +11,7 @@ interface AssetReference {
 }
 
 interface IProps {
-    servant: Servant;
+    servant: Servant.Servant;
     assetType?: "ascension" | "costume";
     assetId?: number;
     updatePortraitCallback: Function;

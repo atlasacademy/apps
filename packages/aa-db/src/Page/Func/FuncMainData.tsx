@@ -7,7 +7,7 @@ import TraitDescription from "../../Descriptor/TraitDescription";
 
 interface IProps {
     region: Region;
-    func: Func;
+    func: Func.Func;
 }
 
 class FuncMainData extends React.Component<IProps> {

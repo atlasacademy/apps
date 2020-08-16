@@ -8,7 +8,7 @@ import FuncMainData from "../Func/FuncMainData";
 
 interface IProps {
     region: Region;
-    skill: Skill;
+    skill: Skill.Skill;
     level: number;
 }
 

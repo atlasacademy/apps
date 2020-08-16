@@ -4,7 +4,7 @@ import React from "react";
 import "./MysticCodePortrait.css";
 
 interface IProps {
-    mysticCode: MysticCode;
+    mysticCode: MysticCode.MysticCode;
 }
 
 class MysticCodePortrait extends React.Component<IProps> {

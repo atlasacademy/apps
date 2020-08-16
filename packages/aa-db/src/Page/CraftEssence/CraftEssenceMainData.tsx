@@ -6,7 +6,7 @@ import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 
 interface IProps {
     region: Region;
-    craftEssence: CraftEssence;
+    craftEssence: CraftEssence.CraftEssence;
 }
 
 class CraftEssenceMainData extends React.Component<IProps> {
@@ -21,7 +21,8 @@ class CraftEssenceMainData extends React.Component<IProps> {
 
                 <DataTable data={{
                     "Data": <RawDataViewer data={craftEssence}/>,
-                    "Raw": <RawDataViewer data={`https://api.atlasacademy.io/raw/${this.props.region}/equip/${craftEssence.id}?expand=true&lore=true`}/>,
+                    "Raw": <RawDataViewer
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/equip/${craftEssence.id}?expand=true&lore=true`}/>,
                     "ID": craftEssence.id,
                     "Collection": craftEssence.collectionNo,
                     "Name": craftEssence.name,

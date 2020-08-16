@@ -1,5 +1,4 @@
-import {EntityType, NoblePhantasm, Region} from "@atlasacademy/api-connector";
-import Servant from "@atlasacademy/api-connector/dist/Schema/Servant";
+import {Entity, NoblePhantasm, Region, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Form, Row} from "react-bootstrap";
@@ -24,7 +23,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    noblePhantasm?: NoblePhantasm;
+    noblePhantasm?: NoblePhantasm.NoblePhantasm;
     level: number;
     overcharge: number;
 }
@@ -100,14 +99,14 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                         <div>
                             {(noblePhantasm.reverse?.nice?.servant ?? [])
                                 .filter(servant => {
-                                    return servant.type === EntityType.NORMAL
-                                        || servant.type === EntityType.HEROINE
+                                    return servant.type === Entity.EntityType.NORMAL
+                                        || servant.type === Entity.EntityType.HEROINE
                                 })
                                 .map((servant, index) => {
                                     return (
                                         <div key={index}>
                                             <ServantDescriptor region={this.props.region}
-                                                               servant={servant as Servant}
+                                                               servant={servant as Servant.Servant}
                                                                iconHeight={24}/>
                                         </div>
                                     );

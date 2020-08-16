@@ -1,7 +1,4 @@
-import {Func, Region} from "@atlasacademy/api-connector";
-import Card from "@atlasacademy/api-connector/dist/Enum/Card";
-import {NoblePhantasmGain} from "@atlasacademy/api-connector/dist/Schema/NoblePhantasm";
-import {SkillScript} from "@atlasacademy/api-connector/dist/Schema/Skill";
+import {Card, Func, NoblePhantasm, Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
 import CardType from "../Component/CardType";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
@@ -14,10 +11,10 @@ import ScriptBreakdown from "./ScriptBreakdown";
 interface IProps {
     region: Region;
     cooldowns?: number[];
-    funcs: Func[];
-    gain?: NoblePhantasmGain;
+    funcs: Func.Func[];
+    gain?: NoblePhantasm.NoblePhantasmGain;
     levels?: number;
-    scripts?: SkillScript;
+    scripts?: Skill.SkillScript;
     relatedSkillId?: number;
 }
 

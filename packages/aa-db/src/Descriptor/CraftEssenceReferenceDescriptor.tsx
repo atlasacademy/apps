@@ -10,7 +10,7 @@ interface IProps {
 }
 
 interface IState {
-    craftEssence?: CraftEssence;
+    craftEssence?: CraftEssence.CraftEssence;
 }
 
 class CraftEssenceReferenceDescriptor extends React.Component<IProps, IState> {

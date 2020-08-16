@@ -1,4 +1,4 @@
-import {Region, ServantBasic} from "@atlasacademy/api-connector";
+import {Region, Servant} from "@atlasacademy/api-connector";
 import React from "react";
 import {Form} from "react-bootstrap";
 import {withRouter} from "react-router";
@@ -12,7 +12,7 @@ interface Event extends React.ChangeEvent<HTMLInputElement> {
 interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
-    servants: ServantBasic[];
+    servants: Servant.ServantBasic[];
 }
 
 class ServantPicker extends React.Component<IProps> {

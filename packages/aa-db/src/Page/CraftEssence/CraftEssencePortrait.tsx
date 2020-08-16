@@ -4,7 +4,7 @@ import React from "react";
 import "./CraftEssencePortrait.css";
 
 interface IProps {
-    craftEssence: CraftEssence;
+    craftEssence: CraftEssence.CraftEssence;
 }
 
 class CraftEssencePortrait extends React.Component<IProps> {

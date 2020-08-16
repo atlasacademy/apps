@@ -11,7 +11,7 @@ import {mergeElements} from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
-    traitList: Trait[];
+    traitList: Trait.Trait[];
     traits: number[];
     onUpdate: (traits: number[]) => void;
 }

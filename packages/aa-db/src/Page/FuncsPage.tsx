@@ -1,7 +1,4 @@
 import {Func, Region} from "@atlasacademy/api-connector";
-import FuncTargetTeam from "@atlasacademy/api-connector/dist/Enum/FuncTargetTeam";
-import FuncTargetType from "@atlasacademy/api-connector/dist/Enum/FuncTargetType";
-import FuncType from "@atlasacademy/api-connector/dist/Enum/FuncType";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AxiosError} from "axios";
@@ -29,11 +26,11 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     searching: boolean;
-    funcs: Func[];
+    funcs: Func.Func[];
     text?: string;
-    type?: FuncType;
-    target?: FuncTargetType;
-    team?: FuncTargetTeam;
+    type?: Func.FuncType;
+    target?: Func.FuncTargetType;
+    team?: Func.FuncTargetTeam;
 }
 
 class FuncsPage extends React.Component<IProps, IState> {
@@ -101,37 +98,37 @@ class FuncsPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Type</Form.Label>
-                        <SearchableSelect<FuncType> id='select-FuncType'
-                                                    options={Object.values(FuncType)}
-                                                    labels={funcDescriptions}
-                                                    selected={this.state.type}
-                                                    onChange={(value?: FuncType) => {
-                                                        this.setState({type: value});
-                                                    }}/>
+                        <SearchableSelect<Func.FuncType> id='select-FuncType'
+                                                         options={Object.values(Func.FuncType)}
+                                                         labels={funcDescriptions}
+                                                         selected={this.state.type}
+                                                         onChange={(value?: Func.FuncType) => {
+                                                             this.setState({type: value});
+                                                         }}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Target</Form.Label>
-                        <SearchableSelect<FuncTargetType> id='select-FuncTargetType'
-                                                          options={Object.values(FuncTargetType)}
-                                                          labels={targetDescriptions}
-                                                          selected={this.state.target}
-                                                          onChange={(value?: FuncTargetType) => {
-                                                              this.setState({target: value});
-                                                          }}/>
+                        <SearchableSelect<Func.FuncTargetType> id='select-FuncTargetType'
+                                                               options={Object.values(Func.FuncTargetType)}
+                                                               labels={targetDescriptions}
+                                                               selected={this.state.target}
+                                                               onChange={(value?: Func.FuncTargetType) => {
+                                                                   this.setState({target: value});
+                                                               }}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Affects Players/Enemies</Form.Label>
-                        <SearchableSelect<FuncTargetTeam> id='select-FuncTargetTeam'
-                                                          options={Object.values(FuncTargetTeam)}
-                                                          labels={new Map<FuncTargetTeam, string>([
-                                                              [FuncTargetTeam.PLAYER_AND_ENEMY, 'Players and Enemies'],
-                                                              [FuncTargetTeam.PLAYER, 'Players only'],
-                                                              [FuncTargetTeam.ENEMY, 'Enemies only'],
-                                                          ])}
-                                                          selected={this.state.team}
-                                                          onChange={(value?: FuncTargetTeam) => {
-                                                              this.setState({team: value});
-                                                          }}/>
+                        <SearchableSelect<Func.FuncTargetTeam> id='select-FuncTargetTeam'
+                                                               options={Object.values(Func.FuncTargetTeam)}
+                                                               labels={new Map<Func.FuncTargetTeam, string>([
+                                                                   [Func.FuncTargetTeam.PLAYER_AND_ENEMY, 'Players and Enemies'],
+                                                                   [Func.FuncTargetTeam.PLAYER, 'Players only'],
+                                                                   [Func.FuncTargetTeam.ENEMY, 'Enemies only'],
+                                                               ])}
+                                                               selected={this.state.team}
+                                                               onChange={(value?: Func.FuncTargetTeam) => {
+                                                                   this.setState({team: value});
+                                                               }}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>
                         Search
