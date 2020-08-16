@@ -1,5 +1,4 @@
-import {Region} from "@atlasacademy/api-connector";
-import Enemy from "@atlasacademy/api-connector/dist/Schema/Enemy";
+import {Enemy, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
@@ -8,7 +7,7 @@ import {asPercent, formatNumber} from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
-    enemy: Enemy;
+    enemy: Enemy.Enemy;
 }
 
 class EnemyMainData extends React.Component<IProps> {

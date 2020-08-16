@@ -1,5 +1,4 @@
-import {Servant} from "@atlasacademy/api-connector";
-import Card from "@atlasacademy/api-connector/dist/Enum/Card";
+import {Card, Servant} from "@atlasacademy/api-connector";
 import React from "react";
 
 import "./CommandCard.css";
@@ -12,7 +11,7 @@ const supportedCardTypes = [
 
 interface IProps {
     card: Card;
-    servant: Servant;
+    servant: Servant.Servant;
     npText?: string;
     npTextBottom?: boolean;
     height?: string | number;

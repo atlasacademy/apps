@@ -1,8 +1,8 @@
-import EntityType from "@atlasacademy/api-connector/dist/Enum/EntityType";
+import {Entity} from "@atlasacademy/api-connector";
 import React from "react";
 
 interface IProps {
-    type?: EntityType;
+    type?: Entity.EntityType;
     rarity?: number;
     location: string;
     height?: number | string;

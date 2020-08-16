@@ -5,7 +5,7 @@ import FaceIcon from "../Component/FaceIcon";
 
 interface IProps {
     region: Region;
-    mysticCode: MysticCode;
+    mysticCode: MysticCode.MysticCode;
 }
 
 class MysticCodeDescriptor extends React.Component<IProps> {

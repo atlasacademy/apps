@@ -6,7 +6,7 @@ import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 
 interface IProps {
     region: Region;
-    commandCode: CommandCode;
+    commandCode: CommandCode.CommandCode;
 }
 
 class CommandCodeMainData extends React.Component<IProps> {

@@ -1,4 +1,4 @@
-import {CraftEssence, CraftEssenceBasic, Region, Trait} from "@atlasacademy/api-connector";
+import {CraftEssence, Region, Trait} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -26,8 +26,8 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     id: number;
-    craftEssences: CraftEssenceBasic[];
-    craftEssence?: CraftEssence;
+    craftEssences: CraftEssence.CraftEssenceBasic[];
+    craftEssence?: CraftEssence.CraftEssence;
 }
 
 class CraftEssencePage extends React.Component<IProps, IState> {
@@ -48,7 +48,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
 
     async loadCraftEssence() {
         try {
-            let [craftEssences, craftEssence] = await Promise.all<CraftEssenceBasic[], CraftEssence, Trait[]>([
+            let [craftEssences, craftEssence] = await Promise.all<CraftEssence.CraftEssenceBasic[], CraftEssence.CraftEssence, Trait.Trait[]>([
                 Api.craftEssenceList(),
                 Api.craftEssence(this.state.id),
                 Api.traitList()

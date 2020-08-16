@@ -1,4 +1,4 @@
-import {Buff, BuffType, Region} from "@atlasacademy/api-connector";
+import {Buff, Region} from "@atlasacademy/api-connector";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AxiosError} from "axios";
@@ -24,13 +24,13 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     searching: boolean;
-    buffs: Buff[];
+    buffs: Buff.Buff[];
     name?: string;
-    type?: BuffType;
+    type?: Buff.BuffType;
 }
 
-const buffDescriptions = new Map<BuffType, string>();
-Object.values(BuffType).forEach(type => {
+const buffDescriptions = new Map<Buff.BuffType, string>();
+Object.values(Buff.BuffType).forEach(type => {
     let description;
 
     for (let x in upDownBuffs) {
@@ -113,13 +113,13 @@ class BuffsPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Type</Form.Label>
-                        <SearchableSelect<BuffType> id='select-BuffType'
-                                                    options={Object.values(BuffType)}
-                                                    labels={buffDescriptions}
-                                                    selected={this.state.type}
-                                                    onChange={(value?: BuffType) => {
-                                                        this.setState({type: value});
-                                                    }}/>
+                        <SearchableSelect<Buff.BuffType> id='select-BuffType'
+                                                         options={Object.values(Buff.BuffType)}
+                                                         labels={buffDescriptions}
+                                                         selected={this.state.type}
+                                                         onChange={(value?: Buff.BuffType) => {
+                                                             this.setState({type: value});
+                                                         }}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>
                         Search

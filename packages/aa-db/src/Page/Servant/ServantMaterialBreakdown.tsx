@@ -1,15 +1,15 @@
-import {Item, ItemBackgroundType, ItemType, Region} from "@atlasacademy/api-connector";
+import {Item, Region} from "@atlasacademy/api-connector";
 import {EntityLevelUpMaterialProgression} from "@atlasacademy/api-connector/dist/Schema/BaseEntity";
 import React from "react";
 import {Table} from "react-bootstrap";
 import ItemIcon from "../../Component/ItemIcon";
 
-const qpItem: Item = {
+const qpItem: Item.Item = {
     id: 1,
     name: "QP",
-    type: ItemType.QP,
+    type: Item.ItemType.QP,
     icon: "https://assets.atlasacademy.io/GameData/NA/Items/5.png",
-    background: ItemBackgroundType.ZERO
+    background: Item.ItemBackgroundType.ZERO
 };
 
 const iconHeight = 75;

@@ -23,7 +23,7 @@ const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
     };
 
 interface IProps {
-    servant: Servant;
+    servant: Servant.Servant;
 }
 
 class ServantMiscData extends React.Component<IProps> {

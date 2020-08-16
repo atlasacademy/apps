@@ -24,13 +24,13 @@ import handleTeamSection from "./Func/handleTeamSection";
 
 interface IProps {
     region: Region;
-    func: Func;
+    func: Func.Func;
     level?: number;
     overcharge?: number;
 }
 
 class FuncDescriptor extends React.Component<IProps> {
-    getDataVal(): DataVal {
+    getDataVal(): DataVal.DataVal {
         const func = this.props.func;
 
         if (this.props.level) {
@@ -42,7 +42,7 @@ class FuncDescriptor extends React.Component<IProps> {
         }
     }
 
-    getFollowerDataVal(): DataVal | undefined {
+    getFollowerDataVal(): DataVal.DataVal | undefined {
         const func = this.props.func;
 
         if (!hasFollowerDataVals(func))

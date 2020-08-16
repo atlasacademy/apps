@@ -8,7 +8,7 @@ const grailIcon = 'https://assets.atlasacademy.io/GameData/NA/Items/7999.png';
 
 interface IProps {
     region: Region;
-    servant: Servant;
+    servant: Servant.Servant;
 }
 
 class ServantStatGrowth extends React.Component<IProps> {

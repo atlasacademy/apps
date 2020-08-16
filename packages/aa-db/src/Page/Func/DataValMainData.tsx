@@ -1,10 +1,10 @@
-import DataVal from "@atlasacademy/api-connector/dist/Schema/DataVal";
+import {DataVal} from "@atlasacademy/api-connector";
 import React from "react";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 
 interface IProps {
-    dataVal: DataVal;
+    dataVal: DataVal.DataVal;
 }
 
 class DataValMainData extends React.Component<IProps> {

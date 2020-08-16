@@ -5,7 +5,7 @@ import BuffIcon from "../Component/BuffIcon";
 
 interface IProps {
     region: Region;
-    skill: Skill;
+    skill: Skill.Skill;
     iconHeight?: number;
 }
 

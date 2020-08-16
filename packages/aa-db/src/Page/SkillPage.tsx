@@ -1,4 +1,4 @@
-import {CraftEssence, EntityType, Region, Servant, Skill} from "@atlasacademy/api-connector";
+import {CraftEssence, Entity, Region, Servant, Skill} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Form} from "react-bootstrap";
@@ -7,9 +7,9 @@ import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
 import RawDataViewer from "../Component/RawDataViewer";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
+import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
@@ -26,7 +26,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    skill?: Skill;
+    skill?: Skill.Skill;
     levels: number;
     level: number;
 }
@@ -92,7 +92,8 @@ class SkillPage extends React.Component<IProps, IState> {
 
                 <DataTable data={{
                     "Data": <RawDataViewer data={skill}/>,
-                    "Raw": <RawDataViewer data={`https://api.atlasacademy.io/raw/${this.props.region}/skill/${skill.id}?expand=true`}/>,
+                    "Raw": <RawDataViewer
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/skill/${skill.id}?expand=true`}/>,
                     "ID": skill.id,
                     "Name": skill.name,
                     "Detail": skill.detail,
@@ -100,23 +101,23 @@ class SkillPage extends React.Component<IProps, IState> {
                         <div>
                             {(skill.reverse?.nice?.servant ?? [])
                                 .filter(entity => {
-                                    return entity.type === EntityType.NORMAL
-                                        || entity.type === EntityType.HEROINE
-                                        || entity.type === EntityType.SERVANT_EQUIP;
+                                    return entity.type === Entity.EntityType.NORMAL
+                                        || entity.type === Entity.EntityType.HEROINE
+                                        || entity.type === Entity.EntityType.SERVANT_EQUIP;
                                 })
                                 .map((entity, index) => {
-                                    if (entity.type === EntityType.SERVANT_EQUIP) {
+                                    if (entity.type === Entity.EntityType.SERVANT_EQUIP) {
                                         return (
                                             <div key={index}>
                                                 <CraftEssenceDescriptor region={this.props.region}
-                                                                        craftEssence={entity as CraftEssence}/>
+                                                                        craftEssence={entity as CraftEssence.CraftEssence}/>
                                             </div>
                                         );
                                     } else {
                                         return (
                                             <div key={index}>
                                                 <ServantDescriptor region={this.props.region}
-                                                                   servant={entity as Servant}
+                                                                   servant={entity as Servant.Servant}
                                                                    iconHeight={24}/>
                                             </div>
                                         );

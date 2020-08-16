@@ -1,11 +1,10 @@
-import {ProfileCommentConditionType, Region} from "@atlasacademy/api-connector";
-import {ProfileComment} from "@atlasacademy/api-connector/dist/Schema/Profile";
+import {Profile, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import QuestDescriptor from "./QuestDescriptor";
 
 interface IProps {
     region: Region;
-    comment: ProfileComment;
+    comment: Profile.ProfileComment;
 }
 
 class ProfileConditionDescriptor extends React.Component<IProps> {
@@ -15,10 +14,10 @@ class ProfileConditionDescriptor extends React.Component<IProps> {
         let condition: JSX.Element | string = this.props.comment.condMessage;
 
         if (!condition) {
-            if (comment.condType === ProfileCommentConditionType.NONE) {
+            if (comment.condType === Profile.ProfileCommentConditionType.NONE) {
                 condition = "None";
             } else if (
-                comment.condType === ProfileCommentConditionType.QUEST_CLEAR
+                comment.condType === Profile.ProfileCommentConditionType.QUEST_CLEAR
                 && comment.condValues
                 && comment.condValues.length > 0
             ) {
@@ -29,7 +28,7 @@ class ProfileConditionDescriptor extends React.Component<IProps> {
                     &nbsp;Cleared
                 </React.Fragment>;
             } else if (
-                comment.condType === ProfileCommentConditionType.SVT_FRIENDSHIP
+                comment.condType === Profile.ProfileCommentConditionType.SVT_FRIENDSHIP
                 && comment.condValues
                 && comment.condValues.length > 0
             ) {

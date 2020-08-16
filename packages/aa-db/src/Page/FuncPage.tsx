@@ -1,4 +1,4 @@
-import {CraftEssence, EntityType, Func, Region, Servant} from "@atlasacademy/api-connector";
+import {CraftEssence, Entity, Func, Region, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Table} from "react-bootstrap";
@@ -22,7 +22,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    func?: Func;
+    func?: Func.Func;
 }
 
 class FuncPage extends React.Component<IProps, IState> {
@@ -88,17 +88,17 @@ class FuncPage extends React.Component<IProps, IState> {
                                     <tr key={index}>
                                         <td>
                                             {(skill.reverse?.nice?.servant ?? []).map((entity, index) => {
-                                                if (entity.type === EntityType.SERVANT_EQUIP) {
+                                                if (entity.type === Entity.EntityType.SERVANT_EQUIP) {
                                                     return <p key={index}>
                                                         <CraftEssenceDescriptor region={this.props.region}
-                                                                                craftEssence={entity as CraftEssence}/>
+                                                                                craftEssence={entity as CraftEssence.CraftEssence}/>
                                                     </p>;
                                                 }
 
-                                                if (entity.type === EntityType.NORMAL || entity.type === EntityType.HEROINE) {
+                                                if (entity.type === Entity.EntityType.NORMAL || entity.type === Entity.EntityType.HEROINE) {
                                                     return <p key={index}>
                                                         <ServantDescriptor region={this.props.region}
-                                                                           servant={entity as Servant}/>
+                                                                           servant={entity as Servant.Servant}/>
                                                     </p>;
                                                 }
 
@@ -130,17 +130,17 @@ class FuncPage extends React.Component<IProps, IState> {
                                     <tr key={index}>
                                         <td>
                                             {(noblePhantasm.reverse?.nice?.servant ?? []).map((entity, index) => {
-                                                if (entity.type === EntityType.SERVANT_EQUIP) {
+                                                if (entity.type === Entity.EntityType.SERVANT_EQUIP) {
                                                     return <p key={index}>
                                                         <CraftEssenceDescriptor region={this.props.region}
-                                                                                craftEssence={entity as CraftEssence}/>
+                                                                                craftEssence={entity as CraftEssence.CraftEssence}/>
                                                     </p>;
                                                 }
 
-                                                if (entity.type === EntityType.NORMAL || entity.type === EntityType.HEROINE) {
+                                                if (entity.type === Entity.EntityType.NORMAL || entity.type === Entity.EntityType.HEROINE) {
                                                     return <p key={index}>
                                                         <ServantDescriptor region={this.props.region}
-                                                                           servant={entity as Servant}/>
+                                                                           servant={entity as Servant.Servant}/>
                                                     </p>;
                                                 }
 

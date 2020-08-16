@@ -10,7 +10,7 @@ interface IProps {
 }
 
 interface IState {
-    skill?: Skill;
+    skill?: Skill.Skill;
 }
 
 class AdditionalEffectBreakdown extends React.Component<IProps, IState> {

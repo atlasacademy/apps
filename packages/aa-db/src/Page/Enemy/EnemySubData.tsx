@@ -1,5 +1,4 @@
-import {Card, Region} from "@atlasacademy/api-connector";
-import Enemy from "@atlasacademy/api-connector/dist/Schema/Enemy";
+import {Card, Enemy, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import DataTable from "../../Component/DataTable";
 import TraitDescription from "../../Descriptor/TraitDescription";
@@ -7,7 +6,7 @@ import {asPercent, mergeElements, Renderable} from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
-    enemy: Enemy;
+    enemy: Enemy.Enemy;
 }
 
 class EnemySubData extends React.Component<IProps> {

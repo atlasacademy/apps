@@ -10,7 +10,7 @@ interface IProps {
     questPhase: number;
 }
 
-class QuestDescriptor extends React.Component<IProps>{
+class QuestDescriptor extends React.Component<IProps> {
     render() {
         const prefix = Math.floor(this.props.questId / 1000000);
         let type = "";
@@ -29,7 +29,7 @@ class QuestDescriptor extends React.Component<IProps>{
 
         return (
             <Link to={`/${this.props.region}/quest/${this.props.questId}/${this.props.questPhase}`}>
-                {type} Quest <FontAwesomeIcon icon={faShare} />
+                {type} Quest <FontAwesomeIcon icon={faShare}/>
             </Link>
         );
     }

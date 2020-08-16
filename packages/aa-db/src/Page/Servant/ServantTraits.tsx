@@ -5,7 +5,7 @@ import {joinElements} from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
-    traits: Trait[];
+    traits: Trait.Trait[];
 }
 
 class ServantTraits extends React.Component<IProps> {

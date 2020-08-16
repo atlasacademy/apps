@@ -10,7 +10,7 @@ import {formatNumber} from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
-    servant: Servant;
+    servant: Servant.Servant;
     assetType?: "ascension" | "costume";
     assetId?: number;
 }

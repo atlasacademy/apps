@@ -1,5 +1,4 @@
-import {Region, Servant, Trait} from "@atlasacademy/api-connector";
-import Enemy from "@atlasacademy/api-connector/dist/Schema/Enemy";
+import {Enemy, Region, Servant, Trait} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -25,7 +24,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     id: number;
-    enemy?: Enemy;
+    enemy?: Enemy.Enemy;
 }
 
 class EnemyPage extends React.Component<IProps, IState> {
@@ -45,7 +44,7 @@ class EnemyPage extends React.Component<IProps, IState> {
 
     async loadEnemy() {
         try {
-            let [enemy] = await Promise.all<Enemy, Trait[]>([
+            let [enemy] = await Promise.all<Enemy.Enemy, Trait.Trait[]>([
                 Api.enemy(this.state.id),
                 Api.traitList()
             ]);
@@ -95,7 +94,7 @@ class EnemyPage extends React.Component<IProps, IState> {
                             .map((noblePhantasm, index) => {
                                 return <NoblePhantasmBreakdown key={index}
                                                                region={this.props.region}
-                                                               servant={enemy as unknown as Servant}
+                                                               servant={enemy as unknown as Servant.Servant}
                                                                noblePhantasm={noblePhantasm}
                                                                hideCard={true}
                                                                hideGain={true}/>;
@@ -114,7 +113,7 @@ class EnemyPage extends React.Component<IProps, IState> {
                     </Tab>
                     <Tab eventKey={'stat-growth'} title={'Stat Growth'}>
                         <br/>
-                        <ServantStatGrowth region={this.props.region} servant={enemy as unknown as Servant}/>
+                        <ServantStatGrowth region={this.props.region} servant={enemy as unknown as Servant.Servant}/>
                     </Tab>
                 </Tabs>
             </div>

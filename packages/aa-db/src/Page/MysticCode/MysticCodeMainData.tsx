@@ -5,7 +5,7 @@ import RawDataViewer from "../../Component/RawDataViewer";
 
 interface IProps {
     region: Region;
-    mysticCode: MysticCode;
+    mysticCode: MysticCode.MysticCode;
 }
 
 class MysticCodeMainData extends React.Component<IProps> {

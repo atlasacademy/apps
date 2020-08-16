@@ -1,15 +1,14 @@
-import {CraftEssence, Region} from "@atlasacademy/api-connector";
-import {EntityAssetMap} from "@atlasacademy/api-connector/dist/Schema/BaseEntity";
+import {CraftEssence, Entity, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {mergeElements} from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
-    craftEssence: CraftEssence;
+    craftEssence: CraftEssence.CraftEssence;
 }
 
 class CraftEssenceAssets extends React.Component<IProps> {
-    private flattenAssets(assetMap: EntityAssetMap | undefined): string[] {
+    private flattenAssets(assetMap: Entity.EntityAssetMap | undefined): string[] {
         if (!assetMap)
             return [];
 
@@ -21,7 +20,7 @@ class CraftEssenceAssets extends React.Component<IProps> {
         return assets;
     }
 
-    private displayAssets(assetMap: EntityAssetMap | undefined) {
+    private displayAssets(assetMap: Entity.EntityAssetMap | undefined) {
         const assets = this.flattenAssets(assetMap);
 
         return mergeElements(

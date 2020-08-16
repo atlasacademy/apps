@@ -21,7 +21,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    buff?: Buff;
+    buff?: Buff.Buff;
 }
 
 class BuffPage extends React.Component<IProps, IState> {

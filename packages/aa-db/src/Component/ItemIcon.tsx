@@ -1,20 +1,20 @@
-import {Item, ItemBackgroundType, Region} from "@atlasacademy/api-connector";
+import {Item, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {formatNumber} from "../Helper/OutputHelper";
 
 import "./ItemIcon.css";
 
-const frameBgMap = new Map<ItemBackgroundType, string>([
-    [ItemBackgroundType.ZERO, 'assets/list/listframes0_bg.png'],
-    [ItemBackgroundType.BRONZE, 'assets/list/listframes1_bg.png'],
-    [ItemBackgroundType.SILVER, 'assets/list/listframes2_bg.png'],
-    [ItemBackgroundType.GOLD, 'assets/list/listframes3_bg.png'],
-    [ItemBackgroundType.QUEST_CLEAR_QP_REWARD, 'assets/list/listframes4_bg.png'],
+const frameBgMap = new Map<Item.ItemBackgroundType, string>([
+    [Item.ItemBackgroundType.ZERO, 'assets/list/listframes0_bg.png'],
+    [Item.ItemBackgroundType.BRONZE, 'assets/list/listframes1_bg.png'],
+    [Item.ItemBackgroundType.SILVER, 'assets/list/listframes2_bg.png'],
+    [Item.ItemBackgroundType.GOLD, 'assets/list/listframes3_bg.png'],
+    [Item.ItemBackgroundType.QUEST_CLEAR_QP_REWARD, 'assets/list/listframes4_bg.png'],
 ]);
 
 interface IProps {
     region: Region;
-    item: Item,
+    item: Item.Item,
     quantity?: number;
     height?: string | number;
     quantityHeight?: string | number;

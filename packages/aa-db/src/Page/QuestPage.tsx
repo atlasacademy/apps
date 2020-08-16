@@ -1,4 +1,4 @@
-import {QuestPhase, Region} from "@atlasacademy/api-connector";
+import {Quest, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import Api from "../Api";
@@ -17,7 +17,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    quest?: QuestPhase;
+    quest?: Quest.QuestPhase;
 }
 
 class QuestPage extends React.Component<IProps, IState> {
@@ -51,7 +51,7 @@ class QuestPage extends React.Component<IProps, IState> {
 
     render() {
         if (this.state.error)
-            return <ErrorStatus error={this.state.error} />;
+            return <ErrorStatus error={this.state.error}/>;
 
         if (this.state.loading || !this.state.quest)
             return <Loading/>;

@@ -1,4 +1,4 @@
-import {CraftEssenceBasic, EntityType, Region} from "@atlasacademy/api-connector";
+import {CraftEssence, Entity, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import diacritics from "diacritics";
 import minimatch from "minimatch";
@@ -10,9 +10,9 @@ import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
+import Manager from "../Setting/Manager";
 
 import "./CraftEssencesPage.css";
-import Manager from "../Setting/Manager";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
@@ -29,7 +29,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    craftEssences: CraftEssenceBasic[];
+    craftEssences: CraftEssence.CraftEssenceBasic[];
     activeRarityFilters: number[];
     perPage: number;
     page: number;
@@ -65,7 +65,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         }
     }
 
-    private craftEssences(): CraftEssenceBasic[] {
+    private craftEssences(): CraftEssence.CraftEssenceBasic[] {
         let list = this.state.craftEssences.slice().reverse();
 
         if (this.state.activeRarityFilters.length > 0) {
@@ -214,7 +214,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                             </td>
                             <td align={"center"}>
                                 <Link to={route}>
-                                    <FaceIcon type={EntityType.SERVANT_EQUIP}
+                                    <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
                                               rarity={craftEssence.rarity}
                                               location={craftEssence.face}
                                               height={50}/>

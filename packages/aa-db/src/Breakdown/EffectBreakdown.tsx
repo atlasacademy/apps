@@ -1,19 +1,17 @@
-import {Func, Region} from "@atlasacademy/api-connector";
-import {NoblePhantasmGain} from "@atlasacademy/api-connector/dist/Schema/NoblePhantasm";
-import {SkillScript} from "@atlasacademy/api-connector/dist/Schema/Skill";
+import {Func, NoblePhantasm, Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
-import EffectBreakdownLines from "./EffectBreakdownLines";
 
 import "./EffectBreakdown.css";
+import EffectBreakdownLines from "./EffectBreakdownLines";
 
 interface IProps {
     region: Region;
     cooldowns?: number[];
-    funcs: Func[];
-    gain?: NoblePhantasmGain;
+    funcs: Func.Func[];
+    gain?: NoblePhantasm.NoblePhantasmGain;
     levels?: number;
-    scripts?: SkillScript;
+    scripts?: Skill.SkillScript;
 }
 
 class EffectBreakdown extends React.Component<IProps> {

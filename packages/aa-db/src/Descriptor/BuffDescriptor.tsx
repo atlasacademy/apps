@@ -1,37 +1,41 @@
-import {Buff, BuffType, Region} from "@atlasacademy/api-connector";
+import {Buff, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Link} from "react-router-dom";
 import BuffIcon from "../Component/BuffIcon";
 import {joinElements, mergeElements} from "../Helper/OutputHelper";
 import TraitDescription from "./TraitDescription";
 
-export const upDownBuffs: { up?: BuffType, down?: BuffType, description: string }[] = [
-    {up: BuffType.ADD_MAXHP, down: BuffType.SUB_MAXHP, description: "Max HP"},
-    {up: BuffType.UP_ATK, down: BuffType.DOWN_ATK, description: "ATK"},
-    {up: BuffType.UP_CHAGETD, down: undefined, description: "Overcharge"},
-    {up: BuffType.UP_COMMANDATK, down: BuffType.DOWN_COMMANDATK, description: "ATK"},
-    {up: BuffType.UP_CRITICALDAMAGE, down: BuffType.DOWN_CRITICALDAMAGE, description: "Critical Damage"},
-    {up: BuffType.UP_CRITICALPOINT, down: BuffType.DOWN_CRITICALPOINT, description: "Star Drop Rate"},
-    {up: BuffType.UP_CRITICALRATE, down: BuffType.DOWN_CRITICALRATE, description: "Critical Rate"},
+export const upDownBuffs: { up?: Buff.BuffType, down?: Buff.BuffType, description: string }[] = [
+    {up: Buff.BuffType.ADD_MAXHP, down: Buff.BuffType.SUB_MAXHP, description: "Max HP"},
+    {up: Buff.BuffType.UP_ATK, down: Buff.BuffType.DOWN_ATK, description: "ATK"},
+    {up: Buff.BuffType.UP_CHAGETD, down: undefined, description: "Overcharge"},
+    {up: Buff.BuffType.UP_COMMANDATK, down: Buff.BuffType.DOWN_COMMANDATK, description: "ATK"},
+    {up: Buff.BuffType.UP_CRITICALDAMAGE, down: Buff.BuffType.DOWN_CRITICALDAMAGE, description: "Critical Damage"},
+    {up: Buff.BuffType.UP_CRITICALPOINT, down: Buff.BuffType.DOWN_CRITICALPOINT, description: "Star Drop Rate"},
+    {up: Buff.BuffType.UP_CRITICALRATE, down: Buff.BuffType.DOWN_CRITICALRATE, description: "Critical Rate"},
     {
-        up: BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN,
-        down: BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN,
+        up: Buff.BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN,
+        down: Buff.BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN,
         description: "Critical Rate Taken"
     },
-    {up: BuffType.UP_DAMAGE, down: BuffType.DOWN_DAMAGE, description: "SP.DMG"},
-    {up: BuffType.UP_DAMAGEDROPNP, down: BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged"},
-    {up: BuffType.UP_DEFENCE, down: BuffType.DOWN_DEFENCE, description: "DEF"},
-    {up: BuffType.UP_DEFENCECOMMANDALL, down: BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},
-    {up: BuffType.UP_DROPNP, down: BuffType.DOWN_DROPNP, description: "NP Gain"},
-    {up: BuffType.UP_FUNC_HP_REDUCE, down: BuffType.DOWN_FUNC_HP_REDUCE, description: "DoT Effectiveness"},
-    {up: BuffType.UP_GRANT_INSTANTDEATH, down: BuffType.DOWN_GRANT_INSTANTDEATH, description: "Death Chance"},
-    {up: BuffType.UP_GRANTSTATE, down: BuffType.DOWN_GRANTSTATE, description: "Buff Chance"},
-    {up: undefined, down: BuffType.UP_NONRESIST_INSTANTDEATH, description: "Death Resist"},
-    {up: BuffType.UP_NPDAMAGE, down: BuffType.DOWN_NPDAMAGE, description: "NP Damage"},
-    {up: BuffType.UP_SPECIALDEFENCE, down: BuffType.DOWN_SPECIALDEFENCE, description: "SP.DEF"},
-    {up: BuffType.UP_STARWEIGHT, down: BuffType.DOWN_STARWEIGHT, description: "Star Weight"},
-    {up: BuffType.UP_TOLERANCE, down: BuffType.DOWN_TOLERANCE, description: "Debuff Resist"},
-    {up: BuffType.UP_TOLERANCE_SUBSTATE, down: BuffType.DOWN_TOLERANCE_SUBSTATE, description: "Buff Removal Resist"},
+    {up: Buff.BuffType.UP_DAMAGE, down: Buff.BuffType.DOWN_DAMAGE, description: "SP.DMG"},
+    {up: Buff.BuffType.UP_DAMAGEDROPNP, down: Buff.BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged"},
+    {up: Buff.BuffType.UP_DEFENCE, down: Buff.BuffType.DOWN_DEFENCE, description: "DEF"},
+    {up: Buff.BuffType.UP_DEFENCECOMMANDALL, down: Buff.BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},
+    {up: Buff.BuffType.UP_DROPNP, down: Buff.BuffType.DOWN_DROPNP, description: "NP Gain"},
+    {up: Buff.BuffType.UP_FUNC_HP_REDUCE, down: Buff.BuffType.DOWN_FUNC_HP_REDUCE, description: "DoT Effectiveness"},
+    {up: Buff.BuffType.UP_GRANT_INSTANTDEATH, down: Buff.BuffType.DOWN_GRANT_INSTANTDEATH, description: "Death Chance"},
+    {up: Buff.BuffType.UP_GRANTSTATE, down: Buff.BuffType.DOWN_GRANTSTATE, description: "Buff Chance"},
+    {up: undefined, down: Buff.BuffType.UP_NONRESIST_INSTANTDEATH, description: "Death Resist"},
+    {up: Buff.BuffType.UP_NPDAMAGE, down: Buff.BuffType.DOWN_NPDAMAGE, description: "NP Damage"},
+    {up: Buff.BuffType.UP_SPECIALDEFENCE, down: Buff.BuffType.DOWN_SPECIALDEFENCE, description: "SP.DEF"},
+    {up: Buff.BuffType.UP_STARWEIGHT, down: Buff.BuffType.DOWN_STARWEIGHT, description: "Star Weight"},
+    {up: Buff.BuffType.UP_TOLERANCE, down: Buff.BuffType.DOWN_TOLERANCE, description: "Debuff Resist"},
+    {
+        up: Buff.BuffType.UP_TOLERANCE_SUBSTATE,
+        down: Buff.BuffType.DOWN_TOLERANCE_SUBSTATE,
+        description: "Buff Removal Resist"
+    },
 ];
 
 export const traitDescriptions = new Map<number, string>([
@@ -41,44 +45,44 @@ export const traitDescriptions = new Map<number, string>([
     [3045, 'Stun'],
 ]);
 
-export const typeDescriptions = new Map<BuffType, string>([
-    [BuffType.AVOID_INSTANTDEATH, 'Immune to Death'],
-    [BuffType.AVOID_STATE, 'Immunity'],
-    [BuffType.ADD_DAMAGE, 'Damage Plus'],
-    [BuffType.ADD_INDIVIDUALITY, 'Add Trait'],
-    [BuffType.AVOIDANCE, 'Evade'],
-    [BuffType.CHANGE_COMMAND_CARD_TYPE, 'Change Command Card Types'],
-    [BuffType.COMMANDCODEATTACK_FUNCTION, 'Command Code Effect'],
-    [BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
-    [BuffType.DELAY_FUNCTION, 'Trigger Skill after Duration'],
-    [BuffType.DONOT_NOBLE, 'NP Seal'],
-    [BuffType.DONOT_NOBLE_COND_MISMATCH, 'NP Block if Condition Failed'],
-    [BuffType.DONOT_RECOVERY, 'Recovery Disabled'],
-    [BuffType.DONOT_SELECT_COMMANDCARD, 'Do Not Shuffle In Cards'],
-    [BuffType.DONOT_SKILL, 'Skill Seal'],
-    [BuffType.FIELD_INDIVIDUALITY, 'Change Field Type'],
-    [BuffType.FIX_COMMANDCARD, 'Freeze Command Cards'],
-    [BuffType.GUTS, 'Guts'],
-    [BuffType.GUTS_FUNCTION, 'Trigger Skill on Guts'],
-    [BuffType.INVINCIBLE, 'Invincible'],
-    [BuffType.MULTIATTACK, 'Multiple Hits'],
-    [BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],
-    [BuffType.REGAIN_HP, 'HP Per Turn'],
-    [BuffType.REGAIN_NP, 'NP Per Turn'],
-    [BuffType.REGAIN_STAR, 'Stars Per Turn'],
-    [BuffType.SELFTURNEND_FUNCTION, 'Trigger Skill every Turn'],
-    [BuffType.SPECIAL_INVINCIBLE, 'Special invincible'],
-    [BuffType.SUB_SELFDAMAGE, 'Damage Cut'],
-    [BuffType.TD_TYPE_CHANGE, 'Change Noble Phantasm'],
-    [BuffType.TD_TYPE_CHANGE_ARTS, 'Set Noble Phantasm: Arts'],
-    [BuffType.TD_TYPE_CHANGE_BUSTER, 'Set Noble Phantasm: Buster'],
-    [BuffType.TD_TYPE_CHANGE_QUICK, 'Set Noble Phantasm: Quick'],
-    [BuffType.UP_HATE, 'Taunt'],
+export const typeDescriptions = new Map<Buff.BuffType, string>([
+    [Buff.BuffType.AVOID_INSTANTDEATH, 'Immune to Death'],
+    [Buff.BuffType.AVOID_STATE, 'Immunity'],
+    [Buff.BuffType.ADD_DAMAGE, 'Damage Plus'],
+    [Buff.BuffType.ADD_INDIVIDUALITY, 'Add Trait'],
+    [Buff.BuffType.AVOIDANCE, 'Evade'],
+    [Buff.BuffType.CHANGE_COMMAND_CARD_TYPE, 'Change Command Card Types'],
+    [Buff.BuffType.COMMANDCODEATTACK_FUNCTION, 'Command Code Effect'],
+    [Buff.BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
+    [Buff.BuffType.DELAY_FUNCTION, 'Trigger Skill after Duration'],
+    [Buff.BuffType.DONOT_NOBLE, 'NP Seal'],
+    [Buff.BuffType.DONOT_NOBLE_COND_MISMATCH, 'NP Block if Condition Failed'],
+    [Buff.BuffType.DONOT_RECOVERY, 'Recovery Disabled'],
+    [Buff.BuffType.DONOT_SELECT_COMMANDCARD, 'Do Not Shuffle In Cards'],
+    [Buff.BuffType.DONOT_SKILL, 'Skill Seal'],
+    [Buff.BuffType.FIELD_INDIVIDUALITY, 'Change Field Type'],
+    [Buff.BuffType.FIX_COMMANDCARD, 'Freeze Command Cards'],
+    [Buff.BuffType.GUTS, 'Guts'],
+    [Buff.BuffType.GUTS_FUNCTION, 'Trigger Skill on Guts'],
+    [Buff.BuffType.INVINCIBLE, 'Invincible'],
+    [Buff.BuffType.MULTIATTACK, 'Multiple Hits'],
+    [Buff.BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],
+    [Buff.BuffType.REGAIN_HP, 'HP Per Turn'],
+    [Buff.BuffType.REGAIN_NP, 'NP Per Turn'],
+    [Buff.BuffType.REGAIN_STAR, 'Stars Per Turn'],
+    [Buff.BuffType.SELFTURNEND_FUNCTION, 'Trigger Skill every Turn'],
+    [Buff.BuffType.SPECIAL_INVINCIBLE, 'Special invincible'],
+    [Buff.BuffType.SUB_SELFDAMAGE, 'Damage Cut'],
+    [Buff.BuffType.TD_TYPE_CHANGE, 'Change Noble Phantasm'],
+    [Buff.BuffType.TD_TYPE_CHANGE_ARTS, 'Set Noble Phantasm: Arts'],
+    [Buff.BuffType.TD_TYPE_CHANGE_BUSTER, 'Set Noble Phantasm: Buster'],
+    [Buff.BuffType.TD_TYPE_CHANGE_QUICK, 'Set Noble Phantasm: Quick'],
+    [Buff.BuffType.UP_HATE, 'Taunt'],
 ]);
 
 interface IProps {
     region: Region;
-    buff: Buff;
+    buff: Buff.Buff;
 }
 
 class BuffDescriptor extends React.Component<IProps> {
@@ -257,38 +261,38 @@ class BuffDescriptor extends React.Component<IProps> {
                 {this.getUpDownDescription()}
                 {this.getTraitFilterAppend()}
             </React.Fragment>
-        } else if (buff.type === BuffType.UP_COMMANDALL) {
+        } else if (buff.type === Buff.BuffType.UP_COMMANDALL) {
             description = <React.Fragment>
                 {this.getCommandCardTypes()} Up
                 {this.getTraitFilterAppendWithoutCards()}
             </React.Fragment>
-        } else if (buff.type === BuffType.DOWN_COMMANDALL) {
+        } else if (buff.type === Buff.BuffType.DOWN_COMMANDALL) {
             description = <React.Fragment>
                 {this.getCommandCardTypes()} Down
                 {this.getTraitFilterAppendWithoutCards()}
             </React.Fragment>
-        } else if (buff.type === BuffType.ATTACK_FUNCTION) {
+        } else if (buff.type === Buff.BuffType.ATTACK_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill on {this.getTraitFilters()} attacks
             </React.Fragment>;
-        } else if (buff.type === BuffType.COMMANDATTACK_FUNCTION) {
+        } else if (buff.type === Buff.BuffType.COMMANDATTACK_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill on {this.getTraitFilters()} cards
             </React.Fragment>;
-        } else if (buff.type === BuffType.COMMANDATTACK_BEFORE_FUNCTION) {
+        } else if (buff.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill before {this.getTraitFilters()} cards
             </React.Fragment>;
-        } else if (buff.type === BuffType.DAMAGE_FUNCTION) {
+        } else if (buff.type === Buff.BuffType.DAMAGE_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill on receiving {this.getTraitFilters()} attacks
             </React.Fragment>;
-        } else if (buff.type === BuffType.DEAD_FUNCTION) {
+        } else if (buff.type === Buff.BuffType.DEAD_FUNCTION) {
             description = <React.Fragment>
                 Trigger Skill on death
                 {this.getTraitFilterAppend()}
             </React.Fragment>;
-        } else if (buff.type === BuffType.NPATTACK_PREV_BUFF) {
+        } else if (buff.type === Buff.BuffType.NPATTACK_PREV_BUFF) {
             description = <React.Fragment>
                 Trigger Skill on {this.getTraitFilters()} NP
             </React.Fragment>;

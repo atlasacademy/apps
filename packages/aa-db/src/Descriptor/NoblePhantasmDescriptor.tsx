@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 interface IProps {
     region: Region;
-    noblePhantasm: NoblePhantasm;
+    noblePhantasm: NoblePhantasm.NoblePhantasm;
 }
 
 class NoblePhantasmDescriptor extends React.Component<IProps> {

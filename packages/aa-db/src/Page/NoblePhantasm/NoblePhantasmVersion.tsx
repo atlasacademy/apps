@@ -8,7 +8,7 @@ import FuncMainData from "../Func/FuncMainData";
 
 interface IProps {
     region: Region;
-    noblePhantasm: NoblePhantasm;
+    noblePhantasm: NoblePhantasm.NoblePhantasm;
     level: number;
     overcharge: number;
 }
