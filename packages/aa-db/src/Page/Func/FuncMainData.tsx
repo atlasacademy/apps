@@ -2,7 +2,7 @@ import {Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
-import BuffDescriptor from "../../Descriptor/BuffDescriptor";
+import BuffDescription from "../../Descriptor/BuffDescription";
 import TraitDescription from "../../Descriptor/TraitDescription";
 
 interface IProps {
@@ -41,7 +41,7 @@ class FuncMainData extends React.Component<IProps> {
                 "Buffs": (
                     <div>
                         {func.buffs.map((buff, index) => {
-                            return <BuffDescriptor key={index} region={this.props.region} buff={buff}/>;
+                            return <BuffDescription key={index} region={this.props.region} buff={buff}/>;
                         })}
                     </div>
                 )

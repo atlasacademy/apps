@@ -1,11 +1,9 @@
 import {Region, Trait} from "@atlasacademy/api-connector";
-import {TraitDescriptor} from "@atlasacademy/api-descriptor";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {RefObject} from "react";
 import {Badge} from "react-bootstrap";
 import {Typeahead} from "react-bootstrap-typeahead";
-import Description from "../../Descriptor/Description";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import {mergeElements} from "../../Helper/OutputHelper";
 
@@ -32,8 +30,7 @@ class TraitsSelector extends React.Component<IProps, IState> {
 
     private options() {
         return this.props.traitList.map(trait => {
-            const descriptor = TraitDescriptor.describe(trait),
-                label = Description.renderAsString(descriptor);
+            const label = TraitDescription.renderAsString(trait);
 
             return {
                 label: `${trait.id.toString().padStart(4, '0')} - ${label}`,

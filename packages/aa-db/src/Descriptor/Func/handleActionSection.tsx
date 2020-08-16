@@ -1,6 +1,6 @@
 import {Buff, DataVal, Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import BuffDescriptor from "../BuffDescriptor";
+import BuffDescription from "../BuffDescription";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
@@ -56,7 +56,7 @@ function handleBuffActionSection(region: Region, sections: FuncDescriptorSection
         if (index > 0)
             parts.push('&');
 
-        parts.push(<BuffDescriptor region={region} buff={buff}/>);
+        parts.push(<BuffDescription region={region} buff={buff}/>);
     });
 
     if (
