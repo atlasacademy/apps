@@ -1,6 +1,6 @@
 import {Buff, DataVal, Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import BuffValueDescriptor from "../BuffValueDescriptor";
+import BuffValueDescription from "../BuffValueDescription";
 import FuncValueDescriptor from "../FuncValueDescriptor";
 import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
 import TraitDescription from "../TraitDescription";
@@ -81,7 +81,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             <SkillReferenceDescriptor region={region} id={dataVal.SkillID}/>
         );
     } else if (func.buffs[0] && dataVal.Value) {
-        parts.push(<BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
+        parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
     } else if (dataVal.Value) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}
                                         hideRate={true}/>);

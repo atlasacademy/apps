@@ -30,6 +30,10 @@ class SkillReferenceDescriptor extends React.Component<IProps, IState> {
         }
     }
 
+    static renderAsString(id: number): string {
+        return `[Skill: ${id}]`;
+    }
+
     render() {
         const route = `/${this.props.region}/skill/${this.props.id}`;
 

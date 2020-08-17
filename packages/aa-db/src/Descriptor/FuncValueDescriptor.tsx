@@ -1,7 +1,7 @@
 import {Buff, DataVal, Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {asPercent, mergeElements, Renderable} from "../Helper/OutputHelper";
-import BuffValueDescriptor from "./BuffValueDescriptor";
+import BuffValueDescription from "./BuffValueDescription";
 
 interface IProps {
     region: Region;
@@ -90,7 +90,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
                 || (func.buffs[0].type === Buff.BuffType.SELFTURNEND_FUNCTION && this.props.staticDataVal.Value2)
             )
         ) {
-            return <BuffValueDescriptor region={region} buff={func.buffs[0]} dataVal={dataVal}/>;
+            return <BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal}/>;
         }
 
         if (!this.props.hideRate && dataVal.Rate !== undefined) {
