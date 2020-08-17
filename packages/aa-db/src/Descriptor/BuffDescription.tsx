@@ -11,6 +11,12 @@ interface IProps {
 }
 
 class BuffDescription extends React.Component<IProps> {
+    static renderAsString(buff: Buff.Buff): string {
+        const descriptor = BuffDescriptor.describe(buff);
+
+        return "[" + Description.renderAsString(descriptor) + "]";
+    }
+
     render() {
         const buff = this.props.buff,
             descriptor = BuffDescriptor.describe(this.props.buff);
@@ -20,7 +26,7 @@ class BuffDescription extends React.Component<IProps> {
                 [
                 {buff.icon ? <BuffIcon location={buff.icon}/> : undefined}
                 {buff.icon ? ' ' : undefined}
-                <Description region={this.props.region} descriptor={descriptor}/>
+                {Description.renderAsString(descriptor)}
                 ]
             </Link>
         );

@@ -10,6 +10,12 @@ interface IProps {
 }
 
 class SkillDescriptor extends React.Component<IProps> {
+    static renderAsString(skill: Skill.Skill): string {
+        const name = skill.name ? skill.name : `Skill: ${skill.id}`;
+
+        return `[${name}]`;
+    }
+
     render() {
         return (
             <Link to={`/${this.props.region}/skill/${this.props.skill.id}`}>

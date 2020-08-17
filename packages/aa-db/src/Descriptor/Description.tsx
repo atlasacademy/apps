@@ -10,6 +10,9 @@ import {
     ValueType
 } from "@atlasacademy/api-descriptor";
 import React from "react";
+import CardDescription from "./CardDescription";
+import SkillDescriptor from "./SkillDescriptor";
+import SkillReferenceDescriptor from "./SkillReferenceDescriptor";
 import TraitDescription from "./TraitDescription";
 
 interface IProps {
@@ -23,7 +26,15 @@ class Description extends React.Component<IProps> {
     }
 
     private static renderReferenceAsString(partial: ReferencePartial): string {
-        if (partial.referenceType === ReferenceType.TRAIT) {
+        if (partial.referenceType === ReferenceType.CARD) {
+            return CardDescription.renderAsString(partial.value);
+        } else if (partial.referenceType === ReferenceType.SKILL) {
+            if (typeof partial.value === "number") {
+                return SkillReferenceDescriptor.renderAsString(partial.value);
+            } else {
+                return SkillDescriptor.renderAsString(partial.value);
+            }
+        } else if (partial.referenceType === ReferenceType.TRAIT) {
             return TraitDescription.renderAsString(partial.value);
         }
 
@@ -36,7 +47,7 @@ class Description extends React.Component<IProps> {
 
     private static renderValue(partial: ValuePartial): string {
         if (partial.valueType === ValueType.PERCENT) {
-            return (partial.value * 100).toString() + '%';
+            return partial.value.toString() + '%';
         }
 
         return partial.value.toString();
@@ -51,6 +62,8 @@ class Description extends React.Component<IProps> {
 
             if (partial.type === PartialType.PARTICLE) {
                 fragments.push(Description.renderParticle(partial));
+            } else if (partial.type === PartialType.REFERENCE) {
+                fragments.push(Description.renderReferenceAsString(partial as ReferencePartial));
             } else if (partial.type === PartialType.TEXT) {
                 fragments.push(Description.renderText(partial));
             } else if (partial.type === PartialType.VALUE) {
@@ -60,11 +73,19 @@ class Description extends React.Component<IProps> {
             }
         }
 
-        return fragments.join();
+        return fragments.join('');
     }
 
     private renderReference(partial: ReferencePartial, key: number) {
-        if (partial.referenceType === ReferenceType.TRAIT) {
+        if (partial.referenceType === ReferenceType.CARD) {
+            return <CardDescription key={key} region={this.props.region} card={partial.value}/>;
+        } else if (partial.referenceType === ReferenceType.SKILL) {
+            if (typeof partial.value === "number") {
+                return <SkillReferenceDescriptor key={key} region={this.props.region} id={partial.value}/>;
+            } else {
+                return <SkillDescriptor key={key} region={this.props.region} skill={partial.value}/>;
+            }
+        } else if (partial.referenceType === ReferenceType.TRAIT) {
             return <TraitDescription key={key} region={this.props.region} trait={partial.value}/>
         }
 
