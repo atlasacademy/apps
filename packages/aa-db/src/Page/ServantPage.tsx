@@ -202,7 +202,7 @@ class ServantPage extends React.Component<IProps, IState> {
                     </Tab>
                     <Tab eventKey={'traits'} title={'Traits'}>
                         <br/>
-                        <ServantTraits region={this.props.region} traits={this.state.servant.traits}/>
+                        <ServantTraits region={this.props.region} servant={this.state.servant}/>
                     </Tab>
                     <Tab eventKey={'materials'} title={'Materials'}>
                         <br/>
