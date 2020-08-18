@@ -1,4 +1,4 @@
-import {Region, Servant} from "@atlasacademy/api-connector";
+import {Region, Servant, Trait} from "@atlasacademy/api-connector";
 import React from "react";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import {mergeElements} from "../../Helper/OutputHelper";
@@ -16,6 +16,12 @@ interface IProps {
 }
 
 class ServantTraits extends React.Component<IProps> {
+    private getOverrideTraits(): Trait.Trait[] {
+        return [
+            {id: this.props.servant.id, name: `Self`}
+        ];
+    }
+
     private getTraitDiffs(): TraitDiff[] {
         const diffs: TraitDiff[] = [],
             existingIds = this.props.servant.traits.map(trait => trait.id);
@@ -55,7 +61,8 @@ class ServantTraits extends React.Component<IProps> {
                 <p>
                     {mergeElements(
                         this.props.servant.traits.map(trait => <TraitDescription region={this.props.region}
-                                                                                 trait={trait}/>),
+                                                                                 trait={trait}
+                                                                                 overrideTraits={this.getOverrideTraits()}/>),
                         ', '
                     )}
                 </p>
@@ -68,7 +75,8 @@ class ServantTraits extends React.Component<IProps> {
                                 <p>
                                     {mergeElements(
                                         diffs.addedTraits.map(id => <TraitDescription region={this.props.region}
-                                                                                      trait={id}/>),
+                                                                                      trait={id}
+                                                                                      overrideTraits={this.getOverrideTraits()}/>),
                                         ', '
                                     )}
                                 </p>
@@ -81,7 +89,8 @@ class ServantTraits extends React.Component<IProps> {
                                 <p>
                                     {mergeElements(
                                         diffs.removedTraits.map(id => <TraitDescription region={this.props.region}
-                                                                                        trait={id}/>),
+                                                                                        trait={id}
+                                                                                        overrideTraits={this.getOverrideTraits()}/>),
                                         ', '
                                     )}
                                 </p>
