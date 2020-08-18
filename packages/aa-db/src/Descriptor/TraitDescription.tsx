@@ -9,6 +9,7 @@ interface IProps {
     region: Region;
     trait: Trait.Trait | number;
     disableLink?: boolean;
+    overrideTraits?: Trait.Trait[];
 }
 
 interface IState {
@@ -50,7 +51,7 @@ class TraitDescription extends React.Component<IProps, IState> {
     }
 
     private getDescription(trait: Trait.Trait | number) {
-        const descriptor = TraitDescriptor.describe(trait);
+        const descriptor = TraitDescriptor.describe(trait, this.props.overrideTraits);
 
         return <Description region={this.props.region} descriptor={descriptor}/>;
     }
