@@ -49,7 +49,6 @@ class ServantTraits extends React.Component<IProps> {
     }
 
     render() {
-        console.log(this.props.servant.ascensionAdd.individuality);
         return (
             <div>
                 <h3>Basic Traits</h3>
@@ -65,7 +64,7 @@ class ServantTraits extends React.Component<IProps> {
                     <div key={i}>
                         {diffs.addedTraits.length > 0 ? (
                             <div>
-                                <h3>{diffs.type}: {diffs.id} Added</h3>
+                                <h3>{diffs.type} {diffs.id}: Additional Traits</h3>
                                 <p>
                                     {mergeElements(
                                         diffs.addedTraits.map(id => <TraitDescription region={this.props.region}
@@ -78,7 +77,7 @@ class ServantTraits extends React.Component<IProps> {
 
                         {diffs.removedTraits.length > 0 ? (
                             <div>
-                                <h3>{diffs.type}: {diffs.id} Removed</h3>
+                                <h3>{diffs.type} {diffs.id}: Removed Traits</h3>
                                 <p>
                                     {mergeElements(
                                         diffs.removedTraits.map(id => <TraitDescription region={this.props.region}
