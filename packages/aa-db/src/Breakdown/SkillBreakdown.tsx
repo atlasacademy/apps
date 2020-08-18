@@ -11,6 +11,7 @@ interface IProps {
     skill: Skill.Skill;
     cooldowns: boolean;
     levels?: number;
+    rankUp?: number;
 }
 
 class SkillBreakdown extends React.Component<IProps> {
@@ -21,6 +22,12 @@ class SkillBreakdown extends React.Component<IProps> {
                 <h3>
                     <SkillDescriptor region={this.props.region} skill={skill} iconHeight={33}/>
                 </h3>
+
+                {this.props.rankUp !== undefined ? (
+                    <Alert variant={"primary"}>
+                        Rank Up +{this.props.rankUp}
+                    </Alert>
+                ) : undefined}
 
                 {skill.condQuestId && skill.condQuestPhase ? (
                     <Alert variant={'primary'}>

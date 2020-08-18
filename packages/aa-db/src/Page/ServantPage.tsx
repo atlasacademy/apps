@@ -7,6 +7,7 @@ import {RouteComponentProps} from "react-router-dom";
 import Api from "../Api";
 import NoblePhantasmBreakdown from "../Breakdown/NoblePhantasmBreakdown";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
+import SkillReferenceBreakdown from "../Breakdown/SkillReferenceBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
@@ -94,6 +95,16 @@ class ServantPage extends React.Component<IProps, IState> {
         }
     }
 
+    private skillRankUps(skillId: number): number[] {
+        const rankUps = this.state.servant?.script.SkillRankUp;
+        if (!rankUps)
+            return [];
+
+        const ids = rankUps[skillId] ?? [];
+
+        return Array.from(new Set(ids));
+    }
+
     private updatePortrait(assetType: AssetType, assetId: number) {
         this.setState({assetType, assetId});
     }
@@ -137,42 +148,32 @@ class ServantPage extends React.Component<IProps, IState> {
                       onSelect={(key?: string) => {
                           this.props.history.replace(`/${this.props.region}/servant/${this.props.id}/${key}`);
                       }}>
-                    <Tab eventKey={'skill-1'} title={'Skill 1'}>
-                        <br/>
-                        {this.state.servant.skills
-                            .filter(skill => skill.num === 1)
-                            .map((skill, index) => {
-                                return <SkillBreakdown region={this.props.region}
-                                                       key={index}
-                                                       skill={skill}
-                                                       cooldowns={true}
-                                                       levels={10}/>;
-                            })}
-                    </Tab>
-                    <Tab eventKey={'skill-2'} title={'Skill 2'}>
-                        <br/>
-                        {this.state.servant.skills
-                            .filter(skill => skill.num === 2)
-                            .map((skill, index) => {
-                                return <SkillBreakdown region={this.props.region}
-                                                       key={index}
-                                                       skill={skill}
-                                                       cooldowns={true}
-                                                       levels={10}/>;
-                            })}
-                    </Tab>
-                    <Tab eventKey={'skill-3'} title={'Skill 3'}>
-                        <br/>
-                        {this.state.servant.skills
-                            .filter(skill => skill.num === 3)
-                            .map((skill, index) => {
-                                return <SkillBreakdown region={this.props.region}
-                                                       key={index}
-                                                       skill={skill}
-                                                       cooldowns={true}
-                                                       levels={10}/>;
-                            })}
-                    </Tab>
+                    {[1, 2, 3].map(i => (
+                        <Tab eventKey={`skill-${i}`} title={`Skill ${i}`}>
+                            <br/>
+                            {servant.skills
+                                .filter(skill => skill.num === i)
+                                .map(skill => {
+                                    return (
+                                        <div>
+                                            <SkillBreakdown region={this.props.region}
+                                                            key={skill.id}
+                                                            skill={skill}
+                                                            cooldowns={true}
+                                                            levels={10}/>
+                                            {this.skillRankUps(skill.id).map((rankUpSkill, rankUp) => {
+                                                return <SkillReferenceBreakdown key={rankUpSkill}
+                                                                                region={this.props.region}
+                                                                                id={rankUpSkill}
+                                                                                cooldowns={true}
+                                                                                levels={10}
+                                                                                rankUp={rankUp + 1}/>;
+                                            })}
+                                        </div>
+                                    );
+                                })}
+                        </Tab>
+                    ))}
                     <Tab eventKey={'noble-phantasms'} title={'Noble Phantasms'}>
                         <br/>
                         {this.state.servant.noblePhantasms
