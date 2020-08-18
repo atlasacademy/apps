@@ -83,7 +83,7 @@ class FuncsPage extends React.Component<IProps, IState> {
             <div>
                 {this.state.searching ? <Loading/> : null}
 
-                <h1>Functions SEarch</h1>
+                <h1>Functions Search</h1>
 
                 <form onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
