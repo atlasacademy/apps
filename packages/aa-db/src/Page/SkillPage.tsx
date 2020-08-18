@@ -3,6 +3,7 @@ import {AxiosError} from "axios";
 import React from "react";
 import {Form} from "react-bootstrap";
 import Api from "../Api";
+import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -139,6 +140,16 @@ class SkillPage extends React.Component<IProps, IState> {
                 }}/>
 
                 <br/>
+                <h3>Breakdown</h3>
+                <EffectBreakdown region={this.props.region}
+                                 cooldowns={skill.coolDown.length > 0 ? skill.coolDown : undefined}
+                                 funcs={skill.functions}
+                                 levels={skill.functions[0]?.svals.length ?? 1}
+                                 scripts={skill.script}/>
+
+                <br/>
+                <br/>
+                <h3>Detailed Effects</h3>
                 <Form inline style={{justifyContent: 'center'}}>
                     <Form.Control as={'select'} value={this.state.level}
                                   onChange={(ev: Event) => this.changeLevel(parseInt(ev.target.value))}>

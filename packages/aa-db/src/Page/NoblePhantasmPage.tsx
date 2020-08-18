@@ -3,6 +3,7 @@ import {AxiosError} from "axios";
 import React from "react";
 import {Col, Form, Row} from "react-bootstrap";
 import Api from "../Api";
+import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -117,6 +118,15 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 }}/>
 
                 <br/>
+                <h3>Breakdown</h3>
+                <EffectBreakdown region={this.props.region}
+                                 funcs={noblePhantasm.functions}
+                                 gain={noblePhantasm.npGain}
+                                 levels={noblePhantasm.functions[0]?.svals.length ?? 1}/>
+
+                <br/>
+                <br/>
+                <h3>Detailed Effects</h3>
                 <Row>
                     <Col>
                         <Form inline style={{justifyContent: 'flex-end'}}>
