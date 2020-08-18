@@ -96,8 +96,7 @@ class EnemyPage extends React.Component<IProps, IState> {
                                                                region={this.props.region}
                                                                servant={enemy as unknown as Servant.Servant}
                                                                noblePhantasm={noblePhantasm}
-                                                               hideCard={true}
-                                                               hideGain={true}/>;
+                                                               hideCard={true}/>;
                             })}
                     </Tab>
                     <Tab eventKey={'skills'} title={'Skills'}>
