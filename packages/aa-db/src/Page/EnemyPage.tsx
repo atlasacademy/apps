@@ -99,17 +99,36 @@ class EnemyPage extends React.Component<IProps, IState> {
                                                                hideCard={true}/>;
                             })}
                     </Tab>
-                    <Tab eventKey={'skills'} title={'Skills'}>
-                        <br/>
-                        {enemy.skills
-                            .map((skill, index) => {
-                                return <SkillBreakdown region={this.props.region}
-                                                       key={index}
-                                                       skill={skill}
-                                                       cooldowns={true}
-                                                       levels={10}/>;
-                            })}
-                    </Tab>
+                    {enemy.skills.length > 0 ? (
+                        <Tab eventKey={'skills'} title={'Skills'}>
+                            <br/>
+                            {enemy
+                                .skills
+                                .map((skill, index) => {
+                                    return <SkillBreakdown region={this.props.region}
+                                                           key={index}
+                                                           skill={skill}
+                                                           cooldowns={true}
+                                                           levels={10}/>;
+                                })}
+                        </Tab>
+                    ) : null}
+                    {enemy.classPassive.length > 0 ? (
+                        <Tab eventKey={'passives'} title={'Passives'}>
+                            <br/>
+                            <Row>
+                                {enemy.classPassive.map((skill, index) => {
+                                    return (
+                                        <Col xs={12}
+                                             lg={(enemy.classPassive.length ?? 1) > 1 ? 6 : 12}
+                                             key={index}>
+                                            <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
+                                        </Col>
+                                    );
+                                })}
+                            </Row>
+                        </Tab>
+                    ) : null}
                     <Tab eventKey={'stat-growth'} title={'Stat Growth'}>
                         <br/>
                         <ServantStatGrowth region={this.props.region} servant={enemy as unknown as Servant.Servant}/>

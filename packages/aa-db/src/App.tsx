@@ -103,10 +103,10 @@ class App extends React.Component<any, IState> {
                                }}/>
                         <Route exact={true} path="/:region(JP|NA)/enemy/:id([0-9]+)/:tab([a-z0-9\-]+)?"
                                render={props => {
-                                   const {region, id} = props.match.params
+                                   const {region, id, tab} = props.match.params
                                    return (
                                        <Suspense fallback={<Loading/>}>
-                                           <EnemyPage key={`${region}-${id}`} region={region} id={id}/>
+                                           <EnemyPage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
                                        </Suspense>
                                    );
                                }}/>
