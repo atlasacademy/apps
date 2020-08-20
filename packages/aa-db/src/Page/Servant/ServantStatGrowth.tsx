@@ -25,8 +25,8 @@ class ServantStatGrowth extends React.Component<IProps> {
                     </tr>
                     </thead>
                     <tbody>
-                    {[...Array(100)].map((_, i) => {
-                        const index = 100 - i - 1;
+                    {[...Array(this.props.servant.hpGrowth.length)].map((_, i) => {
+                        const index = this.props.servant.hpGrowth.length - i - 1;
 
                         return (
                             <tr key={i}>
