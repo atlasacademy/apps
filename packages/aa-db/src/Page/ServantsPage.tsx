@@ -3,7 +3,7 @@ import {AxiosError} from "axios";
 import diacritics from 'diacritics';
 import minimatch from "minimatch";
 import React from "react";
-import {Form, Table} from "react-bootstrap";
+import {Form, Pagination, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Api from "../Api";
 import ClassIcon from "../Component/ClassIcon";
@@ -44,6 +44,8 @@ interface IState {
     servants: Servant.ServantBasic[];
     activeClassFilters: ClassName[];
     activeRarityFilters: number[];
+    perPage: number;
+    page: number;
     search?: string;
 }
 
@@ -57,6 +59,8 @@ class ServantsPage extends React.Component<IProps, IState> {
             servants: [],
             activeClassFilters: [],
             activeRarityFilters: [],
+            perPage: 100,
+            page: 0,
         };
     }
 
@@ -88,6 +92,75 @@ class ServantsPage extends React.Component<IProps, IState> {
             || className === ClassName.CASTER
             || className === ClassName.ASSASSIN
             || className === ClassName.BERSERKER);
+    }
+
+    private pageItem(label: string, page: number, key: string | number, active: boolean, disabled: boolean) {
+        return <li key={key} className={'page-item' + (active ? ' active' : '') + (disabled ? ' disabled' : '')}>
+            {
+                disabled
+                    ? <span className={'page-link'}>{label}</span>
+                    : <button className={'page-link'} onClick={() => this.setPage(page)}>{label}</button>
+            }
+        </li>
+    }
+
+    private paginator(count: number): JSX.Element {
+        const items = [],
+            maxPage = Math.ceil(count / this.state.perPage) - 1,
+            bounds = 2,
+            nearbyPrev = [],
+            nearbyNext = [],
+            nearbyCount = bounds * 2 + 1;
+
+        for (let i = 0; i < bounds * 2; i++) {
+            const prev = this.state.page - i - 1;
+            if (prev >= 0) {
+                nearbyPrev.unshift(prev);
+            }
+
+            const next = this.state.page + i + 1;
+            if (next <= maxPage) {
+                nearbyNext.push(next);
+            }
+        }
+
+        while (nearbyPrev.length + nearbyNext.length + 1 > nearbyCount) {
+            if (nearbyNext.length > nearbyPrev.length) {
+                nearbyNext.pop();
+            } else {
+                nearbyPrev.shift();
+            }
+        }
+
+        const pages = nearbyPrev.concat([this.state.page], nearbyNext);
+
+        items.push(this.pageItem('<', this.state.page - 1, 'prev', false, this.state.page <= 0));
+
+        if (pages[0] > 0) {
+            items.push(this.pageItem('1', 0, 'first', false, false));
+
+            if (pages[0] > 1)
+                items.push(this.pageItem('…', 0, 'firstEllipsis', false, true));
+        }
+
+        items.push(...pages.map(i => this.pageItem((i + 1).toString(), i, i, i === this.state.page, false)));
+
+        if (pages[pages.length - 1] < maxPage) {
+            items.push(this.pageItem('…', maxPage, 'lastEllipsis', false, true));
+
+            if (pages[pages.length - 1] < maxPage)
+                items.push(this.pageItem((maxPage + 1).toString(), maxPage, 'last', false, false));
+        }
+
+        items.push(this.pageItem('>', this.state.page + 1, 'next', false, this.state.page >= maxPage));
+
+        return <div style={{marginBottom: 20}}>
+            <Pagination>{items}</Pagination>
+        </div>;
+    }
+
+    private setPage(page: number) {
+        this.setState({page});
     }
 
     private toggleClassFilter(className: ClassName): void {
@@ -179,6 +252,13 @@ class ServantsPage extends React.Component<IProps, IState> {
         if (this.state.loading)
             return <Loading/>;
 
+        const servants = this.servants(),
+            hasPaginator = servants.length > this.state.perPage,
+            results = servants.slice(
+                this.state.perPage * this.state.page,
+                this.state.perPage * (this.state.page + 1)
+            );
+
         return (
             <div id="servants">
                 <Form inline style={{justifyContent: 'center'}}>
@@ -201,6 +281,12 @@ class ServantsPage extends React.Component<IProps, IState> {
                                   }}/>
                 </Form>
 
+                <br/>
+
+                {hasPaginator
+                    ? <div>{this.paginator(servants.length)}</div>
+                    : undefined}
+
                 <hr/>
 
                 <Table striped bordered hover responsive>
@@ -214,41 +300,41 @@ class ServantsPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this
-                        .servants()
-                        .map((servant, index) => {
-                            const route = `/${this.props.region}/servant/${servant.collectionNo}`;
+                    {results.map((servant, index) => {
+                        const route = `/${this.props.region}/servant/${servant.collectionNo}`;
 
-                            return <tr key={index}>
-                                <td align={"center"}>
-                                    <Link to={route}>
-                                        {servant.collectionNo}
-                                    </Link>
-                                </td>
-                                <td align={"center"}>
-                                    <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
-                                </td>
-                                <td align={"center"}>
-                                    <Link to={route}>
-                                        <FaceIcon type={servant.type}
-                                                  rarity={servant.rarity}
-                                                  location={servant.face}
-                                                  height={50}/>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <Link to={route}>
-                                        {servant.name}
-                                    </Link>
-                                </td>
-                                <td>
-                                    <RarityDescriptor rarity={servant.rarity}/>
-                                </td>
-                            </tr>
-                        })
+                        return <tr key={index}>
+                            <td align={"center"}>
+                                <Link to={route}>
+                                    {servant.collectionNo}
+                                </Link>
+                            </td>
+                            <td align={"center"}>
+                                <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
+                            </td>
+                            <td align={"center"}>
+                                <Link to={route}>
+                                    <FaceIcon type={servant.type}
+                                              rarity={servant.rarity}
+                                              location={servant.face}
+                                              height={50}/>
+                                </Link>
+                            </td>
+                            <td>
+                                <Link to={route}>
+                                    {servant.name}
+                                </Link>
+                            </td>
+                            <td>
+                                <RarityDescriptor rarity={servant.rarity}/>
+                            </td>
+                        </tr>
+                    })
                     }
                     </tbody>
                 </Table>
+
+                {hasPaginator ? this.paginator(servants.length) : undefined}
             </div>
         );
     }

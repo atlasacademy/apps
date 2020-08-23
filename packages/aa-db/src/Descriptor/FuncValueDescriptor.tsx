@@ -77,6 +77,10 @@ class FuncValueDescriptor extends React.Component<IProps> {
             }
         }
 
+        if (!this.props.hideRate && dataVal.Rate !== undefined) {
+            parts.push(asPercent(dataVal.Rate, 1) + ' Chance');
+        }
+
         if (
             (func.funcType === Func.FuncType.ADD_STATE || func.funcType === Func.FuncType.ADD_STATE_SHORT)
             && func.buffs[0]
@@ -90,11 +94,9 @@ class FuncValueDescriptor extends React.Component<IProps> {
                 || (func.buffs[0].type === Buff.BuffType.SELFTURNEND_FUNCTION && this.props.staticDataVal.Value2)
             )
         ) {
-            return <BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal}/>;
-        }
+            parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
 
-        if (!this.props.hideRate && dataVal.Rate !== undefined) {
-            parts.push(asPercent(dataVal.Rate, 1));
+            return <span>{mergeElements(parts, ' + ')}</span>;
         }
 
         if (dataVal.Value !== undefined) {
