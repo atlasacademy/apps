@@ -6,7 +6,7 @@ export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     [Func.FuncTargetType.PT_ONE, 'party member'],
     // PT_ANOTHER
     [Func.FuncTargetType.PT_ALL, 'party'],
-    [Func.FuncTargetType.ENEMY, 'enemy'],
+    [Func.FuncTargetType.ENEMY, 'one enemy'],
     // ENEMY_ANOTHER
     [Func.FuncTargetType.ENEMY_ALL, 'enemies'],
     [Func.FuncTargetType.PT_FULL, 'party (including reserve)'],
