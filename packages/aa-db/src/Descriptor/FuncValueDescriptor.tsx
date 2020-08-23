@@ -162,6 +162,10 @@ class FuncValueDescriptor extends React.Component<IProps> {
             }
         }
 
+        if (dataVal.UseRate !== undefined) {
+            parts.push(asPercent(dataVal.UseRate, 1) + ' Chance');
+        }
+
         if (dataVal.RateCount) {
             switch (func.funcType) {
                 case Func.FuncType.QP_DROP_UP:
