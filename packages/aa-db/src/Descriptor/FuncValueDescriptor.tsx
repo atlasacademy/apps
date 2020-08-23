@@ -163,7 +163,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
         }
 
         if (dataVal.UseRate !== undefined) {
-            parts.push(asPercent(dataVal.UseRate, 1) + ' Chance');
+            parts.push(asPercent(dataVal.UseRate, 1) + ' Chance to Trigger');
         }
 
         if (dataVal.RateCount) {
