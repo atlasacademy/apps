@@ -92,7 +92,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                 </Row>
 
                 <Tabs id={'ce-tabs'} defaultActiveKey={this.props.tab ?? 'effects'} transition={false}
-                      onSelect={(key?: string) => {
+                      onSelect={(key: string | null) => {
                           this.props.history.replace(`/${this.props.region}/craft-essence/${this.props.id}/${key}`);
                       }}>
                     <Tab eventKey={'effects'} title={'Effects'}>

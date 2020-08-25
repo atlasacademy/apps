@@ -85,7 +85,7 @@ class EnemyPage extends React.Component<IProps, IState> {
                 </Row>
 
                 <Tabs id={'enemy-tabs'} defaultActiveKey={this.props.tab ?? 'noble-phantasms'} transition={false}
-                      onSelect={(key?: string) => {
+                      onSelect={(key: string | null) => {
                           this.props.history.replace(`/${this.props.region}/enemy/${this.props.id}/${key}`);
                       }}>
                     <Tab eventKey={'noble-phantasms'} title={'Noble Phantasms'}>
