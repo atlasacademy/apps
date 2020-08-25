@@ -3,11 +3,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import copy from 'copy-to-clipboard';
 import React from "react";
-import {Modal} from "react-bootstrap";
+import {Modal, Button} from "react-bootstrap";
 import ReactJson from "react-json-view";
 
 interface IProps {
     data: object | string;
+    text?: string
 }
 
 interface IState {
@@ -50,16 +51,16 @@ class RawDataViewer extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <div>
-                <span className={'text-primary'}
-                      style={{cursor: "pointer"}}
+            <>
+                <Button
+                      variant="outline-info" block
                       onClick={() => {
                           this.show();
                       }}>
-                    View
+                    {this.props.text || 'View'}
                     &nbsp;
                     <FontAwesomeIcon icon={faSearchPlus}/>
-                </span>
+                </Button>
 
                 <Modal size={"lg"} show={this.state.showing} onHide={() => this.hide()}>
                     <Modal.Header closeButton>
@@ -76,7 +77,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                         ) : null}
                     </Modal.Body>
                 </Modal>
-            </div>
+            </>
         );
     }
 }

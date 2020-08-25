@@ -19,13 +19,16 @@ class MysticCodeMainData extends React.Component<IProps> {
                 </h1>
 
                 <DataTable data={{
-                    "Data": <RawDataViewer data={mysticCode}/>,
-                    "Raw": <RawDataViewer
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/MC/${mysticCode.id}?expand=true`}/>,
                     "ID": mysticCode.id,
                     "Name": mysticCode.name,
                     "Detail": mysticCode.detail,
                 }}/>
+                <span>
+                    <RawDataViewer text="Nice" data={mysticCode}/>
+                    <RawDataViewer
+                        text="Raw"
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/MC/${mysticCode.id}?expand=true`}/>,
+                </span>
             </div>
         );
     }

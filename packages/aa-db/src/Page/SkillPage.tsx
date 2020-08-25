@@ -93,9 +93,6 @@ class SkillPage extends React.Component<IProps, IState> {
                 <br/>
 
                 <DataTable data={{
-                    "Data": <RawDataViewer data={skill}/>,
-                    "Raw": <RawDataViewer
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/skill/${skill.id}?expand=true`}/>,
                     "ID": skill.id,
                     "Name": skill.name,
                     "Detail": skill.detail,
@@ -139,6 +136,12 @@ class SkillPage extends React.Component<IProps, IState> {
                         </div>
                     )
                 }}/>
+                <span>
+                    <RawDataViewer text="Nice" data={skill}/>
+                    <RawDataViewer
+                        text="Raw"
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/skill/${skill.id}?expand=true`}/>,
+                </span>
 
                 <br/>
                 <h3>Breakdown</h3>

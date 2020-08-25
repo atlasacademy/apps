@@ -15,29 +15,34 @@ class EnemyMainData extends React.Component<IProps> {
         const enemy = this.props.enemy;
 
         return (
-            <div>
-                <DataTable data={{
-                    "Data": <RawDataViewer data={enemy}/>,
-                    "Raw": <RawDataViewer
+            <>  
+                <div>
+                    <DataTable data={{
+                        "ID": enemy.id,
+                        "Name": enemy.name,
+                        "Class": enemy.className,
+                        "Rarity": <RarityDescriptor rarity={enemy.rarity}/>,
+                        "Attribute": enemy.attribute,
+                        "Hp": <div>
+                            Base: {formatNumber(enemy.hpBase)}
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            Max: {formatNumber(enemy.hpMax)}
+                        </div>,
+                        "Atk": <div>
+                            Base: {formatNumber(enemy.atkBase)}
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            Max: {formatNumber(enemy.atkMax)}
+                        </div>,
+                        "Death Chance": asPercent(enemy.instantDeathChance, 1),
+                    }}/>
+                </div>
+                <span>
+                    <RawDataViewer text="Nice" data={enemy}/>
+                    <RawDataViewer
+                        text="Raw"
                         data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${enemy.id}?expand=true&lore=true`}/>,
-                    "ID": enemy.id,
-                    "Name": enemy.name,
-                    "Class": enemy.className,
-                    "Rarity": <RarityDescriptor rarity={enemy.rarity}/>,
-                    "Attribute": enemy.attribute,
-                    "Hp": <div>
-                        Base: {formatNumber(enemy.hpBase)}
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        Max: {formatNumber(enemy.hpMax)}
-                    </div>,
-                    "Atk": <div>
-                        Base: {formatNumber(enemy.atkBase)}
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        Max: {formatNumber(enemy.atkMax)}
-                    </div>,
-                    "Death Chance": asPercent(enemy.instantDeathChance, 1),
-                }}/>
-            </div>
+                </span>
+            </>
         );
     }
 }

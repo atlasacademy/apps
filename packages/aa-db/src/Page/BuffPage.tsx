@@ -76,9 +76,6 @@ class BuffPage extends React.Component<IProps, IState> {
                 <br/>
 
                 <DataTable data={{
-                    "Data": <RawDataViewer data={buff}/>,
-                    "Raw": <RawDataViewer
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/buff/${buff.id}`}/>,
                     "ID": buff.id,
                     "Name": buff.name,
                     "Detail": buff.detail,
@@ -124,6 +121,12 @@ class BuffPage extends React.Component<IProps, IState> {
                         </div>
                     )
                 }}/>
+                <span>
+                    <RawDataViewer text="Nice" data={buff}/>,
+                    <RawDataViewer
+                        text="Raw"
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/buff/${buff.id}`}/>,
+                </span>
 
                 <h3>Related Functions</h3>
                 <Table>
