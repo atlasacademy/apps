@@ -28,9 +28,6 @@ class ServantMainData extends React.Component<IProps> {
                 </h1>
 
                 <DataTable data={{
-                    "Data": <RawDataViewer data={servant}/>,
-                    "Raw": <RawDataViewer
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${this.props.servant.id}?expand=true&lore=true`}/>,
                     "ID": servant.id,
                     "Collection": servant.collectionNo,
                     "Name": servant.name,
@@ -64,6 +61,12 @@ class ServantMainData extends React.Component<IProps> {
                             : ''
                     )
                 }}/>
+                <span>
+                    <RawDataViewer text="Nice" data={servant}/>
+                    <RawDataViewer
+                        text="Raw"
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${this.props.servant.id}?expand=true&lore=true`}/>
+                </span>
             </div>
         );
     }

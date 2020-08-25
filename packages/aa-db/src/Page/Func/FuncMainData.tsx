@@ -15,37 +15,42 @@ class FuncMainData extends React.Component<IProps> {
         const func = this.props.func;
 
         return (
-            <DataTable data={{
-                "Data": <RawDataViewer data={func}/>,
-                "Raw": <RawDataViewer
-                    data={`https://api.atlasacademy.io/raw/${this.props.region}/function/${func.funcId}?expand=true`}/>,
-                "ID": func.funcId,
-                "Type": func.funcType,
-                "Target": func.funcTargetType,
-                "Affects Players/Enemies": func.funcTargetTeam,
-                "Popup Text": func.funcPopupText,
-                "Target Traits": (
-                    <div>
-                        {func.functvals.map((trait, index) => {
-                            return <TraitDescription key={index} region={this.props.region} trait={trait}/>;
-                        })}
-                    </div>
-                ),
-                "Affects Traits": (
-                    <div>
-                        {func.traitVals?.map((trait, index) => {
-                            return <TraitDescription key={index} region={this.props.region} trait={trait}/>;
-                        })}
-                    </div>
-                ),
-                "Buffs": (
-                    <div>
-                        {func.buffs.map((buff, index) => {
-                            return <BuffDescription key={index} region={this.props.region} buff={buff}/>;
-                        })}
-                    </div>
-                )
-            }}/>
+            <>
+                <DataTable data={{
+                    "ID": func.funcId,
+                    "Type": func.funcType,
+                    "Target": func.funcTargetType,
+                    "Affects Players/Enemies": func.funcTargetTeam,
+                    "Popup Text": func.funcPopupText,
+                    "Target Traits": (
+                        <div>
+                            {func.functvals.map((trait, index) => {
+                                return <TraitDescription key={index} region={this.props.region} trait={trait}/>;
+                            })}
+                        </div>
+                    ),
+                    "Affects Traits": (
+                        <div>
+                            {func.traitVals?.map((trait, index) => {
+                                return <TraitDescription key={index} region={this.props.region} trait={trait}/>;
+                            })}
+                        </div>
+                    ),
+                    "Buffs": (
+                        <div>
+                            {func.buffs.map((buff, index) => {
+                                return <BuffDescription key={index} region={this.props.region} buff={buff}/>;
+                            })}
+                        </div>
+                    )
+                }}/>
+                <span>
+                    <RawDataViewer text="Nice" data={func}/>
+                    <RawDataViewer
+                        text="Raw"
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/function/${func.funcId}?expand=true`}/>,
+                </span>
+            </>
         );
     }
 }

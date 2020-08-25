@@ -20,15 +20,18 @@ class CommandCodeMainData extends React.Component<IProps> {
                 </h1>
 
                 <DataTable data={{
-                    "Data": <RawDataViewer data={commandCode}/>,
-                    "Raw": <RawDataViewer
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/CC/${commandCode.id}?expand=true`}/>,
                     "ID": commandCode.id,
                     "Collection": commandCode.collectionNo,
                     "Name": commandCode.name,
                     "Rarity": <RarityDescriptor rarity={commandCode.rarity}/>,
                     "Comment": commandCode.comment,
                 }}/>
+                <span>
+                    <RawDataViewer text="Nice" data={commandCode}/>
+                    <RawDataViewer
+                        text="Raw"
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/CC/${commandCode.id}?expand=true`}/>,
+                </span>
             </div>
         );
     }

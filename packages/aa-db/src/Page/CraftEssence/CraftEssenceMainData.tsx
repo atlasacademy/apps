@@ -20,9 +20,6 @@ class CraftEssenceMainData extends React.Component<IProps> {
                 </h1>
 
                 <DataTable data={{
-                    "Data": <RawDataViewer data={craftEssence}/>,
-                    "Raw": <RawDataViewer
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/equip/${craftEssence.id}?expand=true&lore=true`}/>,
                     "ID": craftEssence.id,
                     "Collection": craftEssence.collectionNo,
                     "Name": craftEssence.name,
@@ -34,6 +31,10 @@ class CraftEssenceMainData extends React.Component<IProps> {
                     "Max Hp": craftEssence.hpMax,
                     "Max Atk": craftEssence.atkMax,
                 }}/>
+                <span>
+                    <RawDataViewer text="Nice" data={craftEssence}/>
+                    <RawDataViewer text="Raw" data={`https://api.atlasacademy.io/raw/${this.props.region}/equip/${craftEssence.id}?expand=true&lore=true`}/>
+                </span>
             </div>
         );
     }
