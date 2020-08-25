@@ -122,6 +122,8 @@ export enum FuncType {
     MOVE_POSITION = "movePosition",
     REVIVAL = "revival",
     DAMAGE_NP_INDIVIDUAL_SUM = "damageNpIndividualSum",
+    DAMAGE_VALUE_SAFE = "damageValueSafe",
+    FRIEND_POINT_UP_DUPLICATE = "friendPointUpDuplicate",
 }
 
 export interface Func {

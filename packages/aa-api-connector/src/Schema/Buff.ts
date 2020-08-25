@@ -141,6 +141,8 @@ export enum BuffType {
     DOWN_CRITICAL_RATE_DAMAGE_TAKEN = "downCriticalRateDamageTaken",
     UP_CRITICAL_STAR_DAMAGE_TAKEN = "upCriticalStarDamageTaken",
     DOWN_CRITICAL_STAR_DAMAGE_TAKEN = "downCriticalStarDamageTaken",
+    SKILL_RANK_UP = "skillRankUp",
+    AVOIDANCE_INDIVIDUALITY = "avoidanceIndividuality",
     CHANGE_COMMAND_CARD_TYPE = "changeCommandCardType",
     SPECIAL_INVINCIBLE = "specialInvincible",
 }
