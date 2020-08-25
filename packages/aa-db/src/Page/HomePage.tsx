@@ -3,6 +3,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 
 class HomePage extends React.Component {
+    componentDidMount() {
+        document.title = 'Atlas Academy DB'
+    }
+    
     render() {
         return (
             <div>

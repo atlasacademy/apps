@@ -53,6 +53,7 @@ class EnemyPage extends React.Component<IProps, IState> {
                 loading: false,
                 enemy,
             });
+            document.title = `[${this.props.region}] Enemy - ${enemy.name} - Atlas Academy DB`
         } catch (e) {
             this.setState({
                 error: e

@@ -48,6 +48,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                     loading: false,
                     commandCodes: list
                 });
+                document.title = `[${this.props.region}] Command Codes - Atlas Academy DB`
             });
         } catch (e) {
             this.setState({

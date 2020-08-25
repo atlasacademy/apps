@@ -20,6 +20,7 @@ interface IProps {
 
 class ErrorStatus extends React.Component<IProps> {
     render() {
+        document.title = 'Error - Atlas Academy DB'
         let message: string;
 
         if (this.props.error === undefined) {

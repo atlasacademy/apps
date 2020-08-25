@@ -44,6 +44,10 @@ class FuncsPage extends React.Component<IProps, IState> {
 
         Manager.setRegion(this.props.region);
     }
+    
+    componentDidMount() {
+        document.title = `[${this.props.region}] Functions - Atlas Academy DB`
+    }
 
     componentDidUpdate() {
         stateCache.set(this.props.region, {...this.state});

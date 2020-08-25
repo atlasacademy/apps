@@ -52,6 +52,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
     componentDidMount() {
         try {
             Manager.setRegion(this.props.region);
+            document.title = `[${this.props.region}] Craft Essences - Atlas Academy DB`
             Api.craftEssenceList().then(list => {
                 this.setState({
                     loading: false,

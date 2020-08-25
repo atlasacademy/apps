@@ -117,6 +117,7 @@ class ServantPage extends React.Component<IProps, IState> {
             return <Loading/>;
 
         const servant = this.state.servant;
+        document.title = `[${this.props.region}] Servant - ${servant.name} - Atlas Academy DB`;
 
         return (
             <div id={'servant'}>

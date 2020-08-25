@@ -46,6 +46,7 @@ class BuffPage extends React.Component<IProps, IState> {
                 loading: false,
                 buff: buff,
             });
+            document.title = `[${this.props.region}] Buff - ${buff.id} - Atlas Academy DB`
         } catch (e) {
             this.setState({
                 error: e

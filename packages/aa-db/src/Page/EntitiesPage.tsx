@@ -89,6 +89,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 loading: false,
                 traitList
             });
+            document.title = `[${this.props.region}] Entities - Atlas Academy DB`
         } catch (e) {
             this.setState({
                 error: e

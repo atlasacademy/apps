@@ -57,6 +57,7 @@ class SkillPage extends React.Component<IProps, IState> {
                 skill: skill,
                 levels: skill.functions[0].svals?.length ?? 1,
             });
+            document.title = `[${this.props.region}] Skill - ${skill.name} - Atlas Academy DB`
         } catch (e) {
             this.setState({
                 error: e
