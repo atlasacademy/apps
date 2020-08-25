@@ -12,6 +12,8 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.DOWN_ATK, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_COMMANDALL, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_COMMANDALL, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.UP_COMMANDATK, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.DOWN_COMMANDATK, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_CRITICALDAMAGE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_CRITICALDAMAGE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_CRITICALPOINT, {value: DataValField.VALUE, power: 1}],
@@ -32,6 +34,8 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.DOWN_DROPNP, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_FUNC_HP_REDUCE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_FUNC_HP_REDUCE, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.UP_GRANTSTATE, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.DOWN_GRANTSTATE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_HATE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_NONRESIST_INSTANTDEATH, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_NPDAMAGE, {value: DataValField.VALUE, power: 1}],
@@ -44,6 +48,7 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.DOWN_TOLERANCE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_TOLERANCE_SUBSTATE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_TOLERANCE_SUBSTATE, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.GUTS_RATIO, {value: DataValField.VALUE, power: 1}],
 
     // NP
     [Buff.BuffType.REGAIN_NP, {value: DataValField.VALUE, power: 2}],

@@ -44,7 +44,7 @@ export const buffTraitDescriptions = new Map<number, string>([
     [3012, 'Charm'],
     [3015, 'Burn'],
     [3026, 'Curse'],
-    [3045, 'Stun'],
+    [3066, 'Sleep'],
 ]);
 
 export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
@@ -57,6 +57,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.COMMANDCODEATTACK_FUNCTION, 'Command Code Effect'],
     [Buff.BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
     [Buff.BuffType.DELAY_FUNCTION, 'Trigger Skill after Duration'],
+    [Buff.BuffType.DONOT_ACT, 'Stun'],
     [Buff.BuffType.DONOT_NOBLE, 'NP Seal'],
     [Buff.BuffType.DONOT_NOBLE_COND_MISMATCH, 'NP Block if Condition Failed'],
     [Buff.BuffType.DONOT_RECOVERY, 'Recovery Disabled'],
@@ -66,6 +67,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.FIX_COMMANDCARD, 'Freeze Command Cards'],
     [Buff.BuffType.GUTS, 'Guts'],
     [Buff.BuffType.GUTS_FUNCTION, 'Trigger Skill on Guts'],
+    [Buff.BuffType.GUTS_RATIO, 'Guts'],
     [Buff.BuffType.INVINCIBLE, 'Invincible'],
     [Buff.BuffType.MULTIATTACK, 'Multiple Hits'],
     [Buff.BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],

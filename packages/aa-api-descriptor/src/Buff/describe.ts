@@ -1,6 +1,6 @@
 import {Buff, Trait} from "@atlasacademy/api-connector";
 import {BasePartial, Descriptor, ParticlePartial, TextPartial} from "../Descriptor";
-import {insertParticles} from "../Helpers";
+import {insertParticles, toTitleCase} from "../Helpers";
 import TraitReferencePartial from "../Trait/TraitReferencePartial";
 import {getTraitDescription, getUpDownBuffType} from "./BuffHelpers";
 import {buffTriggerTypes, buffTypeDescriptions} from "./BuffTypes";
@@ -45,11 +45,11 @@ export default function (buff: Buff.Buff) {
         }
 
         partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv));
-    } else if (typeDescription) {
-        partials.push(new TextPartial(typeDescription));
-        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv));
     } else if (traitDescription) {
         partials.push(new TextPartial(traitDescription));
+        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv));
+    } else if (typeDescription) {
+        partials.push(new TextPartial(typeDescription));
         partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv));
     } else if (triggerType) {
         partials.push(new TextPartial('Trigger Skills'));
@@ -67,6 +67,10 @@ export default function (buff: Buff.Buff) {
 
         partials.push(new TextPartial(triggerType.event));
         partials.push(...appendTraitFilters([], buff.ckOpIndv));
+    } else if (buff.name) {
+        partials.push(new TextPartial(buff.name));
+    } else {
+        partials.push(new TextPartial(toTitleCase(buff.type)));
     }
 
     return new Descriptor(partials);

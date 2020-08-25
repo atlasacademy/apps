@@ -58,14 +58,10 @@ export class ValuePartial extends BasePartial {
     }
 }
 
-export type DescriptorPartial = (
-    ParticlePartial | ReferencePartial | TextPartial | ValuePartial
-    );
-
 export class Descriptor {
-    private readonly _partials: DescriptorPartial[];
+    private readonly _partials: BasePartial[];
 
-    constructor(partials: DescriptorPartial[]) {
+    constructor(partials: BasePartial[]) {
         this._partials = partials;
     }
 

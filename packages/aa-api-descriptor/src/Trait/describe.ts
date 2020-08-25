@@ -3,13 +3,20 @@ import {Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType} from 
 import {toTitleCase} from "../Helpers";
 import TraitOverrideNames from "./TraitOverrideNames";
 
-export default function (trait: Trait.Trait | number): Descriptor {
+export default function (trait: Trait.Trait | number, traitList?: Trait.Trait[]): Descriptor {
     const id = typeof trait === 'number' ? trait : trait.id;
 
     const overrideName = TraitOverrideNames.get(id);
     if (overrideName !== undefined) {
         return new Descriptor([
             new TextPartial(overrideName)
+        ]);
+    }
+
+    const matchingTrait = (traitList ?? []).find(traitEntity => traitEntity.id === id);
+    if (matchingTrait && matchingTrait.name !== 'unknown') {
+        return new Descriptor([
+            new TextPartial(matchingTrait.name)
         ]);
     }
 

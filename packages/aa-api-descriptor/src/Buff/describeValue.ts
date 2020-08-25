@@ -1,6 +1,6 @@
 import {Buff, DataVal} from "@atlasacademy/api-connector";
 import CardReferencePartial from "../Card/CardReferencePartial";
-import {Descriptor, DescriptorPartial, ParticlePartial, TextPartial, ValuePartial, ValueType} from "../Descriptor";
+import {BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType} from "../Descriptor";
 import SkillReferencePartial from "../Skill/SkillReferencePartial";
 import TraitReferencePartial from "../Trait/TraitReferencePartial";
 import {
@@ -57,7 +57,7 @@ export default function (buff: Buff.Buff, dataVal?: DataVal.DataVal): Descriptor
 }
 
 function describeCommandcardValue(dataVal: DataVal.DataVal, commandCardType: BuffValueCommandCardType): Descriptor | undefined {
-    const partials: DescriptorPartial[] = [],
+    const partials: BasePartial[] = [],
         card = dataVal[commandCardType.card];
 
     if (typeof card === "number") {
@@ -68,7 +68,7 @@ function describeCommandcardValue(dataVal: DataVal.DataVal, commandCardType: Buf
 }
 
 function describeDataVal(dataVal: DataVal.DataVal, valueField: DataVal.DataValField, valueType: ValueType, base: number): Descriptor | undefined {
-    const partials: DescriptorPartial[] = [];
+    const partials: BasePartial[] = [];
 
     const value = dataVal[valueField];
     if (typeof value === "number") {
@@ -89,7 +89,7 @@ function describeDataVal(dataVal: DataVal.DataVal, valueField: DataVal.DataValFi
 }
 
 function describeTraitValue(dataVal: DataVal.DataVal, traitType: BuffValueTraitType): Descriptor | undefined {
-    const partials: DescriptorPartial[] = [],
+    const partials: BasePartial[] = [],
         trait = dataVal[traitType.trait];
 
     if (typeof trait === "number") {
@@ -100,7 +100,7 @@ function describeTraitValue(dataVal: DataVal.DataVal, traitType: BuffValueTraitT
 }
 
 function describeTriggerValue(dataVal: DataVal.DataVal, triggerType: BuffValueTriggerType): Descriptor | undefined {
-    const partials: DescriptorPartial[] = [],
+    const partials: BasePartial[] = [],
         skill = dataVal[triggerType.skill],
         level = dataVal[triggerType.level],
         position = triggerType.position ? dataVal[triggerType.position] : undefined,
