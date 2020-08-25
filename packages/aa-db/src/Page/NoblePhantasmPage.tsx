@@ -53,6 +53,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 loading: false,
                 noblePhantasm: noblePhantasm,
             });
+            document.title = `[${this.props.region}] Noble Phantasm - ${noblePhantasm.name} - Atlas Academy DB`
         } catch (e) {
             this.setState({
                 error: e

@@ -51,6 +51,7 @@ class MysticCodePage extends React.Component<IProps, IState> {
                 mysticCodes,
                 mysticCode
             });
+            document.title = `[${this.props.region}] Mystic Code - ${mysticCode.name} - Atlas Academy DB`
         } catch (e) {
             this.setState({
                 error: e

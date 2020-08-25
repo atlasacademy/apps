@@ -73,6 +73,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                     servants: servantList
                 });
             });
+            document.title = `[${this.props.region}] Servants - Atlas Academy DB`
         } catch (e) {
             this.setState({
                 error: e

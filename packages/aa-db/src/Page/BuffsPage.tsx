@@ -52,6 +52,10 @@ class BuffsPage extends React.Component<IProps, IState> {
         stateCache.set(this.props.region, {...this.state});
     }
 
+    componentDidMount() {
+        document.title = `[${this.props.region}] Buffs - Atlas Academy DB`
+    }
+
     private async search() {
         // no filter set
         if (!this.state.name && !this.state.type) {

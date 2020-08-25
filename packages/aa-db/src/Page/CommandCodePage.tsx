@@ -56,6 +56,7 @@ class CommandCodePage extends React.Component<IProps, IState> {
                 commandCodes,
                 commandCode
             });
+            document.title = `[${this.props.region}] Command Code - ${commandCode.name} - Atlas Academy DB`;
         } catch (e) {
             this.setState({
                 error: e

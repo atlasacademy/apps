@@ -42,6 +42,7 @@ class QuestPage extends React.Component<IProps, IState> {
                 loading: false,
                 quest: quest,
             });
+            document.title = `[${this.props.region}] Quest - ${quest.name} - Atlas Academy DB`;
         } catch (e) {
             this.setState({
                 error: e

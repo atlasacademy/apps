@@ -59,6 +59,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                 craftEssences,
                 craftEssence
             });
+            document.title = `[${this.props.region}] Craft Essence - ${craftEssence.name} - Atlas Academy DB`
         } catch (e) {
             this.setState({
                 error: e
