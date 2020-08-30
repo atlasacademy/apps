@@ -74,7 +74,9 @@ class EnemyPage extends React.Component<IProps, IState> {
             <div id={'enemy'}>
                 <h1>{enemy.name}</h1>
 
-                <Row>
+                <Row style={{
+                    marginBottom: '3%'
+                }}>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
                         <EnemyMainData region={this.props.region}
                                        enemy={enemy}/>

@@ -126,7 +126,9 @@ class ServantPage extends React.Component<IProps, IState> {
                                id={this.state.servant.collectionNo}/>
                 <hr/>
 
-                <Row>
+                <Row style={{
+                    marginBottom: '3%'
+                }}>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
                         <ServantMainData region={this.props.region}
                                          servant={this.state.servant}

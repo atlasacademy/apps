@@ -27,7 +27,7 @@ class MysticCodeMainData extends React.Component<IProps> {
                     <RawDataViewer text="Nice" data={mysticCode}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/MC/${mysticCode.id}?expand=true`}/>,
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/MC/${mysticCode.id}?expand=true`}/>
                 </span>
             </div>
         );

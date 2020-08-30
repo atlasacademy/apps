@@ -121,12 +121,12 @@ class BuffPage extends React.Component<IProps, IState> {
                         </div>
                     )
                 }}/>
-                <span>
-                    <RawDataViewer text="Nice" data={buff}/>,
+                <div style={{ marginBottom: '3%' }}>
+                    <RawDataViewer text="Nice" data={buff}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/buff/${buff.id}`}/>,
-                </span>
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/buff/${buff.id}`}/>
+                </div>
 
                 <h3>Related Functions</h3>
                 <Table>

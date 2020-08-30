@@ -30,7 +30,7 @@ class CommandCodeMainData extends React.Component<IProps> {
                     <RawDataViewer text="Nice" data={commandCode}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/CC/${commandCode.id}?expand=true`}/>,
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/CC/${commandCode.id}?expand=true`}/>
                 </span>
             </div>
         );

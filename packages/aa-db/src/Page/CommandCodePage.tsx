@@ -80,7 +80,9 @@ class CommandCodePage extends React.Component<IProps, IState> {
                                    id={commandCode.id}/>
                 <hr/>
 
-                <Row>
+                <Row style={{
+                    marginBottom: '3%'
+                }}>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
                         <CommandCodeMainData region={this.props.region} commandCode={commandCode}/>
                     </Col>

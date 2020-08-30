@@ -74,7 +74,9 @@ class MysticCodePage extends React.Component<IProps, IState> {
 
                 <hr/>
 
-                <Row>
+                <Row style={{
+                    marginBottom: '3%'
+                }}>
                     <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
                         <MysticCodeMainData region={this.props.region} mysticCode={this.state.mysticCode}/>
                     </Col>
