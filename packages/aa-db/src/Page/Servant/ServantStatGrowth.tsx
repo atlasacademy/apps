@@ -1,10 +1,8 @@
 import {Region, Servant} from "@atlasacademy/api-connector";
 import React from "react";
-import {Table} from "react-bootstrap";
-import BuffIcon from "../../Component/BuffIcon";
 import {formatNumber} from "../../Helper/OutputHelper";
-
-const grailIcon = 'https://assets.atlasacademy.io/GameData/NA/Items/7999.png';
+import HighchartsReact from 'highcharts-react-official';
+import Highcharts from 'highcharts';
 
 interface IProps {
     region: Region;
@@ -13,36 +11,82 @@ interface IProps {
 
 class ServantStatGrowth extends React.Component<IProps> {
     render() {
+        let { hpGrowth, lvMax, atkGrowth } = this.props.servant;
+        // pad to make for the zero point
+        hpGrowth = [0, ...hpGrowth];
+        atkGrowth = [0, ...atkGrowth];
         return (
             <div>
-                <Table responsive>
-                    <thead>
-                    <tr>
-                        <th style={{width: 1}}>&nbsp;</th>
-                        <th>Level</th>
-                        <th>HP</th>
-                        <th>ATK</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {[...Array(this.props.servant.hpGrowth.length)].map((_, i) => {
-                        const index = this.props.servant.hpGrowth.length - i - 1;
-
-                        return (
-                            <tr key={i}>
-                                <td>
-                                    {index >= this.props.servant.lvMax ? <BuffIcon location={grailIcon}/> : null}
-                                </td>
-                                <td>{index + 1}</td>
-                                <td>{formatNumber(this.props.servant.hpGrowth[index])}</td>
-                                <td>{formatNumber(this.props.servant.atkGrowth[index])}</td>
-                            </tr>
-                        );
-                    })}
-                    </tbody>
-                </Table>
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    options={{
+                        title: { text: `` },
+                        plotOptions: {
+                            line: {
+                                crisp: false,
+                                getExtremesFromAll: true,
+                                marker: { enabled: false },
+                            }
+                        },
+                        series: [{
+                            type: 'line',
+                            data: hpGrowth,
+                            name: 'HP',
+                            yAxis: 0,
+                            tooltip: {
+                                headerFormat: '<span style="font-size: 12px">Level <b>{point.key}</b></span><br/>',
+                                pointFormatter: function () {
+                                    let { x, y } = (this as any);
+                                    return `HP : <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : '') + `<br/>`
+                                }
+                            },
+                            zones: [
+                                {
+                                    value: hpGrowth[lvMax + 1]
+                                },
+                                { color: '#C70039' }
+                            ]
+                        }, {
+                            type: 'line',
+                            data: atkGrowth,
+                            name: 'ATK',
+                            yAxis: 1,
+                            tooltip: {
+                                headerFormat: '<span style="font-size: 12px">Level <b>{point.key}</b></span><br/>',
+                                pointFormatter: function () {
+                                    let { x, y } = (this as any);
+                                    return `ATK : <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : '') + `<br/>`
+                                }
+                            },
+                            zones: [
+                                {
+                                    value: atkGrowth[lvMax + 1]
+                                },
+                                { color: '#C70039' }
+                            ]
+                        }],
+                        credits: false,
+                        chart: { zoomType: 'xy' },
+                        xAxis: [{
+                            min: 1,
+                            title: { text: 'Level' }
+                        }],
+                        yAxis: [{
+                            title: { text: 'HP' },
+                            max: Math.max(...hpGrowth),
+                            min: Math.min(...hpGrowth)
+                        }, {
+                            title: { text: 'ATK' },
+                            max: Math.max(...atkGrowth),
+                            min: Math.min(...atkGrowth),
+                        }],
+                        tooltip: {
+                            useHTML: true
+                        }
+                    }}
+                    />
             </div>
-        );
+        )
     }
 }
 
