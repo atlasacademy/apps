@@ -1,5 +1,5 @@
-import {faDiscord} from "@fortawesome/free-brands-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+// import {faDiscord} from "@fortawesome/free-brands-svg-icons";
+// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 
 class HomePage extends React.Component {
@@ -43,17 +43,22 @@ class HomePage extends React.Component {
                 <div>Credits:</div>
                 <ul>
                     <li>
-                        <a href='https://discord.gg/TKJmuCR' target='_blank' rel="noopener noreferrer">
+                        <a href='https://atlasacademy.io'>
                             Atlas Academy
-                            &nbsp;
-                            <FontAwesomeIcon icon={faDiscord}/>
                         </a>
+                        &nbsp;
+                        (<a href='https://discord.gg/TKJmuCR' target='_blank' rel="noopener noreferrer">
+                            Discord
+                        </a>)
                     </li>
                     <li>
                         solution (solution#0286)
                     </li>
                     <li>
                         Cereal (Cereal#5579)
+                    </li>
+                    <li>
+                        Cipher (<a href="https://github.com/minhducsun2002">minhducsun2002</a>)
                     </li>
                 </ul>
             </div>
