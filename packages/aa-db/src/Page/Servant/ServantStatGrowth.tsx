@@ -12,9 +12,6 @@ interface IProps {
 class ServantStatGrowth extends React.Component<IProps> {
     render() {
         let { hpGrowth, lvMax, atkGrowth } = this.props.servant;
-        // pad to make for the zero point
-        hpGrowth = [0, ...hpGrowth];
-        atkGrowth = [0, ...atkGrowth];
         return (
             <div>
                 <HighchartsReact
@@ -34,54 +31,53 @@ class ServantStatGrowth extends React.Component<IProps> {
                             name: 'HP',
                             yAxis: 0,
                             tooltip: {
-                                headerFormat: '<span style="font-size: 12px">Level <b>{point.key}</b></span><br/>',
                                 pointFormatter: function () {
                                     let { x, y } = (this as any);
-                                    return `HP : <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : '') + `<br/>`
+                                    return `HP: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : '') + `<br/>`
                                 }
                             },
                             zones: [
                                 {
-                                    value: hpGrowth[lvMax + 1]
+                                    value: hpGrowth[lvMax]
                                 },
                                 { color: '#C70039' }
-                            ]
+                            ],
+                            pointStart: 1
                         }, {
                             type: 'line',
                             data: atkGrowth,
                             name: 'ATK',
-                            yAxis: 1,
+                            yAxis: 0,
                             tooltip: {
-                                headerFormat: '<span style="font-size: 12px">Level <b>{point.key}</b></span><br/>',
                                 pointFormatter: function () {
                                     let { x, y } = (this as any);
-                                    return `ATK : <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : '') + `<br/>`
+                                    return `ATK: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : '') + `<br/>`
                                 }
                             },
                             zones: [
                                 {
-                                    value: atkGrowth[lvMax + 1]
+                                    value: atkGrowth[lvMax]
                                 },
                                 { color: '#C70039' }
-                            ]
+                            ],
+                            pointStart: 1
                         }],
                         credits: false,
-                        chart: { zoomType: 'xy' },
+                        chart: { zoomType: 'x' },
                         xAxis: [{
-                            min: 1,
-                            title: { text: 'Level' }
+                            title: { text: 'Level' },
+                            crosshair: {
+                                dashStyle: "Dash",
+                            }
                         }],
                         yAxis: [{
-                            title: { text: 'HP' },
-                            max: Math.max(...hpGrowth),
-                            min: Math.min(...hpGrowth)
-                        }, {
-                            title: { text: 'ATK' },
-                            max: Math.max(...atkGrowth),
-                            min: Math.min(...atkGrowth),
+                            title: { text: undefined },
+                            min: 0
                         }],
                         tooltip: {
-                            useHTML: true
+                            shared: true,
+                            useHTML: true,
+                            headerFormat: '<span style="font-size: 12px">Level <b>{point.key}</b></span><br/>',
                         }
                     }}
                     />
