@@ -37,10 +37,13 @@ class FuncsPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = stateCache.get(props.region) ?? {
+        let state = stateCache.get(props.region) ?? {
             searching: false,
             funcs: []
         };
+        if (state?.error) state.error = undefined;
+        this.state = state;
+
 
         Manager.setRegion(this.props.region);
     }
@@ -71,11 +74,15 @@ class FuncsPage extends React.Component<IProps, IState> {
                 this.state.team
             );
 
-            this.setState({searching: false, funcs});
+            this.setState({funcs});
         } catch (e) {
             this.setState({
                 error: e
             });
+        } finally {
+            this.setState({
+                searching: false
+            })
         }
     }
 
