@@ -40,10 +40,13 @@ class BuffsPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
-        this.state = stateCache.get(props.region) ?? {
+        let state = stateCache.get(props.region) ?? {
             searching: false,
             buffs: []
         };
+
+        if (state?.error) state.error = undefined;
+        this.state = state;
 
         Manager.setRegion(this.props.region);
     }
@@ -72,11 +75,13 @@ class BuffsPage extends React.Component<IProps, IState> {
                 this.state.type
             );
 
-            this.setState({searching: false, buffs});
+            this.setState({buffs});
         } catch (e) {
             this.setState({
                 error: e
             });
+        } finally {
+            this.setState({ searching: false })
         }
     }
 
