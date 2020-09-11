@@ -80,6 +80,7 @@ class BuffPage extends React.Component<IProps, IState> {
                     "Name": buff.name,
                     "Detail": buff.detail,
                     "Type": buff.type,
+                    "Buff Group": buff.buffGroup,
                     "Buff Traits": (
                         <div>
                             {mergeElements(
