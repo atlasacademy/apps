@@ -153,6 +153,7 @@ export interface Buff {
     detail: string;
     icon?: string;
     type: BuffType;
+    buffGroup: number;
     vals: Trait[];
     tvals: Trait[];
     ckSelfIndv: Trait[];
