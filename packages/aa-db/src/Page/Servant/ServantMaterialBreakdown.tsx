@@ -46,7 +46,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
             <div>
                 <h3>{this.props.title}</h3>
 
-                <Table>
+                <Table responsive>
                     <thead>
                     <tr>
                         <th>#</th>
