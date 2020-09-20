@@ -24,7 +24,7 @@ class ProfileConditionDescriptor extends React.Component<IProps> {
                 condition = <React.Fragment>
                     <QuestDescriptor region={this.props.region}
                                      questId={comment.condValues[0]}
-                                     questPhase={comment.condValue2}/>
+                                     questPhase={Math.max(comment.condValue2, 1)}/>
                     &nbsp;Cleared
                 </React.Fragment>;
             } else if (
