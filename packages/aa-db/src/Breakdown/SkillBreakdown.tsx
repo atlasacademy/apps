@@ -31,7 +31,8 @@ class SkillBreakdown extends React.Component<IProps> {
 
                 {skill.condQuestId && skill.condQuestPhase ? (
                     <Alert variant={'primary'}>
-                        Available after <QuestDescriptor region={this.props.region}
+                        Available after <QuestDescriptor text=""
+                                                         region={this.props.region}
                                                          questId={skill.condQuestId}
                                                          questPhase={skill.condQuestPhase}/>
                     </Alert>
