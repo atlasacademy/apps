@@ -134,10 +134,18 @@ class ApiConnector {
     }
 
     craftEssenceList(cacheDuration?: number): Promise<CraftEssenceBasic[]> {
+        let source: string;
+
+        if (this.region === Region.NA) {
+            source = `${this.host}/export/NA/basic_equip.json`;
+        } else if (this.region === Region.JP && this.language === Language.DEFAULT) {
+            source = `${this.host}/export/JP/basic_equip.json`;
+        } else {
+            source = `${this.host}/export/JP/basic_equip_lang_en.json`;
+        }
+
         const fetch = () => {
-            return ApiConnector.fetch<CraftEssenceBasic[]>(
-                `${this.host}/export/${this.region}/basic_equip.json`
-            );
+            return ApiConnector.fetch<CraftEssenceBasic[]>(source);
         };
 
         if (cacheDuration === undefined)
