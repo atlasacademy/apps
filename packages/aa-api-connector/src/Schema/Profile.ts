@@ -137,6 +137,56 @@ export enum ProfileCommentConditionType {
     BATTLE_GROUP_LOSE_AVOVE = "battleGroupLoseAvove",
 }
 
+export enum ProfileVoiceType {
+    HOME = "home",
+    GROETH = "groeth",
+    FIRST_GET = "firstGet",
+    EVENT_JOIN = "eventJoin",
+    EVENT_REWARD = "eventReward",
+    BATTLE = "battle",
+    TREASURE_DEVICE = "treasureDevice",
+    MASTER_MISSION = "masterMission",
+    EVENT_SHOP = "eventShop",
+    HOME_COSTUME = "homeCostume",
+    BOX_GACHA_TALK = "boxGachaTalk",
+    BATTLE_ENTRY = "battleEntry",
+    BATTLE_WIN = "battleWin",
+    EVENT_TOWER_REWARD = "eventTowerReward",
+    GUIDE = "guide",
+    EVENT_DAILY_POINT = "eventDailyPoint",
+    TDDAMAGE = "tddamage",
+    SUM = "sum",
+}
+
+export enum VoiceCondType {
+    birthDay = "birthDay",
+    event = "event",
+    friendship = "friendship",
+    svtGet = "svtGet",
+    svtGroup = "svtGroup",
+    questClear = "questClear",
+    notQuestClear = "notQuestClear",
+    levelUp = "levelUp",
+    limitCount = "limitCount",
+    limitCountCommon = "limitCountCommon",
+    countStop = "countStop",
+    isnewWar = "isnewWar",
+    eventEnd = "eventEnd",
+    eventNoend = "eventNoend",
+    eventMissionAction = "eventMissionAction",
+    masterMission = "masterMission",
+    limitCountAbove = "limitCountAbove",
+    eventShopPurchase = "eventShopPurchase",
+    eventPeriod = "eventPeriod",
+    friendshipAbove = "friendshipAbove",
+    spacificShopPurchase = "spacificShopPurchase",
+    friendshipBelow = "friendshipBelow",
+    costume = "costume",
+    levelUpLimitCount = "levelUpLimitCount",
+    levelUpLimitCountAbove = "levelUpLimitCountAbove",
+    levelUpLimitCountBelow = "levelUpLimitCountBelow",
+}
+
 export interface ProfileComment {
     id: number;
     priority: number;
@@ -159,4 +209,28 @@ export interface Profile {
         np: string;
     }
     comments: ProfileComment[];
+    voices: {
+        type: ProfileVoiceType;
+        voiceLines: {
+            name: string;
+            condType: ProfileCommentConditionType;
+            condValue: number;
+            priority: number;
+            svtVoiceType: ProfileVoiceType;
+            overwriteName: string;
+            id: string[];
+            audioAssets: string[];
+            delay: number[];
+            face: number[];
+            form: number[];
+            text: string[];
+            subtitle: string;
+            conds: {
+                condType: VoiceCondType;
+                value: number;
+                valueList: number[];
+                eventId: number;
+            }[]
+        }[]
+    }[]
 }
