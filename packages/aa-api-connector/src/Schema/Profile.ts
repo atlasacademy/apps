@@ -212,11 +212,11 @@ export interface Profile {
     voices: {
         type: ProfileVoiceType;
         voiceLines: {
-            name: string;
-            condType: ProfileCommentConditionType;
-            condValue: number;
-            priority: number;
-            svtVoiceType: ProfileVoiceType;
+            name?: string;
+            condType?: ProfileCommentConditionType;
+            condValue?: number;
+            priority?: number;
+            svtVoiceType?: ProfileVoiceType;
             overwriteName: string;
             id: string[];
             audioAssets: string[];
