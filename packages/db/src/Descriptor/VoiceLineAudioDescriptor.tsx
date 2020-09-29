@@ -1,10 +1,13 @@
+import {faPlay, faStop} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Button} from "react-bootstrap";
 
 class AudioElement {
-    private element : HTMLAudioElement = new Audio();
-    private url : string;
-    constructor(url : string) {
+    private element: HTMLAudioElement = new Audio();
+    private url: string;
+
+    constructor(url: string) {
         this.url = url;
     };
 
@@ -33,7 +36,7 @@ interface VoiceLineAudioDescriptorProps {
 }
 
 export default function (props: VoiceLineAudioDescriptorProps) {
-    const { audioAssetUrls, id, delay, playing, onPlayStateChange } = props;
+    const {audioAssetUrls, id, delay, playing, onPlayStateChange} = props;
     const audioControllers = audioAssetUrls.map(url => new AudioElement(url));
     const onClick = async () => {
         onPlayStateChange(id);
@@ -49,8 +52,11 @@ export default function (props: VoiceLineAudioDescriptorProps) {
         <Button
             disabled={!!props.playing}
             variant={isMePlaying ? 'warning' : 'success'}
-            onClick={onClick}>
-            Play
+            onClick={onClick}
+            style={{whiteSpace: "nowrap"}}>
+            <FontAwesomeIcon icon={isMePlaying ? faStop : faPlay}/>
+            &nbsp;
+            {isMePlaying ? 'Stop' : 'Play'}
         </Button>
     )
 }
