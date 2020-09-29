@@ -22,5 +22,8 @@
     "@atlasacademy/api-connector": "^2.0.2",
     "install": "^0.13.0",
     "only": "0.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

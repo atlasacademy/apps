@@ -1,8 +1,7 @@
 {
-  "name": "aa-db",
-  "version": "1.0.0",
+  "name": "@atlasacademy/db",
+  "version": "0.0.1",
   "homepage": ".",
-  "private": true,
   "dependencies": {
     "@atlasacademy/api-connector": "^2.0.4",
     "@atlasacademy/api-descriptor": "^0.2.0",
@@ -59,5 +58,8 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
 }
