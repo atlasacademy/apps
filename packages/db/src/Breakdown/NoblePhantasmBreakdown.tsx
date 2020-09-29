@@ -47,7 +47,8 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
 
                         {np.condQuestId && np.condQuestPhase ? (
                             <Alert variant={'primary'}>
-                                Available after <QuestDescriptor region={this.props.region}
+                                Available after <QuestDescriptor text=""
+                                                                 region={this.props.region}
                                                                  questId={np.condQuestId}
                                                                  questPhase={np.condQuestPhase}/>
                             </Alert>

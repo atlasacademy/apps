@@ -13,6 +13,7 @@ class FaceIcon extends React.Component<IProps> {
     render() {
         return (
             <img alt={''} src={this.props.location}
+                 key={this.props.location}
                  style={{height: this.props.height ?? '2em'}}/>
         );
     }

@@ -44,12 +44,12 @@ class FuncMainData extends React.Component<IProps> {
                         </div>
                     )
                 }}/>
-                <span>
+                <div style={{ marginBottom: '3%' }}>
                     <RawDataViewer text="Nice" data={func}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/function/${func.funcId}?expand=true`}/>,
-                </span>
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/function/${func.funcId}?expand=true`}/>
+                </div>
             </>
         );
     }
