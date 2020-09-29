@@ -21,6 +21,7 @@ import ServantProfileComments from "./Servant/ServantProfileComments";
 import ServantProfileStats from "./Servant/ServantProfileStats";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
 import ServantTraits from "./Servant/ServantTraits";
+import ServantVoiceLines from "./Servant/ServantVoiceLines";
 
 type AssetType = "ascension" | "costume";
 
@@ -240,6 +241,10 @@ class ServantPage extends React.Component<IProps, IState> {
                     <Tab eventKey={'assets'} title={'Assets'}>
                         <br/>
                         <ServantAssets region={this.props.region} servant={servant}/>
+                    </Tab>
+                    <Tab eventKey={'voices'} title={'Voice Lines'}>
+                        <br/>
+                        <ServantVoiceLines servant={servant}/>
                     </Tab>
                 </Tabs>
             </div>
