@@ -3,5 +3,9 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.22.1"
+  },
+  "scripts": {
+    "watch": "lerna run watch --stream --no-sort --concurrency 99",
+    "start:db": "lerna run start --include-dependents=db --stream"
   }
 }
