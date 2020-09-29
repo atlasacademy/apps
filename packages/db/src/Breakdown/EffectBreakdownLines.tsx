@@ -1,9 +1,10 @@
 import {Card, Func, NoblePhantasm, Region, Skill} from "@atlasacademy/api-connector";
+import {FuncDescriptor} from "@atlasacademy/api-descriptor";
 import React from "react";
 import CardType from "../Component/CardType";
-import FuncDescriptor from "../Descriptor/FuncDescriptor";
+import {default as FuncDescription} from "../Descriptor/FuncDescriptor";
 import SkillReferenceDescriptor from "../Descriptor/SkillReferenceDescriptor";
-import {describeMutators, getRelatedSkillIds} from "../Helper/FuncHelper";
+import {describeMutators} from "../Helper/FuncHelper";
 import {asPercent} from "../Helper/OutputHelper";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
@@ -50,7 +51,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                 ) : null}
                 {this.props.funcs.map((func, index) => {
                     let mutatingDescriptions = describeMutators(this.props.region, func),
-                        relatedSkillIds = getRelatedSkillIds(func);
+                        relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func);
 
                     for (let i = 0; i < (this.props.levels ?? 0); i++) {
                         if (!mutatingDescriptions[i])
@@ -68,7 +69,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                             : null
                                     }
                                     {this.props.relatedSkillId ? ' ' : ''}
-                                    <FuncDescriptor region={this.props.region} func={func}/>
+                                    <FuncDescription region={this.props.region} func={func}/>
                                 </td>
                                 {this.props.levels ? mutatingDescriptions.map((description, index) => {
                                     return (

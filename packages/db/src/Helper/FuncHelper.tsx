@@ -1,4 +1,4 @@
-import {Buff, DataVal, Func, Region} from "@atlasacademy/api-connector";
+import {DataVal, Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import FuncValueDescriptor from "../Descriptor/FuncValueDescriptor";
 import {Renderable} from "./OutputHelper";
@@ -130,38 +130,6 @@ export function getOverchargeDataValList(func: Func.Func): DataVal.DataVal[] {
     }
 
     return dataVals;
-}
-
-export function getRelatedSkillIds(func: Func.Func): number[] {
-    if (func.funcType !== Func.FuncType.ADD_STATE && func.funcType !== Func.FuncType.ADD_STATE_SHORT)
-        return [];
-
-    const buff = func.buffs[0];
-    if (
-        buff.type === Buff.BuffType.ATTACK_FUNCTION
-        || buff.type === Buff.BuffType.COMMANDATTACK_FUNCTION
-        || buff.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION
-        || buff.type === Buff.BuffType.COMMANDCODEATTACK_FUNCTION
-        || buff.type === Buff.BuffType.DAMAGE_FUNCTION
-        || buff.type === Buff.BuffType.DEAD_FUNCTION
-        || buff.type === Buff.BuffType.DELAY_FUNCTION
-        || buff.type === Buff.BuffType.GUTS_FUNCTION
-        || buff.type === Buff.BuffType.SELFTURNEND_FUNCTION
-    ) {
-        const dataVals = getDataValList(func),
-            dataVal = dataVals[0];
-
-        return typeof dataVal.Value === "number" ? [dataVal.Value] : [];
-    }
-
-    if (buff.type === Buff.BuffType.NPATTACK_PREV_BUFF) {
-        const dataVals = getDataValList(func),
-            dataVal = dataVals[0];
-
-        return typeof dataVal.SkillID === "number" ? [dataVal.SkillID] : [];
-    }
-
-    return [];
 }
 
 export function getStaticFieldNames(vals: DataVal.DataVal[]): DataVal.DataValField[] {

@@ -1,13 +1,9 @@
 import {DataVal, Func} from "@atlasacademy/api-connector";
 import getStaticDataValFields from "./getStaticDataValFields";
+import getValList from "./getValList";
 
 export default function (func: Func.Func): DataVal.DataVal {
-    let vals: DataVal.DataVal[] = func.svals.concat(
-        func.svals2 ?? [],
-        func.svals3 ?? [],
-        func.svals4 ?? [],
-        func.svals5 ?? [],
-    );
+    let vals = getValList(func);
 
     if (!vals.length)
         return {};
