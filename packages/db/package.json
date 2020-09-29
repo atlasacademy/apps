@@ -2,6 +2,7 @@
   "name": "@atlasacademy/db",
   "version": "0.1.1",
   "homepage": ".",
+  "private": true,
   "dependencies": {
     "@atlasacademy/api-connector": "^2.1.1",
     "@atlasacademy/api-descriptor": "^0.3.1",
@@ -57,8 +58,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
