@@ -11,6 +11,7 @@ class AudioElement {
     play = async () => {
         return new Promise(res => {
             this.element = new Audio(this.url);
+            this.element.volume = 0.5;
             this.element.onpause = this.element.onerror = this.element.onended = () => {
                 this.element.currentTime = 0;
                 res();
@@ -37,8 +38,8 @@ export default function (props: VoiceLineAudioDescriptorProps) {
     const onClick = async () => {
         onPlayStateChange(id);
         for (let [index, control] of audioControllers.entries()) {
-            await control.play();
             await new Promise(res => setTimeout(res, delay[index] * 1000));
+            await control.play();
         }
         onPlayStateChange('');
     }

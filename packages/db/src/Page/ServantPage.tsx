@@ -244,7 +244,7 @@ class ServantPage extends React.Component<IProps, IState> {
                     </Tab>
                     <Tab eventKey={'voices'} title={'Voice Lines'}>
                         <br/>
-                        <ServantVoiceLines servant={servant}/>
+                        <ServantVoiceLines region={this.props.region} servant={servant}/>
                     </Tab>
                 </Tabs>
             </div>

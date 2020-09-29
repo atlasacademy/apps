@@ -3,6 +3,7 @@ import Card from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
+import { ProfileVoiceType } from "./Schema/Profile";
 import * as Buff from "./Schema/Buff";
 import * as CommandCode from "./Schema/CommandCode";
 import * as CraftEssence from "./Schema/CraftEssence";
@@ -26,6 +27,7 @@ export {
     ClassName,
     Language,
     Region,
+    ProfileVoiceType,
 
     Buff,
     CommandCode,

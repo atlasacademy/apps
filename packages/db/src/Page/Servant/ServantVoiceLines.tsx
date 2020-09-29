@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import {Table, Dropdown, DropdownButton, ButtonGroup} from "react-bootstrap"
-import {Servant} from '@atlasacademy/api-connector';
+import {Region, Servant, ProfileVoiceType} from "@atlasacademy/api-connector";
 import VoiceLineAudioDescriptor from "../../Descriptor/VoiceLineAudioDescriptor";
+import { handleNewLine } from "../../Helper/OutputHelper";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-export default function (props : { servant: Servant.Servant }) {
+let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
+
+export default function (props : { region: Region; servant: Servant.Servant }) {
     let [playing, setPlaying] = useState('');
     let voices = props.servant?.profile?.voices;
     let out : JSX.Element[] = [];
@@ -17,11 +21,14 @@ export default function (props : { servant: Servant.Servant }) {
                     {voiceLines.map((line, index) => (
                         <tr key={`line_${index}`}>
                             <td>
-                                <b>{line.name}</b>
+                                <b>{line.overwriteName.replace("{0}", (index + 1).toString()) || line.name}</b>
                                 <br />
-                                {line.subtitle}
+                                {formatSubtitle(
+                                    (props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET)? 
+                                    line.text.join() : line.subtitle
+                                )}
                             </td>
-                            <td style={{ verticalAlign: 'middle' }}>
+                            <td style={{ verticalAlign: 'middle', width: '1px' }}>
                                 <ButtonGroup>
                                     <VoiceLineAudioDescriptor
                                         playing={playing}
@@ -29,11 +36,11 @@ export default function (props : { servant: Servant.Servant }) {
                                         delay={line.delay}
                                         id={`${line.name}-${index}`}
                                         onPlayStateChange={setPlaying}/>
-                                    <DropdownButton as={ButtonGroup} title="Downloads">
+                                    <DropdownButton alignRight as={ButtonGroup} title="Downloads">
                                         {line.audioAssets.map(
                                             (asset, i) => (
-                                                <Dropdown.Item as={'a'}>
-                                                    <a href={asset} download>Part {i + 1}</a>
+                                                <Dropdown.Item href={asset}>
+                                                    Part {i + 1}
                                                 </Dropdown.Item>
                                             )
                                         )}
@@ -47,7 +54,7 @@ export default function (props : { servant: Servant.Servant }) {
         )
         let row = (
             <tr>
-                <td>{voice.type}</td>
+                <td>{(voice.type === ProfileVoiceType.GROETH)? "Growth" : toTitleCase(voice.type)}</td>
                 <td>{lines}</td>
             </tr>
         )
