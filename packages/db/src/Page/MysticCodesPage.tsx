@@ -1,5 +1,4 @@
-import {Region} from "@atlasacademy/api-connector";
-import MysticCodeBasic from "@atlasacademy/api-connector/dist/Schema/MysticCodeBasic";
+import {MysticCode, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Table} from "react-bootstrap";
@@ -19,7 +18,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    mysticCodes: MysticCodeBasic[];
+    mysticCodes: MysticCode.MysticCodeBasic[];
 }
 
 class MysticCodesPage extends React.Component<IProps, IState> {

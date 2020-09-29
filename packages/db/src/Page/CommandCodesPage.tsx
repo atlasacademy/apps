@@ -1,5 +1,4 @@
-import {Region} from "@atlasacademy/api-connector";
-import CommandCodeBasic from "@atlasacademy/api-connector/dist/Schema/CommandCodeBasic";
+import {CommandCode, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import diacritics from 'diacritics';
 import minimatch from "minimatch";
@@ -26,7 +25,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    commandCodes: CommandCodeBasic[];
+    commandCodes: CommandCode.CommandCodeBasic[];
     search?: string;
 }
 
@@ -57,7 +56,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
         }
     }
 
-    private commandCodes(): CommandCodeBasic[] {
+    private commandCodes(): CommandCode.CommandCodeBasic[] {
         let list = this.state.commandCodes.slice().reverse();
 
         if (this.state.search) {

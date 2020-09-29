@@ -1,5 +1,4 @@
-import {Region} from "@atlasacademy/api-connector";
-import MysticCodeBasic from "@atlasacademy/api-connector/dist/Schema/MysticCodeBasic";
+import {MysticCode, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {FormControl} from "react-bootstrap";
 import {withRouter} from "react-router";
@@ -12,7 +11,7 @@ interface Event extends React.ChangeEvent<HTMLInputElement> {
 interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
-    mysticCodes: MysticCodeBasic[];
+    mysticCodes: MysticCode.MysticCodeBasic[];
 }
 
 class MysticCodePicker extends React.Component<IProps> {
