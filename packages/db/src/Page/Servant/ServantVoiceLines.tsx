@@ -1,8 +1,10 @@
 import {ProfileVoiceType, Region, Servant} from "@atlasacademy/api-connector";
 import {toTitleCase} from "@atlasacademy/api-descriptor";
+import {faFileAudio} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {ButtonGroup, Dropdown, DropdownButton, Table} from "react-bootstrap"
-import VoiceLineAudioDescriptor from "../../Descriptor/VoiceLineAudioDescriptor";
+import {ButtonGroup, Dropdown, Table} from "react-bootstrap"
+import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
 import {handleNewLine} from "../../Helper/OutputHelper";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
@@ -29,18 +31,25 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                             </td>
                             <td style={{verticalAlign: 'middle', width: '1px'}}>
                                 <ButtonGroup>
-                                    <VoiceLineAudioDescriptor
+                                    <VoiceLinePlayer
                                         audioAssetUrls={line.audioAssets}
                                         delay={line.delay}/>
-                                    <DropdownButton alignRight as={ButtonGroup} title="Downloads">
-                                        {line.audioAssets.map(
-                                            (asset, i) => (
-                                                <Dropdown.Item href={asset} target="_blank">
-                                                    Part {i + 1}
-                                                </Dropdown.Item>
-                                            )
-                                        )}
-                                    </DropdownButton>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant={"info"}>
+                                            <FontAwesomeIcon icon={faFileAudio}/>
+                                            &nbsp;
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            {line.audioAssets.map(
+                                                (asset, i) => (
+                                                    <Dropdown.Item href={asset} target="_blank">
+                                                        Part {i + 1}
+                                                    </Dropdown.Item>
+                                                )
+                                            )}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </ButtonGroup>
                             </td>
                         </tr>

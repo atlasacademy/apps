@@ -6,25 +6,47 @@ import {Button} from "react-bootstrap";
 class AudioElement {
     private element: HTMLAudioElement = new Audio();
     private url: string;
+    private loaded: boolean = false;
 
     constructor(url: string) {
         this.url = url;
     };
 
-    play = async () => {
+    load() {
         return new Promise(res => {
-            this.element = new Audio(this.url);
-            this.element.volume = 0.5;
-            this.element.onpause = this.element.onerror = this.element.onended = () => {
-                this.element.currentTime = 0;
+            if (this.loaded) {
                 res();
-            };
-            this.element.load();
-            this.element.play();
-        })
+
+                return;
+            }
+
+            const element = new Audio(this.url);
+            element.volume = 0.5;
+
+            element.addEventListener('loadeddata', () => {
+                element.pause();
+                element.currentTime = 0;
+                this.loaded = true;
+
+                res();
+            });
+
+            element.play();
+            this.element = element;
+        });
     }
 
-    stop = () => {
+    play() {
+        return new Promise(res => {
+            this.element.onpause = this.element.onerror = this.element.onended = () => {
+                this.stop();
+                res();
+            };
+            this.element.play();
+        });
+    }
+
+    stop() {
         this.element.pause();
         this.element.currentTime = 0;
     };
@@ -41,7 +63,7 @@ interface IState {
     started: number | undefined;
 }
 
-class VoiceLineAudioDescriptor extends React.Component<IProps, IState> {
+class VoiceLinePlayer extends React.Component<IProps, IState> {
     private readonly audioControllers: AudioElement[];
 
     constructor(props: IProps) {
@@ -56,6 +78,10 @@ class VoiceLineAudioDescriptor extends React.Component<IProps, IState> {
         };
     }
 
+    private isPlaying(started: number): boolean {
+        return this.state.playing && started === this.state.started;
+    }
+
     private async onClick() {
         if (this.state.playing)
             return this.stop();
@@ -67,19 +93,34 @@ class VoiceLineAudioDescriptor extends React.Component<IProps, IState> {
             started
         });
 
+        await Promise.all(this.audioControllers.map(async (control) => {
+            await control.load();
+
+            return;
+        }));
+
         this.playLine(0, started);
     }
 
     private async playLine(index: number, started: number) {
-        if (index >= this.audioControllers.length) {
+        const control = this.audioControllers[index] ?? undefined,
+            delay = this.props.delay[index] ?? undefined;
+
+        if (!this.isPlaying(started) || !control || delay === undefined) {
             return this.stop();
         }
 
-        const control = this.audioControllers[index];
+        await new Promise(resolve => {
+            setTimeout(resolve, delay * 1000);
+        });
+
+        if (!this.isPlaying(started))
+            return this.stop();
+
         await this.setState({control});
         await control.play();
 
-        if (started === this.state.started)
+        if (this.isPlaying(started))
             this.playLine(index + 1, started);
     };
 
@@ -104,11 +145,9 @@ class VoiceLineAudioDescriptor extends React.Component<IProps, IState> {
                 }}
                 style={{whiteSpace: "nowrap"}}>
                 <FontAwesomeIcon icon={this.state.playing ? faStop : faPlay}/>
-                &nbsp;
-                {this.state.playing ? 'Stop' : 'Play'}
             </Button>
         )
     }
 }
 
-export default VoiceLineAudioDescriptor;
+export default VoiceLinePlayer;
