@@ -148,18 +148,18 @@ class ServantPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
 
-                <Tabs id={'servant-tabs'} defaultActiveKey={this.props.tab ?? 'skill-1'} transition={false}
+                <Tabs id={'servant-tabs'} defaultActiveKey={this.props.tab ?? 'skill-1'} mountOnEnter={true}
                       onSelect={(key: string | null) => {
                           this.props.history.replace(`/${this.props.region}/servant/${this.props.id}/${key}`);
                       }}>
                     {[1, 2, 3].map(i => (
-                        <Tab eventKey={`skill-${i}`} title={`Skill ${i}`}>
+                        <Tab key={`skill-${i}`} eventKey={`skill-${i}`} title={`Skill ${i}`}>
                             <br/>
                             {servant.skills
                                 .filter(skill => skill.num === i)
-                                .map(skill => {
+                                .map((skill, i2) => {
                                     return (
-                                        <div>
+                                        <div key={i2}>
                                             <SkillBreakdown region={this.props.region}
                                                             key={skill.id}
                                                             skill={skill}

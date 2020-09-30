@@ -85,7 +85,7 @@ class MysticCodePage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
 
-                <Tabs id={'mystic-code-tabs'} defaultActiveKey={this.props.tab ?? 'skill-1'} transition={false}
+                <Tabs id={'mystic-code-tabs'} defaultActiveKey={this.props.tab ?? 'skill-1'} mountOnEnter={false}
                       onSelect={(key: string | null) => {
                           this.props.history.replace(`/${this.props.region}/mystic-code/${this.props.id}/${key}`);
                       }}>
