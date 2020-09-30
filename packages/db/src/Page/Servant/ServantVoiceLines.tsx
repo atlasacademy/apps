@@ -34,7 +34,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                                         playing={playing}
                                         audioAssetUrls={line.audioAssets}
                                         delay={line.delay}
-                                        id={`${line.name}-${index}`}
+                                        id={line.audioAssets[0] || `${line.name}-${index}`}
                                         onPlayStateChange={setPlaying}/>
                                     <DropdownButton alignRight as={ButtonGroup} title="Downloads">
                                         {line.audioAssets.map(
