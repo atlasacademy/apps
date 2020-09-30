@@ -108,7 +108,7 @@ class Navigation extends React.Component<IProps, IState> {
                                 <Nav.Link href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
                                     <FontAwesomeIcon icon={faDiscord}/>
                                 </Nav.Link>
-                                <Nav.Link href={'https://github.com/atlasacademy/aa-db'} target={'_blank'}>
+                                <Nav.Link href={'https://github.com/atlasacademy/apps'} target={'_blank'}>
                                     <FontAwesomeIcon icon={faGithub}/>
                                 </Nav.Link>
                                 <Button variant={"primary"} onClick={() => this.showSettings()}>
