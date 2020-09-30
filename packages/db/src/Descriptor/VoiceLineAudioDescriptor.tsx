@@ -24,39 +24,91 @@ class AudioElement {
         })
     }
 
-    stop = () => this.element.pause();
+    stop = () => {
+        this.element.pause();
+        this.element.currentTime = 0;
+    };
 }
 
-interface VoiceLineAudioDescriptorProps {
+interface IProps {
     audioAssetUrls: string[];
     delay: number[];
-    onPlayStateChange: (playing: string) => void;
-    playing?: string;
-    id: string;
 }
 
-export default function (props: VoiceLineAudioDescriptorProps) {
-    const {audioAssetUrls, id, delay, playing, onPlayStateChange} = props;
-    const audioControllers = audioAssetUrls.map(url => new AudioElement(url));
-    const onClick = async () => {
-        onPlayStateChange(id);
-        for (let [index, control] of audioControllers.entries()) {
-            await new Promise(res => setTimeout(res, delay[index] * 1000));
-            await control.play();
-        }
-        onPlayStateChange('');
+interface IState {
+    playing: boolean;
+    control: AudioElement | undefined;
+    started: number | undefined;
+}
+
+class VoiceLineAudioDescriptor extends React.Component<IProps, IState> {
+    private readonly audioControllers: AudioElement[];
+
+    constructor(props: IProps) {
+        super(props);
+
+        this.audioControllers = props.audioAssetUrls.map(url => new AudioElement(url));
+
+        this.state = {
+            playing: false,
+            control: undefined,
+            started: undefined
+        };
     }
 
-    const isMePlaying = id === playing;
-    return (
-        <Button
-            disabled={!!props.playing}
-            variant={isMePlaying ? 'warning' : 'success'}
-            onClick={onClick}
-            style={{whiteSpace: "nowrap"}}>
-            <FontAwesomeIcon icon={isMePlaying ? faStop : faPlay}/>
-            &nbsp;
-            {isMePlaying ? 'Stop' : 'Play'}
-        </Button>
-    )
+    private async onClick() {
+        if (this.state.playing)
+            return this.stop();
+
+        const started = Date.now();
+
+        await this.setState({
+            playing: true,
+            started
+        });
+
+        this.playLine(0, started);
+    }
+
+    private async playLine(index: number, started: number) {
+        if (index >= this.audioControllers.length) {
+            return this.stop();
+        }
+
+        const control = this.audioControllers[index];
+        await this.setState({control});
+        await control.play();
+
+        if (started === this.state.started)
+            this.playLine(index + 1, started);
+    };
+
+    private stop() {
+        const control = this.state.control;
+
+        this.setState({
+            playing: false,
+            control: undefined,
+            started: undefined
+        });
+
+        control?.stop();
+    }
+
+    render() {
+        return (
+            <Button
+                variant={this.state.playing ? 'warning' : 'success'}
+                onClick={() => {
+                    this.onClick();
+                }}
+                style={{whiteSpace: "nowrap"}}>
+                <FontAwesomeIcon icon={this.state.playing ? faStop : faPlay}/>
+                &nbsp;
+                {this.state.playing ? 'Stop' : 'Play'}
+            </Button>
+        )
+    }
 }
+
+export default VoiceLineAudioDescriptor;

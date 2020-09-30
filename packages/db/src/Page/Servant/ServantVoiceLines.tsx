@@ -1,6 +1,6 @@
 import {ProfileVoiceType, Region, Servant} from "@atlasacademy/api-connector";
 import {toTitleCase} from "@atlasacademy/api-descriptor";
-import React, {useState} from "react";
+import React from "react";
 import {ButtonGroup, Dropdown, DropdownButton, Table} from "react-bootstrap"
 import VoiceLineAudioDescriptor from "../../Descriptor/VoiceLineAudioDescriptor";
 import {handleNewLine} from "../../Helper/OutputHelper";
@@ -8,7 +8,6 @@ import {handleNewLine} from "../../Helper/OutputHelper";
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
 export default function (props: { region: Region; servant: Servant.Servant }) {
-    let [playing, setPlaying] = useState('');
     let voices = props.servant?.profile?.voices;
     let out: JSX.Element[] = [];
 
@@ -31,12 +30,9 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                             <td style={{verticalAlign: 'middle', width: '1px'}}>
                                 <ButtonGroup>
                                     <VoiceLineAudioDescriptor
-                                        playing={playing}
                                         audioAssetUrls={line.audioAssets}
-                                        delay={line.delay}
-                                        id={line.audioAssets[0] || `${line.name}-${index}`}
-                                        onPlayStateChange={setPlaying}/>
-                                    <DropdownButton as={ButtonGroup} alignRight title="Downloads">
+                                        delay={line.delay}/>
+                                    <DropdownButton alignRight as={ButtonGroup} title="Downloads">
                                         {line.audioAssets.map(
                                             (asset, i) => (
                                                 <Dropdown.Item href={asset} target="_blank">
