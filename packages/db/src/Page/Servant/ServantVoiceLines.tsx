@@ -14,7 +14,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
     let out: JSX.Element[] = [];
 
     if (voices)
-        for (let voice of voices) {
+        for (let [i, voice] of voices.entries()) {
             let {voiceLines} = voice;
             let lines = (
                 <Table bordered>
@@ -43,7 +43,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                                         <Dropdown.Menu>
                                             {line.audioAssets.map(
                                                 (asset, i) => (
-                                                    <Dropdown.Item href={asset} target="_blank">
+                                                    <Dropdown.Item key={i} href={asset} target="_blank">
                                                         Part {i + 1}
                                                     </Dropdown.Item>
                                                 )
@@ -58,7 +58,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                 </Table>
             )
             let row = (
-                <tr>
+                <tr key={i}>
                     <td>{(voice.type === ProfileVoiceType.GROETH) ? "Growth" : toTitleCase(voice.type)}</td>
                     <td>{lines}</td>
                 </tr>
