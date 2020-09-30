@@ -18,7 +18,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
             let lines = (
                 <Table bordered>
                     <tbody>
-                    {voiceLines.map((line, index) => (
+                    {voiceLines.sort((a, b) => ((b.priority || 0) - (a.priority || 0))).map((line, index) => (
                         <tr key={`line_${index}`}>
                             <td>
                                 <b>{line.overwriteName.replace("{0}", (index + 1).toString()) || line.name}</b>
@@ -36,7 +36,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                                         delay={line.delay}
                                         id={line.audioAssets[0] || `${line.name}-${index}`}
                                         onPlayStateChange={setPlaying}/>
-                                    <DropdownButton alignRight as={ButtonGroup} title="Downloads">
+                                    <DropdownButton alignRight title="Downloads">
                                         {line.audioAssets.map(
                                             (asset, i) => (
                                                 <Dropdown.Item href={asset}>
