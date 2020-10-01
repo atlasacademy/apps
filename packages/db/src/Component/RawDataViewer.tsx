@@ -8,7 +8,7 @@ import ReactJson from "react-json-view";
 
 interface IProps {
     data: object | string;
-    text?: string
+    text?: string,
 }
 
 interface IState {

@@ -8,13 +8,14 @@ import Api from "../Api";
 import NoblePhantasmBreakdown from "../Breakdown/NoblePhantasmBreakdown";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import SkillReferenceBreakdown from "../Breakdown/SkillReferenceBreakdown";
+import ClassIcon from "../Component/ClassIcon";
 import ErrorStatus from "../Component/ErrorStatus";
+import RawDataViewer from "../Component/RawDataViewer";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 import ServantAssets from "./Servant/ServantAssets";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantMaterialBreakdown from "./Servant/ServantMaterialBreakdown";
-import ServantMiscData from "./Servant/ServantMiscData";
 import ServantPicker from "./Servant/ServantPicker";
 import ServantPortrait from "./Servant/ServantPortrait";
 import ServantProfileComments from "./Servant/ServantProfileComments";
@@ -120,6 +121,7 @@ class ServantPage extends React.Component<IProps, IState> {
         const servant = this.state.servant;
         document.title = `[${this.props.region}] Servant - ${servant.name} - Atlas Academy DB`;
 
+        const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
         return (
             <div id={'servant'}>
                 <ServantPicker region={this.props.region}
@@ -127,6 +129,14 @@ class ServantPage extends React.Component<IProps, IState> {
                                id={this.state.servant.collectionNo}/>
                 <hr/>
 
+                <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 3 }}>
+                    <h1>
+                        <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
+                        &nbsp;
+                        {servant.name}
+                    </h1>
+                    <span style={{ flexGrow: 1 }} />
+                </div>
                 <Row style={{
                     marginBottom: '3%'
                 }}>
@@ -135,6 +145,8 @@ class ServantPage extends React.Component<IProps, IState> {
                                          servant={this.state.servant}
                                          assetType={this.state.assetType}
                                          assetId={this.state.assetId}/>
+                        <RawDataViewer text="Nice" data={servant}/>
+                        <RawDataViewer text="Raw" data={rawUrl}/>
                     </Col>
                     <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
                         <ServantPortrait servant={this.state.servant}
@@ -241,10 +253,6 @@ class ServantPage extends React.Component<IProps, IState> {
                     <Tab eventKey={'voices'} title={'Voices'}>
                         <br/>
                         <ServantVoiceLines region={this.props.region} servant={servant}/>
-                    </Tab>
-                    <Tab eventKey={'misc'} title={'Misc'}>
-                        <br/>
-                        <ServantMiscData servant={this.state.servant}/>
                     </Tab>
                 </Tabs>
             </div>
