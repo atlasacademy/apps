@@ -1,11 +1,9 @@
 import {Region, Servant} from "@atlasacademy/api-connector";
 import {toTitleCase} from "@atlasacademy/api-descriptor";
 import React from "react";
-import {Table, ButtonGroup} from "react-bootstrap";
-import ClassIcon from "../../Component/ClassIcon";
+import {Table} from "react-bootstrap";
 import CommandCard from "../../Component/CommandCard";
 import {Renderable} from "../../Helper/OutputHelper";
-import RawDataViewer from "../../Component/RawDataViewer";
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import {formatNumber} from "../../Helper/OutputHelper";
@@ -42,17 +40,9 @@ class ServantMainData extends React.Component<IProps> {
     }
     render() {
         const servant = this.props.servant;
-
-        const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/servant/${this.props.servant.id}?expand=true&lore=true`;
         return (
             <div>
-                <h1>
-                    <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
-                    &nbsp;
-                    {servant.name}
-                </h1>
-
-                <Table bordered className="servant-main-data-table">
+                <Table bordered className="servant-data-table">
                     <tbody>
                         {this.renderDoubleRow([
                             { title: "ID", content: servant.id }, 
@@ -107,17 +97,6 @@ class ServantMainData extends React.Component<IProps> {
                                 servant.bondEquip
                                 ? <CraftEssenceReferenceDescriptor region={this.props.region} id={servant.bondEquip}/>
                                 : ''
-                            )
-                        })}
-                        {this.renderSpanningRow({
-                            title: "Data",
-                            content: (
-                                <span>
-                                    <ButtonGroup>
-                                        <RawDataViewer block={false} text="Nice" data={servant}/>
-                                        <RawDataViewer block={false} text="Raw" data={rawUrl}/>
-                                    </ButtonGroup>
-                                </span>
                             )
                         })}
                     </tbody>
