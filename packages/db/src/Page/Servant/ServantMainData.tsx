@@ -77,7 +77,7 @@ class ServantMainData extends React.Component<IProps> {
                             )
                         })}
                         {this.renderSpanningRow({
-                            title: "Card",
+                            title: "Deck",
                             content: (
                                 <div>
                                     {servant.cards.map((card, index) => {
