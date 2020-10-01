@@ -1,7 +1,7 @@
 import {Region, Servant} from "@atlasacademy/api-connector";
 import {toTitleCase} from "@atlasacademy/api-descriptor";
 import React from "react";
-import {Table} from "react-bootstrap";
+import {Table, ButtonGroup} from "react-bootstrap";
 import ClassIcon from "../../Component/ClassIcon";
 import CommandCard from "../../Component/CommandCard";
 import {Renderable} from "../../Helper/OutputHelper";
@@ -43,6 +43,7 @@ class ServantMainData extends React.Component<IProps> {
     render() {
         const servant = this.props.servant;
 
+        const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/servant/${this.props.servant.id}?expand=true&lore=true`;
         return (
             <div>
                 <h1>
@@ -51,7 +52,7 @@ class ServantMainData extends React.Component<IProps> {
                     {servant.name}
                 </h1>
 
-                <Table bordered className="servant-main-data-span-cell">
+                <Table bordered className="servant-main-data-table">
                     <tbody>
                         {this.renderDoubleRow([
                             { title: "ID", content: servant.id }, 
@@ -108,14 +109,19 @@ class ServantMainData extends React.Component<IProps> {
                                 : ''
                             )
                         })}
+                        {this.renderSpanningRow({
+                            title: "Data",
+                            content: (
+                                <span>
+                                    <ButtonGroup>
+                                        <RawDataViewer block={false} text="Nice" data={servant}/>
+                                        <RawDataViewer block={false} text="Raw" data={rawUrl}/>
+                                    </ButtonGroup>
+                                </span>
+                            )
+                        })}
                     </tbody>
                 </Table>
-                <span>
-                    <RawDataViewer text="Nice" data={servant}/>
-                    <RawDataViewer
-                        text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${this.props.servant.id}?expand=true&lore=true`}/>
-                </span>
             </div>
         );
     }
