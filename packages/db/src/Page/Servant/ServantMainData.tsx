@@ -3,7 +3,7 @@ import {toTitleCase} from "@atlasacademy/api-descriptor";
 import React from "react";
 import {Table} from "react-bootstrap";
 import CommandCard from "../../Component/CommandCard";
-import {Renderable} from "../../Helper/OutputHelper";
+import {Renderable, asPercent} from "../../Helper/OutputHelper";
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import {formatNumber} from "../../Helper/OutputHelper";
@@ -38,8 +38,23 @@ class ServantMainData extends React.Component<IProps> {
             </tr>
         )
     }
+
+    private showHits (hits: number[] | undefined): JSX.Element | string {
+        if (hits === undefined)
+            return '';
+
+        return <span>
+            {hits.map((hit, index) => {
+                return (index > 0 ? ', ' : '') + asPercent(hit, 0);
+            })}
+            &nbsp;-&nbsp;
+            {hits.length} Hits
+        </span>
+    };
+
     render() {
         const servant = this.props.servant;
+        const { buster, arts, quick, extra } = servant.hitsDistribution;
         return (
             <div>
                 <Table bordered className="servant-data-table">
@@ -90,6 +105,18 @@ class ServantMainData extends React.Component<IProps> {
                                     })}
                                 </div>
                             )
+                        })}
+                        {this.renderSpanningRow({ title: "Buster", content: this.showHits(buster) })}
+                        {this.renderSpanningRow({ title: "Arts", content: this.showHits(arts) })}
+                        {this.renderSpanningRow({ title: "Quick", content: this.showHits(quick) })}
+                        {this.renderSpanningRow({ title: "Extra", content: this.showHits(extra) })}
+                        {this.renderDoubleRow([
+                            { title: "Star Weight", content: servant.starAbsorb  }, 
+                            { title: "Star Gen", content: asPercent(servant.starGen, 1) }
+                        ])}
+                        {this.renderSpanningRow({
+                            title: "Death Chance",
+                            content: asPercent(this.props.servant.instantDeathChance, 1)
                         })}
                         {this.renderSpanningRow({
                             title: "Bond CE",

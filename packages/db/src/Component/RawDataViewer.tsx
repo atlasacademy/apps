@@ -9,7 +9,6 @@ import ReactJson from "react-json-view";
 interface IProps {
     data: object | string;
     text?: string,
-    block?: boolean
 }
 
 interface IState {
@@ -54,7 +53,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
         return (
             <>
                 <Button
-                      variant="outline-info" block={this.props.block ?? true}
+                      variant="outline-info" block
                       onClick={() => {
                           this.show();
                       }}>

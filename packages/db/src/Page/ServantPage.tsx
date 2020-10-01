@@ -1,7 +1,7 @@
 import {Region, Servant, Trait} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
-import {ButtonGroup, Col, Row, Tab, Tabs} from "react-bootstrap";
+import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
 import Api from "../Api";
@@ -16,7 +16,6 @@ import Manager from "../Setting/Manager";
 import ServantAssets from "./Servant/ServantAssets";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantMaterialBreakdown from "./Servant/ServantMaterialBreakdown";
-import ServantMiscData from "./Servant/ServantMiscData";
 import ServantPicker from "./Servant/ServantPicker";
 import ServantPortrait from "./Servant/ServantPortrait";
 import ServantProfileComments from "./Servant/ServantProfileComments";
@@ -137,10 +136,6 @@ class ServantPage extends React.Component<IProps, IState> {
                         {servant.name}
                     </h1>
                     <span style={{ flexGrow: 1 }} />
-                    <ButtonGroup>
-                        <RawDataViewer block={false} text="Nice" data={servant}/>
-                        <RawDataViewer block={false} text="Raw" data={rawUrl}/>
-                    </ButtonGroup>
                 </div>
                 <Row style={{
                     marginBottom: '3%'
@@ -150,7 +145,8 @@ class ServantPage extends React.Component<IProps, IState> {
                                          servant={this.state.servant}
                                          assetType={this.state.assetType}
                                          assetId={this.state.assetId}/>
-                        <ServantMiscData servant={this.state.servant}/>
+                        <RawDataViewer text="Nice" data={servant}/>
+                        <RawDataViewer text="Raw" data={rawUrl}/>
                     </Col>
                     <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
                         <ServantPortrait servant={this.state.servant}
