@@ -178,7 +178,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                 })}
                         </Tab>
                     ))}
-                    <Tab eventKey={'noble-phantasms'} title={'Noble Phantasms'}>
+                    <Tab eventKey={'noble-phantasms'} title={'NPs'}>
                         <br/>
                         {this.state.servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
@@ -224,13 +224,9 @@ class ServantPage extends React.Component<IProps, IState> {
                             </Col>
                         </Row>
                     </Tab>
-                    <Tab eventKey={'stat-growth'} title={'Stat Growth'}>
+                    <Tab eventKey={'stat-growth'} title={'Growth'}>
                         <br/>
                         <ServantStatGrowth region={this.props.region} servant={servant}/>
-                    </Tab>
-                    <Tab eventKey={'misc'} title={'Misc'}>
-                        <br/>
-                        <ServantMiscData servant={this.state.servant}/>
                     </Tab>
                     <Tab eventKey={'lore'} title={'Profile'}>
                         <br/>
@@ -242,9 +238,13 @@ class ServantPage extends React.Component<IProps, IState> {
                         <br/>
                         <ServantAssets region={this.props.region} servant={servant}/>
                     </Tab>
-                    <Tab eventKey={'voices'} title={'Voice Lines'}>
+                    <Tab eventKey={'voices'} title={'Voices'}>
                         <br/>
                         <ServantVoiceLines region={this.props.region} servant={servant}/>
+                    </Tab>
+                    <Tab eventKey={'misc'} title={'Misc'}>
+                        <br/>
+                        <ServantMiscData servant={this.state.servant}/>
                     </Tab>
                 </Tabs>
             </div>
