@@ -34,7 +34,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                                     <VoiceLinePlayer
                                         audioAssetUrls={line.audioAssets}
                                         delay={line.delay}/>
-                                    <Dropdown>
+                                    <Dropdown as={ButtonGroup}>
                                         <Dropdown.Toggle variant={"info"}>
                                             <FontAwesomeIcon icon={faFileAudio}/>
                                             &nbsp;
