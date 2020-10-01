@@ -1,4 +1,5 @@
 import {Region, Servant} from "@atlasacademy/api-connector";
+import {toTitleCase} from "@atlasacademy/api-descriptor";
 import React from "react";
 import ClassIcon from "../../Component/ClassIcon";
 import CommandCard from "../../Component/CommandCard";
@@ -31,10 +32,10 @@ class ServantMainData extends React.Component<IProps> {
                     "ID": servant.id,
                     "Collection": servant.collectionNo,
                     "Name": servant.name,
-                    "Class": servant.className,
+                    "Class": toTitleCase(servant.className),
                     "Rarity": <RarityDescriptor rarity={servant.rarity}/>,
                     "Cost": servant.cost,
-                    "Attribute": servant.attribute,
+                    "Attribute": toTitleCase(servant.attribute),
                     "Hp": <div>
                         Base: {formatNumber(servant.hpBase)}
                         &nbsp;&nbsp;&nbsp;&nbsp;
