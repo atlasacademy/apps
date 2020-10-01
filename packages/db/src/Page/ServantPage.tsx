@@ -1,7 +1,7 @@
 import {Region, Servant, Trait} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
-import {Col, Row, Tab, Tabs, ButtonGroup} from "react-bootstrap";
+import {ButtonGroup, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
 import Api from "../Api";

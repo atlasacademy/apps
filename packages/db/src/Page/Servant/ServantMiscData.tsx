@@ -1,16 +1,9 @@
 import {Servant} from "@atlasacademy/api-connector";
 import React from "react";
-import {Table} from 'react-bootstrap';
-import BuffIcon from "../../Component/BuffIcon";
 import DataTable from "../../Component/DataTable";
 import {asPercent} from "../../Helper/OutputHelper";
 
-const buffIconPath = 'https://assets.atlasacademy.io/GameData/JP/BuffIcons',
-    deathChanceIcon = `${buffIconPath}/bufficon_337.png`,
-    hitCountIcon = `${buffIconPath}/bufficon_349.png`,
-    starGenIcon = `${buffIconPath}/bufficon_320.png`,
-    starAbsorbIcon = `${buffIconPath}/bufficon_325.png`,
-    showHits = function (hits: number[] | undefined): JSX.Element | string {
+const showHits = function (hits: number[] | undefined): JSX.Element | string {
         if (hits === undefined)
             return '';
 
