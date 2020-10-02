@@ -1,5 +1,5 @@
 import {DataVal, Func} from "@atlasacademy/api-connector";
-import getStaticDataValFields from "./getStaticDataValFields";
+import getStaticDataValFields from "./extractStaticDataValFields";
 
 export default function (func: Func.Func, level: number, overcharge?: number): DataVal.DataVal {
     const staticFields = getStaticFields(func),

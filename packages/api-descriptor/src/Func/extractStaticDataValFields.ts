@@ -1,4 +1,4 @@
-import {DataVal, Func} from "@atlasacademy/api-connector";
+import {DataVal} from "@atlasacademy/api-connector";
 
 export default function (vals: DataVal.DataVal[]): DataVal.DataValField[] {
     return Object.values(DataVal.DataValField).filter(field => {
