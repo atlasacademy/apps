@@ -21,7 +21,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                     <tbody>
                     {voiceLines.sort((a, b) => ((b.priority || 0) - (a.priority || 0))).map((line, index) => (
                         <tr key={`line_${index}`}>
-                            <td>
+                            <td style={{verticalAlign: 'middle'}}>
                                 <b>{line.overwriteName.replace("{0}", (index + 1).toString()) || line.name}</b>
                                 <br/>
                                 {formatSubtitle(

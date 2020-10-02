@@ -127,10 +127,10 @@ class ServantPage extends React.Component<IProps, IState> {
                 <ServantPicker region={this.props.region}
                                servants={this.state.servants}
                                id={this.state.servant.collectionNo}/>
-                <hr/>
+                <hr style={{ marginBottom: "1rem" }}/>
 
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 3 }}>
-                    <h1>
+                    <h1 style={{ marginBottom: "1rem" }}>
                         <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
                         &nbsp;
                         {servant.name}
