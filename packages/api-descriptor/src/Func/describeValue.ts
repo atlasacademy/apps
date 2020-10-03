@@ -1,5 +1,4 @@
 import {DataVal, Func} from "@atlasacademy/api-connector";
-import {FuncType} from "@atlasacademy/api-connector/dist/Schema/Func";
 import {default as describeBuffValue} from "../Buff/describeValue";
 import {BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType} from "../Descriptor";
 import describeGainHpFromTargetsValue from "./Value/describeGainHpFromTargetsValue";
@@ -25,16 +24,16 @@ export default function (func: Func.Func,
         );
     }
 
-    if (func.funcType === FuncType.ADD_STATE || func.funcType === FuncType.ADD_STATE_SHORT) {
+    if (func.funcType === Func.FuncType.ADD_STATE || func.funcType === Func.FuncType.ADD_STATE_SHORT) {
         const valueDescriptor = describeBuffValue(func.buffs[0], dataVal),
             valuePartials = valueDescriptor?.partials() ?? [];
 
         addPartials(valuePartials);
-    } else if (func.funcType === FuncType.ABSORB_NPTURN) {
+    } else if (func.funcType === Func.FuncType.ABSORB_NPTURN) {
         addPartials(describeNpAbsorbValue(staticDataVal, dataVal));
-    } else if (func.funcType === FuncType.GAIN_HP_FROM_TARGETS) {
+    } else if (func.funcType === Func.FuncType.GAIN_HP_FROM_TARGETS) {
         addPartials(describeGainHpFromTargetsValue(staticDataVal, dataVal));
-    } else if (func.funcType === FuncType.GAIN_NP_FROM_TARGETS) {
+    } else if (func.funcType === Func.FuncType.GAIN_NP_FROM_TARGETS) {
         addPartials(describeGainNpFromTargets(staticDataVal, dataVal));
     } else {
         if (dataVal.Value !== undefined) {
