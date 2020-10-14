@@ -3,7 +3,7 @@ import {toTitleCase} from "@atlasacademy/api-descriptor";
 import {faFileAudio} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {ButtonGroup, Dropdown, Table} from "react-bootstrap"
+import {Alert, ButtonGroup, Dropdown, Table} from "react-bootstrap"
 import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
 import {handleNewLine} from "../../Helper/OutputHelper";
 
@@ -67,14 +67,17 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
         }
 
     return (
-        <Table responsive>
-            <thead>
-            <tr>
-                <td>Type</td>
-                <td>Lines</td>
-            </tr>
-            </thead>
-            <tbody>{out}</tbody>
-        </Table>
+        <>
+            <Alert variant="success">Voice Actor : {props.servant.profile?.cv}</Alert>
+            <Table responsive>
+                <thead>
+                <tr>
+                    <td>Type</td>
+                    <td>Lines</td>
+                </tr>
+                </thead>
+                <tbody>{out}</tbody>
+            </Table>
+        </>
     )
 }

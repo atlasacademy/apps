@@ -1,6 +1,7 @@
 import {Entity, Region, Servant} from "@atlasacademy/api-connector";
 import React from "react";
 import {mergeElements} from "../../Helper/OutputHelper";
+import {Alert} from "react-bootstrap";
 
 interface IProps {
     region: Region;
@@ -37,6 +38,10 @@ class ServantAssets extends React.Component<IProps> {
     render() {
         return (
             <div>
+                <Alert variant="success">
+                    Illustrator :&nbsp;
+                    {this.props.servant.profile?.illustrator}
+                </Alert>   
                 <h3>Portraits</h3>
                 <div>
                     {this.displayAssets(this.props.servant.extraAssets.charaGraph)}
