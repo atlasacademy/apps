@@ -18,6 +18,7 @@ export interface CommandCode {
     rarity: number;
     extraAssets: CommandCodeAssets;
     skills: Skill[];
+    illustrator: string;
     comment: string;
 }
 

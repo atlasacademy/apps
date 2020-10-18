@@ -41,7 +41,7 @@ class ServantAssets extends React.Component<IProps> {
                 <Alert variant="success">
                     Illustrator :&nbsp;
                     {this.props.servant.profile?.illustrator}
-                </Alert>   
+                </Alert>
                 <h3>Portraits</h3>
                 <div>
                     {this.displayAssets(this.props.servant.extraAssets.charaGraph)}
