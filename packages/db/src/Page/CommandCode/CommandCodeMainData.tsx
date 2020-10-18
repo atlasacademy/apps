@@ -24,6 +24,7 @@ class CommandCodeMainData extends React.Component<IProps> {
                     "Collection": commandCode.collectionNo,
                     "Name": commandCode.name,
                     "Rarity": <RarityDescriptor rarity={commandCode.rarity}/>,
+                    "Illustrator": commandCode.illustrator,
                     "Comment": commandCode.comment,
                 }}/>
                 <span>
