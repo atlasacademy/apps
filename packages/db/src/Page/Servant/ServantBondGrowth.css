@@ -7,8 +7,10 @@
 .servant-bond-table {
     table-layout: fixed;
 }
+
 .servant-bond-table > thead > tr > th > img {
     height: 70%;
+    margin-bottom: 3px;
 }
 .servant-bond-table > tbody > tr > td {
     width: 1%;
