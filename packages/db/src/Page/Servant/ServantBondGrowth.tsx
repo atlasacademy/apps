@@ -3,7 +3,8 @@ import {Servant} from "@atlasacademy/api-connector";
 import {Table} from "react-bootstrap";
 
 import "./ServantBondGrowth.css";
-import { formatNumber } from "../../Helper/OutputHelper";
+import {formatNumber} from "../../Helper/OutputHelper";
+import BondIcon from "../../Component/BondIcon";
 
 export default (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
     let { bondGrowth: bond } = props;
@@ -11,7 +12,13 @@ export default (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
         <>
             <thead>
                 {/* indexes */}
-                <tr>{Array(10).fill(0).map((_, __) => <th>{__ + 1}</th>)}</tr>
+                <tr>{Array(10).fill(0).map((_, __) => (
+                    <th key={`bond_${__}`}>
+                        <BondIcon level={__ + 1} />
+                        &nbsp;&nbsp;
+                        {__ + 1}
+                    </th>
+                ))}</tr>
             </thead>
             <tbody>
                 <tr>{bond.slice(0, 10).map(values => <td>{formatNumber(values)}</td>)}</tr>
