@@ -14,6 +14,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 import ServantAssets from "./Servant/ServantAssets";
+import ServantBondGrowth from "./Servant/ServantBondGrowth";
 import ServantMainData from "./Servant/ServantMainData";
 import ServantMaterialBreakdown from "./Servant/ServantMaterialBreakdown";
 import ServantPicker from "./Servant/ServantPicker";
@@ -241,6 +242,7 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantStatGrowth region={this.props.region} servant={servant}/>
                     </Tab>
                     <Tab eventKey={'lore'} title={'Profile'}>
+                        <ServantBondGrowth bondGrowth={servant.bondGrowth} />
                         <br/>
                         <ServantProfileStats region={this.props.region} profile={servant.profile}/>
                         <hr/>
