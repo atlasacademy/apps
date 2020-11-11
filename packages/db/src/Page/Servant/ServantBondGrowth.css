@@ -4,8 +4,9 @@
     vertical-align: middle;
 }
 
-.servant-bond-table {
-    table-layout: fixed;
+.servant-bond-table > tbody > tr > td,
+.servant-bond-table > tbody > tr > th {
+    min-width: 50%;
 }
 
 .servant-bond-table > thead > tr > th > img {
