@@ -57,7 +57,7 @@ export default (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
         <div>
             <br />
             <h3>Bond levels</h3>
-            <Table striped bordered className={'servant-bond-table'}>
+            <Table responsive striped bordered className={'servant-bond-table'}>
                 {rows}
             </Table>
         </div>
