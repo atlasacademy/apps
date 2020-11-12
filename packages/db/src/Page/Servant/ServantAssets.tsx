@@ -1,11 +1,20 @@
 import {Entity, Region, Servant} from "@atlasacademy/api-connector";
-import React from "react";
-import {mergeElements} from "../../Helper/OutputHelper";
-import {Alert} from "react-bootstrap";
+import React, {useContext} from "react";
+import {mergeElements, Renderable} from "../../Helper/OutputHelper";
+import {Accordion, AccordionContext, Alert, Card} from "react-bootstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
+
+import "./ServantAssets.css";
 
 interface IProps {
     region: Region;
     servant: Servant.Servant;
+}
+
+function ArrowToggle({ eventKey } : { eventKey: string }) {
+    const currentKey = useContext(AccordionContext);
+    return <FontAwesomeIcon className="assets-header-collapse-actions" icon={(currentKey === eventKey) ? faChevronUp : faChevronDown} />
 }
 
 class ServantAssets extends React.Component<IProps> {
@@ -35,62 +44,50 @@ class ServantAssets extends React.Component<IProps> {
         );
     }
 
+    private renderCollapsibleContent({ title, content, subheader } : { title: Renderable, content: Renderable, subheader: boolean }) {
+        return (
+            <Accordion defaultActiveKey={`${title}`}>
+                <Card border="light" className="assets-card">  
+                    <hr className="assets-header-separator" />
+                    <Accordion.Toggle className="assets-header" as="div" eventKey={`${title}`}>
+                        {subheader ? <h5 style={{ display: "inline" }}>{title}</h5> : <h3 style={{ display: 'inline' }}>{title}</h3>}
+                        <span style={{ flexGrow: 1, float: "right" }}><ArrowToggle eventKey={`${title}`}/></span>
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey={`${title}`}>
+                        <div>{content}</div>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
+        )
+    }
+
     render() {
+        const charaFigure = (
+            <>
+                {this.displayAssets(this.props.servant.extraAssets.charaFigure)}
+                <br />
+                {Object.entries(this.props.servant.extraAssets.charaFigureForm)
+                    .map(([form, assetMap]) => (
+                        this.renderCollapsibleContent({ title: `Form ${form}`, content: this.displayAssets(assetMap), subheader: true })
+                    ))
+                }
+            </>
+        )
+        const content = [
+            { title: "Portraits", content: this.displayAssets(this.props.servant.extraAssets.charaGraph) },
+            { title: "Status", content: this.displayAssets(this.props.servant.extraAssets.status) },
+            { title: "Command", content: this.displayAssets(this.props.servant.extraAssets.commands) },
+            { title: "Formation", content: this.displayAssets(this.props.servant.extraAssets.narrowFigure) },
+            { title: "Thumbnail", content: this.displayAssets(this.props.servant.extraAssets.faces) },
+            { title: "Figure", content: charaFigure }
+        ].map(a => Object.assign({}, a, { subheader: false }));
         return (
             <div>
                 <Alert variant="success">
                     Illustrator :&nbsp;
                     {this.props.servant.profile?.illustrator}
                 </Alert>
-                <h3>Portraits</h3>
-                <div>
-                    {this.displayAssets(this.props.servant.extraAssets.charaGraph)}
-                </div>
-
-                <hr/>
-
-                <h3>Status</h3>
-                <div>
-                    {this.displayAssets(this.props.servant.extraAssets.status)}
-                </div>
-
-                <hr/>
-
-                <h3>Command</h3>
-                <div>
-                    {this.displayAssets(this.props.servant.extraAssets.commands)}
-                </div>
-
-                <hr/>
-
-                <h3>Formation</h3>
-                <div>
-                    {this.displayAssets(this.props.servant.extraAssets.narrowFigure)}
-                </div>
-
-                <hr/>
-
-                <h3>Thumbnail</h3>
-                <div>
-                    {this.displayAssets(this.props.servant.extraAssets.faces)}
-                </div>
-
-                <hr/>
-
-                <h3>Figure</h3>
-                <div>
-                    {this.displayAssets(this.props.servant.extraAssets.charaFigure)}
-                    {Object.entries(this.props.servant.extraAssets.charaFigureForm)
-                        .map(([form, assetMap]) => (
-                            <div>
-                                <hr/>
-                                
-                                <h4>Form {form}</h4>
-                                {this.displayAssets(assetMap)}
-                            </div>
-                        ))
-                    }
-                </div>
+                    {content.map(this.renderCollapsibleContent.bind(this))}
             </div>
         );
     }

@@ -1,0 +1,18 @@
+.assets-header-collapse-actions {
+    font-size: 2em;
+    line-height: 1em;
+    margin-top: 5%;
+}
+
+.assets-card {
+    border-color: transparent !important;
+}
+
+.assets-header-separator {
+    margin-top: 5px;
+}
+
+.assets-header {
+    cursor: pointer;
+    margin-bottom: 1%;
+}
