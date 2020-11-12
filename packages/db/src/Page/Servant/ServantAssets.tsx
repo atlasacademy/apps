@@ -80,6 +80,16 @@ class ServantAssets extends React.Component<IProps> {
                 <h3>Figure</h3>
                 <div>
                     {this.displayAssets(this.props.servant.extraAssets.charaFigure)}
+                    {Object.entries(this.props.servant.extraAssets.charaFigureForm)
+                        .map(([form, assetMap]) => (
+                            <div>
+                                <hr/>
+                                
+                                <h4>Form {form}</h4>
+                                {this.displayAssets(assetMap)}
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         );
