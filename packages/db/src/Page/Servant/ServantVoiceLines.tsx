@@ -1,10 +1,11 @@
-import {ProfileVoiceType, Region, Servant} from "@atlasacademy/api-connector";
+import {Profile, ProfileVoiceType, Region, Servant} from "@atlasacademy/api-connector";
 import {toTitleCase} from "@atlasacademy/api-descriptor";
 import {faFileAudio} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Alert, ButtonGroup, Dropdown, Table} from "react-bootstrap"
 import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
+import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
 import {handleNewLine} from "../../Helper/OutputHelper";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
@@ -16,6 +17,8 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
     if (voices)
         for (let [i, voice] of voices.entries()) {
             let {voiceLines} = voice;
+            for (let line of voiceLines)
+                line.conds = line.conds.filter(cond => !(cond.condType === Profile.VoiceCondType.EVENT_END && cond.value === 0));
             let lines = (
                 <Table bordered>
                     <tbody>
@@ -28,6 +31,15 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                                     (props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET) ?
                                         line.text.join() : line.subtitle
                                 )}
+                                {line.conds.length ? (
+                                    <>
+                                        <br />&nbsp;
+                                        <Alert variant="info">
+                                            <b>Requirements :</b><br />
+                                            {line.conds.map(cond => <><VoiceCondTypeDescriptor region={props.region} cond={cond} /><br /></>)}
+                                        </Alert>
+                                    </>
+                                ) : ''}
                             </td>
                             <td style={{verticalAlign: 'middle', width: '1px'}}>
                                 <ButtonGroup>
