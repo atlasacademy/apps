@@ -81,6 +81,12 @@ class ServantsPage extends React.Component<IProps, IState> {
         }
     }
 
+    componentDidUpdate({} : Readonly<IProps>, prevState : Readonly<IState>) {
+        // reset the search page, should the search term changes
+        if (prevState.search != this.state.search)
+            this.setPage(0);
+    }
+
     private isClassFilterActive(className: ClassName): boolean {
         return this.state.activeClassFilters.indexOf(className) !== -1;
     }
@@ -182,6 +188,8 @@ class ServantsPage extends React.Component<IProps, IState> {
             activeFilters.push(className);
 
         this.setState({activeClassFilters: activeFilters});
+        // reset the page number if anything changed
+        this.setPage(0);
     }
 
     private toggleRarityFilter(rarity: number): void {
