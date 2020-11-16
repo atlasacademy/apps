@@ -81,9 +81,9 @@ class ServantsPage extends React.Component<IProps, IState> {
         }
     }
 
-    componentDidUpdate({} : Readonly<IProps>, prevState : Readonly<IState>) {
+    componentDidUpdate(_ : Readonly<IProps>, prevState : Readonly<IState>) {
         // reset the search page, should the search term changes
-        if (prevState.search != this.state.search)
+        if (prevState.search !== this.state.search)
             this.setPage(0);
     }
 
