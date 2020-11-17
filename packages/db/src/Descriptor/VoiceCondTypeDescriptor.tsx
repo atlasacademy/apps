@@ -29,8 +29,8 @@ export default (props : { cond: Exclude<Servant.Servant['profile'], undefined>['
         case VoiceCondType.SVT_GET: return <>Presence of <ServantLink id={value} /></>;
         case VoiceCondType.SVT_GROUP: return (
             <>
-                Presence of any of the following :<br />
-                {valueList.map(value => <><ServantLink id={value}/><br /></>)}
+                {'Presence of any of the following: '}
+                {valueList.map((value, i) => <><ServantLink id={value}/>{ i < valueList.length - 1 ? ', ' : '' }</>)}
             </>
         );
         default: return <>{condType}</>

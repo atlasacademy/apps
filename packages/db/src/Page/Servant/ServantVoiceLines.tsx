@@ -33,9 +33,9 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                                 )}
                                 {line.conds.length ? (
                                     <>
-                                        <br />&nbsp;
-                                        <Alert variant="info">
-                                            <b>Requirements :</b><br />
+                                        <br/>{line.text.join('') || line.subtitle ? <>&nbsp;</> : ''}
+                                        <Alert variant="info" style={{marginBottom: 0}}>
+                                            <b>Requirements:</b><br />
                                             {line.conds.map(cond => <><VoiceCondTypeDescriptor region={props.region} cond={cond} /><br /></>)}
                                         </Alert>
                                     </>
