@@ -13,7 +13,8 @@ import renderCollapsibleContent from "../../Component/CollapsibleContent";
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
 export default function (props: { region: Region; servant: Servant.Servant }) {
-    let voices = props.servant?.profile?.voices;
+    let { profile, ascensionAdd } = props.servant;
+    let voices = profile?.voices;
     let voicePrefixes = new Set([...(voices?.entries() || [])].map(entry => entry[1].voicePrefix));
     let voicePrefixConditionPresent = voicePrefixes.size > 1;
 
@@ -96,7 +97,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
         )
         if (voicePrefixConditionPresent)
             return renderCollapsibleContent({
-                title: <VoicePrefixDescriptor currentVoicePrefix={prefix} ascensionAdd={props.servant.ascensionAdd}/>,
+                title: <VoicePrefixDescriptor currentVoicePrefix={prefix} ascensionAdd={ascensionAdd} costumes={profile?.costume} />,
                 content: outputTable,
                 subheader: false
             });

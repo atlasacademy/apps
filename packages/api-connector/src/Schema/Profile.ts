@@ -233,5 +233,15 @@ export interface Profile {
                 eventId: number;
             }[]
         }[]
-    }[]
+    }[],
+    costume: {
+        [key: string]: {
+            id: number;
+            costumeCollectionNo: number;
+            name: string;
+            shortName: string;
+            detail: string;
+            priority: number;
+        }
+    }
 }

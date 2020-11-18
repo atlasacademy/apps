@@ -1,13 +1,18 @@
 import React from "react";
 import type {Servant} from "@atlasacademy/api-connector";
-export default (props : { currentVoicePrefix: number, ascensionAdd: Servant.Servant['ascensionAdd'] }) => {
-    let { ascensionAdd: { voicePrefix }, currentVoicePrefix } = props;
+interface IProps {
+    currentVoicePrefix: number;
+    ascensionAdd: Servant.Servant['ascensionAdd'];
+    costumes?: Exclude<Servant.Servant['profile'], undefined>['costume']
+}
+export default (props : IProps) => {
+    let { ascensionAdd: { voicePrefix }, currentVoicePrefix, costumes = {} } = props;
     let ascConds = Object.entries(voicePrefix.ascension || {})
         .filter(([_, prefix]) => prefix === currentVoicePrefix)
         .map(asc => +asc[0])
     let costumeConds = Object.entries(voicePrefix.costume || {})
         .filter(([_, prefix]) => prefix === currentVoicePrefix)
-        .map(costumeId => +costumeId[0]);
+        .map(costumeId => costumes?.[costumeId[0]].name)
     // write a range instead of listing all levels
     // if contiguous range
     let isValidRange = (Math.max(...ascConds) - Math.min(...ascConds) + 1) === ascConds.length;
@@ -15,7 +20,7 @@ export default (props : { currentVoicePrefix: number, ascensionAdd: Servant.Serv
     return (
         <>
             {ascConds.length ? <>Ascension {ascString}&nbsp;</> : ''}
-            {costumeConds.length ? <>{ascConds.length ? 'or c' : 'C'}ostume ID {costumeConds.join(' / ')}</> : ''}
+            {costumeConds.length ? <>{ascConds.length ? 'or c' : 'C'}ostume {costumeConds.join(' / ')}</> : ''}
         </>
     )
 }
