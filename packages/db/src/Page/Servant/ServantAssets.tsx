@@ -1,20 +1,12 @@
 import {Entity, Region, Servant} from "@atlasacademy/api-connector";
-import React, {useContext} from "react";
-import {mergeElements, Renderable} from "../../Helper/OutputHelper";
-import {Accordion, AccordionContext, Alert, Card} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
-
-import "./ServantAssets.css";
+import React from "react";
+import {mergeElements} from "../../Helper/OutputHelper";
+import {Alert} from "react-bootstrap";
+import renderCollapsibleContent from "../../Component/CollapsibleContent";
 
 interface IProps {
     region: Region;
     servant: Servant.Servant;
-}
-
-function ArrowToggle({ eventKey } : { eventKey: string }) {
-    const currentKey = useContext(AccordionContext);
-    return <FontAwesomeIcon className="assets-header-collapse-actions" icon={(currentKey === eventKey) ? faChevronUp : faChevronDown} />
 }
 
 class ServantAssets extends React.Component<IProps> {
@@ -44,23 +36,6 @@ class ServantAssets extends React.Component<IProps> {
         );
     }
 
-    private renderCollapsibleContent({ title, content, subheader } : { title: Renderable, content: Renderable, subheader: boolean }) {
-        return (
-            <Accordion defaultActiveKey={`${title}`}>
-                <Card border="light" className="assets-card">  
-                    <hr className="assets-header-separator" />
-                    <Accordion.Toggle className="assets-header" as="div" eventKey={`${title}`}>
-                        {subheader ? <h5 style={{ display: "inline" }}>{title}</h5> : <h3 style={{ display: 'inline' }}>{title}</h3>}
-                        <span style={{ flexGrow: 1, float: "right" }}><ArrowToggle eventKey={`${title}`}/></span>
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey={`${title}`}>
-                        <div>{content}</div>
-                    </Accordion.Collapse>
-                </Card>
-            </Accordion>
-        )
-    }
-
     render() {
         const charaFigure = (
             <>
@@ -68,7 +43,7 @@ class ServantAssets extends React.Component<IProps> {
                 <br />
                 {Object.entries(this.props.servant.extraAssets.charaFigureForm)
                     .map(([form, assetMap]) => (
-                        this.renderCollapsibleContent({ title: `Form ${form}`, content: this.displayAssets(assetMap), subheader: true })
+                        renderCollapsibleContent({ title: `Form ${form}`, content: this.displayAssets(assetMap), subheader: true })
                     ))
                 }
             </>
@@ -87,7 +62,7 @@ class ServantAssets extends React.Component<IProps> {
                     Illustrator :&nbsp;
                     {this.props.servant.profile?.illustrator}
                 </Alert>
-                    {content.map(this.renderCollapsibleContent.bind(this))}
+                    {content.map(renderCollapsibleContent)}
             </div>
         );
     }

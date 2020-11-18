@@ -8,6 +8,7 @@ import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
 import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
 import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
 import {handleNewLine} from "../../Helper/OutputHelper";
+import renderCollapsibleContent from "../../Component/CollapsibleContent";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
@@ -82,31 +83,31 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                 </tr>
             )
         });
-        let voicePrefixCondition = voicePrefixConditionPresent
-            && (
-                <Alert variant="light">
-                    <VoicePrefixDescriptor currentVoicePrefix={prefix} ascensionAdd={props.servant.ascensionAdd}/>
-                </Alert>
-            )
-        return (
-            <>
-                {voicePrefixCondition}
-                <Table responsive>
-                    <thead>
-                        <tr>
-                            <td>Type</td>
-                            <td>Lines</td>
-                        </tr>
-                    </thead>
-                    <tbody>{voiceLineTable}</tbody>
-                </Table>
-            </>
+        let outputTable = (
+            <Table responsive>
+                <thead>
+                    <tr>
+                        <td>Type</td>
+                        <td>Lines</td>
+                    </tr>
+                </thead>
+                <tbody>{voiceLineTable}</tbody>
+            </Table>
         )
+        if (voicePrefixConditionPresent)
+            return renderCollapsibleContent({
+                title: <VoicePrefixDescriptor currentVoicePrefix={prefix} ascensionAdd={props.servant.ascensionAdd}/>,
+                content: outputTable,
+                subheader: false
+            });
+        else
+            return outputTable;
     })    
         
     return (
         <>
-            <Alert variant="success">Voice Actor : {props.servant.profile?.cv}</Alert>{out}
+            <Alert variant="success">Voice Actor : {props.servant.profile?.cv}</Alert>
+            {out}
         </>
     )
 }

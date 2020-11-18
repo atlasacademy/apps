@@ -1,18 +1,18 @@
-.assets-header-collapse-actions {
+.collapsible-header-collapse-actions {
     font-size: 2em;
     line-height: 1em;
     margin-top: 5%;
 }
 
-.assets-card {
+.collapsible-card {
     border-color: transparent !important;
 }
 
-.assets-header-separator {
+.collapsible-header-separator {
     margin-top: 5px;
 }
 
-.assets-header {
+.collapsible-header {
     cursor: pointer;
     margin-bottom: 1%;
 }
