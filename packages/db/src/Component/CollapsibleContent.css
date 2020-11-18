@@ -6,13 +6,16 @@
 
 .collapsible-card {
     border-color: transparent !important;
+    margin: 0;
 }
 
 .collapsible-header-separator {
-    margin-top: 5px;
+    margin: 0;
 }
 
 .collapsible-header {
     cursor: pointer;
-    margin-bottom: 1%;
+    margin: 1em 0;
+    display: flex;
+    justify-content: space-between;
 }
