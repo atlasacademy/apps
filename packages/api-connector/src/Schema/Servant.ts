@@ -10,6 +10,14 @@ export interface ServantAscensionAdditions {
         costume?: {
             [key: number]: Trait[];
         }
+    };
+    voicePrefix: {
+        ascension?: {
+            [key: number]: number;
+        }
+        costume?: {
+            [key: number]: number;
+        }
     }
 }
 
