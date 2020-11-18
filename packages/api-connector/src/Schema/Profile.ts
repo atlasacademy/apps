@@ -210,6 +210,7 @@ export interface Profile {
     }
     comments: ProfileComment[];
     voices: {
+        voicePrefix: number;
         type: ProfileVoiceType;
         voiceLines: {
             name?: string;

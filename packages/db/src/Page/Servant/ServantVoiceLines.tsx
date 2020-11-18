@@ -6,16 +6,22 @@ import React from "react";
 import {Alert, ButtonGroup, Dropdown, Table} from "react-bootstrap"
 import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
 import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
+import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
 import {handleNewLine} from "../../Helper/OutputHelper";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
 export default function (props: { region: Region; servant: Servant.Servant }) {
     let voices = props.servant?.profile?.voices;
-    let out: JSX.Element[] = [];
+    let voicePrefixes = new Set([...(voices?.entries() || [])].map(entry => entry[1].voicePrefix));
+    let voicePrefixConditionPresent = voicePrefixes.size > 1;
 
-    if (voices)
-        for (let [i, voice] of voices.entries()) {
+    // sorting into prefixes
+    let sortedVoice : [number, typeof voices][] =
+        [...voicePrefixes].map(prefix => [prefix, voices?.filter(voice => voice.voicePrefix === prefix)]);
+
+    let out = sortedVoice.map(([prefix, voices]) => {
+        let voiceLineTable = voices?.map(voice => {
             let {voiceLines} = voice;
             for (let line of voiceLines)
                 line.conds = line.conds.filter(cond => !(cond.condType === Profile.VoiceCondType.EVENT_END && cond.value === 0));
@@ -51,7 +57,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                                             <FontAwesomeIcon icon={faFileAudio}/>
                                             &nbsp;
                                         </Dropdown.Toggle>
-
+    
                                         <Dropdown.Menu>
                                             {line.audioAssets.map(
                                                 (asset, i) => (
@@ -69,27 +75,38 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                     </tbody>
                 </Table>
             )
-            let row = (
-                <tr key={i}>
+            return (
+                <tr>
                     <td>{(voice.type === ProfileVoiceType.GROETH) ? "Growth" : toTitleCase(voice.type)}</td>
                     <td>{lines}</td>
                 </tr>
             )
-            out.push(row);
-        }
-
+        });
+        let voicePrefixCondition = voicePrefixConditionPresent
+            && (
+                <Alert variant="light">
+                    <VoicePrefixDescriptor currentVoicePrefix={prefix} ascensionAdd={props.servant.ascensionAdd}/>
+                </Alert>
+            )
+        return (
+            <>
+                {voicePrefixCondition}
+                <Table responsive>
+                    <thead>
+                        <tr>
+                            <td>Type</td>
+                            <td>Lines</td>
+                        </tr>
+                    </thead>
+                    <tbody>{voiceLineTable}</tbody>
+                </Table>
+            </>
+        )
+    })    
+        
     return (
         <>
-            <Alert variant="success">Voice Actor : {props.servant.profile?.cv}</Alert>
-            <Table responsive>
-                <thead>
-                <tr>
-                    <td>Type</td>
-                    <td>Lines</td>
-                </tr>
-                </thead>
-                <tbody>{out}</tbody>
-            </Table>
+            <Alert variant="success">Voice Actor : {props.servant.profile?.cv}</Alert>{out}
         </>
     )
 }

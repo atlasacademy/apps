@@ -2,21 +2,21 @@
 # yarn lockfile v1
 
 
-"@atlasacademy/api-connector@^2.1.7":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@atlasacademy/api-connector/-/api-connector-2.1.7.tgz#0db00c86427740320bcb81dddcee61bdc6830918"
-  integrity sha512-fMO1gTs23pMECsZZCuq2K2hUNKXHdNX/w2SbxW3RtWIXMVWO3SIgTD0GxSmvbTwMOtjz2FpxcD21w42ODoHZrQ==
+"@atlasacademy/api-connector@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@atlasacademy/api-connector/-/api-connector-2.2.0.tgz#1b3207884784179dbee25f88b4033120b9a86c74"
+  integrity sha512-LKamwbdLRo2BNOLzTICsZY8Q+XlgXQ8dVdje8d3Sd/WhtsVPkvUNp1RlTZ2Dy4FjGSMoax5PNbLfJ7N51IUXtQ==
   dependencies:
     axios "^0.19.2"
     install "^0.13.0"
     only "0.0.2"
 
-"@atlasacademy/api-descriptor@^0.4.7":
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/@atlasacademy/api-descriptor/-/api-descriptor-0.4.7.tgz#92d3d07492dcfa8bc99f2e20a12c8af97c47d0f8"
-  integrity sha512-ILrBA95x0TWwBFP8fLweU8a62ijvd5Z5t3h7mZE2Oz1sKmgdksLEtqciyiqFLVTZeiXmm9MXpq1+0XpHKBudNQ==
+"@atlasacademy/api-descriptor@^0.4.8":
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/@atlasacademy/api-descriptor/-/api-descriptor-0.4.8.tgz#79c1b45c8b26a87adea113490244f1027fe1f915"
+  integrity sha512-pgnrp83y2ULCxSpbhWkhKxkY6F5mvhmWo00mfX4PGYPbnx/mOpneBR6pS7jqZz6Rb7iFBD1aflFJX6ESGkbMCA==
   dependencies:
-    "@atlasacademy/api-connector" "^2.1.7"
+    "@atlasacademy/api-connector" "^2.2.0"
     install "^0.13.0"
     only "0.0.2"
 
