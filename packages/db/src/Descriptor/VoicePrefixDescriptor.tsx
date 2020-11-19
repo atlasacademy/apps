@@ -16,7 +16,9 @@ export default (props : IProps) => {
     // write a range instead of listing all levels
     // if contiguous range
     let isValidRange = (Math.max(...ascConds) - Math.min(...ascConds) + 1) === ascConds.length;
-    let ascString = isValidRange ? `${ascConds.sort()[0]} – ${ascConds.sort().pop()}` : ascConds.join(' / ')
+    let ascString = isValidRange
+        ? (ascConds.length === 1 ? ascConds[0] : `${ascConds.sort()[0]} – ${ascConds.sort().reverse()[0]}`)
+        : ascConds.join(' / ');
     return (
         <>
             {ascConds.length ? <>Ascension {ascString}&nbsp;</> : ''}
