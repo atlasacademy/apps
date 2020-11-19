@@ -247,7 +247,8 @@ class ServantPage extends React.Component<IProps, IState> {
                             Object.keys(servant.costumeMaterials).length
                             ? <ServantMaterialBreakdown region={this.props.region}
                                                         materials={remappedCostumeMaterials}
-                                                        title={'Costume Materials'}/>
+                                                        title={'Costume Materials'}
+                                                        idMinWidth='10em'/>
                             : null
                         }
                     </Tab>

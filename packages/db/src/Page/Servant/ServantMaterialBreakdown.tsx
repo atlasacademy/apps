@@ -17,6 +17,7 @@ interface IProps {
     region: Region;
     materials: Entity.EntityLevelUpMaterialProgression;
     title: string;
+    idMinWidth?: string;
 }
 
 class ServantMaterialBreakdown extends React.Component<IProps> {
@@ -56,7 +57,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                     <tbody>
                     {Object.keys(this.props.materials).map(key => {
                         return <tr key={key}>
-                            <td style={{verticalAlign: 'middle'}}>{key}</td>
+                            <td style={{verticalAlign: 'middle', minWidth: this.props.idMinWidth}}>{key}</td>
                             <td>
                                 <ItemIcon region={this.props.region}
                                           item={qpItem}
