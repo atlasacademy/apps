@@ -122,6 +122,13 @@ class ServantPage extends React.Component<IProps, IState> {
         const servant = this.state.servant;
         document.title = `[${this.props.region}] Servant - ${servant.name} - Atlas Academy DB`;
 
+        let remappedCostumeMaterials : typeof servant.costumeMaterials = Object.fromEntries(
+            Object.entries(servant.costumeMaterials)
+                .map(
+                    ([costumeId, costume]) => [servant.profile?.costume[costumeId].name, costume]
+                )
+        );
+
         const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
         return (
             <div id={'servant'}>
@@ -236,6 +243,13 @@ class ServantPage extends React.Component<IProps, IState> {
                                                           title={'Skill Materials'}/>
                             </Col>
                         </Row>
+                        {
+                            Object.keys(servant.costumeMaterials).length
+                            ? <ServantMaterialBreakdown region={this.props.region}
+                                                        materials={remappedCostumeMaterials}
+                                                        title={'Costume Materials'}/>
+                            : null
+                        }
                     </Tab>
                     <Tab eventKey={'stat-growth'} title={'Growth'}>
                         <br/>

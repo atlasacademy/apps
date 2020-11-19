@@ -104,6 +104,7 @@ export interface Entity {
     bondEquip: number;
     ascensionMaterials: EntityLevelUpMaterialProgression;
     skillMaterials: EntityLevelUpMaterialProgression;
+    costumeMaterials: EntityLevelUpMaterialProgression;
     skills: Skill[];
     classPassive: Skill[],
     noblePhantasms: NoblePhantasm[];
