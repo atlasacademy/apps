@@ -8,6 +8,7 @@ import {CommandCode, CommandCodeBasic} from "./Schema/CommandCode";
 import {CraftEssence, CraftEssenceBasic} from "./Schema/CraftEssence";
 import {Enemy} from "./Schema/Enemy";
 import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
+import {Event} from "./Schema/Event";
 import {Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
 import {MysticCode, MysticCodeBasic} from "./Schema/MysticCode";
 import {NoblePhantasm} from "./Schema/NoblePhantasm";
@@ -54,6 +55,7 @@ class ApiConnector {
         craftEssence: new ResultCache<number, CraftEssence>(),
         craftEssenceList: new ResultCache<null, CraftEssenceBasic[]>(),
         enemy: new ResultCache<number, Enemy>(),
+        event: new ResultCache<number, Event>(),
         func: new ResultCache<number, Func>(),
         mysticCode: new ResultCache<number, MysticCode>(),
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
@@ -165,6 +167,17 @@ class ApiConnector {
             return fetch();
 
         return this.cache.enemy.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    event(id: number, cacheDuration?: number): Promise<Event> {
+        const fetch = () => {
+            return ApiConnector.fetch<Event>(
+                `${this.host}/nice/${this.region}/event/${id}`
+            );
+        };
+        if (cacheDuration === undefined)
+            return fetch();
+        return this.cache.event.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     func(id: number, cacheDuration?: number): Promise<Func> {

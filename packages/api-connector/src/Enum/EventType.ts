@@ -1,0 +1,26 @@
+enum EventType {
+    NONE = "none",
+    RAID_BOSS = "raidBoss",
+    PVP = "pvp",
+    POINT = "point",
+    LOGIN_BONUS = "loginBonus",
+    COMBINE_CAMPAIGN = "combineCampaign",
+    SHOP = "shop",
+    QUEST_CAMPAIGN = "questCampaign",
+    BANK = "bank",
+    SERIAL_CAMPAIGN = "serialCampaign",
+    LOGIN_CAMPAIGN = "loginCampaign",
+    LOGIN_CAMPAIGN_REPEAT = "loginCampaignRepeat",
+    EVENT_QUEST = "eventQuest",
+    SVTEQUIP_COMBINE_CAMPAIGN = "svtequipCombineCampaign",
+    TERMINAL_BANNER = "terminalBanner",
+    BOX_GACHA = "boxGacha",
+    BOX_GACHA_POINT = "boxGachaPoint",
+    LOGIN_CAMPAIGN_STRICT = "loginCampaignStrict",
+    TOTAL_LOGIN = "totalLogin",
+    COMEBACK_CAMPAIGN = "comebackCampaign",
+    LOCATION_CAMPAIGN = "locationCampaign",
+    WAR_BOARD = "warBoard",
+}
+
+export default EventType;
