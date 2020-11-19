@@ -13,6 +13,9 @@ export default (props : IProps) => {
     let costumeConds = Object.entries(voicePrefix.costume || {})
         .filter(([_, prefix]) => prefix === currentVoicePrefix)
         .map(costumeId => costumes?.[costumeId[0]].name)
+    if ((ascConds.length === 0) && (costumeConds.length === 0)) {
+        ascConds = [...Array(5).keys()]
+    }
     // write a range instead of listing all levels
     // if contiguous range
     let isValidRange = (Math.max(...ascConds) - Math.min(...ascConds) + 1) === ascConds.length;
