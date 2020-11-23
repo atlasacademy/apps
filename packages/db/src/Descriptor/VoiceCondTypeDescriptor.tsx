@@ -22,6 +22,7 @@ export default (props : { cond: Exclude<Servant.Servant['profile'], undefined>['
         case VoiceCondType.COUNT_STOP: return <>Final ascension</>
         case VoiceCondType.EVENT: return <>An event is available</>;
         case VoiceCondType.FRIENDSHIP: return <>Bond level {value}</>;
+        case VoiceCondType.FRIENDSHIP_ABOVE: return <>Bond level {value}</>
         case VoiceCondType.LEVEL_UP: return <>Level up</>;
         case VoiceCondType.LIMIT_COUNT: return <>Ascension {value}</>;
         case VoiceCondType.LIMIT_COUNT_COMMON: return <>Ascension 2</>;
