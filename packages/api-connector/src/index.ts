@@ -10,6 +10,7 @@ import * as CraftEssence from "./Schema/CraftEssence";
 import * as DataVal from "./Schema/DataVal";
 import * as Enemy from "./Schema/Enemy";
 import * as Entity from "./Schema/Entity";
+import * as Event from "./Schema/Event";
 import * as Func from "./Schema/Func";
 import * as Item from "./Schema/Item";
 import * as MysticCode from "./Schema/MysticCode";
@@ -35,6 +36,7 @@ export {
     DataVal,
     Enemy,
     Entity,
+    Event,
     Func,
     Item,
     MysticCode,
