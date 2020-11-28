@@ -140,7 +140,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     <RawDataViewer text="Nice" data={skill}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/skill/${skill.id}?expand=true`}/>,
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/skill/${skill.id}?expand=true`}/>
                 </span>
 
                 <br/>

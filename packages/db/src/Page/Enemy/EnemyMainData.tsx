@@ -40,7 +40,7 @@ class EnemyMainData extends React.Component<IProps> {
                     <RawDataViewer text="Nice" data={enemy}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${enemy.id}?expand=true&lore=true`}/>,
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${enemy.id}?expand=true&lore=true`}/>
                 </span>
             </>
         );

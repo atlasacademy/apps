@@ -118,7 +118,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     <RawDataViewer text="Nice" data={noblePhantasm}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/NP/${noblePhantasm.id}?expand=true`}/>,
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/NP/${noblePhantasm.id}?expand=true`}/>
                 </span>
 
                 <br/>
