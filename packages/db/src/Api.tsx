@@ -5,6 +5,7 @@ import {
     CommandCode,
     CraftEssence,
     Enemy,
+    Event,
     Entity,
     Func,
     Language,
@@ -54,6 +55,10 @@ class Api {
 
     static async enemy(id: number): Promise<Enemy.Enemy> {
         return apiConnector.enemy(id);
+    }
+
+    static async event(id : number): Promise<Event.Event> {
+        return apiConnector.event(id, cacheDuration);
     }
 
     static func(id: number): Promise<Func.Func> {
