@@ -31,8 +31,10 @@ export default (props : { cond: Exclude<Servant.Servant['profile'], undefined>['
         case VoiceCondType.BIRTH_DAY: return <>Player birthday</>;
         case VoiceCondType.COUNT_STOP: return <>Final ascension</>
         case VoiceCondType.EVENT: return <>An event is available</>;
+        case VoiceCondType.EVENT_PERIOD: return <>During event <b><EventItem id={value}/></b></>;
         case VoiceCondType.EVENT_END: return <>Event <b><EventItem id={value}/></b> ended</>;
         case VoiceCondType.EVENT_NOEND: return <>Event <b><EventItem id={value}/></b> hasn't ended</>;
+        case VoiceCondType.EVENT_SHOP_PURCHASE: return <>Event <b><EventItem id={value}/></b> shop purchase line</>;
         case VoiceCondType.FRIENDSHIP: return <>Bond level {value}</>;
         case VoiceCondType.FRIENDSHIP_ABOVE: return <>Bond level {value}</>
         case VoiceCondType.LEVEL_UP: return <>Level up</>;
