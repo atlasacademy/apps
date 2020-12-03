@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Link} from "react-router-dom";
 import FaceIcon from "../Component/FaceIcon";
+import './Descriptor.css';
 
 interface IProps {
     region: Region;
@@ -16,7 +17,10 @@ class CraftEssenceDescriptor extends React.Component<IProps> {
             asset = assetMap ? assetMap[this.props.craftEssence.id] : undefined;
 
         return (
-            <Link to={`/${this.props.region}/craft-essence/${this.props.craftEssence.collectionNo}`}>
+            <Link 
+                to={`/${this.props.region}/craft-essence/${this.props.craftEssence.collectionNo}`}
+                style={{textDecoration: "none"}}
+            >
                 {asset ? (
                     <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
                               rarity={this.props.craftEssence.rarity}
@@ -24,7 +28,7 @@ class CraftEssenceDescriptor extends React.Component<IProps> {
                               height={'2em'}/>
                 ) : undefined}
                 {asset ? ' ' : undefined}
-                {this.props.craftEssence.name}
+                <span className="hoverText">{this.props.craftEssence.name}</span>
                 {' '}
                 <FontAwesomeIcon icon={faShare}/>
             </Link>

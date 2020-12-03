@@ -3,6 +3,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
+import './Descriptor.css';
 
 interface IProps {
     region: Region;
@@ -35,7 +36,10 @@ class ServantDescriptor extends React.Component<IProps> {
         const faceIconLocation = this.faceIconLocation();
 
         return (
-            <Link to={`/${this.props.region}/servant/${this.props.servant.collectionNo}`}>
+            <Link
+                to={`/${this.props.region}/servant/${this.props.servant.collectionNo}`}
+                style={{textDecoration: "none"}}
+            >
                 <ClassIcon className={this.props.servant.className}
                            rarity={this.props.servant.rarity}
                            height={this.props.iconHeight}/>
@@ -47,7 +51,7 @@ class ServantDescriptor extends React.Component<IProps> {
                               height={this.props.iconHeight}/>
                 ) : undefined}
                 {faceIconLocation ? ' ' : undefined}
-                {this.props.servant.name}
+                <span className="hoverText">{this.props.servant.name}</span>
             </Link>
         );
     }
