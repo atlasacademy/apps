@@ -38,7 +38,7 @@ class ServantDescriptor extends React.Component<IProps> {
         return (
             <Link
                 to={`/${this.props.region}/servant/${this.props.servant.collectionNo}`}
-                style={{textDecoration: "none"}}
+                style={{textDecoration: "none", whiteSpace: "nowrap"}}
             >
                 <ClassIcon className={this.props.servant.className}
                            rarity={this.props.servant.rarity}

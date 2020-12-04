@@ -19,7 +19,7 @@ class CraftEssenceDescriptor extends React.Component<IProps> {
         return (
             <Link 
                 to={`/${this.props.region}/craft-essence/${this.props.craftEssence.collectionNo}`}
-                style={{textDecoration: "none"}}
+                style={{textDecoration: "none", whiteSpace: "nowrap"}}
             >
                 {asset ? (
                     <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
