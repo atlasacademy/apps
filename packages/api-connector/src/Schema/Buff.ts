@@ -145,6 +145,8 @@ export enum BuffType {
     AVOIDANCE_INDIVIDUALITY = "avoidanceIndividuality",
     CHANGE_COMMAND_CARD_TYPE = "changeCommandCardType",
     SPECIAL_INVINCIBLE = "specialInvincible",
+    PREVENT_DEATH_BY_DAMAGE = "preventDeathByDamage",
+    COMMANDCODEATTACK_AFTER_FUNCTION = "commandcodeattackAfterFunction",
 }
 
 export interface Buff {
