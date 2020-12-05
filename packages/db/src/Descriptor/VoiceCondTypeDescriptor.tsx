@@ -41,6 +41,7 @@ export default (props : { cond: Exclude<Servant.Servant['profile'], undefined>['
         case VoiceCondType.LIMIT_COUNT: return <>Ascension {value}</>;
         case VoiceCondType.LIMIT_COUNT_COMMON: return <>Ascension 2</>;
         case VoiceCondType.QUEST_CLEAR: return <>Cleared <QuestDescriptor region={region} text="" questId={value} questPhase={1}/></>
+        case VoiceCondType.NOT_QUEST_CLEAR: return <>Hasn't cleared <QuestDescriptor region={region} text="" questId={value} questPhase={1}/></>
         case VoiceCondType.SVT_GET: return <>Presence of <ServantLink id={value} /></>;
         case VoiceCondType.SVT_GROUP: return (
             <>
