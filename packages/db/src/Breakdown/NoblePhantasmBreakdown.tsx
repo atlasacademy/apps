@@ -31,7 +31,10 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
 
     render() {
         const np = this.props.noblePhantasm;
-
+        let categories = [
+            np.rank && `Rank : ${np.rank}`,
+            np.type && `Type : ${np.type}`
+        ]
         return (
             <div>
                 <Row>
@@ -55,8 +58,9 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                         ) : null}
 
                         <p>{handleNewLine(np.detail)}</p>
-
+                        
                         <p>
+                            {categories.filter(Boolean).join(' – ')}<br />
                             Card: <CardType card={np.card} height={60}/><br/>
                             Hits: {np.npDistribution.length} Hits
                             - {mergeElements(np.npDistribution.map(hit => asPercent(hit, 0)), ', ')}
