@@ -159,7 +159,7 @@ class ApiConnector {
     enemy(id: number, cacheDuration?: number): Promise<Enemy> {
         const fetch = () => {
             return ApiConnector.fetch<Enemy>(
-                `${this.host}/nice/${this.region}/svt/${id}`
+                `${this.host}/nice/${this.region}/svt/${id}?lore=true`
             );
         };
 

@@ -12,6 +12,7 @@ import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 import EnemyMainData from "./Enemy/EnemyMainData";
 import EnemySubData from "./Enemy/EnemySubData";
+import ServantProfileStat from "./Servant/ServantProfileStats";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
 
 interface IProps extends RouteComponentProps {
@@ -135,6 +136,10 @@ class EnemyPage extends React.Component<IProps, IState> {
                     <Tab eventKey={'stat-growth'} title={'Stat Growth'}>
                         <br/>
                         <ServantStatGrowth region={this.props.region} servant={enemy as unknown as Servant.Servant}/>
+                    </Tab>
+                    <Tab eventKey={'profile'} title={'Profile'}>
+                        <br/>
+                        <ServantProfileStat region={this.props.region} profile={(enemy as unknown as Servant.Servant).profile}/>
                     </Tab>
                 </Tabs>
             </div>
