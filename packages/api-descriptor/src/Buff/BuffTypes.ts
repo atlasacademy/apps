@@ -53,6 +53,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.ADD_DAMAGE, 'Damage Plus'],
     [Buff.BuffType.ADD_INDIVIDUALITY, 'Add Trait'],
     [Buff.BuffType.AVOIDANCE, 'Evade'],
+    [Buff.BuffType.AVOIDANCE_INDIVIDUALITY, 'Evade'],
     [Buff.BuffType.CHANGE_COMMAND_CARD_TYPE, 'Change Command Card Types'],
     [Buff.BuffType.COMMANDCODEATTACK_FUNCTION, 'Command Code Effect'],
     [Buff.BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
