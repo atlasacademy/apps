@@ -25,15 +25,26 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
     let out = sortedVoice.map(([prefix, voices]) => {
         let voiceLineTable = voices?.map(voice => {
             let {voiceLines} = voice;
-            for (let line of voiceLines)
+            let voiceLineNames: string[] = [];
+            let voiceNameCount: Record<string, number> = {};
+            for (let line of voiceLines) {
                 line.conds = line.conds.filter(cond => !(cond.condType === Profile.VoiceCondType.EVENT_END && cond.value === 0));
+                let lineName = line.overwriteName || line.name || '';
+                if (lineName in voiceNameCount) {
+                    voiceNameCount[lineName]++;
+                } else {
+                    voiceNameCount[lineName] = 1;
+                }
+                voiceLineNames.push(lineName.replace("{0}", voiceNameCount[lineName].toString()));
+            }
+
             let lines = (
                 <Table bordered>
                     <tbody>
                     {voiceLines.sort((a, b) => ((b.priority || 0) - (a.priority || 0))).map((line, index) => (
                         <tr key={`line_${index}`}>
                             <td style={{verticalAlign: 'middle'}}>
-                                <b>{line.overwriteName.replace("{0}", (index + 1).toString()) || line.name}</b>
+                                <b>{voiceLineNames[index]}</b>
                                 <br/>
                                 {formatSubtitle(
                                     (props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET) ?
@@ -59,7 +70,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
                                             <FontAwesomeIcon icon={faFileAudio}/>
                                             &nbsp;
                                         </Dropdown.Toggle>
-    
+
                                         <Dropdown.Menu>
                                             {line.audioAssets.map(
                                                 (asset, i) => (
@@ -103,8 +114,8 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
             });
         else
             return outputTable;
-    })    
-        
+    })
+
     return (
         <>
             <Alert variant="success">Voice Actor : {props.servant.profile?.cv}</Alert>
