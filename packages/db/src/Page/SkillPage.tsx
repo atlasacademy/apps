@@ -96,6 +96,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     "ID": skill.id,
                     "Name": skill.name,
                     "Detail": skill.detail,
+                    "Type": skill.type,
                     "Owner": (
                         <div>
                             {(skill.reverse?.nice?.servant ?? [])
