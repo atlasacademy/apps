@@ -24,7 +24,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
 
     let out = sortedVoice.map(([prefix, voices]) => {
         let voiceLineTable = voices?.map(voice => {
-            let {voiceLines} = voice;
+            let voiceLines = voice.voiceLines.sort((a, b) => ((b.priority || 0) - (a.priority || 0)));
             let voiceLineNames: string[] = [];
             let voiceNameCount: Record<string, number> = {};
             for (let line of voiceLines) {
@@ -41,7 +41,7 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
             let lines = (
                 <Table bordered>
                     <tbody>
-                    {voiceLines.sort((a, b) => ((b.priority || 0) - (a.priority || 0))).map((line, index) => (
+                    {voiceLines.map((line, index) => (
                         <tr key={`line_${index}`}>
                             <td style={{verticalAlign: 'middle'}}>
                                 <b>{voiceLineNames[index]}</b>
