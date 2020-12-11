@@ -316,7 +316,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                         return <tr key={index}>
                             <td align={"center"}>
                                 <Link to={route}>
-                                    {servant.collectionNo} <span style={{fontSize: "0.75rem"}}>({servant.id})</span>
+                                    {servant.collectionNo} (<span style={{fontFamily: 'monospace', fontSize: '0.9rem'}}>{servant.id}</span>)
                                 </Link>
                             </td>
                             <td align={"center"}>
