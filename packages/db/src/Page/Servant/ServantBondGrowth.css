@@ -4,15 +4,11 @@
     vertical-align: middle;
 }
 
-.servant-bond-table > tbody > tr > td,
-.servant-bond-table > tbody > tr > th {
-    min-width: 50%;
+.servant-bond-table > thead > tr > th {
+    white-space: nowrap;
 }
 
 .servant-bond-table > thead > tr > th > img {
-    height: 70%;
+    height: 25px;
     margin-bottom: 3px;
-}
-.servant-bond-table > tbody > tr > td {
-    width: 1%;
 }

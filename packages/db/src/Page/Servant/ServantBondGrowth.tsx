@@ -29,7 +29,7 @@ export default (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
             <thead>
                 {/* indexes */}
                 <tr>{Array(10).fill(0).map((_, __) => (
-                    <th key={`bond_${__}`} style={{ whiteSpace: 'nowrap' }}>
+                    <th key={`bond_${__}`}>
                         <BondIcon level={__ + 1} />
                         &nbsp;
                         {__ + 1}
