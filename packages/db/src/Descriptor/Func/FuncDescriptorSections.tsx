@@ -14,8 +14,9 @@ export class FuncDescriptorSections {
     public team = new FuncDescriptorSection();
     public chance = new FuncDescriptorSection();
     public action = new FuncDescriptorSection();
-    public affects = new FuncDescriptorSection();
     public amount = new FuncDescriptorSection('of');
+    public onField = new FuncDescriptorSection();
+    public affects = new FuncDescriptorSection();
     public target = new FuncDescriptorSection('to');
     public duration = new FuncDescriptorSection();
     public scaling = new FuncDescriptorSection();
