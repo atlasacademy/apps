@@ -25,11 +25,11 @@ const classIds = new Map<ClassName, number>([
     [ClassName.MOON_CANCER, 23],
     [ClassName.FOREIGNER, 25],
     [ClassName.GRAND_CASTER, 5],
-    [ClassName.BEAST_I, 20],
+    [ClassName.BEAST_I, 21],
     [ClassName.BEAST_II, 20],
-    [ClassName.BEAST_IIIL, 20],
-    [ClassName.BEAST_IIIR, 20],
-    [ClassName.BEAST_UNKNOWN, 20],
+    [ClassName.BEAST_IIIL, 24],
+    [ClassName.BEAST_IIIR, 24],
+    [ClassName.BEAST_UNKNOWN, 26],
 
     [ClassName.ALL, 1001],
     [ClassName.EXTRA, 1002],
@@ -55,7 +55,7 @@ class ClassIcon extends React.Component<IProps> {
             rarity = this.props.rarity ?? 5,
             type = classTypes.has(rarity) ? classTypes.get(rarity) : unknownClassType;
 
-        return `https://assets.atlasacademy.io/GameData/NA/ClassIcons/class${type}_${classId}.png`;
+        return `https://assets.atlasacademy.io/GameData/JP/ClassIcons/class${type}_${classId}.png`;
     }
 }
 
