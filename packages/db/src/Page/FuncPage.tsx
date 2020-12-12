@@ -25,7 +25,7 @@ interface IState {
 }
 
 function entityDescriptorTable(region: Region, entity: Entity.Entity, index: number) {
-    return <div key={index} style={{marginTop: index === 0? 0 : "25px"}}>
+    return <div key={index} style={{marginTop: index === 0? 0 : "24.5px"}}>
         {entityDescriptor(region, entity, 25)}
     </div>
 }
