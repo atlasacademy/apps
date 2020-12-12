@@ -1,4 +1,4 @@
-import {CraftEssence, Entity, Func, Region, Servant} from "@atlasacademy/api-connector";
+import {Entity, Func, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Table} from "react-bootstrap";
@@ -6,11 +6,10 @@ import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
 import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
-import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
+import entityDescriptor from "../Descriptor/entityDescriptor";
 import Manager from "../Setting/Manager";
 import FuncMainData from "./Func/FuncMainData";
 
@@ -23,6 +22,12 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     func?: Func.Func;
+}
+
+function entityDescriptorTable(region: Region, entity: Entity.Entity, index: number) {
+    return <div key={index} style={{marginTop: index === 0? 0 : "25px"}}>
+        {entityDescriptor(region, entity, 25)}
+    </div>
 }
 
 class FuncPage extends React.Component<IProps, IState> {
@@ -88,29 +93,15 @@ class FuncPage extends React.Component<IProps, IState> {
                                 return (
                                     <tr key={index}>
                                         <td>
-                                            {(skill.reverse?.nice?.servant ?? []).map((entity, index) => {
-                                                if (entity.type === Entity.EntityType.SERVANT_EQUIP) {
-                                                    return <p key={index}>
-                                                        <CraftEssenceDescriptor region={this.props.region}
-                                                                                craftEssence={entity as CraftEssence.CraftEssence}/>
-                                                    </p>;
-                                                }
-
-                                                if (entity.type === Entity.EntityType.NORMAL || entity.type === Entity.EntityType.HEROINE) {
-                                                    return <p key={index}>
-                                                        <ServantDescriptor region={this.props.region}
-                                                                           servant={entity as Servant.Servant}/>
-                                                    </p>;
-                                                }
-
-                                                return '';
-                                            })}
+                                            {(skill.reverse?.nice?.servant ?? []).map(
+                                                (entity, index) => entityDescriptorTable(this.props.region, entity, index)
+                                            )}
                                             {/*TODO: Command Code Reverse Mapping*/}
                                             {(skill.reverse?.nice?.MC ?? []).map((mysticCode, index) => {
-                                                return <p key={index}>
+                                                return <div key={index}>
                                                     <MysticCodeDescriptor region={this.props.region}
                                                                           mysticCode={mysticCode}/>
-                                                </p>
+                                                </div>
                                             })}
                                         </td>
                                         <td>
@@ -130,23 +121,9 @@ class FuncPage extends React.Component<IProps, IState> {
                                 return (
                                     <tr key={index}>
                                         <td>
-                                            {(noblePhantasm.reverse?.nice?.servant ?? []).map((entity, index) => {
-                                                if (entity.type === Entity.EntityType.SERVANT_EQUIP) {
-                                                    return <p key={index}>
-                                                        <CraftEssenceDescriptor region={this.props.region}
-                                                                                craftEssence={entity as CraftEssence.CraftEssence}/>
-                                                    </p>;
-                                                }
-
-                                                if (entity.type === Entity.EntityType.NORMAL || entity.type === Entity.EntityType.HEROINE) {
-                                                    return <p key={index}>
-                                                        <ServantDescriptor region={this.props.region}
-                                                                           servant={entity as Servant.Servant}/>
-                                                    </p>;
-                                                }
-
-                                                return '';
-                                            })}
+                                            {(noblePhantasm.reverse?.nice?.servant ?? []).map(
+                                                (entity, index) => entityDescriptorTable(this.props.region, entity, index)
+                                            )}
                                         </td>
                                         <td>
                                             <NoblePhantasmDescriptor region={this.props.region}

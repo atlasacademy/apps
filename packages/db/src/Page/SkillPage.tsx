@@ -1,4 +1,4 @@
-import {CraftEssence, Entity, Region, Servant, Skill} from "@atlasacademy/api-connector";
+import {Region, Skill} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Form} from "react-bootstrap";
@@ -9,9 +9,8 @@ import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
-import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
+import entityDescriptor from "../Descriptor/entityDescriptor";
 import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
-import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 
@@ -100,28 +99,8 @@ class SkillPage extends React.Component<IProps, IState> {
                     "Owner": (
                         <div>
                             {(skill.reverse?.nice?.servant ?? [])
-                                .filter(entity => {
-                                    return entity.type === Entity.EntityType.NORMAL
-                                        || entity.type === Entity.EntityType.HEROINE
-                                        || entity.type === Entity.EntityType.SERVANT_EQUIP;
-                                })
-                                .map((entity, index) => {
-                                    if (entity.type === Entity.EntityType.SERVANT_EQUIP) {
-                                        return (
-                                            <div key={index}>
-                                                <CraftEssenceDescriptor region={this.props.region}
-                                                                        craftEssence={entity as CraftEssence.CraftEssence}/>
-                                            </div>
-                                        );
-                                    } else {
-                                        return (
-                                            <div key={index}>
-                                                <ServantDescriptor region={this.props.region}
-                                                                   servant={entity as Servant.Servant}
-                                                                   iconHeight={24}/>
-                                            </div>
-                                        );
-                                    }
+                                .map((servant, index) => {
+                                    return <div key={index}>{entityDescriptor(this.props.region, servant, 25)}</div>
                                 })
                             }
                             {/* TODO: Command Code reverse mapping */}

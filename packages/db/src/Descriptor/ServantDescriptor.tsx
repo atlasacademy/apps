@@ -51,7 +51,9 @@ class ServantDescriptor extends React.Component<IProps> {
                               height={this.props.iconHeight}/>
                 ) : undefined}
                 {faceIconLocation ? ' ' : undefined}
-                <span className="hoverText">{this.props.servant.name}</span>
+                <span className="hoverText" style={{whiteSpace: "normal"}}>
+                    {this.props.servant.name}
+                </span>
             </Link>
         );
     }

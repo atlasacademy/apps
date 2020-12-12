@@ -17,7 +17,7 @@ class CraftEssenceDescriptor extends React.Component<IProps> {
             asset = assetMap ? assetMap[this.props.craftEssence.id] : undefined;
 
         return (
-            <Link 
+            <Link
                 to={`/${this.props.region}/craft-essence/${this.props.craftEssence.collectionNo}`}
                 style={{textDecoration: "none", whiteSpace: "nowrap"}}
             >
@@ -28,7 +28,9 @@ class CraftEssenceDescriptor extends React.Component<IProps> {
                               height={'2em'}/>
                 ) : undefined}
                 {asset ? ' ' : undefined}
-                <span className="hoverText">{this.props.craftEssence.name}</span>
+                <span className="hoverText" style={{whiteSpace: "normal"}}>
+                    {this.props.craftEssence.name}
+                </span>
                 {' '}
                 <FontAwesomeIcon icon={faShare}/>
             </Link>
