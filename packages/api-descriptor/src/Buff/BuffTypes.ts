@@ -18,7 +18,12 @@ export const upDownBuffs: UpDownBuffType[] = [
     {
         up: Buff.BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN,
         down: Buff.BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN,
-        description: "Critical Rate Taken"
+        description: "Critical Rate Resistance"
+    },
+    {
+        up: Buff.BuffType.UP_CRITICAL_STAR_DAMAGE_TAKEN,
+        down: Buff.BuffType.DOWN_CRITICAL_STAR_DAMAGE_TAKEN,
+        description: "Attacker Star Drop Rate"
     },
     {up: Buff.BuffType.UP_DAMAGE, down: Buff.BuffType.DOWN_DAMAGE, description: "SP.DMG"},
     {up: Buff.BuffType.UP_DAMAGEDROPNP, down: Buff.BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged"},
@@ -36,7 +41,7 @@ export const upDownBuffs: UpDownBuffType[] = [
     {
         up: Buff.BuffType.UP_TOLERANCE_SUBSTATE,
         down: Buff.BuffType.DOWN_TOLERANCE_SUBSTATE,
-        description: "Buff Removal Resist"
+        description: "Buff Removal Resistance"
     },
 ];
 
@@ -62,6 +67,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.DONOT_NOBLE, 'NP Seal'],
     [Buff.BuffType.DONOT_NOBLE_COND_MISMATCH, 'NP Block if Condition Failed'],
     [Buff.BuffType.DONOT_RECOVERY, 'Recovery Disabled'],
+    [Buff.BuffType.DONOT_REPLACE, 'No Order Change'],
     [Buff.BuffType.DONOT_SELECT_COMMANDCARD, 'Do Not Shuffle In Cards'],
     [Buff.BuffType.DONOT_SKILL, 'Skill Seal'],
     [Buff.BuffType.FIELD_INDIVIDUALITY, 'Change Field Type'],

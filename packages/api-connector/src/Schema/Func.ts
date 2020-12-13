@@ -37,6 +37,7 @@ export enum FuncTargetType {
     PT_SELF_AFTER = "ptSelfAfter",
     PT_SELF_ANOTHER_LAST = "ptSelfAnotherLast",
     COMMAND_TYPE_SELF_TREASURE_DEVICE = "commandTypeSelfTreasureDevice",
+    FIELD_OTHER = "fieldOther",
 }
 
 export enum FuncType {
@@ -124,6 +125,7 @@ export enum FuncType {
     DAMAGE_NP_INDIVIDUAL_SUM = "damageNpIndividualSum",
     DAMAGE_VALUE_SAFE = "damageValueSafe",
     FRIEND_POINT_UP_DUPLICATE = "friendPointUpDuplicate",
+    MOVE_STATE = "moveState",
 }
 
 export interface Func {
