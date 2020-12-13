@@ -29,6 +29,7 @@ export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     // PT_SELF_AFTER
     // PT_SELF_ANOTHER_LAST
     [Func.FuncTargetType.COMMAND_TYPE_SELF_TREASURE_DEVICE, 'target noble phantasm version'],
+    [Func.FuncTargetType.FIELD_OTHER, 'party and enemies except self']
 ]);
 
 export default function (region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
@@ -63,6 +64,12 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
                 break;
             case 3962:
                 targetType = Func.FuncTargetType.PT_OTHER;
+                break;
+        }
+    } else if (func.funcType === Func.FuncType.MOVE_STATE) {
+        switch (dataVal.DependFuncId) {
+            case 6026:
+                targetType = Func.FuncTargetType.FIELD_OTHER;
                 break;
         }
     }

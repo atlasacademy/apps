@@ -37,6 +37,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.LOSS_HP_SAFE, 'Drain HP without killing'],
     [Func.FuncType.LOSS_NP, 'Drain NP'],
     [Func.FuncType.LOSS_STAR, 'Remove Critical Stars'],
+    [Func.FuncType.MOVE_STATE, 'Move Effects'],
     [Func.FuncType.NONE, 'No Effect'],
     [Func.FuncType.QP_DROP_UP, 'Increase QP Reward'],
     [Func.FuncType.QP_UP, 'Increase QP Reward'],
@@ -95,6 +96,20 @@ function handleCleanseActionSection(region: Region, sections: FuncDescriptorSect
     sections.target.preposition = 'on';
 }
 
+function handleMoveStateActionSection(region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
+    const section = sections.action,
+        parts = section.parts;
+
+    parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
+
+    if (func.funcId === 6027) {
+        parts.push('with');
+        parts.push(<TraitDescription region={region} trait={{'id': 3026, 'name': 'buffCurse'}}/>);
+    }
+
+    sections.target.preposition = 'from';
+}
+
 function handleChargeNpPerTraitActionSection(region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
     const section = sections.action,
         parts = section.parts;
@@ -126,6 +141,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         return;
     } else if (func.funcType === Func.FuncType.SUB_STATE) {
         handleCleanseActionSection(region, sections, func, dataVal);
+
+        return;
+    } else if (func.funcType === Func.FuncType.MOVE_STATE) {
+        handleMoveStateActionSection(region, sections, func, dataVal);
 
         return;
     } else if (func.funcType === Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM) {
