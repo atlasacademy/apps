@@ -27,6 +27,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             || func.buffs[0]?.type === Buff.BuffType.DAMAGE_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.DEAD_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.DELAY_FUNCTION
+            || func.buffs[0]?.type === Buff.BuffType.ENTRY_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.GUTS_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.SELFTURNEND_FUNCTION
         )

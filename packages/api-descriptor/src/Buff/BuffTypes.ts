@@ -70,6 +70,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.DONOT_REPLACE, 'No Order Change'],
     [Buff.BuffType.DONOT_SELECT_COMMANDCARD, 'Do Not Shuffle In Cards'],
     [Buff.BuffType.DONOT_SKILL, 'Skill Seal'],
+    [Buff.BuffType.ENTRY_FUNCTION, 'Entry Effect'],
     [Buff.BuffType.FIELD_INDIVIDUALITY, 'Change Field Type'],
     [Buff.BuffType.FIX_COMMANDCARD, 'Freeze Command Cards'],
     [Buff.BuffType.GUTS, 'Guts'],

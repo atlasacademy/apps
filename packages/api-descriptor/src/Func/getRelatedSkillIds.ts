@@ -16,6 +16,7 @@ export default function (func: Func.Func, dataVals?: DataVal.DataVal[]): number[
         || buff.type === Buff.BuffType.DAMAGE_FUNCTION
         || buff.type === Buff.BuffType.DEAD_FUNCTION
         || buff.type === Buff.BuffType.DELAY_FUNCTION
+        || buff.type === Buff.BuffType.ENTRY_FUNCTION
         || buff.type === Buff.BuffType.GUTS_FUNCTION
         || buff.type === Buff.BuffType.SELFTURNEND_FUNCTION
     ) {
