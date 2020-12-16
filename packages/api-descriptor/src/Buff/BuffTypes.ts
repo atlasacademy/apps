@@ -70,7 +70,6 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.DONOT_REPLACE, 'No Order Change'],
     [Buff.BuffType.DONOT_SELECT_COMMANDCARD, 'Do Not Shuffle In Cards'],
     [Buff.BuffType.DONOT_SKILL, 'Skill Seal'],
-    [Buff.BuffType.ENTRY_FUNCTION, 'Entry Effect'],
     [Buff.BuffType.FIELD_INDIVIDUALITY, 'Change Field Type'],
     [Buff.BuffType.FIX_COMMANDCARD, 'Freeze Command Cards'],
     [Buff.BuffType.GUTS, 'Guts'],
@@ -101,9 +100,11 @@ export interface BuffTriggerType {
 
 export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.ATTACK_FUNCTION, {after: true, event: 'attacks'}],
+    [Buff.BuffType.ATTACK_BEFORE_FUNCTION, {after: false, event: 'attacks'}],
     [Buff.BuffType.COMMANDATTACK_FUNCTION, {after: true, event: 'cards'}],
     [Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION, {after: false, event: 'cards'}],
     [Buff.BuffType.DAMAGE_FUNCTION, {after: true, when: 'receiving', event: 'attacks'}],
     [Buff.BuffType.DEAD_FUNCTION, {after: true, event: 'death'}],
+    [Buff.BuffType.ENTRY_FUNCTION, {after: true, event: 'entry'}],
     [Buff.BuffType.NPATTACK_PREV_BUFF, {after: true, event: 'NP'}],
 ]);

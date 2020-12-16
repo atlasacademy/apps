@@ -21,6 +21,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     } else if (
         (
             func.buffs[0]?.type === Buff.BuffType.ATTACK_FUNCTION
+            || func.buffs[0]?.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.COMMANDCODEATTACK_FUNCTION

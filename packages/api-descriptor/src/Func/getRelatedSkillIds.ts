@@ -10,6 +10,7 @@ export default function (func: Func.Func, dataVals?: DataVal.DataVal[]): number[
     const buff = func.buffs[0];
     if (
         buff.type === Buff.BuffType.ATTACK_FUNCTION
+        || buff.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION
         || buff.type === Buff.BuffType.COMMANDATTACK_FUNCTION
         || buff.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION
         || buff.type === Buff.BuffType.COMMANDCODEATTACK_FUNCTION
