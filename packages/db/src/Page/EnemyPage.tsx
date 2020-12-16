@@ -9,6 +9,7 @@ import NoblePhantasmBreakdown from "../Breakdown/NoblePhantasmBreakdown";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import ClassIcon from "../Component/ClassIcon";
 import Manager from "../Setting/Manager";
 import EnemyMainData from "./Enemy/EnemyMainData";
 import EnemySubData from "./Enemy/EnemySubData";
@@ -73,7 +74,11 @@ class EnemyPage extends React.Component<IProps, IState> {
 
         return (
             <div id={'enemy'}>
-                <h1>{enemy.name}</h1>
+                <h1 style={{ marginBottom: "1rem" }}>
+                    <ClassIcon className={enemy.className} rarity={enemy.rarity} height={50}/>
+                    &nbsp;
+                    {enemy.name}
+                </h1>
 
                 <Row style={{
                     marginBottom: '3%'
