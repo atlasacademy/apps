@@ -30,6 +30,7 @@ export const upDownBuffs: UpDownBuffType[] = [
     {up: Buff.BuffType.UP_DEFENCE, down: Buff.BuffType.DOWN_DEFENCE, description: "DEF"},
     {up: Buff.BuffType.UP_DEFENCECOMMANDALL, down: Buff.BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},
     {up: Buff.BuffType.UP_DROPNP, down: Buff.BuffType.DOWN_DROPNP, description: "NP Gain"},
+    {up: Buff.BuffType.UP_GAIN_HP, down: Buff.BuffType.DOWN_GAIN_HP, description: "Healing Effectiveness"},
     {up: Buff.BuffType.UP_FUNC_HP_REDUCE, down: Buff.BuffType.DOWN_FUNC_HP_REDUCE, description: "DoT Effectiveness"},
     {up: Buff.BuffType.UP_GRANT_INSTANTDEATH, down: Buff.BuffType.DOWN_GRANT_INSTANTDEATH, description: "Death Chance"},
     {up: Buff.BuffType.UP_GRANTSTATE, down: Buff.BuffType.DOWN_GRANTSTATE, description: "Casted Effect Chance"},
