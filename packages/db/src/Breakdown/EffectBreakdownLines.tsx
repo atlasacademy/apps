@@ -14,7 +14,8 @@ interface IProps {
     cooldowns?: number[];
     funcs: Func.Func[];
     gain?: NoblePhantasm.NoblePhantasmGain;
-    levels?: number;
+    level?: number;
+    levels?: number[];
     scripts?: Skill.SkillScript;
     relatedSkillId?: number;
 }
@@ -37,7 +38,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                 {this.props.gain ? (
                     <tr>
                         <td className={'effect'}>NP Gain</td>
-                        {[...Array(this.props.levels)].map((_, key) => {
+                        {[...Array(this.props.level)].map((_, key) => {
                             return <td key={key}>
                                 {asPercent(this.props.gain?.buster[key], 2)} <CardType card={Card.BUSTER}/><br/>
                                 {asPercent(this.props.gain?.arts[key], 2)} <CardType card={Card.ARTS}/><br/>
@@ -53,7 +54,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                     let mutatingDescriptions = describeMutators(this.props.region, func),
                         relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func);
 
-                    for (let i = 0; i < (this.props.levels ?? 0); i++) {
+                    for (let i = 0; i < (this.props.level ?? 0); i++) {
                         if (!mutatingDescriptions[i])
                             mutatingDescriptions.push('-');
                     }
@@ -69,19 +70,28 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                             : null
                                     }
                                     {this.props.relatedSkillId ? ' ' : ''}
-                                    <FuncDescription region={this.props.region} func={func}/>
+                                    <FuncDescription region={this.props.region} func={func} levels={this.props.levels}/>
                                 </td>
-                                {this.props.levels ? mutatingDescriptions.map((description, index) => {
-                                    return (
-                                        <td key={index}>{description}</td>
-                                    );
+                                {this.props.level ? mutatingDescriptions.map((description, index) => {
+                                    if (this.props.levels) {
+                                        if (this.props.levels.includes(index + 1)) {
+                                            return <td key={index}>{description}</td>
+                                        } else {
+                                            if ((index + 1) >= Math.max(...this.props.levels) && index < (this.props.level ?? 0)) {
+                                                return <td key={index}>-</td>
+                                            }
+                                        }
+                                    } else {
+                                        return <td key={index}>{description}</td>
+                                    }
                                 }) : null}
                             </tr>
-                            {relatedSkillIds.map((skillId, index) => {
-                                return <AdditionalEffectBreakdown key={skillId}
+                            {relatedSkillIds.map((relatedSkill, _) => {
+                                return <AdditionalEffectBreakdown key={relatedSkill.skillId}
                                                                   region={this.props.region}
-                                                                  skillId={skillId}
-                                                                  levels={this.props.levels}/>
+                                                                  skillId={relatedSkill.skillId}
+                                                                  levels={relatedSkill.skillLvs}
+                                                                  level={this.props.level}/>
                             })}
                         </React.Fragment>
                     );

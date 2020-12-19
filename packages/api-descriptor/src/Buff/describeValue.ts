@@ -117,7 +117,7 @@ function describeTriggerValue(dataVal: DataVal.DataVal, triggerType: BuffValueTr
         if (partials.length)
             partials.push(new ParticlePartial(' + '));
 
-        partials.push(new TextPartial('Lv. '));
+        partials.push(new TextPartial('Lv.\u00A0'));
         partials.push(new ValuePartial(ValueType.UNKNOWN, level));
     }
 

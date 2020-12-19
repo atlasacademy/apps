@@ -27,6 +27,7 @@ interface IProps {
     region: Region;
     func: Func.Func;
     level?: number;
+    levels?: number[];
     overcharge?: number;
 }
 
@@ -39,7 +40,11 @@ class FuncDescriptor extends React.Component<IProps> {
         } else {
             const dataVals = getDataValList(func);
 
-            return getStaticFieldValues(dataVals);
+            if (this.props.levels) {
+                return getStaticFieldValues(this.props.levels.map(i => dataVals[i - 1]))
+            } else {
+                return getStaticFieldValues(dataVals);
+            }
         }
     }
 

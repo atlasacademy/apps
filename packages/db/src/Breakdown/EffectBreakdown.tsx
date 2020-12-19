@@ -31,7 +31,7 @@ class EffectBreakdown extends React.Component<IProps> {
                                       cooldowns={this.props.cooldowns}
                                       funcs={this.props.funcs}
                                       gain={this.props.gain}
-                                      levels={this.props.levels}
+                                      level={this.props.levels}
                                       scripts={this.props.scripts}/>
                 </tbody>
             </Table>
