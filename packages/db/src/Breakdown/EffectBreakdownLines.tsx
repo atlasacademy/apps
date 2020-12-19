@@ -76,10 +76,10 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                     if (this.props.levels) {
                                         if (this.props.levels.includes(index + 1)) {
                                             return <td key={index}>{description}</td>
+                                        } else if ((index + 1) >= Math.max(...this.props.levels) && index < (this.props.level ?? 0)) {
+                                            return <td key={index}>-</td>
                                         } else {
-                                            if ((index + 1) >= Math.max(...this.props.levels) && index < (this.props.level ?? 0)) {
-                                                return <td key={index}>-</td>
-                                            }
+                                            return null
                                         }
                                     } else {
                                         return <td key={index}>{description}</td>

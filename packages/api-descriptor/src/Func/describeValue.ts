@@ -25,6 +25,13 @@ export default function (func: Func.Func,
     }
 
     if (func.funcType === Func.FuncType.ADD_STATE || func.funcType === Func.FuncType.ADD_STATE_SHORT) {
+        if (dataVal.UseRate !== undefined) {
+            addPartials([
+                new TextPartial('Chance: '),
+                new ValuePartial(ValueType.PERCENT, dataVal.UseRate / 10)
+            ]);
+        }
+
         const valueDescriptor = describeBuffValue(func.buffs[0], dataVal),
             valuePartials = valueDescriptor?.partials() ?? [];
 
@@ -152,4 +159,3 @@ export default function (func: Func.Func,
 
     return partials.length ? new Descriptor(partials) : undefined;
 }
-

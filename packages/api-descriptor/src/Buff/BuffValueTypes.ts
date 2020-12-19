@@ -67,7 +67,11 @@ export interface BuffValueTriggerType {
 
 export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType>([
     [Buff.BuffType.ATTACK_FUNCTION, {skill: DataValField.VALUE, level: DataValField.VALUE2}],
-    [Buff.BuffType.COMMANDATTACK_FUNCTION, {skill: DataValField.VALUE, level: DataValField.VALUE2}],
+    [Buff.BuffType.COMMANDATTACK_FUNCTION, {
+        skill: DataValField.VALUE,
+        level: DataValField.VALUE2,
+        rate: DataValField.USE_RATE,
+    }],
     [Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION, {skill: DataValField.VALUE, level: DataValField.VALUE2}],
     [Buff.BuffType.DAMAGE_FUNCTION, {skill: DataValField.VALUE, level: DataValField.VALUE2}],
     [Buff.BuffType.DEAD_FUNCTION, {skill: DataValField.VALUE, level: DataValField.VALUE2}],
@@ -78,6 +82,11 @@ export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType
         position: DataValField.VALUE
     }],
     [Buff.BuffType.SELFTURNEND_FUNCTION, {
+        skill: DataValField.VALUE,
+        level: DataValField.VALUE2,
+        rate: DataValField.USE_RATE
+    }],
+    [Buff.BuffType.WAVESTART_FUNCTION, {
         skill: DataValField.VALUE,
         level: DataValField.VALUE2,
         rate: DataValField.USE_RATE

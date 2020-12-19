@@ -103,8 +103,8 @@ function describeTriggerValue(dataVal: DataVal.DataVal, triggerType: BuffValueTr
     const partials: BasePartial[] = [],
         skill = dataVal[triggerType.skill],
         level = dataVal[triggerType.level],
-        position = triggerType.position ? dataVal[triggerType.position] : undefined,
-        rate = triggerType.rate ? dataVal[triggerType.rate] : undefined;
+        // position = triggerType.position ? dataVal[triggerType.position] : undefined,
+        // rate = triggerType.rate ? dataVal[triggerType.rate] : undefined;
 
     if (typeof skill === "number") {
         if (partials.length)
@@ -121,13 +121,14 @@ function describeTriggerValue(dataVal: DataVal.DataVal, triggerType: BuffValueTr
         partials.push(new ValuePartial(ValueType.UNKNOWN, level));
     }
 
-    if (typeof rate === "number") {
-        if (partials.length)
-            partials.push(new ParticlePartial(' + '));
+    // This section is unneeded now that UseRate description is handled outside.
+    // if (typeof rate === "number") {
+    //     if (partials.length)
+    //         partials.push(new ParticlePartial(' + '));
 
-        partials.push(new TextPartial('Chance: '));
-        partials.push(new ValuePartial(ValueType.PERCENT, rate / 10));
-    }
+    //     partials.push(new TextPartial('Chance: '));
+    //     partials.push(new ValuePartial(ValueType.PERCENT, rate / 10));
+    // }
 
     return partials.length > 0 ? new Descriptor(partials) : undefined;
 }
