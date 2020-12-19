@@ -102,7 +102,7 @@ function describeTraitValue(dataVal: DataVal.DataVal, traitType: BuffValueTraitT
 function describeTriggerValue(dataVal: DataVal.DataVal, triggerType: BuffValueTriggerType): Descriptor | undefined {
     const partials: BasePartial[] = [],
         skill = dataVal[triggerType.skill],
-        level = dataVal[triggerType.level],
+        level = dataVal[triggerType.level]
         // position = triggerType.position ? dataVal[triggerType.position] : undefined,
         // rate = triggerType.rate ? dataVal[triggerType.rate] : undefined;
 
