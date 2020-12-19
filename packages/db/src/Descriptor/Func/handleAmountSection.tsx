@@ -31,6 +31,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             || func.buffs[0]?.type === Buff.BuffType.ENTRY_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.GUTS_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.SELFTURNEND_FUNCTION
+            || func.buffs[0]?.type === Buff.BuffType.WAVESTART_FUNCTION
         )
         && typeof dataVal.Value === "number"
     ) {

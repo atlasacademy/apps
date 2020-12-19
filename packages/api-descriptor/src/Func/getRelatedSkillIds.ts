@@ -20,6 +20,7 @@ export default function (func: Func.Func, dataVals?: DataVal.DataVal[]): number[
         || buff.type === Buff.BuffType.ENTRY_FUNCTION
         || buff.type === Buff.BuffType.GUTS_FUNCTION
         || buff.type === Buff.BuffType.SELFTURNEND_FUNCTION
+        || buff.type === Buff.BuffType.WAVESTART_FUNCTION
     ) {
         return getUniqueDataValField(vals, DataVal.DataValField.VALUE);
     }

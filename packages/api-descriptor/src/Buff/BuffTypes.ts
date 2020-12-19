@@ -108,4 +108,5 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.DEAD_FUNCTION, {after: true, event: 'death'}],
     [Buff.BuffType.ENTRY_FUNCTION, {after: true, event: 'entry'}],
     [Buff.BuffType.NPATTACK_PREV_BUFF, {after: true, event: 'NP'}],
+    [Buff.BuffType.WAVESTART_FUNCTION, {after: true, event: 'wave start'}],
 ]);
