@@ -36,7 +36,11 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         && typeof dataVal.Value === "number"
     ) {
         section.preposition = undefined;
-        parts.push('that triggers');
+        if (dataVal.UseRate !== undefined) {
+            parts.push(`that has ${dataVal.UseRate / 10}% chance to trigger`);
+        } else {
+            parts.push('that triggers');
+        }
         parts.push(
             <SkillReferenceDescriptor region={region} id={dataVal.Value}/>
         );
@@ -85,6 +89,9 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         );
     } else if (func.buffs[0] && dataVal.Value) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
+        if (dataVal.UseRate !== undefined) {
+            parts.push(`with ${dataVal.UseRate / 10}% chance to work`);
+        }
     } else if (dataVal.Value) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}
                                         hideRate={true}/>);
@@ -93,6 +100,9 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         parts.push('bonus');
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}
                                         hideRate={true}/>);
+    } else if (dataVal.UseRate !== undefined) {
+        section.preposition = undefined;
+        parts.push(`with ${dataVal.UseRate / 10}% chance to work`);
     } else {
         section.showing = false;
     }
