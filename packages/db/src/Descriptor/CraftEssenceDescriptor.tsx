@@ -9,6 +9,7 @@ import './Descriptor.css';
 interface IProps {
     region: Region;
     craftEssence: CraftEssence.CraftEssence;
+    iconHeight?: number;
 }
 
 class CraftEssenceDescriptor extends React.Component<IProps> {
@@ -25,7 +26,7 @@ class CraftEssenceDescriptor extends React.Component<IProps> {
                     <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
                               rarity={this.props.craftEssence.rarity}
                               location={asset}
-                              height={'2em'}/>
+                              height={this.props.iconHeight ?? '2em'}/>
                 ) : undefined}
                 {asset ? ' ' : undefined}
                 <span className="hoverText" style={{whiteSpace: "normal"}}>

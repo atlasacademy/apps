@@ -8,7 +8,7 @@ import EnemyDescriptor from "./EnemyDescriptor";
 export default function entityDescriptor(region: Region, entity: Entity.Entity, iconHeight?: number) {
     if (entity.collectionNo !== 0) {
         if (entity.type === Entity.EntityType.SERVANT_EQUIP) {
-            return <CraftEssenceDescriptor region={region} craftEssence={entity as CraftEssence.CraftEssence}/>;
+            return <CraftEssenceDescriptor region={region} craftEssence={entity as CraftEssence.CraftEssence} iconHeight={iconHeight}/>;
         } else if (entity.type === Entity.EntityType.NORMAL || entity.type === Entity.EntityType.HEROINE) {
             return <ServantDescriptor region={region} servant={entity as Servant.Servant} iconHeight={iconHeight}/>;
         }

@@ -105,7 +105,7 @@ class FuncPage extends React.Component<IProps, IState> {
                                             })}
                                         </td>
                                         <td>
-                                            <SkillDescriptor region={this.props.region} skill={skill}/>
+                                            <SkillDescriptor region={this.props.region} skill={skill} iconHeight={25}/>
                                         </td>
                                     </tr>
                                 )
