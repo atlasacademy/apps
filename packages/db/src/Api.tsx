@@ -1,6 +1,7 @@
 import {
     ApiConnector,
     Buff,
+    Change,
     ClassName,
     CommandCode,
     CraftEssence,
@@ -35,6 +36,10 @@ class Api {
 
     static buff(id: number): Promise<Buff.Buff> {
         return apiConnector.buff(id, cacheDuration);
+    }
+
+    static changelog() : Promise<Change.Change[]> {
+        return apiConnector.changelog();
     }
 
     static commandCode(id: number): Promise<CommandCode.CommandCode> {

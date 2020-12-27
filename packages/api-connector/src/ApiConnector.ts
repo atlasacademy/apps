@@ -5,6 +5,7 @@ import Region from "./Enum/Region";
 import ResultCache from "./ResultCache";
 import {Buff, BuffType} from "./Schema/Buff";
 import {CommandCode, CommandCodeBasic} from "./Schema/CommandCode";
+import {Change} from "./Schema/Change";
 import {CraftEssence, CraftEssenceBasic} from "./Schema/CraftEssence";
 import {Enemy} from "./Schema/Enemy";
 import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
@@ -93,6 +94,12 @@ class ApiConnector {
             return fetch();
 
         return this.cache.buff.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    async changelog(): Promise<Change[]> {
+        return ApiConnector.fetch<string>(
+            `${this.host}/changes/${this.region}.log`
+        ).then(raw => raw.split('\n').filter(Boolean).map(change => JSON.parse(change)));
     }
 
     commandCode(id: number, cacheDuration?: number): Promise<CommandCode> {

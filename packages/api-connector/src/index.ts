@@ -5,6 +5,7 @@ import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import { ProfileVoiceType } from "./Schema/Profile";
 import * as Buff from "./Schema/Buff";
+import * as Change from "./Schema/Change";
 import * as CommandCode from "./Schema/CommandCode";
 import * as CraftEssence from "./Schema/CraftEssence";
 import * as DataVal from "./Schema/DataVal";
@@ -25,6 +26,7 @@ export {
     ApiConnector,
 
     Card,
+    Change,
     ClassName,
     Language,
     Region,

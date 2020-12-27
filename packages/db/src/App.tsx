@@ -17,6 +17,7 @@ import {Theme} from "./Setting/Theme";
 
 const BuffPage = React.lazy(() => import("./Page/BuffPage"));
 const BuffsPage = React.lazy(() => import("./Page/BuffsPage"));
+const ChangelogPage = React.lazy(() => import("./Page/ChangelogPage"));
 const CommandCodePage = React.lazy(() => import("./Page/CommandCodePage"));
 const CommandCodesPage = React.lazy(() => import("./Page/CommandCodesPage"));
 const CraftEssencePage = React.lazy(() => import("./Page/CraftEssencePage"));
@@ -224,6 +225,14 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
+                        <Route exact path="/:region(JP|NA)/changes" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <ChangelogPage key={region} region={region}/>
+                                </Suspense>
+                            )
+                        }} />
                         <Route path="/:region(JP|NA)" exact={true} component={HomePage}/>
                         <Route path="/" exact={true} component={HomePage}/>
                         <Route path="*" exact={true} component={ErrorStatus}/>

@@ -10,11 +10,15 @@ function ArrowToggle({ eventKey } : { eventKey: string }) {
     return <FontAwesomeIcon className="collapsible-header-collapse-actions" icon={(currentKey === eventKey) ? faChevronUp : faChevronDown} />
 }
 
-function renderCollapsibleContent({ title, content, subheader } : { title: Renderable, content: Renderable, subheader: boolean }) {
+function renderCollapsibleContent(
+    { title, content, subheader, separator, initialOpen } :
+    { title: Renderable, content: Renderable, subheader: boolean, separator?: boolean, initialOpen?: boolean }
+) {
+    if (initialOpen === undefined) initialOpen = true;
     return (
-        <Accordion defaultActiveKey={`${title}`}>
+        <Accordion defaultActiveKey={initialOpen ? `${title}` : ''}>
             <Card border="light" className="collapsible-card">
-                <hr className="collapsible-header-separator" />
+                {separator && <hr className="collapsible-header-separator" />}
                 <Accordion.Toggle className="collapsible-header" as="div" eventKey={`${title}`}>
                     {subheader ? <h5 style={{ marginBottom: 0 }}>{title}</h5> : <h3 style={{ marginBottom: 0 }}>{title}</h3>}
                     <span style={{ textAlign: 'right', alignSelf: 'center', marginRight: '1em' }}><ArrowToggle eventKey={`${title}`}/></span>
