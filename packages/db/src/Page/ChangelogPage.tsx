@@ -6,7 +6,6 @@ import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 import React from 'react';
 import {Region, Change} from '@atlasacademy/api-connector';
-import {ListGroup, Table} from "react-bootstrap";
 import renderCollapsibleContent from '../Component/CollapsibleContent';
 import { Renderable } from "../Helper/OutputHelper";
 
@@ -70,7 +69,7 @@ export default class extends React.Component<IProps, IState> {
                                     title = 'Craft Essence'; path = 'craft-essence';
                                     break;                                                
                                 case 'buff':
-                                    title = 'Buffs'; path = 'buff';
+                                    title = 'Buff'; path = 'buff';
                                     break;
                                 case 'func':
                                     title = 'Function'; path = 'func';
@@ -90,12 +89,12 @@ export default class extends React.Component<IProps, IState> {
                                         change.changes[key]
                                             .sort((a, b) => a.collectionNo - b.collectionNo)
                                             .map(svt => (
-                                                <ListGroup.Item>
-                                                    {svt.collectionNo}.&nbsp;
+                                                <li>
+                                                    {svt.collectionNo} -&nbsp;
                                                     <Link to={`/${region}/${path}/${svt.id}`}>
                                                         {svt.name}
                                                     </Link>
-                                                </ListGroup.Item>
+                                                </li>
                                             ))
                                     );
                                     break;
@@ -104,70 +103,42 @@ export default class extends React.Component<IProps, IState> {
                                         change.changes[key]
                                             .sort((a, b) => a.id - b.id)
                                             .map(obj => (
-                                                <ListGroup.Item>
-                                                    {obj.id}.&nbsp;
-                                                    <Link to={`/${region}/${path}/${obj.id}`}>{obj.name || `[Buff ${obj.id}]`}</Link>
-                                                </ListGroup.Item>
+                                                <li>
+                                                    {obj.id} -&nbsp;
+                                                    <Link to={`/${region}/${path}/${obj.id}`}>{obj.name || `[${title} ${obj.id}]`}</Link>
+                                                </li>
                                             ))
                                     )
                             }
 
                             return (
-                                renderCollapsibleContent({
-                                    title,
-                                    content: (
-                                        <div style={{ paddingRight: '2%' }}>
-                                            <ListGroup variant="flush">{content}</ListGroup>
-                                        </div>
-                                    ),
-                                    subheader: true,
-                                    separator: false,
-                                    initialOpen: false
-                                })
+                                <>
+                                    <h4>{title}</h4>
+                                    {content}
+                                    <br />
+                                </>
                             )
                         })
                 )
 
                 var hasChanges = !!renderedChanges.length;
                 if (!hasChanges && visibleOnly) return '';
-                return (
-                    <tr>
-                        <td>
-                            <a href={`https://github.com/atlasacademy/fgo-game-data/commit/${change.commit}`}>
-                                <span style={{ fontFamily: 'monospace' }}>
-                                    {change.commit.substr(0, 7)}
-                                </span>
-                            </a>
-                        </td>
-                        <td style={{ width: '1%', whiteSpace: 'nowrap' }}>
-                            <span style={{ fontFamily: 'monospace' }}>
-                                {new Date(+ change.timestamp * 1000).toUTCString()}
-                            </span>
-                        </td>
-                        <td style={hasChanges ? { padding: 0, paddingLeft: '1%' } : {}}>
-                            {hasChanges
-                                ? renderedChanges
-                                : <div>No visible changes.</div>}
-                        </td>
-                    </tr>
-                )
+
+                return renderCollapsibleContent({
+                    title: (
+                        <>
+                            <span style={{ fontFamily: 'monospace' }}>{change.commit.substr(0, 7)}</span>
+                            &nbsp;- {new Date(+ change.timestamp * 1000).toUTCString()}
+                        </>
+                    ),
+                    content: <>{hasChanges ? renderedChanges : 'No visible changes found.'}</>,
+                    subheader: false,
+                    initialOpen: false
+                });
             })
 
         if (visibleOnly) content = content.filter(Boolean);
 
-        return (
-            <Table bordered responsive className="changelog-table">
-                <thead>
-                    <tr>
-                        <th style={{textAlign: "center", width: '1px'}}>Hash</th>
-                        <th>Timestamp</th>
-                        <th>Changes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {content}
-                </tbody>
-            </Table>
-        )
+        return content.length ? content : 'No changes found on the server.';
     }
 }
