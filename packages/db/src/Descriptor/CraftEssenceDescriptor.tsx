@@ -6,10 +6,36 @@ import {Link} from "react-router-dom";
 import FaceIcon from "../Component/FaceIcon";
 import './Descriptor.css';
 
-interface IProps {
+interface IPropsCommon {
     region: Region;
-    craftEssence: CraftEssence.CraftEssence;
+    craftEssence: Omit<CraftEssence.CraftEssenceBasic, 'face'>;
     iconHeight?: number;
+}
+
+function CommonCraftEssenceDescriptor (props : IPropsCommon & { face?: string }) {
+    return (
+        <Link
+            to={`/${props.region}/craft-essence/${props.craftEssence.collectionNo}`}
+            style={{textDecoration: "none", whiteSpace: "nowrap"}}
+        >
+            {props.face ? (
+                <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
+                          rarity={props.craftEssence.rarity}
+                          location={props.face}
+                          height={props.iconHeight ?? '2em'}/>
+            ) : undefined}
+            {props.face ? ' ' : undefined}
+            <span className="hoverText" style={{whiteSpace: "normal"}}>
+                {props.craftEssence.name}
+            </span>
+            {' '}
+            <FontAwesomeIcon icon={faShare}/>
+        </Link>
+    );
+}
+
+interface IProps extends IPropsCommon {
+    craftEssence: CraftEssence.CraftEssence;
 }
 
 class CraftEssenceDescriptor extends React.Component<IProps> {
@@ -17,26 +43,17 @@ class CraftEssenceDescriptor extends React.Component<IProps> {
         const assetMap = this.props.craftEssence.extraAssets.faces.equip,
             asset = assetMap ? assetMap[this.props.craftEssence.id] : undefined;
 
-        return (
-            <Link
-                to={`/${this.props.region}/craft-essence/${this.props.craftEssence.collectionNo}`}
-                style={{textDecoration: "none", whiteSpace: "nowrap"}}
-            >
-                {asset ? (
-                    <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
-                              rarity={this.props.craftEssence.rarity}
-                              location={asset}
-                              height={this.props.iconHeight ?? '2em'}/>
-                ) : undefined}
-                {asset ? ' ' : undefined}
-                <span className="hoverText" style={{whiteSpace: "normal"}}>
-                    {this.props.craftEssence.name}
-                </span>
-                {' '}
-                <FontAwesomeIcon icon={faShare}/>
-            </Link>
-        );
+        return <CommonCraftEssenceDescriptor {...this.props} face={asset} />
     }
 }
 
+interface IPropsBasic extends IPropsCommon {
+    craftEssence: CraftEssence.CraftEssenceBasic;
+}
+
+function BasicCraftEssenceDescriptor (props : IPropsBasic) {
+    return <CommonCraftEssenceDescriptor {...props} face={props.craftEssence.face} />
+}
+
+export { BasicCraftEssenceDescriptor };
 export default CraftEssenceDescriptor;

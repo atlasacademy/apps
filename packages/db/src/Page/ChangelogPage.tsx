@@ -1,12 +1,13 @@
 import Api from "../Api";
 import {AxiosError} from "axios";
 import {BasicServantDescriptor} from "../Descriptor/ServantDescriptor";
+import {BasicCraftEssenceDescriptor} from "../Descriptor/CraftEssenceDescriptor";
+import {Change, CraftEssence, Region, Servant} from '@atlasacademy/api-connector';
 import ErrorStatus from "../Component/ErrorStatus";
 import {Link} from "react-router-dom";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 import React from 'react';
-import {Change, Region, Servant} from '@atlasacademy/api-connector';
 import renderCollapsibleContent from '../Component/CollapsibleContent';
 import { Renderable } from "../Helper/OutputHelper";
 
@@ -21,6 +22,7 @@ interface IState {
     loading: boolean;
     changes: Change.Change[];
     servantList: Servant.ServantBasic[];
+    ceList: CraftEssence.CraftEssenceBasic[];
 }
 
 export default class extends React.Component<IProps, IState> {
@@ -30,17 +32,18 @@ export default class extends React.Component<IProps, IState> {
         this.state = {
             loading: true,
             changes: [],
-            servantList: []
+            servantList: [],
+            ceList: []
         }
     }
 
     async componentDidMount() {
         try {
             Manager.setRegion(this.props.region);
-            let [changes, servantList] = await Promise.all([Api.changelog(), Api.servantList()]);
+            let [changes, servantList, ceList] = await Promise.all([Api.changelog(), Api.servantList(), Api.craftEssenceList()]);
             this.setState({
                 loading: false,
-                changes, servantList
+                changes, servantList, ceList
             });
 
             document.title = `[${this.props.region}] Changelog - Atlas Academy DB`;
@@ -51,7 +54,7 @@ export default class extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { changes, error, loading, servantList } = this.state;
+        const { changes, error, loading, servantList, ceList } = this.state;
         const { region, visibleOnly } = this.props;
         if (error)
             return <ErrorStatus error={this.state.error}/>;
@@ -96,14 +99,18 @@ export default class extends React.Component<IProps, IState> {
                                         change.changes[key]
                                             .sort((a, b) => a.collectionNo - b.collectionNo)
                                             .map(svt => {
-                                                let descriptor = servantList.find(s => s.collectionNo === svt.collectionNo);
+                                                var descriptor : Renderable = '';
+                                                if (key === 'svt') {
+                                                    let record = servantList.find(s => s.collectionNo === svt.collectionNo);
+                                                    record && (descriptor = <BasicServantDescriptor region={region} servant={record}/>);
+                                                }
+                                                else {
+                                                    let record = ceList.find(s => s.collectionNo === svt.collectionNo);
+                                                    record && (descriptor = <BasicCraftEssenceDescriptor region={region} craftEssence={record} />);
+                                                }
                                                 return (
                                                     <li>
-                                                        {
-                                                            key === 'svt' && descriptor
-                                                            ? <BasicServantDescriptor region={region} servant={descriptor}/>
-                                                            : <Link to={`/${region}/${path}/${svt.id}`}>{svt.name}</Link>
-                                                        }
+                                                        {descriptor || <Link to={`/${region}/${path}/${svt.id}`}>{svt.name}</Link>}
                                                         <br />
                                                     </li>
                                                 )
