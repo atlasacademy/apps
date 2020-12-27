@@ -54,7 +54,7 @@ export default class extends React.Component<IProps, IState> {
             return <Loading/>;
 
         var content = changes
-            .sort((firstChange, secondChange) => (+ firstChange.timestamp) - (+ secondChange.timestamp))
+            .sort((firstChange, secondChange) => (+ secondChange.timestamp) - (+ firstChange.timestamp))
             .map(change => {
                 let renderedChanges = (
                     Object.entries(change.changes)
