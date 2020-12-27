@@ -5,10 +5,35 @@ import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
 import './Descriptor.css';
 
-interface IProps {
+interface IPropsCommon {
     region: Region;
-    servant: Servant.Servant;
+    servant: Omit<Servant.ServantBasic, 'face'>;
     iconHeight?: number;
+}
+
+function CommonServantDescriptor (props : IPropsCommon & { face?: string }) {
+    return (
+        <Link
+            to={`/${props.region}/servant/${props.servant.collectionNo}`}
+            style={{textDecoration: "none", whiteSpace: "nowrap"}}
+        >
+            <ClassIcon className={props.servant.className}
+                       rarity={props.servant.rarity}
+                       height={props.iconHeight}/>
+            {' '}
+            {props.face && <FaceIcon location={props.face}
+                                    rarity={props.servant.rarity}
+                                    type={props.servant.type} />}
+            {' '}
+            <span className="hoverText" style={{whiteSpace: "normal"}}>
+                {props.servant.name}
+            </span>
+        </Link>
+    )
+}
+
+interface IProps extends IPropsCommon {
+    servant: Servant.Servant;
 }
 
 class ServantDescriptor extends React.Component<IProps> {
@@ -33,30 +58,17 @@ class ServantDescriptor extends React.Component<IProps> {
     }
 
     render() {
-        const faceIconLocation = this.faceIconLocation();
-
-        return (
-            <Link
-                to={`/${this.props.region}/servant/${this.props.servant.collectionNo}`}
-                style={{textDecoration: "none", whiteSpace: "nowrap"}}
-            >
-                <ClassIcon className={this.props.servant.className}
-                           rarity={this.props.servant.rarity}
-                           height={this.props.iconHeight}/>
-                {' '}
-                {faceIconLocation ? (
-                    <FaceIcon location={faceIconLocation}
-                              rarity={this.props.servant.rarity}
-                              type={this.props.servant.type}
-                              height={this.props.iconHeight}/>
-                ) : undefined}
-                {faceIconLocation ? ' ' : undefined}
-                <span className="hoverText" style={{whiteSpace: "normal"}}>
-                    {this.props.servant.name}
-                </span>
-            </Link>
-        );
+        return <CommonServantDescriptor {...this.props} face={this.faceIconLocation()}/>
     }
 }
 
+interface IPropsBasic extends IPropsCommon {
+    servant: Servant.ServantBasic;
+}
+
+function BasicServantDescriptor (props : IPropsBasic) {
+    return <CommonServantDescriptor {...props} face={props.servant.face}/>
+}
+
 export default ServantDescriptor;
+export { BasicServantDescriptor };

@@ -1,11 +1,12 @@
 import Api from "../Api";
 import {AxiosError} from "axios";
+import {BasicServantDescriptor} from "../Descriptor/ServantDescriptor";
 import ErrorStatus from "../Component/ErrorStatus";
 import {Link} from "react-router-dom";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 import React from 'react';
-import {Region, Change} from '@atlasacademy/api-connector';
+import {Change, Region, Servant} from '@atlasacademy/api-connector';
 import renderCollapsibleContent from '../Component/CollapsibleContent';
 import { Renderable } from "../Helper/OutputHelper";
 
@@ -19,6 +20,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     changes: Change.Change[];
+    servantList: Servant.ServantBasic[];
 }
 
 export default class extends React.Component<IProps, IState> {
@@ -27,14 +29,19 @@ export default class extends React.Component<IProps, IState> {
 
         this.state = {
             loading: true,
-            changes: []
+            changes: [],
+            servantList: []
         }
     }
 
     async componentDidMount() {
         try {
             Manager.setRegion(this.props.region);
-            this.setState({ loading: false, changes: await Api.changelog() });
+            let [changes, servantList] = await Promise.all([Api.changelog(), Api.servantList()]);
+            this.setState({
+                loading: false,
+                changes, servantList
+            });
 
             document.title = `[${this.props.region}] Changelog - Atlas Academy DB`;
         } catch (e) {
@@ -44,7 +51,7 @@ export default class extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { changes, error, loading } = this.state;
+        const { changes, error, loading, servantList } = this.state;
         const { region, visibleOnly } = this.props;
         if (error)
             return <ErrorStatus error={this.state.error}/>;
@@ -88,14 +95,19 @@ export default class extends React.Component<IProps, IState> {
                                     content = (
                                         change.changes[key]
                                             .sort((a, b) => a.collectionNo - b.collectionNo)
-                                            .map(svt => (
-                                                <li>
-                                                    {svt.collectionNo} -&nbsp;
-                                                    <Link to={`/${region}/${path}/${svt.id}`}>
-                                                        {svt.name}
-                                                    </Link>
-                                                </li>
-                                            ))
+                                            .map(svt => {
+                                                let descriptor = servantList.find(s => s.collectionNo === svt.collectionNo);
+                                                return (
+                                                    <li>
+                                                        {
+                                                            key === 'svt' && descriptor
+                                                            ? <BasicServantDescriptor region={region} servant={descriptor}/>
+                                                            : <Link to={`/${region}/${path}/${svt.id}`}>{svt.name}</Link>
+                                                        }
+                                                        <br />
+                                                    </li>
+                                                )
+                                            })
                                     );
                                     break;
                                 default:
