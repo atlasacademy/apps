@@ -15,6 +15,7 @@ import "./Navigation.css";
 interface IProps extends RouteComponentProps {
     language: Language;
     theme: Theme;
+    changelogVisibleOnly: boolean;
 }
 
 interface IState {
@@ -129,7 +130,10 @@ class Navigation extends React.Component<IProps, IState> {
                         <Modal.Title>Settings</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <SettingForm language={this.props.language} theme={this.props.theme}/>
+                        <SettingForm
+                            language={this.props.language}
+                            theme={this.props.theme}
+                            changelogVisibleOnly={this.props.changelogVisibleOnly}/>
                     </Modal.Body>
                 </Modal>
             </div>

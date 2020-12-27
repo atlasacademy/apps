@@ -12,7 +12,8 @@ import { Renderable } from "../Helper/OutputHelper";
 
 import './ChangelogPage.css';
 interface IProps {
-    region: Region,
+    region: Region;
+    visibleOnly?: boolean;
 }
 
 interface IState {
@@ -45,7 +46,7 @@ export default class extends React.Component<IProps, IState> {
 
     render() {
         const { changes, error, loading } = this.state;
-        const { region } = this.props;
+        const { region, visibleOnly } = this.props;
         if (error)
             return <ErrorStatus error={this.state.error}/>;
 
@@ -128,6 +129,7 @@ export default class extends React.Component<IProps, IState> {
                 )
 
                 var hasChanges = !!renderedChanges.length;
+                if (!hasChanges && visibleOnly) return '';
                 return (
                     <tr>
                         <td>
@@ -150,6 +152,8 @@ export default class extends React.Component<IProps, IState> {
                     </tr>
                 )
             })
+
+        if (visibleOnly) content = content.filter(Boolean);
 
         return (
             <Table bordered responsive className="changelog-table">

@@ -3,13 +3,23 @@ import Region from "@atlasacademy/api-connector/dist/Enum/Region";
 import {Theme} from "./Theme";
 
 const languageKey = 'language',
-    themeKey = 'aa-db.theme';
+    themeKey = 'aa-db.theme',
+    changelogVisibleOnly = 'changelog.visibleOnly';
 
 const callbacks: Function[] = [];
 
 let region: Region = Region.JP;
 
 class Manager {
+    static changelogVisibleOnly() : boolean {
+        return !!+(window.localStorage.getItem(changelogVisibleOnly) ?? 0);
+    }
+
+    static setChangelogVisibleOnly(visibleOnly : boolean) {
+        window.localStorage.setItem(changelogVisibleOnly, `${+!!visibleOnly}`);
+        Manager.triggerCallbacks();
+    }
+
     static language(): Language {
         const value = window.localStorage.getItem(languageKey),
             language: Language | undefined = Object.values(Language).find(v => v === value);

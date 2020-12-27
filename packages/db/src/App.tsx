@@ -37,6 +37,7 @@ const SkillPage = React.lazy(() => import("./Page/SkillPage"));
 interface IState {
     language: Language,
     theme: Theme,
+    changelogVisibleOnly: boolean
 }
 
 class App extends React.Component<any, IState> {
@@ -45,6 +46,7 @@ class App extends React.Component<any, IState> {
         this.state = {
             language: Manager.language(),
             theme: Manager.theme(),
+            changelogVisibleOnly: Manager.changelogVisibleOnly()
         };
 
         Api.init(Manager.region(), Manager.language());
@@ -59,13 +61,17 @@ class App extends React.Component<any, IState> {
         this.setState({
             language: Manager.language(),
             theme: Manager.theme(),
+            changelogVisibleOnly: Manager.changelogVisibleOnly()
         });
     }
 
     render() {
         return (
             <Router>
-                <Navigation language={this.state.language} theme={this.state.theme}/>
+                <Navigation
+                    language={this.state.language}
+                    theme={this.state.theme}
+                    changelogVisibleOnly={this.state.changelogVisibleOnly} />
                 <br/>
 
                 <Container id={'app'} key={`${this.state.language}`}>
@@ -229,7 +235,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <ChangelogPage key={region} region={region}/>
+                                    <ChangelogPage key={region} region={region} visibleOnly={this.state.changelogVisibleOnly}/>
                                 </Suspense>
                             )
                         }} />
