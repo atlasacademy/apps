@@ -21,7 +21,7 @@ function renderCollapsibleContent(
             <Card border="light" className="collapsible-card">
                 {separator && <hr className="collapsible-header-separator" />}
                 <Accordion.Toggle className="collapsible-header" as="div" eventKey={`${title}`}>
-                    {subheader ? <h5 style={{ marginBottom: 0 }}>{title}</h5> : <h3 style={{ marginBottom: 0 }}>{title}</h3>}
+                    {subheader ? <h4 style={{ marginBottom: 0 }}>{title}</h4> : <h3 style={{ marginBottom: 0 }}>{title}</h3>}
                     <span style={{ textAlign: 'right', alignSelf: 'center', marginRight: '1em' }}><ArrowToggle eventKey={`${title}`}/></span>
                 </Accordion.Toggle>
                 {/* 2 px to align the hr line with the start of content */}

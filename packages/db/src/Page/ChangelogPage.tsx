@@ -62,6 +62,8 @@ export default class extends React.Component<IProps, IState> {
         if (loading || !changes?.length)
             return <Loading/>;
 
+        let openedChange = true;
+
         var content = changes
             .sort((firstChange, secondChange) => (+ secondChange.timestamp) - (+ firstChange.timestamp))
             .map(change => {
@@ -77,7 +79,7 @@ export default class extends React.Component<IProps, IState> {
                                     break;
                                 case 'ce':
                                     title = 'Craft Essence'; path = 'craft-essence';
-                                    break;                                                
+                                    break;
                                 case 'buff':
                                     title = 'Buff'; path = 'buff';
                                     break;
@@ -143,16 +145,22 @@ export default class extends React.Component<IProps, IState> {
                 var hasChanges = !!renderedChanges.length;
                 if (!hasChanges && visibleOnly) return '';
 
+                let initialOpen = openedChange;
+                if (openedChange && hasChanges) {
+                    // Only open up to the first one that has changes
+                    openedChange = false;
+                }
+
                 return renderCollapsibleContent({
                     title: (
                         <>
-                            <span style={{ fontFamily: 'monospace' }}>{change.commit.substr(0, 7)}</span>
+                            <span style={{ fontFamily: 'monospace' }}>{change.commit.substr(0, 6)}</span>
                             &nbsp;- {new Date(+ change.timestamp * 1000).toUTCString()}
                         </>
                     ),
                     content: <>{hasChanges ? renderedChanges : 'No visible changes found.'}</>,
-                    subheader: false,
-                    initialOpen: false
+                    subheader: true,
+                    initialOpen: initialOpen,
                 });
             })
 
