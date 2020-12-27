@@ -15,6 +15,7 @@ function renderCollapsibleContent(
     { title: Renderable, content: Renderable, subheader: boolean, separator?: boolean, initialOpen?: boolean }
 ) {
     if (initialOpen === undefined) initialOpen = true;
+    if (separator === undefined) separator = true;
     return (
         <Accordion defaultActiveKey={initialOpen ? `${title}` : ''}>
             <Card border="light" className="collapsible-card">
