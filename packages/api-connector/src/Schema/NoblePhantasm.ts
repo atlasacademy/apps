@@ -17,6 +17,7 @@ export interface NoblePhantasm {
     num: number;
     card: Card;
     name: string;
+    ruby: string;
     icon?: string;
     rank: string;
     type: string;

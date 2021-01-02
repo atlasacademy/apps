@@ -13,6 +13,7 @@ import entityDescriptor from "../Descriptor/entityDescriptor";
 import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
 import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
+import getRubyText from "../Helper/StringHelper";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
@@ -93,7 +94,7 @@ class SkillPage extends React.Component<IProps, IState> {
 
                 <DataTable data={{
                     "ID": skill.id,
-                    "Name": skill.name,
+                    "Name": getRubyText(this.props.region, skill.name, skill.ruby, true),
                     "Detail": skill.detail,
                     "Type": skill.type,
                     "Owner": (

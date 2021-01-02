@@ -72,6 +72,7 @@ export interface Entity {
     id: number;
     collectionNo: number;
     name: string;
+    ruby: string;
     className: ClassName;
     type: EntityType;
     rarity: number;

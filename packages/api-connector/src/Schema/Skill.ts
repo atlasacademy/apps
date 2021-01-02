@@ -24,6 +24,7 @@ export interface Skill {
     id: number;
     num?: number;
     name: string;
+    ruby: string;
     detail?: string;
     type: SkillType;
     strengthStatus?: number;

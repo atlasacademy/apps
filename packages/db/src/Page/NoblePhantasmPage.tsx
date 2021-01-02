@@ -11,6 +11,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import entityDescriptor from "../Descriptor/entityDescriptor";
 import Manager from "../Setting/Manager";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
+import getRubyText from "../Helper/StringHelper";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
@@ -89,7 +90,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
 
                 <DataTable data={{
                     "ID": noblePhantasm.id,
-                    "Name": noblePhantasm.name,
+                    "Name": getRubyText(this.props.region, noblePhantasm.name, noblePhantasm.ruby),
                     "Type": noblePhantasm.type,
                     "Rank": noblePhantasm.rank,
                     "Detail": noblePhantasm.detail,
