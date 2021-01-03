@@ -10,8 +10,7 @@ interface Event extends React.ChangeEvent<HTMLInputElement> {
 
 interface IProps {
     language: Language,
-    theme: Theme,
-    changelogVisibleOnly: boolean;
+    theme: Theme
 }
 
 class SettingForm extends React.Component<IProps> {
@@ -47,14 +46,6 @@ class SettingForm extends React.Component<IProps> {
                             {Object.values(Theme).map(v => (
                                 <option key={v} value={v}>{v}</option>
                             ))}
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Only show entries with visible changes in changelog</Form.Label>
-                        <Form.Control as={'select'} value={+!!this.props.changelogVisibleOnly}
-                                      onChange={(ev: Event) => this.updateChangelogVisibleOnly(+ev.target.value)}>
-                            <option value={1}>Yes</option>
-                            <option value={0}>No</option>
                         </Form.Control>
                     </Form.Group>
                 </Form>

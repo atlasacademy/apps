@@ -71,7 +71,7 @@ class App extends React.Component<any, IState> {
                 <Navigation
                     language={this.state.language}
                     theme={this.state.theme}
-                    changelogVisibleOnly={this.state.changelogVisibleOnly} />
+                    />
                 <br/>
 
                 <Container id={'app'} key={`${this.state.language}`}>

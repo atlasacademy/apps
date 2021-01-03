@@ -10,6 +10,7 @@ import Manager from "../Setting/Manager";
 import React from 'react';
 import renderCollapsibleContent from '../Component/CollapsibleContent';
 import { Renderable } from "../Helper/OutputHelper";
+import Settings from "./Changelog/Settings";
 
 import './ChangelogPage.css';
 interface IProps {
@@ -166,6 +167,11 @@ export default class extends React.Component<IProps, IState> {
 
         if (visibleOnly) content = content.filter(Boolean);
 
-        return content.length ? content : 'No changes found on the server.';
+        return (
+            <div>
+                {<Settings visibleOnly={Manager.changelogVisibleOnly()} updateVisibleOnly={Manager.setChangelogVisibleOnly} />}
+                {content.length ? content : 'No changes found on the server.'}
+            </div>
+        )
     }
 }
