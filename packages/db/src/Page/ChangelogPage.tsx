@@ -16,6 +16,7 @@ import './ChangelogPage.css';
 interface IProps {
     region: Region;
     visibleOnly?: boolean;
+    localTime?: boolean;
 }
 
 interface IState {
@@ -56,7 +57,7 @@ export default class extends React.Component<IProps, IState> {
 
     render() {
         const { changes, error, loading, servantList, ceList } = this.state;
-        const { region, visibleOnly } = this.props;
+        const { localTime, region, visibleOnly } = this.props;
         if (error)
             return <ErrorStatus error={this.state.error}/>;
 
@@ -152,11 +153,13 @@ export default class extends React.Component<IProps, IState> {
                     openedChange = false;
                 }
 
+
+                let timestamp = new Date(+ change.timestamp * 1000 - (+!!localTime) * new Date().getTimezoneOffset() * 60 * 1000);
                 return renderCollapsibleContent({
                     title: (
                         <>
                             <span style={{ fontFamily: 'monospace' }}>{change.commit.substr(0, 6)}</span>
-                            &nbsp;- {new Date(+ change.timestamp * 1000).toUTCString()}
+                            &nbsp;- {localTime ? timestamp.toString() : timestamp.toUTCString()}
                         </>
                     ),
                     content: <>{hasChanges ? renderedChanges : 'No visible changes found.'}</>,
@@ -169,7 +172,10 @@ export default class extends React.Component<IProps, IState> {
 
         return (
             <div>
-                {<Settings visibleOnly={Manager.changelogVisibleOnly()} updateVisibleOnly={Manager.setChangelogVisibleOnly} />}
+                <Settings
+                    visibleOnly={Manager.changelogVisibleOnly()} updateVisibleOnly={Manager.setChangelogVisibleOnly}
+                    localTime={Manager.changelogLocalTimestamp()} updateLocalTime={Manager.setChangelogLocalTimestamp}
+                    />
                 {content.length ? content : 'No changes found on the server.'}
             </div>
         )

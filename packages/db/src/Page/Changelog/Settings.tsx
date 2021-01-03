@@ -1,9 +1,15 @@
 import React from "react";
 import {Button, ButtonGroup} from "react-bootstrap";
 
-interface IProps { visibleOnly: boolean, updateVisibleOnly: (value : boolean) => void }
+interface IProps {
+    visibleOnly: boolean;
+    updateVisibleOnly: (value : boolean) => void;
 
-export default ({ visibleOnly, updateVisibleOnly } : IProps) => (
+    localTime: boolean;
+    updateLocalTime: (value : boolean) => void;
+}
+
+export default ({ visibleOnly, updateVisibleOnly, localTime, updateLocalTime } : IProps) => (
     <div>
         <ButtonGroup>
             <Button disabled variant="outline-dark">Showing </Button>
@@ -13,6 +19,13 @@ export default ({ visibleOnly, updateVisibleOnly } : IProps) => (
                 {visibleOnly
                     ? 'only entries with visible changes'
                     : 'all entries'}
+            </Button>
+            <Button
+                variant={localTime ? 'warning' : 'success'}
+                onClick={() => updateLocalTime(!localTime)}>
+                {localTime
+                    ? 'with local timestamps'
+                    : 'with UTC timestamps'}
             </Button>
         </ButtonGroup>
         <br />&nbsp;

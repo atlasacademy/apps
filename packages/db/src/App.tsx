@@ -37,7 +37,8 @@ const SkillPage = React.lazy(() => import("./Page/SkillPage"));
 interface IState {
     language: Language,
     theme: Theme,
-    changelogVisibleOnly: boolean
+    changelogVisibleOnly: boolean,
+    localTime: boolean
 }
 
 class App extends React.Component<any, IState> {
@@ -46,7 +47,8 @@ class App extends React.Component<any, IState> {
         this.state = {
             language: Manager.language(),
             theme: Manager.theme(),
-            changelogVisibleOnly: Manager.changelogVisibleOnly()
+            changelogVisibleOnly: Manager.changelogVisibleOnly(),
+            localTime: Manager.changelogLocalTimestamp()
         };
 
         Api.init(Manager.region(), Manager.language());
@@ -61,7 +63,8 @@ class App extends React.Component<any, IState> {
         this.setState({
             language: Manager.language(),
             theme: Manager.theme(),
-            changelogVisibleOnly: Manager.changelogVisibleOnly()
+            changelogVisibleOnly: Manager.changelogVisibleOnly(),
+            localTime: Manager.changelogLocalTimestamp()
         });
     }
 
@@ -235,7 +238,11 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <ChangelogPage key={region} region={region} visibleOnly={this.state.changelogVisibleOnly}/>
+                                    <ChangelogPage
+                                        key={region}
+                                        region={region}
+                                        localTime={this.state.localTime}
+                                        visibleOnly={this.state.changelogVisibleOnly}/>
                                 </Suspense>
                             )
                         }} />

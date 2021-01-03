@@ -4,7 +4,8 @@ import {Theme} from "./Theme";
 
 const languageKey = 'language',
     themeKey = 'aa-db.theme',
-    changelogVisibleOnly = 'changelog.visibleOnly';
+    changelogVisibleOnly = 'changelog.visibleOnly',
+    changelogLocalTime = 'changelog.localTime';
 
 const callbacks: Function[] = [];
 
@@ -17,6 +18,15 @@ class Manager {
 
     static setChangelogVisibleOnly(visibleOnly : boolean) {
         window.localStorage.setItem(changelogVisibleOnly, `${+!!visibleOnly}`);
+        Manager.triggerCallbacks();
+    }
+
+    static changelogLocalTimestamp() : boolean {
+        return !!+(window.localStorage.getItem(changelogLocalTime) ?? 0);
+    }
+
+    static setChangelogLocalTimestamp(local : boolean) {
+        window.localStorage.setItem(changelogLocalTime, `${+!!local}`);
         Manager.triggerCallbacks();
     }
 
