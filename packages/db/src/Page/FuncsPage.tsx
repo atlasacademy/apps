@@ -25,6 +25,7 @@ interface IProps {
 
 interface IState {
     error?: AxiosError;
+    searched: boolean;
     searching: boolean;
     funcs: Func.BasicFunc[];
     text?: string;
@@ -39,6 +40,7 @@ class FuncsPage extends React.Component<IProps, IState> {
 
         let state = stateCache.get(props.region) ?? {
             searching: false,
+            searched: false,
             funcs: []
         };
         if (state?.error) state.error = undefined;
@@ -74,7 +76,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                 this.state.team
             );
 
-            this.setState({funcs});
+            this.setState({funcs, searched: true});
         } catch (e) {
             this.setState({
                 error: e
@@ -89,6 +91,36 @@ class FuncsPage extends React.Component<IProps, IState> {
     render() {
         if (this.state.error)
             return <ErrorStatus error={this.state.error}/>;
+
+        let table = (
+            <Table responsive>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Function</th>
+                    <th>Usage Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                {this.state.funcs.map((func, index) => {
+                    return (
+                        <tr key={index}>
+                            <td>{func.funcId}</td>
+                            <td>
+                                <FuncDescriptor region={this.props.region} func={func}/>
+                            </td>
+                            <td>
+                                {
+                                    (func.reverse?.basic?.NP ?? []).length
+                                    + (func.reverse?.basic?.skill ?? []).length
+                                }
+                            </td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </Table>
+        );
 
         return (
             <div>
@@ -150,33 +182,8 @@ class FuncsPage extends React.Component<IProps, IState> {
 
                 <hr/>
 
-                <Table responsive>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Function</th>
-                        <th>Usage Count</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.funcs.map((func, index) => {
-                        return (
-                            <tr key={index}>
-                                <td>{func.funcId}</td>
-                                <td>
-                                    <FuncDescriptor region={this.props.region} func={func}/>
-                                </td>
-                                <td>
-                                    {
-                                        (func.reverse?.basic?.NP ?? []).length
-                                        + (func.reverse?.basic?.skill ?? []).length
-                                    }
-                                </td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </Table>
+                {this.state.searched && <h5>Found <b>{this.state.funcs.length}</b> result{this.state.funcs.length > 1 ? 's' : ''}.</h5>}
+                {this.state.funcs.length ? table : null}
             </div>
         );
     }

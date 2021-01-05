@@ -24,6 +24,7 @@ interface IProps {
 
 interface IState {
     error?: AxiosError;
+    searched: boolean;
     searching: boolean;
     buffs: Buff.BasicBuff[];
     name?: string;
@@ -42,6 +43,7 @@ class BuffsPage extends React.Component<IProps, IState> {
 
         let state = stateCache.get(props.region) ?? {
             searching: false,
+            searched: false,
             buffs: []
         };
 
@@ -75,7 +77,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                 this.state.type
             );
 
-            this.setState({buffs});
+            this.setState({buffs, searched: true});
         } catch (e) {
             this.setState({
                 error: e
@@ -88,6 +90,33 @@ class BuffsPage extends React.Component<IProps, IState> {
     render() {
         if (this.state.error)
             return <ErrorStatus error={this.state.error}/>;
+
+        let table = (
+            <Table responsive>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Buff</th>
+                    <th>Usage Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                {this.state.buffs.map((buff, index) => {
+                    return (
+                        <tr key={index}>
+                            <td>{buff.id}</td>
+                            <td>
+                                <BuffDescription region={this.props.region} buff={buff}/>
+                            </td>
+                            <td>
+                                {(buff.reverse?.basic?.function ?? []).length}
+                            </td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </Table>
+        );
 
         return (
             <div>
@@ -124,31 +153,8 @@ class BuffsPage extends React.Component<IProps, IState> {
                 </form>
 
                 <hr/>
-
-                <Table responsive>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Buff</th>
-                        <th>Usage Count</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.buffs.map((buff, index) => {
-                        return (
-                            <tr key={index}>
-                                <td>{buff.id}</td>
-                                <td>
-                                    <BuffDescription region={this.props.region} buff={buff}/>
-                                </td>
-                                <td>
-                                    {(buff.reverse?.basic?.function ?? []).length}
-                                </td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </Table>
+                {this.state.searched && <h5>Found <b>{this.state.buffs.length}</b> result{this.state.buffs.length > 1 ? 's' : ''}.</h5>}
+                {this.state.buffs.length ? table : null}
             </div>
         );
     }
