@@ -5,7 +5,7 @@ import Description from "./Description";
 
 interface IProps {
     region: Region;
-    func: Func.Func;
+    func: Func.BasicFunc;
     staticDataVal: DataVal.DataVal;
     dataVal: DataVal.DataVal;
     hideRate?: boolean;

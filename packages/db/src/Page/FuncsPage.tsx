@@ -26,7 +26,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     searching: boolean;
-    funcs: Func.Func[];
+    funcs: Func.BasicFunc[];
     text?: string;
     type?: Func.FuncType;
     target?: Func.FuncTargetType;
@@ -47,7 +47,7 @@ class FuncsPage extends React.Component<IProps, IState> {
 
         Manager.setRegion(this.props.region);
     }
-    
+
     componentDidMount() {
         document.title = `[${this.props.region}] Functions - Atlas Academy DB`
     }
@@ -168,8 +168,8 @@ class FuncsPage extends React.Component<IProps, IState> {
                                 </td>
                                 <td>
                                     {
-                                        (func.reverse?.nice?.NP ?? []).length
-                                        + (func.reverse?.nice?.skill ?? []).length
+                                        (func.reverse?.basic?.NP ?? []).length
+                                        + (func.reverse?.basic?.skill ?? []).length
                                     }
                                 </td>
                             </tr>

@@ -42,15 +42,15 @@ export function describeMutators(region: Region, func: Func.Func): Renderable[] 
                                                  dataVal={mutatingVal}/>);
 }
 
-export function funcUpdatesByLevel(func: Func.Func): boolean {
+export function funcUpdatesByLevel(func: Partial<Func.Func>): boolean {
     return hasChangingDataVals(getLevelDataValList(func));
 }
 
-export function funcUpdatesByOvercharge(func: Func.Func): boolean {
+export function funcUpdatesByOvercharge(func: Partial<Func.Func>): boolean {
     return hasChangingDataVals(getOverchargeDataValList(func));
 }
 
-export function getDataValList(func: Func.Func): DataVal.DataVal[] {
+export function getDataValList(func: Partial<Func.Func>): DataVal.DataVal[] {
     const isLevel = funcUpdatesByLevel(func),
         isOvercharge = funcUpdatesByOvercharge(func);
 
@@ -59,15 +59,15 @@ export function getDataValList(func: Func.Func): DataVal.DataVal[] {
         : (isOvercharge ? getOverchargeDataValList(func) : getLevelDataValList(func));
 }
 
-export function getFollowerDataValList(func: Func.Func): DataVal.DataVal[] {
+export function getFollowerDataValList(func: Partial<Func.Func>): DataVal.DataVal[] {
     return func.followerVals ?? [];
 }
 
-export function getLevelDataValList(func: Func.Func): DataVal.DataVal[] {
+export function getLevelDataValList(func: Partial<Func.Func>): DataVal.DataVal[] {
     return func.svals ?? [];
 }
 
-export function getMixedDataValList(func: Func.Func): DataVal.DataVal[] {
+export function getMixedDataValList(func: Partial<Func.Func>): DataVal.DataVal[] {
     const dataVals = [];
 
     for (let i = 1; i <= 5; i++) {
@@ -120,7 +120,7 @@ export function getMutatingFieldValues(vals: DataVal.DataVal[]): DataVal.DataVal
     });
 }
 
-export function getOverchargeDataValList(func: Func.Func): DataVal.DataVal[] {
+export function getOverchargeDataValList(func: Partial<Func.Func>): DataVal.DataVal[] {
     const dataVals = [];
 
     for (let i = 1; i <= 5; i++) {
@@ -165,14 +165,14 @@ export function getStaticFieldValues(vals: DataVal.DataVal[]): DataVal.DataVal {
     return staticVals;
 }
 
-export function getTargetFollowerVersionValues(func: Func.Func, level: number): DataVal.DataVal | undefined {
+export function getTargetFollowerVersionValues(func: Partial<Func.Func>, level: number): DataVal.DataVal | undefined {
     if (func.followerVals === undefined)
         return undefined;
 
     return func.followerVals[level - 1];
 }
 
-export function getTargetVersionValues(func: Func.Func, level: number, overcharge: number = 1): DataVal.DataVal | undefined {
+export function getTargetVersionValues(func: Partial<Func.Func>, level: number, overcharge: number = 1): DataVal.DataVal | undefined {
     if (func.svals === undefined)
         return undefined;
 
@@ -192,6 +192,6 @@ export function getTargetVersionValues(func: Func.Func, level: number, overcharg
     return dataVals[level - 1];
 }
 
-export function hasFollowerDataVals(func: Func.Func): boolean {
+export function hasFollowerDataVals(func: Partial<Func.Func>): boolean {
     return func.followerVals !== undefined;
 }

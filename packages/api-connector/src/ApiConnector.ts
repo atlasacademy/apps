@@ -10,7 +10,7 @@ import {CraftEssence, CraftEssenceBasic} from "./Schema/CraftEssence";
 import {Enemy} from "./Schema/Enemy";
 import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
 import {Event} from "./Schema/Event";
-import {Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
+import {BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
 import {MysticCode, MysticCodeBasic} from "./Schema/MysticCode";
 import {NoblePhantasm} from "./Schema/NoblePhantasm";
 import {QuestPhase} from "./Schema/Quest";
@@ -377,7 +377,7 @@ class ApiConnector {
         );
     }
 
-    searchFunc(options: FuncSearchOptions): Promise<Func[]> {
+    searchFunc(options: FuncSearchOptions): Promise<BasicFunc[]> {
         let query = "?reverse=true&reverseDepth=servant";
 
         if (this.language === Language.ENGLISH)
@@ -391,8 +391,8 @@ class ApiConnector {
         if (options.team)
             query += "&targetTeam=" + options.team;
 
-        return ApiConnector.fetch<Func[]>(
-            `${this.host}/nice/${this.region}/function/search${query}`
+        return ApiConnector.fetch<BasicFunc[]>(
+            `${this.host}/basic/${this.region}/function/search${query}`
         );
     }
 

@@ -48,7 +48,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.USER_EQUIP_EXP_UP, 'Increase Mystic Code Exp'],
 ]);
 
-function handleBuffActionSection(region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
+function handleBuffActionSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.action,
         parts = section.parts;
 
@@ -76,7 +76,7 @@ function handleBuffActionSection(region: Region, sections: FuncDescriptorSection
     }
 }
 
-function handleCleanseActionSection(region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
+function handleCleanseActionSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.action,
         parts = section.parts;
 
@@ -96,7 +96,7 @@ function handleCleanseActionSection(region: Region, sections: FuncDescriptorSect
     sections.target.preposition = 'on';
 }
 
-function handleMoveStateActionSection(region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
+function handleMoveStateActionSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.action,
         parts = section.parts;
 
@@ -110,7 +110,7 @@ function handleMoveStateActionSection(region: Region, sections: FuncDescriptorSe
     sections.target.preposition = 'from';
 }
 
-function handleChargeNpPerTraitActionSection(region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
+function handleChargeNpPerTraitActionSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.action,
         parts = section.parts;
 
@@ -131,7 +131,7 @@ function handleChargeNpPerTraitActionSection(region: Region, sections: FuncDescr
     sections.target.preposition = 'for';
 }
 
-export default function (region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
+export default function (region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.action,
         parts = section.parts;
 

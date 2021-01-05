@@ -120,7 +120,7 @@ class Api {
     static searchFuncs(text?: string,
                        type?: Func.FuncType,
                        target?: Func.FuncTargetType,
-                       team?: Func.FuncTargetTeam): Promise<Func.Func[]> {
+                       team?: Func.FuncTargetTeam): Promise<Func.BasicFunc[]> {
         return apiConnector.searchFunc({text, type, target, team});
     }
 

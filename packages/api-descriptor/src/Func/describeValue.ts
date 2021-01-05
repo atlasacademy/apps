@@ -5,7 +5,7 @@ import describeGainHpFromTargetsValue from "./Value/describeGainHpFromTargetsVal
 import describeGainNpFromTargets from "./Value/describeGainNpFromTargets";
 import describeNpAbsorbValue from "./Value/describeNpAbsorbValue";
 
-export default function (func: Func.Func,
+export default function (func: Func.BasicFunc,
                          staticDataVal: DataVal.DataVal,
                          dataVal: DataVal.DataVal,
                          ignoreRate?: boolean): Descriptor | undefined {

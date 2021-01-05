@@ -1,7 +1,7 @@
 import {DataVal, Func, Region} from "@atlasacademy/api-connector";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-export default function (region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal): void {
+export default function (region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.team,
         parts = section.parts;
 

@@ -25,7 +25,7 @@ import handleOnFieldSection from "./Func/handleOnFieldSection";
 
 interface IProps {
     region: Region;
-    func: Func.Func;
+    func: Func.BasicFunc;
     level?: number;
     levels?: number[];
     overcharge?: number;

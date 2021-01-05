@@ -6,7 +6,7 @@ import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-export default function (region: Region, sections: FuncDescriptorSections, func: Func.Func, dataVal: DataVal.DataVal, support?: boolean): void {
+export default function (region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal, support?: boolean): void {
     const section = sections.amount,
         parts = section.parts;
 

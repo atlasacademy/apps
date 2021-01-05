@@ -128,17 +128,26 @@ export enum FuncType {
     MOVE_STATE = "moveState",
 }
 
-export interface Func {
+export interface BasicFunc {
     funcId: number;
     funcType: FuncType;
     funcTargetType: FuncTargetType;
     funcTargetTeam: FuncTargetTeam;
-    funcPopupText: string;
-    funcPopupIcon?: string;
     functvals: Trait[];
     funcquestTvals: number[];
-    traitVals?: Trait[];
     buffs: Buff[];
+    traitVals?: Trait[];
+    reverse?: {
+        basic?: {
+            NP?: NoblePhantasm[];
+            skill?: Skill[];
+        }
+    }
+}
+
+export interface Func extends BasicFunc {
+    funcPopupText: string;
+    funcPopupIcon?: string;
     svals: DataVal[];
     svals2?: DataVal[];
     svals3?: DataVal[];
@@ -146,6 +155,10 @@ export interface Func {
     svals5?: DataVal[];
     followerVals?: DataVal[];
     reverse?: {
+        basic?: {
+            NP?: NoblePhantasm[];
+            skill?: Skill[];
+        };
         nice?: {
             NP?: NoblePhantasm[];
             skill?: Skill[];
