@@ -102,7 +102,7 @@ class Api {
         return apiConnector.traitList(-1);
     }
 
-    static searchBuffs(name?: string, type?: Buff.BuffType): Promise<Buff.Buff[]> {
+    static searchBuffs(name?: string, type?: Buff.BuffType): Promise<Buff.BasicBuff[]> {
         return apiConnector.searchBuff({name, type});
     }
 

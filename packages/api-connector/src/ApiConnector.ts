@@ -3,7 +3,7 @@ import ClassName from "./Enum/ClassName";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import ResultCache from "./ResultCache";
-import {Buff, BuffType} from "./Schema/Buff";
+import {BasicBuff, Buff, BuffType} from "./Schema/Buff";
 import {CommandCode, CommandCodeBasic} from "./Schema/CommandCode";
 import {Change} from "./Schema/Change";
 import {CraftEssence, CraftEssenceBasic} from "./Schema/CraftEssence";
@@ -337,7 +337,7 @@ class ApiConnector {
         return this.cache.traitList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    searchBuff(options: BuffSearchOptions): Promise<Buff[]> {
+    searchBuff(options: BuffSearchOptions): Promise<BasicBuff[]> {
         let query = "?reverse=true&reverseDepth=function";
 
         if (this.language === Language.ENGLISH)
@@ -347,8 +347,8 @@ class ApiConnector {
         if (options.type)
             query += "&type=" + options.type;
 
-        return ApiConnector.fetch<Buff[]>(
-            `${this.host}/nice/${this.region}/buff/search${query}`
+        return ApiConnector.fetch<BasicBuff[]>(
+            `${this.host}/basic/${this.region}/buff/search${query}`
         );
     }
 

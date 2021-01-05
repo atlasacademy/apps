@@ -30,7 +30,7 @@ function traitReferences(traits: Trait.Trait[]): BasePartial[] {
     );
 }
 
-export default function (buff: Buff.Buff): Descriptor {
+export default function (buff: Buff.BasicBuff): Descriptor {
     const partials: BasePartial[] = [],
         upDownBuffType = getUpDownBuffType(buff.type),
         triggerType = buffTriggerTypes.get(buff.type),

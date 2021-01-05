@@ -10,7 +10,7 @@ export function getUpDownBuffType(type: Buff.BuffType): UpDownBuffType | undefin
     return undefined;
 }
 
-export function getTraitDescription(buff: Buff.Buff): string | undefined {
+export function getTraitDescription(buff: Buff.BasicBuff): string | undefined {
     const traitIds = buff.vals.map(trait => trait.id);
 
     for (let x in traitIds) {

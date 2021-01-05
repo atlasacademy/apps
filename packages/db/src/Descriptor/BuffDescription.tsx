@@ -7,11 +7,11 @@ import Description from "./Description";
 
 interface IProps {
     region: Region;
-    buff: Buff.Buff;
+    buff: Buff.BasicBuff;
 }
 
 class BuffDescription extends React.Component<IProps> {
-    static renderAsString(buff: Buff.Buff): string {
+    static renderAsString(buff: Buff.BasicBuff): string {
         const descriptor = BuffDescriptor.describe(buff);
 
         return "[" + Description.renderAsString(descriptor) + "]";

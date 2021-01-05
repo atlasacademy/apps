@@ -25,7 +25,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     searching: boolean;
-    buffs: Buff.Buff[];
+    buffs: Buff.BasicBuff[];
     name?: string;
     type?: Buff.BuffType;
 }
@@ -142,7 +142,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                                     <BuffDescription region={this.props.region} buff={buff}/>
                                 </td>
                                 <td>
-                                    {(buff.reverse?.nice?.function ?? []).length}
+                                    {(buff.reverse?.basic?.function ?? []).length}
                                 </td>
                             </tr>
                         )

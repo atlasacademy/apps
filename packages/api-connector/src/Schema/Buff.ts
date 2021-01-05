@@ -150,19 +150,30 @@ export enum BuffType {
     ATTACK_BEFORE_FUNCTION = "attackBeforeFunction",
 }
 
-export interface Buff {
+export interface BasicBuff {
     id: number;
     name: string;
-    detail: string;
     icon?: string;
     type: BuffType;
-    buffGroup: number;
     vals: Trait[];
     tvals: Trait[];
     ckSelfIndv: Trait[];
     ckOpIndv: Trait[];
+    reverse?: {
+        basic?: {
+            function?: Func[];
+        }
+    }
+}
+
+export interface Buff extends BasicBuff {
+    detail: string;
+    buffGroup: number;
     maxRate: number;
     reverse?: {
+        basic?: {
+            function?: Func[];
+        }
         nice?: {
             function?: Func[];
         }
