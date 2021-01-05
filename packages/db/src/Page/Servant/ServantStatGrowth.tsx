@@ -3,6 +3,7 @@ import React from "react";
 import {formatNumber} from "../../Helper/OutputHelper";
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+import "./ServantStatGrowth.css";
 
 interface IProps {
     region: Region;
@@ -11,9 +12,51 @@ interface IProps {
 
 class ServantStatGrowth extends React.Component<IProps> {
     render() {
-        let { hpGrowth, lvMax, atkGrowth } = this.props.servant;
+        let { hpGrowth, lvMax, atkGrowth, growthCurve } = this.props.servant,
+            growthCurveName:string;
+        switch (growthCurve) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 9999:
+                growthCurveName = "Linear";
+                break;
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                growthCurveName = "Reverse S";
+                break;
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+                growthCurveName = "S";
+                break;
+            case 21:
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+                growthCurveName = "Semi Reverse S";
+                break;
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+            case 30:
+                growthCurveName = "Semi S";
+                break;
+            default:
+                growthCurveName = "Unknown";
+        }
         return (
             <div>
+                <div className="growth-curve-name"><b>Growth Curve:</b> {growthCurveName}</div>
                 <HighchartsReact
                     highcharts={Highcharts}
                     options={{
