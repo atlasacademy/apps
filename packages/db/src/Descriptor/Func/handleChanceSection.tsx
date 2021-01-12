@@ -11,7 +11,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     }
 
     if (dataVal.Rate && dataVal.Rate < 0) {
-        parts.push('Guaranteed to');
+        parts.push(`If previous function succeeds, ${-dataVal.Rate / 10}% Chance to`);
     } else if (typeof dataVal.Rate === "number" && dataVal.Rate !== 1000) {
         parts.push((dataVal.Rate / 10) + '% Chance to');
     } else if (dataVal.RateCount && (
