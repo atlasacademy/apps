@@ -42,3 +42,11 @@ export interface Item {
     icon: string;
     background: ItemBackgroundType;
 }
+
+export interface ItemNice {
+    id: number;
+    name: string;
+    type: ItemType;
+    icon: string;
+    background: ItemBackgroundType;
+}
