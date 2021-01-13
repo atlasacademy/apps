@@ -1,4 +1,9 @@
-import {Region, Item} from "@atlasacademy/api-connector";
+import {Region, Item} from "@atlasacademy/api-connector";/* TODO:
+ * remove Item.ItemNice in schema, change code to use Item.Item?
+ * also add back detail and just add
+ * "\"Synthesis Resource\"\nA Quantum Particle.\nA fluctuation in the spiritron that grants many possibilities.\nUsed as fuels to conduct all sorts of magecraft."
+ * as the detail for the QP Item in ServantMaterialsBreakdown (gotta edit that eventually anyways to add links to MaterialPage/{id})
+ */
 import {AxiosError} from "axios";
 import diacritics from 'diacritics';
 import escape from 'escape-string-regexp';
@@ -28,7 +33,7 @@ interface IProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    materials: Item.ItemNice[];
+    itemList: Item.Item[];
     perPage: number;
     page: number;
     search?: string;
@@ -41,7 +46,7 @@ class MaterialsPage extends React.Component<IProps, IState> {
 
         this.state = {
             loading: true,
-            materials: [],
+            itemList: [],
             perPage: 100,
             page: 0,
         };
@@ -53,7 +58,7 @@ class MaterialsPage extends React.Component<IProps, IState> {
             Api.itemList().then(itemList => {
                 this.setState({
                     loading: false,
-                    materials: itemList
+                    itemList: itemList
                 })
             });
             document.title = `[${this.props.region}] Materials - Atlas Academy DB`
@@ -139,12 +144,27 @@ class MaterialsPage extends React.Component<IProps, IState> {
         this.setState({page});
     }
 
-    private materials(): Item.ItemNice[] {
-        let list = this.state.materials.filter(material => (
-            material.type === "skillLvUp" || material.type === "tdLvUp"
-        ));
+    private materials(): Item.Item[] {
+        let itemList = this.state.itemList.filter(material => (
+            material.type === "skillLvUp" || material.type === "tdLvUp" // remove event items
+        )).sort((a,b) => (a.id-b.id));//sort by id
 
-        // TODO: is this where I filter by type to get only the ascension/skill mats?
+        let materialsGems = itemList.filter(material => ( // All Gems
+                material.id > 6000 && material.id < 6208
+            )),
+            materials = itemList.filter(material => ( // All Materials
+                material.id > 6500 && material.id < 6600
+            )),
+            materialsStatues = itemList.filter(material => ( // All Statues
+                material.id > 7000 && material.id < 7108
+            ));
+
+        let list = materialsGems.concat( // All Gems
+            materials.filter(material => (material.background === "bronze")), // All Bronze mats
+            materials.filter(material => (material.background === "silver")), // All Silver mats
+            materials.filter(material => (material.background === "gold")), // All Gold mats
+            materialsStatues // All Statues
+        );
 
         if (this.state.search) {
             const glob = diacritics.remove(this.state.search.toLowerCase())

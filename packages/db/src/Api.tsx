@@ -75,7 +75,7 @@ class Api {
         return apiConnector.item(id, cacheDuration);
     }
 
-    static itemList(): Promise<Item.ItemNice[]> {
+    static itemList(): Promise<Item.Item[]> {
         return apiConnector.itemList(-1);
     }
 

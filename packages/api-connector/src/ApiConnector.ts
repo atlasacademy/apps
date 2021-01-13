@@ -11,7 +11,7 @@ import {Enemy} from "./Schema/Enemy";
 import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
 import {Event} from "./Schema/Event";
 import {BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
-import {Item, ItemNice} from "./Schema/Item";
+import {Item} from "./Schema/Item";
 import {MysticCode, MysticCodeBasic} from "./Schema/MysticCode";
 import {NoblePhantasm} from "./Schema/NoblePhantasm";
 import {QuestPhase} from "./Schema/Quest";
@@ -60,7 +60,7 @@ class ApiConnector {
         event: new ResultCache<number, Event>(),
         func: new ResultCache<number, Func>(),
         item: new ResultCache<number, Item>(),
-        itemList: new ResultCache<null, ItemNice[]>(),
+        itemList: new ResultCache<null, Item[]>(),
         mysticCode: new ResultCache<number, MysticCode>(),
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
@@ -219,9 +219,9 @@ class ApiConnector {
         return this.cache.item.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    itemList(cacheDuration?: number): Promise<ItemNice[]> {
+    itemList(cacheDuration?: number): Promise<Item[]> {
         const fetch = () => {
-            return ApiConnector.fetch<ItemNice[]>(
+            return ApiConnector.fetch<Item[]>(
                 `${this.host}/export/${this.region}/nice_item.json`
             );
         }
