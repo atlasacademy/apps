@@ -39,6 +39,7 @@ export interface Item {
     id: number;
     name: string;
     type: ItemType;
+    detail: string;
     icon: string;
     background: ItemBackgroundType;
 }
