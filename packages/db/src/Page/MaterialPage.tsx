@@ -77,7 +77,7 @@ class MaterialPage extends React.Component<IProps, IState> {
         }
     }
 
-    private reduceMaterials(materials: Object) {
+    private reduceMaterials(materials: Entity.EntityLevelUpMaterialProgression) {
         if (Object.values(materials).length === 0) return 0;
 
         return Object.values(materials).map(stage => {
