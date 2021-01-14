@@ -1,3 +1,5 @@
+import {Trait} from "./Trait";
+
 export enum ItemBackgroundType {
     ZERO = "zero",
     BRONZE = "bronze",
@@ -40,6 +42,7 @@ export interface Item {
     name: string;
     type: ItemType;
     detail: string;
+    individuality: Trait[];
     icon: string;
     background: ItemBackgroundType;
 }

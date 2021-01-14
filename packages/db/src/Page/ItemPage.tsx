@@ -11,6 +11,8 @@ import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import RawDataViewer from "../Component/RawDataViewer";
 import Loading from "../Component/Loading";
+import TraitDescription from "../Descriptor/TraitDescription";
+import {mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 import {MaterialUsageData} from "./Material/MaterialUsageData";
 
@@ -25,7 +27,7 @@ interface IState {
     loading: boolean;
     id: number;
     servants: Servant.Servant[];
-    material?: Item.Item;
+    item?: Item.Item;
 }
 
 class MaterialPage extends React.Component<IProps, IState> {
@@ -44,30 +46,26 @@ class MaterialPage extends React.Component<IProps, IState> {
         this.loadData();
     }
 
-    private itemIsMaterial(material: Item.Item) {
-        if (material.type === Item.ItemType.SKILL_LV_UP || material.type === Item.ItemType.TD_LV_UP) {
-            if ((material.id > 6000 && material.id < 6208) || // Matches Gems
-                (material.id > 6500 && material.id < 6600) || // Matches Mats
-                (material.id > 7000 && material.id < 7108)) return true; // Matches Statues
+    private itemIsMaterial(item: Item.Item) {
+        if (item.type === Item.ItemType.SKILL_LV_UP || item.type === Item.ItemType.TD_LV_UP) {
+            if ((item.id > 6000 && item.id < 6208) || // Matches Gems
+                (item.id > 6500 && item.id < 6600) || // Matches Mats
+                (item.id > 7000 && item.id < 7108)) return true; // Matches Statues
         }
         return false;
     }
 
     async loadData() {
         try {
-            let [servants, material] = await Promise.all<Servant.Servant[], Item.Item>([
+            let [servants, item] = await Promise.all<Servant.Servant[], Item.Item>([
                 Api.servantListNice(),
                 Api.item(this.state.id)
             ]);
 
-            if (!this.itemIsMaterial(material)) {
-                throw Error(`Item ${this.state.id} is not a non-event Skill or Ascension Material.`);
-            }
-
             this.setState({
                 loading: false,
                 servants,
-                material
+                item
             });
         } catch (e) {
             this.setState({
@@ -124,16 +122,7 @@ class MaterialPage extends React.Component<IProps, IState> {
             || className === ClassName.BERSERKER);
     }
 
-    render() {
-        if (this.state.error)
-            return <ErrorStatus error={this.state.error}/>;
-
-        if (this.state.loading || !this.state.material)
-            return <Loading/>;
-
-        const material = this.state.material;
-        document.title = `[${this.props.region}] Material - ${material.name} - Atlas Academy DB`;
-
+    private renderUsageTabs() {
         const servants = this.state.servants
                 .filter(servant => (servant.type !== Entity.EntityType.ENEMY_COLLECTION_DETAIL))
                 .sort((a,b) => a.collectionNo - b.collectionNo), // sort by collectionNo
@@ -144,64 +133,89 @@ class MaterialPage extends React.Component<IProps, IState> {
                 .filter(servant => servant.total > 1);
 
         return (
-            <div id={'material'}>
+            <Tabs id={'material-tabs'} defaultActiveKey={this.props.tab ?? 'saber'} mountOnEnter={true}
+              onSelect={(key: string | null) => {
+                  this.props.history.replace(`/${this.props.region}/item/${this.props.id}/${key}`);
+              }}>
+                {
+                    [
+                        ClassName.SABER,
+                        ClassName.LANCER,
+                        ClassName.ARCHER,
+                        ClassName.RIDER,
+                        ClassName.CASTER,
+                        ClassName.ASSASSIN,
+                        ClassName.BERSERKER
+                    ].map(i => (
+                        <Tab key={i} eventKey={i} title={i.replace(/^\w/, c => c.toUpperCase())}>
+                            <br/>
+                            <MaterialUsageBreakdown
+                                usageData={servantMaterialUsage.filter(servant => servant.className === i)}
+                                region={this.props.region}
+                                servants={this.state.servants}/>
+                        </Tab>
+                    ))
+                }
+                <Tab key={ClassName.EXTRA.toLowerCase()} eventKey={ClassName.EXTRA.toLowerCase()} title={'Extra'}>
+                    <br/>
+                    <MaterialUsageBreakdown
+                        usageData={servantMaterialUsage.filter(servant => this.isExtra(servant.className))}
+                        region={this.props.region}
+                        servants={this.state.servants}/>
+                </Tab>
+            </Tabs>
+        );
+    }
+
+    render() {
+        if (this.state.error)
+            return <ErrorStatus error={this.state.error}/>;
+
+        if (this.state.loading || !this.state.item || !this.state.servants)
+            return <Loading/>;
+
+        const item = this.state.item;
+        document.title = `[${this.props.region}] Item - ${item.name} - Atlas Academy DB`;
+
+        return (
+            <div id={'item.id'}>
                 <h1>
-                    {material.icon ? (
+                    {item.icon ? (
                             <ItemIcon region={this.props.region}
-                                      item={material}
+                                      item={item}
                                       height={50}/>
                     ) : undefined}
-                    {material.icon ? ' ' : undefined}
-                    {material.name}
+                    {item.icon ? ' ' : undefined}
+                    {item.name}
                 </h1>
 
                 <br/>
 
                 <DataTable data={{
-                    "ID": material.id,
-                    "Name": material.name,
-                    "Detail": material.detail,
-                    "Type": material.type
+                    "ID": item.id,
+                    "Name": item.name,
+                    "Detail": item.detail,
+                    "Individuality": (
+                        <div>
+                            {mergeElements(
+                                item.individuality.map(
+                                    trait => <TraitDescription region={this.props.region} trait={trait}/>
+                                ),
+                                ' '
+                            )}
+                        </div>
+                    ),
+                    "Type": item.type
                 }}/>
 
                 <div style={{ marginBottom: '3%' }}>
-                    <RawDataViewer text="Nice" data={material}/>
+                    <RawDataViewer text="Nice" data={item}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/item/${material.id}`}/>
+                        data={`https://api.atlasacademy.io/raw/${this.props.region}/item/${item.id}`}/>
                 </div>
 
-                <Tabs id={'material-tabs'} defaultActiveKey={this.props.tab ?? 'saber'} mountOnEnter={true}
-                      onSelect={(key: string | null) => {
-                          this.props.history.replace(`/${this.props.region}/material/${this.props.id}/${key}`);
-                      }}>
-                    {
-                        [
-                            ClassName.SABER,
-                            ClassName.LANCER,
-                            ClassName.ARCHER,
-                            ClassName.RIDER,
-                            ClassName.CASTER,
-                            ClassName.ASSASSIN,
-                            ClassName.BERSERKER
-                        ].map(i => (
-                            <Tab key={i} eventKey={i} title={i.replace(/^\w/, c => c.toUpperCase())}>
-                                <br/>
-                                <MaterialUsageBreakdown
-                                    usageData={servantMaterialUsage.filter(servant => servant.className === i)}
-                                    region={this.props.region}
-                                    servants={this.state.servants}/>
-                            </Tab>
-                        ))
-                    }
-                    <Tab key={ClassName.EXTRA.toLowerCase()} eventKey={ClassName.EXTRA.toLowerCase()} title={'Extra'}>
-                        <br/>
-                        <MaterialUsageBreakdown
-                            usageData={servantMaterialUsage.filter(servant => this.isExtra(servant.className))}
-                            region={this.props.region}
-                            servants={this.state.servants}/>
-                    </Tab>
-                </Tabs>
+                {this.itemIsMaterial(item) ? this.renderUsageTabs() : undefined}
             </div>
         );
     }

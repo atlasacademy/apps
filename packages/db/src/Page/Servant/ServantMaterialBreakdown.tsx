@@ -9,6 +9,7 @@ const qpItem: Item.Item = {
     name: "QP",
     type: Item.ItemType.QP,
     detail: "\"Synthesis Resource\"\nA Quantum Particle.\nA fluctuation in the spiritron that grants many possibilities.\nUsed as fuels to conduct all sorts of magecraft.",
+    individuality: [],
     icon: "https://assets.atlasacademy.io/GameData/NA/Items/5.png",
     background: Item.ItemBackgroundType.ZERO
 };
@@ -70,7 +71,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                             {this.props.materials[key].items.map(
                                 (itemAndQuantity, index) => {
                                     return <td key={index}>
-                                        <Link to={`/${this.props.region}/material/${itemAndQuantity.item.id}`}>
+                                        <Link to={`/${this.props.region}/item/${itemAndQuantity.item.id}`}>
                                             <ItemIcon region={this.props.region}
                                                       item={itemAndQuantity.item}
                                                       quantity={itemAndQuantity.amount}

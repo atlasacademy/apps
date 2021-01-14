@@ -220,7 +220,7 @@ class MaterialsPage extends React.Component<IProps, IState> {
                     </thead>
                     <tbody>
                     {results.map((material, index) => {
-                        const route = `/${this.props.region}/material/${material.id}`;
+                        const route = `/${this.props.region}/item/${material.id}`;
 
                         return <tr key={index}>
                             <td align={"center"}>
