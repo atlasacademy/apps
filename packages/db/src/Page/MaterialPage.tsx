@@ -41,19 +41,19 @@ class MaterialPage extends React.Component<IProps, IState> {
 
     componentDidMount() {
         Manager.setRegion(this.props.region);
-        this.loadItem();
+        this.loadData();
     }
 
-    itemIsMaterial(material: Item.Item) {
-        if (material.type === "skillLvUp" || material.type === "tdLvUp") {
-            if (material.id > 6000 && material.id < 6208) return true; // Matches Gems
-            if (material.id > 6500 && material.id < 6600) return true; // Matches Mats
-            if (material.id > 7000 && material.id < 7108) return true; // Matches Statues
+    private itemIsMaterial(material: Item.Item) {
+        if (material.type === Item.ItemType.SKILL_LV_UP || material.type === Item.ItemType.TD_LV_UP) {
+            if ((material.id > 6000 && material.id < 6208) || // Matches Gems
+                (material.id > 6500 && material.id < 6600) || // Matches Mats
+                (material.id > 7000 && material.id < 7108)) return true; // Matches Statues
         }
         return false;
     }
 
-    async loadItem() {
+    async loadData() {
         try {
             let [servants, material] = await Promise.all<Servant.Servant[], Item.Item>([
                 Api.servantListNice(),
@@ -90,8 +90,8 @@ class MaterialPage extends React.Component<IProps, IState> {
         }).reduce((a,b) => a+b);
     }
 
-    private servantProcessMaterials(servant: Servant.Servant) {
-        let servantProcessed:MaterialUsageData = {
+    private servantProcessMaterials(servant: Servant.Servant):MaterialUsageData {
+        let servantProcessed = {
             "id": servant.id,
             "className": this.isExtra(servant.className) ? ClassName.EXTRA : servant.className,
             "ascensions": 0,
