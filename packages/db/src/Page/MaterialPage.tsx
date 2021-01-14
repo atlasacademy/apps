@@ -7,7 +7,6 @@ import {RouteComponentProps} from "react-router-dom";
 import Api from "../Api";
 import MaterialUsageBreakdown from "../Breakdown/MaterialUsageBreakdown";
 import ItemIcon from "../Component/ItemIcon";
-import ClassIcon from "../Component/ClassIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import RawDataViewer from "../Component/RawDataViewer";
@@ -188,13 +187,6 @@ class MaterialPage extends React.Component<IProps, IState> {
                         ].map(i => (
                             <Tab key={i} eventKey={i} title={i.replace(/^\w/, c => c.toUpperCase())}>
                                 <br/>
-                                <h3>
-                                    <ClassIcon className={i} height={50}/>
-                                    {' '}
-                                    <span className="hoverText" style={{whiteSpace: "normal"}}>
-                                        {i.replace(/^\w/, c => c.toUpperCase())}
-                                    </span>
-                                </h3>
                                 <MaterialUsageBreakdown
                                     usageData={servantMaterialUsage.filter(servant => servant.className === i)}
                                     region={this.props.region}
@@ -203,14 +195,6 @@ class MaterialPage extends React.Component<IProps, IState> {
                         ))
                     }
                     <Tab key={ClassName.EXTRA.toLowerCase()} eventKey={ClassName.EXTRA.toLowerCase()} title={'Extra'}>
-                        <br/>
-                        <h3>
-                            <ClassIcon className={ClassName.EXTRA} height={50}/>
-                            {' '}
-                            <span className="hoverText" style={{whiteSpace: "normal"}}>
-                                {'Extra'}
-                            </span>
-                        </h3>
                         <br/>
                         <MaterialUsageBreakdown
                             usageData={servantMaterialUsage.filter(servant => this.isExtra(servant.className))}
