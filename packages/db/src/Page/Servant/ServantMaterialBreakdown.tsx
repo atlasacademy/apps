@@ -1,6 +1,7 @@
 import {Entity, Item, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import ItemIcon from "../../Component/ItemIcon";
 
 const qpItem: Item.Item = {
@@ -69,11 +70,13 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                             {this.props.materials[key].items.map(
                                 (itemAndQuantity, index) => {
                                     return <td key={index}>
-                                        <ItemIcon region={this.props.region}
-                                                  item={itemAndQuantity.item}
-                                                  quantity={itemAndQuantity.amount}
-                                                  height={iconHeight}
-                                                  quantityHeight={18}/>
+                                        <Link to={`/${this.props.region}/material/${itemAndQuantity.item.id}`}>
+                                            <ItemIcon region={this.props.region}
+                                                      item={itemAndQuantity.item}
+                                                      quantity={itemAndQuantity.amount}
+                                                      height={iconHeight}
+                                                      quantityHeight={18}/>
+                                        </Link>
                                     </td>
                                 }
                             )}

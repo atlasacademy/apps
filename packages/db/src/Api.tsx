@@ -103,6 +103,10 @@ class Api {
         return apiConnector.servantList(-1);
     }
 
+    static async servantListNice(): Promise<Servant.Servant[]> {
+        return apiConnector.servantListNice(-1);
+    }
+
     static skill(id: number): Promise<Skill.Skill> {
         return apiConnector.skill(id, cacheDuration);
     }

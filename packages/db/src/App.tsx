@@ -26,6 +26,7 @@ const EnemyPage = React.lazy(() => import('./Page/EnemyPage'));
 const EntitiesPage = React.lazy(() => import('./Page/EntitiesPage'));
 const FuncPage = React.lazy(() => import('./Page/FuncPage'));
 const FuncsPage = React.lazy(() => import('./Page/FuncsPage'));
+const MaterialPage = React.lazy(() => import('./Page/MaterialPage'));
 const MaterialsPage = React.lazy(() => import('./Page/MaterialsPage'));
 const MysticCodePage = React.lazy(() => import("./Page/MysticCodePage"));
 const MysticCodesPage = React.lazy(() => import("./Page/MysticCodesPage"));
@@ -126,6 +127,14 @@ class App extends React.Component<any, IState> {
                             return (
                                 <Suspense fallback={<Loading/>}>
                                     <FuncPage key={`${region}-${id}`} region={region} id={id}/>
+                                </Suspense>
+                            );
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/material/:id([0-9]+)/:tab([a-z0-9\-]+)?" render={props => {
+                            const {region, id, tab} = props.match.params
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <MaterialPage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
                                 </Suspense>
                             );
                         }}/>

@@ -67,6 +67,7 @@ class ApiConnector {
         questPhase: new ResultCache<{ id: number, phase: number }, QuestPhase>(),
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
+        servantListNice: new ResultCache<null, Servant[]>(),
         skill: new ResultCache<number, Skill>(),
         traitList: new ResultCache<null, Trait[]>(),
     };
@@ -326,6 +327,27 @@ class ApiConnector {
             return fetch();
 
         return this.cache.servantList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    servantListNice(cacheDuration?: number): Promise<Servant[]> {
+        let source: string;
+
+        if (this.region === Region.NA) {
+            source = `${this.host}/export/NA/nice_servant.json`;
+        } else if (this.region === Region.JP && this.language === Language.DEFAULT) {
+            source = `${this.host}/export/JP/nice_servant.json`;
+        } else {
+            source = `${this.host}/export/JP/nice_servant_lang_en.json`;
+        }
+
+        const fetch = () => {
+            return ApiConnector.fetch<Servant[]>(source);
+        };
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.servantListNice.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     skill(id: number, cacheDuration?: number): Promise<Skill> {
