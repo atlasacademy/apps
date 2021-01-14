@@ -19,6 +19,7 @@ export default function (func: Func.Func, dataVals?: DataVal.DataVal[]): related
         || buff.type === Buff.BuffType.COMMANDATTACK_FUNCTION
         || buff.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION
         || buff.type === Buff.BuffType.COMMANDCODEATTACK_FUNCTION
+        || buff.type === Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION
         || buff.type === Buff.BuffType.DAMAGE_FUNCTION
         || buff.type === Buff.BuffType.DEAD_FUNCTION
         || buff.type === Buff.BuffType.DELAY_FUNCTION

@@ -62,6 +62,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.AVOIDANCE_INDIVIDUALITY, 'Evade'],
     [Buff.BuffType.CHANGE_COMMAND_CARD_TYPE, 'Change Command Card Types'],
     [Buff.BuffType.COMMANDCODEATTACK_FUNCTION, 'Command Code Effect'],
+    [Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION, 'Command Code After Effect'],
     [Buff.BuffType.BREAK_AVOIDANCE, 'Sure Hit'],
     [Buff.BuffType.DELAY_FUNCTION, 'Trigger Skill after Duration'],
     [Buff.BuffType.DONOT_ACT, 'Stun'],
