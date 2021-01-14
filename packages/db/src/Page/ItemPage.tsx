@@ -30,7 +30,7 @@ interface IState {
     item?: Item.Item;
 }
 
-class MaterialPage extends React.Component<IProps, IState> {
+class ItemPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
@@ -221,4 +221,4 @@ class MaterialPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(MaterialPage);
+export default withRouter(ItemPage);
