@@ -197,7 +197,8 @@ class MaterialPage extends React.Component<IProps, IState> {
                                 </h3>
                                 <MaterialUsageBreakdown
                                     usageData={servantMaterialUsage.filter(servant => servant.className === i)}
-                                    region={this.props.region}/>
+                                    region={this.props.region}
+                                    servants={this.state.servants}/>
                             </Tab>
                         ))
                     }
@@ -213,7 +214,8 @@ class MaterialPage extends React.Component<IProps, IState> {
                         <br/>
                         <MaterialUsageBreakdown
                             usageData={servantMaterialUsage.filter(servant => this.isExtra(servant.className))}
-                            region={this.props.region}/>
+                            region={this.props.region}
+                            servants={this.state.servants}/>
                     </Tab>
                 </Tabs>
             </div>

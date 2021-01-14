@@ -1,64 +1,19 @@
 import {Servant, Region} from "@atlasacademy/api-connector";
-import {AxiosError} from "axios";
 import React from "react";
 import {Table} from "react-bootstrap";
-import ErrorStatus from "../Component/ErrorStatus";
-import Loading from "../Component/Loading";
 import {Link} from "react-router-dom";
 import FaceIcon from "../Component/FaceIcon";
 import {MaterialUsageData} from "../Page/Material/MaterialUsageData";
-import Api from "../Api";
-import Manager from "../Setting/Manager";
 
 interface IProps {
     region: Region;
     usageData: MaterialUsageData[];
+    servants: Servant.Servant[];
 }
 
-interface IState {
-    error?: AxiosError;
-    loading: boolean;
-    servants: Servant.ServantBasic[];
-}
-
-class MaterialUsageBreakdown extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
-
-        this.state = {
-            loading: true,
-            servants: [],
-        };
-    }
-
-    componentDidMount() {
-        try {
-            Manager.setRegion(this.props.region);
-            Api.servantList().then(servantList => {
-                this.setState({
-                    loading: false,
-                    servants: servantList,
-                });
-            });
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
-    }
-
-    private servants(): Servant.ServantBasic[] {
-        return this.state.servants;
-    }
-
+class MaterialUsageBreakdown extends React.Component<IProps> {
     render() {
-        if (this.state.error)
-            return <ErrorStatus error={this.state.error}/>;
-
-        if (this.state.loading)
-            return <Loading/>;
-
-        const servants = this.servants(),
+        const servants = this.props.servants,
             region = this.props.region,
             usageData = this.props.usageData;
 
@@ -74,21 +29,21 @@ class MaterialUsageBreakdown extends React.Component<IProps, IState> {
                     <th>Total Uses</th>
                 </tr>
                 {usageData.map(servantUsage => {
-                    const servantBasic = servants.find(basicServant => basicServant.id === servantUsage.id);
-                    if (!servantBasic) return null;
-                    const route = `/${region}/servant/${servantBasic.id}/materials`;
+                    const servant = servants.find(basicServant => basicServant.id === servantUsage.id);
+                    if (!servant) return null;
+                    const route = `/${region}/servant/${servant.id}/materials`;
 
                     return (
-                        <tr key={servantBasic.id}>
+                        <tr key={servant.id}>
                             <td align={"center"}>
                                 <Link to={route}>
-                                    <FaceIcon location={servantBasic.face}
+                                    <FaceIcon location={servant.extraAssets?.faces.ascension ? servant.extraAssets?.faces.ascension[1] : ""}
                                               height={50}/>
                                 </Link>
                             </td>
                             <td>
                                 <Link to={route}>
-                                    {servantBasic.name}
+                                    {servant.name}
                                 </Link>
                             </td>
                             <td>{servantUsage.ascensions}</td>
