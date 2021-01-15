@@ -12,6 +12,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import RawDataViewer from "../Component/RawDataViewer";
 import Loading from "../Component/Loading";
 import TraitDescription from "../Descriptor/TraitDescription";
+import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import {mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 
@@ -56,10 +57,19 @@ class ItemPage extends React.Component<IProps, IState> {
     }
 
     private itemIsMaterial(item: Item.Item): boolean {
-        if (item.type === Item.ItemType.SKILL_LV_UP || item.type === Item.ItemType.TD_LV_UP) {
-            return ((item.id > 6000 && item.id < 6208) // Matches Gems
-                || (item.id > 6500 && item.id < 6600) // Matches Mats
-                || (item.id > 7000 && item.id < 7108)); // Matches Statues
+        if (item.type === Item.ItemType.SKILL_LV_UP) {
+            return (item.detail.startsWith("\"Skill Up")
+                || item.detail.startsWith("【スキル強化"));
+        }
+        if (item.type === Item.ItemType.TD_LV_UP) {
+            return (item.detail.startsWith("\"Ascension Material\"")
+                || item.detail.startsWith("【霊基再臨素材】"));
+        }
+        if (item.type === Item.ItemType.EVENT_ITEM) {
+            return (item.detail.startsWith("\"Ascension Material\"")
+                || item.detail.startsWith("Ascension Material")
+                || item.detail.startsWith("\"Event Item/Ascension Material\"")
+                || item.detail.startsWith("【霊基再臨素材】"));
         }
         return false;
     }
@@ -159,8 +169,7 @@ class ItemPage extends React.Component<IProps, IState> {
             <Table hover>
                 <thead>
                 <tr>
-                    <th style={{textAlign: "center", width: '1px'}}>Thumbnail</th>
-                    <th>Servant</th>
+                    <th colSpan={2}>Servant</th>
                     <th>Uses in Ascension</th>
                     <th>Uses in Skill</th>
                     <th>Uses in Costume</th>
@@ -173,7 +182,7 @@ class ItemPage extends React.Component<IProps, IState> {
 
                     return (
                         <tr key={servant.id}>
-                            <td align={"center"}>
+                            <td align={"center"} style={{textAlign: "center", width: '1px'}}>
                                 <Link to={route}>
                                     <FaceIcon location={servant.extraAssets?.faces.ascension
                                                         ? servant.extraAssets?.faces.ascension[1]
@@ -198,7 +207,7 @@ class ItemPage extends React.Component<IProps, IState> {
         );
     }
 
-    private renderMaterialBreakdown() {
+    private renderMaterialBreakdown(): JSX.Element {
         return (
             <Tabs id={'material-tabs'} defaultActiveKey={this.props.tab ?? 'saber'} mountOnEnter={true}
               onSelect={(key: string | null) => {
@@ -223,6 +232,25 @@ class ItemPage extends React.Component<IProps, IState> {
                     ))
                 }
             </Tabs>
+        );
+    }
+
+    private renderEventServantMaterial(): JSX.Element {
+        let servants = this.state.servants
+                .filter(servant => (servant.type !== Entity.EntityType.ENEMY_COLLECTION_DETAIL))
+                .sort((a,b) => a.collectionNo - b.collectionNo);
+        const region = this.props.region,
+            servant = servants.find(servant => (
+                this.reduceMaterials(servant.ascensionMaterials) > 0
+            ));
+        if (!servant) return (
+            <b>Error while finding Event Servant</b>
+        );
+
+        return (
+            <DataTable data={{
+                "Used by": <ServantDescriptor servant={servant} region={region}/>
+            }}/>
         );
     }
 
@@ -274,9 +302,14 @@ class ItemPage extends React.Component<IProps, IState> {
                         data={`https://api.atlasacademy.io/raw/${this.props.region}/item/${item.id}`}/>
                 </div>
 
-                {this.state.isMaterial
-                    ? this.renderMaterialBreakdown()
-                    : undefined}
+                {item.type === Item.ItemType.EVENT_ITEM
+                    ? (this.state.isMaterial
+                        ? this.renderEventServantMaterial()
+                        : undefined)
+                    : (this.state.isMaterial
+                        ? this.renderMaterialBreakdown()
+                        : undefined)
+                }
             </div>
         );
     }
