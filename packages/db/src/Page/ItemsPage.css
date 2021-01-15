@@ -1,8 +1,8 @@
-#materials .filter {
+#items .filter {
     cursor: pointer;
     margin: 0 10px;
 }
 
-#materials table>tbody>tr>td {
+#items table>tbody>tr>td {
     vertical-align: middle;
 }

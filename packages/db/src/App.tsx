@@ -27,7 +27,7 @@ const EntitiesPage = React.lazy(() => import('./Page/EntitiesPage'));
 const FuncPage = React.lazy(() => import('./Page/FuncPage'));
 const FuncsPage = React.lazy(() => import('./Page/FuncsPage'));
 const ItemPage = React.lazy(() => import('./Page/ItemPage'));
-const MaterialsPage = React.lazy(() => import('./Page/MaterialsPage'));
+const ItemsPage = React.lazy(() => import('./Page/ItemsPage'));
 const MysticCodePage = React.lazy(() => import("./Page/MysticCodePage"));
 const MysticCodesPage = React.lazy(() => import("./Page/MysticCodesPage"));
 const NoblePhantasmPage = React.lazy(() => import("./Page/NoblePhantasmPage"));
@@ -228,11 +228,11 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/materials" render={props => {
-                            const {region} = props.match.params;
+                        <Route exact={true} path="/:region(JP|NA)/items/:tab([a-z0-9\-]+)?" render={props => {
+                            const {region, tab} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <MaterialsPage key={region} region={region}/>
+                                    <ItemsPage key={region} region={region} tab={tab}/>
                                 </Suspense>
                             );
                         }}/>
