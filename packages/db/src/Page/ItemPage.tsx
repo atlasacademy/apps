@@ -1,12 +1,12 @@
-import {Region, Servant, ClassName, Item, Entity} from "@atlasacademy/api-connector";
+import {Region, Servant, ClassName, Entity, Item} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
-import {Tab, Tabs} from "react-bootstrap";// Col, Row,
+import {Table, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
-import {RouteComponentProps} from "react-router-dom";
+import {Link, RouteComponentProps} from "react-router-dom";
 import Api from "../Api";
-import MaterialUsageBreakdown from "../Breakdown/MaterialUsageBreakdown";
 import ItemIcon from "../Component/ItemIcon";
+import FaceIcon from "../Component/FaceIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import RawDataViewer from "../Component/RawDataViewer";
@@ -14,7 +14,6 @@ import Loading from "../Component/Loading";
 import TraitDescription from "../Descriptor/TraitDescription";
 import {mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
-import {MaterialUsageData} from "./Material/MaterialUsageData";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -28,6 +27,15 @@ interface IState {
     id: number;
     servants: Servant.Servant[];
     item?: Item.Item;
+    isMaterial?: boolean;
+}
+
+interface MaterialUsageData {
+    id: number;
+    ascensions: number;
+    skills: number;
+    costumes: number;
+    total: number;
 }
 
 class ItemPage extends React.Component<IProps, IState> {
@@ -37,6 +45,7 @@ class ItemPage extends React.Component<IProps, IState> {
         this.state = {
             loading: true,
             id: this.props.id,
+            isMaterial: false,
             servants: [],
         };
     }
@@ -46,27 +55,33 @@ class ItemPage extends React.Component<IProps, IState> {
         this.loadData();
     }
 
-    private itemIsMaterial(item: Item.Item) {
+    private itemIsMaterial(item: Item.Item): boolean {
         if (item.type === Item.ItemType.SKILL_LV_UP || item.type === Item.ItemType.TD_LV_UP) {
-            if ((item.id > 6000 && item.id < 6208) || // Matches Gems
-                (item.id > 6500 && item.id < 6600) || // Matches Mats
-                (item.id > 7000 && item.id < 7108)) return true; // Matches Statues
+            return ((item.id > 6000 && item.id < 6208) // Matches Gems
+                || (item.id > 6500 && item.id < 6600) // Matches Mats
+                || (item.id > 7000 && item.id < 7108)); // Matches Statues
         }
         return false;
     }
 
     async loadData() {
         try {
-            let [servants, item] = await Promise.all<Servant.Servant[], Item.Item>([
-                Api.servantListNice(),
-                Api.item(this.state.id)
-            ]);
+            let item = await Api.item(this.state.id);
 
-            this.setState({
-                loading: false,
-                servants,
-                item
-            });
+            if (this.itemIsMaterial(item)) {
+                let servants = await Api.servantListNice();
+                this.setState({
+                    loading: false,
+                    isMaterial: true,
+                    servants,
+                    item
+                });
+            } else {
+                this.setState({
+                    loading: false,
+                    item
+                });
+            }
         } catch (e) {
             this.setState({
                 error: e
@@ -74,7 +89,17 @@ class ItemPage extends React.Component<IProps, IState> {
         }
     }
 
-    private reduceMaterials(materials: Entity.EntityLevelUpMaterialProgression) {
+    private isExtra(className: ClassName): boolean {
+        return !(className === ClassName.SABER
+            || className === ClassName.ARCHER
+            || className === ClassName.LANCER
+            || className === ClassName.RIDER
+            || className === ClassName.CASTER
+            || className === ClassName.ASSASSIN
+            || className === ClassName.BERSERKER);
+    }
+
+    private reduceMaterials(materials: Entity.EntityLevelUpMaterialProgression): number {
         if (Object.values(materials).length === 0) return 0;
 
         return Object.values(materials).map(stage => {
@@ -91,7 +116,6 @@ class ItemPage extends React.Component<IProps, IState> {
     private servantProcessMaterials(servant: Servant.Servant):MaterialUsageData {
         let servantProcessed = {
             "id": servant.id,
-            "className": this.isExtra(servant.className) ? ClassName.EXTRA : servant.className,
             "ascensions": 0,
             "skills": 0,
             "costumes": 0,
@@ -112,26 +136,69 @@ class ItemPage extends React.Component<IProps, IState> {
         return servantProcessed;
     }
 
-    private isExtra(className: ClassName): boolean {
-        return !(className === ClassName.SABER
-            || className === ClassName.ARCHER
-            || className === ClassName.LANCER
-            || className === ClassName.RIDER
-            || className === ClassName.CASTER
-            || className === ClassName.ASSASSIN
-            || className === ClassName.BERSERKER);
+    private renderBreakdownTabContent(className: ClassName) {
+        let servants = this.state.servants
+                .filter(servant => (servant.type !== Entity.EntityType.ENEMY_COLLECTION_DETAIL))
+                .sort((a,b) => a.collectionNo - b.collectionNo);
+        const region = this.props.region;
+
+        // Filter servants by className
+        if (this.isExtra(className)) {
+            servants = servants.filter(servant => this.isExtra(servant.className));
+        } else {
+            servants = servants.filter(servant => servant.className === className);
+        }
+
+        // Compile usageData
+        const usageData = servants
+            .map(servant => (this.servantProcessMaterials(servant)))
+            // filter servants that don't use the material
+            .filter(servant => servant.total > 1);
+
+        return (
+            <Table hover>
+                <thead>
+                <tr>
+                    <th style={{textAlign: "center", width: '1px'}}>Thumbnail</th>
+                    <th>Servant</th>
+                    <th>Uses in Ascension</th>
+                    <th>Uses in Skill</th>
+                    <th>Uses in Costume</th>
+                    <th>Total Uses</th>
+                </tr>
+                {usageData.map(servantUsage => {
+                    const servant = servants.find(basicServant => basicServant.id === servantUsage.id);
+                    if (!servant) return null;
+                    const route = `/${region}/servant/${servant.id}/materials`;
+
+                    return (
+                        <tr key={servant.id}>
+                            <td align={"center"}>
+                                <Link to={route}>
+                                    <FaceIcon location={servant.extraAssets?.faces.ascension
+                                                        ? servant.extraAssets?.faces.ascension[1]
+                                                        : ""}
+                                              height={50}/>
+                                </Link>
+                            </td>
+                            <td>
+                                <Link to={route}>
+                                    {servant.name}
+                                </Link>
+                            </td>
+                            <td>{servantUsage.ascensions}</td>
+                            <td>{servantUsage.skills}</td>
+                            <td>{servantUsage.costumes}</td>
+                            <td>{servantUsage.total}</td>
+                        </tr>
+                    );
+                })}
+                </thead>
+            </Table>
+        );
     }
 
-    private renderUsageTabs() {
-        const servants = this.state.servants
-                .filter(servant => (servant.type !== Entity.EntityType.ENEMY_COLLECTION_DETAIL))
-                .sort((a,b) => a.collectionNo - b.collectionNo), // sort by collectionNo
-            // process data
-            servantMaterialUsage = servants
-                .map(servant => (this.servantProcessMaterials(servant)))
-                // filter servants that don't use the material
-                .filter(servant => servant.total > 1);
-
+    private renderMaterialBreakdown() {
         return (
             <Tabs id={'material-tabs'} defaultActiveKey={this.props.tab ?? 'saber'} mountOnEnter={true}
               onSelect={(key: string | null) => {
@@ -145,24 +212,16 @@ class ItemPage extends React.Component<IProps, IState> {
                         ClassName.RIDER,
                         ClassName.CASTER,
                         ClassName.ASSASSIN,
-                        ClassName.BERSERKER
-                    ].map(i => (
-                        <Tab key={i} eventKey={i} title={i.replace(/^\w/, c => c.toUpperCase())}>
+                        ClassName.BERSERKER,
+                        ClassName.EXTRA
+                    ].map(className => (
+                        <Tab key={className.toLowerCase()} eventKey={className.toLowerCase()}
+                             title={className.toLowerCase().replace(/^\w/, c => c.toUpperCase())}>
                             <br/>
-                            <MaterialUsageBreakdown
-                                usageData={servantMaterialUsage.filter(servant => servant.className === i)}
-                                region={this.props.region}
-                                servants={this.state.servants}/>
+                            {this.renderBreakdownTabContent(className)}
                         </Tab>
                     ))
                 }
-                <Tab key={ClassName.EXTRA.toLowerCase()} eventKey={ClassName.EXTRA.toLowerCase()} title={'Extra'}>
-                    <br/>
-                    <MaterialUsageBreakdown
-                        usageData={servantMaterialUsage.filter(servant => this.isExtra(servant.className))}
-                        region={this.props.region}
-                        servants={this.state.servants}/>
-                </Tab>
             </Tabs>
         );
     }
@@ -175,7 +234,7 @@ class ItemPage extends React.Component<IProps, IState> {
             return <Loading/>;
 
         const item = this.state.item;
-        document.title = `[${this.props.region}] Item - ${item.name} - Atlas Academy DB`;
+        document.title = `[${this.props.region}] ${this.state.isMaterial ? "Material" : "Item"} - ${item.name} - Atlas Academy DB`;
 
         return (
             <div id={'item.id'}>
@@ -215,7 +274,9 @@ class ItemPage extends React.Component<IProps, IState> {
                         data={`https://api.atlasacademy.io/raw/${this.props.region}/item/${item.id}`}/>
                 </div>
 
-                {this.itemIsMaterial(item) ? this.renderUsageTabs() : undefined}
+                {this.state.isMaterial
+                    ? this.renderMaterialBreakdown()
+                    : undefined}
             </div>
         );
     }
