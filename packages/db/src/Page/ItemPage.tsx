@@ -12,6 +12,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import RawDataViewer from "../Component/RawDataViewer";
 import Loading from "../Component/Loading";
 import TraitDescription from "../Descriptor/TraitDescription";
+import ItemUseDescription from "../Descriptor/ItemUseDescription";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import {mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
@@ -284,10 +285,7 @@ class ItemPage extends React.Component<IProps, IState> {
                     "Type": item.type,
                     "Uses": (
                         <div>
-                            {mergeElements(
-                                item.uses,
-                                ', '
-                            )}
+                            <ItemUseDescription region={this.props.region} item={item}/>
                         </div>
                     )
                 }}/>
