@@ -281,7 +281,15 @@ class ItemPage extends React.Component<IProps, IState> {
                             )}
                         </div>
                     ),
-                    "Type": item.type
+                    "Type": item.type,
+                    "Uses": (
+                        <div>
+                            {mergeElements(
+                                item.uses,
+                                ', '
+                            )}
+                        </div>
+                    )
                 }}/>
 
                 <div style={{ marginBottom: '3%' }}>
