@@ -152,53 +152,53 @@ class ItemsPage extends React.Component<IProps, IState> {
     }
 
     private getServantMaterials(itemList: Item.Item[]): Item.Item[] {
+        // This function is intended to sort Materials in roughly
+        // the same order as the Item List ingame does
         let items = itemList.sort((a,b) => (a.id-b.id)),
             materialsGems = items.filter(item => (
                 item.type === Item.ItemType.SKILL_LV_UP
-                && (item.detail.startsWith("\"Skill Up Material\"")
-                    || item.detail.startsWith("【スキル強化素材】"))
+                && item.uses.includes(Item.ItemUse.SKILL)
+                && !item.uses.includes(Item.ItemUse.ASCENSION)
+                && item.id !== 6999 // Crystallized Lore goes after mats
             )),
             materials = items.filter(item => (
                 item.type === Item.ItemType.SKILL_LV_UP
-                && (item.detail.startsWith("\"Skill Up & Ascension Material\"")
-                    || item.detail.startsWith("【スキル強化＆霊基再臨素材"))
+                && item.uses.includes(Item.ItemUse.SKILL)
+                && item.uses.includes(Item.ItemUse.ASCENSION)
             )),
+            materialsLore = items.filter(item => item.id === 6999),
             materialsStatues = items.filter(item => (
                 item.type === Item.ItemType.TD_LV_UP
-                && (item.detail.startsWith("\"Ascension Material\"")
-                    || item.detail.startsWith("【霊基再臨素材】"))
+                && item.uses.includes(Item.ItemUse.ASCENSION)
             )),
             eventServantMaterials = items.filter(item => (
                 item.type === Item.ItemType.EVENT_ITEM
-                && (item.detail.startsWith("\"Ascension Material\"")
-                    || item.detail.startsWith("Ascension Material")
-                    || item.detail.startsWith("\"Event Item/Ascension Material\"")
-                    || item.detail.startsWith("【霊基再臨素材】"))
+                && item.uses.includes(Item.ItemUse.ASCENSION)
             ));
 
         return materialsGems.concat( // All Gems
             materials.filter(material => (material.background === Item.ItemBackgroundType.BRONZE)), // All Bronze mats
             materials.filter(material => (material.background === Item.ItemBackgroundType.SILVER)), // All Silver mats
             materials.filter(material => (material.background === Item.ItemBackgroundType.GOLD)), // All Gold mats
+            materialsLore,
             materialsStatues, // All Statues
             eventServantMaterials // Welfare Ascension Materials
         );
     }
 
     private getEventItems(itemList: Item.Item[]): Item.Item[] {
-        let items = itemList.sort((a,b) => (a.id-b.id));
+        let items = itemList.sort((a,b) => (a.id-b.id)),
+            eventItemTypes = [
+                Item.ItemType.EVENT_ITEM,
+                Item.ItemType.EVENT_POINT,
+                Item.ItemType.RP_ADD,
+                Item.ItemType.BOOST_ITEM,
+                Item.ItemType.DICE
+            ]
 
         return items.filter(item => (
-            (item.type === Item.ItemType.EVENT_ITEM
-                || item.type === Item.ItemType.EVENT_POINT
-                || item.detail.startsWith("\"Event")
-                || item.detail.startsWith("Event")
-                || item.detail.startsWith("【イベント")
-            )
-            && !item.detail.startsWith("\"Ascension Material\"")
-            && !item.detail.startsWith("Ascension Material")
-            && !item.detail.startsWith("\"Event Item/Ascension Material\"")
-            && !item.detail.startsWith("【霊基再臨素材】")
+            eventItemTypes.includes(item.type)
+            && !item.uses.includes(Item.ItemUse.ASCENSION)
         ));
     }
 

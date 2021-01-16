@@ -57,21 +57,10 @@ class ItemPage extends React.Component<IProps, IState> {
     }
 
     private itemIsMaterial(item: Item.Item): boolean {
-        if (item.type === Item.ItemType.SKILL_LV_UP) {
-            return (item.detail.startsWith("\"Skill Up")
-                || item.detail.startsWith("【スキル強化"));
-        }
-        if (item.type === Item.ItemType.TD_LV_UP) {
-            return (item.detail.startsWith("\"Ascension Material\"")
-                || item.detail.startsWith("【霊基再臨素材】"));
-        }
-        if (item.type === Item.ItemType.EVENT_ITEM) {
-            return (item.detail.startsWith("\"Ascension Material\"")
-                || item.detail.startsWith("Ascension Material")
-                || item.detail.startsWith("\"Event Item/Ascension Material\"")
-                || item.detail.startsWith("【霊基再臨素材】"));
-        }
-        return false;
+        return item.uses.includes(Item.ItemUse.SKILL)
+            || (item.uses.includes(Item.ItemUse.ASCENSION)
+                && (item.type === Item.ItemType.TD_LV_UP
+                    || item.type === Item.ItemType.EVENT_ITEM))
     }
 
     async loadData() {

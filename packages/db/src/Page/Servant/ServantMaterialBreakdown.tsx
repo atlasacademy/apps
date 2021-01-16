@@ -8,6 +8,7 @@ const qpItem: Item.Item = {
     id: 1,
     name: "QP",
     type: Item.ItemType.QP,
+    uses: [],
     detail: "\"Synthesis Resource\"\nA Quantum Particle.\nA fluctuation in the spiritron that grants many possibilities.\nUsed as fuels to conduct all sorts of magecraft.",
     individuality: [],
     icon: "https://assets.atlasacademy.io/GameData/NA/Items/5.png",

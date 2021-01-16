@@ -37,10 +37,17 @@ export enum ItemType {
     DICE = "dice",
 }
 
+export enum ItemUse {
+    SKILL = "skill",
+    ASCENSION = "ascension",
+    COSTUME = "costume",
+}
+
 export interface Item {
     id: number;
     name: string;
     type: ItemType;
+    uses: ItemUse[];
     detail: string;
     individuality: Trait[];
     icon: string;
