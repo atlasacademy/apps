@@ -52,4 +52,6 @@ export interface Item {
     individuality: Trait[];
     icon: string;
     background: ItemBackgroundType;
+    priority: number;
+    dropPriority: number;
 }
