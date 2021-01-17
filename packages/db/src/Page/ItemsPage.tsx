@@ -43,6 +43,14 @@ interface PaginatedTab {
     items: Item.Item[];
 }
 
+let EVENT_ITEM_TYPES = [
+    Item.ItemType.EVENT_ITEM,
+    Item.ItemType.EVENT_POINT,
+    Item.ItemType.RP_ADD,
+    Item.ItemType.BOOST_ITEM,
+    Item.ItemType.DICE
+];
+
 class ItemsPage extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
@@ -149,54 +157,29 @@ class ItemsPage extends React.Component<IProps, IState> {
         this.setState({page});
     }
 
-    private getServantMaterials(itemList: Item.Item[]): Item.Item[] {
-        // This function is intended to sort Materials in roughly
-        // the same order as the Item List ingame does
-        let items = itemList.sort((a,b) => (a.id-b.id)),
-            materialsGems = items.filter(item => (
-                item.type === Item.ItemType.SKILL_LV_UP
-                && item.uses.includes(Item.ItemUse.SKILL)
-                && !item.uses.includes(Item.ItemUse.ASCENSION)
-                && item.id !== 6999 // Crystallized Lore goes after mats
-            )),
-            materials = items.filter(item => (
-                item.type === Item.ItemType.SKILL_LV_UP
-                && item.uses.includes(Item.ItemUse.SKILL)
-                && item.uses.includes(Item.ItemUse.ASCENSION)
-            )),
-            materialsLore = items.filter(item => item.id === 6999),
-            materialsStatues = items.filter(item => (
-                item.type === Item.ItemType.TD_LV_UP
-                && item.uses.includes(Item.ItemUse.ASCENSION)
-            )),
-            eventServantMaterials = items.filter(item => (
-                item.type === Item.ItemType.EVENT_ITEM
-                && item.uses.includes(Item.ItemUse.ASCENSION)
-            ));
+    private isServantMaterial(itemType: Item.ItemType, itemUses: Item.ItemUse[]): boolean {
+        return (itemType === Item.ItemType.SKILL_LV_UP && itemUses.includes(Item.ItemUse.SKILL))
+            || (
+                (itemType === Item.ItemType.TD_LV_UP || itemType === Item.ItemType.EVENT_ITEM)
+                && itemUses.includes(Item.ItemUse.ASCENSION)
+            )
+    }
 
-        return materialsGems.concat( // All Gems
-            materials.filter(material => (material.background === Item.ItemBackgroundType.BRONZE)), // All Bronze mats
-            materials.filter(material => (material.background === Item.ItemBackgroundType.SILVER)), // All Silver mats
-            materials.filter(material => (material.background === Item.ItemBackgroundType.GOLD)), // All Gold mats
-            materialsLore,
-            materialsStatues, // All Statues
-            eventServantMaterials // Welfare Ascension Materials
-        );
+    private getServantMaterials(itemList: Item.Item[]): Item.Item[] {
+        return itemList.filter(item => this.isServantMaterial(item.type, item.uses));
+    }
+
+    private isEventItem(itemType: Item.ItemType, itemUses: Item.ItemUse[]): boolean {
+        return EVENT_ITEM_TYPES.includes(itemType) && !itemUses.includes(Item.ItemUse.ASCENSION)
     }
 
     private getEventItems(itemList: Item.Item[]): Item.Item[] {
-        let items = itemList.sort((a,b) => (a.id-b.id)),
-            eventItemTypes = [
-                Item.ItemType.EVENT_ITEM,
-                Item.ItemType.EVENT_POINT,
-                Item.ItemType.RP_ADD,
-                Item.ItemType.BOOST_ITEM,
-                Item.ItemType.DICE
-            ]
+        return itemList.filter(item => this.isEventItem(item.type, item.uses));
+    }
 
-        return items.filter(item => (
-            eventItemTypes.includes(item.type)
-            && !item.uses.includes(Item.ItemUse.ASCENSION)
+    private getOtherItems(itemList: Item.Item[]): Item.Item[] {
+        return itemList.filter(item => (
+            !this.isServantMaterial(item.type, item.uses) && !this.isEventItem(item.type, item.uses)
         ));
     }
 
@@ -220,34 +203,23 @@ class ItemsPage extends React.Component<IProps, IState> {
         return list;
     }
 
-    private createTabs(itemList: Item.Item[]) {
-        let tabs:PaginatedTab[] = [
+    private createTabs(itemList: Item.Item[]): PaginatedTab[] {
+        let items = itemList.sort((a,b) => (a.priority - b.priority || a.id - b.id))
+        return [
             {
                 key: "servant-materials",
                 title: "Servant Materials",
-                items: this.getServantMaterials(itemList)
+                items: this.getServantMaterials(items)
             },{
                 key: "event-items",
                 title: "Event Items",
-                items: this.getEventItems(itemList)
+                items: this.getEventItems(items)
+            },{
+                key: "items",
+                title: "Other Items",
+                items: this.getOtherItems(items)
             }
         ];
-        // compile a list of all categorized IDs
-        let categorizedItemIds = tabs.map(
-                tab => tab.items.map(item => item.id)
-            ).flat(),
-            // find all other items
-            uncategorizedItems = itemList.filter(item => (
-                !categorizedItemIds.includes(item.id)
-            )).sort((a,b) => a.id-b.id);
-        // Push default item tab
-        tabs.push({
-            key: "items",
-            title: "Other Items",
-            items: uncategorizedItems
-        });
-
-        return tabs;
     }
 
     private renderTab(index: number): JSX.Element {
