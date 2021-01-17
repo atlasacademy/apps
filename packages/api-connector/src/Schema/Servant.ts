@@ -28,12 +28,12 @@ export interface ServantScript {
 }
 
 export interface Servant extends Entity {
-    type: EntityType.NORMAL | EntityType.HEROINE;
+    type: EntityType.NORMAL | EntityType.HEROINE | EntityType.ENEMY_COLLECTION_DETAIL;
     ascensionAdd: ServantAscensionAdditions;
     script: ServantScript;
     profile?: Profile,
 }
 
 export interface ServantBasic extends EntityBasic {
-    type: EntityType.NORMAL | EntityType.HEROINE;
+    type: EntityType.NORMAL | EntityType.HEROINE | EntityType.ENEMY_COLLECTION_DETAIL;
 }

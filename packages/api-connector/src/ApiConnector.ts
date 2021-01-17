@@ -11,6 +11,7 @@ import {Enemy} from "./Schema/Enemy";
 import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
 import {Event} from "./Schema/Event";
 import {BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
+import {Item} from "./Schema/Item";
 import {MysticCode, MysticCodeBasic} from "./Schema/MysticCode";
 import {NoblePhantasm} from "./Schema/NoblePhantasm";
 import {QuestPhase} from "./Schema/Quest";
@@ -58,12 +59,15 @@ class ApiConnector {
         enemy: new ResultCache<number, Enemy>(),
         event: new ResultCache<number, Event>(),
         func: new ResultCache<number, Func>(),
+        item: new ResultCache<number, Item>(),
+        itemList: new ResultCache<null, Item[]>(),
         mysticCode: new ResultCache<number, MysticCode>(),
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
         questPhase: new ResultCache<{ id: number, phase: number }, QuestPhase>(),
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
+        servantListNice: new ResultCache<null, Servant[]>(),
         skill: new ResultCache<number, Skill>(),
         traitList: new ResultCache<null, Trait[]>(),
     };
@@ -203,6 +207,32 @@ class ApiConnector {
         return this.cache.func.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
+    item(id: number, cacheDuration?: number): Promise<Item> {
+        const fetch = () => {
+            return ApiConnector.fetch<Item>(
+                `${this.host}/nice/${this.region}/item/${id}`
+            );
+        }
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.item.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    itemList(cacheDuration?: number): Promise<Item[]> {
+        const fetch = () => {
+            return ApiConnector.fetch<Item[]>(
+                `${this.host}/export/${this.region}/nice_item.json`
+            );
+        }
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.itemList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
     mysticCode(id: number, cacheDuration?: number): Promise<MysticCode> {
         const fetch = () => {
             return ApiConnector.fetch<MysticCode>(
@@ -297,6 +327,27 @@ class ApiConnector {
             return fetch();
 
         return this.cache.servantList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    servantListNice(cacheDuration?: number): Promise<Servant[]> {
+        let source: string;
+
+        if (this.region === Region.NA) {
+            source = `${this.host}/export/NA/nice_servant.json`;
+        } else if (this.region === Region.JP && this.language === Language.DEFAULT) {
+            source = `${this.host}/export/JP/nice_servant.json`;
+        } else {
+            source = `${this.host}/export/JP/nice_servant_lang_en.json`;
+        }
+
+        const fetch = () => {
+            return ApiConnector.fetch<Servant[]>(source);
+        };
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.servantListNice.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     skill(id: number, cacheDuration?: number): Promise<Skill> {

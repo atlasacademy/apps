@@ -26,6 +26,8 @@ const EnemyPage = React.lazy(() => import('./Page/EnemyPage'));
 const EntitiesPage = React.lazy(() => import('./Page/EntitiesPage'));
 const FuncPage = React.lazy(() => import('./Page/FuncPage'));
 const FuncsPage = React.lazy(() => import('./Page/FuncsPage'));
+const ItemPage = React.lazy(() => import('./Page/ItemPage'));
+const ItemsPage = React.lazy(() => import('./Page/ItemsPage'));
 const MysticCodePage = React.lazy(() => import("./Page/MysticCodePage"));
 const MysticCodesPage = React.lazy(() => import("./Page/MysticCodesPage"));
 const NoblePhantasmPage = React.lazy(() => import("./Page/NoblePhantasmPage"));
@@ -128,6 +130,14 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
+                        <Route exact={true} path="/:region(JP|NA)/item/:id([0-9]+)/:tab([a-z0-9\-]+)?" render={props => {
+                            const {region, id, tab} = props.match.params
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <ItemPage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
+                                </Suspense>
+                            );
+                        }}/>
                         <Route exact={true} path="/:region(JP|NA)/mystic-code/:id([0-9]+)/:tab([a-z0-9\-]+)?"
                                render={props => {
                                    const {region, id, tab} = props.match.params
@@ -215,6 +225,14 @@ class App extends React.Component<any, IState> {
                             return (
                                 <Suspense fallback={<Loading/>}>
                                     <FuncsPage key={region} region={region}/>
+                                </Suspense>
+                            );
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/items/:tab([a-z0-9\-]+)?" render={props => {
+                            const {region, tab} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <ItemsPage key={region} region={region} tab={tab}/>
                                 </Suspense>
                             );
                         }}/>

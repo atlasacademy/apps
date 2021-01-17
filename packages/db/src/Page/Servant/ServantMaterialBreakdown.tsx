@@ -1,14 +1,20 @@
 import {Entity, Item, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import ItemIcon from "../../Component/ItemIcon";
 
 const qpItem: Item.Item = {
     id: 1,
     name: "QP",
     type: Item.ItemType.QP,
+    uses: [],
+    detail: "\"Synthesis Resource\"\nA Quantum Particle.\nA fluctuation in the spiritron that grants many possibilities.\nUsed as fuels to conduct all sorts of magecraft.",
+    individuality: [],
     icon: "https://assets.atlasacademy.io/GameData/NA/Items/5.png",
-    background: Item.ItemBackgroundType.ZERO
+    background: Item.ItemBackgroundType.ZERO,
+    priority: 10,
+    dropPriority: 510,
 };
 
 const iconHeight = 75;
@@ -68,11 +74,13 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                             {this.props.materials[key].items.map(
                                 (itemAndQuantity, index) => {
                                     return <td key={index}>
-                                        <ItemIcon region={this.props.region}
-                                                  item={itemAndQuantity.item}
-                                                  quantity={itemAndQuantity.amount}
-                                                  height={iconHeight}
-                                                  quantityHeight={18}/>
+                                        <Link to={`/${this.props.region}/item/${itemAndQuantity.item.id}`}>
+                                            <ItemIcon region={this.props.region}
+                                                      item={itemAndQuantity.item}
+                                                      quantity={itemAndQuantity.amount}
+                                                      height={iconHeight}
+                                                      quantityHeight={18}/>
+                                        </Link>
                                     </td>
                                 }
                             )}

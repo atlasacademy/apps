@@ -6,7 +6,7 @@ class HomePage extends React.Component {
     componentDidMount() {
         document.title = 'Atlas Academy DB'
     }
-    
+
     render() {
         return (
             <div>
@@ -59,6 +59,9 @@ class HomePage extends React.Component {
                     </li>
                     <li>
                         Cipher (<a href="https://github.com/minhducsun2002">minhducsun2002</a>)
+                    </li>
+                    <li>
+                        <a href="https://github.com/Mitsunee">Mitsunee</a>
                     </li>
                 </ul>
             </div>

@@ -9,6 +9,7 @@ import {
     Event,
     Entity,
     Func,
+    Item,
     Language,
     MysticCode,
     NoblePhantasm,
@@ -70,6 +71,14 @@ class Api {
         return apiConnector.func(id, cacheDuration);
     }
 
+    static item(id: number): Promise<Item.Item> {
+        return apiConnector.item(id, cacheDuration);
+    }
+
+    static itemList(): Promise<Item.Item[]> {
+        return apiConnector.itemList(-1);
+    }
+
     static mysticCode(id: number): Promise<MysticCode.MysticCode> {
         return apiConnector.mysticCode(id, cacheDuration);
     }
@@ -92,6 +101,10 @@ class Api {
 
     static async servantList(): Promise<Servant.ServantBasic[]> {
         return apiConnector.servantList(-1);
+    }
+
+    static async servantListNice(): Promise<Servant.Servant[]> {
+        return apiConnector.servantListNice(-1);
     }
 
     static skill(id: number): Promise<Skill.Skill> {
