@@ -142,9 +142,7 @@ class ItemsPage extends React.Component<IProps, IState> {
 
         items.push(this.pageItem('>', this.state.page + 1, 'next', false, this.state.page >= maxPage));
 
-        return <div style={{marginBottom: 20}}>
-            <Pagination>{items}</Pagination>
-        </div>;
+        return <Pagination>{items}</Pagination>;
     }
 
     private setPage(page: number) {
@@ -320,9 +318,7 @@ class ItemsPage extends React.Component<IProps, IState> {
         return (
             <div id="items">
                 <Form inline style={{justifyContent: 'center'}}>
-                    {hasPaginator
-                        ? <div>{this.paginator(items.length)}</div>
-                        : undefined}
+                    {hasPaginator && <div>{this.paginator(items.length)}</div>}
 
                     <Form.Control style={{marginLeft: 'auto'}} placeholder={'Search'} value={this.state.search ?? ''}
                                   onChange={(ev: ChangeEvent) => {
@@ -338,9 +334,7 @@ class ItemsPage extends React.Component<IProps, IState> {
                 }}>
                     {this.state.tabs.map((_,index) => this.renderTab(index))}
                 </Tabs>
-                {hasPaginator
-                    ? <div>{this.paginator(items.length)}</div>
-                    : undefined}
+                {hasPaginator && <div>{this.paginator(items.length)}</div>}
             </div>
         );
     }

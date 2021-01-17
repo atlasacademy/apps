@@ -6,3 +6,7 @@
 #items table>tbody>tr>td {
     vertical-align: middle;
 }
+
+form ul.pagination {
+    margin-bottom: 0;
+}
