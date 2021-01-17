@@ -14,8 +14,10 @@ import Loading from "../Component/Loading";
 import TraitDescription from "../Descriptor/TraitDescription";
 import ItemUseDescription from "../Descriptor/ItemUseDescription";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
-import {mergeElements} from "../Helper/OutputHelper";
+import {handleNewLine, mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
+
+import './ItemPage.css';
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -32,12 +34,24 @@ interface IState {
     isMaterial?: boolean;
 }
 
-interface MaterialUsageData {
-    id: number;
+let MATERIAL_USAGE_HEADER = <>
+    <th>Total Ascension</th>
+    <th>Per&nbsp;Skill (Total)</th>
+    <th>Costume</th>
+    <th>Total</th>
+</>
+
+interface MaterialUsageColumn {
     ascensions: number;
     skills: number;
     costumes: number;
     total: number;
+}
+
+interface MaterialUsageData extends MaterialUsageColumn{
+    id: number;
+    name: string;
+    face: string;
 }
 
 class ItemPage extends React.Component<IProps, IState> {
@@ -116,6 +130,8 @@ class ItemPage extends React.Component<IProps, IState> {
     private servantProcessMaterials(servant: Servant.Servant):MaterialUsageData {
         let servantProcessed = {
             "id": servant.id,
+            "name": servant.name,
+            "face": servant.extraAssets?.faces.ascension ? servant.extraAssets?.faces.ascension[1] : "",
             "ascensions": 0,
             "skills": 0,
             "costumes": 0,
@@ -136,11 +152,10 @@ class ItemPage extends React.Component<IProps, IState> {
         return servantProcessed;
     }
 
-    private renderBreakdownTab(className: ClassName) {
+    private getUsageData(className: ClassName) {
         let servants = this.state.servants
                 .filter(servant => (servant.type !== Entity.EntityType.ENEMY_COLLECTION_DETAIL))
                 .sort((a,b) => a.collectionNo - b.collectionNo);
-        const region = this.props.region;
 
         // Filter servants by className
         if (this.isExtra(className)) {
@@ -155,45 +170,48 @@ class ItemPage extends React.Component<IProps, IState> {
             // filter servants that don't use the material
             .filter(servant => servant.total > 1);
 
-        if (usageData.length === 0) return null;
+        return usageData
+    }
 
+    private renderUsageNumberRow(usage: MaterialUsageColumn) {
+        return (
+            <>
+                <td>{usage.ascensions}</td>
+                <td>{`${usage.skills} (${usage.skills * 3})`}</td>
+                <td>{usage.costumes}</td>
+                <td>{usage.total}</td>
+            </>
+        )
+    }
+
+    private renderBreakdownTab(className: ClassName, usageData: MaterialUsageData[]) {
+        const region = this.props.region;
         return (
             <Tab key={className.toLowerCase()} eventKey={className.toLowerCase()}
                  title={className.toLowerCase().replace(/^\w/, c => c.toUpperCase())}>
                 <br/>
-                <Table hover>
+                <Table hover responsive className={'materialUsage'}>
                     <thead>
                     <tr>
                         <th colSpan={2}>Servant</th>
-                        <th>Uses in Ascension</th>
-                        <th>Uses in Skill</th>
-                        <th>Uses in Costume</th>
-                        <th>Total Uses</th>
+                        {MATERIAL_USAGE_HEADER}
                     </tr>
                     {usageData.map(servantUsage => {
-                        const servant = servants.find(basicServant => basicServant.id === servantUsage.id);
-                        if (!servant) return null;
-                        const route = `/${region}/servant/${servant.id}/materials`;
+                        const route = `/${region}/servant/${servantUsage.id}/materials`;
 
                         return (
-                            <tr key={servant.id}>
-                                <td align={"center"} style={{textAlign: "center", width: '1px'}}>
+                            <tr key={servantUsage.id}>
+                                <td align={"center"} style={{width: '1px'}}>
                                     <Link to={route}>
-                                        <FaceIcon location={servant.extraAssets?.faces.ascension
-                                                            ? servant.extraAssets?.faces.ascension[1]
-                                                            : ""}
-                                                  height={50}/>
+                                        <FaceIcon location={servantUsage.face} height={50}/>
                                     </Link>
                                 </td>
-                                <td>
+                                <td style={{textAlign: "left"}}>
                                     <Link to={route}>
-                                        {servant.name}
+                                        {servantUsage.name}
                                     </Link>
                                 </td>
-                                <td>{servantUsage.ascensions}</td>
-                                <td>{servantUsage.skills}</td>
-                                <td>{servantUsage.costumes}</td>
-                                <td>{servantUsage.total}</td>
+                                {this.renderUsageNumberRow(servantUsage)}
                             </tr>
                         );
                     })}
@@ -214,17 +232,48 @@ class ItemPage extends React.Component<IProps, IState> {
                 ClassName.BERSERKER,
                 ClassName.EXTRA
             ].map(className => ({
-                key: className.toLowerCase(),
-                content: this.renderBreakdownTab(className)
-            })).filter(tab => tab.content);
-            
+                class: className,
+                usageData: this.getUsageData(className),
+            })).filter(tab => tab.usageData.length > 0);
+
+        let allUsageData = tabs.reduce((acc, tab) => acc.concat(tab.usageData), [] as MaterialUsageData[]);
+        tabs.unshift({
+            class: ClassName.ALL,
+            usageData: allUsageData,
+        })
+
+        let totalUsage = {ascensions: 0, skills: 0, costumes: 0, total: 0}
+        for (let tab of tabs) {
+            for (let usage of tab.usageData) {
+                totalUsage.ascensions += usage.ascensions;
+                totalUsage.skills += usage.skills;
+                totalUsage.costumes += usage.costumes;
+            }
+        }
+        totalUsage.total = totalUsage.ascensions + totalUsage.skills * 3 + totalUsage.costumes;
+
         return (
-            <Tabs id={'material-tabs'} defaultActiveKey={this.props.tab ?? tabs[0]?.key} mountOnEnter={true}
-              onSelect={(key: string | null) => {
-                  this.props.history.replace(`/${this.props.region}/item/${this.props.id}/${key}`);
-              }}>
-                {tabs.map(tab => tab.content)}
-            </Tabs>
+            <>
+                <h3>Servant Material Requirements</h3>
+                <Table hover responsive className={'materialUsage'}>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        {MATERIAL_USAGE_HEADER}
+                    </tr>
+                    <tr key="total">
+                        <td style={{textAlign: "left"}}>Total</td>
+                        {this.renderUsageNumberRow(totalUsage)}
+                    </tr>
+                    </thead>
+                </Table>
+                <Tabs id={'material-tabs'} defaultActiveKey={this.props.tab ?? tabs[0]?.class.toLowerCase()} mountOnEnter={true}
+                onSelect={(key: string | null) => {
+                    this.props.history.replace(`/${this.props.region}/item/${this.props.id}/${key}`);
+                }}>
+                    {tabs.map(tab => this.renderBreakdownTab(tab.class, tab.usageData))}
+                </Tabs>
+            </>
         );
     }
 
@@ -274,7 +323,7 @@ class ItemPage extends React.Component<IProps, IState> {
                 <DataTable data={{
                     "ID": item.id,
                     "Name": item.name,
-                    "Detail": item.detail,
+                    "Detail": handleNewLine(item.detail),
                     "Individuality": (
                         <div>
                             {mergeElements(
