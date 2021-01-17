@@ -136,7 +136,7 @@ class ItemPage extends React.Component<IProps, IState> {
         return servantProcessed;
     }
 
-    private renderBreakdownTabContent(className: ClassName) {
+    private renderBreakdownTab(className: ClassName) {
         let servants = this.state.servants
                 .filter(servant => (servant.type !== Entity.EntityType.ENEMY_COLLECTION_DETAIL))
                 .sort((a,b) => a.collectionNo - b.collectionNo);
@@ -155,72 +155,75 @@ class ItemPage extends React.Component<IProps, IState> {
             // filter servants that don't use the material
             .filter(servant => servant.total > 1);
 
-        return (
-            <Table hover>
-                <thead>
-                <tr>
-                    <th colSpan={2}>Servant</th>
-                    <th>Uses in Ascension</th>
-                    <th>Uses in Skill</th>
-                    <th>Uses in Costume</th>
-                    <th>Total Uses</th>
-                </tr>
-                {usageData.map(servantUsage => {
-                    const servant = servants.find(basicServant => basicServant.id === servantUsage.id);
-                    if (!servant) return null;
-                    const route = `/${region}/servant/${servant.id}/materials`;
+        if (usageData.length === 0) return null;
 
-                    return (
-                        <tr key={servant.id}>
-                            <td align={"center"} style={{textAlign: "center", width: '1px'}}>
-                                <Link to={route}>
-                                    <FaceIcon location={servant.extraAssets?.faces.ascension
-                                                        ? servant.extraAssets?.faces.ascension[1]
-                                                        : ""}
-                                              height={50}/>
-                                </Link>
-                            </td>
-                            <td>
-                                <Link to={route}>
-                                    {servant.name}
-                                </Link>
-                            </td>
-                            <td>{servantUsage.ascensions}</td>
-                            <td>{servantUsage.skills}</td>
-                            <td>{servantUsage.costumes}</td>
-                            <td>{servantUsage.total}</td>
-                        </tr>
-                    );
-                })}
-                </thead>
-            </Table>
+        return (
+            <Tab key={className.toLowerCase()} eventKey={className.toLowerCase()}
+                 title={className.toLowerCase().replace(/^\w/, c => c.toUpperCase())}>
+                <br/>
+                <Table hover>
+                    <thead>
+                    <tr>
+                        <th colSpan={2}>Servant</th>
+                        <th>Uses in Ascension</th>
+                        <th>Uses in Skill</th>
+                        <th>Uses in Costume</th>
+                        <th>Total Uses</th>
+                    </tr>
+                    {usageData.map(servantUsage => {
+                        const servant = servants.find(basicServant => basicServant.id === servantUsage.id);
+                        if (!servant) return null;
+                        const route = `/${region}/servant/${servant.id}/materials`;
+
+                        return (
+                            <tr key={servant.id}>
+                                <td align={"center"} style={{textAlign: "center", width: '1px'}}>
+                                    <Link to={route}>
+                                        <FaceIcon location={servant.extraAssets?.faces.ascension
+                                                            ? servant.extraAssets?.faces.ascension[1]
+                                                            : ""}
+                                                  height={50}/>
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Link to={route}>
+                                        {servant.name}
+                                    </Link>
+                                </td>
+                                <td>{servantUsage.ascensions}</td>
+                                <td>{servantUsage.skills}</td>
+                                <td>{servantUsage.costumes}</td>
+                                <td>{servantUsage.total}</td>
+                            </tr>
+                        );
+                    })}
+                    </thead>
+                </Table>
+            </Tab>
         );
     }
 
     private renderMaterialBreakdown(): JSX.Element {
+        let tabs = [
+                ClassName.SABER,
+                ClassName.LANCER,
+                ClassName.ARCHER,
+                ClassName.RIDER,
+                ClassName.CASTER,
+                ClassName.ASSASSIN,
+                ClassName.BERSERKER,
+                ClassName.EXTRA
+            ].map(className => ({
+                key: className.toLowerCase(),
+                content: this.renderBreakdownTab(className)
+            })).filter(tab => tab.content);
+            
         return (
-            <Tabs id={'material-tabs'} defaultActiveKey={this.props.tab ?? 'saber'} mountOnEnter={true}
+            <Tabs id={'material-tabs'} defaultActiveKey={this.props.tab ?? tabs[0]?.key} mountOnEnter={true}
               onSelect={(key: string | null) => {
                   this.props.history.replace(`/${this.props.region}/item/${this.props.id}/${key}`);
               }}>
-                {
-                    [
-                        ClassName.SABER,
-                        ClassName.LANCER,
-                        ClassName.ARCHER,
-                        ClassName.RIDER,
-                        ClassName.CASTER,
-                        ClassName.ASSASSIN,
-                        ClassName.BERSERKER,
-                        ClassName.EXTRA
-                    ].map(className => (
-                        <Tab key={className.toLowerCase()} eventKey={className.toLowerCase()}
-                             title={className.toLowerCase().replace(/^\w/, c => c.toUpperCase())}>
-                            <br/>
-                            {this.renderBreakdownTabContent(className)}
-                        </Tab>
-                    ))
-                }
+                {tabs.map(tab => tab.content)}
             </Tabs>
         );
     }
