@@ -82,11 +82,6 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Link>
                             </Nav>
                             <Nav>
-                                <Link to={`/${Manager.region()}/buffs`} className={'nav-link'}>
-                                    <NavItem>Buffs</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
                                 <Link to={`/${Manager.region()}/entities`} className={'nav-link'}>
                                     <NavItem>Entities</NavItem>
                                 </Link>
@@ -97,8 +92,18 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Link>
                             </Nav>
                             <Nav>
+                                <Link to={`/${Manager.region()}/buffs`} className={'nav-link'}>
+                                    <NavItem>Buffs</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
+                                <Link to={`/${Manager.region()}/items`} className={'nav-link'}>
+                                    <NavItem>Materials</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
                                 <Link to={`/${Manager.region()}/changes`} className={'nav-link'}>
-                                    <NavItem>Latest Changes</NavItem>
+                                    <NavItem>Changelog</NavItem>
                                 </Link>
                             </Nav>
                             <Nav className={'ml-auto icons'}>
