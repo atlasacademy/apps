@@ -102,6 +102,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                         <br/>
                         <Row>
                             {this.state.craftEssence.skills
+                                .sort((a, b) => ((a.num || 0) - (b.num || 0)) || ((a.priority || 0) - (b.priority || 0)))
                                 .map((skill, index) => {
                                     return (
                                         <Col key={index} xs={12} lg={craftEssence.skills.length > 1 ? 6 : 12}>
