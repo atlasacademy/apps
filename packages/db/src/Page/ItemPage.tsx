@@ -243,12 +243,10 @@ class ItemPage extends React.Component<IProps, IState> {
         })
 
         let totalUsage = {ascensions: 0, skills: 0, costumes: 0, total: 0}
-        for (let tab of tabs) {
-            for (let usage of tab.usageData) {
-                totalUsage.ascensions += usage.ascensions;
-                totalUsage.skills += usage.skills;
-                totalUsage.costumes += usage.costumes;
-            }
+        for (let usage of allUsageData) {
+            totalUsage.ascensions += usage.ascensions;
+            totalUsage.skills += usage.skills;
+            totalUsage.costumes += usage.costumes;
         }
         totalUsage.total = totalUsage.ascensions + totalUsage.skills * 3 + totalUsage.costumes;
 
