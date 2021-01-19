@@ -18,6 +18,7 @@ import {QuestPhase} from "./Schema/Quest";
 import {Servant, ServantBasic} from "./Schema/Servant";
 import {Skill} from "./Schema/Skill";
 import {Trait} from "./Schema/Trait";
+import {AiType, AiCollection} from "./Schema/Ai";
 
 interface BuffSearchOptions {
     name?: string;
@@ -82,6 +83,7 @@ class ApiConnector {
         servantListNice: new ResultCache<null, Servant[]>(),
         skill: new ResultCache<number, Skill>(),
         traitList: new ResultCache<null, Trait[]>(),
+        ai: new ResultCache<{ type: AiType, id: number }, AiCollection>(),
     };
 
     constructor(props?: ApiConnectorProperties) {
@@ -367,6 +369,19 @@ class ApiConnector {
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
         );
+    }
+
+    ai(type: AiType, id: number, cacheDuration?: number): Promise<AiCollection> {
+        const fetch = () => {
+            return ApiConnector.fetch<AiCollection>(
+                `${this.host}/nice/${this.region}/ai/${type}/${id}`
+            );
+        }
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.ai.get({ type: type, id: id }, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     servant(id: number, cacheDuration?: number): Promise<Servant> {

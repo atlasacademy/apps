@@ -21,6 +21,7 @@ import * as Quest from "./Schema/Quest";
 import * as Servant from "./Schema/Servant";
 import * as Skill from "./Schema/Skill";
 import * as Trait from "./Schema/Trait";
+import * as Ai from "./Schema/Ai";
 
 export {
     ApiConnector,
@@ -32,6 +33,7 @@ export {
     Region,
     ProfileVoiceType,
 
+    Ai,
     Buff,
     CommandCode,
     CraftEssence,

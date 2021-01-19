@@ -3,6 +3,7 @@ import {EntityBasic, Entity} from "./Entity";
 import {Func} from "./Func";
 import {MysticCodeBasic, MysticCode} from "./MysticCode";
 import {Trait} from "./Trait";
+import {AiType} from "./Ai";
 
 export enum SkillType {
     ACTIVE = 'active',
@@ -49,6 +50,7 @@ export interface Skill extends SkillBasic {
     coolDown: number[];
     actIndividuality: Trait[];
     script: SkillScript;
+    aiIds?: Record<AiType, number[]>;
     functions: Func[];
     reverse?: {
         basic?: {
