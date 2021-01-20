@@ -97,7 +97,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     "Card Type": noblePhantasm.card,
                     "Owner": (
                         <div>
-                            {(noblePhantasm.reverse?.nice?.servant ?? [])
+                            {(noblePhantasm.reverse?.basic?.servant ?? [])
                                 .map((servant, index) => {
                                     return <div key={index}>{entityDescriptor(this.props.region, servant, 25)}</div>
                                 })

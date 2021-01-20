@@ -138,8 +138,8 @@ class BuffPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {buff.reverse?.nice?.function ? (
-                        buff.reverse.nice.function.map((func, index) => {
+                    {buff.reverse?.basic?.function ? (
+                        buff.reverse.basic.function.map((func, index) => {
                             return (
                                 <tr key={index}>
                                     <td>
@@ -147,8 +147,8 @@ class BuffPage extends React.Component<IProps, IState> {
                                     </td>
                                     <td>
                                         {
-                                            (func.reverse?.nice?.NP ?? []).length
-                                            + (func.reverse?.nice?.skill ?? []).length
+                                            (func.reverse?.basic?.NP ?? []).length
+                                            + (func.reverse?.basic?.skill ?? []).length
                                         }
                                     </td>
                                 </tr>

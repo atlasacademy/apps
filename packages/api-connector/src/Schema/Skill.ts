@@ -1,7 +1,7 @@
-import {CommandCode} from "./CommandCode";
-import {Entity} from "./Entity";
+import {CommandCodeBasic, CommandCode} from "./CommandCode";
+import {EntityBasic, Entity} from "./Entity";
 import {Func} from "./Func";
-import {MysticCode} from "./MysticCode";
+import {MysticCodeBasic, MysticCode} from "./MysticCode";
 import {Trait} from "./Trait";
 
 export enum SkillType {
@@ -20,7 +20,21 @@ export interface SkillScript {
     HP_PER_LOWER?: number[];
 }
 
-export interface Skill {
+export interface SkillBasic {
+    id: number;
+    name: string;
+    ruby: string;
+    icon?: string;
+    reverse?: {
+        basic?: {
+            servant?: EntityBasic[],
+            MC?: MysticCodeBasic[],
+            CC?: CommandCodeBasic[],
+        }
+    }
+}
+
+export interface Skill extends SkillBasic {
     id: number;
     num?: number;
     name: string;
@@ -37,6 +51,11 @@ export interface Skill {
     script: SkillScript;
     functions: Func[];
     reverse?: {
+        basic?: {
+            servant?: EntityBasic[],
+            MC?: MysticCodeBasic[],
+            CC?: CommandCodeBasic[],
+        }
         nice?: {
             servant?: Entity[],
             MC?: MysticCode[],

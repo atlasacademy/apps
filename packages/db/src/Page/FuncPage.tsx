@@ -6,7 +6,7 @@ import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
+import {BasicMysticCodeDescriptor} from "../Descriptor/MysticCodeDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import entityDescriptor from "../Descriptor/entityDescriptor";
@@ -24,7 +24,7 @@ interface IState {
     func?: Func.Func;
 }
 
-function entityDescriptorTable(region: Region, entity: Entity.Entity, index: number) {
+function entityDescriptorTable(region: Region, entity: Entity.EntityBasic, index: number) {
     return <div key={index} style={{marginTop: index === 0? 0 : "24.5px"}}>
         {entityDescriptor(region, entity, 25)}
     </div>
@@ -89,17 +89,17 @@ class FuncPage extends React.Component<IProps, IState> {
                         <h3>Related Skills</h3>
                         <Table style={{fontSize: "0.8em"}}>
                             <tbody>
-                            {(func.reverse?.nice?.skill ?? []).map((skill, index) => {
+                            {(func.reverse?.basic?.skill ?? []).map((skill, index) => {
                                 return (
                                     <tr key={index}>
                                         <td>
-                                            {(skill.reverse?.nice?.servant ?? []).map(
+                                            {(skill.reverse?.basic?.servant ?? []).map(
                                                 (entity, index) => entityDescriptorTable(this.props.region, entity, index)
                                             )}
                                             {/*TODO: Command Code Reverse Mapping*/}
-                                            {(skill.reverse?.nice?.MC ?? []).map((mysticCode, index) => {
+                                            {(skill.reverse?.basic?.MC ?? []).map((mysticCode, index) => {
                                                 return <div key={index}>
-                                                    <MysticCodeDescriptor region={this.props.region}
+                                                    <BasicMysticCodeDescriptor region={this.props.region}
                                                                           mysticCode={mysticCode}/>
                                                 </div>
                                             })}
@@ -117,11 +117,11 @@ class FuncPage extends React.Component<IProps, IState> {
                         <h3>Related Noble Phantasms</h3>
                         <Table style={{fontSize: "0.8em"}}>
                             <tbody>
-                            {(func.reverse?.nice?.NP ?? []).map((noblePhantasm, index) => {
+                            {(func.reverse?.basic?.NP ?? []).map((noblePhantasm, index) => {
                                 return (
                                     <tr key={index}>
                                         <td>
-                                            {(noblePhantasm.reverse?.nice?.servant ?? []).map(
+                                            {(noblePhantasm.reverse?.basic?.servant ?? []).map(
                                                 (entity, index) => entityDescriptorTable(this.props.region, entity, index)
                                             )}
                                         </td>

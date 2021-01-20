@@ -5,7 +5,7 @@ import getRubyText from "../Helper/StringHelper";
 
 interface IProps {
     region: Region;
-    noblePhantasm: NoblePhantasm.NoblePhantasm;
+    noblePhantasm: NoblePhantasm.NoblePhantasmBasic;
 }
 
 class NoblePhantasmDescriptor extends React.Component<IProps> {

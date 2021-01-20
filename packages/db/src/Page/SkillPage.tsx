@@ -10,7 +10,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import entityDescriptor from "../Descriptor/entityDescriptor";
-import MysticCodeDescriptor from "../Descriptor/MysticCodeDescriptor";
+import {BasicMysticCodeDescriptor} from "../Descriptor/MysticCodeDescriptor";
 import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 import getRubyText from "../Helper/StringHelper";
@@ -99,16 +99,16 @@ class SkillPage extends React.Component<IProps, IState> {
                     "Type": skill.type,
                     "Owner": (
                         <div>
-                            {(skill.reverse?.nice?.servant ?? [])
+                            {(skill.reverse?.basic?.servant ?? [])
                                 .map((servant, index) => {
                                     return <div key={index}>{entityDescriptor(this.props.region, servant, 25)}</div>
                                 })
                             }
                             {/* TODO: Command Code reverse mapping */}
-                            {(skill.reverse?.nice?.MC ?? [])
+                            {(skill.reverse?.basic?.MC ?? [])
                                 .map((mysticCode, index) => {
                                     return (
-                                        <MysticCodeDescriptor key={index}
+                                        <BasicMysticCodeDescriptor key={index}
                                                               region={this.props.region}
                                                               mysticCode={mysticCode}/>
                                     );

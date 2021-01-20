@@ -6,7 +6,7 @@ import './Descriptor.css';
 
 interface IProps {
     region: Region;
-    enemy: Enemy.Enemy;
+    enemy: Enemy.EnemyBasic;
     iconHeight?: number;
 }
 

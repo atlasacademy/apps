@@ -1,7 +1,7 @@
 import {Buff} from "./Buff";
 import {DataVal} from "./DataVal";
-import {NoblePhantasm} from "./NoblePhantasm";
-import {Skill} from "./Skill";
+import {NoblePhantasmBasic, NoblePhantasm} from "./NoblePhantasm";
+import {SkillBasic, Skill} from "./Skill";
 import {Trait} from "./Trait";
 
 export enum FuncTargetTeam {
@@ -139,9 +139,9 @@ export interface BasicFunc {
     traitVals?: Trait[];
     reverse?: {
         basic?: {
-            NP?: NoblePhantasm[];
-            skill?: Skill[];
-        }
+            NP?: NoblePhantasmBasic[];
+            skill?: SkillBasic[];
+        };
     }
 }
 
@@ -156,12 +156,12 @@ export interface Func extends BasicFunc {
     followerVals?: DataVal[];
     reverse?: {
         basic?: {
-            NP?: NoblePhantasm[];
-            skill?: Skill[];
+            NP?: NoblePhantasmBasic[];
+            skill?: SkillBasic[];
         };
         nice?: {
             NP?: NoblePhantasm[];
             skill?: Skill[];
-        }
+        };
     }
 }

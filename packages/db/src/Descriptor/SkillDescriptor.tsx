@@ -7,12 +7,12 @@ import getRubyText from "../Helper/StringHelper";
 
 interface IProps {
     region: Region;
-    skill: Skill.Skill;
+    skill: Skill.SkillBasic;
     iconHeight?: number;
 }
 
 class SkillDescriptor extends React.Component<IProps> {
-    static renderAsString(skill: Skill.Skill): string {
+    static renderAsString(skill: Skill.SkillBasic): string {
         const name = skill.name ? skill.name : `Skill: ${skill.id}`;
 
         return `[${name}]`;

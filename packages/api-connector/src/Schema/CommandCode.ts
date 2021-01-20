@@ -11,6 +11,14 @@ export interface CommandCodeAssets {
     faces: CommandCodeAssetMap;
 }
 
+export interface CommandCodeBasic {
+    id: number;
+    collectionNo: number;
+    name: string;
+    rarity: number;
+    face: string;
+}
+
 export interface CommandCode {
     id: number;
     collectionNo: number;

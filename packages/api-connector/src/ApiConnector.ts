@@ -85,7 +85,7 @@ class ApiConnector {
     }
 
     buff(id: number, cacheDuration?: number): Promise<Buff> {
-        const query = '?reverse=true&reverseDepth=skillNp' + (
+        const query = '?reverse=true&reverseDepth=skillNp&reverseData=basic' + (
                 this.language === Language.ENGLISH ? '&lang=en' : ''
             ),
             fetch = () => {
@@ -192,7 +192,7 @@ class ApiConnector {
     }
 
     func(id: number, cacheDuration?: number): Promise<Func> {
-        const query = '?reverse=true&reverseDepth=servant' + (
+        const query = '?reverse=true&reverseDepth=servant&reverseData=basic' + (
                 this.language === Language.ENGLISH ? '&lang=en' : ''
             ),
             fetch = () => {
@@ -260,7 +260,7 @@ class ApiConnector {
     }
 
     noblePhantasm(id: number, cacheDuration?: number): Promise<NoblePhantasm> {
-        const query = '?reverse=true' + (
+        const query = '?reverse=true&reverseData=basic' + (
                 this.language === Language.ENGLISH ? '&lang=en' : ''
             ),
             fetch = () => {
@@ -351,7 +351,7 @@ class ApiConnector {
     }
 
     skill(id: number, cacheDuration?: number): Promise<Skill> {
-        const query = '?reverse=true' + (
+        const query = '?reverse=true&reverseData=basic' + (
                 this.language === Language.ENGLISH ? '&lang=en' : ''
             ),
             fetch = () => {

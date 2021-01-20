@@ -15,6 +15,15 @@ export interface MysticCodeAssets {
     }
 }
 
+export interface MysticCodeBasic {
+    id: number;
+    name: string;
+    item: {
+        male: string;
+        female: string;
+    };
+}
+
 export interface MysticCode {
     id: number;
     name: string;

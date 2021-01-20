@@ -1,5 +1,5 @@
 import Card from "../Enum/Card";
-import {Entity} from "./Entity";
+import {EntityBasic, Entity} from "./Entity";
 import {Func} from "./Func";
 import {Trait} from "./Trait";
 
@@ -12,7 +12,18 @@ export interface NoblePhantasmGain {
     np: number[];
 }
 
-export interface NoblePhantasm {
+export interface NoblePhantasmBasic {
+    id: number;
+    name: string;
+    ruby: string;
+    reverse?: {
+        basic?: {
+            servant?: EntityBasic[];
+        };
+    }
+}
+
+export interface NoblePhantasm extends NoblePhantasmBasic {
     id: number;
     num: number;
     card: Card;
@@ -31,6 +42,9 @@ export interface NoblePhantasm {
     individuality: Trait[];
     functions: Func[];
     reverse?: {
+        basic?: {
+            servant?: EntityBasic[];
+        };
         nice?: {
             servant?: Entity[];
         }
