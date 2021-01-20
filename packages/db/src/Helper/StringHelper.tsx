@@ -11,10 +11,10 @@ export default function getRubyText(region: Region, text: string, ruby: string, 
 }
 
 function makeRubyText(text: string, ruby: string, splitRank = false): Renderable {
+    let [name, rank] = text.split(" ");
     if (text === ruby || ruby === "-") {
         return text;
-    } else if (splitRank) {
-        let [name, rank] = text.split(" ");
+    } else if (splitRank && rank && ["A", "B", "C", "D", "E"].includes(rank[0].toUpperCase())) {
         return (
             <ruby>
                 {name}<rp>(</rp><rt>{ruby}</rt><rp>)</rp>&nbsp;{rank}
