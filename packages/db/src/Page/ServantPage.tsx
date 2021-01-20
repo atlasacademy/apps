@@ -128,7 +128,6 @@ class ServantPage extends React.Component<IProps, IState> {
                     ([costumeId, costume]) => [servant.profile?.costume[costumeId].name, costume]
                 )
         );
-        console.log(this.props.id, typeof(this.props.id));
 
         const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
         return (

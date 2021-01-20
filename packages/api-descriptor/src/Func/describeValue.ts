@@ -113,6 +113,8 @@ export default function (func: Func.BasicFunc,
                         new ValuePartial(ValueType.PERCENT, dataVal.Target / 10)
                     ]);
                     break;
+                case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
+                    break;
                 default:
                     addPartials([
                         new ValuePartial(ValueType.UNKNOWN, dataVal.Target)
