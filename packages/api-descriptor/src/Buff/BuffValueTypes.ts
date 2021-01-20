@@ -39,6 +39,7 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.UP_GRANTSTATE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_GRANTSTATE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_HATE, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.UP_RESIST_INSTANTDEATH, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_NONRESIST_INSTANTDEATH, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_GRANT_INSTANTDEATH, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_GRANT_INSTANTDEATH, {value: DataValField.VALUE, power: 1}],
