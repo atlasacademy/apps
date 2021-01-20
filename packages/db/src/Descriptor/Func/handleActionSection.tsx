@@ -155,7 +155,6 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         func.funcType === Func.FuncType.DAMAGE_NP
         || func.funcType === Func.FuncType.DAMAGE_NP_HPRATIO_LOW
         || func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL
-        || func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM
         || func.funcType === Func.FuncType.DAMAGE_NP_PIERCE
         || func.funcType === Func.FuncType.DAMAGE_NP_RARE
         || func.funcType === Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX
@@ -164,6 +163,10 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         sections.amount.preposition = 'of';
 
         return;
+    } else if (func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
+        parts.push('Deal damage');
+        sections.amount.preposition = '';
+        return
     }
 
     switch (func.funcType) {

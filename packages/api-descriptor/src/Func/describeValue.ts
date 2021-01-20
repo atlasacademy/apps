@@ -75,9 +75,10 @@ export default function (func: Func.BasicFunc,
         if (dataVal.Value2 !== undefined) {
             switch (func.funcType) {
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
+                    let preposition = dataVal.Value ? '' : 'with';
                     addPartials([
-                        new TextPartial('additional '),
-                        new ValuePartial(ValueType.PERCENT, dataVal.Value2 / 10)
+                        new TextPartial(` ${preposition} supereffective damage of `),
+                        new ValuePartial(ValueType.PERCENT, dataVal.Value2 / 10),
                     ]);
             }
         }
@@ -92,12 +93,13 @@ export default function (func: Func.BasicFunc,
                     ]);
                     break;
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
-                    addPartials([
-                        new ParticlePartial('('),
-                        new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10),
-                        new TextPartial(' x count'),
-                        new ParticlePartial(')'),
-                    ]);
+                    if (dataVal.Correction !== 0) {
+                        addPartials([
+                            new TextPartial('additional '),
+                            new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10),
+                            new TextPartial(' SE '),
+                        ]);
+                    }
                     break;
                 default:
                     addPartials([

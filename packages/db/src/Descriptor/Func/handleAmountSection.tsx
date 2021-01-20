@@ -49,6 +49,8 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         section.preposition = undefined;
         parts.push(`${dataVal.Value} time${dataVal.Value > 1 ? 's' : ''}`);
     } else if (func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
+        if (dataVal.Value)
+            parts.push(' of ')
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}
                                         hideRate={true}/>);
     } else if (

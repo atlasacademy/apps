@@ -26,13 +26,15 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         && dataVal.TargetList.length > 0
         && func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM
     ) {
-        const traitIds = dataVal.TargetList,
-            traits = traitIds.map(id => <TraitDescription region={region} trait={id}/>);
+        let traitDescription = mergeElements(
+            dataVal.TargetList.map(id => <TraitDescription region={region} trait={id}/>), ' or '
+        );
+        let limitDescription = dataVal.ParamAddMaxCount ? `[Max ${dataVal.ParamAddMaxCount} stacks]` : null;
+        let whoseTrait = (dataVal.Target && dataVal.Target >= 1) ? 'on enemy' : 'on self';
+        let preposition = (dataVal.Correction && dataVal.Correction > 0) ? ' per stack of' : 'against';
 
         parts.push(
-            <span>(bonus per trait of {mergeElements(traits, ' or ')}{
-                dataVal.ParamAddMaxCount ? `[Limit ${dataVal.ParamAddMaxCount}]` : null
-            })</span>
+            <span>{preposition} {traitDescription} {whoseTrait} {limitDescription}</span>
         );
     } else if (
         dataVal.TargetRarityList
@@ -85,7 +87,7 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
 
         func.functvals.forEach((trait, index) => {
             if (index > 0)
-                parts.push('&');
+                parts.push('or');
 
             parts.push(<TraitDescription region={region} trait={trait}/>);
         });
