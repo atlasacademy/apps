@@ -1,5 +1,6 @@
 import {
     ApiConnector,
+    Ai,
     Buff,
     Change,
     ClassName,
@@ -101,6 +102,10 @@ class Api {
 
     static questPhase(id: number, phase: number): Promise<Quest.QuestPhase> {
         return apiConnector.questPhase(id, phase, cacheDuration);
+    }
+
+    static ai(type: Ai.AiType, id: number): Promise<Ai.AiCollection> {
+        return apiConnector.ai(type, id, cacheDuration);
     }
 
     static servant(id: number): Promise<Servant.Servant> {
