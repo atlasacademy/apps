@@ -1,4 +1,5 @@
 import {Trait} from "./Trait";
+import {Skill} from "./Skill";
 
 export enum AiType {
     SVT = "svt",
@@ -190,6 +191,7 @@ export interface AiAct {
     targetIndividuality: Trait[];
     skillId?: number;
     skillLv?: number;
+    skill?: Skill;
 }
 
 export interface Ai {
