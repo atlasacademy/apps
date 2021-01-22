@@ -32,9 +32,9 @@ function makeRubyText(text: string, ruby: string, splitRank = false): Renderable
 }
 
 export function joinNumbers(numbers: number[]): string {
-    if (numbers.length == 0) {
+    if (numbers.length === 0) {
         return '';
-    } else if (numbers.length == 1) {
+    } else if (numbers.length === 1) {
         return numbers[0].toString();
     } else {
         return numbers.slice(0, -1).join(', ') + ' and ' + numbers[numbers.length - 1];
