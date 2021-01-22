@@ -1,6 +1,7 @@
 import {DataVal, Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {mergeElements} from "../../Helper/OutputHelper";
+import {joinNumbers} from "../../Helper/StringHelper";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
@@ -16,10 +17,11 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
             || func.funcType === Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX
         )
     ) {
+        if (dataVal.Correction === undefined)
+            // summary table description
+            parts.push('with supereffective damage')
         parts.push(
-            <span>(additional to targets with {
-                <TraitDescription region={region} trait={dataVal.Target}/>
-            })</span>
+            <span>against <TraitDescription region={region} trait={dataVal.Target}/></span>
         );
     } else if (
         dataVal.TargetList
@@ -41,10 +43,11 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
         && dataVal.TargetRarityList.length > 0
         && func.funcType === Func.FuncType.DAMAGE_NP_RARE
     ) {
+        if (dataVal.Correction === undefined)
+            // summary table description
+            parts.push('with supereffective damage')
         parts.push(
-            <span>(bonus to {dataVal.TargetRarityList.join('/')} {
-                dataVal.TargetRarityList.length > 1 ? 'rarities' : 'rarity'
-            })</span>
+            <span>against {joinNumbers(dataVal.TargetRarityList)} star</span>
         )
     } else if (func.funcType === Func.FuncType.DAMAGE_NP_PIERCE) {
         parts.push('(that pierces defense)');

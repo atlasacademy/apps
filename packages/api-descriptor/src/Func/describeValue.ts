@@ -88,9 +88,18 @@ export default function (func: Func.BasicFunc,
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
                 case Func.FuncType.DAMAGE_NP_RARE:
                 case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
-                    addPartials([
-                        new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10)
-                    ]);
+                    if (dataVal.Rate !== undefined) {
+                        // Full detailed in NP page
+                        addPartials([
+                            new TextPartial('supereffective damage of '),
+                            new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10)
+                        ]);
+                    } else {
+                        // Summary table values
+                        addPartials([
+                            new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10),
+                        ]);
+                    }
                     break;
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                     if (dataVal.Correction !== 0) {
@@ -115,6 +124,9 @@ export default function (func: Func.BasicFunc,
                         new ValuePartial(ValueType.PERCENT, dataVal.Target / 10)
                     ]);
                     break;
+                case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
+                case Func.FuncType.DAMAGE_NP_RARE:
+                case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                     break;
                 default:
