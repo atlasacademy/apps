@@ -19,9 +19,11 @@ export default function (staticDataVal: DataVal.DataVal,
             if (mutatingDataVal.DependFuncVals?.Value2 !== undefined) {
                 const charge = mutatingDataVal.DependFuncVals?.Value2 / 100;
                 to.push(
+                    new TextPartial('Gain '),
                     new ValuePartial(ValueType.NUMBER, charge),
                     new ParticlePartial(' '),
-                    new TextPartial('Charge' + (charge > 1 ? 's' : '')),
+                    new TextPartial('NP bar' + (charge > 1 ? 's' : '') + ' per enemy drained'),
+                    new ParticlePartial(' '),
                 );
             }
 

@@ -5,7 +5,7 @@ import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export const funcDescriptions = new Map<Func.FuncType, string>([
-    [Func.FuncType.ABSORB_NPTURN, 'Absorb Charge'],
+    [Func.FuncType.ABSORB_NPTURN, 'Absorb NP Charge'],
     [Func.FuncType.ADD_STATE, 'Apply Buff'],
     [Func.FuncType.ADD_STATE_SHORT, 'Apply Buff'],
     [Func.FuncType.CARD_RESET, 'Shuffle Cards'],
@@ -29,7 +29,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.GAIN_HP_PER, 'Restore HP to Percent'],
     [Func.FuncType.GAIN_NP, 'Charge NP'],
     [Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM, 'Charge NP per Trait'],
-    [Func.FuncType.GAIN_NP_FROM_TARGETS, 'Absorb NP'],
+    [Func.FuncType.GAIN_NP_FROM_TARGETS, 'Absorb NP Charge'],
     [Func.FuncType.GAIN_STAR, 'Gain Critical Stars'],
     [Func.FuncType.HASTEN_NPTURN, 'Increase Charge'],
     [Func.FuncType.INSTANT_DEATH, 'Apply Death'],
