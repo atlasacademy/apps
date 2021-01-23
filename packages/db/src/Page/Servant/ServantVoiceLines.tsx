@@ -12,7 +12,7 @@ import renderCollapsibleContent from "../../Component/CollapsibleContent";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
-export default function (props: { region: Region; servant: Servant.Servant }) {
+function ServantVoiceLines(props: { region: Region; servant: Servant.Servant }) {
     let { profile, ascensionAdd } = props.servant;
     let voices = profile?.voices;
     let voicePrefixes = new Set([...(voices?.entries() || [])].map(entry => entry[1].voicePrefix));
@@ -123,3 +123,5 @@ export default function (props: { region: Region; servant: Servant.Servant }) {
         </>
     )
 }
+
+export default ServantVoiceLines;

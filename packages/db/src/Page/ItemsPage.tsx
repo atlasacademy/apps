@@ -18,10 +18,6 @@ interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
 }
 
-interface MouseEvent extends React.MouseEvent<HTMLInputElement> {
-
-}
-
 interface IProps extends RouteComponentProps {
     region: Region;
     tab?: string;

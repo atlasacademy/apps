@@ -5,7 +5,7 @@ interface IProps {
     ascensionAdd: Servant.Servant['ascensionAdd'];
     costumes?: Exclude<Servant.Servant['profile'], undefined>['costume']
 }
-export default (props : IProps) => {
+let VoicePrefixDescriptor = (props : IProps) => {
     let { ascensionAdd: { voicePrefix }, currentVoicePrefix, costumes = {} } = props;
     let ascConds = Object.entries(voicePrefix.ascension || {})
         .filter(([_, prefix]) => prefix === currentVoicePrefix)
@@ -29,3 +29,5 @@ export default (props : IProps) => {
         </>
     )
 }
+
+export default VoicePrefixDescriptor;

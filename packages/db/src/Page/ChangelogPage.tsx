@@ -27,7 +27,7 @@ interface IState {
     ceList: CraftEssence.CraftEssenceBasic[];
 }
 
-export default class extends React.Component<IProps, IState> {
+class ChangelogPage extends React.Component<IProps, IState> {
     constructor(props : IProps) {
         super(props);
 
@@ -181,3 +181,5 @@ export default class extends React.Component<IProps, IState> {
         )
     }
 }
+
+export default ChangelogPage;

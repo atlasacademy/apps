@@ -22,7 +22,7 @@ function BondCell (props = { value: 0, span: 1, previous: NaN }) {
 
 }
 
-export default (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
+let ServantBondGrowth = (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
     let { bondGrowth: bond } = props;
     let rows = [(
         <>
@@ -63,3 +63,5 @@ export default (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
         </div>
     )
 }
+
+export default ServantBondGrowth;

@@ -15,7 +15,7 @@ class AudioElement {
     load() {
         return new Promise(res => {
             if (this.loaded) {
-                res();
+                res(undefined);
 
                 return;
             }
@@ -28,7 +28,7 @@ class AudioElement {
                 element.currentTime = 0;
                 this.loaded = true;
 
-                res();
+                res(undefined);
             });
 
             element.play();
@@ -40,7 +40,7 @@ class AudioElement {
         return new Promise(res => {
             this.element.onpause = this.element.onerror = this.element.onended = () => {
                 this.stop();
-                res();
+                res(undefined);
             };
             this.element.play();
         });

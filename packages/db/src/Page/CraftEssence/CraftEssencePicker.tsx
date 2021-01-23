@@ -5,10 +5,6 @@ import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
 import SearchableSelect from "../../Component/SearchableSelect";
 
-interface Event extends React.ChangeEvent<HTMLInputElement> {
-
-}
-
 interface IProps extends RouteComponentProps {
     region: Region;
     id: number;

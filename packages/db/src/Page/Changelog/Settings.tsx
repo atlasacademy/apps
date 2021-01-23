@@ -9,7 +9,7 @@ interface IProps {
     updateLocalTime: (value : boolean) => void;
 }
 
-export default ({ visibleOnly, updateVisibleOnly, localTime, updateLocalTime } : IProps) => (
+let Settings = ({ visibleOnly, updateVisibleOnly, localTime, updateLocalTime } : IProps) => (
     <div>
         <ButtonGroup>
             <Button disabled variant="outline-dark">Showing </Button>
@@ -31,3 +31,5 @@ export default ({ visibleOnly, updateVisibleOnly, localTime, updateLocalTime } :
         <br />&nbsp;
     </div>
 )
+
+export default Settings;

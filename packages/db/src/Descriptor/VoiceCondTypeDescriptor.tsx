@@ -5,12 +5,14 @@ import {Event, Profile, Region, Servant} from '@atlasacademy/api-connector';
 import Api from '../Api';
 
 const { VoiceCondType } = Profile;
+
 interface IProps {
     cond: Exclude<Servant.Servant['profile'], undefined>['voices'][0]['voiceLines'][0]['conds'][0],
     costumes?: Exclude<Servant.Servant['profile'], undefined>['costume'],
     region: Region,
 }
-export default (props : IProps) => {
+
+let VoiceCondTypeDescriptor = (props : IProps) => {
     function ServantLink (props : { id: number }) {
         const [servant, setServant] = useState<Servant.Servant>(null as any);
         Api.servant(props.id).then(s => setServant(s));
@@ -64,3 +66,5 @@ export default (props : IProps) => {
         default: return <>{condType}</>
     }
 }
+
+export default VoiceCondTypeDescriptor;

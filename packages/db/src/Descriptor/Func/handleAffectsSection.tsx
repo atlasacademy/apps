@@ -1,11 +1,10 @@
 import {DataVal, Func, Region} from "@atlasacademy/api-connector";
-import React from "react";
 import {mergeElements} from "../../Helper/OutputHelper";
 import {joinNumbers} from "../../Helper/StringHelper";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-export default function (region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
+function handleAffectsSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.affects,
         parts = section.parts;
 
@@ -101,3 +100,5 @@ export default function (region: Region, sections: FuncDescriptorSections, func:
     }
 
 }
+
+export default handleAffectsSection;
