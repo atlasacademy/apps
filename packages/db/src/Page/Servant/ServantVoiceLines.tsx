@@ -1,4 +1,4 @@
-import {Profile, ProfileVoiceType, Region, Servant} from "@atlasacademy/api-connector";
+import {Profile, ProfileVoiceType, Region, Entity, Servant} from "@atlasacademy/api-connector";
 import {toTitleCase} from "@atlasacademy/api-descriptor";
 import {faFileAudio} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -7,12 +7,13 @@ import {Alert, ButtonGroup, Dropdown, Table} from "react-bootstrap"
 import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
 import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
 import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
-import {handleNewLine} from "../../Helper/OutputHelper";
+import entityDescriptor from "../../Descriptor/entityDescriptor";
+import {handleNewLine, mergeElements} from "../../Helper/OutputHelper";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
-function ServantVoiceLines(props: { region: Region; servant: Servant.Servant }) {
+export default function ServantVoiceLines(props: { region: Region; servant: Servant.Servant; relatedVoiceSvts?: Entity.EntityBasic[] }) {
     let { profile, ascensionAdd } = props.servant;
     let voices = profile?.voices;
     let voicePrefixes = new Set([...(voices?.entries() || [])].map(entry => entry[1].voicePrefix));
@@ -118,10 +119,14 @@ function ServantVoiceLines(props: { region: Region; servant: Servant.Servant }) 
 
     return (
         <>
-            <Alert variant="success">Voice Actor : {props.servant.profile?.cv}</Alert>
+            <Alert variant="success">Voice Actor: {props.servant.profile?.cv}</Alert>
+            <Alert variant="success">
+                Servants with voice lines about {props.servant.name}:{' '}
+                {props.relatedVoiceSvts
+                    ? mergeElements(props.relatedVoiceSvts.map(svt => entityDescriptor(props.region, svt)), ', ')
+                    : ''}
+            </Alert>
             {out}
         </>
     )
 }
-
-export default ServantVoiceLines;

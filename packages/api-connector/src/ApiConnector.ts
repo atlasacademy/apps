@@ -31,6 +31,7 @@ interface EntitySearchOptions {
     gender?: Gender;
     attribute?: Attribute;
     traits?: number[];
+    voiceCondSvt?: number;
 }
 
 interface FuncSearchOptions {
@@ -420,6 +421,8 @@ class ApiConnector {
             queryParts.push('attribute=' + options.attribute);
         if (options.traits && options.traits.length > 0)
             queryParts.push(...options.traits.map(trait => 'trait=' + trait));
+        if (options.voiceCondSvt)
+            queryParts.push('voiceCondSvt=' + options.voiceCondSvt);
 
         const query = '?' + queryParts.join('&');
 

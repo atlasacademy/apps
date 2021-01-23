@@ -1,4 +1,4 @@
-import {Region, Servant, Trait} from "@atlasacademy/api-connector";
+import {Region, Entity, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -41,6 +41,7 @@ interface IState {
     servant?: Servant.Servant;
     assetType?: AssetType;
     assetId?: number;
+    relatedVoiceSvts?: Entity.EntityBasic[];
 }
 
 class ServantPage extends React.Component<IProps, IState> {
@@ -61,10 +62,10 @@ class ServantPage extends React.Component<IProps, IState> {
 
     async loadServant() {
         try {
-            let [servants, servant] = await Promise.all<Servant.ServantBasic[], Servant.Servant, Trait.Trait[]>([
+            let [servants, servant, relatedVoiceSvts] = await Promise.all<Servant.ServantBasic[], Servant.Servant, Entity.EntityBasic[]>([
                 Api.servantList(),
                 Api.servant(this.state.id),
-                Api.traitList()
+                Api.searchEntity(undefined, undefined, undefined, undefined, undefined, undefined, this.props.id),
             ]);
 
             let assetType: AssetType | undefined,
@@ -89,7 +90,8 @@ class ServantPage extends React.Component<IProps, IState> {
                 servants,
                 servant,
                 assetType,
-                assetId
+                assetId,
+                relatedVoiceSvts,
             });
         } catch (e) {
             this.setState({
@@ -269,7 +271,7 @@ class ServantPage extends React.Component<IProps, IState> {
                     </Tab>
                     <Tab eventKey={'voices'} title={'Voices'}>
                         <br/>
-                        <ServantVoiceLines region={this.props.region} servant={servant}/>
+                        <ServantVoiceLines region={this.props.region} servant={servant} relatedVoiceSvts={this.state.relatedVoiceSvts}/>
                     </Tab>
                 </Tabs>
             </div>
