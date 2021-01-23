@@ -123,7 +123,7 @@ export default function ServantVoiceLines(props: { region: Region; servant: Serv
             <Alert variant="success">
                 Servants with voice lines about {props.servant.name}:{' '}
                 {props.relatedVoiceSvts
-                    ? mergeElements(props.relatedVoiceSvts.map(svt => entityDescriptor(props.region, svt)), ', ')
+                    ? mergeElements(props.relatedVoiceSvts.map(svt => entityDescriptor(props.region, svt, undefined, 'voices')), ', ')
                     : ''}
             </Alert>
             {out}

@@ -8,13 +8,14 @@ interface IProps {
     region: Region;
     enemy: Enemy.EnemyBasic;
     iconHeight?: number;
+    tab?: string;
 }
 
 class EnemyDescriptor extends React.Component<IProps> {
     render() {
         return (
             <Link
-                to={`/${this.props.region}/enemy/${this.props.enemy.id}`}
+                to={`/${this.props.region}/enemy/${this.props.enemy.id}` + (this.props.tab ? `/${this.props.tab}` : '')}
                 style={{textDecoration: "none", whiteSpace: "nowrap"}}
             >
                 <ClassIcon className={this.props.enemy.className}

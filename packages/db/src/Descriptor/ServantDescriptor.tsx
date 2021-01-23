@@ -9,12 +9,13 @@ interface IPropsCommon {
     region: Region;
     servant: Omit<Servant.ServantBasic, 'face'>;
     iconHeight?: number;
+    tab?: string;
 }
 
-function CommonServantDescriptor (props : IPropsCommon & { face?: string }) {
+function CommonServantDescriptor (props : IPropsCommon & { face?: string, tab?: string }) {
     return (
         <Link
-            to={`/${props.region}/servant/${props.servant.collectionNo}`}
+            to={`/${props.region}/servant/${props.servant.collectionNo}` + (props.tab ? `/${props.tab}` : '')}
             style={{textDecoration: "none", whiteSpace: "nowrap"}}
         >
             <ClassIcon className={props.servant.className}

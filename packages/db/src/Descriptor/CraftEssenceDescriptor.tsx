@@ -10,12 +10,13 @@ interface IPropsCommon {
     region: Region;
     craftEssence: Omit<CraftEssence.CraftEssenceBasic, 'face'>;
     iconHeight?: number;
+    tab?: string;
 }
 
-function CommonCraftEssenceDescriptor (props : IPropsCommon & { face?: string }) {
+function CommonCraftEssenceDescriptor (props : IPropsCommon & { face?: string, tab?: string }) {
     return (
         <Link
-            to={`/${props.region}/craft-essence/${props.craftEssence.collectionNo}`}
+            to={`/${props.region}/craft-essence/${props.craftEssence.collectionNo}` + (props.tab ? `/${props.tab}` : '')}
             style={{textDecoration: "none", whiteSpace: "nowrap"}}
         >
             {props.face ? (
