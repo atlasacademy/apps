@@ -1,7 +1,7 @@
 import {DataVal, Func, Region} from "@atlasacademy/api-connector";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-function handleOnFieldSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
+export default function handleOnFieldSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.onField,
         parts = section.parts;
 
@@ -11,5 +11,3 @@ function handleOnFieldSection(region: Region, sections: FuncDescriptorSections, 
         section.showing = false;
     }
 }
-
-export default handleOnFieldSection;

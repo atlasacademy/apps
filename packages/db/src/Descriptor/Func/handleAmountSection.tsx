@@ -6,7 +6,7 @@ import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-function handleAmountSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal, support?: boolean): void {
+export default function handleAmountSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal, support?: boolean): void {
     const section = sections.amount,
         parts = section.parts;
 
@@ -113,5 +113,3 @@ function handleAmountSection(region: Region, sections: FuncDescriptorSections, f
         parts.push(')');
     }
 }
-
-export default handleAmountSection;

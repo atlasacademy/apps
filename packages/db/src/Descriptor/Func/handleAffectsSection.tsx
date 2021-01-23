@@ -4,7 +4,7 @@ import {joinNumbers} from "../../Helper/StringHelper";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-function handleAffectsSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
+export default function handleAffectsSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.affects,
         parts = section.parts;
 
@@ -100,5 +100,3 @@ function handleAffectsSection(region: Region, sections: FuncDescriptorSections, 
     }
 
 }
-
-export default handleAffectsSection;

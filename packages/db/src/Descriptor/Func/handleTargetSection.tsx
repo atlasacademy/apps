@@ -32,7 +32,7 @@ export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     [Func.FuncTargetType.FIELD_OTHER, 'party and enemies except self']
 ]);
 
-function handleTargetSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
+export default function handleTargetSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.target,
         parts = section.parts;
 
@@ -78,5 +78,3 @@ function handleTargetSection(region: Region, sections: FuncDescriptorSections, f
         parts.push(targetDescriptions.get(targetType) ?? targetType);
     }
 }
-
-export default handleTargetSection;

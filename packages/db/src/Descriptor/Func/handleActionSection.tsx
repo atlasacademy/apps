@@ -131,7 +131,7 @@ function handleChargeNpPerTraitActionSection(region: Region, sections: FuncDescr
     sections.target.preposition = 'for';
 }
 
-function handleActionSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
+export default function handleActionSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.action,
         parts = section.parts;
 
@@ -230,5 +230,3 @@ function handleActionSection(region: Region, sections: FuncDescriptorSections, f
 
     parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 }
-
-export default handleActionSection;

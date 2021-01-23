@@ -2,7 +2,7 @@ import {DataVal, Func, Region} from "@atlasacademy/api-connector";
 import {asPercent} from "../../Helper/OutputHelper";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
-function handleChanceSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
+export default function handleChanceSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.chance,
         parts = section.parts;
 
@@ -27,5 +27,3 @@ function handleChanceSection(region: Region, sections: FuncDescriptorSections, f
         section.showing = false;
     }
 }
-
-export default handleChanceSection;
