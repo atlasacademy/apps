@@ -127,12 +127,17 @@ class ServantMainData extends React.Component<IProps> {
                             )
                         })}
                         {this.renderSpanningRow({
-                            title: "Valentine CE",
+                            title: "Valentine CE" + (servant.valentineEquip.length > 1 ? 's' : ''),
                             content: (
-                                mergeElements(
-                                    servant.valentineEquip.map(
-                                        equipId => <CraftEssenceReferenceDescriptor region={this.props.region} id={equipId}/>
-                                    ), ", "))
+                                servant.valentineEquip.length > 0
+                                ? mergeElements(
+                                    servant.valentineEquip.map(equipId => (
+                                        <CraftEssenceReferenceDescriptor
+                                            region={this.props.region}
+                                            id={equipId}/>
+                                )), <br></br>)
+                                : 'To Be Released'
+                            )
                         })}
                     </tbody>
                 </Table>
