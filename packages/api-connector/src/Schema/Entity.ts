@@ -103,6 +103,7 @@ export interface Entity {
     hpGrowth: number[];
     bondGrowth: number[];
     bondEquip: number;
+    valentineEquip: number[];
     ascensionMaterials: EntityLevelUpMaterialProgression;
     skillMaterials: EntityLevelUpMaterialProgression;
     costumeMaterials: EntityLevelUpMaterialProgression;

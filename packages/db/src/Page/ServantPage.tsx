@@ -155,8 +155,10 @@ class ServantPage extends React.Component<IProps, IState> {
                                          servant={this.state.servant}
                                          assetType={this.state.assetType}
                                          assetId={this.state.assetId}/>
-                        <RawDataViewer text="Nice" data={servant}/>
-                        <RawDataViewer text="Raw" data={rawUrl}/>
+                        <Row>
+                            <Col><RawDataViewer text="Nice" data={servant}/></Col>
+                            <Col><RawDataViewer text="Raw" data={rawUrl}/></Col>
+                        </Row>
                     </Col>
                     <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
                         <ServantPortrait servant={this.state.servant}

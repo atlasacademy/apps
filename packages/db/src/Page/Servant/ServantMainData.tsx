@@ -6,7 +6,7 @@ import CommandCard from "../../Component/CommandCard";
 import {Renderable, asPercent} from "../../Helper/OutputHelper";
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
-import {formatNumber} from "../../Helper/OutputHelper";
+import {formatNumber, mergeElements} from "../../Helper/OutputHelper";
 import "./ServantMainData.css";
 
 interface IProps {
@@ -60,15 +60,15 @@ class ServantMainData extends React.Component<IProps> {
                 <Table bordered className="servant-data-table">
                     <tbody>
                         {this.renderDoubleRow([
-                            { title: "ID", content: servant.id }, 
+                            { title: "ID", content: servant.id },
                             { title: "Collection", content: servant.collectionNo }
                         ])}
                         {this.renderDoubleRow([
-                            { title: "Class", content: toTitleCase(servant.className) }, 
+                            { title: "Class", content: toTitleCase(servant.className) },
                             { title: "Attribute", content: toTitleCase(servant.attribute) }
                         ])}
                         {this.renderDoubleRow([
-                            { title: "Rarity", content: <RarityDescriptor rarity={servant.rarity}/> }, 
+                            { title: "Rarity", content: <RarityDescriptor rarity={servant.rarity}/> },
                             { title: "Cost", content: servant.cost }
                         ])}
                         {this.renderSpanningRow({
@@ -111,7 +111,7 @@ class ServantMainData extends React.Component<IProps> {
                         {this.renderSpanningRow({ title: "Quick", content: this.showHits(quick) })}
                         {this.renderSpanningRow({ title: "Extra", content: this.showHits(extra) })}
                         {this.renderDoubleRow([
-                            { title: "Star Weight", content: servant.starAbsorb  }, 
+                            { title: "Star Weight", content: servant.starAbsorb  },
                             { title: "Star Gen", content: asPercent(servant.starGen, 1) }
                         ])}
                         {this.renderSpanningRow({
@@ -125,6 +125,14 @@ class ServantMainData extends React.Component<IProps> {
                                 ? <CraftEssenceReferenceDescriptor region={this.props.region} id={servant.bondEquip}/>
                                 : ''
                             )
+                        })}
+                        {this.renderSpanningRow({
+                            title: "Valentine CE",
+                            content: (
+                                mergeElements(
+                                    servant.valentineEquip.map(
+                                        equipId => <CraftEssenceReferenceDescriptor region={this.props.region} id={equipId}/>
+                                    ), ", "))
                         })}
                     </tbody>
                 </Table>
