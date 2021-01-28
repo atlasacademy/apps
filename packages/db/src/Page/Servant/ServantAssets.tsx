@@ -86,6 +86,18 @@ class ServantAssets extends React.Component<IProps> {
                         subheader: false,
                         initialOpen: false
                     })}
+                    <br />
+                    {Object.entries(this.props.servant.extraAssets.charaFigureForm)
+                        .map(([form, assetMap]) => (
+                            assetMap.story
+                            ? renderCollapsibleContent({
+                                title: `Story Figure Form ${form}`,
+                                content: this.displayAssets(assetMap, true),
+                                subheader: true,
+                                initialOpen: false})
+                            : null
+                        ))
+                    }
             </div>
         );
     }
