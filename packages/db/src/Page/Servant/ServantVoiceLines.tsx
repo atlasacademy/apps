@@ -121,8 +121,10 @@ export default function ServantVoiceLines(props: { region: Region; servant: Serv
         <>
             <Alert variant="success">Voice Actor: {props.servant.profile?.cv}</Alert>
             <Alert variant="success">
-                Servants with voice lines about {props.servant.name}:{' '}
-                {props.relatedVoiceSvts
+                {(props.relatedVoiceSvts && props.relatedVoiceSvts.length > 0)
+                    ? `Servants with voice lines about ${props.servant.name}: `
+                    : `There is no voice line about ${props.servant.name} from other servants.`}
+                {(props.relatedVoiceSvts && props.relatedVoiceSvts.length > 0)
                     ? mergeElements(props.relatedVoiceSvts.map(svt => entityDescriptor(props.region, svt, undefined, 'voices')), ', ')
                     : ''}
             </Alert>
