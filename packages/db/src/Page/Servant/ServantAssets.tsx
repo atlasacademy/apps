@@ -25,8 +25,25 @@ class ServantAssets extends React.Component<IProps> {
         return assets;
     }
 
-    private displayAssets(assetMap: Entity.EntityAssetMap | undefined) {
-        const assets = this.flattenAssets(assetMap);
+    private flattenStoryAssets(assetMap: Entity.EntityAssetMap | undefined): string[] {
+        if (!assetMap)
+            return [];
+
+        const assets = [];
+
+        if (assetMap.story)
+            assets.push(...Object.values(assetMap.story));
+
+        return assets;
+    }
+
+    private displayAssets(assetMap: Entity.EntityAssetMap | undefined, story = false) {
+        let assets;
+        if (story) {
+            assets = this.flattenStoryAssets(assetMap);
+        } else {
+            assets = this.flattenAssets(assetMap);
+        }
 
         return mergeElements(
             assets.map(asset => <a href={asset} target={'_blank'} rel={'noopener noreferrer'}>
@@ -63,6 +80,12 @@ class ServantAssets extends React.Component<IProps> {
                     {this.props.servant.profile?.illustrator}
                 </Alert>
                     {content.map(renderCollapsibleContent)}
+                    {renderCollapsibleContent({
+                        title: "Story Figure (May contain spoilers)",
+                        content: this.displayAssets(this.props.servant.extraAssets.charaFigure, true),
+                        subheader: false,
+                        initialOpen: false
+                    })}
             </div>
         );
     }

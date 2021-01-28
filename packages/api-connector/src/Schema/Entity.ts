@@ -37,6 +37,9 @@ export interface EntityAssetMap {
     ascension?: {
         [key: number]: string;
     }
+    story?: {
+        [key: number]: string;
+    }
     costume?: {
         [key: number]: string;
     }
