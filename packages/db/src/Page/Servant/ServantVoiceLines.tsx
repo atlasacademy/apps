@@ -2,7 +2,8 @@ import {Profile, ProfileVoiceType, Region, Entity, Servant} from "@atlasacademy/
 import {toTitleCase} from "@atlasacademy/api-descriptor";
 import {faFileAudio} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Api from '../../Api';
 import {Alert, ButtonGroup, Dropdown, Table} from "react-bootstrap"
 import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
 import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
@@ -18,9 +19,21 @@ export default function ServantVoiceLines(
         region: Region;
         servants: Servant.ServantBasic[];
         servant: Servant.Servant;
-        relatedVoiceSvts?: Entity.EntityBasic[];
     }
 ){
+    let [relatedVoiceSvts, setRelatedVoiceSvts] = useState<Entity.EntityBasic[]>(null as any);
+    useEffect(() => {
+        Api.searchEntity(
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            props.servant.collectionNo
+        ).then(s => setRelatedVoiceSvts(s));
+    }, [props.servant])
+
     let { profile, ascensionAdd } = props.servant;
     let voices = profile?.voices;
     let voicePrefixes = new Set([...(voices?.entries() || [])].map(entry => entry[1].voicePrefix));
@@ -135,11 +148,13 @@ export default function ServantVoiceLines(
         <>
             <Alert variant="success">Voice Actor: {props.servant.profile?.cv}</Alert>
             <Alert variant="success">
-                {(props.relatedVoiceSvts && props.relatedVoiceSvts.length > 0)
+                {relatedVoiceSvts
+                    ? relatedVoiceSvts.length > 0
                     ? `Servants with voice lines about ${props.servant.name}: `
-                    : `There is no voice line about ${props.servant.name} from other servants.`}
-                {(props.relatedVoiceSvts && props.relatedVoiceSvts.length > 0)
-                    ? mergeElements(props.relatedVoiceSvts.map(svt => entityDescriptor(props.region, svt, undefined, 'voices')), ', ')
+                    : `There is no voice line about ${props.servant.name} from other servants.`
+                    : 'Fetching related voice line data ...'}
+                {(relatedVoiceSvts && relatedVoiceSvts.length > 0)
+                    ? mergeElements(relatedVoiceSvts.map(svt => entityDescriptor(props.region, svt, undefined, 'voices')), ', ')
                     : ''}
             </Alert>
             {out}
