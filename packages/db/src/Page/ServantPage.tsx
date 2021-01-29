@@ -1,4 +1,4 @@
-import {Region, Servant} from "@atlasacademy/api-connector";
+import {Region, Entity, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -121,12 +121,12 @@ class ServantPage extends React.Component<IProps, IState> {
         const servant = this.state.servant;
         document.title = `[${this.props.region}] Servant - ${servant.name} - Atlas Academy DB`;
 
-        let remappedCostumeMaterials : typeof servant.costumeMaterials = Object.fromEntries(
-            Object.entries(servant.costumeMaterials)
-                .map(
-                    ([costumeId, costume]) => [servant.profile?.costume[costumeId].name, costume]
-                )
-        );
+        let remappedCostumeMaterials: Entity.EntityLevelUpMaterialProgression = {};
+        if (servant.profile) {
+            for (const [costumeId, costume] of Object.entries(servant.costumeMaterials)) {
+                remappedCostumeMaterials[servant.profile?.costume[costumeId].name] = costume;
+            }
+        }
 
         const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
         return (
