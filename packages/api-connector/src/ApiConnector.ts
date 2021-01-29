@@ -9,7 +9,7 @@ import {Change} from "./Schema/Change";
 import {CraftEssence, CraftEssenceBasic} from "./Schema/CraftEssence";
 import {Enemy} from "./Schema/Enemy";
 import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
-import {Event} from "./Schema/Event";
+import {Event, EventBasic} from "./Schema/Event";
 import {BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
 import {Item} from "./Schema/Item";
 import {MysticCode, MysticCodeBasic} from "./Schema/MysticCode";
@@ -56,9 +56,11 @@ class ApiConnector {
         commandCode: new ResultCache<number, CommandCode>(),
         commandCodeList: new ResultCache<null, CommandCodeBasic[]>(),
         craftEssence: new ResultCache<number, CraftEssence>(),
+        craftEssenceBasic: new ResultCache<number, CraftEssenceBasic>(),
         craftEssenceList: new ResultCache<null, CraftEssenceBasic[]>(),
         enemy: new ResultCache<number, Enemy>(),
         event: new ResultCache<number, Event>(),
+        eventBasic: new ResultCache<number, EventBasic>(),
         func: new ResultCache<number, Func>(),
         item: new ResultCache<number, Item>(),
         itemList: new ResultCache<null, Item[]>(),
@@ -147,6 +149,18 @@ class ApiConnector {
         return this.cache.craftEssence.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
+    craftEssenceBasic(id: number, cacheDuration?: number): Promise<CraftEssenceBasic> {
+        const query = this.language === Language.ENGLISH ? '?lang=en' : '',
+            fetch = () => {
+                return ApiConnector.fetch<CraftEssenceBasic>(`${this.host}/basic/${this.region}/equip/${id}${query}`);
+            };
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.craftEssenceBasic.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
     craftEssenceList(cacheDuration?: number): Promise<CraftEssenceBasic[]> {
         let source: string;
 
@@ -190,6 +204,17 @@ class ApiConnector {
         if (cacheDuration === undefined)
             return fetch();
         return this.cache.event.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    eventBasic(id: number, cacheDuration?: number): Promise<EventBasic> {
+        const fetch = () => {
+            return ApiConnector.fetch<Event>(
+                `${this.host}/basic/${this.region}/event/${id}`
+            );
+        };
+        if (cacheDuration === undefined)
+            return fetch();
+        return this.cache.eventBasic.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     func(id: number, cacheDuration?: number): Promise<Func> {

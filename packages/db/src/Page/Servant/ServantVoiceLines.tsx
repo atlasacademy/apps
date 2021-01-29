@@ -13,7 +13,14 @@ import renderCollapsibleContent from "../../Component/CollapsibleContent";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
-export default function ServantVoiceLines(props: { region: Region; servant: Servant.Servant; relatedVoiceSvts?: Entity.EntityBasic[] }) {
+export default function ServantVoiceLines(
+    props: {
+        region: Region;
+        servants: Servant.ServantBasic[];
+        servant: Servant.Servant;
+        relatedVoiceSvts?: Entity.EntityBasic[];
+    }
+){
     let { profile, ascensionAdd } = props.servant;
     let voices = profile?.voices;
     let voicePrefixes = new Set([...(voices?.entries() || [])].map(entry => entry[1].voicePrefix));
@@ -56,7 +63,14 @@ export default function ServantVoiceLines(props: { region: Region; servant: Serv
                                         <br/>{line.text.join('') || line.subtitle ? <>&nbsp;</> : ''}
                                         <Alert variant="info" style={{marginBottom: 0}}>
                                             <b>Requirements:</b><br />
-                                            {line.conds.map(cond => <><VoiceCondTypeDescriptor region={props.region} costumes={profile?.costume} cond={cond} /><br /></>)}
+                                            {line.conds.map(cond => <>
+                                                <VoiceCondTypeDescriptor
+                                                    region={props.region}
+                                                    servants={props.servants}
+                                                    costumes={profile?.costume}
+                                                    cond={cond}
+                                                /><br /></>
+                                            )}
                                         </Alert>
                                     </>
                                 ) : ''}

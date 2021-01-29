@@ -80,12 +80,12 @@ class ServantAssets extends React.Component<IProps> {
                     {this.props.servant.profile?.illustrator}
                 </Alert>
                     {content.map(renderCollapsibleContent)}
-                    {renderCollapsibleContent({
+                    {this.props.servant.extraAssets.charaFigure.story ? renderCollapsibleContent({
                         title: "Story Figure (May contain spoilers)",
                         content: this.displayAssets(this.props.servant.extraAssets.charaFigure, true),
                         subheader: false,
                         initialOpen: false
-                    })}
+                    }) : ''}
                     <br />
                     {Object.entries(this.props.servant.extraAssets.charaFigureForm)
                         .map(([form, assetMap]) => (

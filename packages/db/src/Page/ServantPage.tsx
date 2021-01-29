@@ -273,7 +273,12 @@ class ServantPage extends React.Component<IProps, IState> {
                     </Tab>
                     <Tab eventKey={'voices'} title={'Voices'}>
                         <br/>
-                        <ServantVoiceLines region={this.props.region} servant={servant} relatedVoiceSvts={this.state.relatedVoiceSvts}/>
+                        <ServantVoiceLines
+                            region={this.props.region}
+                            servants={this.state.servants}
+                            servant={servant}
+                            relatedVoiceSvts={this.state.relatedVoiceSvts}
+                        />
                     </Tab>
                 </Tabs>
             </div>

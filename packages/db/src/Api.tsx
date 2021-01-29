@@ -55,6 +55,10 @@ class Api {
         return apiConnector.craftEssence(id, cacheDuration);
     }
 
+    static craftEssenceBasic(id: number): Promise<CraftEssence.CraftEssenceBasic> {
+        return apiConnector.craftEssenceBasic(id, cacheDuration);
+    }
+
     static async craftEssenceList(): Promise<CraftEssence.CraftEssenceBasic[]> {
         return apiConnector.craftEssenceList(-1);
     }
@@ -65,6 +69,10 @@ class Api {
 
     static async event(id : number): Promise<Event.Event> {
         return apiConnector.event(id, cacheDuration);
+    }
+
+    static async eventBasic(id : number): Promise<Event.EventBasic> {
+        return apiConnector.eventBasic(id, cacheDuration);
     }
 
     static func(id: number): Promise<Func.Func> {

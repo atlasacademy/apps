@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import QuestDescriptor from './QuestDescriptor';
-import ServantDescriptor from './ServantDescriptor';
+import {BasicServantDescriptor} from './ServantDescriptor';
 import {Event, Profile, Region, Servant} from '@atlasacademy/api-connector';
 import Api from '../Api';
 
@@ -10,22 +10,18 @@ interface IProps {
     cond: Exclude<Servant.Servant['profile'], undefined>['voices'][0]['voiceLines'][0]['conds'][0],
     costumes?: Exclude<Servant.Servant['profile'], undefined>['costume'],
     region: Region,
+    servants: Servant.ServantBasic[];
 }
 
 let VoiceCondTypeDescriptor = (props : IProps) => {
-    function ServantLink (props : { id: number }) {
-        const [servant, setServant] = useState<Servant.Servant>(null as any);
-        Api.servant(props.id).then(s => setServant(s));
-        return (
-            servant
-                ? <ServantDescriptor region={region} servant={servant} />
-                : <>servantId {value}</>
-        )
+    function ServantLink (props : { id: number; servants: Servant.ServantBasic[] }) {
+        let servant = props.servants.filter(servant => servant.id === props.id)[0];
+        return <BasicServantDescriptor region={region} servant={servant} />
     }
 
     function EventItem (props : { id: number }) {
-        const [event, setEvent] = useState<Event.Event>(null as any);
-        Api.event(props.id).then(s => setEvent(s))
+        const [event, setEvent] = useState<Event.EventBasic>(null as any);
+        Api.eventBasic(props.id).then(s => setEvent(s))
         return (
             event
                 ? <>{event.name}</>
@@ -56,11 +52,13 @@ let VoiceCondTypeDescriptor = (props : IProps) => {
         case VoiceCondType.IS_NEW_WAR: return <>New war {value}</>;
         case VoiceCondType.QUEST_CLEAR: return <>Cleared <QuestDescriptor region={region} text="" questId={value} questPhase={1}/></>;
         case VoiceCondType.NOT_QUEST_CLEAR: return <>Hasn't cleared <QuestDescriptor region={region} text="" questId={value} questPhase={1}/></>;
-        case VoiceCondType.SVT_GET: return <>Presence of <ServantLink id={value} /></>;
+        case VoiceCondType.SVT_GET: return <>Presence of <ServantLink id={value} servants={props.servants}/></>;
         case VoiceCondType.SVT_GROUP: return (
             <>
                 {'Presence of any of the following: '}
-                {valueList.map((value, i) => <><ServantLink id={value}/>{ i < valueList.length - 1 ? ', ' : '' }</>)}
+                {valueList.map((value, i) =>
+                    <><ServantLink id={value} servants={props.servants}/>{ i < valueList.length - 1 ? ', ' : '' }</>
+                )}
             </>
         );
         default: return <>{condType}</>
