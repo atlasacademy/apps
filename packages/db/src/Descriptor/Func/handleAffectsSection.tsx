@@ -3,6 +3,7 @@ import {mergeElements} from "../../Helper/OutputHelper";
 import {joinNumbers} from "../../Helper/StringHelper";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
+import EventDescriptor from '../EventDescriptor';
 
 export default function handleAffectsSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.affects,
@@ -65,7 +66,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
 
         if (dataVal.EventId) {
             parts.push(
-                <span>during event <TraitDescription region={region} trait={Number(dataVal.EventId)}/></span>
+                <span>during event <EventDescriptor eventId={dataVal.EventId}/></span>
             )
         }
     }

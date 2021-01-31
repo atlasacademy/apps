@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import QuestDescriptor from './QuestDescriptor';
+import EventDescriptor from './EventDescriptor';
 import {BasicServantDescriptor} from './ServantDescriptor';
-import {Event, Profile, Region, Servant} from '@atlasacademy/api-connector';
-import Api from '../Api';
+import {Profile, Region, Servant} from '@atlasacademy/api-connector';
 
 const { VoiceCondType } = Profile;
 
@@ -19,27 +19,17 @@ let VoiceCondTypeDescriptor = (props : IProps) => {
         return <BasicServantDescriptor region={region} servant={servant} />
     }
 
-    function EventItem (props : { id: number }) {
-        const [event, setEvent] = useState<Event.EventBasic>(null as any);
-        Api.eventBasic(props.id).then(s => setEvent(s))
-        return (
-            event
-                ? <>{event.name}</>
-                : <>eventId {props.id}</>
-        )
-    }
-
     let { cond: { condType, value, valueList }, costumes = {}, region } = props;
     switch (condType) {
         case VoiceCondType.BIRTH_DAY: return <>Player birthday</>;
         case VoiceCondType.COUNT_STOP: return <>Final ascension</>
         case VoiceCondType.EVENT: return <>An event is available</>;
-        case VoiceCondType.EVENT_PERIOD: return <>During event <b><EventItem id={value}/></b></>;
-        case VoiceCondType.EVENT_END: return <>Event <b><EventItem id={value}/></b> ended</>;
-        case VoiceCondType.EVENT_NOEND: return <>Event <b><EventItem id={value}/></b> hasn't ended</>;
-        case VoiceCondType.EVENT_SHOP_PURCHASE: return <>Event <b><EventItem id={value}/></b> shop purchase line</>;
-        case VoiceCondType.SPACIFIC_SHOP_PURCHASE: return <>Event <b><EventItem id={value}/></b> specific shop purchase line</>;
-        case VoiceCondType.EVENT_MISSION_ACTION: return <>Event <b><EventItem id={value}/></b> mission line</>;
+        case VoiceCondType.EVENT_PERIOD: return <>During event <b><EventDescriptor eventId={value}/></b></>;
+        case VoiceCondType.EVENT_END: return <>Event <b><EventDescriptor eventId={value}/></b> ended</>;
+        case VoiceCondType.EVENT_NOEND: return <>Event <b><EventDescriptor eventId={value}/></b> hasn't ended</>;
+        case VoiceCondType.EVENT_SHOP_PURCHASE: return <>Event <b><EventDescriptor eventId={value}/></b> shop purchase line</>;
+        case VoiceCondType.SPACIFIC_SHOP_PURCHASE: return <>Event <b><EventDescriptor eventId={value}/></b> specific shop purchase line</>;
+        case VoiceCondType.EVENT_MISSION_ACTION: return <>Event <b><EventDescriptor eventId={value}/></b> mission line</>;
         case VoiceCondType.FRIENDSHIP: return <>Bond level {value}</>;
         case VoiceCondType.FRIENDSHIP_ABOVE: return <>Bond level {value}</>;
         case VoiceCondType.FRIENDSHIP_BELOW: return <>Bond level {value} or less</>;
