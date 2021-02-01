@@ -1,9 +1,9 @@
-import {Region} from "@atlasacademy/api-connector";
-import React from "react";
+import {Region, Language} from "@atlasacademy/api-connector";
 import {Renderable} from "./OutputHelper";
+import Manager from "../Setting/Manager";
 
 export default function getRubyText(region: Region, text: string, ruby: string, splitRank = false): Renderable {
-    if (region !== Region.JP) {
+    if (region !== Region.JP || Manager.language() === Language.ENGLISH) {
         return text;
     } else {
         return makeRubyText(text, ruby, splitRank);

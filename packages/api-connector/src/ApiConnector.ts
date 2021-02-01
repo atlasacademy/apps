@@ -110,9 +110,10 @@ class ApiConnector {
     }
 
     commandCode(id: number, cacheDuration?: number): Promise<CommandCode> {
+        const query = (this.language === Language.ENGLISH ? '?lang=en' : '');
         const fetch = () => {
             return ApiConnector.fetch<CommandCode>(
-                `${this.host}/nice/${this.region}/CC/${id}`
+                `${this.host}/nice/${this.region}/CC/${id}${query}`
             );
         };
 
@@ -123,10 +124,16 @@ class ApiConnector {
     }
 
     async commandCodeList(cacheDuration?: number): Promise<CommandCodeBasic[]> {
+        let source: string;
+
+        if (this.region === Region.JP && this.language === Language.ENGLISH) {
+            source = `${this.host}/export/JP/basic_command_code_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/basic_command_code.json`;
+        }
+
         const fetch = () => {
-            return ApiConnector.fetch<CommandCodeBasic[]>(
-                `${this.host}/export/${this.region}/basic_command_code.json`
-            );
+            return ApiConnector.fetch<CommandCodeBasic[]>(source);
         };
 
         if (cacheDuration === undefined)
