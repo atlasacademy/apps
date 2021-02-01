@@ -123,6 +123,14 @@ class Api {
         return apiConnector.traitList(-1);
     }
 
+    static searchItem(name?: string,
+                      individuality?: number[],
+                      type?: Item.ItemType[],
+                      background?: Item.ItemBackgroundType[],
+                      use?: Item.ItemUse[]): Promise<Item.Item[]> {
+        return apiConnector.searchItem({name, individuality, type, background, use}, cacheDuration);
+    }
+
     static searchBuffs(name?: string, type?: Buff.BuffType): Promise<Buff.BasicBuff[]> {
         return apiConnector.searchBuff({name, type});
     }

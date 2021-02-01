@@ -11,7 +11,7 @@ import {Enemy} from "./Schema/Enemy";
 import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
 import {Event, EventBasic} from "./Schema/Event";
 import {BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
-import {Item} from "./Schema/Item";
+import {Item, ItemType, ItemBackgroundType, ItemUse} from "./Schema/Item";
 import {MysticCode, MysticCodeBasic} from "./Schema/MysticCode";
 import {NoblePhantasm} from "./Schema/NoblePhantasm";
 import {QuestPhase} from "./Schema/Quest";
@@ -41,6 +41,14 @@ interface FuncSearchOptions {
     team?: FuncTargetTeam;
 }
 
+interface ItemSearchOptions {
+    name?: string;
+    individuality?: number[];
+    type?: ItemType[];
+    background?: ItemBackgroundType[];
+    use?: ItemUse[];
+}
+
 interface ApiConnectorProperties {
     host?: string;
     region?: Region;
@@ -64,6 +72,7 @@ class ApiConnector {
         func: new ResultCache<number, Func>(),
         item: new ResultCache<number, Item>(),
         itemList: new ResultCache<null, Item[]>(),
+        searchItem: new ResultCache<string, Item[]>(),
         mysticCode: new ResultCache<number, MysticCode>(),
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
@@ -264,6 +273,41 @@ class ApiConnector {
             return fetch();
 
         return this.cache.itemList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    searchItem(options: ItemSearchOptions, cacheDuration?: number): Promise<Item[]> {
+        let queryParts: string[] = []
+
+        if (options.name)
+            queryParts.push("name=" + encodeURI(options.name));
+
+        let urlParameterMap = [
+            ["individuality", options.individuality],
+            ["type", options.type],
+            ["background", options.background],
+            ["use", options.use],
+        ]
+
+        for (let [queryParameter, queryValues] of urlParameterMap) {
+            if (queryValues && queryValues.length > 0) {
+                for (let queryValue of queryValues) {
+                    queryParts.push(`${queryParameter}=${queryValue}`);
+                }
+            }
+        }
+
+        let query = '?' + queryParts.join('&');
+
+        const fetch = () => {
+            return ApiConnector.fetch<Item[]>(
+                `${this.host}/nice/${this.region}/item/search${query}`
+            );
+        }
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.searchItem.get(query, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     mysticCode(id: number, cacheDuration?: number): Promise<MysticCode> {

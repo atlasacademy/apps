@@ -67,8 +67,7 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
             section.showing = false;
         }
     } else if (dataVal.AddCount && (
-        func.funcType === Func.FuncType.EVENT_DROP_UP
-        || func.funcType === Func.FuncType.EXP_UP
+        func.funcType === Func.FuncType.EXP_UP
         || func.funcType === Func.FuncType.QP_UP
         || func.funcType === Func.FuncType.USER_EQUIP_EXP_UP
     )) {

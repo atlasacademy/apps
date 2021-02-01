@@ -80,6 +80,9 @@ export default function (func: Func.Func): Sections {
 
             return flags;
         case Func.FuncType.EVENT_DROP_UP:
+        case Func.FuncType.EVENT_POINT_UP:
+        case Func.FuncType.EVENT_DROP_RATE_UP:
+        case Func.FuncType.EVENT_POINT_RATE_UP:
         case Func.FuncType.EXP_UP:
         case Func.FuncType.QP_DROP_UP:
         case Func.FuncType.QP_UP:
