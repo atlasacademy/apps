@@ -76,7 +76,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         parts.push(
             mergeElements(
                 func.funcquestTvals.map(trait => <TraitDescription region={region} trait={trait}/>),
-                ' & '
+                ' or '
             )
         );
     }
