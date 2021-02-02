@@ -49,7 +49,7 @@ interface MaterialUsageColumn {
 }
 
 interface MaterialUsageData extends MaterialUsageColumn{
-    id: number;
+    collectionNo: number;
     name: string;
     face: string;
 }
@@ -129,7 +129,7 @@ class ItemPage extends React.Component<IProps, IState> {
 
     private servantProcessMaterials(servant: Servant.Servant):MaterialUsageData {
         let servantProcessed = {
-            "id": servant.id,
+            "collectionNo": servant.collectionNo,
             "name": servant.name,
             "face": servant.extraAssets?.faces.ascension ? servant.extraAssets?.faces.ascension[1] : "",
             "ascensions": 0,
@@ -197,10 +197,10 @@ class ItemPage extends React.Component<IProps, IState> {
                         {MATERIAL_USAGE_HEADER}
                     </tr>
                     {usageData.map(servantUsage => {
-                        const route = `/${region}/servant/${servantUsage.id}/materials`;
+                        const route = `/${region}/servant/${servantUsage.collectionNo}/materials`;
 
                         return (
-                            <tr key={servantUsage.id}>
+                            <tr key={servantUsage.collectionNo}>
                                 <td align={"center"} style={{width: '1px'}}>
                                     <Link to={route}>
                                         <FaceIcon location={servantUsage.face} height={50}/>
@@ -236,7 +236,9 @@ class ItemPage extends React.Component<IProps, IState> {
                 usageData: this.getUsageData(className),
             })).filter(tab => tab.usageData.length > 0);
 
-        let allUsageData = tabs.reduce((acc, tab) => acc.concat(tab.usageData), [] as MaterialUsageData[]);
+        let allUsageData = tabs.reduce(
+            (acc, tab) => acc.concat(tab.usageData), [] as MaterialUsageData[]
+        ).sort((a,b) => a.collectionNo - b.collectionNo);
         tabs.unshift({
             class: ClassName.ALL,
             usageData: allUsageData,
