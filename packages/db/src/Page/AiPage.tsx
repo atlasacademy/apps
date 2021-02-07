@@ -72,7 +72,7 @@ class AiPage extends React.Component<IProps, IState> {
 
         <DataTable
           data={{
-            "Parent Ais": AiDescriptor.renderParentAiLinks(
+            "Parent AIs": AiDescriptor.renderParentAiLinks(
               this.props.region,
               mainAi.parentAis
             ),

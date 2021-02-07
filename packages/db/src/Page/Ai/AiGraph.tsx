@@ -62,6 +62,7 @@ export default function AiGraph(props: { aiCol: Ai.AiCollection }) {
         {
           selector: "edge",
           style: {
+            width: 4,
             "line-color": "#ccc",
             "target-arrow-color": "#ccc",
             "target-arrow-shape": "triangle",
@@ -69,15 +70,9 @@ export default function AiGraph(props: { aiCol: Ai.AiCollection }) {
           },
         },
         {
-          selector: ".idIdxEdge",
-          style: {
-            width: 3,
-          },
-        },
-        {
           selector: ".idxIdEdge",
           style: {
-            width: 5,
+            "line-style": "dashed",
           },
         },
       ]}
