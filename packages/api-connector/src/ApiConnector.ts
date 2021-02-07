@@ -62,6 +62,7 @@ class ApiConnector {
     private language: Language;
     private cache = {
         buff: new ResultCache<number, Buff>(),
+        buffBasic: new ResultCache<number, BasicBuff>(),
         commandCode: new ResultCache<number, CommandCode>(),
         commandCodeList: new ResultCache<null, CommandCodeBasic[]>(),
         craftEssence: new ResultCache<number, CraftEssence>(),
@@ -112,6 +113,19 @@ class ApiConnector {
             return fetch();
 
         return this.cache.buff.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    buffBasic(id: number, cacheDuration?: number): Promise<BasicBuff> {
+        const fetch = () => {
+                return ApiConnector.fetch<BasicBuff>(
+                    `${this.host}/basic/${this.region}/buff/${id}`
+                );
+            };
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.buffBasic.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     async changelog(): Promise<Change[]> {

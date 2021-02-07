@@ -40,6 +40,10 @@ class Api {
         return apiConnector.buff(id, cacheDuration);
     }
 
+    static buffBasic(id: number): Promise<Buff.BasicBuff> {
+        return apiConnector.buffBasic(id, cacheDuration);
+    }
+
     static changelog() : Promise<Change.Change[]> {
         return apiConnector.changelog();
     }

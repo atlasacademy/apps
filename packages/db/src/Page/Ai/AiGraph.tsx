@@ -5,12 +5,13 @@ import CytoscapeComponent from "react-cytoscapejs";
 function getCytoscapeElements(aiCol: Ai.AiCollection) {
     let pushedMains = new Set();
     let dataarray = [];
-    for (let ai of aiCol.mainAis.concat(aiCol.relatedAis)) {
+    for (const ai of aiCol.mainAis.concat(aiCol.relatedAis)) {
         if (!pushedMains.has(ai.id)) {
             dataarray.push({
                 data: { id: ai.id.toString() },
                 classes: "idNode",
             });
+            pushedMains.add(ai.id);
         }
         dataarray.push({
             data: { id: `${ai.id}-${ai.idx}` },
@@ -128,9 +129,9 @@ export default function AiGraph(props: {
                 },
             ]}
             cy={(cytoscape) =>
-                cytoscape.on("click", "node", (cytoscapeEvent) =>
+                cytoscape.on("tap", "node", (cytoscapeEvent) =>
                     props.handleNavigateAiId?.(
-                        +cytoscapeEvent.target._private.data.id.split("-")[0]
+                        +cytoscapeEvent.target.id().split("-")[0]
                     )
                 )
             }
