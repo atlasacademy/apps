@@ -48,8 +48,7 @@ function renderNextAi(region: Region, aiType: Ai.AiType, avals: number[]) {
   if (avals.length >= 2 && avals[0] !== 0) {
     return (
       <>
-        <AiDescriptor region={region} aiType={aiType} id={avals[0]} /> -{" "}
-        {avals[1]}
+        <AiDescriptor region={region} aiType={aiType} id={avals[0]} />
       </>
     );
   } else {
@@ -83,7 +82,9 @@ export default function AiTable(props: {
           <td style={{ fontWeight: "bold" }}>Act Num</td>
           {ais.map((ai) => (
             <td key={ai.idx}>
-              {ai.actNumInt} - {toTitleCase(ai.actNum)}
+              {ai.actNum === Ai.AiActNum.UNKNOWN
+                ? ai.actNumInt
+                : toTitleCase(ai.actNum)}
             </td>
           ))}
         </tr>
@@ -133,7 +134,7 @@ export default function AiTable(props: {
           ))}
         </tr>
         <tr>
-          <td style={{ fontWeight: "bold" }}>Change AI ID</td>
+          <td style={{ fontWeight: "bold" }}>Next AI</td>
           {ais.map((ai) => (
             <td key={ai.idx}>
               {renderNextAi(props.region, props.aiType, ai.avals)}

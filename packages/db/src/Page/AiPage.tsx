@@ -10,6 +10,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import Manager from "../Setting/Manager";
 import AiTable from "./Ai/AiTable";
+import AiGraph from "./Ai/AiGraph";
 
 interface IProps {
   region: Region;
@@ -71,7 +72,6 @@ class AiPage extends React.Component<IProps, IState> {
 
         <DataTable
           data={{
-            ID: mainAi.id,
             "Parent Ais": AiDescriptor.renderParentAiLinks(
               this.props.region,
               mainAi.parentAis
@@ -89,6 +89,7 @@ class AiPage extends React.Component<IProps, IState> {
           }}
         />
 
+        <AiGraph aiCol={this.state.aiCollection} />
         <AiTable
           region={this.props.region}
           aiType={this.props.aiType}
