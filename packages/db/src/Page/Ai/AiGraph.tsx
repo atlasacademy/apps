@@ -61,7 +61,7 @@ function getGraphSize(windowWidth: number, windowHeight: number) {
   return [graphWidth, graphHeight];
 }
 
-export default function AiGraph(props: { aiCol: Ai.AiCollection }) {
+export default function AiGraph(props: { aiCol: Ai.AiCollection, handleNavigateAiId?: (id : number) => void }) {
   const [width, setWidth] = useState(window.innerWidth);
   const [height, setHeight] = useState(window.innerHeight);
   const updateDimensions = () => {
@@ -121,6 +121,11 @@ export default function AiGraph(props: { aiCol: Ai.AiCollection }) {
           },
         },
       ]}
+      cy={cytoscape => cytoscape.on(
+        'click',
+        'node',
+        cytoscapeEvent => props.handleNavigateAiId?.(+cytoscapeEvent.target._private.data.id)
+      )}
     />
   );
 }

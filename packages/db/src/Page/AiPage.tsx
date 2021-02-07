@@ -22,6 +22,7 @@ interface IState {
   error?: AxiosError;
   loading: boolean;
   aiCollection?: Ai.AiCollection;
+  refs: Map<number, React.Ref<any>>;
 }
 
 class AiPage extends React.Component<IProps, IState> {
@@ -30,6 +31,7 @@ class AiPage extends React.Component<IProps, IState> {
 
     this.state = {
       loading: true,
+      refs: new Map()
     };
   }
 
@@ -41,10 +43,12 @@ class AiPage extends React.Component<IProps, IState> {
   async loadAi() {
     try {
       const ai = await Api.ai(this.props.aiType, this.props.id);
-
       this.setState({
         loading: false,
         aiCollection: ai,
+        refs: new Map(
+          [...ai.mainAis, ...ai.relatedAis].map(ai => [ai.id, React.createRef()])
+        )
       });
       document.title = `[${this.props.region}] AI - ${this.props.id} - Atlas Academy DB`;
     } catch (e) {
@@ -89,19 +93,28 @@ class AiPage extends React.Component<IProps, IState> {
           }}
         />
 
-        <AiGraph aiCol={this.state.aiCollection} />
-        <AiTable
-          region={this.props.region}
-          aiType={this.props.aiType}
-          ais={aiCollection.mainAis}
-        />
+        <AiGraph
+          aiCol={this.state.aiCollection}
+          handleNavigateAiId={id => {
+            let elementRef = this.state.refs.get(id);
+            (elementRef as React.RefObject<HTMLDivElement>)?.current?.scrollIntoView({ behavior: 'smooth' });
+          }} />
+        <div ref={this.state.refs.get(aiCollection.mainAis[0].id)}>
+          <AiTable
+            region={this.props.region}
+            aiType={this.props.aiType}
+            ais={aiCollection.mainAis}
+          />
+        </div>
         {Array.from(new Set(aiCollection.relatedAis.map((ai) => ai.id))).map(
           (aiId) => (
-            <AiTable
-              region={this.props.region}
-              aiType={this.props.aiType}
-              ais={aiCollection.relatedAis.filter((ai) => ai.id === aiId)}
-            />
+            <div ref={this.state.refs.get(aiId)}>
+              <AiTable
+                region={this.props.region}
+                aiType={this.props.aiType}
+                ais={aiCollection.relatedAis.filter((ai) => ai.id === aiId)}
+              />
+            </div>
           )
         )}
       </div>
