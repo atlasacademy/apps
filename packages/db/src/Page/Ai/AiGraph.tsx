@@ -1,4 +1,5 @@
 import { Ai } from "@atlasacademy/api-connector";
+import { useEffect, useState } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
 
 function getCytoscapeElements(aiCol: Ai.AiCollection) {
@@ -32,13 +33,57 @@ function getCytoscapeElements(aiCol: Ai.AiCollection) {
   return dataarray;
 }
 
+function getGraphSize(windowWidth: number, windowHeight: number) {
+  let graphWidth = -1;
+  let graphHeight = -1;
+  // From CSS media query of Bootstrap Container
+  let windowContainerWidths = [
+    [1200, 1140],
+    [992, 960],
+    [768, 720],
+    [576, 540],
+  ];
+
+  for (const [minWindowWdith, maxContainerWidth] of windowContainerWidths) {
+    if (windowWidth >= minWindowWdith) {
+      // Bootstrap Container padding-right: 15px; padding-left: 15px;
+      graphWidth = Math.max(maxContainerWidth) - 30;
+      break;
+    }
+  }
+  if (graphWidth === -1) graphWidth = windowWidth - 30;
+
+  if (windowWidth > windowHeight) {
+    graphHeight = windowHeight * 0.6;
+  } else {
+    graphHeight = windowHeight * 0.45;
+  }
+  return [graphWidth, graphHeight];
+}
+
 export default function AiGraph(props: { aiCol: Ai.AiCollection }) {
+  const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
+  const updateDimensions = () => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
+
+  const [graphWidth, graphHeight] = getGraphSize(width, height);
+
   const elements = getCytoscapeElements(props.aiCol);
 
   return (
     <CytoscapeComponent
       elements={elements}
-      style={{ width: "1100px", height: "600px" }}
+      style={{ width: `${graphWidth}px`, height: `${graphHeight}px` }}
+      minZoom={0.4}
+      maxZoom={3}
+      wheelSensitivity={0.2}
       layout={{ name: "breadthfirst" }}
       stylesheet={[
         {
