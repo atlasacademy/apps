@@ -87,7 +87,7 @@ export default function AiGraph(props: {
         <CytoscapeComponent
             elements={elements}
             style={{ width: `${graphWidth}px`, height: `${graphHeight}px` }}
-            minZoom={0.4}
+            minZoom={0.1}
             maxZoom={3}
             wheelSensitivity={0.2}
             layout={{ name: "breadthfirst" }}
@@ -130,7 +130,7 @@ export default function AiGraph(props: {
             cy={(cytoscape) =>
                 cytoscape.on("click", "node", (cytoscapeEvent) =>
                     props.handleNavigateAiId?.(
-                        +cytoscapeEvent.target._private.data.id
+                        +cytoscapeEvent.target._private.data.id.split("-")[0]
                     )
                 )
             }
