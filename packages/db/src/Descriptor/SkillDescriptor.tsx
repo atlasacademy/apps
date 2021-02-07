@@ -9,6 +9,7 @@ interface IProps {
     region: Region;
     skill: Skill.SkillBasic;
     iconHeight?: number;
+    whiteSpace?: "normal" | "nowrap";
 }
 
 class SkillDescriptor extends React.Component<IProps> {
@@ -19,6 +20,7 @@ class SkillDescriptor extends React.Component<IProps> {
     }
 
     render() {
+        const textWhiteSpace = this.props.whiteSpace ? this.props.whiteSpace : "normal";
         return (
             <Link
                 to={`/${this.props.region}/skill/${this.props.skill.id}`}
@@ -28,7 +30,7 @@ class SkillDescriptor extends React.Component<IProps> {
                     <BuffIcon location={this.props.skill.icon} height={this.props.iconHeight}/>
                 ) : undefined}
                 {this.props.skill.icon ? ' ' : undefined}
-                <span className="hoverText" style={{whiteSpace: "normal"}}>
+                <span className="hoverText" style={{whiteSpace: textWhiteSpace}}>
                     [{this.props.skill.name
                     ? getRubyText(this.props.region, this.props.skill.name, this.props.skill.ruby, true)
                     : `Skill: ${this.props.skill.id}`}]

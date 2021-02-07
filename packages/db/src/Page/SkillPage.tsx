@@ -11,6 +11,7 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import entityDescriptor from "../Descriptor/entityDescriptor";
 import {BasicMysticCodeDescriptor} from "../Descriptor/MysticCodeDescriptor";
+import AiDescriptor from "../Descriptor/AiDescriptor";
 import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 import getRubyText from "../Helper/StringHelper";
@@ -97,6 +98,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     "Name": getRubyText(this.props.region, skill.name, skill.ruby, true),
                     "Detail": skill.detail,
                     "Type": skill.type,
+                    "Related AIs": AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),
                     "Owner": (
                         <div>
                             {(skill.reverse?.basic?.servant ?? [])

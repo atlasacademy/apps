@@ -15,6 +15,7 @@ import HomePage from "./Page/HomePage";
 import Manager from "./Setting/Manager";
 import {Theme} from "./Setting/Theme";
 
+const AiPage = React.lazy(() => import("./Page/AiPage"));
 const BuffPage = React.lazy(() => import("./Page/BuffPage"));
 const BuffsPage = React.lazy(() => import("./Page/BuffsPage"));
 const ChangelogPage = React.lazy(() => import("./Page/ChangelogPage"));
@@ -160,6 +161,14 @@ class App extends React.Component<any, IState> {
                             return (
                                 <Suspense fallback={<Loading/>}>
                                     <QuestPage key={`${region}-${id}-${phase}`} region={region} id={id} phase={phase}/>
+                                </Suspense>
+                            )
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/ai/:aiType(svt|field)/:id([0-9]+)" render={props => {
+                            const {region, aiType, id} = props.match.params
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <AiPage key={`${region}-${aiType}-${id}`} region={region} aiType={aiType} id={id}/>
                                 </Suspense>
                             )
                         }}/>
