@@ -2,23 +2,23 @@ import {Entity, EntityBasic, EntityType} from "./Entity";
 import {Profile} from "./Profile";
 import {Trait} from "./Trait";
 
-export interface ServantAscensionAdditions {
-    individuality: {
-        ascension?: {
-            [key: number]: Trait[];
-        }
-        costume?: {
-            [key: number]: Trait[];
-        }
-    };
-    voicePrefix: {
-        ascension?: {
-            [key: number]: number;
-        }
-        costume?: {
-            [key: number]: number;
-        }
+interface ServantAscensionAdditionDetails<T> {
+    ascension: {
+        [key: number]: T;
     }
+    costume: {
+        [key: number]: T;
+    }
+}
+
+export interface ServantAscensionAdditions {
+    individuality: ServantAscensionAdditionDetails<Trait[]>;
+    voicePrefix: ServantAscensionAdditionDetails<number>;
+    overWriteServantName: ServantAscensionAdditionDetails<string>;
+    overWriteServantBattleName: ServantAscensionAdditionDetails<string>;
+    overWriteTDName: ServantAscensionAdditionDetails<string>;
+    overWriteTDRuby: ServantAscensionAdditionDetails<string>;
+    overWriteTDFileName: ServantAscensionAdditionDetails<string>;
 }
 
 export interface ServantScript {

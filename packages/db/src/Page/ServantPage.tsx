@@ -111,6 +111,19 @@ class ServantPage extends React.Component<IProps, IState> {
         this.setState({assetType, assetId});
     }
 
+    private getOverwriteName() {
+        const overWriteServantName = this.state.servant?.ascensionAdd.overWriteServantName;
+        if (this.state.assetId && overWriteServantName) {
+            const limit = this.state.assetId === 1 ? 0 : this.state.assetId;
+            if (limit in overWriteServantName.ascension) {
+                return overWriteServantName.ascension[limit];
+            } else if (limit in overWriteServantName.costume) {
+                return overWriteServantName.costume[limit];
+            }
+        }
+        return this.state.servant?.name;
+    }
+
     render() {
         if (this.state.error)
             return <ErrorStatus error={this.state.error}/>;
@@ -140,7 +153,7 @@ class ServantPage extends React.Component<IProps, IState> {
                     <h1 style={{ marginBottom: "1rem" }}>
                         <ClassIcon className={servant.className} rarity={servant.rarity} height={50}/>
                         &nbsp;
-                        {servant.name}
+                        {this.getOverwriteName()}
                     </h1>
                     <span style={{ flexGrow: 1 }} />
                 </div>

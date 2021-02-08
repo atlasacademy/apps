@@ -6,13 +6,17 @@ import getRubyText from "../Helper/StringHelper";
 interface IProps {
     region: Region;
     noblePhantasm: NoblePhantasm.NoblePhantasmBasic;
+    overwriteName?: string;
+    overwriteRuby?: string;
 }
 
 class NoblePhantasmDescriptor extends React.Component<IProps> {
     render() {
+        const name = this.props.overwriteName ? this.props.overwriteName : this.props.noblePhantasm.name;
+        const ruby = this.props.overwriteRuby ? this.props.overwriteRuby : this.props.noblePhantasm.ruby;
         return (
             <Link to={`/${this.props.region}/noble-phantasm/${this.props.noblePhantasm.id}`}>
-                [{getRubyText(this.props.region, this.props.noblePhantasm.name, this.props.noblePhantasm.ruby)}]
+                [{getRubyText(this.props.region, name, ruby)}]
             </Link>
         );
     }

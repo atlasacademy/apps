@@ -19,11 +19,31 @@ interface IProps {
 }
 
 class NoblePhantasmBreakdown extends React.Component<IProps> {
+    private getOverwriteData(ascensionAddField: "overWriteTDName" | "overWriteTDRuby" | "overWriteTDFileName") {
+        const overWriteTD = this.props.servant.ascensionAdd[ascensionAddField];
+        if (this.props.assetId) {
+            const limit = this.props.assetId === 1 ? 0 : this.props.assetId;
+            if (limit in overWriteTD.ascension) {
+                return overWriteTD.ascension[limit];
+            } else if (limit in overWriteTD.costume) {
+                return overWriteTD.costume[limit];
+            }
+        }
+        switch (ascensionAddField) {
+            case "overWriteTDName":
+                return this.props.noblePhantasm.name;
+            case "overWriteTDRuby":
+                return this.props.noblePhantasm.ruby;
+            case "overWriteTDFileName":
+                return this.props.noblePhantasm.icon;
+        }
+    }
+
     private npCommandCard() {
         return <CommandCard height={200}
                             card={this.props.noblePhantasm.card}
                             servant={this.props.servant}
-                            npText={this.props.noblePhantasm.icon}
+                            npText={this.getOverwriteData("overWriteTDFileName")}
                             npTextBottom={this.props.servant.id === 800100 && this.props.noblePhantasm.id === 800101}
                             assetType={this.props.assetType}
                             assetId={this.props.assetId}/>;
@@ -45,7 +65,12 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
 
                     <Col xs={12} lg={9}>
                         <h3>
-                            <NoblePhantasmDescriptor region={this.props.region} noblePhantasm={np}/>
+                            <NoblePhantasmDescriptor
+                                region={this.props.region}
+                                noblePhantasm={np}
+                                overwriteName={this.getOverwriteData("overWriteTDName")}
+                                overwriteRuby={this.getOverwriteData("overWriteTDRuby")}
+                            />
                         </h3>
 
                         {np.condQuestId && np.condQuestPhase ? (
@@ -58,7 +83,7 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                         ) : null}
 
                         <p>{handleNewLine(np.detail)}</p>
-                        
+
                         <p>
                             {categories.filter(Boolean).join(' – ')}<br />
                             Card: <CardType card={np.card} height={60}/><br/>
