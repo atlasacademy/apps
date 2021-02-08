@@ -123,6 +123,7 @@ function ActTarget(props: {
     region: Region;
     target: Ai.AiActTarget;
     targetIndividuality: Trait.Trait[];
+    handleNavigateAiId?: (id: number) => void;
 }) {
     return (
         <>
@@ -167,11 +168,12 @@ function NextAi(props: {
 }) {
     if (props.avals.length >= 2 && props.avals[0] !== 0) {
         return (
-            <AiDescriptor
-                region={props.region}
-                aiType={props.aiType}
-                id={props.avals[0]}
-            />
+            <a
+                href="javascript:;"
+                onClick={(_) => props.handleNavigateAiId?.(props.avals[0])}
+            >
+                {AiDescriptor.renderAsString(props.aiType, props.avals[0])}
+            </a>
         );
     } else {
         return null;

@@ -71,6 +71,13 @@ class AiPage extends React.Component<IProps, IState> {
 
         const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/ai/${this.props.aiType}/${this.props.id}`;
 
+        const scrollToAiId = (id: number) => {
+            let elementRef = this.state.refs.get(id);
+            (elementRef as React.RefObject<HTMLDivElement>)?.current?.scrollIntoView(
+                { behavior: "smooth" }
+            );
+        };
+
         return (
             <div>
                 <h1>AI {this.props.id}</h1>
@@ -101,18 +108,14 @@ class AiPage extends React.Component<IProps, IState> {
 
                 <AiGraph
                     aiCol={this.state.aiCollection}
-                    handleNavigateAiId={(id) => {
-                        let elementRef = this.state.refs.get(id);
-                        (elementRef as React.RefObject<HTMLDivElement>)?.current?.scrollIntoView(
-                            { behavior: "smooth" }
-                        );
-                    }}
+                    handleNavigateAiId={scrollToAiId}
                 />
                 <div ref={this.state.refs.get(aiCollection.mainAis[0].id)}>
                     <AiTable
                         region={this.props.region}
                         aiType={this.props.aiType}
                         ais={aiCollection.mainAis}
+                        handleNavigateAiId={scrollToAiId}
                     />
                 </div>
                 {Array.from(
@@ -125,6 +128,7 @@ class AiPage extends React.Component<IProps, IState> {
                             ais={aiCollection.relatedAis.filter(
                                 (ai) => ai.id === aiId
                             )}
+                            handleNavigateAiId={scrollToAiId}
                         />
                     </div>
                 ))}

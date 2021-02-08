@@ -100,7 +100,7 @@ export default function AiGraph(props: {
                         label: "data(id)",
                         "text-valign": "center",
                         "text-halign": "center",
-                        width: 70,
+                        width: 90,
                         height: 20,
                         shape: "round-rectangle",
                     },
