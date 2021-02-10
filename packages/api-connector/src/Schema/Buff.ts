@@ -1,5 +1,6 @@
-import {Func} from "./Func";
-import {Trait} from "./Trait";
+import ClassName from "../Enum/ClassName";
+import { Func } from "./Func";
+import { Trait } from "./Trait";
 
 export enum BuffType {
     NONE = "none",
@@ -150,11 +151,35 @@ export enum BuffType {
     ATTACK_BEFORE_FUNCTION = "attackBeforeFunction",
 }
 
+export enum ClassRelationOverwriteType {
+    OVERWRITE_FORCE = "overwriteForce",
+    OVERWRITE_MORE_THAN_TARGET = "overwriteMoreThanTarget",
+    OVERWRITE_LESS_THAN_TARGET = "overwriteLessThanTarget",
+}
+
+interface RelationOverwriteDetail {
+    damageRate: number;
+    type: ClassRelationOverwriteType;
+}
+
+interface BuffRelationOverwrite {
+    atkSide: Record<ClassName, Record<ClassName, RelationOverwriteDetail>>;
+    defSide: Record<ClassName, Record<ClassName, RelationOverwriteDetail>>;
+}
+
+interface BuffScript {
+    relationId?: BuffRelationOverwrite;
+    ReleaseText?: string;
+    DamageRelease?: number;
+    INDIVIDUALITIE?: Trait;
+}
+
 export interface BasicBuff {
     id: number;
     name: string;
     icon?: string;
     type: BuffType;
+    script: BuffScript;
     vals: Trait[];
     tvals: Trait[];
     ckSelfIndv: Trait[];
@@ -162,8 +187,8 @@ export interface BasicBuff {
     reverse?: {
         basic?: {
             function?: Func[];
-        }
-    }
+        };
+    };
 }
 
 export interface Buff extends BasicBuff {
@@ -173,9 +198,9 @@ export interface Buff extends BasicBuff {
     reverse?: {
         basic?: {
             function?: Func[];
-        }
+        };
         nice?: {
             function?: Func[];
-        }
-    }
+        };
+    };
 }

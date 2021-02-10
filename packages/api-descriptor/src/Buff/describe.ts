@@ -73,5 +73,10 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         partials.push(new TextPartial(toTitleCase(buff.type)));
     }
 
+    if (buff.script.INDIVIDUALITIE) {
+        partials.push(new TextPartial(' if self has '));
+        partials.push(...traitReferences([buff.script.INDIVIDUALITIE]));
+    }
+
     return new Descriptor(partials);
 }

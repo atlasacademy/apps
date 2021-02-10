@@ -1,5 +1,5 @@
 import {DataVal} from "@atlasacademy/api-connector";
-import {BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType} from "../../Descriptor";
+import {BasePartial, ParticlePartial, TextPartial, ValuePartial, ValueType} from "../../Descriptor";
 
 export default function (staticDataVal: DataVal.DataVal,
                          mutatingDataVal: DataVal.DataVal): BasePartial[] {
