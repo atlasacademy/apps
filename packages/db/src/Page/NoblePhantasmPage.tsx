@@ -8,7 +8,7 @@ import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
-import entityDescriptor from "../Descriptor/entityDescriptor";
+import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import Manager from "../Setting/Manager";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 import getRubyText from "../Helper/StringHelper";
@@ -99,7 +99,9 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                         <div>
                             {(noblePhantasm.reverse?.basic?.servant ?? [])
                                 .map((servant, index) => {
-                                    return <div key={index}>{entityDescriptor(this.props.region, servant, 25)}</div>
+                                    return <div key={index}>
+                                        <EntityDescriptor region={this.props.region} entity={servant} iconHeight={25} />
+                                    </div>
                                 })
                             }
                         </div>

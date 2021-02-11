@@ -3,6 +3,8 @@ import {Profile} from "./Profile";
 
 export interface CraftEssence extends Entity {
     type: EntityType.SERVANT_EQUIP;
+    bondEquipOwner?: number;
+    valentineEquipOwner?: number;
     profile?: Profile;
 }
 

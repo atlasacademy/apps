@@ -112,6 +112,10 @@ class Api {
         return apiConnector.ai(type, id, cacheDuration);
     }
 
+    static entityBasic(id: number): Promise<Entity.EntityBasic> {
+        return apiConnector.entityBasic(id, cacheDuration);
+    }
+
     static servant(id: number): Promise<Servant.Servant> {
         return apiConnector.servant(id, cacheDuration);
     }

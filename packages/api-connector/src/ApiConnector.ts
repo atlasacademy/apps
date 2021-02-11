@@ -79,6 +79,7 @@ class ApiConnector {
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
         questPhase: new ResultCache<{ id: number, phase: number }, QuestPhase>(),
+        entityBasic: new ResultCache<number, EntityBasic>(),
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
         servantListNice: new ResultCache<null, Servant[]>(),
@@ -406,6 +407,20 @@ class ApiConnector {
             return fetch();
 
         return this.cache.ai.get({ type: type, id: id }, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    entityBasic(id: number, cacheDuration?: number): Promise<EntityBasic> {
+        const query = this.language === Language.ENGLISH ? '?lang=en' : '';
+        const fetch = () => {
+            return ApiConnector.fetch<EntityBasic>(
+                `${this.host}/basic/${this.region}/svt/${id}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.entityBasic.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     servant(id: number, cacheDuration?: number): Promise<Servant> {

@@ -9,7 +9,7 @@ import Loading from "../Component/Loading";
 import {BasicMysticCodeDescriptor} from "../Descriptor/MysticCodeDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
-import entityDescriptor from "../Descriptor/entityDescriptor";
+import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import Manager from "../Setting/Manager";
 import FuncMainData from "./Func/FuncMainData";
 
@@ -26,7 +26,7 @@ interface IState {
 
 function entityDescriptorTable(region: Region, entity: Entity.EntityBasic, index: number) {
     return <div key={index} style={{marginTop: index === 0? 0 : "24.5px"}}>
-        {entityDescriptor(region, entity, 25)}
+        <EntityDescriptor region={region} entity={entity} iconHeight={25} />
     </div>
 }
 

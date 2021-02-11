@@ -8,7 +8,7 @@ import {Alert, ButtonGroup, Dropdown, Table} from "react-bootstrap"
 import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
 import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
 import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
-import entityDescriptor from "../../Descriptor/entityDescriptor";
+import EntityDescriptor from "../../Descriptor/EntityDescriptor";
 import {handleNewLine, mergeElements} from "../../Helper/OutputHelper";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 
@@ -154,7 +154,9 @@ export default function ServantVoiceLines(
                     : `There is no voice line about ${props.servant.name} from other servants.`
                     : 'Fetching related voice line data ...'}
                 {(relatedVoiceSvts && relatedVoiceSvts.length > 0)
-                    ? mergeElements(relatedVoiceSvts.map(svt => entityDescriptor(props.region, svt, undefined, 'voices')), ', ')
+                    ? mergeElements(relatedVoiceSvts.map(
+                        svt => <EntityDescriptor region={props.region} entity={svt} tab={"voices"} />
+                    ), ', ')
                     : ''}
             </Alert>
             {out}
