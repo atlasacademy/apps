@@ -82,6 +82,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.MULTIATTACK, 'Multiple Hits'],
     [Buff.BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],
     [Buff.BuffType.PIERCE_DEFENCE, 'Ignore DEF'],
+    [Buff.BuffType.PREVENT_DEATH_BY_DAMAGE, 'Prevent death by damage'],
     [Buff.BuffType.REGAIN_HP, 'HP Per Turn'],
     [Buff.BuffType.REGAIN_NP, 'NP Per Turn'],
     [Buff.BuffType.REGAIN_STAR, 'Stars Per Turn'],

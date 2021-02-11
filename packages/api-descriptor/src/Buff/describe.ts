@@ -5,18 +5,23 @@ import TraitReferencePartial from "../Trait/TraitReferencePartial";
 import {getTraitDescription, getUpDownBuffType} from "./BuffHelpers";
 import {buffTriggerTypes, buffTypeDescriptions} from "./BuffTypes";
 
-function appendTraitFilters(selfTraits: Trait.Trait[], targetTraits: Trait.Trait[]): BasePartial[] {
+function appendTraitFilters(
+    selfTraits: Trait.Trait[],
+    targetTraits: Trait.Trait[],
+    selfParticle = "for",
+    targetParticle = "vs."
+): BasePartial[] {
     const partials: BasePartial[] = [],
         selfTraitFilters = traitReferences(selfTraits),
         targetTraitFilters = traitReferences(targetTraits);
 
     if (selfTraitFilters.length) {
-        partials.push(new ParticlePartial(' for '));
+        partials.push(new ParticlePartial(` ${selfParticle} `));
         partials.push(...selfTraitFilters);
     }
 
     if (targetTraitFilters.length) {
-        partials.push(new ParticlePartial(' vs. '));
+        partials.push(new ParticlePartial(` ${targetParticle} `));
         partials.push(...targetTraitFilters);
     }
 
@@ -37,7 +42,10 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         traitDescription = getTraitDescription(buff),
         typeDescription = buffTypeDescriptions.get(buff.type);
 
-    if (upDownBuffType) {
+    if (buff.type === Buff.BuffType.PREVENT_DEATH_BY_DAMAGE && typeDescription) {
+        partials.push(new TextPartial(typeDescription));
+        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, "for", "from"));
+    } else if (upDownBuffType) {
         if (upDownBuffType.up === buff.type) {
             partials.push(new TextPartial(`${upDownBuffType.description} Up`));
         } else {
