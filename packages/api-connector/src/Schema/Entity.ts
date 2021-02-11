@@ -60,6 +60,7 @@ export interface EntityAssets {
     faces: EntityAssetMap;
     narrowFigure: EntityAssetMap;
     status: EntityAssetMap;
+    image: EntityAssetMap;
 }
 
 export interface EntityLevelUpMaterials {

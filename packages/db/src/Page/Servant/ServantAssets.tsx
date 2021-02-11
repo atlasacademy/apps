@@ -82,7 +82,12 @@ class ServantAssets extends React.Component<IProps> {
                     {content.map(renderCollapsibleContent)}
                     {this.props.servant.extraAssets.charaFigure.story ? renderCollapsibleContent({
                         title: "Story Figure (May contain spoilers)",
-                        content: this.displayAssets(this.props.servant.extraAssets.charaFigure, true),
+                        content: (
+                            <>
+                            {this.displayAssets(this.props.servant.extraAssets.charaFigure, true)}
+                            {this.displayAssets(this.props.servant.extraAssets.image, true)}
+                            </>
+                        ),
                         subheader: false,
                         initialOpen: false
                     }) : ''}
