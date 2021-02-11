@@ -327,9 +327,11 @@ class ApiConnector {
     }
 
     mysticCode(id: number, cacheDuration?: number): Promise<MysticCode> {
+        const query = this.language === Language.ENGLISH ? '?lang=en' : '';
+
         const fetch = () => {
             return ApiConnector.fetch<MysticCode>(
-                `${this.host}/nice/${this.region}/MC/${id}`
+                `${this.host}/nice/${this.region}/MC/${id}${query}`
             );
         }
 
@@ -340,11 +342,19 @@ class ApiConnector {
     }
 
     mysticCodeList(cacheDuration?: number): Promise<MysticCodeBasic[]> {
-        const fetch = () => {
-            return ApiConnector.fetch<MysticCodeBasic[]>(
-                `${this.host}/export/${this.region}/basic_mystic_code.json`
-            );
+        let source: string;
+
+        if (this.region === Region.NA) {
+            source = `${this.host}/export/NA/basic_mystic_code.json`;
+        } else if (this.region === Region.JP && this.language === Language.DEFAULT) {
+            source = `${this.host}/export/JP/basic_mystic_code.json`;
+        } else {
+            source = `${this.host}/export/JP/basic_mystic_code_lang_en.json`;
         }
+
+        const fetch = () => {
+            return ApiConnector.fetch<MysticCodeBasic[]>(source);
+        };
 
         if (cacheDuration === undefined)
             return fetch();
