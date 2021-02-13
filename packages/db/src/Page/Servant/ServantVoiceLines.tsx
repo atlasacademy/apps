@@ -31,7 +31,7 @@ export default function ServantVoiceLines(
             undefined,
             undefined,
             undefined,
-            props.servant.collectionNo
+            [props.servant.collectionNo]
         ).then(s => setRelatedVoiceSvts(s));
     }, [props.servant])
 

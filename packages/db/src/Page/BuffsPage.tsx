@@ -28,7 +28,7 @@ interface IState {
     searching: boolean;
     buffs: Buff.BasicBuff[];
     name?: string;
-    type?: Buff.BuffType;
+    type?: Buff.BuffType[];
 }
 
 const buffDescriptions = new Map<Buff.BuffType, string>(
@@ -140,9 +140,9 @@ class BuffsPage extends React.Component<IProps, IState> {
                         <SearchableSelect<Buff.BuffType> id='select-BuffType'
                                                          options={Object.values(Buff.BuffType)}
                                                          labels={buffDescriptions}
-                                                         selected={this.state.type}
+                                                         selected={this.state.type ? this.state.type[0] : undefined}
                                                          onChange={(value?: Buff.BuffType) => {
-                                                             this.setState({type: value});
+                                                             this.setState({type: value ? [value] : []});
                                                          }}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>

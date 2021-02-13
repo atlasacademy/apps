@@ -28,10 +28,10 @@ interface IState {
     searched: boolean;
     searching: boolean;
     funcs: Func.BasicFunc[];
-    text?: string;
-    type?: Func.FuncType;
-    target?: Func.FuncTargetType;
-    team?: Func.FuncTargetTeam;
+    popupText?: string;
+    type?: Func.FuncType[];
+    targetType?: Func.FuncTargetType[];
+    targetTeam?: Func.FuncTargetTeam[];
 }
 
 class FuncsPage extends React.Component<IProps, IState> {
@@ -60,7 +60,7 @@ class FuncsPage extends React.Component<IProps, IState> {
 
     private async search() {
         // no filter set
-        if (!this.state.text && !this.state.type && !this.state.target && !this.state.team) {
+        if (!this.state.popupText && !this.state.type && !this.state.targetType && !this.state.targetTeam) {
             this.setState({funcs: []});
             alert('Please refine the results before searching');
             return;
@@ -70,10 +70,10 @@ class FuncsPage extends React.Component<IProps, IState> {
             await this.setState({searching: true, funcs: []});
 
             const funcs = await Api.searchFuncs(
-                this.state.text,
+                this.state.popupText,
                 this.state.type,
-                this.state.target,
-                this.state.team
+                this.state.targetType,
+                this.state.targetTeam
             );
 
             this.setState({funcs, searched: true});
@@ -134,9 +134,9 @@ class FuncsPage extends React.Component<IProps, IState> {
                 }}>
                     <Form.Group>
                         <Form.Label>Text</Form.Label>
-                        <Form.Control value={this.state.text ?? ''}
+                        <Form.Control value={this.state.popupText ?? ''}
                                       onChange={(ev: ChangeEvent) => {
-                                          this.setState({text: ev.target.value});
+                                          this.setState({popupText: ev.target.value});
                                       }}/>
                     </Form.Group>
                     <Form.Group>
@@ -144,9 +144,9 @@ class FuncsPage extends React.Component<IProps, IState> {
                         <SearchableSelect<Func.FuncType> id='select-FuncType'
                                                          options={Object.values(Func.FuncType)}
                                                          labels={funcDescriptions}
-                                                         selected={this.state.type}
+                                                         selected={this.state.type ? this.state.type[0] : undefined}
                                                          onChange={(value?: Func.FuncType) => {
-                                                             this.setState({type: value});
+                                                             this.setState({type: value ? [value] : []});
                                                          }}/>
                     </Form.Group>
                     <Form.Group>
@@ -154,9 +154,9 @@ class FuncsPage extends React.Component<IProps, IState> {
                         <SearchableSelect<Func.FuncTargetType> id='select-FuncTargetType'
                                                                options={Object.values(Func.FuncTargetType)}
                                                                labels={targetDescriptions}
-                                                               selected={this.state.target}
+                                                               selected={this.state.targetType ? this.state.targetType[0] : undefined}
                                                                onChange={(value?: Func.FuncTargetType) => {
-                                                                   this.setState({target: value});
+                                                                   this.setState({targetType: value ? [value] : []});
                                                                }}/>
                     </Form.Group>
                     <Form.Group>
@@ -168,9 +168,9 @@ class FuncsPage extends React.Component<IProps, IState> {
                                                                    [Func.FuncTargetTeam.PLAYER, 'Players only'],
                                                                    [Func.FuncTargetTeam.ENEMY, 'Enemies only'],
                                                                ])}
-                                                               selected={this.state.team}
+                                                               selected={this.state.targetTeam ? this.state.targetTeam[0] : undefined}
                                                                onChange={(value?: Func.FuncTargetTeam) => {
-                                                                   this.setState({team: value});
+                                                                   this.setState({targetTeam: value ? [value] : []});
                                                                }}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>

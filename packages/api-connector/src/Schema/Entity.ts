@@ -27,6 +27,16 @@ export enum EntityType {
     // COMMAND_CODE = "commandCode",
 }
 
+export enum EntityFlag {
+    ONLY_USE_FOR_NPC = "onlyUseForNpc",
+    SVT_EQUIP_FRIEND_SHIP = "svtEquipFriendShip",
+    IGNORE_COMBINE_LIMIT_SPECIAL = "ignoreCombineLimitSpecial",
+    SVT_EQUIP_EXP = "svtEquipExp",
+    SVT_EQUIP_CHOCOLATE = "svtEquipChocolate",
+    NORMAL = "normal",
+    GOETIA = "goetia",
+}
+
 export enum Gender {
     MALE = "male",
     FEMALE = "female",
@@ -79,6 +89,7 @@ export interface Entity {
     ruby: string;
     className: ClassName;
     type: EntityType;
+    flag: EntityFlag;
     rarity: number;
     cost: number;
     lvMax: number;

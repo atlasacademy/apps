@@ -46,10 +46,10 @@ interface IState {
     searching: boolean;
     entities: Entity.EntityBasic[];
     name?: string;
-    type?: Entity.EntityType;
-    className?: ClassName;
-    gender?: Entity.Gender;
-    attribute?: Entity.Attribute;
+    type?: Entity.EntityType[];
+    className?: ClassName[];
+    gender?: Entity.Gender[];
+    attribute?: Entity.Attribute[];
     traits: number[];
 }
 
@@ -184,9 +184,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         <SearchableSelect<Entity.EntityType> id='select-EntityType'
                                                       options={Object.values(Entity.EntityType)}
                                                       labels={entityTypeDescriptions}
-                                                      selected={this.state.type}
+                                                      selected={this.state.type ? this.state.type[0] : undefined}
                                                       onChange={(value?: Entity.EntityType) => {
-                                                          this.setState({type: value});
+                                                          this.setState({type: value ? [value] : undefined});
                                                       }}/>
                     </Form.Group>
 
@@ -199,9 +199,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                                              .filter(className => className !== ClassName.EXTRA)
                                                      }
                                                      labels={classNameDescriptions}
-                                                     selected={this.state.className}
+                                                     selected={this.state.className ? this.state.className[0] : undefined}
                                                      onChange={(value?: ClassName) => {
-                                                         this.setState({className: value});
+                                                         this.setState({className: value ? [value] : []});
                                                      }}/>
                     </Form.Group>
 
@@ -210,9 +210,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         <SearchableSelect<Entity.Gender> id='select-Gender'
                                                   options={Object.values(Entity.Gender)}
                                                   labels={genderDescriptions}
-                                                  selected={this.state.gender}
+                                                  selected={this.state.gender ? this.state.gender[0] : undefined}
                                                   onChange={(value?: Entity.Gender) => {
-                                                      this.setState({gender: value});
+                                                      this.setState({gender: value ? [value] : []});
                                                   }}/>
                     </Form.Group>
 
@@ -221,9 +221,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         <SearchableSelect<Entity.Attribute> id='select-Attribute'
                                                      options={Object.values(Entity.Attribute)}
                                                      labels={attributeDescriptions}
-                                                     selected={this.state.attribute}
+                                                     selected={this.state.attribute ? this.state.attribute[0] : undefined}
                                                      onChange={(value?: Entity.Attribute) => {
-                                                         this.setState({attribute: value});
+                                                         this.setState({attribute: value ? [value] : []});
                                                      }}/>
                     </Form.Group>
 

@@ -2,47 +2,103 @@ import axios from 'axios';
 import ClassName from "./Enum/ClassName";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
+import Card from "./Enum/Card";
 import ResultCache from "./ResultCache";
 import {BasicBuff, Buff, BuffType} from "./Schema/Buff";
 import {CommandCode, CommandCodeBasic} from "./Schema/CommandCode";
 import {Change} from "./Schema/Change";
 import {CraftEssence, CraftEssenceBasic} from "./Schema/CraftEssence";
 import {Enemy} from "./Schema/Enemy";
-import {Attribute, EntityBasic, EntityType, Gender} from "./Schema/Entity";
+import {Attribute, EntityBasic, EntityType, EntityFlag, Gender} from "./Schema/Entity";
 import {Event, EventBasic} from "./Schema/Event";
 import {BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType} from "./Schema/Func";
 import {Item, ItemType, ItemBackgroundType, ItemUse} from "./Schema/Item";
 import {MysticCode, MysticCodeBasic} from "./Schema/MysticCode";
-import {NoblePhantasm} from "./Schema/NoblePhantasm";
+import {NoblePhantasm, NoblePhantasmBasic} from "./Schema/NoblePhantasm";
 import {QuestPhase} from "./Schema/Quest";
 import {Servant, ServantBasic} from "./Schema/Servant";
-import {Skill} from "./Schema/Skill";
+import {Skill, SkillBasic, SkillType} from "./Schema/Skill";
 import {Trait} from "./Schema/Trait";
 import {AiType, AiCollection} from "./Schema/Ai";
 
-interface BuffSearchOptions {
-    name?: string;
-    type?: BuffType;
+enum ReverseData {
+    BASIC = "basic",
+    NICE = "nice",
 }
 
-interface EntitySearchOptions {
+enum ReverseDepth {
+    FUNCTION = "function",
+    SKILL_NP = "skillNp",
+    SERVANT = "servant",
+}
+
+type BuffSearchOptions = {
     name?: string;
-    type?: EntityType;
-    className?: ClassName;
-    gender?: Gender;
-    attribute?: Attribute;
+    type?: BuffType[];
+    buffGroup?: number[];
+    vals?: number[];
+    tvals?: number[];
+    ckSelfIndv?: number[];
+    ckOpIndv?: number[];
+    reverse?: boolean;
+    reverseData?: ReverseData;
+    reverseDepth?: ReverseDepth;
+}
+
+type FuncSearchOptions = {
+    popupText?: string;
+    type?: FuncType[];
+    targetType?: FuncTargetType[];
+    targetTeam?: FuncTargetTeam[];
+    vals?: number[];
+    tvals?: number[];
+    questTvals?: number[];
+    reverse?: boolean;
+    reverseData?: ReverseData;
+    reverseDepth?: ReverseDepth;
+}
+
+type SkillSearchOptions = {
+    name?: string;
+    type?: SkillType[];
+    num?: number[];
+    priority?: number[];
+    strengthStatus?: number[];
+    lvl1coolDown?: number[];
+    numFunctions?: number[];
+    reverse?: boolean;
+    reverseData?: ReverseData;
+    reverseDepth?: ReverseDepth;
+}
+
+type NPSearchOptions = {
+    name?: string;
+    card?: Card[];
+    individuality?: number[];
+    hits?: number[];
+    strengthStatus?: number[];
+    numFunctions?: number[];
+    minNpNpGain?: number[];
+    maxNpNpGain?: number[];
+    reverse?: boolean;
+    reverseData?: ReverseData;
+    reverseDepth?: ReverseDepth;
+}
+
+type EntitySearchOptions = {
+    name?: string;
+    excludeCollectionNo?: number[];
+    type?: EntityType[];
+    flag?: EntityFlag[];
+    rarity?: number[];
+    className?: ClassName[];
+    gender?: Gender[];
+    attribute?: Attribute[];
     traits?: number[];
-    voiceCondSvt?: number;
+    voiceCondSvt?: number[];
 }
 
-interface FuncSearchOptions {
-    text?: string;
-    type?: FuncType;
-    target?: FuncTargetType;
-    team?: FuncTargetTeam;
-}
-
-interface ItemSearchOptions {
+type ItemSearchOptions = {
     name?: string;
     individuality?: number[];
     type?: ItemType[];
@@ -54,6 +110,10 @@ interface ApiConnectorProperties {
     host?: string;
     region?: Region;
     language?: Language;
+}
+
+interface SearchOptions {
+    [key: string]: string | string[] | number | number[] | boolean | undefined;
 }
 
 class ApiConnector {
@@ -292,41 +352,6 @@ class ApiConnector {
         return this.cache.itemList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    searchItem(options: ItemSearchOptions, cacheDuration?: number): Promise<Item[]> {
-        let queryParts: string[] = []
-
-        if (options.name)
-            queryParts.push("name=" + encodeURI(options.name));
-
-        let urlParameterMap = [
-            ["individuality", options.individuality],
-            ["type", options.type],
-            ["background", options.background],
-            ["use", options.use],
-        ]
-
-        for (let [queryParameter, queryValues] of urlParameterMap) {
-            if (queryValues && queryValues.length > 0) {
-                for (let queryValue of queryValues) {
-                    queryParts.push(`${queryParameter}=${queryValue}`);
-                }
-            }
-        }
-
-        let query = '?' + queryParts.join('&');
-
-        const fetch = () => {
-            return ApiConnector.fetch<Item[]>(
-                `${this.host}/nice/${this.region}/item/search${query}`
-            );
-        }
-
-        if (cacheDuration === undefined)
-            return fetch();
-
-        return this.cache.searchItem.get(query, fetch, cacheDuration <= 0 ? null : cacheDuration);
-    }
-
     mysticCode(id: number, cacheDuration?: number): Promise<MysticCode> {
         const query = this.language === Language.ENGLISH ? '?lang=en' : '';
 
@@ -519,65 +544,99 @@ class ApiConnector {
         return this.cache.traitList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    searchBuff(options: BuffSearchOptions): Promise<BasicBuff[]> {
-        let query = "?reverse=true&reverseDepth=function";
+    getURLSearchParams(options: SearchOptions) {
+        let searchParams = new URLSearchParams();
+
+        for (const [key, value] of Object.entries(options)) {
+            if (Array.isArray(value)) {
+                for (const item of value) {
+                    searchParams.append(key, item.toString());
+                }
+            } else if (value !== undefined) {
+                searchParams.append(key, value.toString())
+            }
+        }
 
         if (this.language === Language.ENGLISH)
-            query += "&lang=en";
-        if (options.name)
-            query += "&name=" + encodeURI(options.name);
-        if (options.type)
-            query += "&type=" + options.type;
+            searchParams.set("lang", "en")
 
-        return ApiConnector.fetch<BasicBuff[]>(
-            `${this.host}/basic/${this.region}/buff/search${query}`
-        );
+        return searchParams;
     }
 
-    searchEntity(options: EntitySearchOptions): Promise<EntityBasic[]> {
-        const queryParts: string[] = [];
+    searchBuff(options: BuffSearchOptions): Promise<BasicBuff[]> {
+        if (options.reverse === undefined)
+            options.reverse = true;
+        if (options.reverseDepth === undefined)
+            options.reverseDepth = ReverseDepth.FUNCTION;
 
-        if (this.language === Language.ENGLISH)
-            queryParts.push('lang=en');
-        if (options.name)
-            queryParts.push('name=' + encodeURI(options.name));
-        if (options.type)
-            queryParts.push('type=' + options.type);
-        if (options.className)
-            queryParts.push('className=' + options.className);
-        if (options.gender)
-            queryParts.push('gender=' + options.gender);
-        if (options.attribute)
-            queryParts.push('attribute=' + options.attribute);
-        if (options.traits && options.traits.length > 0)
-            queryParts.push(...options.traits.map(trait => 'trait=' + trait));
-        if (options.voiceCondSvt)
-            queryParts.push('voiceCondSvt=' + options.voiceCondSvt);
+        const searchParams = this.getURLSearchParams(options);
 
-        const query = '?' + queryParts.join('&');
-
-        return ApiConnector.fetch<EntityBasic[]>(
-            `${this.host}/basic/${this.region}/svt/search${query}`
+        return ApiConnector.fetch<BasicBuff[]>(
+            `${this.host}/basic/${this.region}/buff/search?${searchParams.toString()}`
         );
     }
 
     searchFunc(options: FuncSearchOptions): Promise<BasicFunc[]> {
-        let query = "?reverse=true&reverseDepth=servant";
+        if (options.reverse === undefined)
+            options.reverse = true;
+        if (options.reverseDepth === undefined)
+            options.reverseDepth = ReverseDepth.SERVANT;
 
-        if (this.language === Language.ENGLISH)
-            query += "&lang=en";
-        if (options.text)
-            query += "&popupText=" + encodeURI(options.text);
-        if (options.type)
-            query += "&type=" + options.type;
-        if (options.target)
-            query += "&targetType=" + options.target;
-        if (options.team)
-            query += "&targetTeam=" + options.team;
+        const searchParams = this.getURLSearchParams(options);
 
         return ApiConnector.fetch<BasicFunc[]>(
-            `${this.host}/basic/${this.region}/function/search${query}`
+            `${this.host}/basic/${this.region}/function/search?${searchParams.toString()}`
         );
+    }
+
+    searchSkill(options: SkillSearchOptions): Promise<SkillBasic[]> {
+        if (options.reverse === undefined)
+            options.reverse = true;
+        if (options.reverseDepth === undefined)
+            options.reverseDepth = ReverseDepth.SERVANT;
+
+        const searchParams = this.getURLSearchParams(options);
+
+        return ApiConnector.fetch<SkillBasic[]>(
+            `${this.host}/basic/${this.region}/skill/search?${searchParams.toString()}`
+        );
+    }
+
+    searchNP(options: NPSearchOptions): Promise<NoblePhantasmBasic[]> {
+        if (options.reverse === undefined)
+            options.reverse = true;
+        if (options.reverseDepth === undefined)
+            options.reverseDepth = ReverseDepth.SERVANT;
+
+        const searchParams = this.getURLSearchParams(options);
+
+        return ApiConnector.fetch<SkillBasic[]>(
+            `${this.host}/basic/${this.region}/NP/search?${searchParams.toString()}`
+        );
+    }
+
+    searchEntity(options: EntitySearchOptions): Promise<EntityBasic[]> {
+        const searchParams = this.getURLSearchParams(options);
+
+        return ApiConnector.fetch<EntityBasic[]>(
+            `${this.host}/basic/${this.region}/svt/search?${searchParams.toString()}`
+        );
+    }
+
+    searchItem(options: ItemSearchOptions, cacheDuration?: number): Promise<Item[]> {
+        const searchParams = this.getURLSearchParams(options);
+        let searchQuery = searchParams.toString();
+
+        const fetch = () => {
+            return ApiConnector.fetch<Item[]>(
+                `${this.host}/nice/${this.region}/item/search${searchQuery}`
+            );
+        }
+
+        if (cacheDuration === undefined)
+            return fetch();
+
+        return this.cache.searchItem.get(searchQuery, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     private static async fetch<T>(endpoint: string): Promise<T> {

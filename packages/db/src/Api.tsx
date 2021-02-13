@@ -144,27 +144,27 @@ class Api {
         return apiConnector.searchItem({name, individuality, type, background, use}, cacheDuration);
     }
 
-    static searchBuffs(name?: string, type?: Buff.BuffType): Promise<Buff.BasicBuff[]> {
+    static searchBuffs(name?: string, type?: Buff.BuffType[]): Promise<Buff.BasicBuff[]> {
         return apiConnector.searchBuff({name, type});
     }
 
     static searchEntity(name?: string,
-                        type?: Entity.EntityType,
-                        className?: ClassName,
-                        gender?: Entity.Gender,
-                        attribute?: Entity.Attribute,
+                        type?: Entity.EntityType[],
+                        className?: ClassName[],
+                        gender?: Entity.Gender[],
+                        attribute?: Entity.Attribute[],
                         traits?: number[],
-                        voiceCondSvt?: number): Promise<Entity.EntityBasic[]> {
+                        voiceCondSvt?: number[]): Promise<Entity.EntityBasic[]> {
         return apiConnector.searchEntity({
             name, type, className, gender, attribute, traits, voiceCondSvt
         });
     }
 
-    static searchFuncs(text?: string,
-                       type?: Func.FuncType,
-                       target?: Func.FuncTargetType,
-                       team?: Func.FuncTargetTeam): Promise<Func.BasicFunc[]> {
-        return apiConnector.searchFunc({text, type, target, team});
+    static searchFuncs(popupText?: string,
+                       type?: Func.FuncType[],
+                       targetType?: Func.FuncTargetType[],
+                       targetTeam?: Func.FuncTargetTeam[]): Promise<Func.BasicFunc[]> {
+        return apiConnector.searchFunc({popupText, type, targetType, targetTeam});
     }
 
 }
