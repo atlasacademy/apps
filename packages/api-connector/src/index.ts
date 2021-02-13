@@ -1,6 +1,7 @@
 import ApiConnector from "./ApiConnector";
 import Card from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
+import CondType from "./Enum/Cond";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import { ProfileVoiceType } from "./Schema/Profile";
@@ -29,6 +30,7 @@ export {
     Card,
     Change,
     ClassName,
+    CondType,
     Language,
     Region,
     ProfileVoiceType,

@@ -73,3 +73,8 @@ function BasicServantDescriptor (props : IPropsBasic) {
 
 export default ServantDescriptor;
 export { BasicServantDescriptor };
+
+export function ServantLink (props : {region: Region; servants: Servant.ServantBasic[]; id: number; }) {
+    let servant = props.servants.filter(servant => servant.id === props.id)[0];
+    return <BasicServantDescriptor region={props.region} servant={servant} />
+}

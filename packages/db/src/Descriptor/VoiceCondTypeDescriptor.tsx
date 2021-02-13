@@ -1,7 +1,7 @@
 import React from 'react';
 import QuestDescriptor from './QuestDescriptor';
 import EventDescriptor from './EventDescriptor';
-import {BasicServantDescriptor} from './ServantDescriptor';
+import {ServantLink} from './ServantDescriptor';
 import {Profile, Region, Servant} from '@atlasacademy/api-connector';
 
 const { VoiceCondType } = Profile;
@@ -14,11 +14,6 @@ interface IProps {
 }
 
 let VoiceCondTypeDescriptor = (props : IProps) => {
-    function ServantLink (props : { id: number; servants: Servant.ServantBasic[] }) {
-        let servant = props.servants.filter(servant => servant.id === props.id)[0];
-        return <BasicServantDescriptor region={region} servant={servant} />
-    }
-
     let { cond: { condType, value, valueList }, costumes = {}, region } = props;
     switch (condType) {
         case VoiceCondType.BIRTH_DAY: return <>Player birthday</>;
@@ -42,12 +37,12 @@ let VoiceCondTypeDescriptor = (props : IProps) => {
         case VoiceCondType.IS_NEW_WAR: return <>New war {value}</>;
         case VoiceCondType.QUEST_CLEAR: return <>Cleared <QuestDescriptor region={region} text="" questId={value} questPhase={1}/></>;
         case VoiceCondType.NOT_QUEST_CLEAR: return <>Hasn't cleared <QuestDescriptor region={region} text="" questId={value} questPhase={1}/></>;
-        case VoiceCondType.SVT_GET: return <>Presence of <ServantLink id={value} servants={props.servants}/></>;
+        case VoiceCondType.SVT_GET: return <>Presence of <ServantLink region={region} id={value} servants={props.servants}/></>;
         case VoiceCondType.SVT_GROUP: return (
             <>
                 {'Presence of any of the following: '}
                 {valueList.map((value, i) =>
-                    <><ServantLink id={value} servants={props.servants}/>{ i < valueList.length - 1 ? ', ' : '' }</>
+                    <><ServantLink region={region} id={value} servants={props.servants}/>{ i < valueList.length - 1 ? ', ' : '' }</>
                 )}
             </>
         );

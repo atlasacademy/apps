@@ -25,6 +25,7 @@ export interface QuestPhase {
     consumeType: QuestConsumeType;
     consume: number;
     spotId: number;
+    warId: number;
     className: ClassName[];
     individuality: Trait[];
     qp: number;

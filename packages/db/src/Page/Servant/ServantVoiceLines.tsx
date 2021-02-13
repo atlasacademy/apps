@@ -7,6 +7,7 @@ import Api from '../../Api';
 import {Alert, ButtonGroup, Dropdown, Table} from "react-bootstrap"
 import VoiceLinePlayer from "../../Descriptor/VoiceLinePlayer";
 import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
+import VoicePlayCondDescriptor from "../../Descriptor/VoicePlayCondDescriptor";
 import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
 import EntityDescriptor from "../../Descriptor/EntityDescriptor";
 import {handleNewLine, mergeElements} from "../../Helper/OutputHelper";
@@ -71,19 +72,45 @@ export default function ServantVoiceLines(
                                     (props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET) ?
                                         line.text.join() : line.subtitle
                                 )}
-                                {line.conds.length ? (
+                                {line.conds.length || line.playConds.length ? (
                                     <>
                                         <br/>{line.text.join('') || line.subtitle ? <>&nbsp;</> : ''}
                                         <Alert variant="info" style={{marginBottom: 0}}>
-                                            <b>Requirements:</b><br />
-                                            {line.conds.map(cond => <>
-                                                <VoiceCondTypeDescriptor
-                                                    region={props.region}
-                                                    servants={props.servants}
-                                                    costumes={profile?.costume}
-                                                    cond={cond}
-                                                /><br /></>
+                                            {line.conds.length > 1 && (
+                                                <>
+                                                    <b>Unlock Requirements (all of the following):</b>
+                                                    <br />
+                                                    <ul style={{ marginBottom: 0 }}>
+                                                        {line.conds.map((cond) => (
+                                                            <li>
+                                                                <VoiceCondTypeDescriptor
+                                                                    region={props.region}
+                                                                    servants={props.servants}
+                                                                    costumes={profile?.costume}
+                                                                    cond={cond}
+                                                                />
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </>
                                             )}
+                                            {line.conds.length == 1 && (
+                                                <>
+                                                    <b>Unlock Requirement:</b>
+                                                    <br />
+                                                    <VoiceCondTypeDescriptor
+                                                        region={props.region}
+                                                        servants={props.servants}
+                                                        costumes={profile?.costume}
+                                                        cond={line.conds[0]}
+                                                    />
+                                                    <br />
+                                                </>
+                                            )}
+                                            <VoicePlayCondDescriptor
+                                                region={props.region}
+                                                playConds={line.playConds}
+                                                servants={props.servants}/>
                                         </Alert>
                                     </>
                                 ) : ''}
