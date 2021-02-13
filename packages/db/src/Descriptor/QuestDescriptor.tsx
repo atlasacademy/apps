@@ -34,36 +34,42 @@ export default function QuestDescriptor(props: IProps) {
 
         switch (prefix) {
             case 91:
-                type = "Interlude/Rank Up";
+                type = "Interlude/Rank Up Quest";
                 break;
             case 94:
-                type = "Event";
-                break;
-            case 1:
-                type = "Part I";
-                break;
-            case 2:
-                type = "EOR";
-                break;
-            case 3:
-                type = "LB";
+                type = "Event Quest";
                 break;
         }
 
-        switch (quest?.warId) {
-            case 1003:
-                type = "Rank Up";
-                break;
-            case 102:
-                type = "Interlude";
-                break;
+        if (quest?.warId >= 100 && quest?.warId < 200) {
+            type = "Part I Quest";
+        } else if (quest?.warId >= 200 && quest?.warId < 300) {
+            type = "EOR Quest";
+        } else if (quest?.warId >= 300 && quest?.warId < 400) {
+            type = "LB Quest";
+        }
+
+        if (
+            quest?.type === Quest.QuestType.FRIENDSHIP ||
+            quest?.warId === 1003
+        ) {
+            type = "Interlude Quest";
+        }
+
+        if (quest?.warId === 1001) {
+            if (quest.name.startsWith("Rank Up")) {
+                type = "";
+            } else {
+                type = "Rank Up Quest";
+            }
         }
 
         return (
             <Link
                 to={`/${props.region}/quest/${props.questId}/${props.questPhase}`}
             >
-                {type != "" ? `${type} ` : ""}Quest {quest?.name} <FontAwesomeIcon icon={faShare} />
+                {type != "" ? `${type} ` : ""}
+                {quest?.name} <FontAwesomeIcon icon={faShare} />
             </Link>
         );
     }
