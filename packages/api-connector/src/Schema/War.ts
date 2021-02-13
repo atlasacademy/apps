@@ -57,3 +57,12 @@ export interface War {
     maps: Map[];
     spots: Spot[];
 }
+
+export interface WarBasic {
+    id: number;
+    coordinates: number[][];
+    age: string;
+    name: string;
+    longName: string;
+    eventId: number;
+}

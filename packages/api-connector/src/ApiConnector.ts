@@ -20,6 +20,7 @@ import {Servant, ServantBasic} from "./Schema/Servant";
 import {Skill, SkillBasic, SkillType} from "./Schema/Skill";
 import {Trait} from "./Schema/Trait";
 import {AiType, AiCollection} from "./Schema/Ai";
+import {War, WarBasic} from "./Schema/War";
 
 enum ReverseData {
     BASIC = "basic",
@@ -144,6 +145,8 @@ class ApiConnector {
         servantList: new ResultCache<null, ServantBasic[]>(),
         servantListNice: new ResultCache<null, Servant[]>(),
         skill: new ResultCache<number, Skill>(),
+        war: new ResultCache<number, War>(),
+        warBasic: new ResultCache<number, WarBasic>(),
         traitList: new ResultCache<null, Trait[]>(),
         ai: new ResultCache<{ type: AiType, id: number }, AiCollection>(),
     };
@@ -308,6 +311,28 @@ class ApiConnector {
         if (cacheDuration === undefined)
             return fetch();
         return this.cache.eventBasic.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    war(id: number, cacheDuration?: number): Promise<War> {
+        const fetch = () => {
+            return ApiConnector.fetch<War>(
+                `${this.host}/nice/${this.region}/war/${id}`
+            );
+        };
+        if (cacheDuration === undefined)
+            return fetch();
+        return this.cache.war.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    warBasic(id: number, cacheDuration?: number): Promise<WarBasic> {
+        const fetch = () => {
+            return ApiConnector.fetch<WarBasic>(
+                `${this.host}/basic/${this.region}/war/${id}`
+            );
+        };
+        if (cacheDuration === undefined)
+            return fetch();
+        return this.cache.warBasic.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     func(id: number, cacheDuration?: number): Promise<Func> {
