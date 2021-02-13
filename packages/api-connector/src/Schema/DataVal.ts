@@ -61,6 +61,12 @@ interface BaseDataVal {
     ParamAddMaxCount?: number;
     LossHpNoChangeDamage?: number;
     IncludePassiveIndividuality?: number;
+    MotionChange?: number;
+    PopLabelDelay?: number;
+    NoTargetNoAct?: number;
+    CardIndex?: number;
+    CardIndividuality?: number;
+    WarBoardTakeOverBuff?: number;
     Individuality?: number;
     EventId?: number;
     AddCount?: number;

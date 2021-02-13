@@ -4,7 +4,8 @@ import ClassName from "./Enum/ClassName";
 import CondType from "./Enum/Cond";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
-import { ProfileVoiceType } from "./Schema/Profile";
+import * as Ai from "./Schema/Ai";
+import * as Bgm from "./Schema/Bgm";
 import * as Buff from "./Schema/Buff";
 import * as Change from "./Schema/Change";
 import * as CommandCode from "./Schema/CommandCode";
@@ -14,15 +15,17 @@ import * as Enemy from "./Schema/Enemy";
 import * as Entity from "./Schema/Entity";
 import * as Event from "./Schema/Event";
 import * as Func from "./Schema/Func";
+import * as Gift from "./Schema/Gift";
 import * as Item from "./Schema/Item";
 import * as MysticCode from "./Schema/MysticCode";
 import * as NoblePhantasm from "./Schema/NoblePhantasm";
+import { ProfileVoiceType } from "./Schema/Profile";
 import * as Profile from "./Schema/Profile";
 import * as Quest from "./Schema/Quest";
 import * as Servant from "./Schema/Servant";
 import * as Skill from "./Schema/Skill";
 import * as Trait from "./Schema/Trait";
-import * as Ai from "./Schema/Ai";
+import * as War from "./Schema/War";
 
 export {
     ApiConnector,
@@ -36,6 +39,7 @@ export {
     ProfileVoiceType,
 
     Ai,
+    Bgm,
     Buff,
     CommandCode,
     CraftEssence,
@@ -44,6 +48,7 @@ export {
     Entity,
     Event,
     Func,
+    Gift,
     Item,
     MysticCode,
     NoblePhantasm,
@@ -52,5 +57,6 @@ export {
     Servant,
     Skill,
     Trait,
+    War,
 }
 

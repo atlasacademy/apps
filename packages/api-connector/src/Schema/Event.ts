@@ -1,4 +1,14 @@
 import EventType from "../Enum/EventType";
+import { Gift } from "./Gift";
+import { Shop } from "./Shop";
+
+export interface EventReward {
+    groupId: number;
+    point: number;
+    gifts: Gift[];
+    bgImagePoint: string;
+    bgImageGet: string;
+}
 
 export interface EventBasic {
     id: number;
@@ -17,9 +27,10 @@ export interface Event {
     type: EventType;
     name: string;
     shortName: string;
-    noticeBanner: string;
-    banner: string;
-    icon: string;
+    detail: string;
+    noticeBanner?: string;
+    banner?: string;
+    icon?: string;
     bannerPriority: number;
     noticeAt: number;
     startedAt: number;
@@ -27,4 +38,6 @@ export interface Event {
     finishedAt: number;
     materialOpenedAt: number;
     warIds: number[];
+    shop: Shop[];
+    rewards: EventReward[];
 }
