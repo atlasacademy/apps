@@ -36,7 +36,7 @@ function AllVoicePlayGroups(props: {
         return (
             <ul style={{ marginBottom: 0 }}>
                 {props.groups.map((group) => (
-                    <li>
+                    <li key={group}>
                         <VoicePlayGroup
                             region={props.region}
                             playConds={props.playConds.filter(

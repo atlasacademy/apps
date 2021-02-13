@@ -113,7 +113,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
                                                     record && (descriptor = <BasicCraftEssenceDescriptor region={region} craftEssence={record} />);
                                                 }
                                                 return (
-                                                    <li>
+                                                    <li key={svt.id}>
                                                         {descriptor || <Link to={`/${region}/${path}/${svt.id}`}>{svt.name}</Link>}
                                                         <br />
                                                     </li>
@@ -126,7 +126,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
                                         change.changes[key]
                                             .sort((a, b) => a.id - b.id)
                                             .map(obj => (
-                                                <li>
+                                                <li key={obj.id}>
                                                     {obj.id} -&nbsp;
                                                     <Link to={`/${region}/${path}/${obj.id}`}>{obj.name || `[${title} ${obj.id}]`}</Link>
                                                 </li>

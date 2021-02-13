@@ -18,7 +18,6 @@ export default function QuestDescriptor(props: IProps) {
         Api.questPhase(props.questId, props.questPhase).then((s) =>
             setQuest(s)
         );
-        console.log(quest);
     }, [props.questId, props.questPhase]);
     if (props.text) {
         return (

@@ -81,8 +81,8 @@ export default function ServantVoiceLines(
                                                     <b>Unlock Requirements (all of the following):</b>
                                                     <br />
                                                     <ul style={{ marginBottom: 0 }}>
-                                                        {line.conds.map((cond) => (
-                                                            <li>
+                                                        {line.conds.map((cond, index) => (
+                                                            <li key={index}>
                                                                 <VoiceCondTypeDescriptor
                                                                     region={props.region}
                                                                     servants={props.servants}

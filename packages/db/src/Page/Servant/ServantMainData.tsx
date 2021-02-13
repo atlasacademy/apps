@@ -25,7 +25,8 @@ class ServantMainData extends React.Component<IProps> {
     private renderDoubleRow(content: [RenderableRow, RenderableRow]): Renderable {
         return (
             <tr>
-                {content.map(row => <><th>{row.title}</th><td>{row.content}</td></>)}
+                <th>{content[0].title}</th><td>{content[0].content}</td>
+                <th>{content[1].title}</th><td>{content[1].content}</td>
             </tr>
         )
     }
@@ -133,6 +134,7 @@ class ServantMainData extends React.Component<IProps> {
                                 ? mergeElements(
                                     servant.valentineEquip.map(equipId => (
                                         <CraftEssenceReferenceDescriptor
+                                            key={equipId}
                                             region={this.props.region}
                                             id={equipId}/>
                                 )), <br></br>)
