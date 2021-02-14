@@ -3,7 +3,7 @@ import {AxiosError} from "axios";
 import diacritics from 'diacritics';
 import escape from 'escape-string-regexp';
 import React from "react";
-import {Form, Pagination, Table} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Form, Pagination, Row, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Api from "../Api";
 import ClassIcon from "../Component/ClassIcon";
@@ -193,20 +193,13 @@ class ServantsPage extends React.Component<IProps, IState> {
     }
 
     private toggleRarityFilter(rarity: number): void {
-        const exists = this.state.activeRarityFilters.indexOf(rarity) !== -1;
-
-        if (exists) {
+        if (this.state.activeRarityFilters.includes(rarity)) {
             this.setState({
-                activeClassFilters: this.state.activeClassFilters.filter(activeClass => activeClass !== ClassName.ALL),
                 activeRarityFilters: this.state.activeRarityFilters.filter(activeRarity => activeRarity !== rarity)
             });
         } else {
             this.setState({
-                activeClassFilters: this.state.activeClassFilters.filter(activeClass => activeClass !== ClassName.ALL),
-                activeRarityFilters: [
-                    ...this.state.activeRarityFilters,
-                    rarity
-                ]
+                activeRarityFilters: [...this.state.activeRarityFilters, rarity]
             });
         }
     }
@@ -216,7 +209,7 @@ class ServantsPage extends React.Component<IProps, IState> {
 
         if (this.state.activeRarityFilters.length > 0) {
             list = list.filter(entity => {
-                return this.state.activeRarityFilters.indexOf(entity.rarity) !== -1;
+                return this.state.activeRarityFilters.includes(entity.rarity);
             });
         }
 
@@ -293,10 +286,37 @@ class ServantsPage extends React.Component<IProps, IState> {
 
                 <br/>
 
-                {hasPaginator
-                    ? <div>{this.paginator(servants.length)}</div>
-                    : undefined}
-
+                <Row>
+                    <Col>
+                        <div>
+                            <ButtonGroup>
+                                {
+                                    [...new Set(this.state.servants.map(s => s.rarity))]
+                                        // deduplicate star counts
+                                        .sort((a, b) => a - b)
+                                        // sort
+                                        .map(rarity => (
+                                            <Button
+                                                variant={
+                                                    this.state.activeRarityFilters.includes(rarity)
+                                                    ? "success"
+                                                    : "outline-dark"
+                                                }
+                                                key={rarity}
+                                                onClick={(ev: MouseEvent) => this.toggleRarityFilter(rarity)}>
+                                                {rarity} ☆
+                                            </Button>
+                                        ))
+                                }
+                            </ButtonGroup>
+                        </div>
+                    </Col>
+                    <Col>
+                        <div style={{ float: 'right' }}>
+                            {this.paginator(servants.length)}
+                        </div>
+                    </Col>
+                </Row>
                 <hr/>
 
                 <Table striped bordered hover responsive>
