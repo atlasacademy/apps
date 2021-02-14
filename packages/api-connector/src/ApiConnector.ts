@@ -95,7 +95,7 @@ type EntitySearchOptions = {
     className?: ClassName[];
     gender?: Gender[];
     attribute?: Attribute[];
-    traits?: number[];
+    trait?: number[];
     voiceCondSvt?: number[];
 }
 

@@ -50,7 +50,7 @@ interface IState {
     className?: ClassName[];
     gender?: Entity.Gender[];
     attribute?: Entity.Attribute[];
-    traits: number[];
+    trait: number[];
 }
 
 class EntitiesPage extends React.Component<IProps, IState> {
@@ -62,13 +62,13 @@ class EntitiesPage extends React.Component<IProps, IState> {
             traitList: [],
             searching: false,
             entities: [],
-            traits: []
+            trait: []
         };
 
         if (props.traitSelected) {
             this.state = {
                 ...defaultState,
-                traits: [props.traitSelected]
+                trait: [props.traitSelected]
             }
         } else {
             this.state = stateCache.get(props.region) ?? defaultState;
@@ -126,7 +126,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             && !this.state.className
             && !this.state.gender
             && !this.state.attribute
-            && this.state.traits.length === 0
+            && this.state.trait.length === 0
         ) {
             this.setState({entities: []});
             alert('Please refine the results before searching');
@@ -135,14 +135,14 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
         try {
             await this.setState({searching: true, entities: []});
-
+            console.log(this.state.trait);
             const entities = await Api.searchEntity(
                 this.state.name,
                 this.state.type,
                 this.state.className,
                 this.state.gender,
                 this.state.attribute,
-                this.state.traits
+                this.state.trait
             );
 
             this.setState({searching: false, entities: entities});
@@ -230,11 +230,10 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     <Form.Group>
                         <Form.Label>Traits</Form.Label>
                         <TraitsSelector region={this.props.region}
-                                        traitList={this.state.traitList}
-                                        traits={this.state.traits}
-                                        onUpdate={(traits => {
-                                            this.setState({traits});
-                                        })}/>
+                                       traitList={this.state.traitList}
+                                       onUpdate={(traits => {
+                                           this.setState({trait: traits});
+                                       })}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>
                         Search
