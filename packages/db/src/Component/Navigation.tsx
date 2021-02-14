@@ -3,7 +3,7 @@ import {faDiscord, faGithub} from "@fortawesome/free-brands-svg-icons";
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Button, Container, Modal, Nav, Navbar, NavItem} from "react-bootstrap";
+import {Button, Container, Modal, Nav, Navbar, NavItem, Row, Col} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Manager from "../Setting/Manager";
@@ -107,20 +107,38 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Link>
                             </Nav>
                             <Nav className={'ml-auto icons'}>
-                                <Link to={this.regionLink(Region.JP)}
-                                      className={`nav-link ${this.regionClass(Region.JP)}`}>
-                                    <img alt={''} src={'assets/jp.svg'}/>
-                                </Link>
-                                <Link to={this.regionLink(Region.NA)}
-                                      className={`nav-link ${this.regionClass(Region.NA)}`}>
-                                    <img alt={''} src={'assets/us.svg'}/>
-                                </Link>
-                                <Nav.Link href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
-                                    <FontAwesomeIcon icon={faDiscord}/>
-                                </Nav.Link>
-                                <Nav.Link href={'https://github.com/atlasacademy/apps'} target={'_blank'}>
-                                    <FontAwesomeIcon icon={faGithub}/>
-                                </Nav.Link>
+                                <Row style={{flexFlow: "nowrap", margin: "0 1px"}}>
+                                    <Col style={{padding: 0}}>
+                                        <Link
+                                            style={{justifyContent: "center", display: "flex", width: "100%"}}
+                                            to={this.regionLink(Region.JP)}
+                                            className={`nav-link ${this.regionClass(Region.JP)}`}>
+                                            <img alt={''} src={'assets/jp.svg'}/>
+                                        </Link>
+                                    </Col>
+                                    <Col style={{padding: 0}}>
+                                        <Link
+                                            style={{justifyContent: "center", display: "flex", width: "100%"}}
+                                            to={this.regionLink(Region.NA)}
+                                            className={`nav-link ${this.regionClass(Region.NA)}`}>
+                                            <img alt={''} src={'assets/us.svg'}/>
+                                        </Link>
+                                    </Col>
+                                </Row>
+                                <Row style={{flexFlow: "nowrap", margin: "0 1px"}}>
+                                    <Col style={{padding: 0}}>
+                                        <Nav.Link style={{justifyContent: "center", display: "flex"}}
+                                        href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
+                                            <FontAwesomeIcon icon={faDiscord}/>
+                                        </Nav.Link>
+                                    </Col>
+                                    <Col style={{padding: 0}}>
+                                        <Nav.Link style={{justifyContent: "center", display: "flex"}}
+                                        href={'https://github.com/atlasacademy/apps'} target={'_blank'}>
+                                            <FontAwesomeIcon icon={faGithub}/>
+                                        </Nav.Link>
+                                    </Col>
+                                </Row>
                                 <Button variant={"primary"} onClick={() => this.showSettings()}>
                                     <FontAwesomeIcon icon={faCog}/>
                                 </Button>
