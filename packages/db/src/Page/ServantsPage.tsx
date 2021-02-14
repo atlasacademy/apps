@@ -274,7 +274,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                   onClick={(ev: MouseEvent) => {
                                       this.toggleClassFilter(className);
                                   }}>
-                                <ClassIcon height={50} rarity={active ? 5 : 3} className={className}/>
+                                <ClassIcon height={37} rarity={active ? 5 : 3} className={className}/>
                             </span>
                         );
                     })}
