@@ -32,7 +32,8 @@ class CraftEssencePicker extends React.Component<IProps> {
                                                   options={craftEssences.map(craftEssence => craftEssence.collectionNo)}
                                                   labels={craftEssenceLabels}
                                                   selected={this.props.id}
-                                                  hideAll={true}
+                                                  selectedAsPlaceholder={true}
+                                                  hideSelected={true}
                                                   hideReset={true}
                                                   disableLabelStyling={true}
                                                   maxResults={20}

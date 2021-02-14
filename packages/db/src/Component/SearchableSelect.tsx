@@ -1,132 +1,91 @@
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import React, {RefObject} from "react";
-import {Typeahead} from "react-bootstrap-typeahead";
-
+import { Typeahead } from "react-bootstrap-typeahead";
 import "./SearchableSelect.css";
 
 interface Option<T> {
-    label: string,
-    value?: T,
+    label: string;
+    value: T;
 }
 
 interface IProps<T> {
-    id: string,
+    id: string;
+    options: T[];
+    labels: Map<T, string>;
+    onChange: Function;
+    selected?: T;
+    selectedAsPlaceholder?: boolean;
+    hideSelected?: boolean;
+    hideReset?: boolean;
+    disableLabelStyling?: boolean;
+    maxResults?: number;
+}
+
+function getDescription<T>(
+    value: T,
+    labels: Map<T, string>,
+    disableLabelStyling?: boolean
+): string {
+    const description = labels.get(value);
+
+    if (disableLabelStyling) {
+        if (description) return description;
+        return typeof value === "string" ? value : "Unknown";
+    }
+
+    return description ? `${description} - ${value}` : `(${value})`;
+}
+
+function getOptions<T>(
     options: T[],
     labels: Map<T, string>,
-    onChange: Function,
-    selected?: T,
-    hideAll?: boolean,
-    hideReset?: boolean,
-    disableLabelStyling?: boolean,
-    maxResults?: number,
+    disableLabelStyling?: boolean
+): Option<T>[] {
+    return options.map((value) => {
+        const label = getDescription(value, labels, disableLabelStyling);
+        return { label, value };
+    });
 }
 
-interface IState<T> {
-    ref: RefObject<any>,
-    selected?: T,
-    focused: boolean,
-    results: boolean,
-}
+export default function SearchableSelect<T>(props: IProps<T>) {
+    const options = getOptions(
+        props.hideSelected
+            ? props.options.filter((option) => option !== props.selected)
+            : props.options,
+        props.labels,
+        props.disableLabelStyling
+    );
 
-class SearchableSelect<T> extends React.Component<IProps<T>, IState<T>> {
-    constructor(props: IProps<T>) {
-        super(props);
-
-        this.state = {
-            ref: React.createRef(),
-            selected: props.selected,
-            focused: false,
-            results: false,
-        };
-    }
-
-    private async clearSelection() {
-        await this.setState({selected: undefined, results: true});
-        this.state.ref.current.clear();
-    }
-
-    private getDescription(value?: T): string {
-        if (value === undefined)
-            return 'All';
-
-        const description = this.props.labels.get(value);
-
-        if (this.props.disableLabelStyling) {
-            if (description)
-                return description;
-
-            return typeof value === 'string' ? value : 'Unknown';
-        }
-
-        return description
-            ? `${description} - ${value}`
-            : `(${value})`;
-    }
-
-    private getOption(value?: T): Option<T> {
-        const label = this.getDescription(value);
-
-        return {label, value};
-    }
-
-    private getOptions(): Option<T>[] {
-        return (this.props.hideAll ? [] : [this.getOption()])
-            .concat(
-                this.props.options.map(value => this.getOption(value))
-            );
-    }
-
-    private resetInput() {
-        this.setState({focused: false, results: false});
-    }
-
-    private async selectOption(options: Option<T>[]) {
-        if (options.length === 0) {
-            this.setState({results: false});
-        } else {
-            const selected = options[0].value;
-
-            await this.setState({selected, results: true});
-            this.props.onChange(selected);
-        }
-    }
-
-    render() {
-        return (
-            <Typeahead ref={this.state.ref}
-                       id={this.props.id}
-                       options={this.getOptions()}
-                       placeholder={this.getDescription(this.state.selected)}
-                       selected={this.state.focused && this.state.results ? [this.getOption(this.state.selected)] : []}
-                       ignoreDiacritics={true}
-                       maxResults={this.props.maxResults ?? 1000}
-                       onBlur={() => {
-                           this.resetInput();
-                       }}
-                       onChange={(selected) => {
-                           this.selectOption(selected);
-                       }}
-                       onFocus={() => {
-                           this.setState({focused: true});
-                       }}>
-
-                {this.props.hideReset ? null : (
-                    <button className='searchable-select-clear'
-                            onClick={e => {
-                                e.preventDefault();
-                                this.clearSelection();
-                            }}
-                            onMouseDown={e => {
-                                // Prevent input from losing focus.
-                                e.preventDefault();
-                            }}>
-                        <FontAwesomeIcon icon={faTimes}/>
-                    </button>
-                )}
-            </Typeahead>
+    let selectedOptions: Option<T>[] = [];
+    if (props.selected) {
+        selectedOptions = getOptions(
+            [props.selected],
+            props.labels,
+            props.disableLabelStyling
         );
     }
-}
 
-export default SearchableSelect;
+    return (
+        <>
+            <Typeahead
+                id="basic-typeahead-single"
+                options={options}
+                selected={
+                    props.selectedAsPlaceholder ? undefined : selectedOptions
+                }
+                placeholder={
+                    props.selectedAsPlaceholder
+                        ? selectedOptions[0].label
+                        : "All"
+                }
+                clearButton={props.hideReset ? !props.hideReset : true}
+                maxResults={props.maxResults ?? 1000}
+                onChange={(selected) => {
+                    if (selected.length === 0) {
+                        props.onChange(undefined);
+                    } else {
+                        props.onChange(selected[0].value);
+                    }
+                }}
+            />
+        </>
+    );
+}

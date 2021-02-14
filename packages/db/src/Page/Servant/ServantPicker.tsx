@@ -32,7 +32,8 @@ class ServantPicker extends React.Component<IProps> {
                                                   options={servants.map(servant => servant.collectionNo)}
                                                   labels={servantLabels}
                                                   selected={this.props.id}
-                                                  hideAll={true}
+                                                  selectedAsPlaceholder={true}
+                                                  hideSelected={true}
                                                   hideReset={true}
                                                   disableLabelStyling={true}
                                                   maxResults={20}
