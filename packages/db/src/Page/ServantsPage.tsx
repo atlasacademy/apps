@@ -278,7 +278,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                             </span>
                         );
                     })}
-                    <Form.Control style={{marginLeft: 'auto'}} placeholder={'Search'} value={this.state.search ?? ''}
+                    <Form.Control style={{marginLeft: 'auto', height: 37}} placeholder={'Search'} value={this.state.search ?? ''}
                                   onChange={(ev: ChangeEvent) => {
                                       this.setState({search: ev.target.value});
                                   }}/>
