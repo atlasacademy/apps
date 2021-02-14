@@ -10,4 +10,6 @@ export interface CraftEssence extends Entity {
 
 export interface CraftEssenceBasic extends EntityBasic {
     type: EntityType.SERVANT_EQUIP;
+    bondEquipOwner?: number;
+    valentineEquipOwner?: number;
 }

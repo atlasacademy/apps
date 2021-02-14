@@ -132,7 +132,10 @@ export interface EntityBasic {
     collectionNo: number;
     name: string;
     type: EntityType;
+    flag: EntityFlag;
     className: ClassName;
     rarity: number;
+    atkMax: number;
+    hpMax: number;
     face: string;
 }
