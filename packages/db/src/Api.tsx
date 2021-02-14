@@ -153,10 +153,10 @@ class Api {
                         className?: ClassName[],
                         gender?: Entity.Gender[],
                         attribute?: Entity.Attribute[],
-                        traits?: number[],
+                        trait?: number[],
                         voiceCondSvt?: number[]): Promise<Entity.EntityBasic[]> {
         return apiConnector.searchEntity({
-            name, type, className, gender, attribute, traits, voiceCondSvt
+            name, type, className, gender, attribute, trait, voiceCondSvt
         });
     }
 
