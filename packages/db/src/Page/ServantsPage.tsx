@@ -3,7 +3,7 @@ import {AxiosError} from "axios";
 import diacritics from 'diacritics';
 import escape from 'escape-string-regexp';
 import React from "react";
-import {Button, ButtonGroup, Col, Form, Pagination, Row, Table} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Form, Pagination, Row, Table, Container} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Api from "../Api";
 import ClassIcon from "../Component/ClassIcon";
@@ -161,7 +161,7 @@ class ServantsPage extends React.Component<IProps, IState> {
 
         items.push(this.pageItem('>', this.state.page + 1, 'next', false, this.state.page >= maxPage));
 
-        return <div style={{marginBottom: 20}}>
+        return <div>
             <Pagination>{items}</Pagination>
         </div>;
     }
@@ -264,60 +264,61 @@ class ServantsPage extends React.Component<IProps, IState> {
 
         return (
             <div id="servants">
-                <Form inline style={{justifyContent: 'center'}}>
-                    {classFilters.map(className => {
-                        const active = this.isClassFilterActive(className);
-                        return (
-                            <span key={className}
-                                  className={'filter'}
-                                  style={{opacity: active ? 1 : 0.5}}
-                                  onClick={(ev: MouseEvent) => {
-                                      this.toggleClassFilter(className);
-                                  }}>
-                                <ClassIcon height={37} rarity={active ? 5 : 3} className={className}/>
-                            </span>
-                        );
-                    })}
-                    <Form.Control style={{marginLeft: 'auto', height: 37}} placeholder={'Search'} value={this.state.search ?? ''}
-                                  onChange={(ev: ChangeEvent) => {
-                                      this.setState({search: ev.target.value});
-                                  }}/>
-                </Form>
-
-                <br/>
-
                 <Row>
-                    <Col>
-                        <div>
-                            <ButtonGroup>
-                                {
-                                    [...new Set(this.state.servants.map(s => s.rarity))]
-                                        // deduplicate star counts
-                                        .sort((a, b) => a - b)
-                                        // sort
-                                        .map(rarity => (
-                                            <Button
-                                                variant={
-                                                    this.state.activeRarityFilters.includes(rarity)
-                                                    ? "success"
-                                                    : "outline-dark"
-                                                }
-                                                key={rarity}
-                                                onClick={(ev: MouseEvent) => this.toggleRarityFilter(rarity)}>
-                                                {rarity} ☆
-                                            </Button>
-                                        ))
-                                }
-                            </ButtonGroup>
-                        </div>
+                    <Col sm={12} md="auto" style={{justifyContent: 'center', display: 'flex', flexFlow: 'row wrap', marginBottom: "1rem"}}>
+                        {classFilters.map(className => {
+                            const active = this.isClassFilterActive(className);
+                            return (
+                                <span key={className}
+                                    className={'filter'}
+                                    style={{opacity: active ? 1 : 0.5}}
+                                    onClick={(ev: MouseEvent) => {
+                                        this.toggleClassFilter(className);
+                                    }}>
+                                    <ClassIcon height={37} rarity={active ? 5 : 3} className={className}/>
+                                </span>
+                            );
+                        })}
                     </Col>
-                    <Col>
+                    <Col sm={12} md={3} style={{marginLeft: "auto", marginBottom: "1rem"}}>
+                        <Form>
+                            <Form.Control style={{width: "100%", height: 37}} placeholder={'Search'} value={this.state.search ?? ''}
+                                        onChange={(ev: ChangeEvent) => {
+                                            this.setState({search: ev.target.value});
+                                        }}/>
+                        </Form>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12} md={6} lg={5} style={{marginBottom: "1rem"}}>
+                        <ButtonGroup style={{width: "100%"}}>
+                            {
+                                [...new Set(this.state.servants.map(s => s.rarity))]
+                                    // deduplicate star counts
+                                    .sort((a, b) => a - b)
+                                    // sort
+                                    .map(rarity => (
+                                        <Button
+                                            variant={
+                                                this.state.activeRarityFilters.includes(rarity)
+                                                ? "success"
+                                                : "outline-dark"
+                                            }
+                                            key={rarity}
+                                            onClick={(ev: MouseEvent) => this.toggleRarityFilter(rarity)}>
+                                            {rarity} ☆
+                                        </Button>
+                                    ))
+                            }
+                        </ButtonGroup>
+                    </Col>
+                    <Col sm={12} md={6} lg={7}>
                         <div style={{ float: 'right' }}>
                             {this.paginator(servants.length)}
                         </div>
                     </Col>
                 </Row>
-                <hr/>
+                <hr style={{marginTop: 0}}/>
 
                 <Table striped bordered hover responsive>
                     <thead>
@@ -364,7 +365,9 @@ class ServantsPage extends React.Component<IProps, IState> {
                     </tbody>
                 </Table>
 
-                {hasPaginator ? this.paginator(servants.length) : undefined}
+                <div style={{ float: 'right' }}>
+                    {hasPaginator ? this.paginator(servants.length) : undefined}
+                </div>
             </div>
         );
     }
