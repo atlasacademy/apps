@@ -135,7 +135,6 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
         try {
             await this.setState({searching: true, entities: []});
-            console.log(this.state.trait);
             const entities = await Api.searchEntity(
                 this.state.name,
                 this.state.type,
@@ -231,8 +230,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         <Form.Label>Traits</Form.Label>
                         <TraitsSelector region={this.props.region}
                                        traitList={this.state.traitList}
-                                       onUpdate={(traits => {
-                                           this.setState({trait: traits});
+                                       initialTraits={this.state.trait}
+                                       onUpdate={(trait => {
+                                           this.setState({trait: trait});
                                        })}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>
