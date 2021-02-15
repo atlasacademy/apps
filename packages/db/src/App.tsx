@@ -86,7 +86,7 @@ class App extends React.Component<any, IState> {
                     <Helmet>
                         {this.state.theme === Theme.DEFAULT ? null : (
                             <link key='theme' rel="stylesheet"
-                                  href={`https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/${this.state.theme}/bootstrap.min.css`}/>
+                                  href={`https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/${this.state.theme}/bootstrap.min.css`}/>
                         )}
                     </Helmet>
                     <Switch>
