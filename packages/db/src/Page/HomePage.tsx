@@ -1,10 +1,18 @@
-// import {faDiscord} from "@fortawesome/free-brands-svg-icons";
-// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Region} from "@atlasacademy/api-connector";
 import React from "react";
+import Manager from "../Setting/Manager";
 
-class HomePage extends React.Component {
+interface IProps {
+    region?: Region,
+}
+
+class HomePage extends React.Component<IProps> {
     componentDidMount() {
-        document.title = 'Atlas Academy DB'
+        if (this.props.region) {
+            Manager.setRegion(this.props.region);
+        }
+
+        document.title = 'Atlas Academy DB';
     }
 
     render() {

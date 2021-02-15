@@ -275,7 +275,14 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }} />
-                        <Route path="/:region(JP|NA)" exact={true} component={HomePage}/>
+                        <Route path="/:region(JP|NA)" exact={true} render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <HomePage key={region} region={region}/>
+                                </Suspense>
+                            )
+                        }} />
                         <Route path="/" exact={true} component={HomePage}/>
                         <Route path="*" exact={true} component={ErrorStatus}/>
                     </Switch>
