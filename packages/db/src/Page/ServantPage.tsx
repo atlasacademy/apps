@@ -4,7 +4,7 @@ import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
-import Api from "../Api";
+import Api, {Host} from "../Api";
 import NoblePhantasmBreakdown from "../Breakdown/NoblePhantasmBreakdown";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import SkillReferenceBreakdown from "../Breakdown/SkillReferenceBreakdown";
@@ -141,7 +141,7 @@ class ServantPage extends React.Component<IProps, IState> {
             }
         }
 
-        const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
+        const rawUrl = `${Host}/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
         return (
             <div id={'servant'}>
                 <ServantPicker region={this.props.region}

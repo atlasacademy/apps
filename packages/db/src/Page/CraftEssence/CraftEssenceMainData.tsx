@@ -1,5 +1,6 @@
 import { CraftEssence, Region } from "@atlasacademy/api-connector";
 import React from "react";
+import {Host} from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import EntityReferenceDescriptor from "../../Descriptor/EntityReferenceDescriptor";
@@ -52,7 +53,7 @@ class CraftEssenceMainData extends React.Component<IProps> {
                     <RawDataViewer text="Nice" data={craftEssence} />
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/equip/${craftEssence.id}?expand=true&lore=true`}
+                        data={`${Host}/raw/${this.props.region}/equip/${craftEssence.id}?expand=true&lore=true`}
                     />
                 </span>
             </div>

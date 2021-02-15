@@ -2,7 +2,7 @@ import {NoblePhantasm, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Form, Row} from "react-bootstrap";
-import Api from "../Api";
+import Api, {Host} from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -111,7 +111,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     <RawDataViewer text="Nice" data={noblePhantasm}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/NP/${noblePhantasm.id}?expand=true`}/>
+                        data={`${Host}/raw/${this.props.region}/NP/${noblePhantasm.id}?expand=true`}/>
                 </span>
 
                 <br/>

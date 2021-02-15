@@ -2,7 +2,7 @@ import { Ai, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import Api from "../Api";
+import Api, { Host } from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -69,7 +69,7 @@ class AiPage extends React.Component<IProps, IState> {
         const aiCollection = this.state.aiCollection;
         const mainAi = aiCollection.mainAis[0];
 
-        const rawUrl = `https://api.atlasacademy.io/raw/${this.props.region}/ai/${this.props.aiType}/${this.props.id}`;
+        const rawUrl = `${Host}/raw/${this.props.region}/ai/${this.props.aiType}/${this.props.id}`;
 
         const scrollToAiId = (id: number) => {
             let elementRef = this.state.refs.get(id);

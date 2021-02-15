@@ -1,5 +1,6 @@
 import {Enemy, Region} from "@atlasacademy/api-connector";
 import React from "react";
+import {Host} from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
@@ -15,7 +16,7 @@ class EnemyMainData extends React.Component<IProps> {
         const enemy = this.props.enemy;
 
         return (
-            <>  
+            <>
                 <div>
                     <DataTable data={{
                         "ID": enemy.id,
@@ -40,7 +41,7 @@ class EnemyMainData extends React.Component<IProps> {
                     <RawDataViewer text="Nice" data={enemy}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/servant/${enemy.id}?expand=true&lore=true`}/>
+                        data={`${Host}/raw/${this.props.region}/servant/${enemy.id}?expand=true&lore=true`}/>
                 </span>
             </>
         );

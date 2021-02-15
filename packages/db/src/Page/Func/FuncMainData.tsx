@@ -1,5 +1,6 @@
 import {Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
+import {Host} from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import BuffDescription from "../../Descriptor/BuffDescription";
@@ -48,7 +49,7 @@ class FuncMainData extends React.Component<IProps> {
                     <RawDataViewer text="Nice" data={func}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/function/${func.funcId}?expand=true`}/>
+                        data={`${Host}/raw/${this.props.region}/function/${func.funcId}?expand=true`}/>
                 </div>
             </>
         );

@@ -1,4 +1,5 @@
 import {CommandCode, Region} from "@atlasacademy/api-connector";
+import {Host} from "../../Api";
 import React from "react";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
@@ -31,7 +32,7 @@ class CommandCodeMainData extends React.Component<IProps> {
                     <RawDataViewer text="Nice" data={commandCode}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/CC/${commandCode.id}?expand=true`}/>
+                        data={`${Host}/raw/${this.props.region}/CC/${commandCode.id}?expand=true`}/>
                 </span>
             </div>
         );

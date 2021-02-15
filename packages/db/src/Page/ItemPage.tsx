@@ -4,7 +4,7 @@ import React from "react";
 import {Table, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
-import Api from "../Api";
+import Api, {Host} from "../Api";
 import ItemIcon from "../Component/ItemIcon";
 import FaceIcon from "../Component/FaceIcon";
 import DataTable from "../Component/DataTable";
@@ -346,7 +346,7 @@ class ItemPage extends React.Component<IProps, IState> {
                     <RawDataViewer text="Nice" data={item}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/item/${item.id}`}/>
+                        data={`${Host}/raw/${this.props.region}/item/${item.id}`}/>
                 </div>
 
                 {item.type === Item.ItemType.EVENT_ITEM

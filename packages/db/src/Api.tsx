@@ -22,18 +22,18 @@ import {
 } from "@atlasacademy/api-connector";
 import Manager from "./Setting/Manager";
 
-const host = 'https://api.atlasacademy.io',
-    cacheDuration = 20 * 1000;
+export const Host = 'https://api.atlasacademy.io';
+const cacheDuration = 20 * 1000;
 
 let apiConnector: ApiConnector = new ApiConnector({
-    host,
+    host: Host,
     region: Region.JP,
     language: Manager.language()
 });
 
 class Api {
     static init(region: Region, language: Language) {
-        apiConnector = new ApiConnector({host, region, language});
+        apiConnector = new ApiConnector({host: Host, region, language});
     }
 
     static buff(id: number): Promise<Buff.Buff> {

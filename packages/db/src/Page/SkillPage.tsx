@@ -2,7 +2,7 @@ import {Region, Skill} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Form} from "react-bootstrap";
-import Api from "../Api";
+import Api, {Host} from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
@@ -125,7 +125,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     <RawDataViewer text="Nice" data={skill}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/skill/${skill.id}?expand=true`}/>
+                        data={`${Host}/raw/${this.props.region}/skill/${skill.id}?expand=true`}/>
                 </span>
 
                 <br/>

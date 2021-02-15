@@ -2,7 +2,7 @@ import {Buff, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Table} from "react-bootstrap";
-import Api from "../Api";
+import Api, {Host} from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -126,7 +126,7 @@ class BuffPage extends React.Component<IProps, IState> {
                     <RawDataViewer text="Nice" data={buff}/>
                     <RawDataViewer
                         text="Raw"
-                        data={`https://api.atlasacademy.io/raw/${this.props.region}/buff/${buff.id}`}/>
+                        data={`${Host}/raw/${this.props.region}/buff/${buff.id}`}/>
                 </div>
 
                 <h3>Related Functions</h3>
