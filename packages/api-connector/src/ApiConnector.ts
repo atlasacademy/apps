@@ -654,7 +654,7 @@ class ApiConnector {
 
         const fetch = () => {
             return ApiConnector.fetch<Item[]>(
-                `${this.host}/nice/${this.region}/item/search${searchQuery}`
+                `${this.host}/nice/${this.region}/item/search?${searchQuery}`
             );
         }
 
