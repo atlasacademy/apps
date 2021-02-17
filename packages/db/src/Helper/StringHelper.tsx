@@ -39,3 +39,22 @@ export function joinNumbers(numbers: number[]): string {
         return numbers.slice(0, -1).join(', ') + ' and ' + numbers[numbers.length - 1];
     }
 }
+
+interface SearchOptions {
+    [key: string]: string | string[] | number | number[] | boolean | undefined;
+}
+
+export function getURLSearchParams(options: SearchOptions) {
+    let searchParams = new URLSearchParams();
+
+    for (const [key, value] of Object.entries(options)) {
+        if (Array.isArray(value)) {
+            for (const item of value) {
+                searchParams.append(key, item.toString());
+            }
+        } else if (value !== undefined) {
+            searchParams.append(key, value.toString())
+        }
+    }
+    return searchParams;
+}

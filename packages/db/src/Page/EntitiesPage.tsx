@@ -13,6 +13,7 @@ import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
 import Manager from "../Setting/Manager";
 import TraitsSelector from "./Entities/TraitsSelector";
+import {getURLSearchParams} from "../Helper/StringHelper";
 
 const attributeDescriptions = new Map<Entity.Attribute, string>(),
     classNameDescriptions = new Map<ClassName, string>(),
@@ -65,7 +66,18 @@ class EntitiesPage extends React.Component<IProps, IState> {
             trait: []
         };
 
-        if (props.traitSelected) {
+        if (props.location.search !== "") {
+            const searchParams = new URLSearchParams(props.location.search);
+            this.state = {
+                ...defaultState,
+                name: searchParams.get('name') ?? undefined,
+                type: searchParams.getAll('type') as Entity.EntityType[],
+                className: searchParams.getAll('className') as ClassName[],
+                gender: searchParams.getAll('gender') as Entity.Gender[],
+                attribute: searchParams.getAll('attribute') as Entity.Attribute[],
+                trait: searchParams.getAll('trait').map(num => parseInt(num)),
+            }
+        } else if (props.traitSelected) {
             this.state = {
                 ...defaultState,
                 trait: [props.traitSelected]
@@ -80,9 +92,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
         try {
             const traitList = await Api.traitList();
-            if (this.props.traitSelected) {
+            if (this.props.location.search !== "" || this.props.traitSelected) {
                 await this.search();
-                this.props.history.replace(`/${this.props.region}/entities`);
             }
 
             this.setState({
@@ -119,6 +130,17 @@ class EntitiesPage extends React.Component<IProps, IState> {
         return undefined;
     }
 
+    getQueryString(): string {
+        return getURLSearchParams({
+            name: this.state.name,
+            type: this.state.type,
+            className: this.state.className,
+            gender: this.state.gender,
+            attribute: this.state.attribute,
+            trait: this.state.trait
+        }).toString();
+    }
+
     private async search() {
         // no filter set
         if (!this.state.name
@@ -134,7 +156,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
         }
 
         try {
-            await this.setState({searching: true, entities: []});
+            this.setState({searching: true, entities: []});
             const entities = await Api.searchEntity(
                 this.state.name,
                 this.state.type,
@@ -143,6 +165,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 this.state.attribute,
                 this.state.trait
             );
+
+            this.props.history.replace(`/${this.props.region}/entities?${this.getQueryString()}`);
 
             this.setState({searching: false, entities: entities});
         } catch (e) {
