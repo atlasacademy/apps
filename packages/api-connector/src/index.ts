@@ -1,4 +1,4 @@
-import ApiConnector from "./ApiConnector";
+import ApiConnector, { ReverseDepth, ReverseData } from "./ApiConnector";
 import Card from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
 import CondType from "./Enum/Cond";
@@ -29,6 +29,8 @@ import * as War from "./Schema/War";
 
 export {
     ApiConnector,
+    ReverseDepth,
+    ReverseData,
 
     Card,
     Change,
