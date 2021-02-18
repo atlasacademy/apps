@@ -144,13 +144,14 @@ class EntitiesPage extends React.Component<IProps, IState> {
     private async search() {
         // no filter set
         if (!this.state.name
-            && !this.state.type
-            && !this.state.className
-            && !this.state.gender
-            && !this.state.attribute
+            && (this.state.type === undefined || this.state.type.length === 0)
+            && (this.state.className === undefined || this.state.className.length === 0)
+            && (this.state.gender === undefined || this.state.gender.length === 0)
+            && (this.state.attribute === undefined || this.state.attribute.length === 0)
             && this.state.trait.length === 0
         ) {
             this.setState({entities: []});
+            this.props.history.replace(`/${this.props.region}/entities`);
             alert('Please refine the results before searching');
             return;
         }
@@ -170,6 +171,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
             this.setState({searching: false, entities: entities});
         } catch (e) {
+            this.props.history.replace(`/${this.props.region}/entities`);
             this.setState({
                 error: e
             });
@@ -178,7 +180,16 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
     render() {
         if (this.state.error)
-            return <ErrorStatus error={this.state.error}/>;
+            return (
+                <div style={{textAlign: "center"}}>
+                    <ErrorStatus error={this.state.error}/>
+                    <Button variant={"primary"} onClick={
+                        () => this.setState({error: undefined, searching: false})
+                    }>
+                        Redo the Search
+                    </Button>
+                </div>
+            );
 
         if (this.state.loading)
             return <Loading/>;
