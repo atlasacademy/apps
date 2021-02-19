@@ -1,3 +1,4 @@
+import Manager from "./Setting/Manager";
 import {
     Ai,
     ApiConnector,
@@ -22,7 +23,6 @@ import {
     Skill,
     Trait,
 } from "@atlasacademy/api-connector";
-import Manager from "./Setting/Manager";
 
 export const Host = "https://api.atlasacademy.io";
 const cacheDuration = 20 * 1000;
@@ -173,11 +173,21 @@ class Api {
 
     static searchBuffs(
         name?: string,
-        type?: Buff.BuffType[]
+        type?: Buff.BuffType[],
+        buffGroup?: number[],
+        vals?: number[],
+        tvals?: number[],
+        ckSelfIndv?: number[],
+        ckOpIndv?: number[]
     ): Promise<Buff.BasicBuff[]> {
         return apiConnector.searchBuff({
             name,
             type,
+            buffGroup,
+            vals,
+            tvals,
+            ckSelfIndv,
+            ckOpIndv,
             reverse: true,
             reverseDepth: ReverseDepth.FUNCTION,
         });
@@ -207,13 +217,19 @@ class Api {
         popupText?: string,
         type?: Func.FuncType[],
         targetType?: Func.FuncTargetType[],
-        targetTeam?: Func.FuncTargetTeam[]
+        targetTeam?: Func.FuncTargetTeam[],
+        vals?: number[],
+        tvals?: number[],
+        questTvals?: number[],
     ): Promise<Func.BasicFunc[]> {
         return apiConnector.searchFunc({
             popupText,
             type,
             targetType,
             targetTeam,
+            vals,
+            tvals,
+            questTvals,
             reverse: true,
             reverseDepth: ReverseDepth.SERVANT,
         });

@@ -32,8 +32,13 @@ class FuncMainData extends React.Component<IProps> {
                     ),
                     "Affects Traits": (
                         <div>
-                            {func.traitVals?.map((trait, index) => {
-                                return <TraitDescription key={index} region={this.props.region} trait={trait}/>;
+                            {func.traitVals?.map((trait) => {
+                                return <TraitDescription
+                                            key={trait.id}
+                                            region={this.props.region}
+                                            trait={trait}
+                                            owner="buffs"
+                                            ownerParameter="vals"/>
                             })}
                         </div>
                     ),

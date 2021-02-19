@@ -1,32 +1,42 @@
-import { Buff, Region } from "@atlasacademy/api-connector";
+import { Buff, Region, Trait } from "@atlasacademy/api-connector";
 import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
 import BuffDescription from "../Descriptor/BuffDescription";
+import { getURLSearchParams } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
+import TraitsSelector from "./Entities/TraitsSelector";
 
 let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     region: Region;
 }
 
 interface IState {
     error?: AxiosError;
+    traitList: Trait.Trait[];
     searched: boolean;
     searching: boolean;
     buffs: Buff.BasicBuff[];
     name?: string;
     type?: Buff.BuffType[];
+    buffGroup: number[];
+    vals: number[];
+    tvals: number[];
+    ckSelfIndv: number[];
+    ckOpIndv: number[];
 }
 
 const buffDescriptions = new Map<Buff.BuffType, string>(
@@ -36,47 +46,122 @@ const buffDescriptions = new Map<Buff.BuffType, string>(
 );
 
 class BuffsPage extends React.Component<IProps, IState> {
+    path = "buffs";
+
     constructor(props: IProps) {
         super(props);
 
-        let state = stateCache.get(props.region) ?? {
+        const defaultState = {
             searching: false,
             searched: false,
+            traitList: [],
             buffs: [],
+            buffGroup: [],
+            vals: [],
+            tvals: [],
+            ckSelfIndv: [],
+            ckOpIndv: [],
         };
 
-        if (state?.error) state.error = undefined;
-        this.state = state;
+        let state: IState = defaultState;
+        if (props.location.search !== "") {
+            const searchParams = new URLSearchParams(props.location.search);
+            const getQueryNums = (param: string) =>
+                searchParams.getAll(param).map((num) => parseInt(num));
+            state = {
+                ...defaultState,
+                name: searchParams.get("name") ?? undefined,
+                type: searchParams.getAll("type") as Buff.BuffType[],
+                buffGroup: getQueryNums("buffGroup"),
+                vals: getQueryNums("vals"),
+                tvals: getQueryNums("tvals"),
+                ckSelfIndv: getQueryNums("ckSelfIndv"),
+                ckOpIndv: getQueryNums("ckOpIndv"),
+            };
+        } else {
+            state = stateCache.get(props.region) ?? defaultState;
+        }
 
+        if (state.error) {
+            state.error = undefined;
+        }
+
+        this.state = state;
+    }
+
+    async componentDidMount() {
         Manager.setRegion(this.props.region);
+        document.title = `[${this.props.region}] Buffs - Atlas Academy DB`;
+
+        try {
+            const traitList = await Api.traitList();
+            if (this.props.location.search !== "") {
+                await this.search();
+            }
+
+            this.setState({
+                traitList,
+            });
+        } catch (e) {
+            this.setState({
+                error: e,
+            });
+        }
     }
 
     componentDidUpdate() {
         stateCache.set(this.props.region, { ...this.state });
     }
 
-    componentDidMount() {
-        document.title = `[${this.props.region}] Buffs - Atlas Academy DB`;
+    getQueryString(): string {
+        return getURLSearchParams({
+            name: this.state.name,
+            type: this.state.type,
+            buffGroup: this.state.buffGroup,
+            vals: this.state.vals,
+            tvals: this.state.tvals,
+            ckSelfIndv: this.state.ckSelfIndv,
+            ckOpIndv: this.state.ckOpIndv,
+        }).toString();
     }
 
     private async search() {
         // no filter set
-        if (!this.state.name && !this.state.type) {
+        if (
+            !this.state.name &&
+            (!this.state.type || this.state.type.length === 0) &&
+            this.state.buffGroup.length === 0 &&
+            this.state.vals.length === 0 &&
+            this.state.tvals.length === 0 &&
+            this.state.ckOpIndv.length === 0 &&
+            this.state.ckSelfIndv.length === 0
+        ) {
             this.setState({ buffs: [] });
+            this.props.history.replace(`/${this.props.region}/${this.path}`);
             alert("Please refine the results before searching");
             return;
         }
 
         try {
-            await this.setState({ searching: true, buffs: [] });
+            this.setState({ searching: true, buffs: [] });
 
             const buffs = await Api.searchBuffs(
                 this.state.name,
-                this.state.type
+                this.state.type,
+                this.state.buffGroup,
+                this.state.vals,
+                this.state.tvals,
+                this.state.ckSelfIndv,
+                this.state.ckOpIndv
+            );
+
+            this.props.history.replace(
+                `/${this.props.region}/${this.path}?${this.getQueryString()}`
             );
 
             this.setState({ buffs, searched: true });
         } catch (e) {
+            this.props.history.replace(`/${this.props.region}/${this.path}`);
             this.setState({
                 error: e,
             });
@@ -86,7 +171,24 @@ class BuffsPage extends React.Component<IProps, IState> {
     }
 
     render() {
-        if (this.state.error) return <ErrorStatus error={this.state.error} />;
+        if (this.state.error) {
+            return (
+                <div style={{ textAlign: "center" }}>
+                    <ErrorStatus error={this.state.error} />
+                    <Button
+                        variant={"primary"}
+                        onClick={() =>
+                            this.setState({
+                                error: undefined,
+                                searching: false,
+                            })
+                        }
+                    >
+                        Redo the Search
+                    </Button>
+                </div>
+            );
+        }
 
         let table = (
             <Table responsive>
@@ -156,6 +258,62 @@ class BuffsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Buff Group</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={[]}
+                            initialTraits={this.state.buffGroup}
+                            onUpdate={(trait) => {
+                                this.setState({ buffGroup: trait });
+                            }}
+                            customPlaceHolder="Add a positive integer"
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Buff Traits</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={this.state.traitList}
+                            initialTraits={this.state.vals}
+                            onUpdate={(trait) => {
+                                this.setState({ vals: trait });
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Tvals</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={this.state.traitList}
+                            initialTraits={this.state.tvals}
+                            onUpdate={(trait) => {
+                                this.setState({ tvals: trait });
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Required Self Traits</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={this.state.traitList}
+                            initialTraits={this.state.ckSelfIndv}
+                            onUpdate={(trait) => {
+                                this.setState({ ckSelfIndv: trait });
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Required Opponent Traits</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={this.state.traitList}
+                            initialTraits={this.state.ckOpIndv}
+                            onUpdate={(trait) => {
+                                this.setState({ ckOpIndv: trait });
+                            }}
+                        />
+                    </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
                         Search <FontAwesomeIcon icon={faSearch} />
                     </Button>
@@ -174,4 +332,4 @@ class BuffsPage extends React.Component<IProps, IState> {
     }
 }
 
-export default BuffsPage;
+export default withRouter(BuffsPage);

@@ -10,6 +10,8 @@ interface IProps {
     trait: Trait.Trait | number;
     disableLink?: boolean;
     overrideTraits?: Trait.Trait[];
+    owner?: "entities" | "funcs" | "buffs";
+    ownerParameter?: "trait" | "vals" | "tvals" | "questTvals" | "ckSelfIndv" | "ckOpIndv";
 }
 
 interface IState {
@@ -57,7 +59,9 @@ class TraitDescription extends React.Component<IProps, IState> {
     }
 
     private getLocation(): string {
-        return `/${this.props.region}/entities/trait/${this.state.id}`;
+        const owner = this.props.owner ? this.props.owner : "entities";
+        const ownerParameter = this.props.ownerParameter ? this.props.ownerParameter : "trait";
+        return `/${this.props.region}/${owner}?${ownerParameter}=${this.state.id}`;
     }
 
     render() {

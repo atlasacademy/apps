@@ -92,7 +92,7 @@ function handleCleanseActionSection(region: Region, sections: FuncDescriptorSect
             if (index > 0)
                 parts.push('or');
 
-            parts.push(<TraitDescription region={region} trait={trait}/>);
+            parts.push(<TraitDescription region={region} trait={trait} owner="buffs" ownerParameter="vals"/>);
         });
     }
 
@@ -107,7 +107,7 @@ function handleMoveStateActionSection(region: Region, sections: FuncDescriptorSe
 
     if (func.funcId === 6027) {
         parts.push('with');
-        parts.push(<TraitDescription region={region} trait={{'id': 3026, 'name': 'buffCurse'}}/>);
+        parts.push(<TraitDescription region={region} trait={{'id': 3026, 'name': 'buffCurse'}} owner="buffs" ownerParameter="vals"/>);
     }
 
     sections.target.preposition = 'from';
@@ -124,7 +124,7 @@ function handleChargeNpPerTraitActionSection(region: Region, sections: FuncDescr
             if (index > 0)
                 parts.push('&');
 
-            parts.push(<TraitDescription region={region} trait={trait}/>);
+            parts.push(<TraitDescription region={region} trait={trait} owner="buffs" ownerParameter="vals"/>);
         });
     }
 

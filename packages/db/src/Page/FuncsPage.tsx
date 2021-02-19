@@ -1,9 +1,11 @@
-import { Func, Region } from "@atlasacademy/api-connector";
+import { Func, Region, Trait } from "@atlasacademy/api-connector";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -11,18 +13,21 @@ import SearchableSelect from "../Component/SearchableSelect";
 import { funcDescriptions } from "../Descriptor/Func/handleActionSection";
 import { targetDescriptions } from "../Descriptor/Func/handleTargetSection";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
+import { getURLSearchParams } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
+import TraitsSelector from "./Entities/TraitsSelector";
 
 let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     region: Region;
 }
 
 interface IState {
     error?: AxiosError;
+    traitList: Trait.Trait[];
     searched: boolean;
     searching: boolean;
     funcs: Func.BasicFunc[];
@@ -30,56 +35,132 @@ interface IState {
     type?: Func.FuncType[];
     targetType?: Func.FuncTargetType[];
     targetTeam?: Func.FuncTargetTeam[];
+    vals: number[];
+    tvals: number[];
+    questTvals: number[];
 }
 
 class FuncsPage extends React.Component<IProps, IState> {
+    path = "funcs";
+
     constructor(props: IProps) {
         super(props);
 
-        let state = stateCache.get(props.region) ?? {
+        const defaultState = {
             searching: false,
             searched: false,
+            traitList: [],
             funcs: [],
+            vals: [],
+            tvals: [],
+            questTvals: [],
         };
-        if (state?.error) state.error = undefined;
+
+        let state: IState = defaultState;
+        if (props.location.search !== "") {
+            const searchParams = new URLSearchParams(props.location.search);
+            const getQueryNums = (param: string) =>
+                searchParams.getAll(param).map((num) => parseInt(num));
+            state = {
+                ...defaultState,
+                popupText: searchParams.get("popupText") ?? undefined,
+                type: searchParams.getAll("type") as Func.FuncType[],
+                targetType: searchParams.getAll(
+                    "targetType"
+                ) as Func.FuncTargetType[],
+                targetTeam: searchParams.getAll(
+                    "targetTeam"
+                ) as Func.FuncTargetTeam[],
+                vals: getQueryNums("vals"),
+                tvals: getQueryNums("tvals"),
+                questTvals: getQueryNums("questTvals"),
+            };
+        } else {
+            state = stateCache.get(props.region) ?? defaultState;
+        }
+
+        if (state.error) {
+            state.error = undefined;
+        }
+
         this.state = state;
 
         Manager.setRegion(this.props.region);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Functions - Atlas Academy DB`;
+
+        try {
+            const traitList = await Api.traitList();
+            if (this.props.location.search !== "") {
+                await this.search();
+            }
+
+            this.setState({
+                traitList,
+            });
+        } catch (e) {
+            this.setState({
+                error: e,
+            });
+        }
     }
 
     componentDidUpdate() {
         stateCache.set(this.props.region, { ...this.state });
     }
 
+    getQueryString(): string {
+        return getURLSearchParams({
+            popupText: this.state.popupText,
+            type: this.state.type,
+            targetType: this.state.targetType,
+            targetTeam: this.state.targetTeam,
+            vals: this.state.vals,
+            tvals: this.state.tvals,
+            questTvals: this.state.questTvals,
+        }).toString();
+    }
+
     private async search() {
         // no filter set
         if (
             !this.state.popupText &&
-            !this.state.type &&
-            !this.state.targetType &&
-            !this.state.targetTeam
+            (!this.state.type || this.state.type.length === 0) &&
+            (!this.state.targetType || this.state.targetType.length === 0)! &&
+            (!this.state.targetTeam || this.state.targetTeam.length === 0)! &&
+            this.state.vals.length === 0 &&
+            this.state.tvals.length === 0 &&
+            this.state.questTvals.length === 0
         ) {
             this.setState({ funcs: [] });
+            this.props.history.replace(`/${this.props.region}/${this.path}`);
             alert("Please refine the results before searching");
             return;
         }
 
         try {
-            await this.setState({ searching: true, funcs: [] });
+            this.setState({ searching: true, funcs: [] });
 
             const funcs = await Api.searchFuncs(
                 this.state.popupText,
                 this.state.type,
                 this.state.targetType,
-                this.state.targetTeam
+                this.state.targetTeam,
+                this.state.vals,
+                this.state.tvals,
+                this.state.questTvals
+            );
+
+            this.props.history.replace(
+                `/${this.props.region}/${this.path}?${this.getQueryString()}`
             );
 
             this.setState({ funcs, searched: true });
         } catch (e) {
+            this.props.history.replace(`/${this.props.region}/${this.path}`);
             this.setState({
                 error: e,
             });
@@ -91,7 +172,24 @@ class FuncsPage extends React.Component<IProps, IState> {
     }
 
     render() {
-        if (this.state.error) return <ErrorStatus error={this.state.error} />;
+        if (this.state.error) {
+            return (
+                <div style={{ textAlign: "center" }}>
+                    <ErrorStatus error={this.state.error} />
+                    <Button
+                        variant={"primary"}
+                        onClick={() =>
+                            this.setState({
+                                error: undefined,
+                                searching: false,
+                            })
+                        }
+                    >
+                        Redo the Search
+                    </Button>
+                </div>
+            );
+        }
 
         let table = (
             <Table responsive>
@@ -138,7 +236,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                     }}
                 >
                     <Form.Group>
-                        <Form.Label>Text</Form.Label>
+                        <Form.Label>Popup Text</Form.Label>
                         <Form.Control
                             value={this.state.popupText ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -208,6 +306,39 @@ class FuncsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Tvals</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={this.state.traitList}
+                            initialTraits={this.state.tvals}
+                            onUpdate={(trait) => {
+                                this.setState({ tvals: trait });
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Affects Traits</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={this.state.traitList}
+                            initialTraits={this.state.vals}
+                            onUpdate={(trait) => {
+                                this.setState({ vals: trait });
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Quest Traits</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={this.state.traitList}
+                            initialTraits={this.state.questTvals}
+                            onUpdate={(trait) => {
+                                this.setState({ questTvals: trait });
+                            }}
+                        />
+                    </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
                         Search <FontAwesomeIcon icon={faSearch} />
                     </Button>
@@ -227,4 +358,4 @@ class FuncsPage extends React.Component<IProps, IState> {
     }
 }
 
-export default FuncsPage;
+export default withRouter(FuncsPage);

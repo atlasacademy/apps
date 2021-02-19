@@ -85,7 +85,11 @@ class BuffPage extends React.Component<IProps, IState> {
                         <div>
                             {mergeElements(
                                 buff.vals.map(
-                                    trait => <TraitDescription region={this.props.region} trait={trait}/>
+                                    trait => <TraitDescription
+                                        region={this.props.region}
+                                        trait={trait}
+                                        owner="buffs"
+                                        ownerParameter="vals"/>
                                 ),
                                 ' '
                             )}
@@ -95,7 +99,11 @@ class BuffPage extends React.Component<IProps, IState> {
                         <div>
                             {mergeElements(
                                 buff.tvals.map(
-                                    trait => <TraitDescription region={this.props.region} trait={trait}/>
+                                    trait => <TraitDescription
+                                        region={this.props.region}
+                                        trait={trait}
+                                        owner="buffs"
+                                        ownerParameter="tvals"/>
                                 ),
                                 ' '
                             )}
@@ -105,7 +113,11 @@ class BuffPage extends React.Component<IProps, IState> {
                         <div>
                             {mergeElements(
                                 buff.ckSelfIndv.map(
-                                    trait => <TraitDescription region={this.props.region} trait={trait}/>
+                                    trait => <TraitDescription
+                                        region={this.props.region}
+                                        trait={trait}
+                                        owner="buffs"
+                                        ownerParameter="vals"/>
                                 ),
                                 ' '
                             )}

@@ -43,6 +43,7 @@ export default function TraitSelector(props: {
     traitList: Trait.Trait[];
     initialTraits: number[];
     onUpdate: (traits: number[]) => void;
+    customPlaceHolder?: string;
 }) {
     const knownTraits = new Map(
         props.traitList.map((trait) => [trait.id, trait])
@@ -57,7 +58,11 @@ export default function TraitSelector(props: {
                 id="trait-typeahead-multiple"
                 multiple
                 options={options}
-                placeholder="Add a Trait or a positive integer"
+                placeholder={
+                    props.customPlaceHolder
+                        ? props.customPlaceHolder
+                        : "Add a Trait or a positive integer"
+                }
                 allowNew
                 selected={selectedOptions}
                 onChange={(selected) => {
