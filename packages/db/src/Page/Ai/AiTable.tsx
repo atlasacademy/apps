@@ -14,6 +14,8 @@ const AI_COND_SUBJECT = new Map<Ai.AiCond, string>([
     [Ai.AiCond.CHECK_PT_BUFF, "Party members"],
     [Ai.AiCond.CHECK_OPPONENT_BUFF, "Opponents"],
     [Ai.AiCond.CHECK_SELF_INDIVIDUALITY, "Self"],
+    [Ai.AiCond.CHECK_SELF_BUFF_ACTIVE, "Self"],
+    [Ai.AiCond.CHECK_OPPONENT_BUFF_ACTIVE, "Opponents"],
     [Ai.AiCond.CHECK_PT_INDIVIDUALITY, "Party members"],
     [Ai.AiCond.CHECK_OPPONENT_INDIVIDUALITY, "Opponents"],
     [Ai.AiCond.CHECK_SELF_BUFF_INDIVIDUALITY, "Self"],
@@ -63,6 +65,8 @@ function AiCondition(props: {
         case Ai.AiCond.CHECK_SELF_BUFF:
         case Ai.AiCond.CHECK_PT_BUFF:
         case Ai.AiCond.CHECK_OPPONENT_BUFF:
+        case Ai.AiCond.CHECK_SELF_BUFF_ACTIVE:
+        case Ai.AiCond.CHECK_OPPONENT_BUFF_ACTIVE:
             return (
                 <>
                     {[subject, have].join(" ")}
@@ -81,9 +85,6 @@ function AiCondition(props: {
         case Ai.AiCond.CHECK_SELF_INDIVIDUALITY:
         case Ai.AiCond.CHECK_PT_INDIVIDUALITY:
         case Ai.AiCond.CHECK_OPPONENT_INDIVIDUALITY:
-        case Ai.AiCond.CHECK_SELF_BUFF_INDIVIDUALITY:
-        case Ai.AiCond.CHECK_PT_BUFF_INDIVIDUALITY:
-        case Ai.AiCond.CHECK_OPPONENT_BUFF_INDIVIDUALITY:
             return (
                 <>
                     {[subject, have].join(" ")}
@@ -97,23 +98,42 @@ function AiCondition(props: {
                         )),
                         ", "
                     )}
-                    &nbsp;
-                    {[
-                        Ai.AiCond.CHECK_SELF_BUFF_INDIVIDUALITY,
-                        Ai.AiCond.CHECK_PT_BUFF_INDIVIDUALITY,
-                        Ai.AiCond.CHECK_OPPONENT_BUFF_INDIVIDUALITY,
-                    ].includes(cond)
-                        ? "buffs"
-                        : ""}
                 </>
             );
+        case Ai.AiCond.CHECK_SELF_BUFF_INDIVIDUALITY:
+        case Ai.AiCond.CHECK_PT_BUFF_INDIVIDUALITY:
+        case Ai.AiCond.CHECK_OPPONENT_BUFF_INDIVIDUALITY:
+            return (
+                <>
+                    {[subject, have].join(" ")}
+                    &nbsp;
+                    {mergeElements(
+                        vals.map((val) => (
+                            <TraitDescription
+                                region={props.region}
+                                trait={val}
+                                owner="buffs"
+                                ownerParameter="vals"
+                            />
+                        )),
+                        ", "
+                    )}
+                    &nbsp;
+                    buffs
+                </>
+            );
+        case Ai.AiCond.ACTCOUNT_THISTURN:
+            return <>Act Count: {vals[0]}</>
+        case Ai.AiCond.TURN_AND_ACTCOUNT_THISTURN:
+            return <>Turn {vals[0]} and Act Count:  {vals[1]}</>
         default:
             return (
                 <>
                     {condNegative ? "Not " : ""}
                     {toTitleCase(cond)}
-                    {vals.length > 0 ? ": " : ""}
+                    {vals.length > 0 ? ": [" : ""}
                     {vals.toString()}
+                    {vals.length > 0 ? "]" : ""}
                 </>
             );
     }
