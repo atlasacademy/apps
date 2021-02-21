@@ -3,7 +3,7 @@ import {AxiosError} from "axios";
 import diacritics from "diacritics";
 import minimatch from "minimatch";
 import React from "react";
-import {Col, Form, Pagination, Row, Table} from "react-bootstrap";
+import {Col, Form, Pagination, Row, Table, ButtonGroup, Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -13,6 +13,13 @@ import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import Manager from "../Setting/Manager";
 
 import "./CraftEssencesPage.css";
+
+enum CEType {
+    VALENTINE = "valentine",
+    BOND = "bond",
+    COMMEMORATIVE = "commemorative",
+    OTHER = "other",
+}
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
@@ -27,6 +34,7 @@ interface IState {
     loading: boolean;
     craftEssences: CraftEssence.CraftEssenceBasic[];
     activeRarityFilters: number[];
+    activeCETypeFilters: CEType[];
     perPage: number;
     page: number;
     search?: string;
@@ -40,6 +48,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             loading: true,
             craftEssences: [],
             activeRarityFilters: [],
+            activeCETypeFilters: [],
             perPage: 200,
             page: 0,
         };
@@ -62,12 +71,58 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         }
     }
 
+    private toggleRarityFilter(rarity: number): void {
+        if (this.state.activeRarityFilters.includes(rarity)) {
+            this.setState({
+                activeRarityFilters: this.state.activeRarityFilters.filter(activeRarity => activeRarity !== rarity)
+            });
+        } else {
+            this.setState({
+                activeRarityFilters: [...this.state.activeRarityFilters, rarity]
+            });
+        }
+    }
+
+    private toggleCETypeFilter(ceType: CEType): void {
+        if (this.state.activeCETypeFilters.includes(ceType)) {
+            this.setState({
+                activeCETypeFilters: this.state.activeCETypeFilters.filter(activeType => activeType !== ceType)
+            });
+        } else {
+            this.setState({
+                activeCETypeFilters: [...this.state.activeCETypeFilters, ceType]
+            });
+        }
+    }
+
     private craftEssences(): CraftEssence.CraftEssenceBasic[] {
         let list = this.state.craftEssences.slice().reverse();
 
         if (this.state.activeRarityFilters.length > 0) {
             list = list.filter(entity => {
-                return this.state.activeRarityFilters.indexOf(entity.rarity) !== -1;
+                return this.state.activeRarityFilters.includes(entity.rarity);
+            });
+        }
+
+        if (this.state.activeCETypeFilters.length > 0) {
+            const currentYear = new Date().getFullYear();
+            list = list.filter(entity => {
+                const atkMax = entity.atkMax;
+                const hpMax = entity.hpMax;
+
+                const isValentine = entity.valentineEquipOwner !== undefined;
+                const isBond = entity.bondEquipOwner !== undefined;
+                const isCommemorative = !isValentine && !isBond &&
+                                        ((atkMax === hpMax && [500,100,0].includes(atkMax))
+                                        || (hpMax >= 2016 && hpMax <= currentYear + 1));
+                const isOther = !isValentine && !isBond && !isCommemorative;
+
+                return (
+                    (this.state.activeCETypeFilters.includes(CEType.VALENTINE) && isValentine)
+                    || (this.state.activeCETypeFilters.includes(CEType.BOND) && isBond)
+                    || (this.state.activeCETypeFilters.includes(CEType.COMMEMORATIVE) && isCommemorative)
+                    || (this.state.activeCETypeFilters.includes(CEType.OTHER) && isOther)
+                )
             });
         }
 
@@ -134,22 +189,29 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         if (pages[0] > 0) {
             items.push(this.pageItem('1', 0, 'first', false, false));
 
-            if (pages[0] > 1)
+            if (pages[0] == 2) {
+                items.push(this.pageItem('2', 1, 1, false, false));
+            } else if (pages[0] > 2) {
                 items.push(this.pageItem('…', 0, 'firstEllipsis', false, true));
+            }
         }
 
         items.push(...pages.map(i => this.pageItem((i + 1).toString(), i, i, i === this.state.page, false)));
 
-        if (pages[pages.length - 1] < maxPage) {
-            items.push(this.pageItem('…', maxPage, 'lastEllipsis', false, true));
+        const lastNearbyPage = pages[pages.length - 1];
+        if (lastNearbyPage < maxPage) {
+            if (lastNearbyPage == maxPage - 2) {
+                items.push(this.pageItem(maxPage.toString(), maxPage - 1, maxPage - 1, false, false));
+            } else if (lastNearbyPage < maxPage - 2) {
+                items.push(this.pageItem('…', maxPage, 'lastEllipsis', false, true));
+            }
 
-            if (pages[pages.length - 1] < maxPage)
-                items.push(this.pageItem((maxPage + 1).toString(), maxPage, 'last', false, false));
+            items.push(this.pageItem((maxPage + 1).toString(), maxPage, 'last', false, false));
         }
 
         items.push(this.pageItem('>', this.state.page + 1, 'next', false, this.state.page >= maxPage));
 
-        return <div style={{marginBottom: 20}}>
+        return <div>
             <Pagination>{items}</Pagination>
         </div>;
     }
@@ -166,18 +228,44 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             return <Loading/>;
 
         const craftEssences = this.craftEssences(),
-            hasPaginator = craftEssences.length > this.state.perPage,
             results = craftEssences.slice(
                 this.state.perPage * this.state.page,
                 this.state.perPage * (this.state.page + 1)
             );
 
+        const pageNavigator = this.paginator(craftEssences.length);
+
         return (
             <div id={'craft-essences'}>
                 <Row>
-                    <Col md={12} lg={{offset: hasPaginator ? 0 : 9, order: 2, span: 3}}>
-                        <Form inline style={{justifyContent: 'center', marginBottom: 20}}>
-                            <Form.Control style={{marginLeft: 'auto'}}
+                    <Col md={12} lg={6} style={{justifyContent: 'left', marginBottom: "1rem"}}>
+                        <ButtonGroup style={{width: "100%"}}>
+                            {[
+                                [CEType.OTHER, "Regular CE"],
+                                [CEType.VALENTINE, "Valentine CE"],
+                                [CEType.BOND, "Bond CE"],
+                                [CEType.COMMEMORATIVE, "EXP CE"]
+                            ].map(
+                                ([ceType, buttonText]) => {
+                                    return (
+                                        <Button
+                                            variant={
+                                                this.state.activeCETypeFilters.includes(ceType as CEType)
+                                                ? "success"
+                                                : "outline-dark"
+                                            }
+                                            key="valentineCE"
+                                            onClick={(_) => this.toggleCETypeFilter(ceType as CEType)}>
+                                            {buttonText}
+                                        </Button>
+                                    )
+                                }
+                            )}
+                        </ButtonGroup>
+                    </Col>
+                    <Col md={12} lg={3} style={{marginLeft: "auto", marginBottom: "1rem"}}>
+                        <Form inline style={{width: "100%"}}>
+                            <Form.Control style={{marginLeft: 'auto', width: "100%"}}
                                           placeholder={'Search'}
                                           value={this.state.search ?? ''}
                                           onChange={(ev: ChangeEvent) => {
@@ -185,10 +273,37 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                           }}/>
                         </Form>
                     </Col>
-                    {craftEssences.length > this.state.perPage
-                        ? <Col md={12} lg={{order: 1, span: 9}}>{this.paginator(craftEssences.length)}</Col>
-                        : undefined}
                 </Row>
+                <Row>
+                    <Col sm={12} md={5} style={{marginBottom: "1rem"}}>
+                        <ButtonGroup style={{width: "100%"}}>
+                            {
+                                [...new Set(this.state.craftEssences.map(s => s.rarity))]
+                                    // deduplicate star counts
+                                    .sort((a, b) => a - b)
+                                    // sort
+                                    .map(rarity => (
+                                        <Button
+                                            variant={
+                                                this.state.activeRarityFilters.includes(rarity)
+                                                ? "success"
+                                                : "outline-dark"
+                                            }
+                                            key={rarity}
+                                            onClick={(_) => this.toggleRarityFilter(rarity)}>
+                                            {rarity} ☆
+                                        </Button>
+                                    ))
+                            }
+                        </ButtonGroup>
+                    </Col>
+                    <Col sm={12} md={7}>
+                        <div style={{ float: 'right' }}>
+                            {pageNavigator}
+                        </div>
+                    </Col>
+                </Row>
+                <hr style={{marginTop: 0}}/>
 
                 <Table striped bordered hover responsive>
                     <thead>
@@ -231,7 +346,9 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     </tbody>
                 </Table>
 
-                {craftEssences.length > this.state.perPage ? this.paginator(craftEssences.length) : undefined}
+                <div style={{ float: 'right' }}>
+                    {pageNavigator}
+                </div>
             </div>
         );
     }
