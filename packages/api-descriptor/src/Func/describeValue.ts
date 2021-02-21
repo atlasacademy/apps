@@ -17,6 +17,24 @@ export default function (func: Func.BasicFunc,
             partials.push(...additional);
         };
 
+    const addPartialCount = () => {
+        if (dataVal.Count !== undefined) {
+            addPartials([
+                new ValuePartial(ValueType.NUMBER, dataVal.Count),
+                new TextPartial(' Time' + (dataVal.Count > 1 ? 's' : ''))
+            ]);
+        }
+    }
+
+    const addPartialUseRate = () => {
+        if (dataVal.UseRate !== undefined) {
+            addPartials([
+                new TextPartial('Chance: '),
+                new ValuePartial(ValueType.PERCENT, dataVal.UseRate / 10)
+            ]);
+        }
+    }
+
     if (!ignoreRate && dataVal.Rate !== undefined) {
         partials.push(
             new ValuePartial(ValueType.PERCENT, dataVal.Rate / 10),
@@ -25,12 +43,8 @@ export default function (func: Func.BasicFunc,
     }
 
     if (func.funcType === Func.FuncType.ADD_STATE || func.funcType === Func.FuncType.ADD_STATE_SHORT) {
-        if (dataVal.UseRate !== undefined) {
-            addPartials([
-                new TextPartial('Chance: '),
-                new ValuePartial(ValueType.PERCENT, dataVal.UseRate / 10)
-            ]);
-        }
+        addPartialCount();
+        addPartialUseRate();
 
         const valueDescriptor = describeBuffValue(func.buffs[0], dataVal),
             valuePartials = valueDescriptor?.partials() ?? [];
@@ -142,12 +156,7 @@ export default function (func: Func.BasicFunc,
             ]);
         }
 
-        if (dataVal.UseRate !== undefined) {
-            addPartials([
-                new ValuePartial(ValueType.PERCENT, dataVal.UseRate / 10),
-                new TextPartial(' Chance to Trigger')
-            ]);
-        }
+        addPartialUseRate();
 
         if (dataVal.RateCount !== undefined) {
             switch (func.funcType) {
@@ -165,12 +174,7 @@ export default function (func: Func.BasicFunc,
             }
         }
 
-        if (dataVal.Count !== undefined) {
-            addPartials([
-                new ValuePartial(ValueType.NUMBER, dataVal.Count),
-                new TextPartial(' Time' + (dataVal.Count > 1 ? 's' : ''))
-            ]);
-        }
+        addPartialCount();
     }
 
     return partials.length ? new Descriptor(partials) : undefined;
