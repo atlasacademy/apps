@@ -38,6 +38,7 @@ export enum FuncTargetType {
     PT_SELF_ANOTHER_LAST = "ptSelfAnotherLast",
     COMMAND_TYPE_SELF_TREASURE_DEVICE = "commandTypeSelfTreasureDevice",
     FIELD_OTHER = "fieldOther",
+    ENEMY_ONE_NO_TARGET_NO_ACTION = "enemyOneNoTargetNoAction",
 }
 
 export enum FuncType {

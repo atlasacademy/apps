@@ -147,6 +147,11 @@ export enum CondType {
     SHOP_FLAG_ON = "shopFlagOn",
     SHOP_FLAG_OFF = "shopFlagOff",
     PURCHASE_VALID_SHOP_GROUP = "purchaseValidShopGroup",
+    SVT_LEVEL_CLASS_NUM = "svtLevelClassNum",
+    SVT_LEVEL_ID_NUM = "svtLevelIdNum",
+    LIMIT_COUNT_IMAGE_EQUAL = "limitCountImageEqual",
+    LIMIT_COUNT_IMAGE_ABOVE = "limitCountImageAbove",
+    LIMIT_COUNT_IMAGE_BELOW = "limitCountImageBelow",
 }
 
 export default CondType;

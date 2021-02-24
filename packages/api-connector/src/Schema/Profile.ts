@@ -80,6 +80,7 @@ export interface Profile {
     };
     comments: ProfileComment[];
     voices: {
+        svtId: number;
         voicePrefix: number;
         type: ProfileVoiceType;
         voiceLines: {
