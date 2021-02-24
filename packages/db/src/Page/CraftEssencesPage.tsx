@@ -238,7 +238,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         return (
             <div id={'craft-essences'}>
                 <Row>
-                    <Col md={12} lg={6} style={{justifyContent: 'left', marginBottom: "1rem"}}>
+                    <Col md={12} lg={6} xl={5} style={{justifyContent: 'left', marginBottom: "1rem"}}>
                         <ButtonGroup style={{width: "100%"}}>
                             {[
                                 [CEType.OTHER, "Regular CE"],
@@ -254,7 +254,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                                 ? "success"
                                                 : "outline-dark"
                                             }
-                                            key="valentineCE"
+                                            key={ceType}
                                             onClick={(_) => this.toggleCETypeFilter(ceType as CEType)}>
                                             {buttonText}
                                         </Button>
