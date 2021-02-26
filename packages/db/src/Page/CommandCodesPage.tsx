@@ -106,10 +106,10 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                     </thead>
                     <tbody>
                     {this.commandCodes()
-                        .map((commandCode, index) => {
+                        .map((commandCode) => {
                             const route = `/${this.props.region}/command-code/${commandCode.collectionNo}`;
 
-                            return <tr key={index}>
+                            return <tr key={commandCode.id}>
                                 <td align={"center"}>
                                     <Link to={route}>
                                         {commandCode.collectionNo}

@@ -25,8 +25,8 @@ class FuncMainData extends React.Component<IProps> {
                     "Popup Text": func.funcPopupText,
                     "Target Traits": (
                         <div>
-                            {func.functvals.map((trait, index) => {
-                                return <TraitDescription key={index} region={this.props.region} trait={trait}/>;
+                            {func.functvals.map((trait) => {
+                                return <TraitDescription key={trait.id} region={this.props.region} trait={trait}/>;
                             })}
                         </div>
                     ),
@@ -44,8 +44,8 @@ class FuncMainData extends React.Component<IProps> {
                     ),
                     "Buffs": (
                         <div>
-                            {func.buffs.map((buff, index) => {
-                                return <BuffDescription key={index} region={this.props.region} buff={buff}/>;
+                            {func.buffs.map((buff) => {
+                                return <BuffDescription key={buff.id} region={this.props.region} buff={buff}/>;
                             })}
                         </div>
                     )

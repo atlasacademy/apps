@@ -24,9 +24,9 @@ class ServantProfileComments extends React.Component<IProps> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.comments.map((comment, index) => {
+                    {this.props.comments.map((comment) => {
                         return (
-                            <tr key={index}>
+                            <tr key={comment.id}>
                                 <td>
                                     <ProfileConditionDescriptor region={this.props.region} comment={comment}/>
                                 </td>

@@ -151,9 +151,9 @@ class BuffPage extends React.Component<IProps, IState> {
                     </thead>
                     <tbody>
                     {buff.reverse?.basic?.function ? (
-                        buff.reverse.basic.function.map((func, index) => {
+                        buff.reverse.basic.function.map((func) => {
                             return (
-                                <tr key={index}>
+                                <tr key={func.funcId}>
                                     <td>
                                         <FuncDescriptor region={this.props.region} func={func}/>
                                     </td>

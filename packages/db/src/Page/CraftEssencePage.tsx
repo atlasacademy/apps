@@ -103,9 +103,9 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                         <Row>
                             {this.state.craftEssence.skills
                                 .sort((a, b) => ((a.num || 0) - (b.num || 0)) || ((a.priority || 0) - (b.priority || 0)))
-                                .map((skill, index) => {
+                                .map((skill) => {
                                     return (
-                                        <Col key={index} xs={12} lg={craftEssence.skills.length > 1 ? 6 : 12}>
+                                        <Col key={skill.id} xs={12} lg={craftEssence.skills.length > 1 ? 6 : 12}>
                                             <SkillBreakdown region={this.props.region}
                                                             skill={skill}
                                                             cooldowns={false}/>

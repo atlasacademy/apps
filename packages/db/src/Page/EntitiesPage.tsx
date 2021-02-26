@@ -289,11 +289,11 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.entities.map((entity, index) => {
+                    {this.state.entities.map((entity) => {
                         const route = this.location(entity);
 
                         return (
-                            <tr key={index}>
+                            <tr key={entity.id}>
                                 <td>
                                     {route ? (
                                         <Link to={route}>

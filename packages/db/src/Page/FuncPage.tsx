@@ -97,8 +97,8 @@ class FuncPage extends React.Component<IProps, IState> {
                                                 (entity, index) => entityDescriptorTable(this.props.region, entity, index)
                                             )}
                                             {/*TODO: Command Code Reverse Mapping*/}
-                                            {(skill.reverse?.basic?.MC ?? []).map((mysticCode, index) => {
-                                                return <div key={index}>
+                                            {(skill.reverse?.basic?.MC ?? []).map((mysticCode) => {
+                                                return <div key={mysticCode.id}>
                                                     <BasicMysticCodeDescriptor region={this.props.region}
                                                                           mysticCode={mysticCode}/>
                                                 </div>

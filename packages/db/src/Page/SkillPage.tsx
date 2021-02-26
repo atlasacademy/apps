@@ -102,17 +102,17 @@ class SkillPage extends React.Component<IProps, IState> {
                     "Owner": (
                         <div>
                             {(skill.reverse?.basic?.servant ?? [])
-                                .map((servant, index) => {
-                                    return <div key={index}>
+                                .map((servant) => {
+                                    return <div key={servant.id}>
                                         <EntityDescriptor region={this.props.region} entity={servant} iconHeight={25} />
                                     </div>
                                 })
                             }
                             {/* TODO: Command Code reverse mapping */}
                             {(skill.reverse?.basic?.MC ?? [])
-                                .map((mysticCode, index) => {
+                                .map((mysticCode) => {
                                     return (
-                                        <BasicMysticCodeDescriptor key={index}
+                                        <BasicMysticCodeDescriptor key={mysticCode.id}
                                                               region={this.props.region}
                                                               mysticCode={mysticCode}/>
                                     );

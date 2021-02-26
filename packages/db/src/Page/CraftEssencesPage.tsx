@@ -315,10 +315,10 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {results.map((craftEssence, index) => {
+                    {results.map((craftEssence) => {
                         const route = `/${this.props.region}/craft-essence/${craftEssence.collectionNo}`;
 
-                        return <tr key={index}>
+                        return <tr key={craftEssence.id}>
                             <td align={"center"}>
                                 <Link to={route}>
                                     {craftEssence.collectionNo}

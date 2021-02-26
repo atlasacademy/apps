@@ -66,11 +66,11 @@ class MysticCodesPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.mysticCodes.map((mysticCode, index) => {
+                    {this.state.mysticCodes.map((mysticCode) => {
                         const route = `/${this.props.region}/mystic-code/${mysticCode.id}`;
 
                         return (
-                            <tr key={index}>
+                            <tr key={mysticCode.id}>
                                 <td align={"center"}>
                                     <Link to={route}>
                                         {mysticCode.id}

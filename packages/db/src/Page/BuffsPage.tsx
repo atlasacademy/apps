@@ -200,9 +200,9 @@ class BuffsPage extends React.Component<IProps, IState> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.buffs.map((buff, index) => {
+                    {this.state.buffs.map((buff) => {
                         return (
-                            <tr key={index}>
+                            <tr key={buff.id}>
                                 <td>{buff.id}</td>
                                 <td>
                                     <BuffDescription

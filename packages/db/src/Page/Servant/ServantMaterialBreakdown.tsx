@@ -72,8 +72,8 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                                           quantityHeight={11}/>
                             </td>
                             {this.props.materials[key].items.map(
-                                (itemAndQuantity, index) => {
-                                    return <td key={index}>
+                                (itemAndQuantity) => {
+                                    return <td key={itemAndQuantity.item.id}>
                                         <Link to={`/${this.props.region}/item/${itemAndQuantity.item.id}`}>
                                             <ItemIcon region={this.props.region}
                                                       item={itemAndQuantity.item}

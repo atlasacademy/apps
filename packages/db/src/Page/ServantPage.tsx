@@ -216,8 +216,8 @@ class ServantPage extends React.Component<IProps, IState> {
                         <br/>
                         {this.state.servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
-                            .map((noblePhantasm, index) => {
-                                return <NoblePhantasmBreakdown key={index}
+                            .map((noblePhantasm) => {
+                                return <NoblePhantasmBreakdown key={noblePhantasm.id}
                                                                region={this.props.region}
                                                                servant={servant}
                                                                noblePhantasm={noblePhantasm}
@@ -228,11 +228,11 @@ class ServantPage extends React.Component<IProps, IState> {
                     <Tab eventKey={'passives'} title={'Passives'}>
                         <br/>
                         <Row>
-                            {servant.classPassive.map((skill, index) => {
+                            {servant.classPassive.map((skill) => {
                                 return (
                                     <Col xs={12}
                                          lg={(servant.classPassive.length ?? 1) > 1 ? 6 : 12}
-                                         key={index}>
+                                         key={skill.id}>
                                         <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
                                     </Col>
                                 );

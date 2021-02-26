@@ -201,9 +201,9 @@ class FuncsPage extends React.Component<IProps, IState> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.funcs.map((func, index) => {
+                    {this.state.funcs.map((func) => {
                         return (
-                            <tr key={index}>
+                            <tr key={func.funcId}>
                                 <td>{func.funcId}</td>
                                 <td>
                                     <FuncDescriptor

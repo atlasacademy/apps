@@ -98,9 +98,9 @@ class CommandCodePage extends React.Component<IProps, IState> {
                     <Tab eventKey={'effects'} title={'Effects'}>
                         <br/>
                         {commandCode.skills
-                            .map((skill, index) => {
+                            .map((skill) => {
                                 return (
-                                    <SkillBreakdown key={index}
+                                    <SkillBreakdown key={skill.id}
                                                     region={this.props.region}
                                                     skill={skill}
                                                     cooldowns={false}/>

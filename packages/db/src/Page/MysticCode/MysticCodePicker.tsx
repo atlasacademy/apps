@@ -29,9 +29,9 @@ class MysticCodePicker extends React.Component<IProps> {
                              }}
                              value={this.props.id}>
                     {this.props.mysticCodes
-                        .map((mysticCode, index) => {
+                        .map((mysticCode) => {
                             return (
-                                <option key={index} value={mysticCode.id}>
+                                <option key={mysticCode.id} value={mysticCode.id}>
                                     {mysticCode.name}
                                 </option>
                             );

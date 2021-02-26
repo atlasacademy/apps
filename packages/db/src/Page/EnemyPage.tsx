@@ -100,8 +100,8 @@ class EnemyPage extends React.Component<IProps, IState> {
                     <Tab eventKey={'noble-phantasms'} title={'Noble Phantasms'}>
                         <br/>
                         {enemy.noblePhantasms
-                            .map((noblePhantasm, index) => {
-                                return <NoblePhantasmBreakdown key={index}
+                            .map((noblePhantasm) => {
+                                return <NoblePhantasmBreakdown key={noblePhantasm.id}
                                                                region={this.props.region}
                                                                servant={enemy as unknown as Servant.Servant}
                                                                noblePhantasm={noblePhantasm}
@@ -113,9 +113,9 @@ class EnemyPage extends React.Component<IProps, IState> {
                             <br/>
                             {enemy
                                 .skills
-                                .map((skill, index) => {
+                                .map((skill) => {
                                     return <SkillBreakdown region={this.props.region}
-                                                           key={index}
+                                                           key={skill.id}
                                                            skill={skill}
                                                            cooldowns={true}
                                                            levels={10}/>;
@@ -126,11 +126,11 @@ class EnemyPage extends React.Component<IProps, IState> {
                         <Tab eventKey={'passives'} title={'Passives'}>
                             <br/>
                             <Row>
-                                {enemy.classPassive.map((skill, index) => {
+                                {enemy.classPassive.map((skill) => {
                                     return (
                                         <Col xs={12}
                                              lg={(enemy.classPassive.length ?? 1) > 1 ? 6 : 12}
-                                             key={index}>
+                                             key={skill.id}>
                                             <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
                                         </Col>
                                     );

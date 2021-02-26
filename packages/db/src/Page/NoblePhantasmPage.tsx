@@ -98,8 +98,8 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     "Owner": (
                         <div>
                             {(noblePhantasm.reverse?.basic?.servant ?? [])
-                                .map((servant, index) => {
-                                    return <div key={index}>
+                                .map((servant) => {
+                                    return <div key={servant.id}>
                                         <EntityDescriptor region={this.props.region} entity={servant} iconHeight={25} />
                                     </div>
                                 })

@@ -21,7 +21,7 @@ class NoblePhantasmVersion extends React.Component<IProps> {
                     const dataVal = getTargetVersionValues(func, this.props.level, this.props.overcharge);
 
                     return (
-                        <div key={index}>
+                        <div key={func.funcId}>
                             <h3>Effect #{index + 1}</h3>
                             <p>
                                 <FuncDescriptor region={this.props.region}

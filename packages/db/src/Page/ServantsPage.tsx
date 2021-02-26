@@ -331,10 +331,10 @@ class ServantsPage extends React.Component<IProps, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {results.map((servant, index) => {
+                    {results.map((servant) => {
                         const route = `/${this.props.region}/servant/${servant.collectionNo}`;
 
-                        return <tr key={index}>
+                        return <tr key={servant.id}>
                             <td align={"center"}>
                                 <Link to={route}>
                                     {servant.collectionNo} (<span style={{fontFamily: 'monospace', fontSize: '0.9rem'}}>{servant.id}</span>)

@@ -20,7 +20,7 @@ class SkillVersion extends React.Component<IProps> {
                     const dataVal = getTargetVersionValues(func, this.props.level);
 
                     return (
-                        <div key={index}>
+                        <div key={func.funcId}>
                             <h3>Effect #{index + 1}</h3>
                             <p>
                                 <FuncDescriptor region={this.props.region} func={func} level={this.props.level}/>

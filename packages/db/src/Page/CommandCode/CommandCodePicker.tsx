@@ -31,9 +31,9 @@ class CommandCodePicker extends React.Component<IProps> {
                     {this.props.commandCodes
                         .slice()
                         .reverse()
-                        .map((commandCode, index) => {
+                        .map((commandCode) => {
                             return (
-                                <option key={index} value={commandCode.id}>
+                                <option key={commandCode.id} value={commandCode.id}>
                                     {commandCode.name}
                                 </option>
                             );
