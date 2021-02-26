@@ -3,7 +3,7 @@ import {faDiscord, faGithub} from "@fortawesome/free-brands-svg-icons";
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Button, Container, Modal, Nav, Navbar, NavItem, Row, Col} from "react-bootstrap";
+import {Button, Container, Modal, Nav, Navbar, NavItem, Row, Col, DropdownButton, Dropdown} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Manager from "../Setting/Manager";
@@ -82,24 +82,23 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Link>
                             </Nav>
                             <Nav>
-                                <Link to={`/${Manager.region()}/entities`} className={'nav-link'}>
-                                    <NavItem>Entities</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/funcs`} className={'nav-link'}>
-                                    <NavItem>Functions</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/buffs`} className={'nav-link'}>
-                                    <NavItem>Buffs</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
                                 <Link to={`/${Manager.region()}/items`} className={'nav-link'}>
                                     <NavItem>Materials</NavItem>
                                 </Link>
+                            </Nav>
+                            <Nav>
+                                <Dropdown id="dropdown-search">
+                                <Dropdown.Toggle>
+                                    Search
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu align="left">
+                                    <Dropdown.Item href={`#/${Manager.region()}/entities`}>Entities</Dropdown.Item>
+                                    <Dropdown.Item href={`#/${Manager.region()}/skills`}>Skills</Dropdown.Item>
+                                    <Dropdown.Item href={`#/${Manager.region()}/noble-phantasms`}>Noble Phantasms</Dropdown.Item>
+                                    <Dropdown.Item href={`#/${Manager.region()}/funcs`}>Functions</Dropdown.Item>
+                                    <Dropdown.Item href={`#/${Manager.region()}/buffs`}>Buffs</Dropdown.Item>
+                                </Dropdown.Menu>
+                                </Dropdown>
                             </Nav>
                             <Nav>
                                 <Link to={`/${Manager.region()}/changes`} className={'nav-link'}>

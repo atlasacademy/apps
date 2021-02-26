@@ -1,15 +1,12 @@
 import { Region, Trait } from "@atlasacademy/api-connector";
 import { Typeahead } from "react-bootstrap-typeahead";
-import TraitDescription from "../../Descriptor/TraitDescription";
+import TraitDescription from "../Descriptor/TraitDescription";
+import { isPositiveInteger } from "../Helper/StringHelper";
 
 interface Option {
     label: string;
     value: number;
     customOption?: boolean;
-}
-
-function isPositiveInteger(str: string) {
-    return /^\d+$/.test(str);
 }
 
 function getTraitOption(trait: Trait.Trait): Option {
@@ -44,6 +41,7 @@ export default function TraitSelector(props: {
     initialTraits: number[];
     onUpdate: (traits: number[]) => void;
     customPlaceHolder?: string;
+    emptyLabel?: string;
 }) {
     const knownTraits = new Map(
         props.traitList.map((trait) => [trait.id, trait])
@@ -62,6 +60,11 @@ export default function TraitSelector(props: {
                     props.customPlaceHolder
                         ? props.customPlaceHolder
                         : "Add a Trait or a positive integer"
+                }
+                emptyLabel={
+                    props.customPlaceHolder
+                        ? props.customPlaceHolder
+                        : "No trait found"
                 }
                 allowNew
                 selected={selectedOptions}

@@ -18,6 +18,12 @@ interface IProps {
     error?: AxiosError;
 }
 
+interface ErrorDetail {
+    loc: [string, string, number],
+    msg: string,
+    type: string,
+}
+
 class ErrorStatus extends React.Component<IProps> {
     render() {
         document.title = 'Error - Atlas Academy DB'
@@ -35,9 +41,25 @@ class ErrorStatus extends React.Component<IProps> {
 
         if (
             typeof this.props.error?.response?.data === "object"
-            && this.props.error.response.data.detail !== undefined
+            && typeof this.props.error.response.data.detail === "string"
         ) {
             message = this.props.error.response.data.detail;
+        }
+
+        if (
+            typeof this.props.error?.response?.data === "object"
+            && typeof this.props.error.response.data.detail === "object"
+        ) {
+            const value_errors: string[] = this.props.error.response.data.detail.map((detail: ErrorDetail) => {
+                if (detail.type.startsWith("value_error.number")) {
+                    return detail.msg.replace("ensure this value", detail.loc[1]);
+                } else {
+                    return "";
+                }
+            });
+
+            if (value_errors.length > 0)
+                message = "Ensure " + value_errors.join(" and ")
         }
 
         const random = Math.floor(Math.random() * images.length),

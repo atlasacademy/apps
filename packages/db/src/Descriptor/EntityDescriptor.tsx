@@ -51,3 +51,15 @@ export default function EntityDescriptor(props: {
         />
     );
 }
+
+export function entityDescriptorTable(
+    region: Region,
+    entity: Entity.EntityBasic,
+    index: number
+) {
+    return (
+        <div key={index} style={{ marginTop: index === 0 ? 0 : "24.5px" }}>
+            <EntityDescriptor region={region} entity={entity} iconHeight={25} />
+        </div>
+    );
+}

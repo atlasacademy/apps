@@ -97,8 +97,8 @@ type NPSearchOptions = {
     hits?: number[];
     strengthStatus?: number[];
     numFunctions?: number[];
-    minNpNpGain?: number[];
-    maxNpNpGain?: number[];
+    minNpNpGain?: number;
+    maxNpNpGain?: number;
     reverse?: boolean;
     reverseData?: ReverseData;
     reverseDepth?: ReverseDepth;

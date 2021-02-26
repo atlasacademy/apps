@@ -58,3 +58,7 @@ export function getURLSearchParams(options: SearchOptions) {
     }
     return searchParams;
 }
+
+export function isPositiveInteger(str: string) {
+    return /^\d+$/.test(str);
+}

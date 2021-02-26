@@ -10,12 +10,12 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
+import TraitsSelector from "../Component/TraitsSelector";
 import { funcDescriptions } from "../Descriptor/Func/handleActionSection";
 import { targetDescriptions } from "../Descriptor/Func/handleTargetSection";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
-import TraitsSelector from "./Entities/TraitsSelector";
 
 let stateCache = new Map<Region, IState>([]);
 
@@ -23,6 +23,7 @@ interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
 interface IProps extends RouteComponentProps {
     region: Region;
+    path: string;
 }
 
 interface IState {
@@ -41,8 +42,6 @@ interface IState {
 }
 
 class FuncsPage extends React.Component<IProps, IState> {
-    path = "funcs";
-
     constructor(props: IProps) {
         super(props);
 
@@ -98,6 +97,10 @@ class FuncsPage extends React.Component<IProps, IState> {
                 await this.search();
             }
 
+            if (stateCache.has(this.props.region)) {
+                this.setQueryURL();
+            }
+
             this.setState({
                 traitList,
             });
@@ -124,6 +127,12 @@ class FuncsPage extends React.Component<IProps, IState> {
         }).toString();
     }
 
+    setQueryURL() {
+        this.props.history.replace(
+            `/${this.props.region}/${this.props.path}?${this.getQueryString()}`
+        );
+    }
+
     private async search() {
         // no filter set
         if (
@@ -136,7 +145,7 @@ class FuncsPage extends React.Component<IProps, IState> {
             this.state.questTvals.length === 0
         ) {
             this.setState({ funcs: [] });
-            this.props.history.replace(`/${this.props.region}/${this.path}`);
+            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
             alert("Please refine the results before searching");
             return;
         }
@@ -144,7 +153,7 @@ class FuncsPage extends React.Component<IProps, IState> {
         try {
             this.setState({ searching: true, funcs: [] });
 
-            const funcs = await Api.searchFuncs(
+            const funcs = await Api.searchFunc(
                 this.state.popupText,
                 this.state.type,
                 this.state.targetType,
@@ -154,13 +163,11 @@ class FuncsPage extends React.Component<IProps, IState> {
                 this.state.questTvals
             );
 
-            this.props.history.replace(
-                `/${this.props.region}/${this.path}?${this.getQueryString()}`
-            );
+            this.setQueryURL();
 
             this.setState({ funcs, searched: true });
         } catch (e) {
-            this.props.history.replace(`/${this.props.region}/${this.path}`);
+            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
             this.setState({
                 error: e,
             });

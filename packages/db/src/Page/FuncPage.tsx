@@ -9,7 +9,7 @@ import Loading from "../Component/Loading";
 import {BasicMysticCodeDescriptor} from "../Descriptor/MysticCodeDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
-import EntityDescriptor from "../Descriptor/EntityDescriptor";
+import {entityDescriptorTable} from "../Descriptor/EntityDescriptor";
 import Manager from "../Setting/Manager";
 import FuncMainData from "./Func/FuncMainData";
 
@@ -22,12 +22,6 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     func?: Func.Func;
-}
-
-function entityDescriptorTable(region: Region, entity: Entity.EntityBasic, index: number) {
-    return <div key={index} style={{marginTop: index === 0? 0 : "24.5px"}}>
-        <EntityDescriptor region={region} entity={entity} iconHeight={25} />
-    </div>
 }
 
 class FuncPage extends React.Component<IProps, IState> {

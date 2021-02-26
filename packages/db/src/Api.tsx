@@ -3,6 +3,7 @@ import {
     Ai,
     ApiConnector,
     Buff,
+    Card,
     Change,
     ClassName,
     CommandCode,
@@ -171,7 +172,7 @@ class Api {
         );
     }
 
-    static searchBuffs(
+    static searchBuff(
         name?: string,
         type?: Buff.BuffType[],
         buffGroup?: number[],
@@ -213,14 +214,14 @@ class Api {
         });
     }
 
-    static searchFuncs(
+    static searchFunc(
         popupText?: string,
         type?: Func.FuncType[],
         targetType?: Func.FuncTargetType[],
         targetTeam?: Func.FuncTargetTeam[],
         vals?: number[],
         tvals?: number[],
-        questTvals?: number[],
+        questTvals?: number[]
     ): Promise<Func.BasicFunc[]> {
         return apiConnector.searchFunc({
             popupText,
@@ -230,6 +231,52 @@ class Api {
             vals,
             tvals,
             questTvals,
+            reverse: true,
+            reverseDepth: ReverseDepth.SERVANT,
+        });
+    }
+
+    static searchSkill(
+        name?: string,
+        type?: Skill.SkillType[],
+        num?: number[],
+        priority?: number[],
+        strengthStatus?: number[],
+        lvl1coolDown?: number[],
+        numFunctions?: number[]
+    ): Promise<Skill.SkillBasic[]> {
+        return apiConnector.searchSkill({
+            name,
+            type,
+            num,
+            priority,
+            strengthStatus,
+            lvl1coolDown,
+            numFunctions,
+            reverse: true,
+            reverseDepth: ReverseDepth.SERVANT,
+        });
+    }
+
+    static searchNoblePhantasm(
+        name?: string,
+        card?: Card[],
+        individuality?: number[],
+        hits?: number[],
+        strengthStatus?: number[],
+        numFunctions?: number[],
+        minNpNpGain?: number,
+        maxNpNpGain?: number
+    ): Promise<NoblePhantasm.NoblePhantasmBasic[]> {
+        return apiConnector.searchNP({
+            name,
+            card,
+            individuality,
+            hits,
+            strengthStatus,
+            numFunctions,
+            minNpNpGain,
+            maxNpNpGain,
             reverse: true,
             reverseDepth: ReverseDepth.SERVANT,
         });

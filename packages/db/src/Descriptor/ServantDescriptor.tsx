@@ -24,7 +24,8 @@ function CommonServantDescriptor (props : IPropsCommon & { face?: string, tab?: 
             {' '}
             {props.face && <FaceIcon location={props.face}
                                     rarity={props.servant.rarity}
-                                    type={props.servant.type} />}
+                                    type={props.servant.type}
+                                    height={props.iconHeight}/>}
             {' '}
             <span className="hoverText" style={{whiteSpace: "normal"}}>
                 {props.servant.name}

@@ -12,7 +12,7 @@ import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
 import Manager from "../Setting/Manager";
-import TraitsSelector from "./Entities/TraitsSelector";
+import TraitsSelector from "../Component/TraitsSelector";
 import {getURLSearchParams} from "../Helper/StringHelper";
 
 const attributeDescriptions = new Map<Entity.Attribute, string>(),
@@ -97,6 +97,10 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 await this.search();
             }
 
+            if (stateCache.has(this.props.region)) {
+                this.setQueryURL();
+            }
+
             this.setState({
                 loading: false,
                 traitList
@@ -141,6 +145,10 @@ class EntitiesPage extends React.Component<IProps, IState> {
         }).toString();
     }
 
+    setQueryURL() {
+        this.props.history.replace(`/${this.props.region}/entities?${this.getQueryString()}`);
+    }
+
     private async search() {
         // no filter set
         if (!this.state.name
@@ -167,7 +175,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 this.state.trait
             );
 
-            this.props.history.replace(`/${this.props.region}/entities?${this.getQueryString()}`);
+            this.setQueryURL();
 
             this.setState({searching: false, entities: entities});
         } catch (e) {

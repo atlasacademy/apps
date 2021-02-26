@@ -21,7 +21,7 @@ class HomePage extends React.Component<IProps> {
                 <h1>Atlas Academy DB</h1>
 
                 <p>
-                    <i>FGO Game Data Navigator - without any of the fluff.</i>
+                    <i>FGO Game Data Navigator — without any of the fluff.</i>
                 </p>
 
                 <hr/>

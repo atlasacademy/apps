@@ -11,10 +11,10 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
+import TraitsSelector from "../Component/TraitsSelector";
 import BuffDescription from "../Descriptor/BuffDescription";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
-import TraitsSelector from "./Entities/TraitsSelector";
 
 let stateCache = new Map<Region, IState>([]);
 
@@ -22,6 +22,7 @@ interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
 interface IProps extends RouteComponentProps {
     region: Region;
+    path: string;
 }
 
 interface IState {
@@ -46,8 +47,6 @@ const buffDescriptions = new Map<Buff.BuffType, string>(
 );
 
 class BuffsPage extends React.Component<IProps, IState> {
-    path = "buffs";
-
     constructor(props: IProps) {
         super(props);
 
@@ -99,6 +98,10 @@ class BuffsPage extends React.Component<IProps, IState> {
                 await this.search();
             }
 
+            if (stateCache.has(this.props.region)) {
+                this.setQueryURL();
+            }
+
             this.setState({
                 traitList,
             });
@@ -125,6 +128,12 @@ class BuffsPage extends React.Component<IProps, IState> {
         }).toString();
     }
 
+    setQueryURL() {
+        this.props.history.replace(
+            `/${this.props.region}/${this.props.path}?${this.getQueryString()}`
+        );
+    }
+
     private async search() {
         // no filter set
         if (
@@ -137,7 +146,7 @@ class BuffsPage extends React.Component<IProps, IState> {
             this.state.ckSelfIndv.length === 0
         ) {
             this.setState({ buffs: [] });
-            this.props.history.replace(`/${this.props.region}/${this.path}`);
+            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
             alert("Please refine the results before searching");
             return;
         }
@@ -145,7 +154,7 @@ class BuffsPage extends React.Component<IProps, IState> {
         try {
             this.setState({ searching: true, buffs: [] });
 
-            const buffs = await Api.searchBuffs(
+            const buffs = await Api.searchBuff(
                 this.state.name,
                 this.state.type,
                 this.state.buffGroup,
@@ -155,13 +164,11 @@ class BuffsPage extends React.Component<IProps, IState> {
                 this.state.ckOpIndv
             );
 
-            this.props.history.replace(
-                `/${this.props.region}/${this.path}?${this.getQueryString()}`
-            );
+            this.setQueryURL();
 
             this.setState({ buffs, searched: true });
         } catch (e) {
-            this.props.history.replace(`/${this.props.region}/${this.path}`);
+            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
             this.setState({
                 error: e,
             });

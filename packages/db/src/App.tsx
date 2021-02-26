@@ -32,10 +32,12 @@ const ItemsPage = React.lazy(() => import('./Page/ItemsPage'));
 const MysticCodePage = React.lazy(() => import("./Page/MysticCodePage"));
 const MysticCodesPage = React.lazy(() => import("./Page/MysticCodesPage"));
 const NoblePhantasmPage = React.lazy(() => import("./Page/NoblePhantasmPage"));
+const NoblePhantasmsPage = React.lazy(() => import("./Page/NoblePhantasmsPage"));
 const QuestPage = React.lazy(() => import("./Page/QuestPage"));
 const ServantPage = React.lazy(() => import("./Page/ServantPage"));
 const ServantsPage = React.lazy(() => import("./Page/ServantsPage"));
 const SkillPage = React.lazy(() => import("./Page/SkillPage"));
+const SkillsPage = React.lazy(() => import("./Page/SkillsPage"));
 
 interface IState {
     language: Language,
@@ -158,6 +160,14 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
+                        <Route exact={true} path="/:region(JP|NA)/noble-phantasms" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <NoblePhantasmsPage key={region} region={region} path="noble-phantasms"/>
+                                </Suspense>
+                            );
+                        }}/>
                         <Route exact={true} path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)" render={props => {
                             const {region, id, phase} = props.match.params
                             return (
@@ -183,6 +193,14 @@ class App extends React.Component<any, IState> {
                                        </Suspense>
                                    )
                                }}/>
+                        <Route exact={true} path="/:region(JP|NA)/skills" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <SkillsPage key={region} region={region} path="skills"/>
+                                </Suspense>
+                            );
+                        }}/>
                         <Route exact={true} path="/:region(JP|NA)/skill/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params
                             return (
@@ -195,7 +213,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <BuffsPage key={region} region={region}/>
+                                    <BuffsPage key={region} region={region} path="buffs"/>
                                 </Suspense>
                             );
                         }}/>
@@ -235,7 +253,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <FuncsPage key={region} region={region}/>
+                                    <FuncsPage key={region} region={region} path="funcs"/>
                                 </Suspense>
                             );
                         }}/>
