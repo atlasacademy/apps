@@ -150,8 +150,8 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
             this.state.hits.length === 0 &&
             this.state.strengthStatus.length === 0 &&
             this.state.numFunctions.length === 0 &&
-            !this.state.minNpNpGain &&
-            !this.state.maxNpNpGain
+            this.state.minNpNpGain !== undefined &&
+            this.state.maxNpNpGain !== undefined
         ) {
             this.setState({ noblePhantasms: [] });
             this.props.history.replace(
@@ -333,11 +333,14 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                     {this.getNumberForm("strengthStatus", "Strength Status")}
                     {this.getNumberForm("numFunctions", "Number of functions")}
                     <Form.Group>
-                        <Form.Label>NP gain not smaller than</Form.Label>
+                        <Form.Label>Minimum NP gain (1% = 100)</Form.Label>
                         <NumberSelector
-                            value={this.state.minNpNpGain}
+                            value={this.state.minNpNpGain ?? ""}
                             onChange={(ev: ChangeEvent) => {
-                                if (isPositiveInteger(ev.target.value)) {
+                                if (
+                                    ev.target.value === "0" ||
+                                    isPositiveInteger(ev.target.value)
+                                ) {
                                     this.setState({
                                         minNpNpGain: parseInt(ev.target.value),
                                     });
@@ -350,11 +353,14 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>NP gain not bigger than</Form.Label>
+                        <Form.Label>Maximum NP gain (1% = 100)</Form.Label>
                         <NumberSelector
-                            value={this.state.maxNpNpGain}
+                            value={this.state.maxNpNpGain ?? ""}
                             onChange={(ev: ChangeEvent) => {
-                                if (isPositiveInteger(ev.target.value)) {
+                                if (
+                                    ev.target.value === "0" ||
+                                    isPositiveInteger(ev.target.value)
+                                ) {
                                     this.setState({
                                         maxNpNpGain: parseInt(ev.target.value),
                                     });
