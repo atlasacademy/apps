@@ -38,6 +38,8 @@ const ServantPage = React.lazy(() => import("./Page/ServantPage"));
 const ServantsPage = React.lazy(() => import("./Page/ServantsPage"));
 const SkillPage = React.lazy(() => import("./Page/SkillPage"));
 const SkillsPage = React.lazy(() => import("./Page/SkillsPage"));
+const EventPage = React.lazy(() => import("./Page/EventPage"));
+const EventsPage = React.lazy(() => import("./Page/EventsPage"));
 
 interface IState {
     language: Language,
@@ -264,6 +266,22 @@ class App extends React.Component<any, IState> {
                                     <ItemsPage key={region} region={region} tab={tab}/>
                                 </Suspense>
                             );
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/event/:id([0-9]+)/:tab([a-z0-9\-]+)?" render={props => {
+                            const {region, id, tab} = props.match.params
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <EventPage key={`${region}-event-${id}`} region={region} eventId={id} tab={tab}/>
+                                </Suspense>
+                            )
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/events" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <EventsPage key={region} region={region}/>
+                                </Suspense>
+                            )
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/mystic-codes" render={props => {
                             const {region} = props.match.params;

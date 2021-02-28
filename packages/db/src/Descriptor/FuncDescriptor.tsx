@@ -1,8 +1,9 @@
 import {DataVal, Func, Region} from "@atlasacademy/api-connector";
 import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
+import Api from "../Api";
 import {
     getDataValList,
     getFollowerDataValList,
@@ -115,3 +116,30 @@ class FuncDescriptor extends React.Component<IProps> {
 }
 
 export default FuncDescriptor;
+
+export function FuncDescriptorId (props: {
+    region: Region;
+    funcId: number;
+    level?: number;
+    levels?: number[];
+    overcharge?: number;
+}) {
+    const [func, setFunc] = useState<Func.BasicFunc>(null as any);
+    useEffect(() => {
+        Api.funcBasic(props.funcId).then((s) => setFunc(s));
+    }, [props.region, props.funcId]);
+    if (func !== null) {
+        return (
+            <FuncDescriptor
+                region={props.region}
+                func={func}
+                level={props.level}
+                levels={props.levels}
+                overcharge={props.overcharge}
+            />
+        );
+
+    } else {
+        return null;
+    }
+}

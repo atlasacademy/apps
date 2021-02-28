@@ -1,0 +1,7 @@
+.shopTable > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.shopTable > thead > tr > th {
+    text-align: center;
+}

@@ -23,6 +23,7 @@ import { ProfileVoiceType } from "./Schema/Profile";
 import * as Profile from "./Schema/Profile";
 import * as Quest from "./Schema/Quest";
 import * as Servant from "./Schema/Servant";
+import * as Shop from "./Schema/Shop";
 import * as Skill from "./Schema/Skill";
 import * as Trait from "./Schema/Trait";
 import * as War from "./Schema/War";
@@ -57,6 +58,7 @@ export {
     Profile,
     Quest,
     Servant,
+    Shop,
     Skill,
     Trait,
     War,

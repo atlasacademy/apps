@@ -1,6 +1,7 @@
 import {MysticCode, Region} from "@atlasacademy/api-connector";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
+import Api from "../Api";
 import FaceIcon from "../Component/FaceIcon";
 
 interface IPropsCommon {
@@ -40,3 +41,24 @@ function BasicMysticCodeDescriptor (props : IPropsBasic) {
 
 export { BasicMysticCodeDescriptor };
 export default MysticCodeDescriptor;
+
+export function MysticCodeDescriptorId (props: {
+    region: Region;
+    mcId: number;
+}) {
+    const [mc, setMC] = useState<MysticCode.MysticCodeBasic>(null as any);
+    useEffect(() => {
+        Api.mysticCodeBasic(props.mcId).then((s) => setMC(s));
+    }, [props.region, props.mcId]);
+    if (mc !== null) {
+        return (
+            <BasicMysticCodeDescriptor
+                region={props.region}
+                mysticCode={mc}
+            />
+        );
+
+    } else {
+        return null;
+    }
+}

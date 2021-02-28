@@ -1,20 +1,62 @@
-import { Region, Item } from "@atlasacademy/api-connector";
-import { useState, useEffect } from "react";
+import { Item, Region } from "@atlasacademy/api-connector";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Api from "../Api";
-import TraitDescription from "./TraitDescription";
 import ItemIcon from "../Component/ItemIcon";
 import { mergeElements } from "../Helper/OutputHelper";
+import TraitDescription from "./TraitDescription";
 
-function getItemWithIcon(region: Region, item: Item.Item) {
+export default function ItemDescriptor(props: {
+    region: Region;
+    item: Item.Item;
+    quantity?: number;
+    height?: string | number;
+    quantityHeight?: string | number;
+}) {
     return (
         <>
-            <ItemIcon region={region} item={item} />
-            {item.name}
+            <Link
+                style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+                to={`/${props.region}/item/${props.item.id}`}
+            >
+                <ItemIcon
+                    region={props.region}
+                    item={props.item}
+                    quantity={props.quantity}
+                    height={props.height}
+                    quantityHeight={props.quantityHeight}
+                />
+                <span className="hoverText" style={{ whiteSpace: "normal" }}>
+                    {props.item.name}
+                </span>
+            </Link>
         </>
     );
 }
 
-export default function ItemDescriptor(props: {
+export function ItemDescriptorIconOnly(props: {
+    region: Region;
+    item: Item.Item;
+    quantity?: number;
+    height?: string | number;
+    quantityHeight?: string | number;
+}) {
+    return (
+        <>
+            <Link to={`/${props.region}/item/${props.item.id}`}>
+                <ItemIcon
+                    region={props.region}
+                    item={props.item}
+                    quantity={props.quantity}
+                    height={props.height}
+                    quantityHeight={props.quantityHeight}
+                />
+            </Link>
+        </>
+    );
+}
+
+export function ItemDescriptorIndividuality(props: {
     region: Region;
     individuality: number;
 }) {
@@ -28,7 +70,9 @@ export default function ItemDescriptor(props: {
         return (
             <>
                 {mergeElements(
-                    items.map((item) => getItemWithIcon(props.region, item)),
+                    items.map((item) => (
+                        <ItemDescriptor region={props.region} item={item} />
+                    )),
                     " and "
                 )}
             </>

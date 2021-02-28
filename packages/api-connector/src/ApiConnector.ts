@@ -143,6 +143,7 @@ class ApiConnector {
         buff: new ResultCache<number, Buff>(),
         buffBasic: new ResultCache<number, BasicBuff>(),
         commandCode: new ResultCache<number, CommandCode>(),
+        commandCodeBasic: new ResultCache<number, CommandCodeBasic>(),
         commandCodeList: new ResultCache<null, CommandCodeBasic[]>(),
         craftEssence: new ResultCache<number, CraftEssence>(),
         craftEssenceBasic: new ResultCache<number, CraftEssenceBasic>(),
@@ -150,11 +151,14 @@ class ApiConnector {
         enemy: new ResultCache<number, Enemy>(),
         event: new ResultCache<number, Event>(),
         eventBasic: new ResultCache<number, EventBasic>(),
+        eventList: new ResultCache<null, EventBasic[]>(),
         func: new ResultCache<number, Func>(),
+        funcBasic: new ResultCache<number, BasicFunc>(),
         item: new ResultCache<number, Item>(),
         itemList: new ResultCache<null, Item[]>(),
         searchItem: new ResultCache<string, Item[]>(),
         mysticCode: new ResultCache<number, MysticCode>(),
+        mysticCodeBasic: new ResultCache<number, MysticCodeBasic>(),
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
         questPhase: new ResultCache<
@@ -286,6 +290,26 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.commandCode.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    commandCodeBasic(
+        id: number,
+        cacheDuration?: number
+    ): Promise<CommandCodeBasic> {
+        const query = this.language === Language.ENGLISH ? "?lang=en" : "";
+        const fetch = () => {
+            return ApiConnector.fetch<CommandCodeBasic>(
+                `${this.host}/basic/${this.region}/CC/${id}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.commandCodeBasic.get(
             id,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
@@ -431,6 +455,22 @@ class ApiConnector {
         );
     }
 
+    eventList(cacheDuration?: number): Promise<EventBasic[]> {
+        const fetch = () => {
+            return ApiConnector.fetch<EventBasic[]>(
+                `${this.host}/export/${this.region}/basic_event.json`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.eventList.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
     war(id: number, cacheDuration?: number): Promise<War> {
         const fetch = () => {
             return ApiConnector.fetch<War>(
@@ -482,6 +522,29 @@ class ApiConnector {
         );
     }
 
+    funcBasic(
+        id: number,
+        reverse?: ReverseOptions,
+        cacheDuration?: number
+    ): Promise<BasicFunc> {
+        const query = this.getReverseParams(reverse);
+        const fetch = () => {
+            return ApiConnector.fetch<BasicFunc>(
+                `${this.host}/basic/${
+                    this.region
+                }/function/${id}${this.getQueryString(query)}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.funcBasic.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
     item(id: number, cacheDuration?: number): Promise<Item> {
         const fetch = () => {
             return ApiConnector.fetch<Item>(
@@ -526,6 +589,27 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.mysticCode.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    mysticCodeBasic(
+        id: number,
+        cacheDuration?: number
+    ): Promise<MysticCodeBasic> {
+        const query = this.language === Language.ENGLISH ? "?lang=en" : "";
+
+        const fetch = () => {
+            return ApiConnector.fetch<MysticCodeBasic>(
+                `${this.host}/basic/${this.region}/MC/${id}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.mysticCodeBasic.get(
             id,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration

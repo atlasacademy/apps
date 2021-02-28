@@ -4,7 +4,7 @@ import {joinNumbers} from "../../Helper/StringHelper";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
 import EventDescriptor from '../EventDescriptor';
-import ItemDescriptor from '../ItemDescriptor';
+import {ItemDescriptorIndividuality} from '../ItemDescriptor';
 
 export default function handleAffectsSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
     const section = sections.affects,
@@ -61,7 +61,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         || func.funcType === Func.FuncType.EVENT_POINT_RATE_UP
     ) {
         if (dataVal.Individuality)
-            parts.push(<span>of <ItemDescriptor region={region} individuality={dataVal.Individuality}/></span>)
+            parts.push(<span>of <ItemDescriptorIndividuality region={region} individuality={dataVal.Individuality}/></span>)
 
         if (
             func.funcType === Func.FuncType.EVENT_DROP_RATE_UP

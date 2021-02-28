@@ -60,6 +60,10 @@ class Api {
         return apiConnector.commandCode(id, cacheDuration);
     }
 
+    static commandCodeBasic(id: number): Promise<CommandCode.CommandCodeBasic> {
+        return apiConnector.commandCodeBasic(id, cacheDuration);
+    }
+
     static async commandCodeList(): Promise<CommandCode.CommandCodeBasic[]> {
         return apiConnector.commandCodeList(-1);
     }
@@ -90,6 +94,10 @@ class Api {
         return apiConnector.eventBasic(id, cacheDuration);
     }
 
+    static async eventList(): Promise<Event.EventBasic[]> {
+        return apiConnector.eventList();
+    }
+
     static func(id: number): Promise<Func.Func> {
         const reverse = {
             reverse: true,
@@ -97,6 +105,10 @@ class Api {
             reverseData: ReverseData.BASIC,
         };
         return apiConnector.func(id, reverse, cacheDuration);
+    }
+
+    static funcBasic(id: number): Promise<Func.BasicFunc> {
+        return apiConnector.funcBasic(id, undefined, cacheDuration);
     }
 
     static item(id: number): Promise<Item.Item> {
@@ -109,6 +121,10 @@ class Api {
 
     static mysticCode(id: number): Promise<MysticCode.MysticCode> {
         return apiConnector.mysticCode(id, cacheDuration);
+    }
+
+    static mysticCodeBasic(id: number): Promise<MysticCode.MysticCodeBasic> {
+        return apiConnector.mysticCodeBasic(id, cacheDuration);
     }
 
     static async mysticCodeList(): Promise<MysticCode.MysticCodeBasic[]> {

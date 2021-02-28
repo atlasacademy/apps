@@ -19,5 +19,5 @@ export interface Gift {
     type: GiftType;
     objectId: number;
     priority: number;
-    number: number;
+    num: number;
 }

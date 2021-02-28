@@ -87,6 +87,11 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Link>
                             </Nav>
                             <Nav>
+                                <Link to={`/${Manager.region()}/events`} className={'nav-link'}>
+                                    <NavItem>Events</NavItem>
+                                </Link>
+                            </Nav>
+                            <Nav>
                                 <Dropdown id="dropdown-search">
                                 <Dropdown.Toggle>
                                     Search
