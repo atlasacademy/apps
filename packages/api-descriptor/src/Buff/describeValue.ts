@@ -75,14 +75,15 @@ function describeDataVal(dataVal: DataVal.DataVal, valueField: DataVal.DataValFi
         partials.push(new ValuePartial(valueType, value / base));
     }
 
-    const lowScalingValue = dataVal.RatioHPLow;
-    if (lowScalingValue !== undefined) {
+    const maxScaleValue = dataVal.RatioHPLow,
+        minScaleValue = dataVal.RatioHPHigh ?? 0;
+    if (maxScaleValue !== undefined) {
         if (partials.length)
             partials.push(new ParticlePartial(' + '));
 
-        partials.push(new ParticlePartial('('));
-        partials.push(new ValuePartial(valueType, lowScalingValue / base));
-        partials.push(new ParticlePartial(' Scales by Low HP)'));
+        partials.push(new ValuePartial(ValueType.NUMBER, minScaleValue / base));
+        partials.push(new ParticlePartial('–'));
+        partials.push(new ValuePartial(valueType, maxScaleValue / base));
     }
 
     return partials.length > 0 ? new Descriptor(partials) : undefined;

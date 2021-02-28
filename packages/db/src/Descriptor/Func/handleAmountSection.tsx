@@ -94,6 +94,11 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         if (dataVal.UseRate !== undefined) {
             parts.push(`with ${dataVal.UseRate / 10}% chance to work`);
         }
+        if (dataVal.RatioHPLow !== undefined) {
+            const maxScaleHP = dataVal.RatioHPRangeHigh ?? 1000,
+                minScaleHP = dataVal.RatioHPRangeLow ?? 0;
+            parts.push(`scaled with remaining HP ${maxScaleHP/10}–${minScaleHP/10}%`);
+        }
     } else if (dataVal.Value) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}
                                         hideRate={true}/>);
@@ -104,6 +109,16 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
     } else if (dataVal.UseRate !== undefined) {
         section.preposition = undefined;
         parts.push(`with ${dataVal.UseRate / 10}% chance to work`);
+    } else if (dataVal.RatioHPLow !== undefined) {
+        section.preposition = undefined;
+        const maxScaleValue = dataVal.RatioHPLow,
+            minScaleValue = dataVal.RatioHPHigh ?? 0,
+            maxScaleHP = dataVal.RatioHPRangeHigh ?? 1000,
+            minScaleHP = dataVal.RatioHPRangeLow ?? 0;
+        parts.push(`${minScaleValue/10}–${maxScaleValue/10}% scaled with remaining HP ${maxScaleHP/10}–${minScaleHP/10}%`);
+    } else if (!dataVal.Value && dataVal.RatioHPRangeHigh !== undefined && dataVal.RatioHPRangeLow !== undefined) {
+        section.preposition = undefined;
+        parts.push(`scaled with remaining HP ${dataVal.RatioHPRangeHigh/10}–${dataVal.RatioHPRangeLow/10}%`);
     } else {
         section.showing = false;
     }
