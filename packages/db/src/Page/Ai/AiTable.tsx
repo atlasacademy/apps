@@ -9,24 +9,33 @@ import SkillDescriptor from "../../Descriptor/SkillDescriptor";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
 
-const AI_COND_SUBJECT = new Map<Ai.AiCond, string>([
-    [Ai.AiCond.CHECK_SELF_BUFF, "Self"],
-    [Ai.AiCond.CHECK_PT_BUFF, "Party members"],
-    [Ai.AiCond.CHECK_OPPONENT_BUFF, "Opponents"],
-    [Ai.AiCond.CHECK_SELF_INDIVIDUALITY, "Self"],
-    [Ai.AiCond.CHECK_SELF_BUFF_ACTIVE, "Self"],
-    [Ai.AiCond.CHECK_OPPONENT_BUFF_ACTIVE, "Opponents"],
-    [Ai.AiCond.CHECK_PT_INDIVIDUALITY, "Party members"],
-    [Ai.AiCond.CHECK_OPPONENT_INDIVIDUALITY, "Opponents"],
-    [Ai.AiCond.CHECK_SELF_BUFF_INDIVIDUALITY, "Self"],
-    [Ai.AiCond.CHECK_PT_BUFF_INDIVIDUALITY, "Party members"],
-    [Ai.AiCond.CHECK_OPPONENT_BUFF_INDIVIDUALITY, "Opponents"],
+enum SUBJECT {
+    SELF = "Self",
+    OPPONENT = "Opponents",
+    PT = "Party members",
+    PT_ALL = "All party members (including reserve)",
+}
+
+const AI_COND_SUBJECT = new Map<Ai.AiCond, SUBJECT>([
+    [Ai.AiCond.CHECK_SELF_BUFF, SUBJECT.SELF],
+    [Ai.AiCond.CHECK_PT_BUFF, SUBJECT.PT],
+    [Ai.AiCond.CHECK_OPPONENT_BUFF, SUBJECT.OPPONENT],
+    [Ai.AiCond.CHECK_SELF_INDIVIDUALITY, SUBJECT.SELF],
+    [Ai.AiCond.CHECK_SELF_BUFF_ACTIVE, SUBJECT.SELF],
+    [Ai.AiCond.CHECK_OPPONENT_BUFF_ACTIVE, SUBJECT.OPPONENT],
+    [Ai.AiCond.CHECK_PT_INDIVIDUALITY, SUBJECT.PT],
+    [Ai.AiCond.CHECK_PT_ALL_INDIVIDUALITY, SUBJECT.PT_ALL],
+    [Ai.AiCond.CHECK_OPPONENT_INDIVIDUALITY, SUBJECT.OPPONENT],
+    [Ai.AiCond.CHECK_SELF_BUFF_INDIVIDUALITY, SUBJECT.SELF],
+    [Ai.AiCond.CHECK_PT_BUFF_INDIVIDUALITY, SUBJECT.PT],
+    [Ai.AiCond.CHECK_OPPONENT_BUFF_INDIVIDUALITY, SUBJECT.OPPONENT],
 ]);
 
-const AI_SUBJECT_PLURAL = new Map<string, boolean>([
-    ["Self", false],
-    ["Party members", true],
-    ["Opponents", true],
+const AI_SUBJECT_PLURAL = new Map<SUBJECT, boolean>([
+    [SUBJECT.SELF, false],
+    [SUBJECT.PT, true],
+    [SUBJECT.OPPONENT, true],
+    [SUBJECT.PT_ALL, true],
 ]);
 
 function AiCondition(props: {
@@ -64,6 +73,7 @@ function AiCondition(props: {
             );
         case Ai.AiCond.CHECK_SELF_BUFF:
         case Ai.AiCond.CHECK_PT_BUFF:
+        case Ai.AiCond.CHECK_PT_ALL_BUFF:
         case Ai.AiCond.CHECK_OPPONENT_BUFF:
         case Ai.AiCond.CHECK_SELF_BUFF_ACTIVE:
         case Ai.AiCond.CHECK_OPPONENT_BUFF_ACTIVE:
@@ -84,6 +94,7 @@ function AiCondition(props: {
             );
         case Ai.AiCond.CHECK_SELF_INDIVIDUALITY:
         case Ai.AiCond.CHECK_PT_INDIVIDUALITY:
+        case Ai.AiCond.CHECK_PT_ALL_INDIVIDUALITY:
         case Ai.AiCond.CHECK_OPPONENT_INDIVIDUALITY:
             return (
                 <>
@@ -102,6 +113,7 @@ function AiCondition(props: {
             );
         case Ai.AiCond.CHECK_SELF_BUFF_INDIVIDUALITY:
         case Ai.AiCond.CHECK_PT_BUFF_INDIVIDUALITY:
+        case Ai.AiCond.CHECK_PT_ALL_BUFF_INDIVIDUALITY:
         case Ai.AiCond.CHECK_OPPONENT_BUFF_INDIVIDUALITY:
             return (
                 <>
@@ -118,14 +130,24 @@ function AiCondition(props: {
                         )),
                         ", "
                     )}
-                    &nbsp;
-                    buffs
+                    &nbsp; buffs
                 </>
             );
         case Ai.AiCond.ACTCOUNT_THISTURN:
-            return <>Act Count: {vals[0]}</>
+            return <>Act Count: {vals[0]}</>;
         case Ai.AiCond.TURN_AND_ACTCOUNT_THISTURN:
-            return <>Turn {vals[0]} and Act Count:  {vals[1]}</>
+            return (
+                <>
+                    Turn {vals[0]} and Act Count: {vals[1]}
+                </>
+            );
+        case Ai.AiCond.CHECK_OPPONENT_HEIGHT_NPGAUGE:
+            return (
+                <>
+                    Any opponent's NP gauge {condNegative ? "<" : "≥"}{" "}
+                    {vals[0] / 100}%
+                </>
+            );
         default:
             return (
                 <>
