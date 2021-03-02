@@ -70,8 +70,10 @@ function describeCommandcardValue(dataVal: DataVal.DataVal, commandCardType: Buf
 function describeDataVal(dataVal: DataVal.DataVal, valueField: DataVal.DataValField, valueType: ValueType, base: number): Descriptor | undefined {
     const partials: BasePartial[] = [];
 
-    const value = dataVal[valueField];
-    if (typeof value === "number") {
+    const value = dataVal[valueField],
+        paramAdd = dataVal.ParamAdd,
+        paramMax = dataVal.ParamMax;
+    if (typeof value === "number" && paramAdd === undefined && paramMax === undefined) {
         partials.push(new ValuePartial(valueType, value / base));
     }
 
@@ -84,6 +86,23 @@ function describeDataVal(dataVal: DataVal.DataVal, valueField: DataVal.DataValFi
         partials.push(new ValuePartial(ValueType.NUMBER, minScaleValue / base));
         partials.push(new ParticlePartial('–'));
         partials.push(new ValuePartial(valueType, maxScaleValue / base));
+    }
+
+    if (typeof value === "number" && paramAdd !== undefined && paramMax !== undefined) {
+        partials.push(new ValuePartial(ValueType.NUMBER, value / base));
+        partials.push(new ParticlePartial('–'));
+        partials.push(new ValuePartial(valueType, paramMax / base));
+        partials.push(new ParticlePartial(', '));
+        partials.push(new ValuePartial(valueType, paramAdd / base));
+        partials.push(new ParticlePartial('/Turn'));
+    }
+
+    if (typeof value !== "number" && paramAdd !== undefined && paramMax !== undefined) {
+        partials.push(new ParticlePartial('Up to '));
+        partials.push(new ValuePartial(valueType, paramMax / base));
+        partials.push(new ParticlePartial(', '));
+        partials.push(new ValuePartial(valueType, paramAdd / base));
+        partials.push(new ParticlePartial('/Turn'));
     }
 
     return partials.length > 0 ? new Descriptor(partials) : undefined;
