@@ -1,5 +1,4 @@
 import {Buff, DataVal, Func, Region} from "@atlasacademy/api-connector";
-import React from "react";
 import BuffDescription from "../BuffDescription";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
@@ -26,6 +25,8 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.EXP_UP, 'Increase Master Exp'],
     [Func.FuncType.EXTEND_SKILL, 'Increase Cooldowns'],
     [Func.FuncType.FIX_COMMANDCARD, 'Lock Command Cards'],
+    [Func.FuncType.FRIEND_POINT_UP, "Increase Friend Point"],
+    [Func.FuncType.FRIEND_POINT_UP_DUPLICATE, "Increase Friend Point (stackable)"],
     [Func.FuncType.FORCE_INSTANT_DEATH, 'Force Instant Death'],
     [Func.FuncType.GAIN_HP, 'Restore HP'],
     [Func.FuncType.GAIN_HP_FROM_TARGETS, 'Absorb HP'],
@@ -203,6 +204,8 @@ export default function handleActionSection(region: Region, sections: FuncDescri
         case Func.FuncType.EVENT_DROP_RATE_UP:
         case Func.FuncType.EVENT_POINT_RATE_UP:
         case Func.FuncType.EXP_UP:
+        case Func.FuncType.FRIEND_POINT_UP:
+        case Func.FuncType.FRIEND_POINT_UP_DUPLICATE:
         case Func.FuncType.QP_DROP_UP:
         case Func.FuncType.QP_UP:
         case Func.FuncType.SERVANT_FRIENDSHIP_UP:

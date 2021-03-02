@@ -70,6 +70,8 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         func.funcType === Func.FuncType.EXP_UP
         || func.funcType === Func.FuncType.QP_UP
         || func.funcType === Func.FuncType.USER_EQUIP_EXP_UP
+        || func.funcType === Func.FuncType.FRIEND_POINT_UP
+        || func.funcType === Func.FuncType.FRIEND_POINT_UP_DUPLICATE
     )) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
     } else if (dataVal.RateCount && (
