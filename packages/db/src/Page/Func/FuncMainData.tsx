@@ -1,5 +1,6 @@
 import {Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
+import {Link} from "react-router-dom";
 import {Host} from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
@@ -19,7 +20,7 @@ class FuncMainData extends React.Component<IProps> {
             <>
                 <DataTable data={{
                     "ID": func.funcId,
-                    "Type": func.funcType,
+                    "Type": <Link to={`/${this.props.region}/funcs?type=${func.funcType}`}>{func.funcType}</Link>,
                     "Target": func.funcTargetType,
                     "Affects Players/Enemies": func.funcTargetTeam,
                     "Popup Text": func.funcPopupText,

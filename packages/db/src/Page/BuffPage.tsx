@@ -1,6 +1,7 @@
 import {Buff, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
+import {Link} from "react-router-dom";
 import {Table} from "react-bootstrap";
 import Api, {Host} from "../Api";
 import BuffIcon from "../Component/BuffIcon";
@@ -79,7 +80,7 @@ class BuffPage extends React.Component<IProps, IState> {
                     "ID": buff.id,
                     "Name": buff.name,
                     "Detail": buff.detail,
-                    "Type": buff.type,
+                    "Type": <Link to={`/${this.props.region}/buffs?type=${buff.type}`}>{buff.type}</Link>,
                     "Buff Group": buff.buffGroup,
                     "Buff Traits": (
                         <div>

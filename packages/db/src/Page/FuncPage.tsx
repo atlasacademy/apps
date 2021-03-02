@@ -1,4 +1,4 @@
-import {Entity, Func, Region} from "@atlasacademy/api-connector";
+import {Func, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Table} from "react-bootstrap";
