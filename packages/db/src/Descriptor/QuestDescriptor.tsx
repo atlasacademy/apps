@@ -80,15 +80,19 @@ export default function QuestDescriptor(props: IProps) {
             setQuest(s as Quest.Quest)
         );
     }, [props.questId, props.questPhase]);
-    return (
-        <QuestDescriptionNoApi
-            text={props.text}
-            region={props.region}
-            quest={quest}
-            questPhase={props.questPhase}
-            showType={props.showType}
-        />
-    );
+    if (quest !== null) {
+        return (
+            <QuestDescriptionNoApi
+                text={props.text}
+                region={props.region}
+                quest={quest}
+                questPhase={props.questPhase}
+                showType={props.showType}
+            />
+        );
+    } else {
+        return null;
+    }
 }
 
 export function QuestDescriptorMap(props: {
