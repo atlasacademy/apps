@@ -63,16 +63,20 @@ export default function GiftDescriptor(props: {
                 </>
             );
         case Gift.GiftType.QUEST_REWARD_ICON:
-            return (
-                <>
-                    <img
-                        alt={`Quest Reward ${gift.objectId} icon`}
-                        className={"item-icon-image"}
-                        src={`https://assets.atlasacademy.io/GameData/NA/Items/${gift.objectId}.png`}
-                    />
-                    Quest Reward
-                </>
-            );
+            if (gift.objectId !== 99999999) {
+                return (
+                    <>
+                        <img
+                            alt={`Quest Reward ${gift.objectId} icon`}
+                            className={"item-icon-image"}
+                            src={`https://assets.atlasacademy.io/GameData/NA/Items/${gift.objectId}.png`}
+                        />
+                        Quest Reward
+                    </>
+                );
+            } else {
+                return null;
+            }
         case Gift.GiftType.COSTUME_RELEASE:
         case Gift.GiftType.COSTUME_GET:
             const servantId = Math.floor(gift.objectId / 100);
