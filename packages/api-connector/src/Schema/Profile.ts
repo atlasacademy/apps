@@ -65,6 +65,7 @@ export interface VoicePlayCond {
     condType: CondType;
     targetId: number;
     condValue: number;
+    condValues: number[];
 }
 
 export interface Profile {

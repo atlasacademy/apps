@@ -1,6 +1,7 @@
 import { Gift } from "./Gift";
 import { ItemBackgroundType } from "./Item";
 import { Shop } from "./Shop";
+import { Mission } from "./Mission";
 
 export enum EventType {
     NONE = "none",
@@ -78,4 +79,5 @@ export interface Event {
     shop: Shop[];
     rewards: EventReward[];
     pointBuffs: EventPointBuff[];
+    missions: Mission[];
 }

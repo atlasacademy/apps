@@ -1,4 +1,4 @@
-import ApiConnector, { ReverseDepth, ReverseData } from "./ApiConnector";
+import ApiConnector, { ReverseDepth, ReverseData, EnumList } from "./ApiConnector";
 import Card from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
 import CondType from "./Enum/Cond";
@@ -17,6 +17,7 @@ import * as Event from "./Schema/Event";
 import * as Func from "./Schema/Func";
 import * as Gift from "./Schema/Gift";
 import * as Item from "./Schema/Item";
+import * as Mission from "./Schema/Mission";
 import * as MysticCode from "./Schema/MysticCode";
 import * as NoblePhantasm from "./Schema/NoblePhantasm";
 import { ProfileVoiceType } from "./Schema/Profile";
@@ -32,6 +33,7 @@ export {
     ApiConnector,
     ReverseDepth,
     ReverseData,
+    EnumList,
 
     Card,
     Change,
@@ -53,6 +55,7 @@ export {
     Func,
     Gift,
     Item,
+    Mission,
     MysticCode,
     NoblePhantasm,
     Profile,

@@ -86,3 +86,23 @@ export function ItemDescriptorIndividuality(props: {
         );
     }
 }
+
+export function IconDescriptorMap(props: {
+    region: Region;
+    itemId: number;
+    items: Map<number, Item.Item>;
+    quantity?: number;
+    height?: string | number;
+    quantityHeight?: string | number;
+}) {
+    const item = props.items.get(props.itemId);
+    if (item !== undefined) {
+        return (
+            <>
+                <ItemDescriptor region={props.region} item={item} />
+            </>
+        );
+    } else {
+        return <>Unknown Item {props.itemId}</>;
+    }
+}

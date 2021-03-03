@@ -1,34 +1,26 @@
-import { Region, Quest } from "@atlasacademy/api-connector";
+import { Quest, Region } from "@atlasacademy/api-connector";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Api from "../Api";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Api from "../Api";
 
-interface IProps {
+export function QuestDescriptionNoApi(props: {
     text: string;
     region: Region;
-    questId: number;
+    quest: Quest.Quest;
     questPhase: number;
-}
-
-export default function QuestDescriptor(props: IProps) {
-    const [quest, setQuest] = useState<Quest.QuestPhase>(null as any);
-    useEffect(() => {
-        Api.questPhase(props.questId, props.questPhase).then((s) =>
-            setQuest(s)
-        );
-    }, [props.questId, props.questPhase]);
+    showType?: boolean;
+}) {
+    const quest = props.quest;
     if (props.text) {
         return (
-            <Link
-                to={`/${props.region}/quest/${props.questId}/${props.questPhase}`}
-            >
+            <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}`}>
                 {props.text} <FontAwesomeIcon icon={faShare} />
             </Link>
         );
     } else {
-        const prefix = Math.floor(props.questId / 1000000);
+        const prefix = Math.floor(quest.id / 1000000);
         let type = "";
 
         switch (prefix) {
@@ -63,12 +55,67 @@ export default function QuestDescriptor(props: IProps) {
             }
         }
 
+        const showType = props.showType ?? true;
+        return (
+            <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}`}>
+                {showType && type != "" ? `${type} ` : ""}
+                {quest?.name} <FontAwesomeIcon icon={faShare} />
+            </Link>
+        );
+    }
+}
+
+interface IProps {
+    text: string;
+    region: Region;
+    questId: number;
+    questPhase: number;
+    showType?: boolean;
+}
+
+export default function QuestDescriptor(props: IProps) {
+    const [quest, setQuest] = useState<Quest.Quest>(null as any);
+    useEffect(() => {
+        Api.questPhase(props.questId, props.questPhase).then((s) =>
+            setQuest(s as Quest.Quest)
+        );
+    }, [props.questId, props.questPhase]);
+    return (
+        <QuestDescriptionNoApi
+            text={props.text}
+            region={props.region}
+            quest={quest}
+            questPhase={props.questPhase}
+            showType={props.showType}
+        />
+    );
+}
+
+export function QuestDescriptorMap(props: {
+    text: string;
+    region: Region;
+    questId: number;
+    questPhase: number;
+    quests: Map<number, Quest.Quest>;
+    showType?: boolean;
+}) {
+    const quest = props.quests.get(props.questId);
+    if (quest !== undefined && quest !== null) {
+        return (
+            <QuestDescriptionNoApi
+                text={props.text}
+                region={props.region}
+                quest={quest}
+                questPhase={props.questPhase}
+                showType={props.showType}
+            />
+        );
+    } else {
         return (
             <Link
                 to={`/${props.region}/quest/${props.questId}/${props.questPhase}`}
             >
-                {type != "" ? `${type} ` : ""}
-                {quest?.name} <FontAwesomeIcon icon={faShare} />
+                Quest {props.questId} <FontAwesomeIcon icon={faShare} />
             </Link>
         );
     }

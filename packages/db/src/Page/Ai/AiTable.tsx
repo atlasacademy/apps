@@ -214,6 +214,8 @@ function NextAi(props: {
                 href="javascript:;"
                 onClick={(_) => props.handleNavigateAiId?.(props.avals[0])}
             >
+                {/* A dummy href is needed because bootstrap disables a styles without href */}
+                {/* https://github.com/twbs/bootstrap/blob/6d93a1371/scss/_reboot.scss#L262 */}
                 {AiDescriptor.renderAsString(props.aiType, props.avals[0])}
             </a>
         );

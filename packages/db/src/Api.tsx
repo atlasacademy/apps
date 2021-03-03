@@ -9,6 +9,7 @@ import {
     CommandCode,
     CraftEssence,
     Enemy,
+    EnumList,
     Entity,
     Event,
     Func,
@@ -23,6 +24,7 @@ import {
     Servant,
     Skill,
     Trait,
+    War,
 } from "@atlasacademy/api-connector";
 
 export const Host = "https://api.atlasacademy.io";
@@ -171,8 +173,16 @@ class Api {
         return apiConnector.skill(id, reverse, cacheDuration);
     }
 
+    static war(id: number): Promise<War.War> {
+        return apiConnector.war(id, cacheDuration);
+    }
+
     static traitList(): Promise<Trait.Trait[]> {
         return apiConnector.traitList(-1);
+    }
+
+    static enumList(): Promise<EnumList> {
+        return apiConnector.enumList(cacheDuration);
     }
 
     static searchItem(

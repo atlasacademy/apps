@@ -75,7 +75,16 @@ function BasicServantDescriptor (props : IPropsBasic) {
 export default ServantDescriptor;
 export { BasicServantDescriptor };
 
-export function ServantLink (props : {region: Region; servants: Servant.ServantBasic[]; id: number; }) {
-    let servant = props.servants.filter(servant => servant.id === props.id)[0];
-    return <BasicServantDescriptor region={props.region} servant={servant} />
+export function ServantLink (props : {region: Region; servants: Map<number, Servant.ServantBasic>; id: number; }) {
+    const servant = props.servants.get(props.id);
+    if (servant !== undefined) {
+        return <BasicServantDescriptor region={props.region} servant={servant}/>;
+    } else {
+        return (
+            <Link
+                to={`/${props.region}/enemy/${props.id}`}
+                style={{textDecoration: "none", whiteSpace: "nowrap"}}
+            >{props.id}</Link>
+        );
+    }
 }

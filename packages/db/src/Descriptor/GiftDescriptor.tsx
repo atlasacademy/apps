@@ -4,14 +4,14 @@ import { CommandCodeDescriptorId } from "../Descriptor/CommandCodeDescriptor";
 import CostumeDescriptor from "../Descriptor/CostumeDescriptor";
 import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
 import { FuncDescriptorId } from "../Descriptor/FuncDescriptor";
-import ItemDescriptor from "../Descriptor/ItemDescriptor";
+import { IconDescriptorMap } from "../Descriptor/ItemDescriptor";
 import { MysticCodeDescriptorId } from "../Descriptor/MysticCodeDescriptor";
 
 export default function GiftDescriptor(props: {
     region: Region;
     gift: Gift.Gift;
-    itemMap: Map<number, Item.Item>;
-    pointBuffMap?: Map<number, Event.EventPointBuff>;
+    items: Map<number, Item.Item>;
+    pointBuffs?: Map<number, Event.EventPointBuff>;
 }) {
     const gift = props.gift,
         region = props.region;
@@ -27,21 +27,16 @@ export default function GiftDescriptor(props: {
                 </>
             );
         case Gift.GiftType.ITEM:
-            const item = props.itemMap.get(gift.objectId);
-            if (item !== undefined) {
-                return (
-                    <>
-                        <ItemDescriptor region={region} item={item} /> x
-                        {gift.num}
-                    </>
-                );
-            } else {
-                return (
-                    <>
-                        Unknown Item {gift.objectId} x{gift.num}
-                    </>
-                );
-            }
+            return (
+                <>
+                    <IconDescriptorMap
+                        region={region}
+                        itemId={gift.objectId}
+                        items={props.items}
+                    />{" "}
+                    x{gift.num}
+                </>
+            );
         case Gift.GiftType.EQUIP:
             return (
                 <MysticCodeDescriptorId region={region} mcId={gift.objectId} />
@@ -100,8 +95,8 @@ export default function GiftDescriptor(props: {
             );
         case Gift.GiftType.EVENT_POINT_BUFF:
             const pointBuff =
-                props.pointBuffMap !== undefined
-                    ? props.pointBuffMap.get(gift.objectId)
+                props.pointBuffs !== undefined
+                    ? props.pointBuffs.get(gift.objectId)
                     : undefined;
             if (pointBuff !== undefined) {
                 const pointBuffItem = {

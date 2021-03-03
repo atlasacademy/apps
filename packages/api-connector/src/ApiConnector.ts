@@ -1,24 +1,48 @@
 import axios from "axios";
 import Card from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
+import Cond from "./Enum/Cond";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import ResultCache from "./ResultCache";
-import { AiCollection, AiType } from "./Schema/Ai";
-import { BasicBuff, Buff, BuffType } from "./Schema/Buff";
 import { Change } from "./Schema/Change";
 import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode";
 import { CraftEssence, CraftEssenceBasic } from "./Schema/CraftEssence";
 import { Enemy } from "./Schema/Enemy";
-import { Event, EventBasic } from "./Schema/Event";
+import { Event, EventBasic, EventType } from "./Schema/Event";
+import { GiftType } from "./Schema/Gift";
 import { Item, ItemBackgroundType, ItemType, ItemUse } from "./Schema/Item";
 import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode";
 import { NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm";
-import { QuestPhase } from "./Schema/Quest";
+import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile";
+import { QuestConsumeType, QuestPhase, QuestType } from "./Schema/Quest";
 import { Servant, ServantBasic } from "./Schema/Servant";
+import { PayType, PurchaseType, ShopType } from "./Schema/Shop";
 import { Skill, SkillBasic, SkillType } from "./Schema/Skill";
 import { Trait } from "./Schema/Trait";
-import { War, WarBasic } from "./Schema/War";
+import { War, WarBasic, WarStartType } from "./Schema/War";
+import {
+    AiActNum,
+    AiActTarget,
+    AiActType,
+    AiCollection,
+    AiCond,
+    AiTiming,
+    AiType,
+} from "./Schema/Ai";
+import {
+    BasicBuff,
+    Buff,
+    BuffType,
+    ClassRelationOverwriteType,
+} from "./Schema/Buff";
+import {
+    DetailCondLinkType,
+    DetailCondType,
+    MissionType,
+    ProgressType,
+    RewardType,
+} from "./Schema/Mission";
 import {
     Attribute,
     EntityBasic,
@@ -125,6 +149,48 @@ type ItemSearchOptions = {
     use?: ItemUse[];
 };
 
+export interface EnumList {
+    NiceSvtType: { [key: string]: EntityType };
+    NiceSvtFlag: { [key: string]: EntityFlag };
+    NiceSkillType: { [key: string]: SkillType };
+    NiceFuncType: { [key: string]: FuncType };
+    FuncApplyTarget: { [key: string]: FuncTargetTeam };
+    NiceFuncTargetType: { [key: string]: FuncTargetType };
+    NiceBuffType: { [key: string]: BuffType };
+    NiceClassRelationOverwriteType: {
+        [key: string]: ClassRelationOverwriteType;
+    };
+    NiceItemType: { [key: string]: ItemType };
+    NiceItemBGType: { [key: string]: ItemBackgroundType };
+    NiceCardType: { [key: string]: Card };
+    Gender: { [key: string]: Gender };
+    Attribute: { [key: string]: Attribute };
+    SvtClass: { [key: string]: ClassName };
+    NiceStatusRank: { [key: string]: string };
+    NiceCondType: { [key: string]: Cond };
+    NiceVoiceCondType: { [key: string]: VoiceCondType };
+    NiceSvtVoiceType: { [key: string]: ProfileVoiceType };
+    NiceQuestType: { [key: string]: QuestType };
+    NiceConsumeType: { [key: string]: QuestConsumeType };
+    NiceEventType: { [key: string]: EventType };
+    Trait: { [key: string]: string };
+    NiceWarStartType: { [key: string]: WarStartType };
+    NiceGiftType: { [key: string]: GiftType };
+    NicePayType: { [key: string]: PayType };
+    NicePurchaseType: { [key: string]: PurchaseType };
+    NiceShopType: { [key: string]: ShopType };
+    NiceAiActType: { [key: string]: AiActType };
+    NiceAiActTarget: { [key: string]: AiActTarget };
+    NiceAiActNum: { [key: string]: AiActNum };
+    NiceAiCond: { [key: string]: AiCond };
+    AiTiming: { [key: string]: AiTiming };
+    NiceMissionType: { [key: string]: MissionType };
+    NiceMissionRewardType: { [key: string]: RewardType };
+    NiceMissionProgressType: { [key: string]: ProgressType };
+    NiceDetailMissionCondType: { [key: string]: DetailCondType };
+    NiceDetailMissionCondLinkType: { [key: string]: DetailCondLinkType };
+}
+
 interface ApiConnectorProperties {
     host?: string;
     region?: Region;
@@ -173,6 +239,7 @@ class ApiConnector {
         war: new ResultCache<number, War>(),
         warBasic: new ResultCache<number, WarBasic>(),
         traitList: new ResultCache<null, Trait[]>(),
+        enumList: new ResultCache<null, EnumList>(),
         ai: new ResultCache<{ type: AiType; id: number }, AiCollection>(),
     };
 
@@ -842,6 +909,24 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.traitList.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    enumList(cacheDuration?: number): Promise<EnumList> {
+        const fetch = async () => {
+            const enumMap = await ApiConnector.fetch<EnumList>(
+                `${this.host}/export/${this.region}/nice_enums.json`
+            );
+
+            return enumMap;
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.enumList.get(
             null,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration

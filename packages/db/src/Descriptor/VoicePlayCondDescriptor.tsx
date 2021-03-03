@@ -1,21 +1,21 @@
 import { Profile, Region, Servant } from "@atlasacademy/api-connector";
 import { mergeElements } from "../Helper/OutputHelper";
-import CondDescriptor from "./CondDescriptor";
+import CondVoicePlayDescriptor from "./CondVoicePlayDescriptor";
 
 function VoicePlayGroup(props: {
     region: Region;
     playConds: Profile.VoicePlayCond[];
-    servants: Servant.ServantBasic[];
+    servants: Map<number, Servant.ServantBasic>;
 }) {
     return (
         <>
             {mergeElements(
                 props.playConds.map((playCond) => (
-                    <CondDescriptor
+                    <CondVoicePlayDescriptor
                         region={props.region}
                         cond={playCond.condType}
                         target={playCond.targetId}
-                        value={playCond.condValue}
+                        value={playCond.condValues[0]}
                         servants={props.servants}
                         forceFalseDescription={"Unplayable in my room"}
                     />
@@ -30,7 +30,7 @@ function AllVoicePlayGroups(props: {
     region: Region;
     groups: number[];
     playConds: Profile.VoicePlayCond[];
-    servants: Servant.ServantBasic[];
+    servants: Map<number, Servant.ServantBasic>;
 }) {
     if (props.groups.length > 1) {
         return (
@@ -68,7 +68,7 @@ function AllVoicePlayGroups(props: {
 export default function VoicePlayCondDescriptor(props: {
     region: Region;
     playConds: Profile.VoicePlayCond[];
-    servants: Servant.ServantBasic[];
+    servants: Map<number, Servant.ServantBasic>;
 }) {
     const groups = Array.from(
         new Set(props.playConds.map((playCond) => playCond.condGroup))

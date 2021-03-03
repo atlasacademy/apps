@@ -10,7 +10,7 @@ interface IProps {
     cond: Exclude<Servant.Servant['profile'], undefined>['voices'][0]['voiceLines'][0]['conds'][0],
     costumes?: Exclude<Servant.Servant['profile'], undefined>['costume'],
     region: Region,
-    servants: Servant.ServantBasic[];
+    servants: Map<number, Servant.ServantBasic>;
 }
 
 let VoiceCondTypeDescriptor = (props : IProps) => {

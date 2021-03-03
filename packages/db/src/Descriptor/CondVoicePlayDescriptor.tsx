@@ -3,13 +3,13 @@ import EventDescriptor from "./EventDescriptor";
 import QuestDescriptor from "./QuestDescriptor";
 import { ServantLink } from "./ServantDescriptor";
 
-export default function CondDescriptor(props: {
+export default function CondVoicePlayDescriptor(props: {
     region: Region;
     cond: CondType;
     target: number;
     value: number;
     forceFalseDescription?: string;
-    servants: Servant.ServantBasic[];
+    servants: Map<number, Servant.ServantBasic>;
 }) {
     const forceFalseDescription = props.forceFalseDescription
         ? props.forceFalseDescription

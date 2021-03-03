@@ -18,7 +18,7 @@ let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[
 export default function ServantVoiceLines(
     props: {
         region: Region;
-        servants: Servant.ServantBasic[];
+        servants: Map<number, Servant.ServantBasic>;
         servant: Servant.Servant;
     }
 ){
