@@ -115,10 +115,8 @@ export default function CondMissionDescriptor(props: {
             return (
                 <>
                     Event{" "}
-                    <b>
-                        <EventDescriptor eventId={targets[0]} />
-                    </b>{" "}
-                    has ended
+                    <EventDescriptor region={region} eventId={targets[0]} /> has
+                    ended
                 </>
             );
         case CondType.SVT_HAVING:

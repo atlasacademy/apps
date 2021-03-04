@@ -1,11 +1,19 @@
-import { Event } from "@atlasacademy/api-connector";
+import { Event, Region } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Api from "../Api";
 
-export default function EventDescriptor(props: { eventId: number }) {
+export default function EventDescriptor(props: {
+    region: Region;
+    eventId: number;
+}) {
     const [event, setEvent] = useState<Event.EventBasic>(null as any);
     useEffect(() => {
         Api.eventBasic(props.eventId).then((s) => setEvent(s));
     }, [props.eventId]);
-    return event ? <>{event.name}</> : <>eventId {props.eventId}</>;
+    return (
+        <Link to={`/${props.region}/event/${props.eventId}`}>
+            {event ? event.name : `Event ${props.eventId}`}
+        </Link>
+    );
 }

@@ -78,7 +78,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         }
 
         if (dataVal.EventId)
-            parts.push(<span>during event <EventDescriptor eventId={dataVal.EventId}/></span>)
+            parts.push(<span>during event <EventDescriptor region={region} eventId={dataVal.EventId}/></span>)
     }
 
     if (
@@ -93,7 +93,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
 
         if (dataVal.EventId) {
             parts.push(
-                <span>during event <EventDescriptor eventId={dataVal.EventId}/></span>
+                <span>during event <EventDescriptor region={region} eventId={dataVal.EventId}/></span>
             )
         }
     }

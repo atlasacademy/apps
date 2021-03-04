@@ -19,12 +19,12 @@ let VoiceCondTypeDescriptor = (props : IProps) => {
         case VoiceCondType.BIRTH_DAY: return <>Player birthday</>;
         case VoiceCondType.COUNT_STOP: return <>Final ascension</>
         case VoiceCondType.EVENT: return <>An event is available</>;
-        case VoiceCondType.EVENT_PERIOD: return <>During event <b><EventDescriptor eventId={value}/></b></>;
-        case VoiceCondType.EVENT_END: return <>Event <b><EventDescriptor eventId={value}/></b> ended</>;
-        case VoiceCondType.EVENT_NOEND: return <>Event <b><EventDescriptor eventId={value}/></b> hasn't ended</>;
-        case VoiceCondType.EVENT_SHOP_PURCHASE: return <>Event <b><EventDescriptor eventId={value}/></b> shop purchase line</>;
-        case VoiceCondType.SPACIFIC_SHOP_PURCHASE: return <>Event <b><EventDescriptor eventId={value}/></b> specific shop purchase line</>;
-        case VoiceCondType.EVENT_MISSION_ACTION: return <>Event <b><EventDescriptor eventId={value}/></b> mission line</>;
+        case VoiceCondType.EVENT_PERIOD: return <>During event <EventDescriptor region={region} eventId={value}/></>;
+        case VoiceCondType.EVENT_END: return <>Event <EventDescriptor region={region} eventId={value}/> ended</>;
+        case VoiceCondType.EVENT_NOEND: return <>Event <EventDescriptor region={region} eventId={value}/> hasn't ended</>;
+        case VoiceCondType.EVENT_SHOP_PURCHASE: return <>Event <EventDescriptor region={region} eventId={value}/> shop purchase line</>;
+        case VoiceCondType.SPACIFIC_SHOP_PURCHASE: return <>Event <EventDescriptor region={region} eventId={value}/> specific shop purchase line</>;
+        case VoiceCondType.EVENT_MISSION_ACTION: return <>Event <EventDescriptor region={region} eventId={value}/> mission line</>;
         case VoiceCondType.FRIENDSHIP: return <>Bond level {value}</>;
         case VoiceCondType.FRIENDSHIP_ABOVE: return <>Bond level {value}</>;
         case VoiceCondType.FRIENDSHIP_BELOW: return <>Bond level {value} or less</>;

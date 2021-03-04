@@ -57,10 +57,7 @@ export default function CondVoicePlayDescriptor(props: {
         case CondType.EVENT_END:
             return (
                 <>
-                    Event{" "}
-                    <b>
-                        <EventDescriptor eventId={target} />
-                    </b>{" "}
+                    Event <EventDescriptor region={region} eventId={target} />{" "}
                     has ended
                 </>
             );
@@ -118,7 +115,7 @@ export default function CondVoicePlayDescriptor(props: {
                 <>
                     Event{" "}
                     <b>
-                        <EventDescriptor eventId={target} />
+                        <EventDescriptor region={region} eventId={target} />
                     </b>{" "}
                     reward voice line and at least {value - 1} other reward line
                     {value > 2 ? "s are " : " is "}
