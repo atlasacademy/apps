@@ -68,6 +68,15 @@ export interface VoicePlayCond {
     condValues: number[];
 }
 
+export interface CostumeDetail {
+    id: number;
+    costumeCollectionNo: number;
+    name: string;
+    shortName: string;
+    detail: string;
+    priority: number;
+}
+
 export interface Profile {
     cv: string;
     illustrator: string;
@@ -108,13 +117,6 @@ export interface Profile {
         }[];
     }[];
     costume: {
-        [key: string]: {
-            id: number;
-            costumeCollectionNo: number;
-            name: string;
-            shortName: string;
-            detail: string;
-            priority: number;
-        };
+        [key: string]: CostumeDetail;
     };
 }

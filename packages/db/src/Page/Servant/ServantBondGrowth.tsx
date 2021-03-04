@@ -54,8 +54,7 @@ let ServantBondGrowth = (props : { bondGrowth: Servant.Servant["bondGrowth"] }) 
             </>
         )
     return (
-        <div>
-            <br />
+        <div style={{ margin: "1em 0" }}>
             <h3>Bond levels</h3>
             <Table responsive striped bordered className={'servant-bond-table'}>
                 {rows}

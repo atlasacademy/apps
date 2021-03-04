@@ -27,7 +27,7 @@ export default function CostumeDescriptor(props: {
                     region={props.region}
                     servant={servant}
                     iconHeight={props.iconHeight}
-                    tab="profile"
+                    tab={props.tab ?? "lore"}
                 />{" "}
                 costume: {costume ? costume.name : props.costumeLimit}
             </>
