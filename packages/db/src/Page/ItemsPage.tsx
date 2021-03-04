@@ -170,7 +170,7 @@ class ItemsPage extends React.Component<IProps, IState> {
     }
 
     private getEventItems(itemList: Item.Item[]): Item.Item[] {
-        return itemList.filter(item => this.isEventItem(item.type, item.uses));
+        return itemList.filter(item => this.isEventItem(item.type, item.uses)).sort((a, b) => b.priority - a.priority);
     }
 
     private getOtherItems(itemList: Item.Item[]): Item.Item[] {
