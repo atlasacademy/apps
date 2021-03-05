@@ -29,7 +29,8 @@ export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     // PT_SELF_AFTER
     // PT_SELF_ANOTHER_LAST
     [Func.FuncTargetType.COMMAND_TYPE_SELF_TREASURE_DEVICE, 'target noble phantasm version'],
-    [Func.FuncTargetType.FIELD_OTHER, 'party and enemies except self']
+    [Func.FuncTargetType.FIELD_OTHER, 'party and enemies except self'],
+    [Func.FuncTargetType.ENEMY_ONE_NO_TARGET_NO_ACTION, 'entity that last dealt damage to self'],
 ]);
 
 export default function handleTargetSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {

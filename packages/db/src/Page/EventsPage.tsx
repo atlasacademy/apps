@@ -356,7 +356,7 @@ class EventsPage extends React.Component<IProps, IState> {
                     </tbody>
                 </Table>
 
-                <div style={{ float: "left" }}>{pageNavigator}</div>
+                <div style={{ float: "right" }}>{pageNavigator}</div>
             </div>
         );
     }
