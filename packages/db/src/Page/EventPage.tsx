@@ -7,6 +7,7 @@ import {
     Quest,
     Servant,
     EnumList,
+    War,
 } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
@@ -45,6 +46,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     event?: Event.Event;
+    wars: War.War[];
     servantCache: Map<number, Servant.ServantBasic>;
     itemCache: Map<number, Item.Item>;
     questCache: Map<number, Quest.Quest>;
@@ -58,6 +60,7 @@ class EventPage extends React.Component<IProps, IState> {
 
         this.state = {
             loading: true,
+            wars: [] as War.War[],
             servantCache: new Map(),
             itemCache: new Map(),
             questCache: new Map(),
@@ -96,22 +99,31 @@ class EventPage extends React.Component<IProps, IState> {
         });
     }
 
-    async loadQuestMap(warIds: number[]) {
+    async loadWars(warIds: number[], setQuestCache = false) {
         try {
             const wars = await Promise.all(
                 warIds.map((warId) => Api.war(warId))
             );
-            const quests: Quest.Quest[] = [];
-            for (const war of wars) {
-                for (const spot of war.spots) {
-                    for (const quest of spot.quests) {
-                        quests.push(quest);
+            if (setQuestCache) {
+                const quests: Quest.Quest[] = [];
+                for (const war of wars) {
+                    for (const spot of war.spots) {
+                        for (const quest of spot.quests) {
+                            quests.push(quest);
+                        }
                     }
                 }
+                this.setState({
+                    wars: wars,
+                    questCache: new Map(
+                        quests.map((quest) => [quest.id, quest])
+                    ),
+                });
+            } else {
+                this.setState({
+                    wars: wars,
+                });
             }
-            this.setState({
-                questCache: new Map(quests.map((quest) => [quest.id, quest])),
-            });
         } catch (e) {
             this.setState({
                 error: e,
@@ -133,9 +145,7 @@ class EventPage extends React.Component<IProps, IState> {
                 ),
             });
             document.title = `[${this.props.region}] Event - ${event.name} - Atlas Academy DB`;
-            if (event.missions.length > 0) {
-                await this.loadQuestMap(event.warIds);
-            }
+            await this.loadWars(event.warIds, event.missions.length > 0);
         } catch (e) {
             this.setState({
                 error: e,
@@ -432,6 +442,11 @@ class EventPage extends React.Component<IProps, IState> {
             )
         );
 
+        const wars = mergeElements(
+            this.state.wars.map((war) => war.longName),
+            ", "
+        );
+
         return (
             <div>
                 <h1>{event.name}</h1>
@@ -442,6 +457,7 @@ class EventPage extends React.Component<IProps, IState> {
                         data={{
                             ID: event.id,
                             Name: event.name,
+                            Wars: wars,
                             Start: new Date(
                                 event.startedAt * 1000
                             ).toLocaleString(),

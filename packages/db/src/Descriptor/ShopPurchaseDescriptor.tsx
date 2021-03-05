@@ -1,5 +1,4 @@
 import { Item, Region, Shop } from "@atlasacademy/api-connector";
-import { Link } from "react-router-dom";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
 import { CommandCodeDescriptorId } from "../Descriptor/CommandCodeDescriptor";
@@ -19,15 +18,7 @@ export default function ShopPurchaseDescriptor(props: {
             const item = props.itemMap.get(target);
             if (item !== undefined) {
                 return (
-                    <>
-                        <Link to={`/${region}/item/${shop.cost.item.id}`}>
-                            <ItemDescriptor
-                                region={region}
-                                item={item}
-                                height={40}
-                            />
-                        </Link>
-                    </>
+                    <ItemDescriptor region={region} item={item} height={40} />
                 );
             } else {
                 return <>Unknown Item {target}</>;
