@@ -117,7 +117,7 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
         if (!this.isPlaying(started))
             return this.stop();
 
-        await this.setState({control});
+        this.setState({control});
         await control.play();
 
         if (this.isPlaying(started))

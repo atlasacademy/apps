@@ -87,6 +87,34 @@ export function ItemDescriptorIndividuality(props: {
     }
 }
 
+export function IconDescriptorId(props: {
+    region: Region;
+    itemId: number;
+    quantity?: number;
+    height?: string | number;
+    quantityHeight?: string | number;
+}) {
+    const [item, setItem] = useState<Item.Item>(null as any);
+    useEffect(() => {
+        Api.item(props.itemId).then((s) => setItem(s));
+    }, [props.region, props.itemId]);
+    if (item !== null) {
+        return (
+            <>
+                <ItemDescriptor
+                    region={props.region}
+                    item={item}
+                    quantity={props.quantity}
+                    height={props.height}
+                    quantityHeight={props.quantityHeight}
+                />
+            </>
+        );
+    } else {
+        return <>Item {props.itemId}</>;
+    }
+}
+
 export function IconDescriptorMap(props: {
     region: Region;
     itemId: number;
@@ -99,7 +127,13 @@ export function IconDescriptorMap(props: {
     if (item !== undefined) {
         return (
             <>
-                <ItemDescriptor region={props.region} item={item} />
+                <ItemDescriptor
+                    region={props.region}
+                    item={item}
+                    quantity={props.quantity}
+                    height={props.height}
+                    quantityHeight={props.quantityHeight}
+                />
             </>
         );
     } else {

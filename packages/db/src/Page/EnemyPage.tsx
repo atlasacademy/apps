@@ -83,11 +83,11 @@ class EnemyPage extends React.Component<IProps, IState> {
                 <Row style={{
                     marginBottom: '3%'
                 }}>
-                    <Col xs={{span: 12, order: 2}} lg={{span: 6, order: 1}}>
+                    <Col xs={{span: 12}} lg={{span: 6}}>
                         <EnemyMainData region={this.props.region}
                                        enemy={enemy}/>
                     </Col>
-                    <Col xs={{span: 12, order: 1}} lg={{span: 6, order: 2}}>
+                    <Col xs={{span: 12}} lg={{span: 6}}>
                         <EnemySubData region={this.props.region}
                                       enemy={enemy}/>
                     </Col>

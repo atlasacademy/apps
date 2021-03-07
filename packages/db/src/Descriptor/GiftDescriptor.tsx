@@ -4,13 +4,16 @@ import { CommandCodeDescriptorId } from "../Descriptor/CommandCodeDescriptor";
 import CostumeDescriptor from "../Descriptor/CostumeDescriptor";
 import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
 import { FuncDescriptorId } from "../Descriptor/FuncDescriptor";
-import { IconDescriptorMap } from "../Descriptor/ItemDescriptor";
 import { MysticCodeDescriptorId } from "../Descriptor/MysticCodeDescriptor";
+import {
+    IconDescriptorMap,
+    IconDescriptorId,
+} from "../Descriptor/ItemDescriptor";
 
 export default function GiftDescriptor(props: {
     region: Region;
     gift: Gift.Gift;
-    items: Map<number, Item.Item>;
+    items?: Map<number, Item.Item>;
     pointBuffs?: Map<number, Event.EventPointBuff>;
 }) {
     const gift = props.gift,
@@ -27,16 +30,28 @@ export default function GiftDescriptor(props: {
                 </>
             );
         case Gift.GiftType.ITEM:
-            return (
-                <>
-                    <IconDescriptorMap
-                        region={region}
-                        itemId={gift.objectId}
-                        items={props.items}
-                    />{" "}
-                    x{gift.num}
-                </>
-            );
+            if (props.items !== undefined) {
+                return (
+                    <>
+                        <IconDescriptorMap
+                            region={region}
+                            itemId={gift.objectId}
+                            items={props.items}
+                        />{" "}
+                        x{gift.num}
+                    </>
+                );
+            } else {
+                return (
+                    <>
+                        <IconDescriptorId
+                            region={region}
+                            itemId={gift.objectId}
+                        />{" "}
+                        x{gift.num}
+                    </>
+                );
+            }
         case Gift.GiftType.EQUIP:
             return (
                 <MysticCodeDescriptorId region={region} mcId={gift.objectId} />
@@ -68,9 +83,9 @@ export default function GiftDescriptor(props: {
                     <>
                         <img
                             alt={`Quest Reward ${gift.objectId} icon`}
-                            className={"item-icon-image"}
+                            style={{ maxWidth: "100%", maxHeight: "2em" }}
                             src={`https://assets.atlasacademy.io/GameData/NA/Items/${gift.objectId}.png`}
-                        />
+                        />{" "}
                         Quest Reward
                     </>
                 );

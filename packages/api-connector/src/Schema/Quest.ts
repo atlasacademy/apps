@@ -3,13 +3,14 @@ import CondType from "../Enum/Cond";
 import { Bgm } from "./Bgm";
 import { Gift } from "./Gift";
 import { Trait } from "./Trait";
+import { Item } from "./Item";
 
 export enum QuestConsumeType {
     NONE = "none",
     AP = "ap",
     RP = "rp",
     ITEM = "item",
-    AP_ADD_ITEM = "apAddItem",
+    AP_AND_ITEM = "apAndItem",
 }
 
 export enum QuestType {
@@ -18,6 +19,7 @@ export enum QuestType {
     FRIENDSHIP = "friendship",
     EVENT = "event",
     HERO_BALLAD = "heroballad",
+    WAR_BOARD = "warBoard",
 }
 
 export interface QuestRelease {
@@ -37,10 +39,11 @@ export interface Quest {
     type: QuestType;
     consumeType: QuestConsumeType;
     consume: number;
+    consumeItem: { item: Item; amount: number }[];
     spotId: number;
     warId: number;
     gifts: Gift[];
-    releaseCondtions: QuestRelease[];
+    releaseConditions: QuestRelease[];
     phases: number[];
     noticeAt: number;
     openedAt: number;

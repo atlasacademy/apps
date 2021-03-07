@@ -1,7 +1,7 @@
 import CondMissionDetailDescriptor from "./CondMissionDetailDescriptor";
 import EventDescriptor from "./EventDescriptor";
-import { QuestDescriptorMap } from "./QuestDescriptor";
-import { ServantLink } from "./ServantDescriptor";
+import { QuestDescriptorId } from "./QuestDescriptor";
+import ServantDescriptorId from "./ServantDescriptorId";
 import {
     CondType,
     Mission,
@@ -17,16 +17,16 @@ import {
     MultipleServants,
 } from "./MultipleDescriptors";
 
-export default function CondMissionDescriptor(props: {
+export default function CondTargetNumDescriptor(props: {
     region: Region;
     cond: CondType;
     targets: number[];
     num: number;
     detail?: Mission.MissionConditionDetail;
-    servants: Map<number, Servant.ServantBasic>;
-    quests: Map<number, Quest.Quest>;
-    missions: Map<number, Mission.Mission>;
-    items: Map<number, Item.Item>;
+    servants?: Map<number, Servant.ServantBasic>;
+    quests?: Map<number, Quest.Quest>;
+    missions?: Map<number, Mission.Mission>;
+    items?: Map<number, Item.Item>;
     enums?: EnumList;
     handleNavigateMissionId?: (id: number) => void;
 }) {
@@ -57,7 +57,7 @@ export default function CondMissionDescriptor(props: {
             return (
                 <>
                     Has cleared arrow {num} of{" "}
-                    <QuestDescriptorMap
+                    <QuestDescriptorId
                         text=""
                         region={region}
                         questId={targets[0]}
@@ -103,7 +103,7 @@ export default function CondMissionDescriptor(props: {
         case CondType.SVT_GET:
             return (
                 <>
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={targets[0]}
                         servants={props.servants}
@@ -123,7 +123,7 @@ export default function CondMissionDescriptor(props: {
             return (
                 <>
                     Presense of{" "}
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={targets[0]}
                         servants={props.servants}
@@ -135,7 +135,7 @@ export default function CondMissionDescriptor(props: {
         case CondType.LIMIT_COUNT_ABOVE:
             return (
                 <>
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={targets[0]}
                         servants={props.servants}
@@ -146,7 +146,7 @@ export default function CondMissionDescriptor(props: {
         case CondType.LIMIT_COUNT_BELOW:
             return (
                 <>
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={targets[0]}
                         servants={props.servants}
@@ -155,7 +155,7 @@ export default function CondMissionDescriptor(props: {
                 </>
             );
         case CondType.EVENT_MISSION_ACHIEVE:
-            const mission = props.missions.get(targets[0]);
+            const mission = (props.missions ?? new Map([])).get(targets[0]);
             const missionDispNo = mission ? mission.dispNo : targets[0];
             const missionName = mission ? mission.name : "";
             return (
@@ -177,7 +177,7 @@ export default function CondMissionDescriptor(props: {
             return <>Reached {num} event points</>;
         case CondType.EVENT_MISSION_CLEAR:
             const missionDispNos = targets.map((target) => {
-                const mission = props.missions.get(target);
+                const mission = (props.missions ?? new Map([])).get(target);
                 return mission ? mission.dispNo : target;
             });
             return (

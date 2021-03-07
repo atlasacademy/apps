@@ -75,10 +75,16 @@ function BasicServantDescriptor (props : IPropsBasic) {
 export default ServantDescriptor;
 export { BasicServantDescriptor };
 
-export function ServantLink (props : {region: Region; servants: Map<number, Servant.ServantBasic>; id: number; }) {
+export function ServantLink (props : {
+    region: Region;
+    servants: Map<number, Servant.ServantBasic>;
+    id: number;
+    iconHeight?: number;
+    tab?: string;
+}) {
     const servant = props.servants.get(props.id);
     if (servant !== undefined) {
-        return <BasicServantDescriptor region={props.region} servant={servant}/>;
+        return <BasicServantDescriptor region={props.region} servant={servant} iconHeight={props.iconHeight} tab={props.tab}/>;
     } else {
         return (
             <Link

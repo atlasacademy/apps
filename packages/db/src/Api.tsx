@@ -177,6 +177,14 @@ class Api {
         return apiConnector.war(id, cacheDuration);
     }
 
+    static warBasic(id: number): Promise<War.WarBasic> {
+        return apiConnector.warBasic(id, cacheDuration);
+    }
+
+    static async warList(): Promise<War.WarBasic[]> {
+        return apiConnector.warList();
+    }
+
     static traitList(): Promise<Trait.Trait[]> {
         return apiConnector.traitList(-1);
     }

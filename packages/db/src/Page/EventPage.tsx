@@ -23,7 +23,8 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import ShopPurchaseDescriptor from "../Descriptor/ShopPurchaseDescriptor";
-import MissionCondDescriptor from "../Descriptor/MissionCondDescriptor";
+import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
+import WarDescriptor from "../Descriptor/WarDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
 
 import Manager from "../Setting/Manager";
@@ -156,7 +157,11 @@ class EventPage extends React.Component<IProps, IState> {
     renderMissionConds(
         region: Region,
         mission: Mission.Mission,
-        missionMap: Map<number, Mission.Mission>
+        missionMap: Map<number, Mission.Mission>,
+        servantCache: Map<number, Servant.ServantBasic>,
+        itemCache: Map<number, Item.Item>,
+        questCache: Map<number, Quest.Quest>,
+        enums?: EnumList
     ) {
         const scrollToMissions = (id: number) => {
             let elementRef = this.state.missionRefs.get(id);
@@ -174,15 +179,15 @@ class EventPage extends React.Component<IProps, IState> {
             );
             if (conds.length > 0) {
                 return (
-                    <MissionCondDescriptor
+                    <MissionConditionDescriptor
                         key={conds[0].id}
                         region={region}
                         cond={conds[0]}
-                        quests={this.state.questCache}
-                        servants={this.state.servantCache}
+                        quests={questCache}
+                        servants={servantCache}
                         missions={missionMap}
-                        items={this.state.itemCache}
-                        enums={this.state.enums}
+                        items={itemCache}
+                        enums={enums}
                         handleNavigateMissionId={scrollToMissions}
                     />
                 );
@@ -194,7 +199,11 @@ class EventPage extends React.Component<IProps, IState> {
         region: Region,
         mission: Mission.Mission,
         itemMap: Map<number, Item.Item>,
-        missionMap: Map<number, Mission.Mission>
+        missionMap: Map<number, Mission.Mission>,
+        servantCache: Map<number, Servant.ServantBasic>,
+        itemCache: Map<number, Item.Item>,
+        questCache: Map<number, Quest.Quest>,
+        enums?: EnumList
     ) {
         return (
             <>
@@ -208,7 +217,15 @@ class EventPage extends React.Component<IProps, IState> {
                 <td>
                     <b>{mission.name}</b>
                     <br />
-                    {this.renderMissionConds(region, mission, missionMap)}
+                    {this.renderMissionConds(
+                        region,
+                        mission,
+                        missionMap,
+                        servantCache,
+                        itemCache,
+                        questCache,
+                        enums
+                    )}
                 </td>
                 <td>
                     {mission.gifts.map((gift) => (
@@ -229,7 +246,11 @@ class EventPage extends React.Component<IProps, IState> {
     renderMissionTab(
         region: Region,
         missions: Mission.Mission[],
-        itemMap: Map<number, Item.Item>
+        itemMap: Map<number, Item.Item>,
+        servantCache: Map<number, Servant.ServantBasic>,
+        itemCache: Map<number, Item.Item>,
+        questCache: Map<number, Quest.Quest>,
+        enums?: EnumList
     ) {
         const missionMap = new Map(
             missions.map((mission) => [mission.id, mission])
@@ -253,7 +274,11 @@ class EventPage extends React.Component<IProps, IState> {
                                         region,
                                         mission,
                                         itemMap,
-                                        missionMap
+                                        missionMap,
+                                        servantCache,
+                                        itemCache,
+                                        questCache,
+                                        enums
                                     )}
                                 </tr>
                             );
@@ -377,7 +402,11 @@ class EventPage extends React.Component<IProps, IState> {
         region: Region,
         event: Event.Event,
         tab: TabInfo,
-        itemMap: Map<number, Item.Item>
+        itemMap: Map<number, Item.Item>,
+        servantCache: Map<number, Servant.ServantBasic>,
+        itemCache: Map<number, Item.Item>,
+        questCache: Map<number, Quest.Quest>,
+        enums?: EnumList
     ) {
         switch (tab.type) {
             case "ladder":
@@ -394,7 +423,15 @@ class EventPage extends React.Component<IProps, IState> {
                     itemMap
                 );
             case "mission":
-                return this.renderMissionTab(region, event.missions, itemMap);
+                return this.renderMissionTab(
+                    region,
+                    event.missions,
+                    itemMap,
+                    servantCache,
+                    itemCache,
+                    questCache,
+                    enums
+                );
         }
     }
 
@@ -443,7 +480,9 @@ class EventPage extends React.Component<IProps, IState> {
         );
 
         const wars = mergeElements(
-            this.state.wars.map((war) => war.longName),
+            this.state.wars.map((war) => (
+                <WarDescriptor region={this.props.region} war={war} />
+            )),
             ", "
         );
 
@@ -508,7 +547,11 @@ class EventPage extends React.Component<IProps, IState> {
                                     this.props.region,
                                     event,
                                     tab,
-                                    this.state.itemCache
+                                    this.state.itemCache,
+                                    this.state.servantCache,
+                                    this.state.itemCache,
+                                    this.state.questCache,
+                                    this.state.enums
                                 )}
                             </Tab>
                         );

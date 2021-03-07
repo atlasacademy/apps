@@ -1,14 +1,14 @@
 import { Mission, Quest, Region, Servant, Item, EnumList } from "@atlasacademy/api-connector";
 import { handleNewLine } from "../Helper/OutputHelper";
-import CondMissionDescriptor from "./CondMissionDescriptor";
+import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
 
-export default function MissionCondDescriptor(props: {
+export default function MissionConditionDescriptor(props: {
     region: Region;
     cond: Mission.MissionCondition;
-    servants: Map<number, Servant.ServantBasic>;
-    quests: Map<number, Quest.Quest>;
-    missions: Map<number, Mission.Mission>;
-    items: Map<number, Item.Item>;
+    servants?: Map<number, Servant.ServantBasic>;
+    quests?: Map<number, Quest.Quest>;
+    missions?: Map<number, Mission.Mission>;
+    items?: Map<number, Item.Item>;
     enums?: EnumList;
     handleNavigateMissionId?: (id: number) => void;
 }) {
@@ -30,7 +30,7 @@ export default function MissionCondDescriptor(props: {
             <ul style={{ margin: 0 }}>
                 <li>{handleNewLine(props.cond.conditionMessage)}</li>
                 <li>
-                    <CondMissionDescriptor
+                    <CondTargetNumDescriptor
                         region={props.region}
                         cond={cond.condType}
                         targets={cond.targetIds}

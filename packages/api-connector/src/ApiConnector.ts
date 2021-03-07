@@ -238,6 +238,7 @@ class ApiConnector {
         skill: new ResultCache<number, Skill>(),
         war: new ResultCache<number, War>(),
         warBasic: new ResultCache<number, WarBasic>(),
+        warList: new ResultCache<null, WarBasic[]>(),
         traitList: new ResultCache<null, Trait[]>(),
         enumList: new ResultCache<null, EnumList>(),
         ai: new ResultCache<{ type: AiType; id: number }, AiCollection>(),
@@ -561,6 +562,22 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
         return this.cache.warBasic.get(
             id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    warList(cacheDuration?: number): Promise<WarBasic[]> {
+        const fetch = () => {
+            return ApiConnector.fetch<WarBasic[]>(
+                `${this.host}/export/${this.region}/basic_war.json`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.warList.get(
+            null,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
         );

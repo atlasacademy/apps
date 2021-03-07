@@ -1,7 +1,7 @@
 import { Quest, Region } from "@atlasacademy/api-connector";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Api from "../Api";
 
@@ -92,6 +92,38 @@ export default function QuestDescriptor(props: IProps) {
         );
     } else {
         return null;
+    }
+}
+
+export function QuestDescriptorId(props: {
+    text: string;
+    region: Region;
+    questId: number;
+    questPhase: number;
+    showType?: boolean;
+    quests?: Map<number, Quest.Quest>;
+}) {
+    if (props.quests !== undefined) {
+        return (
+            <QuestDescriptorMap
+                text={props.text}
+                region={props.region}
+                questId={props.questId}
+                questPhase={props.questPhase}
+                quests={props.quests}
+                showType={props.showType}
+            />
+        );
+    } else {
+        return (
+            <QuestDescriptor
+                text={props.text}
+                region={props.region}
+                questId={props.questId}
+                questPhase={props.questPhase}
+                showType={props.showType}
+            />
+        );
     }
 }
 

@@ -1,15 +1,15 @@
 import { CondType, Region, Servant } from "@atlasacademy/api-connector";
 import EventDescriptor from "./EventDescriptor";
 import QuestDescriptor from "./QuestDescriptor";
-import { ServantLink } from "./ServantDescriptor";
+import ServantDescriptorId from "./ServantDescriptorId";
 
-export default function CondVoicePlayDescriptor(props: {
+export default function CondTargetValueDescriptor(props: {
     region: Region;
     cond: CondType;
     target: number;
     value: number;
     forceFalseDescription?: string;
-    servants: Map<number, Servant.ServantBasic>;
+    servants?: Map<number, Servant.ServantBasic>;
 }) {
     const forceFalseDescription = props.forceFalseDescription
         ? props.forceFalseDescription
@@ -35,7 +35,7 @@ export default function CondVoicePlayDescriptor(props: {
         case CondType.SVT_LIMIT:
             return (
                 <>
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={target}
                         servants={props.servants}
@@ -46,7 +46,7 @@ export default function CondVoicePlayDescriptor(props: {
         case CondType.SVT_GET:
             return (
                 <>
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={target}
                         servants={props.servants}
@@ -77,7 +77,7 @@ export default function CondVoicePlayDescriptor(props: {
             return (
                 <>
                     Presense of{" "}
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={target}
                         servants={props.servants}
@@ -133,7 +133,7 @@ export default function CondVoicePlayDescriptor(props: {
         case CondType.LIMIT_COUNT_ABOVE:
             return (
                 <>
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={target}
                         servants={props.servants}
@@ -144,7 +144,7 @@ export default function CondVoicePlayDescriptor(props: {
         case CondType.LIMIT_COUNT_BELOW:
             return (
                 <>
-                    <ServantLink
+                    <ServantDescriptorId
                         region={region}
                         id={target}
                         servants={props.servants}
@@ -152,6 +152,15 @@ export default function CondVoicePlayDescriptor(props: {
                     at ascension &le; {value}
                 </>
             );
+        case CondType.DATE:
+            if (props.value !== undefined && props.value !== 0) {
+                const date = new Date(props.value * 1000);
+                return <>After {date.toLocaleString()}</>;
+            } else if (props.value === 0) {
+                return null;
+            } else {
+                return <>After unknown date</>;
+            }
         default:
             return (
                 <>

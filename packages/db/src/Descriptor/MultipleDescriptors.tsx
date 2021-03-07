@@ -6,9 +6,10 @@ import {
     Servant,
 } from "@atlasacademy/api-connector";
 import { mergeElements } from "../Helper/OutputHelper";
-import { IconDescriptorMap } from "./ItemDescriptor";
-import { QuestDescriptorMap } from "./QuestDescriptor";
+import { IconDescriptorMap, IconDescriptorId } from "./ItemDescriptor";
+import { QuestDescriptorId } from "./QuestDescriptor";
 import { ServantLink } from "./ServantDescriptor";
+import ServantDescriptorId from "./ServantDescriptorId";
 import TraitDescription from "./TraitDescription";
 
 export const missionRange = (missions: number[]) => {
@@ -48,11 +49,11 @@ export const missionRange = (missions: number[]) => {
 export const MultipleQuests = (props: {
     region: Region;
     questIds: number[];
-    quests: Map<number, Quest.Quest>;
+    quests?: Map<number, Quest.Quest>;
 }) => {
     if (props.questIds.length === 1) {
         return (
-            <QuestDescriptorMap
+            <QuestDescriptorId
                 text=""
                 region={props.region}
                 questId={props.questIds[0]}
@@ -67,7 +68,7 @@ export const MultipleQuests = (props: {
                 {props.questIds.map((questId) => {
                     return (
                         <li key={questId}>
-                            <QuestDescriptorMap
+                            <QuestDescriptorId
                                 text=""
                                 region={props.region}
                                 questId={questId}
@@ -106,19 +107,29 @@ export const MultipleTraits = (props: {
 export const MultipleItems = (props: {
     region: Region;
     itemIds: number[];
-    items: Map<number, Item.Item>;
+    items?: Map<number, Item.Item>;
 }) => {
     return (
         <>
             {mergeElements(
-                props.itemIds.map((itemId) => (
-                    <IconDescriptorMap
-                        key={itemId}
-                        region={props.region}
-                        itemId={itemId}
-                        items={props.items}
-                    />
-                )),
+                props.itemIds.map((itemId) => {
+                    if (props.items !== undefined) {
+                        return (
+                            <IconDescriptorMap
+                                region={props.region}
+                                itemId={itemId}
+                                items={props.items}
+                            />
+                        );
+                    } else {
+                        return (
+                            <IconDescriptorId
+                                region={props.region}
+                                itemId={itemId}
+                            />
+                        );
+                    }
+                }),
                 ", "
             )}
         </>
@@ -128,13 +139,13 @@ export const MultipleItems = (props: {
 export const MultipleServants = (props: {
     region: Region;
     servantIds: number[];
-    servants: Map<number, Servant.ServantBasic>;
+    servants?: Map<number, Servant.ServantBasic>;
 }) => {
     return (
         <>
             {mergeElements(
                 props.servantIds.map((servantId) => (
-                    <ServantLink
+                    <ServantDescriptorId
                         key={servantId}
                         region={props.region}
                         id={servantId}

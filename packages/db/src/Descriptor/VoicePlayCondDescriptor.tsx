@@ -1,6 +1,6 @@
 import { Profile, Region, Servant } from "@atlasacademy/api-connector";
 import { mergeElements } from "../Helper/OutputHelper";
-import CondVoicePlayDescriptor from "./CondVoicePlayDescriptor";
+import CondTargetValueDescriptor from "./CondTargetValueDescriptor";
 
 function VoicePlayGroup(props: {
     region: Region;
@@ -11,7 +11,7 @@ function VoicePlayGroup(props: {
         <>
             {mergeElements(
                 props.playConds.map((playCond) => (
-                    <CondVoicePlayDescriptor
+                    <CondTargetValueDescriptor
                         region={props.region}
                         cond={playCond.condType}
                         target={playCond.targetId}

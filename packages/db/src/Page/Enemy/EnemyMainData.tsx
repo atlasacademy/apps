@@ -1,5 +1,6 @@
 import {Enemy, Region} from "@atlasacademy/api-connector";
 import React from "react";
+import {Col, Row} from "react-bootstrap";
 import {Host} from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
@@ -35,14 +36,23 @@ class EnemyMainData extends React.Component<IProps> {
                             Max: {formatNumber(enemy.atkMax)}
                         </div>,
                         "Death Chance": asPercent(enemy.instantDeathChance, 1),
+                        "Raw": (
+                            <span>
+                                <Row>
+                                    <Col>
+                                        <RawDataViewer text="Nice" data={enemy}/>
+                                    </Col>
+                                    <Col>
+                                        <RawDataViewer
+                                            text="Raw"
+                                            data={`${Host}/raw/${this.props.region}/servant/${enemy.id}?expand=true&lore=true`}/>
+                                    </Col>
+                                </Row>
+                            </span>
+                        )
                     }}/>
                 </div>
-                <span>
-                    <RawDataViewer text="Nice" data={enemy}/>
-                    <RawDataViewer
-                        text="Raw"
-                        data={`${Host}/raw/${this.props.region}/servant/${enemy.id}?expand=true&lore=true`}/>
-                </span>
+
             </>
         );
     }

@@ -40,6 +40,8 @@ const SkillPage = React.lazy(() => import("./Page/SkillPage"));
 const SkillsPage = React.lazy(() => import("./Page/SkillsPage"));
 const EventPage = React.lazy(() => import("./Page/EventPage"));
 const EventsPage = React.lazy(() => import("./Page/EventsPage"));
+const WarPage = React.lazy(() => import("./Page/WarPage"));
+const WarsPage = React.lazy(() => import("./Page/WarsPage"));
 
 interface IState {
     language: Language,
@@ -280,6 +282,22 @@ class App extends React.Component<any, IState> {
                             return (
                                 <Suspense fallback={<Loading/>}>
                                     <EventsPage key={region} region={region}/>
+                                </Suspense>
+                            )
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/war/:id([0-9]+)" render={props => {
+                            const {region, id} = props.match.params
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <WarPage key={`${region}-war-${id}`} region={region} warId={id}/>
+                                </Suspense>
+                            )
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/wars" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <WarsPage key={region} region={region}/>
                                 </Suspense>
                             )
                         }}/>

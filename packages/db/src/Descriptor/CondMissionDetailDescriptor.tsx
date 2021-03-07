@@ -18,9 +18,9 @@ export default function CondMissionDetailDescriptor(props: {
     region: Region;
     detail: Mission.MissionConditionDetail;
     num: number;
-    servants: Map<number, Servant.ServantBasic>;
-    quests: Map<number, Quest.Quest>;
-    items: Map<number, Item.Item>;
+    servants?: Map<number, Servant.ServantBasic>;
+    quests?: Map<number, Quest.Quest>;
+    items?: Map<number, Item.Item>;
     enums?: EnumList;
 }) {
     const region = props.region,
