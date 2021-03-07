@@ -1,14 +1,16 @@
-import {faSearchPlus} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faSearchPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import copy from 'copy-to-clipboard';
+import copy from "copy-to-clipboard";
 import React from "react";
-import {Modal, Button} from "react-bootstrap";
-import ReactJson from "react-json-view";
+import { Button, Modal } from "react-bootstrap";
+import ReactJson, { ThemeKeys } from "react-json-view";
+import Manager from "../Setting/Manager";
+import { Theme } from "../Setting/Theme";
 
 interface IProps {
     data: object | string;
-    text?: string,
+    text?: string;
 }
 
 interface IState {
@@ -16,24 +18,32 @@ interface IState {
     showing: boolean;
 }
 
+const viewerTheme: Map<Theme, ThemeKeys> = new Map([
+    [Theme.CYBORG, "monokai"],
+    [Theme.DARKLY, "monokai"],
+    [Theme.SLATE, "monokai"],
+    [Theme.SOLAR, "solarized"],
+    [Theme.SUPERHERO, "monokai"],
+]);
+
 class RawDataViewer extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {
-            showing: false
+            showing: false,
         };
     }
 
     hide() {
-        this.setState({showing: false});
+        this.setState({ showing: false });
     }
 
     async show() {
         if (this.state.data) {
-            this.setState({showing: true});
+            this.setState({ showing: true });
         } else if (typeof this.props.data === "object") {
-            this.setState({showing: true, data: this.props.data});
+            this.setState({ showing: true, data: this.props.data });
         } else {
             try {
                 this.setState({
@@ -43,7 +53,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
             } catch (e) {
                 this.setState({
                     showing: true,
-                    data: {error: e}
+                    data: { error: e },
                 });
             }
         }
@@ -53,27 +63,40 @@ class RawDataViewer extends React.Component<IProps, IState> {
         return (
             <>
                 <Button
-                      variant="outline-info" block
-                      onClick={() => {
-                          this.show();
-                      }}>
-                    {this.props.text || 'View'}
+                    variant="outline-info"
+                    block
+                    onClick={() => {
+                        this.show();
+                    }}
+                >
+                    {this.props.text || "View"}
                     &nbsp;
-                    <FontAwesomeIcon icon={faSearchPlus}/>
+                    <FontAwesomeIcon icon={faSearchPlus} />
                 </Button>
 
-                <Modal size={"lg"} show={this.state.showing} onHide={() => this.hide()}>
+                <Modal
+                    size={"lg"}
+                    show={this.state.showing}
+                    onHide={() => this.hide()}
+                >
                     <Modal.Header closeButton>
                         <Modal.Title>Raw Data Viewer</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {this.state.data ? (
-                            <ReactJson src={this.state.data} collapsed={1}
-                                       enableClipboard={clipboard => {
-                                           if (typeof clipboard.src === "string") {
-                                               copy(clipboard.src);
-                                           }
-                                       }}/>
+                            <ReactJson
+                                src={this.state.data}
+                                collapsed={1}
+                                theme={
+                                    viewerTheme.get(Manager.theme()) ??
+                                    "rjv-default"
+                                }
+                                enableClipboard={(clipboard) => {
+                                    if (typeof clipboard.src === "string") {
+                                        copy(clipboard.src);
+                                    }
+                                }}
+                            />
                         ) : null}
                     </Modal.Body>
                 </Modal>
