@@ -3,7 +3,7 @@ import {AxiosError} from "axios";
 import diacritics from 'diacritics';
 import escape from 'escape-string-regexp';
 import React from "react";
-import {Button, ButtonGroup, Col, Form, Pagination, Row, Table, Container} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Form, Pagination, Row, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Api from "../Api";
 import ClassIcon from "../Component/ClassIcon";

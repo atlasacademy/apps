@@ -1,19 +1,22 @@
 import { Quest, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
+import { withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import Api, { Host } from "../Api";
 import ClassIcon from "../Component/ClassIcon";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import QuestStage from "../Component/QuestStage";
 import RawDataViewer from "../Component/RawDataViewer";
+import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { WarDescriptorId } from "../Descriptor/WarDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
-import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import Manager from "../Setting/Manager";
 
 export const QuestTypeDescription = new Map([
@@ -25,10 +28,11 @@ export const QuestTypeDescription = new Map([
     [Quest.QuestType.WAR_BOARD, "War Board"],
 ]);
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
     phase: number;
+    stage?: number;
 }
 
 interface IState {
@@ -37,13 +41,40 @@ interface IState {
     quest?: Quest.QuestPhase;
 }
 
+const PhaseNavigator = (props: { region: Region; quest: Quest.QuestPhase }) => {
+    const currentPhase = props.quest.phase,
+        phases = props.quest.phases,
+        baseUrl = `/#/${props.region}/quest/${props.quest.id}`;
+    return (
+        <Pagination style={{ marginBottom: 0, float: "right" }}>
+            <Pagination.Prev
+                href={`${baseUrl}/${currentPhase - 1}`}
+                disabled={currentPhase === Math.min(...phases)}
+            />
+            {props.quest.phases.map((phase) => (
+                <Pagination.Item
+                    key={phase}
+                    active={phase === currentPhase}
+                    href={`${baseUrl}/${phase}`}
+                >
+                    {phase}
+                </Pagination.Item>
+            ))}
+            <Pagination.Next
+                href={`${baseUrl}/${currentPhase + 1}`}
+                disabled={currentPhase === Math.max(...phases)}
+            />
+        </Pagination>
+    );
+};
+
 const QuestMainData = (props: { region: Region; quest: Quest.QuestPhase }) => {
     const quest = props.quest;
     return (
         <DataTable
             data={{
                 ID: quest.id,
-                Phase: quest.phase,
+                Phases: <PhaseNavigator region={props.region} quest={quest} />,
                 Type: QuestTypeDescription.get(quest.type) ?? quest.type,
                 Cost: (
                     <QuestConsumeDescriptor
@@ -190,9 +221,30 @@ class QuestPage extends React.Component<IProps, IState> {
                         />
                     </Col>
                 </Row>
+                <Tabs
+                    defaultActiveKey={this.props.stage ?? "stage-1"}
+                    onSelect={(key: string | null) => {
+                        this.props.history.replace(
+                            `/${this.props.region}/quest/${this.props.id}/${this.props.phase}/${key}`
+                        );
+                    }}
+                >
+                    {quest.stages.map((stage) => (
+                        <Tab
+                            key={stage.wave}
+                            eventKey={`stage-${stage.wave}`}
+                            title={`Stage ${stage.wave}`}
+                        >
+                            <QuestStage
+                                region={this.props.region}
+                                stage={stage}
+                            />
+                        </Tab>
+                    ))}
+                </Tabs>
             </div>
         );
     }
 }
 
-export default QuestPage;
+export default withRouter(QuestPage);

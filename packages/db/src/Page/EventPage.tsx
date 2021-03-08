@@ -309,7 +309,7 @@ class EventPage extends React.Component<IProps, IState> {
                     {rewards.map((reward) => {
                         return (
                             <tr key={reward.point}>
-                                <th scope="row">{reward.point}</th>
+                                <th scope="row">{reward.point.toLocaleString()}</th>
                                 <td>
                                     {mergeElements(
                                         reward.gifts.map((gift) => (

@@ -30,6 +30,7 @@ export interface QuestRelease {
 }
 
 export interface Stage {
+    wave: number;
     bgm: Bgm;
 }
 

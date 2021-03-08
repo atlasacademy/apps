@@ -15,7 +15,7 @@ export default function QuestConsumeDescriptor(props: {
         case Quest.QuestConsumeType.AP:
             return <>{consume} AP</>;
         case Quest.QuestConsumeType.RP:
-            return <>{consume} RP</>;
+            return <>{consume} BP</>;
         case Quest.QuestConsumeType.ITEM:
             return (
                 <>

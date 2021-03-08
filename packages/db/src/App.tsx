@@ -172,11 +172,12 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)" render={props => {
-                            const {region, id, phase} = props.match.params
+                        <Route exact={true} path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)/:stage([a-z0-9\-]+)?"
+                        render={props => {
+                            const {region, id, phase, stage} = props.match.params
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <QuestPage key={`${region}-${id}-${phase}`} region={region} id={id} phase={phase}/>
+                                    <QuestPage key={`${region}-${id}-${phase}`} region={region} id={id} phase={phase} stage={stage} />
                                 </Suspense>
                             )
                         }}/>

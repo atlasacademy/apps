@@ -6,19 +6,17 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import Api, { Host } from "../Api";
+import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
-import GiftDescriptor from "../Descriptor/GiftDescriptor";
-import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
-import { QuestTypeDescription } from "./QuestPage";
-import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
-import renderCollapsibleContent from "../Component/CollapsibleContent";
-
-import Manager from "../Setting/Manager";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import EventDescriptor from "../Descriptor/EventDescriptor";
+import GiftDescriptor from "../Descriptor/GiftDescriptor";
+import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
+import Manager from "../Setting/Manager";
+import { QuestTypeDescription } from "./QuestPage";
 
 const imgOnError = (e: React.SyntheticEvent<HTMLImageElement, ErrorEvent>) => {
     const el = e.target as HTMLImageElement;
@@ -105,7 +103,6 @@ class WarPage extends React.Component<IProps, IState> {
                         <th>ID</th>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Cost</th>
                         <th>Phases</th>
                         <th>Reward</th>
                     </tr>
@@ -126,14 +123,6 @@ class WarPage extends React.Component<IProps, IState> {
                             <td>
                                 {QuestTypeDescription.get(quest.type) ??
                                     quest.type}
-                            </td>
-                            <td>
-                                <QuestConsumeDescriptor
-                                    region={region}
-                                    consumeType={quest.consumeType}
-                                    consume={quest.consume}
-                                    consumeItem={quest.consumeItem}
-                                />
                             </td>
                             <td>
                                 {mergeElements(
