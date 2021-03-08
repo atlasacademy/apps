@@ -36,45 +36,65 @@ interface IProps extends RouteComponentProps {
 }
 
 interface IState {
+    phase: number;
     error?: AxiosError;
     loading: boolean;
     quest?: Quest.QuestPhase;
 }
 
-const PhaseNavigator = (props: { region: Region; quest: Quest.QuestPhase }) => {
+const PhaseNavigator = (props: {
+    region: Region;
+    quest: Quest.QuestPhase;
+    setPhase: (phase: number) => void;
+}) => {
     const currentPhase = props.quest.phase,
-        phases = props.quest.phases,
-        baseUrl = `/#/${props.region}/quest/${props.quest.id}`;
+        phases = props.quest.phases;
     return (
         <Pagination style={{ marginBottom: 0, float: "right" }}>
             <Pagination.Prev
-                href={`${baseUrl}/${currentPhase - 1}`}
                 disabled={currentPhase === Math.min(...phases)}
+                onClick={() => {
+                    props.setPhase(currentPhase - 1);
+                }}
             />
             {props.quest.phases.map((phase) => (
                 <Pagination.Item
                     key={phase}
                     active={phase === currentPhase}
-                    href={`${baseUrl}/${phase}`}
+                    onClick={() => {
+                        props.setPhase(phase);
+                    }}
                 >
                     {phase}
                 </Pagination.Item>
             ))}
             <Pagination.Next
-                href={`${baseUrl}/${currentPhase + 1}`}
                 disabled={currentPhase === Math.max(...phases)}
+                onClick={() => {
+                    props.setPhase(currentPhase + 1);
+                }}
             />
         </Pagination>
     );
 };
 
-const QuestMainData = (props: { region: Region; quest: Quest.QuestPhase }) => {
+const QuestMainData = (props: {
+    region: Region;
+    quest: Quest.QuestPhase;
+    setPhase: (phase: number) => void;
+}) => {
     const quest = props.quest;
     return (
         <DataTable
             data={{
                 ID: quest.id,
-                Phases: <PhaseNavigator region={props.region} quest={quest} />,
+                Phases: (
+                    <PhaseNavigator
+                        region={props.region}
+                        quest={quest}
+                        setPhase={props.setPhase}
+                    />
+                ),
                 Type: QuestTypeDescription.get(quest.type) ?? quest.type,
                 Cost: (
                     <QuestConsumeDescriptor
@@ -170,6 +190,7 @@ class QuestPage extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
+            phase: props.phase,
             loading: true,
         };
     }
@@ -181,7 +202,10 @@ class QuestPage extends React.Component<IProps, IState> {
 
     async loadQuest() {
         try {
-            const quest = await Api.questPhase(this.props.id, this.props.phase);
+            this.props.history.replace(
+                `/${this.props.region}/quest/${this.props.id}/${this.state.phase}`
+            );
+            const quest = await Api.questPhase(this.props.id, this.state.phase);
 
             this.setState({
                 loading: false,
@@ -212,6 +236,10 @@ class QuestPage extends React.Component<IProps, IState> {
                         <QuestMainData
                             region={this.props.region}
                             quest={quest}
+                            setPhase={(phase) => {
+                                this.setState({ phase: phase });
+                                this.loadQuest();
+                            }}
                         />
                     </Col>
                     <Col xs={{ span: 12 }} lg={{ span: 6 }}>
@@ -225,7 +253,7 @@ class QuestPage extends React.Component<IProps, IState> {
                     defaultActiveKey={this.props.stage ?? "stage-1"}
                     onSelect={(key: string | null) => {
                         this.props.history.replace(
-                            `/${this.props.region}/quest/${this.props.id}/${this.props.phase}/${key}`
+                            `/${this.props.region}/quest/${this.props.id}/${this.state.phase}/${key}`
                         );
                     }}
                 >
