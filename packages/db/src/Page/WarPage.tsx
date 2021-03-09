@@ -180,6 +180,34 @@ class WarPage extends React.Component<IProps, IState> {
                 ""
             );
 
+        const banners = [war.banner].concat(
+            war.warAdds
+                .filter(
+                    (warAdd) =>
+                        warAdd.type === War.WarOverwriteType.BANNER &&
+                        warAdd.overwriteBanner !== undefined
+                )
+                .map((warAdd) => warAdd.overwriteBanner)
+        );
+
+        const bannerImages = (
+            <>
+                {banners.map((banner) => (
+                    <>
+                        <img
+                            style={{
+                                maxWidth: "100%",
+                                maxHeight: "5em",
+                            }}
+                            src={banner}
+                            onError={imgOnError}
+                        />
+                        <br />
+                    </>
+                ))}
+            </>
+        );
+
         return (
             <div>
                 <h1 style={{ marginBottom: "1em" }}>
@@ -192,16 +220,7 @@ class WarPage extends React.Component<IProps, IState> {
                             Name: handleNewLine(war.longName),
                             Age: war.age,
                             Event: event,
-                            Banner: (
-                                <img
-                                    style={{
-                                        maxWidth: "100%",
-                                        maxHeight: "5em",
-                                    }}
-                                    src={war.banner}
-                                    onError={imgOnError}
-                                />
-                            ),
+                            Banner: bannerImages,
                             BGM: (
                                 <BgmDescriptor
                                     region={this.props.region}

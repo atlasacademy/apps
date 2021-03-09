@@ -1,3 +1,4 @@
+import Cond from "../Enum/Cond";
 import { Bgm } from "./Bgm";
 import { Quest } from "./Quest";
 
@@ -7,6 +8,21 @@ export enum WarStartType {
     QUEST = "quest",
 }
 
+export enum WarOverwriteType {
+    BGM = "bgm",
+    PARENT_WAR = "parentWar",
+    BANNER = "banner",
+    BG_IMAGE = "bgImage",
+    SVT_IMAGE = "svtImage",
+    FLAG = "flag",
+    BASE_MAP_ID = "baseMapId",
+    NAME = "name",
+    LONG_NAME = "longName",
+    MATERIAL_PARENT_WAR = "materialParentWar",
+    COORDINATES = "coordinates",
+    EFFECT_CHANGE_BLACK_MARK = "effectChangeBlackMark",
+}
+
 export interface Map {
     id: number;
     mapImage?: string;
@@ -14,6 +30,20 @@ export interface Map {
     mapImageH: number;
     headerImage?: string;
     bgm: Bgm;
+}
+
+export interface WarAdd {
+    warId: number;
+    type: WarOverwriteType;
+    priority: number;
+    overwriteId: number;
+    overwriteStr: string;
+    overwriteBanner?: string;
+    condType: Cond;
+    targetId: number;
+    value: number;
+    startedAt: number;
+    endedAt: number;
 }
 
 export interface Spot {
@@ -54,6 +84,7 @@ export interface War {
     targetId: number;
     eventId: number;
     lastQuestId: number;
+    warAdds: WarAdd[];
     maps: Map[];
     spots: Spot[];
 }
