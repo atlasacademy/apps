@@ -23,6 +23,7 @@ import * as NoblePhantasm from "./Schema/NoblePhantasm";
 import { ProfileVoiceType } from "./Schema/Profile";
 import * as Profile from "./Schema/Profile";
 import * as Quest from "./Schema/Quest";
+import * as QuestEnemy from "./Schema/QuestEnemy";
 import * as Servant from "./Schema/Servant";
 import * as Shop from "./Schema/Shop";
 import * as Skill from "./Schema/Skill";
@@ -60,6 +61,7 @@ export {
     NoblePhantasm,
     Profile,
     Quest,
+    QuestEnemy,
     Servant,
     Shop,
     Skill,

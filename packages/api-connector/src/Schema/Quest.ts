@@ -2,8 +2,9 @@ import ClassName from "../Enum/ClassName";
 import CondType from "../Enum/Cond";
 import { Bgm } from "./Bgm";
 import { Gift } from "./Gift";
-import { Trait } from "./Trait";
 import { Item } from "./Item";
+import { QuestEnemy } from "./QuestEnemy";
+import { Trait } from "./Trait";
 
 export enum QuestConsumeType {
     NONE = "none",
@@ -32,6 +33,8 @@ export interface QuestRelease {
 export interface Stage {
     wave: number;
     bgm: Bgm;
+    fieldAis: { day: number; id: number }[];
+    enemies: QuestEnemy[];
 }
 
 export interface Quest {
@@ -46,6 +49,7 @@ export interface Quest {
     gifts: Gift[];
     releaseConditions: QuestRelease[];
     phases: number[];
+    phasesWithEnemies: number[];
     noticeAt: number;
     openedAt: number;
     closedAt: number;

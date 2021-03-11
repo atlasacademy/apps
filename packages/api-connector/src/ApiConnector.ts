@@ -236,6 +236,7 @@ class ApiConnector {
         servantList: new ResultCache<null, ServantBasic[]>(),
         servantListNice: new ResultCache<null, Servant[]>(),
         skill: new ResultCache<number, Skill>(),
+        skillBasic: new ResultCache<number, SkillBasic>(),
         war: new ResultCache<number, War>(),
         warBasic: new ResultCache<number, WarBasic>(),
         warList: new ResultCache<null, WarBasic[]>(),
@@ -901,6 +902,29 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.skill.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    skillBasic(
+        id: number,
+        reverse?: ReverseOptions,
+        cacheDuration?: number
+    ): Promise<SkillBasic> {
+        const query = this.getReverseParams(reverse);
+        const fetch = () => {
+            return ApiConnector.fetch<Skill>(
+                `${this.host}/basic/${
+                    this.region
+                }/skill/${id}${this.getQueryString(query)}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.skillBasic.get(
             id,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
