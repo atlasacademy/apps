@@ -138,21 +138,18 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                 Bond: quest.bond.toLocaleString(),
                 "Unlock Condition": (
                     <>
-                        {mergeElements(
-                            quest.releaseConditions.map((cond) => (
-                                <div
-                                    key={`${cond.type}-${cond.targetId}-${cond.value}`}
-                                >
-                                    <CondTargetValueDescriptor
-                                        region={props.region}
-                                        cond={cond.type}
-                                        target={cond.targetId}
-                                        value={cond.value}
-                                    />
-                                </div>
-                            )),
-                            <br />
-                        )}
+                        {quest.releaseConditions.map((cond) => (
+                            <div
+                                key={`${cond.type}-${cond.targetId}-${cond.value}`}
+                            >
+                                <CondTargetValueDescriptor
+                                    region={props.region}
+                                    cond={cond.type}
+                                    target={cond.targetId}
+                                    value={cond.value}
+                                />
+                            </div>
+                        ))}
                     </>
                 ),
                 Individuality: mergeElements(

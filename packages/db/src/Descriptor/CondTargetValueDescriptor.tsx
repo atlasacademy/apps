@@ -54,6 +54,17 @@ export default function CondTargetValueDescriptor(props: {
                     in Spirit Origin Collection
                 </>
             );
+        case CondType.SVT_FRIENDSHIP:
+            return (
+                <>
+                    <ServantDescriptorId
+                        region={region}
+                        id={target}
+                        servants={props.servants}
+                    />{" "}
+                    at bond level {value}
+                </>
+            );
         case CondType.EVENT_END:
             return (
                 <>
