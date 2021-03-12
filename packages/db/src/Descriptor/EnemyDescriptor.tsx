@@ -10,6 +10,7 @@ interface IProps {
     enemy: Enemy.EnemyBasic;
     iconHeight?: number;
     tab?: string;
+    overwriteName?: string;
 }
 
 class EnemyDescriptor extends React.Component<IProps> {
@@ -29,7 +30,7 @@ class EnemyDescriptor extends React.Component<IProps> {
                           height={this.props.iconHeight}/>
                 {' '}
                 <span className="hoverText" style={{whiteSpace: "normal"}}>
-                    [{this.props.enemy.name}]
+                    [{this.props.overwriteName ?? this.props.enemy.name}]
                 </span>
             </Link>
         );

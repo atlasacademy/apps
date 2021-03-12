@@ -1,13 +1,14 @@
 import { Ai, Region, Skill, Trait } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
-import React from "react";
 import { Table } from "react-bootstrap";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import AiDescriptor from "../../Descriptor/AiDescriptor";
 import { BuffIdDescriptor } from "../../Descriptor/BuffDescription";
-import SkillDescriptor from "../../Descriptor/SkillDescriptor";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
+import SkillDescriptor, {
+    SkillDescriptorId,
+} from "../../Descriptor/SkillDescriptor";
 
 enum SUBJECT {
     SELF = "Self",
@@ -161,6 +162,56 @@ function AiCondition(props: {
     }
 }
 
+function AiActType(props: {
+    region: Region;
+    type: Ai.AiActType;
+    skillId1?: number;
+    skillId2?: number;
+    skillId3?: number;
+}) {
+    const region = props.region,
+        type = props.type;
+    switch (type) {
+        case Ai.AiActType.SKILL_RANDOM:
+            return <>Random skill</>;
+        case Ai.AiActType.SKILL1:
+            if (props.skillId1 !== undefined) {
+                return (
+                    <SkillDescriptorId
+                        region={region}
+                        skillId={props.skillId1}
+                    />
+                );
+            } else {
+                return <>Skill 1</>;
+            }
+        case Ai.AiActType.SKILL2:
+            if (props.skillId2 !== undefined) {
+                return (
+                    <SkillDescriptorId
+                        region={region}
+                        skillId={props.skillId2}
+                    />
+                );
+            } else {
+                return <>Skill 2</>;
+            }
+        case Ai.AiActType.SKILL3:
+            if (props.skillId3 !== undefined) {
+                return (
+                    <SkillDescriptorId
+                        region={region}
+                        skillId={props.skillId3}
+                    />
+                );
+            } else {
+                return <>Skill 3</>;
+            }
+        default:
+            return <>{toTitleCase(type)}</>;
+    }
+}
+
 function ActTarget(props: {
     region: Region;
     target: Ai.AiActTarget;
@@ -229,6 +280,9 @@ export default function AiTable(props: {
     aiType: Ai.AiType;
     ais: Ai.Ai[];
     handleNavigateAiId?: (id: number) => void;
+    skillId1?: number;
+    skillId2?: number;
+    skillId3?: number;
 }) {
     const ais = props.ais;
     const outputTable = (
@@ -242,7 +296,10 @@ export default function AiTable(props: {
                 <tr>
                     <th>AI Sub ID</th>
                     {ais.map((ai) => (
-                        <td key={ai.idx}>{ai.idx}</td>
+                        <td key={ai.idx}>
+                            {ai.idx}
+                            {ai.infoText !== "" ? ` – ${ai.infoText}` : null}
+                        </td>
                     ))}
                 </tr>
             </thead>
@@ -281,7 +338,15 @@ export default function AiTable(props: {
                 <tr>
                     <td style={{ fontWeight: "bold" }}>Act Type</td>
                     {ais.map((ai) => (
-                        <td key={ai.idx}>{toTitleCase(ai.aiAct.type)}</td>
+                        <td key={ai.idx}>
+                            <AiActType
+                                region={props.region}
+                                type={ai.aiAct.type}
+                                skillId1={props.skillId1}
+                                skillId2={props.skillId2}
+                                skillId3={props.skillId3}
+                            />
+                        </td>
                     ))}
                 </tr>
                 <tr>

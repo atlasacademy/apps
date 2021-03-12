@@ -173,6 +173,10 @@ class Api {
         return apiConnector.skill(id, reverse, cacheDuration);
     }
 
+    static skillBasic(id: number): Promise<Skill.SkillBasic> {
+        return apiConnector.skillBasic(id, undefined, cacheDuration);
+    }
+
     static war(id: number): Promise<War.War> {
         return apiConnector.war(id, cacheDuration);
     }

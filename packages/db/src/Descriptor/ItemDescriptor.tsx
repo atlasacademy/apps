@@ -87,7 +87,7 @@ export function ItemDescriptorIndividuality(props: {
     }
 }
 
-export function IconDescriptorId(props: {
+export function ItemDescriptorId(props: {
     region: Region;
     itemId: number;
     quantity?: number;

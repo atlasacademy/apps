@@ -142,6 +142,9 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                             <div
                                 key={`${cond.type}-${cond.targetId}-${cond.value}`}
                             >
+                                {cond.closedMessage !== ""
+                                    ? `${cond.closedMessage} — `
+                                    : ""}
                                 <CondTargetValueDescriptor
                                     region={props.region}
                                     cond={cond.type}
@@ -194,15 +197,12 @@ class QuestPage extends React.Component<IProps, IState> {
 
     componentDidMount() {
         Manager.setRegion(this.props.region);
-        this.loadQuest();
+        this.loadQuest(this.state.phase);
     }
 
-    async loadQuest() {
+    async loadQuest(phase: number) {
         try {
-            this.props.history.replace(
-                `/${this.props.region}/quest/${this.props.id}/${this.state.phase}`
-            );
-            const quest = await Api.questPhase(this.props.id, this.state.phase);
+            const quest = await Api.questPhase(this.props.id, phase);
 
             this.setState({
                 loading: false,
@@ -234,8 +234,9 @@ class QuestPage extends React.Component<IProps, IState> {
                             region={this.props.region}
                             quest={quest}
                             setPhase={(phase) => {
-                                this.setState({ phase: phase });
-                                this.loadQuest();
+                                this.props.history.replace(
+                                    `/${this.props.region}/quest/${this.props.id}/${phase}`
+                                );
                             }}
                         />
                     </Col>
@@ -246,27 +247,29 @@ class QuestPage extends React.Component<IProps, IState> {
                         />
                     </Col>
                 </Row>
-                <Tabs
-                    defaultActiveKey={this.props.stage ?? "stage-1"}
-                    onSelect={(key: string | null) => {
-                        this.props.history.replace(
-                            `/${this.props.region}/quest/${this.props.id}/${this.state.phase}/${key}`
-                        );
-                    }}
-                >
-                    {quest.stages.map((stage) => (
-                        <Tab
-                            key={stage.wave}
-                            eventKey={`stage-${stage.wave}`}
-                            title={`Stage ${stage.wave}`}
-                        >
-                            <QuestStage
-                                region={this.props.region}
-                                stage={stage}
-                            />
-                        </Tab>
-                    ))}
-                </Tabs>
+                {quest.stages.length > 0 ? (
+                    <Tabs
+                        defaultActiveKey={this.props.stage ?? "stage-1"}
+                        onSelect={(key: string | null) => {
+                            this.props.history.replace(
+                                `/${this.props.region}/quest/${this.props.id}/${this.state.phase}/${key}`
+                            );
+                        }}
+                    >
+                        {quest.stages.map((stage) => (
+                            <Tab
+                                key={stage.wave}
+                                eventKey={`stage-${stage.wave}`}
+                                title={`Stage ${stage.wave}`}
+                            >
+                                <QuestStage
+                                    region={this.props.region}
+                                    stage={stage}
+                                />
+                            </Tab>
+                        ))}
+                    </Tabs>
+                ) : null}
             </div>
         );
     }

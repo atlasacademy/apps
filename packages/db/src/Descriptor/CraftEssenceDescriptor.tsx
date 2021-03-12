@@ -11,6 +11,7 @@ interface IPropsCommon {
     craftEssence: Omit<CraftEssence.CraftEssenceBasic, 'face'>;
     iconHeight?: number;
     tab?: string;
+    overwriteName?: string;
 }
 
 function CommonCraftEssenceDescriptor (props : IPropsCommon & { face?: string, tab?: string }) {
@@ -27,7 +28,7 @@ function CommonCraftEssenceDescriptor (props : IPropsCommon & { face?: string, t
             ) : undefined}
             {props.face ? ' ' : undefined}
             <span className="hoverText" style={{whiteSpace: "normal"}}>
-                {props.craftEssence.name}
+                {props.overwriteName ?? props.craftEssence.name}
             </span>
             {' '}
             <FontAwesomeIcon icon={faShare}/>

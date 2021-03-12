@@ -62,3 +62,20 @@ export function getURLSearchParams(options: SearchOptions) {
 export function isPositiveInteger(str: string) {
     return /^\d+$/.test(str);
 }
+
+
+const OrdinalSuperscript = new Map([
+    [1, "st"],
+    [2, "nd"],
+    [3, "rd"],
+]);
+
+export const ordinalNumeral = (index: number) => {
+    const superscript = OrdinalSuperscript.get(index % 10) ?? "th";
+    return (
+        <span>
+            {index}
+            <sup>{superscript}</sup>
+        </span>
+    );
+};

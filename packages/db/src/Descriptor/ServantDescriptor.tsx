@@ -10,6 +10,7 @@ interface IPropsCommon {
     servant: Omit<Servant.ServantBasic, 'face'>;
     iconHeight?: number;
     tab?: string;
+    overwriteName?: string;
 }
 
 function CommonServantDescriptor (props : IPropsCommon & { face?: string, tab?: string }) {
@@ -28,7 +29,7 @@ function CommonServantDescriptor (props : IPropsCommon & { face?: string, tab?: 
                                     height={props.iconHeight}/>}
             {' '}
             <span className="hoverText" style={{whiteSpace: "normal"}}>
-                {props.servant.name}
+                {props.overwriteName ?? props.servant.name}
             </span>
         </Link>
     )

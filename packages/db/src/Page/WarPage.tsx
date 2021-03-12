@@ -1,4 +1,6 @@
 import { Item, Region, War } from "@atlasacademy/api-connector";
+import { faDragon } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Table } from "react-bootstrap";
@@ -126,14 +128,26 @@ class WarPage extends React.Component<IProps, IState> {
                             </td>
                             <td>
                                 {mergeElements(
-                                    quest.phases.map((phase) => (
-                                        <Link
-                                            key={phase}
-                                            to={`/${region}/quest/${quest.id}/${phase}`}
-                                        >
-                                            {phase}
-                                        </Link>
-                                    )),
+                                    quest.phases.map((phase) => {
+                                        const hasEnemies = quest.phasesWithEnemies.includes(
+                                            phase
+                                        );
+                                        const hasEnemiesDescription = hasEnemies
+                                            ? " (has enemies data)"
+                                            : "";
+                                        const hasEnemiesIcon = hasEnemies ? (
+                                            <FontAwesomeIcon icon={faDragon} />
+                                        ) : null;
+                                        return (
+                                            <Link
+                                                title={`Arrow ${phase}${hasEnemiesDescription}`}
+                                                key={phase}
+                                                to={`/${region}/quest/${quest.id}/${phase}`}
+                                            >
+                                                {phase}{hasEnemiesIcon}
+                                            </Link>
+                                        );
+                                    }),
                                     ", "
                                 )}
                             </td>

@@ -1,4 +1,3 @@
-import React from "react";
 import { BasicCraftEssenceDescriptor } from "./CraftEssenceDescriptor";
 import EnemyDescriptor from "./EnemyDescriptor";
 import { BasicServantDescriptor } from "./ServantDescriptor";
@@ -15,6 +14,7 @@ export default function EntityDescriptor(props: {
     entity: Entity.EntityBasic;
     iconHeight?: number;
     tab?: string;
+    overwriteName?: string;
 }) {
     const entity = props.entity;
     if (entity.collectionNo !== 0) {
@@ -25,6 +25,7 @@ export default function EntityDescriptor(props: {
                     craftEssence={entity as CraftEssence.CraftEssenceBasic}
                     iconHeight={props.iconHeight}
                     tab={props.tab}
+                    overwriteName={props.overwriteName}
                 />
             );
         } else if (
@@ -37,6 +38,7 @@ export default function EntityDescriptor(props: {
                     servant={entity as Servant.ServantBasic}
                     iconHeight={props.iconHeight}
                     tab={props.tab}
+                    overwriteName={props.overwriteName}
                 />
             );
         }
@@ -48,6 +50,7 @@ export default function EntityDescriptor(props: {
             enemy={entity as Enemy.EnemyBasic}
             iconHeight={props.iconHeight}
             tab={props.tab}
+            overwriteName={props.overwriteName}
         />
     );
 }

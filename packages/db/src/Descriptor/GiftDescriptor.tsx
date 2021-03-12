@@ -7,7 +7,7 @@ import { FuncDescriptorId } from "../Descriptor/FuncDescriptor";
 import { MysticCodeDescriptorId } from "../Descriptor/MysticCodeDescriptor";
 import {
     IconDescriptorMap,
-    IconDescriptorId,
+    ItemDescriptorId,
 } from "../Descriptor/ItemDescriptor";
 
 export default function GiftDescriptor(props: {
@@ -44,7 +44,7 @@ export default function GiftDescriptor(props: {
             } else {
                 return (
                     <>
-                        <IconDescriptorId
+                        <ItemDescriptorId
                             region={region}
                             itemId={gift.objectId}
                         />{" "}

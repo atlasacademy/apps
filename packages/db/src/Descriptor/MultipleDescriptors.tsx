@@ -6,9 +6,8 @@ import {
     Servant,
 } from "@atlasacademy/api-connector";
 import { mergeElements } from "../Helper/OutputHelper";
-import { IconDescriptorMap, IconDescriptorId } from "./ItemDescriptor";
+import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";
-import { ServantLink } from "./ServantDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 import TraitDescription from "./TraitDescription";
 
@@ -123,7 +122,7 @@ export const MultipleItems = (props: {
                         );
                     } else {
                         return (
-                            <IconDescriptorId
+                            <ItemDescriptorId
                                 region={props.region}
                                 itemId={itemId}
                             />

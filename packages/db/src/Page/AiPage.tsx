@@ -2,6 +2,8 @@ import { Ai, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import { withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import Api, { Host } from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -12,7 +14,7 @@ import Manager from "../Setting/Manager";
 import AiGraph from "./Ai/AiGraph";
 import AiTable from "./Ai/AiTable";
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     region: Region;
     aiType: Ai.AiType;
     id: number;
@@ -22,6 +24,9 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     aiCollection?: Ai.AiCollection;
+    skillId1?: number;
+    skillId2?: number;
+    skillId3?: number;
     refs: Map<number, React.Ref<any>>;
 }
 
@@ -29,9 +34,18 @@ class AiPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
+        const searchParams = new URLSearchParams(props.location.search);
+        const getQueryNum = (param: string) => {
+            const value = searchParams.get(param);
+            return value !== null ? parseInt(value) : undefined;
+        };
+
         this.state = {
             loading: true,
             refs: new Map(),
+            skillId1: getQueryNum("skillId1"),
+            skillId2: getQueryNum("skillId2"),
+            skillId3: getQueryNum("skillId3"),
         };
     }
 
@@ -116,6 +130,9 @@ class AiPage extends React.Component<IProps, IState> {
                         aiType={this.props.aiType}
                         ais={aiCollection.mainAis}
                         handleNavigateAiId={scrollToAiId}
+                        skillId1={this.state.skillId1}
+                        skillId2={this.state.skillId2}
+                        skillId3={this.state.skillId3}
                     />
                 </div>
                 {Array.from(
@@ -129,6 +146,9 @@ class AiPage extends React.Component<IProps, IState> {
                                 (ai) => ai.id === aiId
                             )}
                             handleNavigateAiId={scrollToAiId}
+                            skillId1={this.state.skillId1}
+                            skillId2={this.state.skillId2}
+                            skillId3={this.state.skillId3}
                         />
                     </div>
                 ))}
@@ -137,4 +157,4 @@ class AiPage extends React.Component<IProps, IState> {
     }
 }
 
-export default AiPage;
+export default withRouter(AiPage);

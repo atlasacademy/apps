@@ -1,5 +1,6 @@
 import { CondType, Region, Servant } from "@atlasacademy/api-connector";
 import EventDescriptor from "./EventDescriptor";
+import { ItemDescriptorId } from "./ItemDescriptor";
 import QuestDescriptor from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 
@@ -172,6 +173,13 @@ export default function CondTargetValueDescriptor(props: {
             } else {
                 return <>After unknown date</>;
             }
+        case CondType.ITEM_GET:
+            return (
+                <>
+                    Has <ItemDescriptorId region={region} itemId={target} /> x
+                    {value}
+                </>
+            );
         default:
             return (
                 <>
