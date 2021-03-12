@@ -50,6 +50,7 @@ export interface Quest {
     releaseConditions: QuestRelease[];
     phases: number[];
     phasesWithEnemies: number[];
+    phasesNoBattle: number[];
     noticeAt: number;
     openedAt: number;
     closedAt: number;
