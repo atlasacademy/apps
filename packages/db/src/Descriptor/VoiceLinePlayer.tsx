@@ -78,6 +78,17 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
         };
     }
 
+    componentDidUpdate(prevProps : IProps) {
+        // compare urls. stop if they change.
+        if (this.props.audioAssetUrls.length != prevProps.audioAssetUrls.length) return void this.stop();
+        for (let index in this.props.audioAssetUrls)
+            if (this.props.audioAssetUrls[index] != prevProps.audioAssetUrls[index]) return void this.stop();
+    }
+
+    componentWillUnmount() {
+        this.stop();
+    }
+
     private isPlaying(started: number): boolean {
         return this.state.playing && started === this.state.started;
     }
