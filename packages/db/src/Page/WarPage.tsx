@@ -225,8 +225,8 @@ class WarPage extends React.Component<IProps, IState> {
 
         const bannerImages = (
             <>
-                {banners.map((banner) => (
-                    <>
+                {banners.map((banner, index) => (
+                    <div key={index}>
                         <img
                             style={{
                                 maxWidth: "100%",
@@ -236,10 +236,28 @@ class WarPage extends React.Component<IProps, IState> {
                             onError={imgOnError}
                         />
                         <br />
-                    </>
+                    </div>
                 ))}
             </>
         );
+
+        const bgms = (war.bgm.id !== 0 ? [war.bgm] : []).concat(
+            war.maps
+                .filter((map) => map.bgm.id !== war.bgm.id)
+                .map((map) => map.bgm)
+        );
+        const bgmPlayers = bgms.map((bgm, index) => {
+            return (
+                <div
+                    key={bgm.id}
+                    style={{
+                        marginBottom: index === bgms.length - 1 ? 0 : "0.75em",
+                    }}
+                >
+                    <BgmDescriptor region={this.props.region} bgm={bgm} />
+                </div>
+            );
+        });
 
         return (
             <div>
@@ -254,12 +272,7 @@ class WarPage extends React.Component<IProps, IState> {
                             Age: war.age,
                             Event: event,
                             Banner: bannerImages,
-                            BGM: (
-                                <BgmDescriptor
-                                    region={this.props.region}
-                                    bgm={war.bgm}
-                                />
-                            ),
+                            BGM: <>{bgmPlayers}</>,
                             Raw: (
                                 <Row>
                                     <Col>

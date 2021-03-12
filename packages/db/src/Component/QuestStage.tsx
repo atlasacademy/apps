@@ -74,7 +74,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
             {stage.enemies.map((enemy) => (
                 <div
                     ref={enemyRefs.get(hashEnemy(enemy))}
-                    key={`${enemy.deck}-${enemy.npcId}`}
+                    key={`${enemy.deck}-${enemy.npcId}-${enemy.userSvtId}-${enemy.uniqueId}`}
                 >
                     <QuestEnemyTable
                         region={props.region}
