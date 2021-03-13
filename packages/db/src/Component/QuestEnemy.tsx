@@ -337,6 +337,22 @@ const QuestEnemySubData = (props: {
                           ),
                       })
                     : null}
+                {enemy.enemyScript.change && enemy.enemyScript.change.length > 0
+                    ? renderSpanningRow({
+                          title: "Transform",
+                          content: (
+                              <EnemyNpcListDescription
+                                  region={region}
+                                  npcIds={enemy.enemyScript.change}
+                                  deck={QuestEnemy.DeckType.CHANGE}
+                                  enemyLookUp={props.enemyLookUp}
+                                  handleNavigateEnemyHash={
+                                      props.handleNavigateEnemyHash
+                                  }
+                              />
+                          ),
+                      })
+                    : null}
                 {enemy.enemyScript.leader
                     ? renderSpanningRow({
                           title: "Leader",

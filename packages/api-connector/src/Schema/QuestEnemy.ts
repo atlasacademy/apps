@@ -106,6 +106,8 @@ export enum DeckType {
     ENEMY = "enemy",
     CALL = "call",
     SHIFT = "shift",
+    CHANGE = "change",
+    TRANSFORM = "transform",
 }
 
 export interface QuestEnemy {
