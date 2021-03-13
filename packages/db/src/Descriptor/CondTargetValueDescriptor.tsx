@@ -180,6 +180,13 @@ export default function CondTargetValueDescriptor(props: {
                     {value}
                 </>
             );
+        case CondType.NOT_ITEM_GET:
+            return (
+                <>
+                    Doesn't have <ItemDescriptorId region={region} itemId={target} /> x
+                    {value}
+                </>
+            );
         default:
             return (
                 <>

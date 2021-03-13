@@ -1,14 +1,3 @@
-import {
-    Event,
-    Item,
-    Region,
-    Shop,
-    Mission,
-    Quest,
-    Servant,
-    EnumList,
-    War,
-} from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
@@ -22,16 +11,27 @@ import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
-import ShopPurchaseDescriptor from "../Descriptor/ShopPurchaseDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
+import ShopPurchaseDescriptor from "../Descriptor/ShopPurchaseDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
-
+import { colorString, interpolateString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import "./EventPage.css";
+import {
+    Event,
+    Item,
+    Region,
+    Shop,
+    Mission,
+    Quest,
+    Servant,
+    EnumList,
+    War,
+} from "@atlasacademy/api-connector";
 
 interface TabInfo {
-    type: "ladder" | "shop" | "mission";
+    type: "ladder" | "shop" | "mission" | "tower";
     id: number;
     title: string;
     tabKey: string;
@@ -309,7 +309,9 @@ class EventPage extends React.Component<IProps, IState> {
                     {rewards.map((reward) => {
                         return (
                             <tr key={reward.point}>
-                                <th scope="row">{reward.point.toLocaleString()}</th>
+                                <th scope="row">
+                                    {reward.point.toLocaleString()}
+                                </th>
                                 <td>
                                     {mergeElements(
                                         reward.gifts.map((gift) => (
@@ -319,6 +321,53 @@ class EventPage extends React.Component<IProps, IState> {
                                                 gift={gift}
                                                 items={itemMap}
                                                 pointBuffs={pointBuffMap}
+                                            />
+                                        )),
+                                        ", "
+                                    )}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </Table>
+        );
+    }
+
+    renderRewardTower(
+        region: Region,
+        tower: Event.EventTower,
+        itemMap: Map<number, Item.Item>
+    ) {
+        return (
+            <Table hover responsive>
+                <thead>
+                    <tr>
+                        <th>Floor</th>
+                        <th>Message</th>
+                        <th>Reward</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {tower.rewards.map((reward) => {
+                        return (
+                            <tr key={reward.floor}>
+                                <th scope="row">{reward.floor}</th>
+                                <td>
+                                    {colorString(
+                                        interpolateString(reward.boardMessage, [
+                                            reward.floor,
+                                        ])
+                                    )}
+                                </td>
+                                <td>
+                                    {mergeElements(
+                                        reward.gifts.map((gift) => (
+                                            <GiftDescriptor
+                                                key={`${gift.objectId}-${gift.priority}`}
+                                                region={region}
+                                                gift={gift}
+                                                items={itemMap}
                                             />
                                         )),
                                         ", "
@@ -409,6 +458,12 @@ class EventPage extends React.Component<IProps, IState> {
         enums?: EnumList
     ) {
         switch (tab.type) {
+            case "tower":
+                return this.renderRewardTower(
+                    region,
+                    event.towers.filter((tower) => tower.towerId === tab.id)[0],
+                    itemMap
+                );
             case "ladder":
                 return this.renderRewardTab(
                     region,
@@ -452,6 +507,17 @@ class EventPage extends React.Component<IProps, IState> {
                 tabKey: "missions",
             });
         }
+
+        tabs = tabs.concat(
+            event.towers.map((tower) => {
+                return {
+                    type: "tower",
+                    id: tower.towerId,
+                    title: tower.name,
+                    tabKey: `tower-${tower.towerId}`,
+                };
+            })
+        );
 
         tabs = tabs.concat(
             Array.from(

@@ -79,3 +79,14 @@ export const ordinalNumeral = (index: number) => {
         </span>
     );
 };
+
+export const colorString = (inputString: string) => {
+    return inputString.replaceAll(/\[[a-zA-z0-9\-]+\]/g, "");
+}
+
+export const interpolateString = (inputString: string, variables: any[]) => {
+    for (let i = 0; i < variables.length; i++) {
+        inputString = inputString.replace(`{${i}}`, variables[i])
+    }
+    return inputString;
+}

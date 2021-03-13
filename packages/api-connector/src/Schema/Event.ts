@@ -1,7 +1,7 @@
 import { Gift } from "./Gift";
 import { ItemBackgroundType } from "./Item";
-import { Shop } from "./Shop";
 import { Mission } from "./Mission";
+import { Shop } from "./Shop";
 
 export enum EventType {
     NONE = "none",
@@ -48,6 +48,20 @@ export interface EventPointBuff {
     value: number;
 }
 
+export interface TowerReward {
+    floor: number;
+    gifts: Gift[];
+    boardMessage: string;
+    rewardGet: string;
+    banner: string;
+}
+
+export interface EventTower {
+    towerId: number;
+    name: string;
+    rewards: TowerReward[];
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -80,4 +94,5 @@ export interface Event {
     rewards: EventReward[];
     pointBuffs: EventPointBuff[];
     missions: Mission[];
+    towers: EventTower[];
 }
