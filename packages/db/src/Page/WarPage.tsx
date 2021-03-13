@@ -1,4 +1,4 @@
-import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
+import { Bgm, Item, Quest, Region, War } from "@atlasacademy/api-connector";
 import { faBook, faDragon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -241,17 +241,22 @@ class WarPage extends React.Component<IProps, IState> {
             </>
         );
 
-        const bgms = (war.bgm.id !== 0 ? [war.bgm] : []).concat(
-            war.maps
-                .filter((map) => map.bgm.id !== war.bgm.id)
-                .map((map) => map.bgm)
+        const bgms = new Map([[war.bgm.id, war.bgm]]);
+        for (const map of war.maps) {
+            bgms.set(map.bgm.id, map.bgm);
+        }
+
+        const bgmDeduped = Array.from(bgms.values()).filter(
+            (bgm) => bgm.id !== 0
         );
-        const bgmPlayers = bgms.map((bgm, index) => {
+
+        const bgmPlayers = bgmDeduped.map((bgm, index) => {
             return (
                 <div
                     key={bgm.id}
                     style={{
-                        marginBottom: index === bgms.length - 1 ? 0 : "0.75em",
+                        marginBottom:
+                            index === bgmDeduped.length - 1 ? 0 : "0.75em",
                     }}
                 >
                     <BgmDescriptor region={this.props.region} bgm={bgm} />

@@ -271,14 +271,16 @@ class EventsPage extends React.Component<IProps, IState> {
                 <Row>
                     <Col
                         md={12}
-                        lg={4}
+                        lg={6}
                         style={{ justifyContent: "left", marginBottom: "1rem" }}
                     >
                         <ButtonGroup style={{ width: "100%" }}>
                             {[
                                 [Event.EventType.EVENT_QUEST, "Event"],
-                                [Event.EventType.COMBINE_CAMPAIGN, "Enhancement"],
-                                [Event.EventType.QUEST_CAMPAIGN, "Quest"]
+                                [Event.EventType.COMBINE_CAMPAIGN, "Servant Lvl Up"],
+                                [Event.EventType.SVTEQUIP_COMBINE_CAMPAIGN, "CE Lvl Up"],
+                                [Event.EventType.QUEST_CAMPAIGN, "AP Cost"],
+                                [Event.EventType.WAR_BOARD, "Grail Front"]
                             ].map(([eventType, buttonText]) => {
                                 return (
                                     <Button
