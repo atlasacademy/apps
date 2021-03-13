@@ -1,4 +1,4 @@
-import { Bgm, Item, Quest, Region, War } from "@atlasacademy/api-connector";
+import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
 import { faBook, faDragon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";

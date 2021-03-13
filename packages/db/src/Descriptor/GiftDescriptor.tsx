@@ -38,7 +38,7 @@ export default function GiftDescriptor(props: {
                             itemId={gift.objectId}
                             items={props.items}
                         />{" "}
-                        x{gift.num}
+                        x{gift.num.toLocaleString()}
                     </>
                 );
             } else {
@@ -48,7 +48,7 @@ export default function GiftDescriptor(props: {
                             region={region}
                             itemId={gift.objectId}
                         />{" "}
-                        x{gift.num}
+                        x{gift.num.toLocaleString()}
                     </>
                 );
             }

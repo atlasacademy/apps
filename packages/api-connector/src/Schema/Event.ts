@@ -1,7 +1,7 @@
 import { Gift } from "./Gift";
-import { ItemBackgroundType } from "./Item";
+import { Item, ItemBackgroundType } from "./Item";
 import { Mission } from "./Mission";
-import { Shop } from "./Shop";
+import { PayType, Shop } from "./Shop";
 
 export enum EventType {
     NONE = "none",
@@ -62,6 +62,30 @@ export interface EventTower {
     rewards: TowerReward[];
 }
 
+export interface EventLotteryBox {
+    id: number;
+    boxIndex: number;
+    no: number;
+    type: number;
+    gifts: Gift[];
+    maxNum: number;
+    isRare: boolean;
+    priority: number;
+    detail: string;
+    icon: string;
+    banner: string;
+}
+
+export interface EventLottery {
+    id: number;
+    slot: number;
+    payType: PayType;
+    cost: { item: Item; amount: number };
+    priority: number;
+    limited: boolean;
+    boxes: EventLotteryBox[];
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -95,4 +119,5 @@ export interface Event {
     pointBuffs: EventPointBuff[];
     missions: Mission[];
     towers: EventTower[];
+    lotteries: EventLottery[];
 }

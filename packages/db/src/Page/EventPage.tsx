@@ -1,3 +1,5 @@
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
@@ -5,6 +7,7 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import Api, { Host } from "../Api";
+import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import ItemIcon from "../Component/ItemIcon";
@@ -31,7 +34,7 @@ import {
 } from "@atlasacademy/api-connector";
 
 interface TabInfo {
-    type: "ladder" | "shop" | "mission" | "tower";
+    type: "ladder" | "shop" | "mission" | "tower" | "lottery";
     id: number;
     title: string;
     tabKey: string;
@@ -343,7 +346,7 @@ class EventPage extends React.Component<IProps, IState> {
             <Table hover responsive>
                 <thead>
                     <tr>
-                        <th>Floor</th>
+                        <th style={{ textAlign: "center" }}>Floor</th>
                         <th>Message</th>
                         <th>Reward</th>
                     </tr>
@@ -352,7 +355,9 @@ class EventPage extends React.Component<IProps, IState> {
                     {tower.rewards.map((reward) => {
                         return (
                             <tr key={reward.floor}>
-                                <th scope="row">{reward.floor}</th>
+                                <th scope="row" style={{ textAlign: "center" }}>
+                                    {reward.floor}
+                                </th>
                                 <td>
                                     {colorString(
                                         interpolateString(reward.boardMessage, [
@@ -390,7 +395,7 @@ class EventPage extends React.Component<IProps, IState> {
             <Table hover responsive className="shopTable">
                 <thead>
                     <tr>
-                        <th>Detail</th>
+                        <th style={{ textAlign: "left" }}>Detail</th>
                         <th>Currency</th>
                         <th>Cost</th>
                         <th>Item</th>
@@ -404,10 +409,12 @@ class EventPage extends React.Component<IProps, IState> {
                         .map((shop) => {
                             return (
                                 <tr key={shop.id}>
-                                    <td>
+                                    <td style={{ minWidth: "10em" }}>
                                         <b>{shop.name}</b>
                                         <div style={{ fontSize: "0.75rem" }}>
-                                            {handleNewLine(shop.detail)}
+                                            {handleNewLine(
+                                                colorString(shop.detail)
+                                            )}
                                         </div>
                                     </td>
                                     <td style={{ textAlign: "center" }}>
@@ -422,7 +429,7 @@ class EventPage extends React.Component<IProps, IState> {
                                         </Link>
                                     </td>
                                     <td style={{ textAlign: "center" }}>
-                                        {shop.cost.amount}
+                                        {shop.cost.amount.toLocaleString()}
                                     </td>
                                     <td>
                                         <ShopPurchaseDescriptor
@@ -432,18 +439,122 @@ class EventPage extends React.Component<IProps, IState> {
                                         />
                                     </td>
                                     <td style={{ textAlign: "center" }}>
-                                        {shop.setNum}
+                                        {shop.setNum.toLocaleString()}
                                     </td>
                                     <td style={{ textAlign: "center" }}>
                                         {shop.limitNum === 0
                                             ? "Unlimited"
-                                            : shop.limitNum}
+                                            : shop.limitNum.toLocaleString()}
                                     </td>
                                 </tr>
                             );
                         })}
                 </tbody>
             </Table>
+        );
+    }
+
+    renderLotteryBox(
+        region: Region,
+        boxes: Event.EventLotteryBox[],
+        itemMap: Map<number, Item.Item>
+    ) {
+        return (
+            <Table hover responsive>
+                <thead>
+                    <tr>
+                        <th style={{ textAlign: "center" }}>#</th>
+                        <th>Detail</th>
+                        <th>Reward</th>
+                        <th style={{ textAlign: "center" }}>Limit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {boxes.map((box) => {
+                        return (
+                            <tr key={box.no}>
+                                <th scope="row" style={{ textAlign: "center" }}>
+                                    {box.no}
+                                    {box.isRare ? (
+                                        <>
+                                            {" "}
+                                            <FontAwesomeIcon icon={faStar} />
+                                        </>
+                                    ) : null}
+                                </th>
+                                <td>{box.detail}</td>
+                                <td>
+                                    {mergeElements(
+                                        box.gifts.map((gift) => (
+                                            <GiftDescriptor
+                                                key={`${gift.objectId}-${gift.priority}`}
+                                                region={region}
+                                                gift={gift}
+                                                items={itemMap}
+                                            />
+                                        )),
+                                        ", "
+                                    )}
+                                </td>
+                                <td style={{ textAlign: "center" }}>
+                                    {box.maxNum}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </Table>
+        );
+    }
+
+    renderLotteryTab(
+        region: Region,
+        lottery: Event.EventLottery,
+        itemMap: Map<number, Item.Item>
+    ) {
+        const boxIndexes = Array.from(
+            new Set(lottery.boxes.map((box) => box.boxIndex))
+        ).sort((a, b) => a - b);
+
+        return (
+            <>
+                <div style={{ margin: "1em 0" }}>
+                    <b>Cost of 1 roll:</b>{" "}
+                    <Link to={`/${region}/item/${lottery.cost.item.id}`}>
+                        <ItemIcon
+                            region={region}
+                            item={lottery.cost.item}
+                            height={40}
+                        />{" "}
+                        {lottery.cost.item.name}
+                    </Link>{" "}
+                    x{lottery.cost.amount}
+                </div>
+                {boxIndexes.map((boxIndex) => {
+                    const boxes = lottery.boxes
+                        .filter((box) => box.boxIndex === boxIndex)
+                        .sort((a, b) => a.no - b.no);
+
+                    const title = `Box ${boxIndex + 1}${
+                        boxIndex === Math.max(...boxIndexes) && !lottery.limited
+                            ? "+"
+                            : ""
+                    }`;
+
+                    const boxTable = this.renderLotteryBox(
+                        region,
+                        boxes,
+                        itemMap
+                    );
+
+                    return renderCollapsibleContent({
+                        title: title,
+                        content: boxTable,
+                        subheader: true,
+                        initialOpen: false,
+                    });
+                })}
+            </>
         );
     }
 
@@ -487,6 +598,11 @@ class EventPage extends React.Component<IProps, IState> {
                     questCache,
                     enums
                 );
+            case "lottery":
+                const lottery = event.lotteries.filter(
+                    (lottery) => lottery.id === tab.id
+                )[0];
+                return this.renderLotteryTab(region, lottery, itemMap);
         }
     }
 
@@ -507,6 +623,17 @@ class EventPage extends React.Component<IProps, IState> {
                 tabKey: "missions",
             });
         }
+
+        tabs = tabs.concat(
+            event.lotteries.map((lottery) => {
+                return {
+                    type: "lottery",
+                    id: lottery.id,
+                    title: `Lottery ${lottery.id}`,
+                    tabKey: `lottery-${lottery.id}`,
+                };
+            })
+        );
 
         tabs = tabs.concat(
             event.towers.map((tower) => {
