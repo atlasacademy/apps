@@ -1,6 +1,6 @@
 {
   "name": "@atlasacademy/db",
-  "version": "1.8.58",
+  "version": "1.8.59",
   "homepage": ".",
   "private": true,
   "dependencies": {
