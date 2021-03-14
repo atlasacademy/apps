@@ -20,7 +20,7 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
         super(props);
         this.state = { playing: false };
         VoiceLineStorage.set(
-            props.audioAssetUrls[0],
+            this.getVoiceLineKey(props.audioAssetUrls),
             new VoiceLine(props.audioAssetUrls.map((url, index) => [url, props.delay[index]]))
         );
     }
@@ -63,7 +63,7 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
 
     private getVoiceLineKey(urls : string[]) {
         // derive an unique key across voice lines
-        return urls[0];
+        return urls.join("|");
     }
 
     render() {

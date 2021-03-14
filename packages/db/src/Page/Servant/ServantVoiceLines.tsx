@@ -144,7 +144,7 @@ export default function ServantVoiceLines(
                 </Table>
             )
             return (
-                <tr>
+                <tr key={`${voice.svtId}-${voice.type}-${voice.voicePrefix}`}>
                     <td>{(voice.type === ProfileVoiceType.GROETH) ? "Growth" : toTitleCase(voice.type)}</td>
                     <td>{lines}</td>
                 </tr>
@@ -161,14 +161,11 @@ export default function ServantVoiceLines(
                 <tbody>{voiceLineTable}</tbody>
             </Table>
         )
-        if (voicePrefixConditionPresent)
-            return renderCollapsibleContent({
-                title: <VoicePrefixDescriptor currentVoicePrefix={prefix} ascensionAdd={ascensionAdd} costumes={profile?.costume} />,
-                content: outputTable,
-                subheader: false
-            });
-        else
-            return outputTable;
+        if (voicePrefixConditionPresent){
+            const title = <VoicePrefixDescriptor currentVoicePrefix={prefix} ascensionAdd={ascensionAdd} costumes={profile?.costume} />
+            return <div key={prefix}>{renderCollapsibleContent({title: title, content: outputTable, subheader: false })}</div>;
+        } else
+            return <div key={prefix}>{outputTable}</div>;
     })
 
     return (
@@ -182,7 +179,7 @@ export default function ServantVoiceLines(
                     : 'Fetching related voice line data ...'}
                 {(relatedVoiceSvts && relatedVoiceSvts.length > 0)
                     ? mergeElements(relatedVoiceSvts.map(
-                        svt => <EntityDescriptor region={props.region} entity={svt} tab={"voices"} />
+                        svt => <EntityDescriptor key={svt.id} region={props.region} entity={svt} tab={"voices"} />
                     ), ', ')
                     : ''}
             </Alert>

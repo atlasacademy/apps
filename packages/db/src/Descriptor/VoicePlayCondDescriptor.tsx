@@ -53,6 +53,7 @@ function AllVoicePlayGroups(props: {
             <>
                 {props.groups.map((group) => (
                     <VoicePlayGroup
+                        key={group}
                         region={props.region}
                         playConds={props.playConds.filter(
                             (playCond) => playCond.condGroup === group

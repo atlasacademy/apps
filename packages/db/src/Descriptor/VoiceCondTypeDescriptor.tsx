@@ -42,7 +42,7 @@ let VoiceCondTypeDescriptor = (props : IProps) => {
             <>
                 {'Presence of any of the following: '}
                 {valueList.map((value, i) =>
-                    <><ServantLink region={region} id={value} servants={props.servants}/>{ i < valueList.length - 1 ? ', ' : '' }</>
+                    <span key={value}><ServantLink region={region} id={value} servants={props.servants}/>{ i < valueList.length - 1 ? ', ' : '' }</span>
                 )}
             </>
         );
