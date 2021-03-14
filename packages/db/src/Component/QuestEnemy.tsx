@@ -114,9 +114,14 @@ function EnemyNpcDescription(props: {
     if (enemy !== undefined) {
         return (
             <a
-                href="javascript:;"
-                onClick={(_) => props.handleNavigateEnemyHash?.(hash)}
+                href="#"
+                onClick={(e) => {
+                    e.preventDefault();
+                    props.handleNavigateEnemyHash?.(hash);
+                }}
             >
+                {/* A dummy href is needed because bootstrap disables <a> styles without href */}
+                {/* https://github.com/twbs/bootstrap/blob/6d93a1371/scss/_reboot.scss#L262 */}
                 {enemy.userSvtId}.{" "}
                 <ClassIcon
                     className={enemy.svt.className}
@@ -364,16 +369,19 @@ const QuestEnemySubData = (props: {
     );
 };
 
+export interface FromToEntry {
+    shiftFrom: string;
+    shiftTo: number;
+    index: number;
+}
+
 const QuestEnemyTable = (props: {
     region: Region;
     enemy: QuestEnemy.QuestEnemy;
     enemyLookUp: EnemyLookUp;
     callEntries: { caller: string; callee: number }[];
-    shiftEntries: {
-        shiftFrom: string;
-        shiftTo: number;
-        index: number;
-    }[];
+    shiftEntries: FromToEntry[];
+    changeEntries: FromToEntry[];
     handleNavigateEnemyHash?: (hash: string) => void;
 }) => {
     const enemy = props.enemy,
@@ -419,6 +427,27 @@ const QuestEnemyTable = (props: {
                   ))
             : null;
 
+    const changeOriginDescription =
+        enemy.deck === QuestEnemy.DeckType.CHANGE
+            ? props.changeEntries
+                  .filter((change) => change.shiftTo === enemy.npcId)
+                  .map((change) => (
+                      <li
+                          key={`${change.shiftFrom}-${change.shiftTo}-${change.index}`}
+                      >
+                          {ordinalNumeral(change.index + 1)} transformation of{" "}
+                          <EnemyNpcDescription
+                              region={region}
+                              hash={change.shiftFrom}
+                              enemyLookUp={props.enemyLookUp}
+                              handleNavigateEnemyHash={
+                                  props.handleNavigateEnemyHash
+                              }
+                          />
+                      </li>
+                  ))
+            : null;
+
     return (
         <>
             <h3>
@@ -434,6 +463,7 @@ const QuestEnemyTable = (props: {
             <ul>
                 {callerDescription}
                 {shiftOriginDescription}
+                {changeOriginDescription}
             </ul>
 
             <Row style={{ marginBottom: "3%" }}>

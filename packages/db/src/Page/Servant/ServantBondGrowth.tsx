@@ -24,7 +24,7 @@ function BondCell (props = { value: 0, span: 1, previous: NaN }) {
 
 let ServantBondGrowth = (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
     let { bondGrowth: bond } = props;
-    let rows = [(
+    const first10bonds = (
         <>
             <thead>
                 {/* indexes */}
@@ -37,27 +37,27 @@ let ServantBondGrowth = (props : { bondGrowth: Servant.Servant["bondGrowth"] }) 
                 ))}</tr>
             </thead>
             <tbody>
-                <tr>{bond.slice(0, 10).map((value, index, a) => <BondCell value={value} span={1} previous={+bond[index - 1]} />)}</tr>
+                <tr>{bond.slice(0, 10).map((value, index) => <BondCell key={index} value={value} span={1} previous={+bond[index - 1]} />)}</tr>
             </tbody>
         </>
-    )];
-    if (bond.length > 10)
-        rows.push(
-            <>
+    );
+    const last5bonds = bond.length > 10
+            ? <>
                 <thead>
                 {/* indexes */}
-                    <tr>{Array(5).fill(0).map((_, __) => <th colSpan={2}>{__ + 11}</th>)}</tr>
+                    <tr>{Array(5).fill(0).map((_, __) => <th key={__} colSpan={2}>{__ + 11}</th>)}</tr>
                 </thead>
                 <tbody>
-                    <tr>{bond.slice(10, 15).map((value, index, a) => <BondCell value={value} span={2} previous={+bond[index + 9]} />)}</tr>
+                    <tr>{bond.slice(10, 15).map((value, index) => <BondCell key={index} value={value} span={2} previous={+bond[index + 9]} />)}</tr>
                 </tbody>
             </>
-        )
+            : null;
     return (
         <div style={{ margin: "1em 0" }}>
             <h3>Bond levels</h3>
             <Table responsive striped bordered className={'servant-bond-table'}>
-                {rows}
+                {first10bonds}
+                {last5bonds}
             </Table>
         </div>
     )

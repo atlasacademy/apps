@@ -161,13 +161,14 @@ export default function CondTargetNumDescriptor(props: {
             return (
                 <>
                     Achieved mission{" "}
-                    {/* A dummy href is needed because bootstrap disables a styles without href */}
+                    {/* A dummy href is needed because bootstrap disables <a> styles without href */}
                     {/* https://github.com/twbs/bootstrap/blob/6d93a1371/scss/_reboot.scss#L262 */}
                     <a
-                        href="javascript:;"
-                        onClick={(_) =>
-                            props.handleNavigateMissionId?.(targets[0])
-                        }
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            props.handleNavigateMissionId?.(targets[0]);
+                        }}
                     >
                         {missionDispNo}: {missionName}
                     </a>

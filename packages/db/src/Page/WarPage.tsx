@@ -126,6 +126,7 @@ class WarPage extends React.Component<IProps, IState> {
                     title={`Arrow ${phase}${hasEnemiesDescription}${isStoryDescription}`}
                     key={phase}
                     to={`/${region}/quest/${quest.id}/${phase}`}
+                    style={{ whiteSpace: "nowrap" }}
                 >
                     {phase}
                     {hasEnemiesIcon}

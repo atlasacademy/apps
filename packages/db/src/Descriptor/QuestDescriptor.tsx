@@ -76,9 +76,9 @@ interface IProps {
 export default function QuestDescriptor(props: IProps) {
     const [quest, setQuest] = useState<Quest.Quest>(null as any);
     useEffect(() => {
-        Api.questPhase(props.questId, props.questPhase).then((s) =>
-            setQuest(s as Quest.Quest)
-        );
+        Api.questPhase(props.questId, props.questPhase)
+            .then((s) => setQuest(s as Quest.Quest))
+            .catch(() => {});
     }, [props.questId, props.questPhase]);
     if (quest !== null) {
         return (
@@ -91,7 +91,13 @@ export default function QuestDescriptor(props: IProps) {
             />
         );
     } else {
-        return null;
+        return (
+            <>
+                {props.text !== ""
+                    ? props.text
+                    : `Unknown Quest ${props.questId} `}
+            </>
+        );
     }
 }
 

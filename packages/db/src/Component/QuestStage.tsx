@@ -3,7 +3,7 @@ import { createRef } from "react";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
-import QuestEnemyTable, { hashEnemy } from "./QuestEnemy";
+import QuestEnemyTable, { FromToEntry, hashEnemy } from "./QuestEnemy";
 
 const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
     const stage = props.stage;
@@ -35,15 +35,24 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
         }
     }
 
-    const shiftEntries: {
-        shiftFrom: string;
-        shiftTo: number;
-        index: number;
-    }[] = [];
+    const shiftEntries: FromToEntry[] = [];
     for (const enemy of stage.enemies) {
         if (enemy.enemyScript.shift) {
             enemy.enemyScript.shift.map((npcId, index) =>
                 shiftEntries.push({
+                    shiftFrom: hashEnemy(enemy),
+                    shiftTo: npcId,
+                    index,
+                })
+            );
+        }
+    }
+
+    const changeEntries: FromToEntry[] = [];
+    for (const enemy of stage.enemies) {
+        if (enemy.enemyScript.change) {
+            enemy.enemyScript.change.map((npcId, index) =>
+                changeEntries.push({
                     shiftFrom: hashEnemy(enemy),
                     shiftTo: npcId,
                     index,
@@ -82,6 +91,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                         enemyLookUp={enemyLookUp}
                         callEntries={callEntries}
                         shiftEntries={shiftEntries}
+                        changeEntries={changeEntries}
                         handleNavigateEnemyHash={scrollToEnemy}
                     />
                 </div>

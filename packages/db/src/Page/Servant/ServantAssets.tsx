@@ -46,7 +46,7 @@ class ServantAssets extends React.Component<IProps> {
         }
 
         return mergeElements(
-            assets.map(asset => <a href={asset} target={'_blank'} rel={'noopener noreferrer'}>
+            assets.map(asset => <a key={asset} href={asset} target={'_blank'} rel={'noopener noreferrer'}>
                 <img alt={''} src={asset} style={{maxWidth: "100%"}}/>
             </a>),
             ''
@@ -60,7 +60,7 @@ class ServantAssets extends React.Component<IProps> {
                 <br />
                 {Object.entries(this.props.servant.extraAssets.charaFigureForm)
                     .map(([form, assetMap]) => (
-                        renderCollapsibleContent({ title: `Form ${form}`, content: this.displayAssets(assetMap), subheader: true })
+                        <div key={form}>{renderCollapsibleContent({ title: `Form ${form}`, content: this.displayAssets(assetMap), subheader: true })}</div>
                     ))
                 }
             </>
@@ -79,7 +79,7 @@ class ServantAssets extends React.Component<IProps> {
                     Illustrator :&nbsp;
                     {this.props.servant.profile?.illustrator}
                 </Alert>
-                    {content.map(renderCollapsibleContent)}
+                    {content.map(content => <div key={content.title}>{renderCollapsibleContent(content)}</div>)}
                     {this.props.servant.extraAssets.charaFigure.story ? renderCollapsibleContent({
                         title: "Story Figure (May contain spoilers)",
                         content: (
@@ -93,15 +93,15 @@ class ServantAssets extends React.Component<IProps> {
                     }) : ''}
                     <br />
                     {Object.entries(this.props.servant.extraAssets.charaFigureForm)
-                        .map(([form, assetMap]) => (
-                            assetMap.story
+                        .map(([form, assetMap]) => (<div key={form}>
+                            {assetMap.story
                             ? renderCollapsibleContent({
                                 title: `Story Figure Form ${form}`,
                                 content: this.displayAssets(assetMap, true),
                                 subheader: true,
                                 initialOpen: false})
-                            : null
-                        ))
+                            : null}
+                        </div>))
                     }
             </div>
         );
