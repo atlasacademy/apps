@@ -29,7 +29,7 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
         // compare urls. stop if they change.
         let reset = () => {
             VoiceLineStorage.get(this.getVoiceLineKey(prevProps.audioAssetUrls))?.stop();
-            VoiceLineStorage.delete(this.getVoiceLineKey(prevProps.audioAssetUrl));
+            VoiceLineStorage.delete(this.getVoiceLineKey(prevProps.audioAssetUrls));
             VoiceLineStorage.set(
                 this.getVoiceLineKey(this.props.audioAssetUrls),
                 new VoiceLine(this.props.audioAssetUrls.map((url, index) => [url, this.props.delay[index]]))
