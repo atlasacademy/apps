@@ -54,6 +54,13 @@ export enum PurchaseType {
     KIARA_PUNISHER_RESET = "kiaraPunisherReset",
 }
 
+export interface ItemSet {
+    id: number;
+    purchaseType: PurchaseType;
+    targetId: number;
+    setNum: number;
+}
+
 export interface Shop {
     id: number;
     baseShopId: number;
@@ -69,6 +76,7 @@ export interface Shop {
     cost: { item: Item; amount: number };
     purchaseType: PurchaseType;
     targetIds: number[];
+    itemSet: ItemSet[];
     setNum: number;
     limitNum: number;
     defaultLv: number;

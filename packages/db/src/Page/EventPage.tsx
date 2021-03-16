@@ -625,51 +625,55 @@ class EventPage extends React.Component<IProps, IState> {
         }
 
         tabs = tabs.concat(
-            event.lotteries.map((lottery) => {
-                return {
-                    type: "lottery",
-                    id: lottery.id,
-                    title: `Lottery ${lottery.id}`,
-                    tabKey: `lottery-${lottery.id}`,
-                };
-            })
+            event.lotteries
+                .sort((a, b) => a.id - b.id)
+                .map((lottery) => {
+                    return {
+                        type: "lottery",
+                        id: lottery.id,
+                        title: `Lottery ${lottery.id}`,
+                        tabKey: `lottery-${lottery.id}`,
+                    };
+                })
         );
 
         tabs = tabs.concat(
-            event.towers.map((tower) => {
-                return {
-                    type: "tower",
-                    id: tower.towerId,
-                    title: tower.name,
-                    tabKey: `tower-${tower.towerId}`,
-                };
-            })
+            event.towers
+                .sort((a, b) => a.towerId - b.towerId)
+                .map((tower) => {
+                    return {
+                        type: "tower",
+                        id: tower.towerId,
+                        title: tower.name,
+                        tabKey: `tower-${tower.towerId}`,
+                    };
+                })
         );
 
         tabs = tabs.concat(
-            Array.from(
-                new Set(event.rewards.map((reward) => reward.groupId))
-            ).map((groupId) => {
-                return {
-                    type: "ladder",
-                    id: groupId,
-                    title: `Ladder ${groupId}`,
-                    tabKey: `ladder-${groupId}`,
-                };
-            })
+            Array.from(new Set(event.rewards.map((reward) => reward.groupId)))
+                .sort((a, b) => a - b)
+                .map((groupId) => {
+                    return {
+                        type: "ladder",
+                        id: groupId,
+                        title: `Ladder ${groupId}`,
+                        tabKey: `ladder-${groupId}`,
+                    };
+                })
         );
 
         tabs = tabs.concat(
-            Array.from(new Set(event.shop.map((shop) => shop.slot))).map(
-                (shopSlot) => {
+            Array.from(new Set(event.shop.map((shop) => shop.slot)))
+                .sort((a, b) => a - b)
+                .map((shopSlot) => {
                     return {
                         type: "shop",
                         id: shopSlot,
                         title: `Shop ${shopSlot}`,
                         tabKey: `shop-${shopSlot}`,
                     };
-                }
-            )
+                })
         );
 
         const wars = mergeElements(

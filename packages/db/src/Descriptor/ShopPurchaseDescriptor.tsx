@@ -1,9 +1,10 @@
 import { Item, Region, Shop } from "@atlasacademy/api-connector";
-import ItemDescriptor from "../Descriptor/ItemDescriptor";
-import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
 import { CommandCodeDescriptorId } from "../Descriptor/CommandCodeDescriptor";
 import CostumeDescriptor from "../Descriptor/CostumeDescriptor";
+import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
+import { IconDescriptorMap } from "../Descriptor/ItemDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
+import ItemSetDescriptor from "./ItemSetDescriptor";
 
 export default function ShopPurchaseDescriptor(props: {
     region: Region;
@@ -15,19 +16,44 @@ export default function ShopPurchaseDescriptor(props: {
         target = shop.targetIds[0];
     switch (shop.purchaseType) {
         case Shop.PurchaseType.ITEM:
-            const item = props.itemMap.get(target);
-            if (item !== undefined) {
-                return (
-                    <ItemDescriptor region={region} item={item} height={40} />
-                );
-            } else {
-                return <>Unknown Item {target}</>;
-            }
+            return (
+                <IconDescriptorMap
+                    region={region}
+                    itemId={target}
+                    height={40}
+                    items={props.itemMap}
+                />
+            );
         case Shop.PurchaseType.FRIEND_GACHA:
             return <>Friend Point</>;
         case Shop.PurchaseType.SERVANT:
             return <EntityReferenceDescriptor region={region} svtId={target} />;
-        // case Shop.PurchaseType.SET_ITEM:
+        case Shop.PurchaseType.SET_ITEM:
+            if (shop.itemSet.length == 1) {
+                return (
+                    <ItemSetDescriptor
+                        region={region}
+                        itemSet={shop.itemSet[0]}
+                        itemMap={props.itemMap}
+                    />
+                );
+            } else {
+                return (
+                    <ul>
+                        {shop.itemSet.map((itemSet) => (
+                            <li
+                                key={`${itemSet.id}-${itemSet.purchaseType}-${itemSet.targetId}-${itemSet.setNum}`}
+                            >
+                                <ItemSetDescriptor
+                                    region={region}
+                                    itemSet={itemSet}
+                                    itemMap={props.itemMap}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                );
+            }
         case Shop.PurchaseType.QUEST:
             return (
                 <QuestDescriptor
