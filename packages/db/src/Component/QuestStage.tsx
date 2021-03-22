@@ -71,7 +71,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
             <div style={{ margin: "1em 0", lineHeight: "3em" }}>
                 <b>BGM:</b>{" "}
                 <BgmDescriptor region={props.region} bgm={stage.bgm} />
-                {stage.fieldAis.length > 1 ? (
+                {stage.fieldAis.length >= 1 ? (
                     <>
                         <br />
                         <b>Field AI:</b>{" "}
