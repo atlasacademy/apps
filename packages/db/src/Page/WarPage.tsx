@@ -194,6 +194,7 @@ class WarPage extends React.Component<IProps, IState> {
             title: title,
             content: questTable,
             subheader: false,
+            initialOpen: spot.quests.length > 0,
         });
     }
 
