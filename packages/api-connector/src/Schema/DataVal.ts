@@ -67,6 +67,7 @@ interface BaseDataVal {
     CardIndex?: number;
     CardIndividuality?: number;
     WarBoardTakeOverBuff?: number;
+    ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
     AddCount?: number;
@@ -140,6 +141,13 @@ export enum DataValField {
     PARAM_ADD_MAX_COUNT = "ParamAddMaxCount",
     LOSS_HP_NO_CHANGE_DAMAGE = "LossHpNoChangeDamage",
     INCLUDE_PASSIVE_INDIVIDUALITY = "IncludePassiveIndividuality",
+    MOTION_CHANGE = "MotionChange",
+    POP_LABEL_DELAY = "PopLabelDelay",
+    NO_TARGET_NO_ACT = "NoTargetNoAct",
+    CARD_INDEX = "CardIndex",
+    CARD_INDIVIDUALITY = "CardIndividuality",
+    WAR_BOARD_TAKE_OVER_BUFF = "WarBoardTakeOverBuff",
+    APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",
     EVENT_ID = "EventId",
     ADD_COUNT = "AddCount",

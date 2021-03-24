@@ -54,6 +54,15 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         parts.push('(that pierces defense)');
     }
 
+    if (func.funcType === Func.FuncType.SERVANT_FRIENDSHIP_UP) {
+        if (dataVal.Individuality)
+            parts.push(<span>of <TraitDescription region={region} trait={dataVal.Individuality}/></span>)
+        if (dataVal.EventId)
+            parts.push(<span>during event <EventDescriptor region={region} eventId={dataVal.EventId}/></span>)
+        if (dataVal.ApplySupportSvt === 0)
+            parts.push(<span>(No effect when equipped as Support)</span>)
+    }
+
     if (
         func.funcType === Func.FuncType.EVENT_DROP_UP
         || func.funcType === Func.FuncType.EVENT_POINT_UP
