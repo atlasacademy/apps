@@ -1,6 +1,6 @@
 {
   "name": "@atlasacademy/api-connector",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Library to interface with api.atlasacademy.io",
   "homepage": "https://github.com/atlasacademy/aa-api-connector",
   "main": "dist/index.js",
