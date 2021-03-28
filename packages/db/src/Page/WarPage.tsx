@@ -110,10 +110,7 @@ class WarPage extends React.Component<IProps, IState> {
                     <FontAwesomeIcon icon={faDragon} />
                 </>
             ) : null;
-            const isStory =
-                quest.phasesNoBattle.includes(phase) ||
-                (quest.consumeType === Quest.QuestConsumeType.AP &&
-                    quest.consume === 0);
+            const isStory = quest.phasesNoBattle.includes(phase);
             const isStoryDescription = isStory ? " (has no battle)" : "";
             const isStoryIcon = isStory ? (
                 <>

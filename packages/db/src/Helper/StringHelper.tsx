@@ -81,12 +81,13 @@ export const ordinalNumeral = (index: number) => {
 };
 
 export const colorString = (inputString: string) => {
+    // Can't use the given colors since they might look bad on different db themes
     return inputString.replaceAll(/\[[a-zA-z0-9\-]+\]/g, "");
 }
 
 export const interpolateString = (inputString: string, variables: any[]) => {
     for (let i = 0; i < variables.length; i++) {
-        inputString = inputString.replace(`{${i}}`, variables[i])
+        inputString = inputString.replace(`{${i}}`, variables[i].toString())
     }
     return inputString;
 }
