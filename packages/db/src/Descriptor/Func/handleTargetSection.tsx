@@ -8,9 +8,9 @@ export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     [Func.FuncTargetType.PT_ALL, 'party'],
     [Func.FuncTargetType.ENEMY, 'one enemy'],
     // ENEMY_ANOTHER
-    [Func.FuncTargetType.ENEMY_ALL, 'enemies'],
+    [Func.FuncTargetType.ENEMY_ALL, 'all enemies'],
     [Func.FuncTargetType.PT_FULL, 'party (including reserve)'],
-    [Func.FuncTargetType.ENEMY_FULL, 'enemies (including reserve)'],
+    [Func.FuncTargetType.ENEMY_FULL, 'all enemies (including reserve)'],
     [Func.FuncTargetType.PT_OTHER, 'party except self'],
     [Func.FuncTargetType.PT_ONE_OTHER, 'other party members besides target'],
     [Func.FuncTargetType.PT_RANDOM, 'random party member'],
