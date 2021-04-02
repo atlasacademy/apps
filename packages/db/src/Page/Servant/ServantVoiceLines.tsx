@@ -12,6 +12,7 @@ import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
 import EntityDescriptor from "../../Descriptor/EntityDescriptor";
 import {handleNewLine, mergeElements} from "../../Helper/OutputHelper";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import mergeVoiceLine from "../../Descriptor/VoiceLineMerger";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
@@ -127,6 +128,12 @@ export default function ServantVoiceLines(
                                         </Dropdown.Toggle>
 
                                         <Dropdown.Menu>
+                                            <Dropdown.Item onClick={() => {
+                                                const fileName = `${props.servant.collectionNo} - ${props.servant.name} - ${voiceLineNames[index]}`;
+                                                mergeVoiceLine(line.audioAssets, line.delay, fileName);
+                                            }}>
+                                                Merged
+                                            </Dropdown.Item>
                                             {line.audioAssets.map(
                                                 (asset, i) => (
                                                     <Dropdown.Item key={i} href={asset} target="_blank">
