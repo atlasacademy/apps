@@ -30,6 +30,14 @@ export interface QuestRelease {
     closedMessage: string;
 }
 
+export interface QuestMessage {
+    idx: number;
+    message: string;
+    condType: CondType;
+    targetId: number;
+    targetNum: number;
+}
+
 export interface Stage {
     wave: number;
     bgm: Bgm;
@@ -63,5 +71,7 @@ export interface QuestPhase extends Quest {
     qp: number;
     exp: number;
     bond: number;
+    scripts: string[];
+    messages: QuestMessage[];
     stages: Stage[];
 }

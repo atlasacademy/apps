@@ -80,6 +80,7 @@ export interface War {
     emptyMessage: string;
     bgm: Bgm;
     scriptId: string;
+    script: string;
     startType: WarStartType;
     targetId: number;
     eventId: number;

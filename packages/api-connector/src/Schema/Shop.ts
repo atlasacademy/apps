@@ -81,6 +81,8 @@ export interface Shop {
     limitNum: number;
     defaultLv: number;
     defaultLimitCount: number;
+    scriptName?: string;
+    script?: string;
     openedAt: number;
     closedAt: number;
 }
