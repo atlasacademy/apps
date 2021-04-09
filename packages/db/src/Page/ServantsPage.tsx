@@ -82,8 +82,15 @@ class ServantsPage extends React.Component<IProps, IState> {
     }
 
     componentDidUpdate(_ : Readonly<IProps>, prevState : Readonly<IState>) {
-        // reset the search page, should the search term changes
-        if (prevState.search !== this.state.search)
+        // reset the search page, should any part of the filter changes.
+        if (prevState.search !== this.state.search
+            /**
+             * Comparing arrays are okay in this case,
+             * since we never create two identical arrays with the same content.
+             * If the references don't match, it's likely that the contents differ anyway.
+             */
+            || prevState.activeClassFilters !== this.state.activeClassFilters
+            || prevState.activeRarityFilters !== this.state.activeRarityFilters)
             this.setPage(0);
     }
 
