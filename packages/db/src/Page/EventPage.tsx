@@ -570,11 +570,14 @@ class EventPage extends React.Component<IProps, IState> {
     ) {
         switch (tab.type) {
             case "tower":
-                return this.renderRewardTower(
-                    region,
-                    event.towers.filter((tower) => tower.towerId === tab.id)[0],
-                    itemMap
+                const tower = event.towers.find(
+                    (tower) => tower.towerId === tab.id
                 );
+                if (tower !== undefined) {
+                    return this.renderRewardTower(region, tower, itemMap);
+                } else {
+                    return null;
+                }
             case "ladder":
                 return this.renderRewardTab(
                     region,

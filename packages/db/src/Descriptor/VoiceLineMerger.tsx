@@ -143,6 +143,8 @@ const mergeVoiceLine = async (
                     const buffer = await axios.get<ArrayBuffer>(audioUrl, {
                         responseType: "arraybuffer",
                     });
+                    // Safari doesn't support Promise-based syntax of decodeAudioData
+                    // https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData#browser_compatibility
                     return new Promise<AudioBuffer>((res) => {
                         audioContext.decodeAudioData(buffer.data, (buffer) =>
                             res(buffer)

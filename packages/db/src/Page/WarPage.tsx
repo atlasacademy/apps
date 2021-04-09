@@ -26,6 +26,237 @@ const imgOnError = (e: React.SyntheticEvent<HTMLImageElement, ErrorEvent>) => {
     el.src = "";
 };
 
+const phaseLink = (region: Region, quest: Quest.Quest, phase: number) => {
+    const hasEnemies = quest.phasesWithEnemies.includes(phase);
+    const hasEnemiesDescription = hasEnemies ? " (has enemies data)" : "";
+    const hasEnemiesIcon = hasEnemies ? (
+        <>
+            &nbsp;
+            <FontAwesomeIcon icon={faDragon} />
+        </>
+    ) : null;
+    const isStory = quest.phasesNoBattle.includes(phase);
+    const isStoryDescription = isStory ? " (has no battle)" : "";
+    const isStoryIcon = isStory ? (
+        <>
+            &nbsp;
+            <FontAwesomeIcon icon={faBook} />
+        </>
+    ) : null;
+    return (
+        <Link
+            title={`Arrow ${phase}${hasEnemiesDescription}${isStoryDescription}`}
+            key={phase}
+            to={`/${region}/quest/${quest.id}/${phase}`}
+            style={{ whiteSpace: "nowrap" }}
+        >
+            {phase}
+            {hasEnemiesIcon}
+            {isStoryIcon}
+        </Link>
+    );
+};
+
+const QuestTable = (props: {
+    region: Region;
+    quests: Quest.Quest[];
+    itemMap: Map<number, Item.Item>;
+    spots?: War.Spot[];
+}) => {
+    const region = props.region;
+    return (
+        <Table hover responsive>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    {props.spots !== undefined ? <th>Spot</th> : <th>Type</th>}
+                    <th>Phases</th>
+                    <th>Reward</th>
+                </tr>
+            </thead>
+            <tbody>
+                {props.quests.map((quest, i) => (
+                    <tr key={quest.id}>
+                        <td>
+                            <Link to={`/${region}/quest/${quest.id}/1`}>
+                                {quest.id}
+                            </Link>
+                        </td>
+                        <td>
+                            <Link to={`/${region}/quest/${quest.id}/1`}>
+                                {quest.name}
+                            </Link>
+                        </td>
+                        <td>
+                            {props.spots !== undefined ? (
+                                <span>
+                                    <img
+                                        style={{
+                                            width: "auto",
+                                            height: "2em",
+                                            position: "relative",
+                                            top: "-10px",
+                                        }}
+                                        src={props.spots[i].image}
+                                        onError={imgOnError}
+                                    />
+                                    &nbsp;
+                                    {props.spots[i].name}
+                                </span>
+                            ) : (
+                                QuestTypeDescription.get(quest.type) ??
+                                quest.type
+                            )}
+                        </td>
+                        <td>
+                            {mergeElements(
+                                quest.phases.map((phase) =>
+                                    phaseLink(region, quest, phase)
+                                ),
+                                ", "
+                            )}
+                        </td>
+                        <td>
+                            {quest.gifts.map((gift) => (
+                                <div key={`${gift.objectId}-${gift.priority}`}>
+                                    <GiftDescriptor
+                                        region={region}
+                                        gift={gift}
+                                        items={props.itemMap}
+                                    />
+                                    <br />
+                                </div>
+                            ))}
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </Table>
+    );
+};
+
+const MainQuests = (props: {
+    region: Region;
+    spots: War.Spot[];
+    itemMap: Map<number, Item.Item>;
+}) => {
+    let mainQuests = [] as { quest: Quest.Quest; spot: War.Spot }[];
+    for (let spot of props.spots) {
+        for (let quest of spot.quests) {
+            if (quest.type === Quest.QuestType.MAIN) {
+                mainQuests.push({ quest, spot });
+            }
+        }
+    }
+
+    if (mainQuests.length > 0) {
+        mainQuests = mainQuests.sort((a, b) => a.quest.id - b.quest.id);
+
+        const questTable = (
+            <QuestTable
+                region={props.region}
+                quests={mainQuests.map((quest) => quest.quest)}
+                itemMap={props.itemMap}
+                spots={mainQuests.map((quest) => quest.spot)}
+            />
+        );
+
+        return renderCollapsibleContent({
+            title: "Main Quests",
+            content: questTable,
+            subheader: false,
+        });
+    } else {
+        return null;
+    }
+};
+
+const Spot = (props: {
+    region: Region;
+    spot: War.Spot;
+    filterQuest: (quest: Quest.Quest) => boolean;
+    itemMap: Map<number, Item.Item>;
+}) => {
+    const spot = props.spot;
+    const filteredQuest = spot.quests.filter(props.filterQuest);
+
+    if (filteredQuest.length > 0) {
+        const title = (
+            <span>
+                <img
+                    style={{
+                        width: "auto",
+                        height: "1.5em",
+                        position: "relative",
+                        top: "-10px",
+                    }}
+                    src={spot.image}
+                    onError={imgOnError}
+                />
+                {spot.name}
+            </span>
+        );
+
+        const questTable = (
+            <QuestTable
+                region={props.region}
+                quests={filteredQuest}
+                itemMap={props.itemMap}
+            />
+        );
+
+        return renderCollapsibleContent({
+            title: title,
+            content: questTable,
+            subheader: true,
+            initialOpen: filteredQuest.length > 0,
+        });
+    } else {
+        return null;
+    }
+};
+
+const SpotQuestList = (props: {
+    title: string;
+    region: Region;
+    spots: War.Spot[];
+    filterQuest: (quest: Quest.Quest) => boolean;
+    itemMap: Map<number, Item.Item>;
+}) => {
+    let hasFilteredQuest = false;
+    for (let spot of props.spots) {
+        if (spot.quests.filter(props.filterQuest).length > 0) {
+            hasFilteredQuest = true;
+            break;
+        }
+    }
+
+    if (hasFilteredQuest) {
+        const spots = (
+            <div>
+                {props.spots.map((spot) => (
+                    <Spot
+                        key={spot.id}
+                        region={props.region}
+                        spot={spot}
+                        filterQuest={props.filterQuest}
+                        itemMap={props.itemMap}
+                    />
+                ))}
+            </div>
+        );
+
+        return renderCollapsibleContent({
+            title: props.title,
+            content: spots,
+            subheader: false,
+        });
+    } else {
+        return null;
+    }
+};
+
 interface IProps extends RouteComponentProps {
     region: Region;
     warId: number;
@@ -76,123 +307,6 @@ class WarPage extends React.Component<IProps, IState> {
                 error: e,
             });
         }
-    }
-
-    renderSpot(
-        region: Region,
-        spot: War.Spot,
-        itemMap: Map<number, Item.Item>
-    ) {
-        const title = (
-            <span>
-                <img
-                    style={{
-                        width: "auto",
-                        height: "1.5em",
-                        position: "relative",
-                        top: "-10px",
-                    }}
-                    src={spot.image}
-                    onError={imgOnError}
-                />
-                {spot.name}
-            </span>
-        );
-
-        const phaseLink = (quest: Quest.Quest, phase: number) => {
-            const hasEnemies = quest.phasesWithEnemies.includes(phase);
-            const hasEnemiesDescription = hasEnemies
-                ? " (has enemies data)"
-                : "";
-            const hasEnemiesIcon = hasEnemies ? (
-                <>
-                    &nbsp;
-                    <FontAwesomeIcon icon={faDragon} />
-                </>
-            ) : null;
-            const isStory = quest.phasesNoBattle.includes(phase);
-            const isStoryDescription = isStory ? " (has no battle)" : "";
-            const isStoryIcon = isStory ? (
-                <>
-                    &nbsp;
-                    <FontAwesomeIcon icon={faBook} />
-                </>
-            ) : null;
-            return (
-                <Link
-                    title={`Arrow ${phase}${hasEnemiesDescription}${isStoryDescription}`}
-                    key={phase}
-                    to={`/${region}/quest/${quest.id}/${phase}`}
-                    style={{ whiteSpace: "nowrap" }}
-                >
-                    {phase}
-                    {hasEnemiesIcon}
-                    {isStoryIcon}
-                </Link>
-            );
-        };
-
-        const questTable = (
-            <Table hover responsive>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Phases</th>
-                        <th>Reward</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {spot.quests.map((quest) => (
-                        <tr key={quest.id}>
-                            <td>
-                                <Link to={`/${region}/quest/${quest.id}/1`}>
-                                    {quest.id}
-                                </Link>
-                            </td>
-                            <td>
-                                <Link to={`/${region}/quest/${quest.id}/1`}>
-                                    {quest.name}
-                                </Link>
-                            </td>
-                            <td>
-                                {QuestTypeDescription.get(quest.type) ??
-                                    quest.type}
-                            </td>
-                            <td>
-                                {mergeElements(
-                                    quest.phases.map((phase) =>
-                                        phaseLink(quest, phase)
-                                    ),
-                                    ", "
-                                )}
-                            </td>
-                            <td>
-                                {quest.gifts.map((gift) => (
-                                    <div
-                                        key={`${gift.objectId}-${gift.priority}`}
-                                    >
-                                        <GiftDescriptor
-                                            region={region}
-                                            gift={gift}
-                                            items={itemMap}
-                                        />
-                                        <br />
-                                    </div>
-                                ))}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-        );
-        return renderCollapsibleContent({
-            title: title,
-            content: questTable,
-            subheader: false,
-            initialOpen: spot.quests.length > 0,
-        });
     }
 
     render() {
@@ -293,15 +407,42 @@ class WarPage extends React.Component<IProps, IState> {
                         }}
                     />
                 </div>
-                {war.spots.map((spot) => (
-                    <div key={spot.id}>
-                        {this.renderSpot(
-                            this.props.region,
-                            spot,
-                            this.state.itemCache
-                        )}
-                    </div>
-                ))}
+                <MainQuests
+                    region={this.props.region}
+                    spots={war.spots}
+                    itemMap={this.state.itemCache}
+                />
+                <SpotQuestList
+                    title="Free Quests"
+                    region={this.props.region}
+                    spots={war.spots}
+                    filterQuest={(quest: Quest.Quest) =>
+                        quest.type === Quest.QuestType.FREE
+                    }
+                    itemMap={this.state.itemCache}
+                />
+                <SpotQuestList
+                    title="Event Quests"
+                    region={this.props.region}
+                    spots={war.spots}
+                    filterQuest={(quest: Quest.Quest) =>
+                        quest.type === Quest.QuestType.EVENT
+                    }
+                    itemMap={this.state.itemCache}
+                />
+                <SpotQuestList
+                    title="Other Quests"
+                    region={this.props.region}
+                    spots={war.spots}
+                    filterQuest={(quest: Quest.Quest) =>
+                        ![
+                            Quest.QuestType.FREE,
+                            Quest.QuestType.EVENT,
+                            Quest.QuestType.MAIN,
+                        ].includes(quest.type)
+                    }
+                    itemMap={this.state.itemCache}
+                />
             </div>
         );
     }
