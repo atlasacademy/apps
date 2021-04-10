@@ -71,7 +71,7 @@ export interface QuestPhase extends Quest {
     qp: number;
     exp: number;
     bond: number;
-    scripts: string[];
+    scripts: { scriptId: string; script: string }[];
     messages: QuestMessage[];
     stages: Stage[];
 }

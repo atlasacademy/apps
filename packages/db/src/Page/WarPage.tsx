@@ -70,7 +70,7 @@ const QuestTable = (props: {
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    {props.spots !== undefined ? <th>Spot</th> : <th>Type</th>}
+                    {props.spots !== undefined ? <th>Spot</th> : null}
                     <th>Phases</th>
                     <th>Reward</th>
                 </tr>
@@ -83,32 +83,28 @@ const QuestTable = (props: {
                                 {quest.id}
                             </Link>
                         </td>
-                        <td>
+                        <td style={{ maxWidth: "15em" }}>
                             <Link to={`/${region}/quest/${quest.id}/1`}>
                                 {quest.name}
                             </Link>
                         </td>
-                        <td>
-                            {props.spots !== undefined ? (
-                                <span>
-                                    <img
-                                        style={{
-                                            width: "auto",
-                                            height: "2em",
-                                            position: "relative",
-                                            top: "-10px",
-                                        }}
-                                        src={props.spots[i].image}
-                                        onError={imgOnError}
-                                    />
-                                    &nbsp;
+                        {props.spots !== undefined ? (
+                            <td style={{ whiteSpace: "nowrap" }}>
+                                <img
+                                    style={{
+                                        width: "auto",
+                                        height: "2em",
+                                        position: "relative",
+                                        top: "-10px",
+                                    }}
+                                    src={props.spots[i].image}
+                                    onError={imgOnError}
+                                />{" "}
+                                <span style={{ whiteSpace: "normal" }}>
                                     {props.spots[i].name}
                                 </span>
-                            ) : (
-                                QuestTypeDescription.get(quest.type) ??
-                                quest.type
-                            )}
-                        </td>
+                            </td>
+                        ) : null}
                         <td>
                             {mergeElements(
                                 quest.phases.map((phase) =>
@@ -412,37 +408,28 @@ class WarPage extends React.Component<IProps, IState> {
                     spots={war.spots}
                     itemMap={this.state.itemCache}
                 />
-                <SpotQuestList
-                    title="Free Quests"
-                    region={this.props.region}
-                    spots={war.spots}
-                    filterQuest={(quest: Quest.Quest) =>
-                        quest.type === Quest.QuestType.FREE
-                    }
-                    itemMap={this.state.itemCache}
-                />
-                <SpotQuestList
-                    title="Event Quests"
-                    region={this.props.region}
-                    spots={war.spots}
-                    filterQuest={(quest: Quest.Quest) =>
-                        quest.type === Quest.QuestType.EVENT
-                    }
-                    itemMap={this.state.itemCache}
-                />
-                <SpotQuestList
-                    title="Other Quests"
-                    region={this.props.region}
-                    spots={war.spots}
-                    filterQuest={(quest: Quest.Quest) =>
-                        ![
-                            Quest.QuestType.FREE,
-                            Quest.QuestType.EVENT,
-                            Quest.QuestType.MAIN,
-                        ].includes(quest.type)
-                    }
-                    itemMap={this.state.itemCache}
-                />
+                {[
+                    Quest.QuestType.FREE,
+                    Quest.QuestType.EVENT,
+                    Quest.QuestType.FRIENDSHIP,
+                    Quest.QuestType.WAR_BOARD,
+                    Quest.QuestType.HERO_BALLAD,
+                ].map((questType) => {
+                    const questTypeDescription =
+                        QuestTypeDescription.get(questType) ??
+                        questType.toString();
+                    return (
+                        <SpotQuestList
+                            title={`${questTypeDescription} Quests`}
+                            region={this.props.region}
+                            spots={war.spots}
+                            filterQuest={(quest: Quest.Quest) =>
+                                quest.type === questType
+                            }
+                            itemMap={this.state.itemCache}
+                        />
+                    );
+                })}
             </div>
         );
     }
