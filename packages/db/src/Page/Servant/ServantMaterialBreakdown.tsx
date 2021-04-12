@@ -2,6 +2,7 @@ import {Entity, Item, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {AssetHost} from "../../Api";
 import ItemIcon from "../../Component/ItemIcon";
 
 const qpItem: Item.Item = {
@@ -11,7 +12,7 @@ const qpItem: Item.Item = {
     uses: [],
     detail: "\"Synthesis Resource\"\nA Quantum Particle.\nA fluctuation in the spiritron that grants many possibilities.\nUsed as fuels to conduct all sorts of magecraft.",
     individuality: [],
-    icon: "https://assets.atlasacademy.io/GameData/NA/Items/5.png",
+    icon: `${AssetHost}/NA/Items/5.png`,
     background: Item.ItemBackgroundType.ZERO,
     priority: 10,
     dropPriority: 510,

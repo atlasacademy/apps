@@ -1,5 +1,6 @@
 import {ClassName} from "@atlasacademy/api-connector";
 import React from "react";
+import {AssetHost} from "../Api";
 
 const classTypes = new Map<number, number>([
     [0, 0],
@@ -55,7 +56,7 @@ class ClassIcon extends React.Component<IProps> {
             rarity = this.props.rarity ?? 5,
             type = classTypes.has(rarity) ? classTypes.get(rarity) : unknownClassType;
 
-        return `https://assets.atlasacademy.io/GameData/JP/ClassIcons/class${type}_${classId}.png`;
+        return `${AssetHost}/JP/ClassIcons/class${type}_${classId}.png`;
     }
 }
 

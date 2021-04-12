@@ -28,6 +28,8 @@ import {
 } from "@atlasacademy/api-connector";
 
 export const Host = "https://api.atlasacademy.io";
+export const AssetHost = "https://assets.atlasacademy.io/GameData";
+
 const cacheDuration = 20 * 1000;
 
 let apiConnector: ApiConnector = new ApiConnector({

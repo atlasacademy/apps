@@ -1,4 +1,5 @@
 import { Event, Gift, Item, Region } from "@atlasacademy/api-connector";
+import { AssetHost } from "../Api";
 import ItemIcon from "../Component/ItemIcon";
 import { CommandCodeDescriptorId } from "../Descriptor/CommandCodeDescriptor";
 import CostumeDescriptor from "../Descriptor/CostumeDescriptor";
@@ -84,7 +85,7 @@ export default function GiftDescriptor(props: {
                         <img
                             alt={`Quest Reward ${gift.objectId} icon`}
                             style={{ maxWidth: "100%", maxHeight: "2em" }}
-                            src={`https://assets.atlasacademy.io/GameData/NA/Items/${gift.objectId}.png`}
+                            src={`${AssetHost}/${region}/Items/${gift.objectId}.png`}
                         />{" "}
                         Quest Reward
                     </>
