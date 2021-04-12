@@ -1,7 +1,7 @@
 import { Quest, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
-import { Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
+import { Alert, Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import Api, { Host } from "../Api";
@@ -16,7 +16,8 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { WarDescriptorId } from "../Descriptor/WarDescriptor";
-import { mergeElements } from "../Helper/OutputHelper";
+import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
+import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 export const QuestTypeDescription = new Map([
@@ -247,6 +248,27 @@ class QuestPage extends React.Component<IProps, IState> {
                         />
                     </Col>
                 </Row>
+                {quest.messages.length > 0 ? (
+                    <Alert variant="success">
+                        {quest.messages.length > 1 ? (
+                            <ul style={{ marginBottom: 0 }}>
+                                {quest.messages.map((message) => {
+                                    return (
+                                        <li>
+                                            {handleNewLine(
+                                                colorString(message.message)
+                                            )}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        ) : (
+                            handleNewLine(
+                                colorString(quest.messages[0].message)
+                            )
+                        )}
+                    </Alert>
+                ) : null}
                 {quest.stages.length > 0 ? (
                     <Tabs
                         defaultActiveKey={this.props.stage ?? "stage-1"}
