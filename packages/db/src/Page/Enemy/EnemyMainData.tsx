@@ -1,4 +1,5 @@
 import {Enemy, Region} from "@atlasacademy/api-connector";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
 import React from "react";
 import {Col, Row} from "react-bootstrap";
 import {Host} from "../../Api";
@@ -22,9 +23,9 @@ class EnemyMainData extends React.Component<IProps> {
                     <DataTable data={{
                         "ID": enemy.id,
                         "Name": enemy.name,
-                        "Class": enemy.className,
+                        "Class": toTitleCase(enemy.className),
                         "Rarity": <RarityDescriptor rarity={enemy.rarity}/>,
-                        "Attribute": enemy.attribute,
+                        "Attribute": toTitleCase(enemy.attribute),
                         "Hp": <div>
                             Base: {formatNumber(enemy.hpBase)}
                             &nbsp;&nbsp;&nbsp;&nbsp;

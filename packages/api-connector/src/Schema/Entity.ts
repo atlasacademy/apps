@@ -134,6 +134,7 @@ export interface EntityBasic {
     type: EntityType;
     flag: EntityFlag;
     className: ClassName;
+    attribute: Attribute;
     rarity: number;
     atkMax: number;
     hpMax: number;

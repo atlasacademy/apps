@@ -1,3 +1,4 @@
+import { toTitleCase } from "@atlasacademy/api-descriptor";
 import { Col, Row, Table } from "react-bootstrap";
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
@@ -200,7 +201,7 @@ const QuestEnemyMainData = (props: {
                         content: asPercent(enemy.serverMod.starRate, 1),
                     },
                     {
-                        title: "NP gain defense mod",
+                        title: "Defense NP gain mod",
                         content: asPercent(enemy.serverMod.tdAttackRate, 1),
                     },
                 ])}
@@ -289,6 +290,10 @@ const QuestEnemySubData = (props: {
     return (
         <Table bordered responsive className="quest-enemy-data-table">
             <tbody>
+                {renderSpanningRow({
+                    title: "Attribute",
+                    content: toTitleCase(enemy.svt.attribute),
+                })}
                 {renderSpanningRow({
                     title: "Traits",
                     content: mergeElements(traitDescriptions, <br />),
