@@ -192,6 +192,7 @@ class ServantPage extends React.Component<IProps, IState> {
                             <br/>
                             {servant.skills
                                 .filter(skill => skill.num === i)
+                                .sort((a, b) => b.id - a.id)
                                 .map((skill, i2) => {
                                     return (
                                         <div key={i2}>
@@ -217,6 +218,9 @@ class ServantPage extends React.Component<IProps, IState> {
                         <br/>
                         {this.state.servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
+                            // Card change NPs have 0 priority.
+                            // Card change NPs are sorted by ascending ID number so the main NP is on top.
+                            .sort((a, b) => (b.strengthStatus - a.strengthStatus) || ((a.priority === 0 || b.priority === 0) ? a.id - b.id : b.id - a.id))
                             .map((noblePhantasm) => {
                                 return <NoblePhantasmBreakdown key={noblePhantasm.id}
                                                                region={this.props.region}
