@@ -11,6 +11,7 @@ export enum Attribute {
     EARTH = "earth",
     STAR = "star",
     BEAST = "beast",
+    VOID = "void",
 }
 
 export enum EntityType {
