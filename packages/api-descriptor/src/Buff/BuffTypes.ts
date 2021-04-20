@@ -48,6 +48,7 @@ export const upDownBuffs: UpDownBuffType[] = [
 ];
 
 export const buffTraitDescriptions = new Map<number, string>([
+    [3011, 'Poison'],
     [3012, 'Charm'],
     [3015, 'Burn'],
     [3026, 'Curse'],
