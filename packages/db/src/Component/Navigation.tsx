@@ -9,6 +9,8 @@ import {Link, RouteComponentProps} from "react-router-dom";
 import Manager from "../Setting/Manager";
 import SettingForm from "../Setting/SettingForm";
 import {Theme} from "../Setting/Theme";
+import {ReactComponent as USFlag} from "../Assets/us.svg";
+import {ReactComponent as JPFlag} from "../Assets/jp.svg";
 
 import "./Navigation.css";
 
@@ -122,7 +124,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             style={{justifyContent: "center", display: "flex", width: "100%"}}
                                             to={this.regionLink(Region.JP)}
                                             className={`nav-link ${this.regionClass(Region.JP)}`}>
-                                            <img alt={''} src={'assets/jp.svg'}/>
+                                            <JPFlag title={'Japan Flag'} style={{ width: "1.25em", height: "1em"}}/>
                                         </Link>
                                     </Col>
                                     <Col style={{padding: 0}}>
@@ -130,7 +132,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             style={{justifyContent: "center", display: "flex", width: "100%"}}
                                             to={this.regionLink(Region.NA)}
                                             className={`nav-link ${this.regionClass(Region.NA)}`}>
-                                            <img alt={''} src={'assets/us.svg'}/>
+                                            <USFlag title={'US Flag'} style={{ width: "1.25em", height: "1em"}}/>
                                         </Link>
                                     </Col>
                                 </Row>

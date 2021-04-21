@@ -1,5 +1,14 @@
 import {Card, Servant} from "@atlasacademy/api-connector";
 import React from "react";
+import card_bg_arts from "../Assets/card_bg_arts.png";
+import card_bg_buster from "../Assets/card_bg_buster.png";
+import card_bg_quick from "../Assets/card_bg_quick.png";
+import card_icon_arts from "../Assets/card_icon_arts.png";
+import card_icon_buster from "../Assets/card_icon_buster.png";
+import card_icon_quick from "../Assets/card_icon_quick.png";
+import card_txt_arts from "../Assets/card_txt_arts.png";
+import card_txt_buster from "../Assets/card_txt_buster.png";
+import card_txt_quick from "../Assets/card_txt_quick.png";
 
 import "./CommandCard.css";
 
@@ -63,19 +72,19 @@ class CommandCard extends React.Component<IProps> {
 
         switch (this.props.card) {
             case Card.ARTS:
-                bg = 'assets/card_bg_arts.png';
-                icon = 'assets/card_icon_arts.png';
-                txt = 'assets/card_txt_arts.png';
+                bg = card_bg_arts;
+                icon = card_icon_arts;
+                txt = card_txt_arts;
                 break;
             case Card.BUSTER:
-                bg = 'assets/card_bg_buster.png';
-                icon = 'assets/card_icon_buster.png';
-                txt = 'assets/card_txt_buster.png';
+                bg = card_bg_buster;
+                icon = card_icon_buster;
+                txt = card_txt_buster;
                 break;
             case Card.QUICK:
-                bg = 'assets/card_bg_quick.png';
-                icon = 'assets/card_icon_quick.png';
-                txt = 'assets/card_txt_quick.png';
+                bg = card_bg_quick;
+                icon = card_icon_quick;
+                txt = card_txt_quick;
                 break;
         }
 
@@ -87,15 +96,15 @@ class CommandCard extends React.Component<IProps> {
         return <span className={'command-card'} style={{height: height}}>
             <img alt={''} className={'command-card-ratio'}
                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
-            <img alt={''} className={'command-card-bg'} src={bg}/>
-            <img alt={''} className={'command-card-portrait'} src={portrait}/>
-            <img alt={''} className={'command-card-icon'} src={icon}/>
+            <img alt={`${this.props.card} Card Background`} className={'command-card-bg'} src={bg}/>
+            <img alt='Servant Portrait' className={'command-card-portrait'} src={portrait}/>
+            <img alt={`${this.props.card} Card Icon`} className={'command-card-icon'} src={icon}/>
             {
                 np
                     ? <div className={'command-card-text-np' + (this.props.npTextBottom ? ' bottom' : '')}>
-                        <img alt={''} src={txt}/>
+                        <img alt={`NP Name Text`} src={txt}/>
                     </div>
-                    : <img className={'command-card-text-card'} alt={''} src={txt}/>
+                    : <img className={'command-card-text-card'} alt={`${this.props.card} Card Text`} src={txt}/>
             }
         </span>;
     }

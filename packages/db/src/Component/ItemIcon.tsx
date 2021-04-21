@@ -1,15 +1,20 @@
 import {Item, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import {formatNumber} from "../Helper/OutputHelper";
+import listframes0_bg from "../Assets/list/listframes0_bg.png";
+import listframes1_bg from "../Assets/list/listframes1_bg.png";
+import listframes2_bg from "../Assets/list/listframes2_bg.png";
+import listframes3_bg from "../Assets/list/listframes3_bg.png";
+import listframes4_bg from "../Assets/list/listframes4_bg.png";
 
 import "./ItemIcon.css";
 
 const frameBgMap = new Map<Item.ItemBackgroundType, string>([
-    [Item.ItemBackgroundType.ZERO, 'assets/list/listframes0_bg.png'],
-    [Item.ItemBackgroundType.BRONZE, 'assets/list/listframes1_bg.png'],
-    [Item.ItemBackgroundType.SILVER, 'assets/list/listframes2_bg.png'],
-    [Item.ItemBackgroundType.GOLD, 'assets/list/listframes3_bg.png'],
-    [Item.ItemBackgroundType.QUEST_CLEAR_QP_REWARD, 'assets/list/listframes4_bg.png'],
+    [Item.ItemBackgroundType.ZERO, listframes0_bg],
+    [Item.ItemBackgroundType.BRONZE, listframes1_bg],
+    [Item.ItemBackgroundType.SILVER, listframes2_bg],
+    [Item.ItemBackgroundType.GOLD, listframes3_bg],
+    [Item.ItemBackgroundType.QUEST_CLEAR_QP_REWARD, listframes4_bg],
 ]);
 
 interface IProps {
@@ -40,8 +45,8 @@ class ItemIcon extends React.Component<IProps> {
             <span className={'item-icon'} style={{height: height}}>
                 <img alt={''} className={'item-icon-ratio'}
                      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
-                <img alt={''} className={'item-icon-bg'} src={bg}/>
-                <img alt={''} className={'item-icon-image'} src={this.props.item.icon}/>
+                <img alt={'Item icon background'} className={'item-icon-bg'} src={bg}/>
+                <img alt={'Item icon'} className={'item-icon-image'} src={this.props.item.icon}/>
                 {this.getQuantity()}
             </span>
         );

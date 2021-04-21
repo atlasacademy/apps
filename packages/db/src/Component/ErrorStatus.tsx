@@ -1,17 +1,27 @@
 import {AxiosError} from "axios";
 import React from "react";
+import figure_016 from "../Assets/figure_016.png";
+import figure_074 from "../Assets/figure_074.png";
+import figure_127 from "../Assets/figure_127.png";
+import figure_145 from "../Assets/figure_145.png";
+import figure_150 from "../Assets/figure_150.png";
+import figure_174 from "../Assets/figure_174.png";
+import figure_189 from "../Assets/figure_189.png";
+import figure_198 from "../Assets/figure_198.png";
+import figure_241 from "../Assets/figure_241.png";
+import figure_253 from "../Assets/figure_253.png";
 
 const images = [
-    './assets/figure_016.png',
-    './assets/figure_074.png',
-    './assets/figure_127.png',
-    './assets/figure_145.png',
-    './assets/figure_150.png',
-    './assets/figure_174.png',
-    './assets/figure_189.png',
-    './assets/figure_198.png',
-    './assets/figure_241.png',
-    './assets/figure_253.png',
+    figure_016,
+    figure_074,
+    figure_127,
+    figure_145,
+    figure_150,
+    figure_174,
+    figure_189,
+    figure_198,
+    figure_241,
+    figure_253,
 ];
 
 interface IProps {

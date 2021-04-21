@@ -1,9 +1,8 @@
 import {Servant} from "@atlasacademy/api-connector";
 import React from "react";
+import img_arrow_load from "../../Assets/img_arrow_load.png";
 
 import "./ServantPortrait.css";
-
-const arrowImage = 'assets/img_arrow_load.png';
 
 interface AssetReference {
     assetType: "ascension" | "costume";
@@ -107,9 +106,9 @@ class ServantPortrait extends React.Component<IProps> {
         if (targetReference === undefined)
             return undefined;
 
-        return <img alt={''}
+        return <img alt={`${next ? 'Next' : 'Previous'} Servant Saint Graph`}
                     className={`arrow ${next ? '' : 'back'}`}
-                    src={arrowImage}
+                    src={img_arrow_load}
                     onClick={() => {
                         this.props.updatePortraitCallback.call(
                             null,
