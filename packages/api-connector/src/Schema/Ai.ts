@@ -1,5 +1,5 @@
-import {Trait} from "./Trait";
-import {Skill} from "./Skill";
+import { Trait } from "./Trait";
+import { Skill } from "./Skill";
 
 export enum AiType {
     SVT = "svt",
@@ -131,6 +131,24 @@ export enum AiCond {
     PT_FRONT_DEAD_EQUAL = "ptFrontDeadEqual",
     PT_CENTER_DEAD_EQUAL = "ptCenterDeadEqual",
     PT_BACK_DEAD_EQUAL = "ptBackDeadEqual",
+    COUNT_HIGHER_INDIVIDUALITY_PT_FRONT = "countHigherIndividualityPtFront",
+    COUNT_HIGHER_INDIVIDUALITY_PT_CENTER = "countHigherIndividualityPtCenter",
+    COUNT_HIGHER_INDIVIDUALITY_PT_BACK = "countHigherIndividualityPtBack",
+    COUNT_HIGHER_INDIVIDUALITY_OPPONENT_FRONT = "countHigherIndividualityOpponentFront",
+    COUNT_HIGHER_INDIVIDUALITY_OPPONENT_CENTER = "countHigherIndividualityOpponentCenter",
+    COUNT_HIGHER_INDIVIDUALITY_OPPONENT_BACK = "countHigherIndividualityOpponentBack",
+    COUNT_LOWER_INDIVIDUALITY_PT_FRONT = "countLowerIndividualityPtFront",
+    COUNT_LOWER_INDIVIDUALITY_PT_CENTER = "countLowerIndividualityPtCenter",
+    COUNT_LOWER_INDIVIDUALITY_PT_BACK = "countLowerIndividualityPtBack",
+    COUNT_LOWER_INDIVIDUALITY_OPPONENT_FRONT = "countLowerIndividualityOpponentFront",
+    COUNT_LOWER_INDIVIDUALITY_OPPONENT_CENTER = "countLowerIndividualityOpponentCenter",
+    COUNT_LOWER_INDIVIDUALITY_OPPONENT_BACK = "countLowerIndividualityOpponentBack",
+    COUNT_EQUAL_INDIVIDUALITY_PT_FRONT = "countEqualIndividualityPtFront",
+    COUNT_EQUAL_INDIVIDUALITY_PT_CENTER = "countEqualIndividualityPtCenter",
+    COUNT_EQUAL_INDIVIDUALITY_PT_BACK = "countEqualIndividualityPtBack",
+    COUNT_EQUAL_INDIVIDUALITY_OPPONENT_FRONT = "countEqualIndividualityOpponentFront",
+    COUNT_EQUAL_INDIVIDUALITY_OPPONENT_CENTER = "countEqualIndividualityOpponentCenter",
+    COUNT_EQUAL_INDIVIDUALITY_OPPONENT_BACK = "countEqualIndividualityOpponentBack",
 }
 
 export enum AiTiming {
@@ -141,7 +159,7 @@ export enum AiTiming {
     TURN_PLAYER_END = "turnPlayerEnd",
     WAVE_START = "waveStart",
     TURN_START = "turnStart",
-    UNKNOWN = "unknown"
+    UNKNOWN = "unknown",
 }
 
 export enum AiActType {

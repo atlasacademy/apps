@@ -8,6 +8,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.ADD_STATE, 'Apply Buff'],
     [Func.FuncType.ADD_STATE_SHORT, 'Apply Buff'],
     [Func.FuncType.CARD_RESET, 'Shuffle Cards'],
+    [Func.FuncType.CHANGE_BGM_COSTUME, "Change BGM"],
     [Func.FuncType.DAMAGE_NP, 'Deal Damage'],
     [Func.FuncType.DAMAGE_NP_HPRATIO_LOW, 'Deal Damage with Bonus for Low Health'],
     [Func.FuncType.DAMAGE_NP_INDIVIDUAL, 'Deal Damage with Bonus to Trait'],
@@ -42,6 +43,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.LOSS_NP, 'Drain NP'],
     [Func.FuncType.LOSS_STAR, 'Remove Critical Stars'],
     [Func.FuncType.MOVE_STATE, 'Move Effects'],
+    [Func.FuncType.MOVE_TO_LAST_SUBMEMBER, 'Move to last reserve slot'],
     [Func.FuncType.NONE, 'No Effect'],
     [Func.FuncType.QP_DROP_UP, 'Increase QP Reward'],
     [Func.FuncType.QP_UP, 'Increase QP Reward'],
@@ -234,6 +236,10 @@ export default function handleActionSection(region: Region, sections: FuncDescri
         case Func.FuncType.REPLACE_MEMBER:
             sections.amount.showing = false;
             sections.target.preposition = 'with';
+            break;
+        case Func.FuncType.MOVE_TO_LAST_SUBMEMBER:
+            sections.amount.showing = false;
+            sections.target.preposition = 'from';
             break;
     }
 

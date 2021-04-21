@@ -21,6 +21,7 @@ export enum WarOverwriteType {
     MATERIAL_PARENT_WAR = "materialParentWar",
     COORDINATES = "coordinates",
     EFFECT_CHANGE_BLACK_MARK = "effectChangeBlackMark",
+    QUEST_BOARD_SECTION_IMAGE = "questBoardSectionImage",
 }
 
 export interface Map {

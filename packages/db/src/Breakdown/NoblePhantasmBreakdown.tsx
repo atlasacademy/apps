@@ -103,7 +103,8 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                         <EffectBreakdown region={this.props.region}
                                          funcs={np.functions}
                                          gain={this.props.hideGain ? undefined : np.npGain}
-                                         levels={5}/>
+                                         levels={5}
+                                         scripts={np.script}/>
                     </Col>
                 </Row>
             </div>

@@ -125,6 +125,11 @@ export default function (func: Func.Func): Sections {
             flags.target.preposition = 'with';
 
             return flags;
+        case Func.FuncType.MOVE_TO_LAST_SUBMEMBER:
+            flags.amount.showing = false;
+            flags.target.preposition = 'from';
+
+            return flags;
         default:
             return flags;
     }

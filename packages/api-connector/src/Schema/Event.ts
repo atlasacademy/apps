@@ -26,6 +26,7 @@ export enum EventType {
     COMEBACK_CAMPAIGN = "comebackCampaign",
     LOCATION_CAMPAIGN = "locationCampaign",
     WAR_BOARD = "warBoard",
+    COMBINE_COSUTUME_ITEM = "combineCosutumeItem",
 }
 
 export interface EventReward {

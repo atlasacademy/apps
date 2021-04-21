@@ -12,6 +12,7 @@ export enum ShopType {
     BGM = "bgm",
     LIMIT_MATERIAL = "limitMaterial",
     GRAIL_FRAGMENTS = "grailFragments",
+    SHOP04 = "shop04",
 }
 export enum PayType {
     STONE = "stone",
@@ -26,6 +27,7 @@ export enum PayType {
     RARE_PRI = "rarePri",
     ITEM = "item",
     GRAIL_FRAGMENTS = "grailFragments",
+    FREE = "free",
 }
 
 export enum PurchaseType {

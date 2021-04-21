@@ -67,6 +67,10 @@ interface BaseDataVal {
     CardIndex?: number;
     CardIndividuality?: number;
     WarBoardTakeOverBuff?: number;
+    ParamAddSelfIndividuality?: number[];
+    ParamAddOpIndividuality?: number[];
+    ParamAddFieldIndividuality?: number[];
+    ParamAddValue?: number;
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -147,6 +151,10 @@ export enum DataValField {
     CARD_INDEX = "CardIndex",
     CARD_INDIVIDUALITY = "CardIndividuality",
     WAR_BOARD_TAKE_OVER_BUFF = "WarBoardTakeOverBuff",
+    PARAM_ADD_SELF_INDIVIDUALITY = "ParamAddSelfIndividuality",
+    PARAM_ADD_OP_INDIVIDUALITY = "ParamAddOpIndividuality",
+    PARAM_ADD_FIELD_INDIVIDUALITY = "ParamAddFieldIndividuality",
+    PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",
     EVENT_ID = "EventId",

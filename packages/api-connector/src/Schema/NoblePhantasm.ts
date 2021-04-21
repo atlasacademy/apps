@@ -2,6 +2,7 @@ import Card from "../Enum/Card";
 import {EntityBasic, Entity} from "./Entity";
 import {Func} from "./Func";
 import {Trait} from "./Trait";
+import {SkillScript} from "./Skill";
 
 export interface NoblePhantasmGain {
     buster: number[];
@@ -40,6 +41,7 @@ export interface NoblePhantasm extends NoblePhantasmBasic {
     condQuestId: number;
     condQuestPhase: number;
     individuality: Trait[];
+    script: SkillScript;
     functions: Func[];
     reverse?: {
         basic?: {

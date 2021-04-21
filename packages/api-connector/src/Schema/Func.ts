@@ -103,6 +103,7 @@ export enum FuncType {
     FORCE_ALL_BUFF_NOACT = "forceAllBuffNoact",
     BREAK_GAUGE_UP = "breakGaugeUp",
     BREAK_GAUGE_DOWN = "breakGaugeDown",
+    MOVE_TO_LAST_SUBMEMBER = "moveToLastSubmember",
     EXP_UP = "expUp",
     QP_UP = "qpUp",
     DROP_UP = "dropUp",
@@ -127,6 +128,7 @@ export enum FuncType {
     DAMAGE_VALUE_SAFE = "damageValueSafe",
     FRIEND_POINT_UP_DUPLICATE = "friendPointUpDuplicate",
     MOVE_STATE = "moveState",
+    CHANGE_BGM_COSTUME = "changeBgmCostume",
 }
 
 export interface BasicFunc {
