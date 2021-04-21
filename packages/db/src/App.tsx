@@ -4,7 +4,7 @@ import React, {Suspense} from 'react';
 import {Container} from "react-bootstrap";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import {Helmet} from "react-helmet";
-import {HashRouter as Router, Route, Switch,} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Api from "./Api";
 
 import "./App.css";
@@ -81,7 +81,7 @@ class App extends React.Component<any, IState> {
 
     render() {
         return (
-            <Router>
+            <Router basename="/db">
                 <Navigation
                     language={this.state.language}
                     theme={this.state.theme}
@@ -338,7 +338,9 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }} />
-                        <Route path="/" exact={true} component={HomePage}/>
+                        <Route path="/" exact={true} render={({ location }) => {
+                            return location.hash.includes("#") ? <Redirect to={location.hash.replace("#", "")} /> : <HomePage/>;
+                        }} />
                         <Route path="*" exact={true} component={ErrorStatus}/>
                     </Switch>
                 </Container>

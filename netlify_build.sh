@@ -21,4 +21,5 @@ CI=false \
 && npm run build \
 && cd ../../ \
 && cp -r packages/db/build/ app/db \
-&& cp build/index.html app/index.html
+&& cp build/index.html app/index.html \
+&& cp build/_redirects app/_redirects

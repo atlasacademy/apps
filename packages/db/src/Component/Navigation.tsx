@@ -3,7 +3,7 @@ import {faDiscord, faGithub} from "@fortawesome/free-brands-svg-icons";
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Button, Container, Modal, Nav, Navbar, NavItem, Row, Col, DropdownButton, Dropdown} from "react-bootstrap";
+import {Button, Container, Modal, Nav, Navbar, NavItem, Row, Col, Dropdown} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Manager from "../Setting/Manager";
@@ -104,11 +104,11 @@ class Navigation extends React.Component<IProps, IState> {
                                     Search
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu align="left">
-                                    <Dropdown.Item href={`#/${Manager.region()}/entities`}>Entities</Dropdown.Item>
-                                    <Dropdown.Item href={`#/${Manager.region()}/skills`}>Skills</Dropdown.Item>
-                                    <Dropdown.Item href={`#/${Manager.region()}/noble-phantasms`}>Noble Phantasms</Dropdown.Item>
-                                    <Dropdown.Item href={`#/${Manager.region()}/funcs`}>Functions</Dropdown.Item>
-                                    <Dropdown.Item href={`#/${Manager.region()}/buffs`}>Buffs</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/entities`}>Entities</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/skills`}>Skills</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/noble-phantasms`}>Noble Phantasms</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/funcs`}>Functions</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/buffs`}>Buffs</Dropdown.Item>
                                 </Dropdown.Menu>
                                 </Dropdown>
                             </Nav>

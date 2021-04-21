@@ -25,6 +25,7 @@ FROM webdevops/nginx
 
 COPY ./build/no-cache.conf /opt/docker/etc/nginx/vhost.common.d/10-no-cache.conf
 COPY ./build/gzip.conf /opt/docker/etc/nginx/conf.d/20-gzip.conf
+COPY ./build/db.conf /opt/docker/etc/nginx/vhost.common.d/30-db.conf
 COPY ./build/index.html /app/index.html
 COPY --from=build /app/ /app/
 RUN chown -R 1000:1000 /app

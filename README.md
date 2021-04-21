@@ -2,7 +2,7 @@
 
 ![Docker](https://github.com/atlasacademy/apps/workflows/Docker/badge.svg)
 
-Source code for the Atlas Academy DB at https://apps.atlasacademy.io/db/#/
+Source code for the Atlas Academy DB at https://apps.atlasacademy.io/db
 
 You can join our Discod to discuss the development. Feel free to make a Pull request or open an issue but we are usually more responsive on Discord.
 

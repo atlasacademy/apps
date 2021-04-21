@@ -1,7 +1,7 @@
 {
   "name": "@atlasacademy/db",
   "version": "1.8.66",
-  "homepage": ".",
+  "homepage": "/db",
   "private": true,
   "dependencies": {
     "@atlasacademy/api-connector": "^3.0.11",
