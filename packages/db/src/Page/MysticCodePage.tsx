@@ -12,6 +12,7 @@ import Manager from "../Setting/Manager";
 import MysticCodeMainData from "./MysticCode/MysticCodeMainData";
 import MysticCodePicker from "./MysticCode/MysticCodePicker";
 import MysticCodePortrait from "./MysticCode/MysticCodePortrait";
+import MysticCodeExp from "./MysticCode/MysticCodeExp";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -117,6 +118,11 @@ class MysticCodePage extends React.Component<IProps, IState> {
                                             cooldowns={true}
                                             levels={10}/>
                         ) : null}
+                    </Tab>
+
+                    <Tab eventKey={'exp'} title={'EXP'}>
+                        <br />
+                        <MysticCodeExp mysticCode={this.state.mysticCode} />
                     </Tab>
                 </Tabs>
             </div>
