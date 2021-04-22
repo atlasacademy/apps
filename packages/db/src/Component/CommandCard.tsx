@@ -68,6 +68,9 @@ class CommandCard extends React.Component<IProps> {
         const height = this.props.height ?? '1em',
             portrait = this.getPortrait();
 
+        if (portrait === undefined)
+            return null;
+
         let bg, icon, txt, np = false;
 
         switch (this.props.card) {

@@ -51,19 +51,21 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
 
     render() {
         const np = this.props.noblePhantasm;
-        let categories = [
-            np.rank && `Rank : ${np.rank}`,
-            np.type && `Type : ${np.type}`
-        ]
         return (
             <div>
-                <Row>
-                    <Col lg={3} className={'text-center d-block d-sm-block d-md-block d-lg-none'}>
-                        {this.npCommandCard()}
-                        <br/>
-                    </Col>
-
-                    <Col xs={12} lg={9}>
+                <Row style={{ flexDirection: "row-reverse" }}>
+                    {this.props.hideCard
+                        ? null
+                        : (
+                            <Col
+                                lg={3}
+                                style={{textAlign: "center", marginBottom: "2em"}}
+                                className={"text-lg-right d-lg-block d-xl-block"}
+                            >
+                                {this.npCommandCard()}
+                            </Col>
+                        )}
+                    <Col lg={this.props.hideCard ? 12 : 9}>
                         <h3>
                             <NoblePhantasmDescriptor
                                 region={this.props.region}
@@ -84,17 +86,13 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
 
                         <p>{handleNewLine(np.detail)}</p>
 
-                        <p>
-                            {categories.filter(Boolean).join(' – ')}<br />
-                            Card: <CardType card={np.card} height={60}/><br/>
-                            Hits: {np.npDistribution.length} Hits
-                            - {mergeElements(np.npDistribution.map(hit => asPercent(hit, 0)), ', ')}
+                        <p style={{ lineHeight: "2em" }}>
+                            {np.rank !== "" ? <span><b>Rank:</b> {np.rank}<br /></span> : null}
+                            {np.type !== "" ? <span><b>Type:</b> {np.type}<br /></span> : null}
+                            {this.props.hideCard ? <span><b>Card:</b> <CardType card={np.card} height={60}/><br/></span> : null}
+                            <b>Hits:</b> {np.npDistribution.length} Hits
+                            – {mergeElements(np.npDistribution.map(hit => asPercent(hit, 0)), ', ')}
                         </p>
-                    </Col>
-
-                    <Col lg={3} className={'text-right d-none d-lg-block d-xl-block'}>
-                        {this.props.hideCard ? null : this.npCommandCard()}
-                        <br/>
                     </Col>
                 </Row>
 
