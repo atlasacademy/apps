@@ -53,19 +53,19 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
         const np = this.props.noblePhantasm;
         return (
             <div>
-                <Row style={{ flexDirection: "row-reverse" }}>
+                <Row>
                     {this.props.hideCard
                         ? null
                         : (
                             <Col
-                                lg={3}
+                                lg={{ span: 3, order: 2 }}
                                 style={{textAlign: "center", marginBottom: "2em"}}
                                 className={"text-lg-right d-lg-block d-xl-block"}
                             >
                                 {this.npCommandCard()}
                             </Col>
                         )}
-                    <Col lg={this.props.hideCard ? 12 : 9}>
+                    <Col lg={{ span: this.props.hideCard ? 12 : 9, order: 1 }}>
                         <h3>
                             <NoblePhantasmDescriptor
                                 region={this.props.region}

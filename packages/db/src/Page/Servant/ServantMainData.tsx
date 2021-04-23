@@ -58,7 +58,7 @@ class ServantMainData extends React.Component<IProps> {
         const { buster, arts, quick, extra } = servant.hitsDistribution;
         return (
             <div>
-                <Table bordered className="servant-data-table">
+                <Table bordered responsive className="servant-data-table">
                     <tbody>
                         {this.renderDoubleRow([
                             { title: "ID", content: servant.id },
