@@ -34,6 +34,7 @@ const classIds = new Map<ClassName, number>([
 
     [ClassName.ALL, 1001],
     [ClassName.EXTRA, 1002],
+    [ClassName.UNKNOWN, 97]
 ]);
 const unknownClassId = 12;
 
@@ -61,3 +62,4 @@ class ClassIcon extends React.Component<IProps> {
 }
 
 export default ClassIcon;
+export { classIds };

@@ -23,7 +23,13 @@ const classFilters: ClassName[] = [
     ClassName.CASTER,
     ClassName.ASSASSIN,
     ClassName.BERSERKER,
-    ClassName.EXTRA,
+
+    ClassName.RULER,
+    ClassName.ALTER_EGO,
+    ClassName.AVENGER,
+    ClassName.MOON_CANCER,
+    ClassName.FOREIGNER,
+    ClassName.UNKNOWN
 ];
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
@@ -98,14 +104,8 @@ class ServantsPage extends React.Component<IProps, IState> {
         return this.state.activeClassFilters.indexOf(className) !== -1;
     }
 
-    private isExtra(className: ClassName): boolean {
-        return !(className === ClassName.SABER
-            || className === ClassName.ARCHER
-            || className === ClassName.LANCER
-            || className === ClassName.RIDER
-            || className === ClassName.CASTER
-            || className === ClassName.ASSASSIN
-            || className === ClassName.BERSERKER);
+    private isUnknown(className: ClassName): boolean {
+        return !classFilters.includes(className);
     }
 
     private pageItem(label: string, page: number, key: string | number, active: boolean, disabled: boolean) {
@@ -222,14 +222,9 @@ class ServantsPage extends React.Component<IProps, IState> {
 
         if (this.state.activeClassFilters.length > 0) {
             list = list.filter(entity => {
-                for (let x in this.state.activeClassFilters) {
-                    const className = this.state.activeClassFilters[x];
-
-                    if (className === ClassName.EXTRA && this.isExtra(entity.className)) {
-                        return true;
-                    } else if (entity.className === className) {
-                        return true;
-                    }
+                for (let className of this.state.activeClassFilters) {
+                    if (className === ClassName.UNKNOWN && this.isUnknown(entity.className)) return true;
+                    if (entity.className === className) return true;
                 }
 
                 return false;
@@ -287,12 +282,15 @@ class ServantsPage extends React.Component<IProps, IState> {
                             );
                         })}
                     </Col>
-                    <Col sm={12} md={3} style={{marginLeft: "auto", marginBottom: "1rem"}}>
+                    <Col sm={12} lg={3} style={{marginLeft: "auto", marginBottom: "1rem"}}>
                         <Form>
-                            <Form.Control style={{width: "100%", height: 37}} placeholder={'Search'} value={this.state.search ?? ''}
-                                        onChange={(ev: ChangeEvent) => {
-                                            this.setState({search: ev.target.value});
-                                        }}/>
+                            <Form.Control
+                                style={{width: "100%", height: 37, textAlign: 'center'}}
+                                placeholder={'Search'}
+                                value={this.state.search ?? ''}
+                                onChange={(ev: ChangeEvent) => {
+                                    this.setState({search: ev.target.value});
+                                }}/>
                         </Form>
                     </Col>
                 </Row>

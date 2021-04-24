@@ -1,6 +1,6 @@
 #servants .filter {
     cursor: pointer;
-    margin: 0 10px;
+    margin: 0 5px;
 }
 
 #servants table>tbody>tr>td {
