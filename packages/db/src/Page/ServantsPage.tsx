@@ -16,21 +16,38 @@ import Manager from "../Setting/Manager";
 import './ServantsPage.css';
 
 const classFilters: ClassName[] = [
-    ClassName.SABER,
-    ClassName.ARCHER,
-    ClassName.LANCER,
-    ClassName.RIDER,
-    ClassName.CASTER,
-    ClassName.ASSASSIN,
-    ClassName.BERSERKER,
+        ClassName.SABER,
+        ClassName.ARCHER,
+        ClassName.LANCER,
+        ClassName.RIDER,
+        ClassName.CASTER,
+        ClassName.ASSASSIN,
+        ClassName.BERSERKER,
 
-    ClassName.RULER,
-    ClassName.ALTER_EGO,
-    ClassName.AVENGER,
-    ClassName.MOON_CANCER,
-    ClassName.FOREIGNER,
-    ClassName.UNKNOWN
-];
+        ClassName.RULER,
+        ClassName.ALTER_EGO,
+        ClassName.AVENGER,
+        ClassName.MOON_CANCER,
+        ClassName.FOREIGNER,
+        ClassName.UNKNOWN
+    ],
+    normalClasses: ClassName[] = [
+        ClassName.SABER,
+        ClassName.ARCHER,
+        ClassName.LANCER,
+        ClassName.RIDER,
+        ClassName.CASTER,
+        ClassName.ASSASSIN,
+        ClassName.BERSERKER,
+    ],
+    extraClasses: ClassName[] = [
+        ClassName.RULER,
+        ClassName.ALTER_EGO,
+        ClassName.AVENGER,
+        ClassName.MOON_CANCER,
+        ClassName.FOREIGNER,
+        ClassName.UNKNOWN
+    ];
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
@@ -267,8 +284,8 @@ class ServantsPage extends React.Component<IProps, IState> {
         return (
             <div id="servants">
                 <Row>
-                    <Col sm={12} md="auto" style={{justifyContent: 'center', display: 'flex', flexFlow: 'row wrap', marginBottom: "1rem"}}>
-                        {classFilters.map(className => {
+                    <Col md={12} lg="auto" style={{justifyContent: 'center', display: 'flex', flexFlow: 'row wrap', marginBottom: "1rem"}}>
+                        {normalClasses.map(className => {
                             const active = this.isClassFilterActive(className);
                             return (
                                 <span key={className}
@@ -277,6 +294,20 @@ class ServantsPage extends React.Component<IProps, IState> {
                                     onClick={(ev: MouseEvent) => {
                                         this.toggleClassFilter(className);
                                     }}>
+                                    <ClassIcon height={37} rarity={active ? 5 : 3} className={className}/>
+                                </span>
+                            );
+                        })}
+                        <div className={"d-block d-lg-none"} style={{flexBasis: "100%", height: 0}}></div>
+                        {extraClasses.map(className => {
+                            const active = this.isClassFilterActive(className);
+                            return (
+                                <span key={className}
+                                      className={'filter'}
+                                      style={{opacity: active ? 1 : 0.5}}
+                                      onClick={(ev: MouseEvent) => {
+                                          this.toggleClassFilter(className);
+                                      }}>
                                     <ClassIcon height={37} rarity={active ? 5 : 3} className={className}/>
                                 </span>
                             );
