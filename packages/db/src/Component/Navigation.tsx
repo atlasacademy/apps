@@ -58,7 +58,7 @@ class Navigation extends React.Component<IProps, IState> {
         return (
             <div>
                 <Navbar id={'navigation'} bg={"dark"} variant={'dark'} expand={"lg"} style={{zIndex: 10}}>
-                    <Container>
+                    <Container fluid="xl">
                         <Link to="/" className={'navbar-brand'}>AA-DB</Link>
                         <Navbar.Toggle/>
 
