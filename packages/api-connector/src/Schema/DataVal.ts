@@ -71,6 +71,7 @@ interface BaseDataVal {
     ParamAddOpIndividuality?: number[];
     ParamAddFieldIndividuality?: number[];
     ParamAddValue?: number;
+    MultipleGainStar?: number;
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -154,6 +155,7 @@ export enum DataValField {
     PARAM_ADD_SELF_INDIVIDUALITY = "ParamAddSelfIndividuality",
     PARAM_ADD_OP_INDIVIDUALITY = "ParamAddOpIndividuality",
     PARAM_ADD_FIELD_INDIVIDUALITY = "ParamAddFieldIndividuality",
+    MULTIPLE_GAIN_STAR = "MultipleGainStar",
     PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",
