@@ -7,13 +7,14 @@
     cursor: pointer;
     height: 10%;
     position: absolute;
-    right: -3%;
+    /* padding of bootstrap col class */
+    right: -15px;
     transform: translateY(-50%);
     top: 50%;
 }
 
 #servant-portrait>.arrow.back {
-    left: -3%;
+    left: -15px;
     right: auto;
     transform: scaleX(-1) translateY(-50%);
 }
