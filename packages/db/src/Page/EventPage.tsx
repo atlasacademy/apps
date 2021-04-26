@@ -418,18 +418,20 @@ class EventPage extends React.Component<IProps, IState> {
                                         </div>
                                     </td>
                                     <td style={{ textAlign: "center" }}>
-                                        <Link
-                                            to={`/${region}/item/${shop.cost.item.id}`}
-                                        >
-                                            <ItemIcon
-                                                region={region}
-                                                item={shop.cost.item}
-                                                height={40}
-                                            />
-                                        </Link>
+                                        {shop.cost ? (
+                                            <Link
+                                                to={`/${region}/item/${shop.cost.item.id}`}
+                                            >
+                                                <ItemIcon
+                                                    region={region}
+                                                    item={shop.cost.item}
+                                                    height={40}
+                                                />
+                                            </Link>
+                                        ) : null}
                                     </td>
                                     <td style={{ textAlign: "center" }}>
-                                        {shop.cost.amount.toLocaleString()}
+                                        {shop.cost?.amount.toLocaleString()}
                                     </td>
                                     <td>
                                         <ShopPurchaseDescriptor
