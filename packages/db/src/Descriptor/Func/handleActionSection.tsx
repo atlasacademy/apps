@@ -173,6 +173,11 @@ export default function handleActionSection(region: Region, sections: FuncDescri
         parts.push('Deal damage');
         sections.amount.preposition = '';
         return
+    } else if (func.funcType === Func.FuncType.GAIN_STAR && dataVal.MultipleGainStar === 1) {
+        parts.push('Gain Critical Stars');
+        sections.target.showing = true;
+        sections.target.preposition = 'from';
+        return
     }
 
     switch (func.funcType) {

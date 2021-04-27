@@ -120,12 +120,10 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
     if (func.functvals.length) {
         if (func.funcTargetType === Func.FuncTargetType.SELF) {
             parts.push('if self has');
+        } else if (func.funcType === Func.FuncType.GAIN_STAR && dataVal.MultipleGainStar === 1) {
+            parts.push('per target with');
         } else {
             parts.push('for targets with');
-        }
-
-        if (func.functvals.length > 1) {
-            parts.push('all');
         }
 
         func.functvals.forEach((trait, index) => {
