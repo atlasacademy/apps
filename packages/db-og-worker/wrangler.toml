@@ -1,0 +1,6 @@
+name = "db-og-worker"
+type = "webpack"
+account_id = "$account_id"
+workers_dev = true
+webpack_config = "webpack.config.js"
+kv_namespaces = []

@@ -1,0 +1,16 @@
+{
+  "name": "db-og-worker",
+  "scripts": {
+    "build": "webpack",
+    "dev": "NODE_ENV=development npm run build"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/wrangler": "^1.15.0",
+    "rimraf": "^3.0.2",
+    "types-cloudflare-worker": "^1.2.0",
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  }
+}
