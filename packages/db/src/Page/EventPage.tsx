@@ -418,7 +418,7 @@ class EventPage extends React.Component<IProps, IState> {
                                         </div>
                                     </td>
                                     <td style={{ textAlign: "center" }}>
-                                        {shop.cost ? (
+                                        {shop.payType !== Shop.PayType.FREE ? (
                                             <Link
                                                 to={`/${region}/item/${shop.cost.item.id}`}
                                             >
@@ -431,7 +431,9 @@ class EventPage extends React.Component<IProps, IState> {
                                         ) : null}
                                     </td>
                                     <td style={{ textAlign: "center" }}>
-                                        {shop.cost?.amount.toLocaleString()}
+                                        {shop.payType !== Shop.PayType.FREE
+                                            ? shop.cost.amount.toLocaleString()
+                                            : null}
                                     </td>
                                     <td>
                                         <ShopPurchaseDescriptor

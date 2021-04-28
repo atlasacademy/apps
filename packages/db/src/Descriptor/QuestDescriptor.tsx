@@ -10,10 +10,11 @@ export function QuestDescriptionNoApi(props: {
     region: Region;
     quest: Quest.Quest;
     questPhase: number;
+    questStage?: number;
     showType?: boolean;
 }) {
     const quest = props.quest;
-    if (props.text) {
+    if (props.text !== "") {
         return (
             <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}`}>
                 {props.text} <FontAwesomeIcon icon={faShare} />
@@ -56,9 +57,12 @@ export function QuestDescriptionNoApi(props: {
         }
 
         const showType = props.showType ?? true;
+        const stageUri = props.questStage ? `/stage-${props.questStage}` : "";
         return (
-            <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}`}>
-                {showType && type != "" ? `${type} ` : ""}
+            <Link
+                to={`/${props.region}/quest/${quest.id}/${props.questPhase}${stageUri}`}
+            >
+                {showType && type !== "" ? `${type} ` : ""}
                 {quest?.name} <FontAwesomeIcon icon={faShare} />
             </Link>
         );
@@ -70,6 +74,7 @@ interface IProps {
     region: Region;
     questId: number;
     questPhase: number;
+    questStage?: number;
     showType?: boolean;
 }
 
@@ -87,6 +92,7 @@ export default function QuestDescriptor(props: IProps) {
                 region={props.region}
                 quest={quest}
                 questPhase={props.questPhase}
+                questStage={props.questStage}
                 showType={props.showType}
             />
         );
@@ -106,6 +112,7 @@ export function QuestDescriptorId(props: {
     region: Region;
     questId: number;
     questPhase: number;
+    questStage?: number;
     showType?: boolean;
     quests?: Map<number, Quest.Quest>;
 }) {
@@ -116,6 +123,7 @@ export function QuestDescriptorId(props: {
                 region={props.region}
                 questId={props.questId}
                 questPhase={props.questPhase}
+                questStage={props.questStage}
                 quests={props.quests}
                 showType={props.showType}
             />
@@ -127,6 +135,7 @@ export function QuestDescriptorId(props: {
                 region={props.region}
                 questId={props.questId}
                 questPhase={props.questPhase}
+                questStage={props.questStage}
                 showType={props.showType}
             />
         );
@@ -138,6 +147,7 @@ export function QuestDescriptorMap(props: {
     region: Region;
     questId: number;
     questPhase: number;
+    questStage?: number;
     quests: Map<number, Quest.Quest>;
     showType?: boolean;
 }) {
@@ -149,6 +159,7 @@ export function QuestDescriptorMap(props: {
                 region={props.region}
                 quest={quest}
                 questPhase={props.questPhase}
+                questStage={props.questStage}
                 showType={props.showType}
             />
         );

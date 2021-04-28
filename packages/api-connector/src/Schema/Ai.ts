@@ -202,6 +202,12 @@ export enum AiActTarget {
     BACK = "back",
 }
 
+export interface StageLink {
+    questId: number;
+    phase: number;
+    stage: number;
+}
+
 export interface AiAct {
     id: number;
     type: AiActType;
@@ -233,4 +239,5 @@ export interface Ai {
 export interface AiCollection {
     mainAis: Ai[];
     relatedAis: Ai[];
+    relatedQuests: StageLink[];
 }

@@ -41,7 +41,7 @@ export interface QuestMessage {
 export interface Stage {
     wave: number;
     bgm: Bgm;
-    fieldAis: { day: number; id: number }[];
+    fieldAis: { day?: number; raid?: number; id: number }[];
     enemies: QuestEnemy[];
 }
 
