@@ -189,7 +189,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         if (pages[0] > 0) {
             items.push(this.pageItem('1', 0, 'first', false, false));
 
-            if (pages[0] == 2) {
+            if (pages[0] === 2) {
                 items.push(this.pageItem('2', 1, 1, false, false));
             } else if (pages[0] > 2) {
                 items.push(this.pageItem('…', 0, 'firstEllipsis', false, true));
@@ -200,7 +200,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
         const lastNearbyPage = pages[pages.length - 1];
         if (lastNearbyPage < maxPage) {
-            if (lastNearbyPage == maxPage - 2) {
+            if (lastNearbyPage === maxPage - 2) {
                 items.push(this.pageItem(maxPage.toString(), maxPage - 1, maxPage - 1, false, false));
             } else if (lastNearbyPage < maxPage - 2) {
                 items.push(this.pageItem('…', maxPage, 'lastEllipsis', false, true));
