@@ -124,7 +124,10 @@ class Navigation extends React.Component<IProps, IState> {
                                             style={{justifyContent: "center", display: "flex", width: "100%"}}
                                             to={this.regionLink(Region.JP)}
                                             className={`nav-link ${this.regionClass(Region.JP)}`}>
-                                            <JPFlag title={'Japan Flag'} style={{ width: "1.25em", height: "1em"}}/>
+                                            <JPFlag
+                                                title={'View data from the JP version'}
+                                                style={{ width: "1.25em", height: "1em"}}
+                                            />
                                         </Link>
                                     </Col>
                                     <Col style={{padding: 0}}>
@@ -132,7 +135,10 @@ class Navigation extends React.Component<IProps, IState> {
                                             style={{justifyContent: "center", display: "flex", width: "100%"}}
                                             to={this.regionLink(Region.NA)}
                                             className={`nav-link ${this.regionClass(Region.NA)}`}>
-                                            <USFlag title={'US Flag'} style={{ width: "1.25em", height: "1em"}}/>
+                                            <USFlag
+                                                title={'View data from the NA version'}
+                                                style={{ width: "1.25em", height: "1em"}}
+                                            />
                                         </Link>
                                     </Col>
                                 </Row>

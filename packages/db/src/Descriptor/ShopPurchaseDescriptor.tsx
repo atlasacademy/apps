@@ -29,7 +29,7 @@ export default function ShopPurchaseDescriptor(props: {
         case Shop.PurchaseType.SERVANT:
             return <EntityReferenceDescriptor region={region} svtId={target} />;
         case Shop.PurchaseType.SET_ITEM:
-            if (shop.itemSet.length == 1) {
+            if (shop.itemSet.length === 1) {
                 return (
                     <ItemSetDescriptor
                         region={region}

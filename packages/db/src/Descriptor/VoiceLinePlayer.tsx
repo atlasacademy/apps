@@ -36,9 +36,9 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
             );
         }
 
-        if (this.props.audioAssetUrls.length != prevProps.audioAssetUrls.length) return void reset();
+        if (this.props.audioAssetUrls.length !== prevProps.audioAssetUrls.length) return void reset();
         for (let index in this.props.audioAssetUrls)
-            if (this.props.audioAssetUrls[index] != prevProps.audioAssetUrls[index]) return void reset();
+            if (this.props.audioAssetUrls[index] !== prevProps.audioAssetUrls[index]) return void reset();
     }
 
     componentWillUnmount() {
@@ -52,7 +52,7 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
             return control?.stop().then(() => this.setState({ playing: false }))
 
         this.setState({ playing: true });
-        for (let [key, player] of VoiceLineStorage) if (key != this.getVoiceLineKey(this.props.audioAssetUrls)) player.stop();
+        for (let [key, player] of VoiceLineStorage) if (key !== this.getVoiceLineKey(this.props.audioAssetUrls)) player.stop();
         control?.play().then(() => this.setState({ playing: false }));
     }
 

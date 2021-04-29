@@ -10,6 +10,8 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import AiDescriptor from "../Descriptor/AiDescriptor";
+import QuestDescriptor from "../Descriptor/QuestDescriptor";
+import { mergeElements } from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 import AiGraph from "./Ai/AiGraph";
 import AiTable from "./Ai/AiTable";
@@ -92,6 +94,19 @@ class AiPage extends React.Component<IProps, IState> {
             );
         };
 
+        const relatedQuests = mergeElements(
+            this.state.aiCollection.relatedQuests.map((quest) => (
+                <QuestDescriptor
+                    text=""
+                    region={this.props.region}
+                    questId={quest.questId}
+                    questPhase={quest.phase}
+                    questStage={quest.stage}
+                />
+            )),
+            <br />
+        );
+
         return (
             <div>
                 <h1>AI {this.props.id}</h1>
@@ -104,6 +119,7 @@ class AiPage extends React.Component<IProps, IState> {
                             this.props.region,
                             mainAi.parentAis
                         ),
+                        "Related Quests": relatedQuests,
                         Raw: (
                             <Row>
                                 <Col>

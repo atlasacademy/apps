@@ -1,11 +1,13 @@
 {
   "name": "db-og-worker",
+  "private": true,
   "scripts": {
     "build": "webpack",
     "dev": "NODE_ENV=development npm run build"
   },
   "license": "MIT",
   "devDependencies": {
+    "@cloudflare/workers-types": "^2.2.1",
     "@cloudflare/wrangler": "^1.15.0",
     "rimraf": "^3.0.2",
     "types-cloudflare-worker": "^1.2.0",

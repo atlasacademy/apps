@@ -95,7 +95,7 @@ export default function ServantVoiceLines(
                                                     </ul>
                                                 </>
                                             )}
-                                            {line.conds.length == 1 && (
+                                            {line.conds.length === 1 && (
                                                 <>
                                                     <b>Unlock Requirement:</b>
                                                     <br />

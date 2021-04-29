@@ -75,7 +75,7 @@ export interface Shop {
     infoMessage: string;
     warningMessage: string;
     payType: PayType;
-    cost?: { item: Item; amount: number };
+    cost: { item: Item; amount: number };
     purchaseType: PurchaseType;
     targetIds: number[];
     itemSet: ItemSet[];
