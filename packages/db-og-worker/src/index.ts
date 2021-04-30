@@ -94,12 +94,14 @@ async function handleRequest(request: Request) {
 
     const itemPage = itemPageTitles.get(subpage);
     if (itemPage !== undefined) {
-        const { name, face, icon } = await fetchApi(
+        const { name, longName, face, icon } = await fetchApi(
             region,
             itemPage.endpoint,
             target
         );
-        const title = `[${region}] ${itemPage.itemType} - ${name} - Atlas Academy DB`;
+        const itemName =
+            longName !== undefined ? longName.replace("\n", " ") : name;
+        const title = `[${region}] ${itemPage.itemType} - ${itemName} - Atlas Academy DB`;
         return overwrite(page, title, face || icon);
     }
 
