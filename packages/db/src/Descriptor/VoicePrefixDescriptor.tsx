@@ -7,7 +7,11 @@ interface IProps {
 }
 let VoicePrefixDescriptor = (props : IProps) => {
     let { ascensionAdd: { voicePrefix }, currentVoicePrefix, costumes = {} } = props;
-    let ascConds = Object.entries(voicePrefix.ascension || {})
+    // Waver ascensionAdd has missing values for ascension 0-2
+    // so set the default voicePrefix to 0 for all ascensions and overwrite with actual data
+    let ascensionVoicePrefix = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0};
+    Object.assign(ascensionVoicePrefix, voicePrefix.ascension);
+    let ascConds = Object.entries(ascensionVoicePrefix)
         .filter(([_, prefix]) => prefix === currentVoicePrefix)
         .map(asc => +asc[0])
     let costumeConds = Object.entries(voicePrefix.costume || {})
