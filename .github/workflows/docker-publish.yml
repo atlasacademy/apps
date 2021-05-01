@@ -5,6 +5,8 @@ on:
     # Publish `master` as Docker `latest` image.
     branches:
       - master
+    paths-ignore:
+      - 'packages/db-og-worker/**'
   workflow_dispatch:
 
 env:
