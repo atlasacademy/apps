@@ -137,6 +137,7 @@ const mergeVoiceLine = async (
 
     if (AudioContext) {
         const audioContext = new AudioContext({ sampleRate: 44100 });
+
         try {
             const audioBuffers = await Promise.all(
                 audioAssetUrls.map(async (audioUrl) => {
@@ -177,11 +178,11 @@ const mergeVoiceLine = async (
             a.href = URL.createObjectURL(audioBlob);
             a.download = `${fileName ?? "merged"} - ${audioIds.join("&")}.wav`;
             a.click();
-
-            await audioContext.close();
         } catch (e) {
             alert("Failed to download some voice line parts.");
         }
+
+        await audioContext.close();
     } else {
         alert("Please use the latest Chrome or Firefox version.");
     }

@@ -1,4 +1,3 @@
-import React from "react";
 import {Servant} from "@atlasacademy/api-connector";
 import {Table, OverlayTrigger, Tooltip} from "react-bootstrap";
 
@@ -19,7 +18,6 @@ function BondCell (props = { value: 0, span: 1, previous: NaN }) {
         </OverlayTrigger>
         : cell
     );
-
 }
 
 let ServantBondGrowth = (props : { bondGrowth: Servant.Servant["bondGrowth"] }) => {
@@ -28,7 +26,7 @@ let ServantBondGrowth = (props : { bondGrowth: Servant.Servant["bondGrowth"] }) 
         <>
             <thead>
                 {/* indexes */}
-                <tr>{Array(10).fill(0).map((_, __) => (
+                <tr>{Array(Math.min(10, props.bondGrowth.length)).fill(0).map((_, __) => (
                     <th key={`bond_${__}`}>
                         <BondIcon level={__ + 1} />
                         &nbsp;
