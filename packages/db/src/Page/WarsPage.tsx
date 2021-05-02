@@ -90,7 +90,7 @@ class WarsPage extends React.Component<IProps, IState> {
     }
 
     private wars(): War.WarBasic[] {
-        let list = this.state.wars.sort((a, b) => a.id - a.id);
+        let list = this.state.wars.sort((a, b) => a.id - b.id);
 
         if (this.state.activeWarTypeFilters.length > 0) {
             list = list.filter((war) => {
@@ -115,9 +115,11 @@ class WarsPage extends React.Component<IProps, IState> {
                 .filter((word) => word)
                 .join("*");
 
-            list = list.filter((entity) => {
+            list = list.filter((war) => {
                 const normalizedName = diacritics.remove(
-                    entity.name.toLowerCase()
+                    `${war.name} ${war.longName}`
+                        .replace("\n", " ")
+                        .toLowerCase()
                 );
 
                 return minimatch(normalizedName, `*${glob}*`);

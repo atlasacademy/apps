@@ -146,18 +146,18 @@ class Navigation extends React.Component<IProps, IState> {
                                     <Col style={{padding: 0}}>
                                         <Nav.Link style={{justifyContent: "center", display: "flex"}}
                                         href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
-                                            <FontAwesomeIcon icon={faDiscord}/>
+                                            <FontAwesomeIcon icon={faDiscord} title="Atlas Academy Discord"/>
                                         </Nav.Link>
                                     </Col>
                                     <Col style={{padding: 0}}>
                                         <Nav.Link style={{justifyContent: "center", display: "flex"}}
                                         href={'https://github.com/atlasacademy/apps'} target={'_blank'}>
-                                            <FontAwesomeIcon icon={faGithub}/>
+                                            <FontAwesomeIcon icon={faGithub} title="Atlas Academy DB Github"/>
                                         </Nav.Link>
                                     </Col>
                                 </Row>
                                 <Button variant={"primary"} onClick={() => this.showSettings()}>
-                                    <FontAwesomeIcon icon={faCog}/>
+                                    <FontAwesomeIcon icon={faCog} title="Settings"/>
                                 </Button>
                             </Nav>
                         </Navbar.Collapse>

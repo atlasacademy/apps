@@ -37,6 +37,7 @@ function overwrite(response: Response, title: string, image?: string) {
     if (image !== undefined) {
         return titleRewriter
             .on('[property="og:image"]', new Handler(image))
+            .on('[property="og:image:alt"]', new Handler(title))
             .transform(response);
     } else {
         return titleRewriter.transform(response);
