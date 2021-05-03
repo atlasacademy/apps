@@ -4,8 +4,8 @@ import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
-import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
-import SkillDescriptor from "../Descriptor/SkillDescriptor";
+import NoblePhantasmPopover from "../Descriptor/NoblePhantasmPopover";
+import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { asPercent, mergeElements, Renderable } from "../Helper/OutputHelper";
 import { ordinalNumeral } from "../Helper/StringHelper";
@@ -60,8 +60,7 @@ function describeEnemySkill(
         if (skill !== undefined) {
             return (
                 <>
-                    <SkillDescriptor region={region} skill={skill} /> Lv.{" "}
-                    {skillLv}
+                    <SkillPopover region={region} skill={skill} /> Lv. {skillLv}
                 </>
             );
         } else {
@@ -82,7 +81,7 @@ function describeEnemyNoblePhantasm(
         if (noblePhantasm !== undefined) {
             return (
                 <>
-                    <NoblePhantasmDescriptor
+                    <NoblePhantasmPopover
                         region={region}
                         noblePhantasm={noblePhantasm}
                     />{" "}
@@ -97,7 +96,7 @@ function describeEnemyNoblePhantasm(
 
 function describeMultipleSkills(region: Region, skills: Skill.Skill[]) {
     const skillDescriptions = skills.map((skill) => (
-        <SkillDescriptor region={region} skill={skill} />
+        <SkillPopover region={region} skill={skill} />
     ));
     return mergeElements(skillDescriptions, <br />);
 }

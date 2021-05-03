@@ -99,7 +99,7 @@ class FuncDescriptor extends React.Component<IProps> {
 
         parts.push(
             <Link to={`/${region}/func/${func.funcId}`}>
-                <FontAwesomeIcon icon={faShare}/>
+                <FontAwesomeIcon icon={faShare} title={`Go to ${region} function ${func.funcId}`}/>
             </Link>
         );
 

@@ -4,11 +4,10 @@ import { Table } from "react-bootstrap";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import AiDescriptor from "../../Descriptor/AiDescriptor";
 import { BuffIdDescriptor } from "../../Descriptor/BuffDescription";
+import SkillPopover from "../../Descriptor/SkillPopover";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
-import SkillDescriptor, {
-    SkillDescriptorId,
-} from "../../Descriptor/SkillDescriptor";
+import { SkillDescriptorId } from "../../Descriptor/SkillDescriptor";
 
 enum SUBJECT {
     SELF = "Self",
@@ -234,17 +233,13 @@ function ActTarget(props: {
 
 function ActSkill(props: {
     region: Region;
-    skill?: Skill.SkillBasic;
+    skill?: Skill.Skill;
     skillLv?: number;
 }) {
     if (props.skill && props.skillLv) {
         return (
             <>
-                <SkillDescriptor
-                    region={props.region}
-                    skill={props.skill}
-                    whiteSpace={"nowrap"}
-                />
+                <SkillPopover region={props.region} skill={props.skill} />
                 &nbsp;Lv.&nbsp;{props.skillLv}
             </>
         );

@@ -2,7 +2,6 @@ import {Func, NoblePhantasm, Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
 
-import "./EffectBreakdown.css";
 import EffectBreakdownLines from "./EffectBreakdownLines";
 
 interface IProps {
@@ -12,12 +11,13 @@ interface IProps {
     gain?: NoblePhantasm.NoblePhantasmGain;
     levels?: number;
     scripts?: Skill.SkillScript;
+    narrowWidth?: boolean;
 }
 
 class EffectBreakdown extends React.Component<IProps> {
     render() {
         return (
-            <Table responsive className={'effect-breakdown'}>
+            <Table responsive>
                 <thead>
                 <tr>
                     <th>Effect</th>
@@ -32,7 +32,8 @@ class EffectBreakdown extends React.Component<IProps> {
                                       funcs={this.props.funcs}
                                       gain={this.props.gain}
                                       level={this.props.levels}
-                                      scripts={this.props.scripts}/>
+                                      scripts={this.props.scripts}
+                                      narrowWidth={this.props.narrowWidth}/>
                 </tbody>
             </Table>
         );

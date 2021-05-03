@@ -9,6 +9,8 @@ import {asPercent} from "../Helper/OutputHelper";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
 
+import "./EffectBreakdown.css";
+
 interface IProps {
     region: Region;
     cooldowns?: number[];
@@ -18,15 +20,20 @@ interface IProps {
     levels?: number[];
     scripts?: Skill.SkillScript;
     relatedSkillId?: number;
+    narrowWidth?: boolean; // Set the table width to be as small as possible;
 }
 
 class EffectBreakdownLines extends React.Component<IProps> {
     render() {
+        const effectStyle =  this.props.narrowWidth ? {} : {
+            maxWidth: "45%",
+            minWidth: "300px",
+            width: "45%"}
         return (
             <React.Fragment>
                 {this.props.cooldowns ? (
                     <tr>
-                        <td className={'effect'}>Cooldown</td>
+                        <td style={effectStyle}>Cooldown</td>
                         {this.props.cooldowns.map((cooldown, index) => {
                             return <td key={index}>{cooldown}</td>;
                         })}
@@ -37,7 +44,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                     : null}
                 {this.props.gain ? (
                     <tr>
-                        <td className={'effect'}>NP Gain</td>
+                        <td style={effectStyle}>NP Gain</td>
                         {[...Array(this.props.level)].map((_, key) => {
                             return <td key={key}>
                                 {asPercent(this.props.gain?.buster[key], 2)} <CardType card={Card.BUSTER}/><br/>
@@ -62,7 +69,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                     return (
                         <React.Fragment key={index}>
                             <tr>
-                                <td className={'effect'}>
+                                <td style={effectStyle}>
                                     {
                                         this.props.relatedSkillId
                                             ? <SkillReferenceDescriptor region={this.props.region}
