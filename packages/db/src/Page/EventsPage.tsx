@@ -1,7 +1,7 @@
 import { Event, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
-import minimatch from "minimatch";
+import escape from "escape-string-regexp";
 import React from "react";
 import {
     Col,
@@ -96,15 +96,16 @@ class EventsPage extends React.Component<IProps, IState> {
             const glob = diacritics
                 .remove(this.state.search.toLowerCase())
                 .split(" ")
-                .filter((word) => word)
-                .join("*");
+                .filter(word => word)
+                .map(word => escape(word))
+                .join(".*");
 
             list = list.filter((entity) => {
                 const normalizedName = diacritics.remove(
                     entity.name.toLowerCase()
                 );
 
-                return minimatch(normalizedName, `*${glob}*`);
+                return normalizedName.match(new RegExp(glob, 'g'));
             });
         }
 
