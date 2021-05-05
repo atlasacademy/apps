@@ -48,7 +48,7 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
             <a
                 href="#"
                 onClick={(e) => e.preventDefault()}
-                title={`View details of skill ${skill.name}`}
+                title={`Click to view details of skill ${skill.name}`}
             >
                 {SkillDescriptor.renderAsString(skill)}
             </a>

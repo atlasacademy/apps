@@ -9,8 +9,6 @@ import {asPercent} from "../Helper/OutputHelper";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
 
-import "./EffectBreakdown.css";
-
 interface IProps {
     region: Region;
     cooldowns?: number[];

@@ -44,7 +44,7 @@ const NoblePhantasmPopover = (props: {
             <a
                 href="#"
                 onClick={(e) => e.preventDefault()}
-                title={`View details of noble phantasm ${noblePhantasm.name}`}
+                title={`Click to view details of noble phantasm ${noblePhantasm.name}`}
             >
                 [{noblePhantasm.name}]
             </a>

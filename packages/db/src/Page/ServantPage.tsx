@@ -21,6 +21,7 @@ import ServantPicker from "./Servant/ServantPicker";
 import ServantPortrait from "./Servant/ServantPortrait";
 import ServantProfileComments from "./Servant/ServantProfileComments";
 import ServantProfileStats from "./Servant/ServantProfileStats";
+import ServantRelatedQuests from "./Servant/ServantRelatedQuests";
 import ServantCostumeDetails from "./Servant/ServantCostumeDetails";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
 import ServantTraits from "./Servant/ServantTraits";
@@ -278,7 +279,8 @@ class ServantPage extends React.Component<IProps, IState> {
                     <Tab eventKey={'lore'} title={'Profile'}>
                         <ServantBondGrowth bondGrowth={servant.bondGrowth} />
                         <ServantProfileStats region={this.props.region} profile={servant.profile}/>
-                        <ServantCostumeDetails costumes={servant.profile?.costume} />
+                        <ServantRelatedQuests region={this.props.region} questIds={servant.relateQuestIds}/>
+                        <ServantCostumeDetails costumes={servant.profile?.costume}/>
                         <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []}/>
                     </Tab>
                     <Tab eventKey={'assets'} title={'Assets'}>

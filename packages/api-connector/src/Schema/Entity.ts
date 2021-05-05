@@ -114,6 +114,7 @@ export interface Entity {
     atkMax: number;
     hpBase: number;
     hpMax: number;
+    relateQuestIds: number[];
     growthCurve: number;
     atkGrowth: number[];
     hpGrowth: number[];
