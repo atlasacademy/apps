@@ -147,6 +147,10 @@ class Api {
         return apiConnector.questPhase(id, phase, cacheDuration);
     }
 
+    static questBasic(id: number): Promise<Quest.QuestBasic> {
+        return apiConnector.questBasic(id, cacheDuration);
+    }
+
     static ai(type: Ai.AiType, id: number): Promise<Ai.AiCollection> {
         return apiConnector.ai(type, id, cacheDuration);
     }

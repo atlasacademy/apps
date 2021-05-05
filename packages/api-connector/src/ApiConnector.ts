@@ -15,7 +15,13 @@ import { Item, ItemBackgroundType, ItemType, ItemUse } from "./Schema/Item";
 import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode";
 import { NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm";
 import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile";
-import { QuestConsumeType, QuestPhase, QuestType } from "./Schema/Quest";
+import {
+    Quest,
+    QuestBasic,
+    QuestConsumeType,
+    QuestPhase,
+    QuestType,
+} from "./Schema/Quest";
 import { Servant, ServantBasic } from "./Schema/Servant";
 import { PayType, PurchaseType, ShopType } from "./Schema/Shop";
 import { Skill, SkillBasic, SkillType } from "./Schema/Skill";
@@ -227,10 +233,12 @@ class ApiConnector {
         mysticCodeBasic: new ResultCache<number, MysticCodeBasic>(),
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
+        quest: new ResultCache<number, Quest>(),
         questPhase: new ResultCache<
             { id: number; phase: number },
             QuestPhase
         >(),
+        questBasic: new ResultCache<number, QuestBasic>(),
         entityBasic: new ResultCache<number, EntityBasic>(),
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
@@ -751,6 +759,22 @@ class ApiConnector {
         );
     }
 
+    quest(id: number, cacheDuration?: number): Promise<Quest> {
+        const fetch = () => {
+            return ApiConnector.fetch<Quest>(
+                `${this.host}/nice/${this.region}/quest/${id}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.quest.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
     questPhase(
         id: number,
         phase: number,
@@ -766,6 +790,22 @@ class ApiConnector {
 
         return this.cache.questPhase.get(
             { id, phase },
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    questBasic(id: number, cacheDuration?: number): Promise<QuestBasic> {
+        const fetch = () => {
+            return ApiConnector.fetch<QuestBasic>(
+                `${this.host}/basic/${this.region}/quest/${id}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.questBasic.get(
+            id,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
         );

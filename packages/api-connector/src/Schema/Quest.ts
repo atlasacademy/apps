@@ -45,6 +45,19 @@ export interface Stage {
     enemies: QuestEnemy[];
 }
 
+export interface QuestBasic {
+    id: number;
+    name: string;
+    type: QuestType;
+    consumeType: QuestConsumeType;
+    consume: number;
+    spotId: number;
+    warId: number;
+    noticeAt: number;
+    openedAt: number;
+    closedAt: number;
+}
+
 export interface Quest {
     id: number;
     name: string;

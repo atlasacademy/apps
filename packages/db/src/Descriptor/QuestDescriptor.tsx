@@ -8,7 +8,7 @@ import Api from "../Api";
 export function QuestDescriptionNoApi(props: {
     text: string;
     region: Region;
-    quest: Quest.Quest;
+    quest: Quest.QuestBasic;
     questPhase: number;
     questStage?: number;
     showType?: boolean;
@@ -33,22 +33,19 @@ export function QuestDescriptionNoApi(props: {
                 break;
         }
 
-        if (quest?.warId >= 100 && quest?.warId < 200) {
+        if (quest.warId >= 100 && quest.warId < 200) {
             type = "Part I Quest";
-        } else if (quest?.warId >= 200 && quest?.warId < 300) {
+        } else if (quest.warId >= 200 && quest.warId < 300) {
             type = "EOR Quest";
-        } else if (quest?.warId >= 300 && quest?.warId < 400) {
+        } else if (quest.warId >= 300 && quest.warId < 400) {
             type = "LB Quest";
         }
 
-        if (
-            quest?.type === Quest.QuestType.FRIENDSHIP ||
-            quest?.warId === 1003
-        ) {
+        if (quest.type === Quest.QuestType.FRIENDSHIP || quest.warId === 1003) {
             type = "Interlude Quest";
         }
 
-        if (quest?.warId === 1001) {
+        if (quest.warId === 1001) {
             if (quest.name.startsWith("Rank Up")) {
                 type = "";
             } else {
@@ -63,7 +60,7 @@ export function QuestDescriptionNoApi(props: {
                 to={`/${props.region}/quest/${quest.id}/${props.questPhase}${stageUri}`}
             >
                 {showType && type !== "" ? `${type} ` : ""}
-                {quest?.name} <FontAwesomeIcon icon={faShare} />
+                {quest.name} <FontAwesomeIcon icon={faShare} />
             </Link>
         );
     }
@@ -79,12 +76,12 @@ interface IProps {
 }
 
 export default function QuestDescriptor(props: IProps) {
-    const [quest, setQuest] = useState<Quest.Quest>(null as any);
+    const [quest, setQuest] = useState<Quest.QuestBasic>(null as any);
     useEffect(() => {
-        Api.questPhase(props.questId, props.questPhase)
-            .then((s) => setQuest(s as Quest.Quest))
+        Api.questBasic(props.questId)
+            .then((s) => setQuest(s))
             .catch(() => {});
-    }, [props.questId, props.questPhase]);
+    }, [props.questId]);
     if (quest !== null) {
         return (
             <QuestDescriptionNoApi
@@ -114,7 +111,7 @@ export function QuestDescriptorId(props: {
     questPhase: number;
     questStage?: number;
     showType?: boolean;
-    quests?: Map<number, Quest.Quest>;
+    quests?: Map<number, Quest.QuestBasic>;
 }) {
     if (props.quests !== undefined) {
         return (
@@ -148,7 +145,7 @@ export function QuestDescriptorMap(props: {
     questId: number;
     questPhase: number;
     questStage?: number;
-    quests: Map<number, Quest.Quest>;
+    quests: Map<number, Quest.QuestBasic>;
     showType?: boolean;
 }) {
     const quest = props.quests.get(props.questId);
