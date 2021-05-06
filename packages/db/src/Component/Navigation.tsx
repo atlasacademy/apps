@@ -3,16 +3,34 @@ import {faDiscord, faGithub} from "@fortawesome/free-brands-svg-icons";
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Button, Container, Modal, Nav, Navbar, NavItem, Row, Col, Dropdown} from "react-bootstrap";
+import {Button, Col, Container, Dropdown, Modal, Nav, Navbar, NavItem, Row} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
+import {ReactComponent as JPFlag} from "../Assets/jp.svg";
+import {ReactComponent as USFlag} from "../Assets/us.svg";
 import Manager from "../Setting/Manager";
 import SettingForm from "../Setting/SettingForm";
 import {Theme} from "../Setting/Theme";
-import {ReactComponent as USFlag} from "../Assets/us.svg";
-import {ReactComponent as JPFlag} from "../Assets/jp.svg";
 
 import "./Navigation.css";
+
+type RouteItem = { route: string, name: string };
+
+const additionalItems: Array<RouteItem> = [
+    {route: '/command-codes', name: 'Command Codes'},
+    {route: '/mystic-codes', name: 'Mystic Codes'},
+    {route: '/items', name: 'Materials'},
+    {route: '/events', name: 'Events'},
+    {route: '/wars', name: 'Wars'},
+];
+
+const searchItems: Array<RouteItem> = [
+    {route: '/entities', name: 'Entities'},
+    {route: '/skills', name: 'Skills'},
+    {route: '/noble-phantasms', name: 'Noble Phantasms'},
+    {route: '/funcs', name: 'Functions'},
+    {route: '/buffs', name: 'Buffs'},
+];
 
 interface IProps extends RouteComponentProps {
     language: Language;
@@ -73,43 +91,47 @@ class Navigation extends React.Component<IProps, IState> {
                                     <NavItem>Craft Essences</NavItem>
                                 </Link>
                             </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/command-codes`} className={'nav-link'}>
-                                    <NavItem>Command Codes</NavItem>
-                                </Link>
+                            {additionalItems.concat(searchItems).map((item, i) => {
+                                return (
+                                    <Nav key={i} className="d-flex d-lg-none">
+                                        <Link to={`/${Manager.region()}${item.route}`} className={'nav-link'}>
+                                            <NavItem>{item.name}</NavItem>
+                                        </Link>
+                                    </Nav>
+                                );
+                            })}
+                            <Nav className="d-none d-lg-flex">
+                                <Dropdown className="dropdown-custom-toggle">
+                                    <Dropdown.Toggle>
+                                        Additional
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu align="left">
+                                        {additionalItems.map((item, i) => {
+                                            return (
+                                                <Dropdown.Item key={i} as={Link}
+                                                               to={`/${Manager.region()}${item.route}`}>
+                                                    {item.name}
+                                                </Dropdown.Item>
+                                            );
+                                        })}
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/mystic-codes`} className={'nav-link'}>
-                                    <NavItem>Mystic Codes</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/items`} className={'nav-link'}>
-                                    <NavItem>Materials</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/events`} className={'nav-link'}>
-                                    <NavItem>Events</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/wars`} className={'nav-link'}>
-                                    <NavItem>Wars</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Dropdown id="dropdown-search">
-                                <Dropdown.Toggle>
-                                    Search
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu align="left">
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/entities`}>Entities</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/skills`}>Skills</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/noble-phantasms`}>Noble Phantasms</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/funcs`}>Functions</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/buffs`}>Buffs</Dropdown.Item>
-                                </Dropdown.Menu>
+                            <Nav className="d-none d-lg-flex">
+                                <Dropdown className="dropdown-custom-toggle">
+                                    <Dropdown.Toggle>
+                                        Search
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu align="left">
+                                        {searchItems.map((item, i) => {
+                                            return (
+                                                <Dropdown.Item key={i} as={Link}
+                                                               to={`/${Manager.region()}${item.route}`}>
+                                                    {item.name}
+                                                </Dropdown.Item>
+                                            );
+                                        })}
+                                    </Dropdown.Menu>
                                 </Dropdown>
                             </Nav>
                             <Nav>
@@ -126,7 +148,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             className={`nav-link ${this.regionClass(Region.JP)}`}>
                                             <JPFlag
                                                 title={'View data from the JP version'}
-                                                style={{ width: "1.25em", height: "1em"}}
+                                                style={{width: "1.25em", height: "1em"}}
                                             />
                                         </Link>
                                     </Col>
@@ -137,7 +159,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             className={`nav-link ${this.regionClass(Region.NA)}`}>
                                             <USFlag
                                                 title={'View data from the NA version'}
-                                                style={{ width: "1.25em", height: "1em"}}
+                                                style={{width: "1.25em", height: "1em"}}
                                             />
                                         </Link>
                                     </Col>
@@ -145,13 +167,13 @@ class Navigation extends React.Component<IProps, IState> {
                                 <Row style={{flexFlow: "nowrap", margin: "0 1px"}}>
                                     <Col style={{padding: 0}}>
                                         <Nav.Link style={{justifyContent: "center", display: "flex"}}
-                                        href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
+                                                  href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
                                             <FontAwesomeIcon icon={faDiscord} title="Atlas Academy Discord"/>
                                         </Nav.Link>
                                     </Col>
                                     <Col style={{padding: 0}}>
                                         <Nav.Link style={{justifyContent: "center", display: "flex"}}
-                                        href={'https://github.com/atlasacademy/apps'} target={'_blank'}>
+                                                  href={'https://github.com/atlasacademy/apps'} target={'_blank'}>
                                             <FontAwesomeIcon icon={faGithub} title="Atlas Academy DB Github"/>
                                         </Nav.Link>
                                     </Col>
