@@ -145,13 +145,13 @@ class Navigation extends React.Component<IProps, IState> {
                                 <Row style={{flexFlow: "nowrap", margin: "0 1px"}}>
                                     <Col style={{padding: 0}}>
                                         <Nav.Link style={{justifyContent: "center", display: "flex"}}
-                                        href={'https://discord.gg/TKJmuCR'} target={'_blank'}>
+                                        href={'https://discord.gg/TKJmuCR'} target={'_blank'} rel="noopener">
                                             <FontAwesomeIcon icon={faDiscord} title="Atlas Academy Discord"/>
                                         </Nav.Link>
                                     </Col>
                                     <Col style={{padding: 0}}>
                                         <Nav.Link style={{justifyContent: "center", display: "flex"}}
-                                        href={'https://github.com/atlasacademy/apps'} target={'_blank'}>
+                                        href={'https://github.com/atlasacademy/apps'} target={'_blank'} rel="noopener">
                                             <FontAwesomeIcon icon={faGithub} title="Atlas Academy DB Github"/>
                                         </Nav.Link>
                                     </Col>

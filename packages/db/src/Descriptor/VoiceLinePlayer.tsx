@@ -9,6 +9,7 @@ const VoiceLineStorage = new Map<string, VoiceLine>();
 interface IProps {
     audioAssetUrls: string[];
     delay: number[];
+    title: string;
 }
 
 interface IState {
@@ -71,7 +72,8 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
             <Button
                 variant={this.state.playing ? 'warning' : 'success'}
                 onClick={this.onClick}
-                style={{whiteSpace: "nowrap"}}>
+                style={{whiteSpace: "nowrap"}}
+                title={`Play ${this.props.title}`}>
                 <FontAwesomeIcon icon={this.state.playing ? faStop : faPlay}/>
             </Button>
         )

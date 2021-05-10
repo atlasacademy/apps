@@ -99,6 +99,7 @@ const QuestTable = (props: {
                                     }}
                                     src={props.spots[i].image}
                                     onError={imgOnError}
+                                    alt={`Spot ${props.spots[i].name}'s image`}
                                 />{" "}
                                 <span style={{ whiteSpace: "normal" }}>
                                     {props.spots[i].name}
@@ -189,6 +190,7 @@ const Spot = (props: {
                     }}
                     src={spot.image}
                     onError={imgOnError}
+                    alt={`Spot ${spot.name}'s image`}
                 />
                 {spot.name}
             </span>
@@ -343,6 +345,7 @@ class WarPage extends React.Component<IProps, IState> {
                             }}
                             src={banner}
                             onError={imgOnError}
+                            alt={`War's banner #${index} ${banner}`}
                         />
                         <br />
                     </div>

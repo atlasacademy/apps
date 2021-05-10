@@ -120,23 +120,27 @@ export default function ServantVoiceLines(
                                 <ButtonGroup>
                                     <VoiceLinePlayer
                                         audioAssetUrls={line.audioAssets}
-                                        delay={line.delay}/>
+                                        delay={line.delay}
+                                        title={voiceLineNames[index]}/>
                                     <Dropdown as={ButtonGroup}>
-                                        <Dropdown.Toggle variant={"info"}>
+                                        <Dropdown.Toggle variant={"info"} title={`Download ${voiceLineNames[index]}`}>
                                             <FontAwesomeIcon icon={faFileAudio}/>
                                             &nbsp;
                                         </Dropdown.Toggle>
 
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() => {
-                                                const fileName = `${props.servant.collectionNo} - ${props.servant.name} - ${voiceLineNames[index]}`;
-                                                mergeVoiceLine(line.audioAssets, line.delay, fileName);
-                                            }}>
+                                        <Dropdown.Menu title={`Download ${voiceLineNames[index]}`}>
+                                            <Dropdown.Item
+                                                title={`Download ${voiceLineNames[index]} merged file`}
+                                                onClick={() => {
+                                                    const fileName = `${props.servant.collectionNo} - ${props.servant.name} - ${voiceLineNames[index]}`;
+                                                    mergeVoiceLine(line.audioAssets, line.delay, fileName);
+                                                }}
+                                            >
                                                 Merged
                                             </Dropdown.Item>
                                             {line.audioAssets.map(
                                                 (asset, i) => (
-                                                    <Dropdown.Item key={i} href={asset} target="_blank">
+                                                    <Dropdown.Item key={i} href={asset} target="_blank" title={`Download ${voiceLineNames[index]} part ${i + 1}`}>
                                                         Part {i + 1}
                                                     </Dropdown.Item>
                                                 )

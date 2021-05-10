@@ -21,8 +21,14 @@ export default function BgmDescriptor(props: { region: Region; bgm: Bgm.Bgm }) {
                 <VoiceLinePlayer
                     audioAssetUrls={[bgm.audioAsset]}
                     delay={[0]}
+                    title={bgm.name}
                 />
-                <Button variant={"info"} href={bgm.audioAsset} target="_blank">
+                <Button
+                    variant={"info"}
+                    href={bgm.audioAsset}
+                    target="_blank"
+                    title={`Download ${bgm.name}`}
+                >
                     {showName}&nbsp;
                     <FontAwesomeIcon icon={faFileAudio} />
                 </Button>
