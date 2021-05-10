@@ -124,6 +124,8 @@ const QuestMainData = (props: {
                         warId={quest.warId}
                     />
                 ),
+                Open: new Date(quest.openedAt * 1000).toLocaleString(),
+                Close: new Date(quest.closedAt * 1000).toLocaleString(),
             }}
         />
     );
