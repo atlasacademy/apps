@@ -30,10 +30,9 @@ async function fetchApi(
 }
 
 function overwrite(response: Response, title: string, image?: string) {
-    const titleRewriter = new HTMLRewriter().on(
-        '[property="og:title"]',
-        new Handler(title)
-    );
+    const titleRewriter = new HTMLRewriter()
+        .on('[property="og:title"]', new Handler(title))
+        .on('[name="description"]', new Handler(title));
     if (image !== undefined) {
         return titleRewriter
             .on('[property="og:image"]', new Handler(image))
