@@ -1,7 +1,6 @@
 import {CraftEssence, Entity, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import diacritics from "diacritics";
-import minimatch from "minimatch";
 import React from "react";
 import {Col, Form, Pagination, Row, Table, ButtonGroup, Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -49,7 +48,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             craftEssences: [],
             activeRarityFilters: [],
             activeCETypeFilters: [],
-            perPage: 200,
+            perPage: 100,
             page: 0,
         };
     }
@@ -130,13 +129,15 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             const glob = diacritics.remove(this.state.search.toLowerCase())
                 .split(' ')
                 .filter(word => word)
-                .join('*');
+                .map(word => escape(word))
+                .join('.*');
 
             list = list.filter(
                 entity => {
                     const normalizedName = diacritics.remove(entity.name.toLowerCase());
+                    const searchName = `${entity.id} ${entity.collectionNo} ${normalizedName}`;
 
-                    return minimatch(normalizedName, `*${glob}*`);
+                    return searchName.match(new RegExp(glob, 'g'));
                 }
             );
         }
@@ -321,7 +322,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                         return <tr key={craftEssence.id}>
                             <td align={"center"}>
                                 <Link to={route}>
-                                    {craftEssence.collectionNo}
+                                    {craftEssence.collectionNo} (<span style={{fontFamily: 'monospace', fontSize: '0.9rem'}}>{craftEssence.id}</span>)
                                 </Link>
                             </td>
                             <td align={"center"}>

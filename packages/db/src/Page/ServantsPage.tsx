@@ -82,7 +82,7 @@ class ServantsPage extends React.Component<IProps, IState> {
             servants: [],
             activeClassFilters: [],
             activeRarityFilters: [],
-            perPage: 100,
+            perPage: 50,
             page: 0,
         };
     }
@@ -170,17 +170,24 @@ class ServantsPage extends React.Component<IProps, IState> {
         if (pages[0] > 0) {
             items.push(this.pageItem('1', 0, 'first', false, false));
 
-            if (pages[0] > 1)
+            if (pages[0] === 2) {
+                items.push(this.pageItem('2', 1, 1, false, false));
+            } else if (pages[0] > 2) {
                 items.push(this.pageItem('…', 0, 'firstEllipsis', false, true));
+            }
         }
 
         items.push(...pages.map(i => this.pageItem((i + 1).toString(), i, i, i === this.state.page, false)));
 
-        if (pages[pages.length - 1] < maxPage) {
-            items.push(this.pageItem('…', maxPage, 'lastEllipsis', false, true));
+        const lastNearbyPage = pages[pages.length - 1];
+        if (lastNearbyPage < maxPage) {
+            if (lastNearbyPage === maxPage - 2) {
+                items.push(this.pageItem(maxPage.toString(), maxPage - 1, maxPage - 1, false, false));
+            } else if (lastNearbyPage < maxPage - 2) {
+                items.push(this.pageItem('…', maxPage, 'lastEllipsis', false, true));
+            }
 
-            if (pages[pages.length - 1] < maxPage)
-                items.push(this.pageItem((maxPage + 1).toString(), maxPage, 'last', false, false));
+            items.push(this.pageItem((maxPage + 1).toString(), maxPage, 'last', false, false));
         }
 
         items.push(this.pageItem('>', this.state.page + 1, 'next', false, this.state.page >= maxPage));
@@ -258,8 +265,9 @@ class ServantsPage extends React.Component<IProps, IState> {
             list = list.filter(
                 entity => {
                     const normalizedName = diacritics.remove(entity.name.toLowerCase());
+                    const searchName = `${entity.id} ${entity.collectionNo} ${normalizedName}`;
 
-                    return normalizedName.match(new RegExp(glob, 'g'));
+                    return searchName.match(new RegExp(glob, 'g'));
                 }
             );
         }
