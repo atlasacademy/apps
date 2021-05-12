@@ -2,7 +2,7 @@
   "name": "@atlasacademy/api-descriptor",
   "version": "1.0.16",
   "description": "Library to describe entities from api.atlasacademy.io",
-  "homepage": "https://github.com/atlasacademy/aa-api-descriptor",
+  "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/api-descriptor",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

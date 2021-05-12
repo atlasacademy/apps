@@ -4,7 +4,7 @@ import { Table } from "react-bootstrap";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import AiDescriptor from "../../Descriptor/AiDescriptor";
 import { BuffIdDescriptor } from "../../Descriptor/BuffDescription";
-import SkillPopover from "../../Descriptor/SkillPopover";
+import SkillPopover, { SkillPopOverId } from "../../Descriptor/SkillPopover";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
 import { SkillDescriptorId } from "../../Descriptor/SkillDescriptor";
@@ -176,10 +176,7 @@ function AiActType(props: {
         case Ai.AiActType.SKILL1:
             if (props.skillId1 !== undefined) {
                 return (
-                    <SkillDescriptorId
-                        region={region}
-                        skillId={props.skillId1}
-                    />
+                    <SkillPopOverId region={region} skillId={props.skillId1} />
                 );
             } else {
                 return <>Skill 1</>;
@@ -187,10 +184,7 @@ function AiActType(props: {
         case Ai.AiActType.SKILL2:
             if (props.skillId2 !== undefined) {
                 return (
-                    <SkillDescriptorId
-                        region={region}
-                        skillId={props.skillId2}
-                    />
+                    <SkillPopOverId region={region} skillId={props.skillId2} />
                 );
             } else {
                 return <>Skill 2</>;
@@ -198,10 +192,7 @@ function AiActType(props: {
         case Ai.AiActType.SKILL3:
             if (props.skillId3 !== undefined) {
                 return (
-                    <SkillDescriptorId
-                        region={region}
-                        skillId={props.skillId3}
-                    />
+                    <SkillPopOverId region={region} skillId={props.skillId3} />
                 );
             } else {
                 return <>Skill 3</>;

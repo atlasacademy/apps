@@ -171,12 +171,12 @@ class Api {
         return apiConnector.servantListNice(-1);
     }
 
-    static skill(id: number): Promise<Skill.Skill> {
-        const reverse = {
-            reverse: true,
+    static skill(id: number, reverse = true): Promise<Skill.Skill> {
+        const reverseConfig = {
+            reverse: reverse,
             reverseData: ReverseData.BASIC,
         };
-        return apiConnector.skill(id, reverse, cacheDuration);
+        return apiConnector.skill(id, reverseConfig, cacheDuration);
     }
 
     static skillBasic(id: number): Promise<Skill.SkillBasic> {

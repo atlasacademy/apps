@@ -7,9 +7,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@cloudflare/workers-types": "^2.2.1",
+    "@cloudflare/workers-types": "^2.2.2",
     "@cloudflare/wrangler": "^1.15.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "rimraf": "^3.0.2",
     "ts-loader": "^8.2.0",
     "types-cloudflare-worker": "^1.2.0",

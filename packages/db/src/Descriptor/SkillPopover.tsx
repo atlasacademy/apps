@@ -1,7 +1,9 @@
 import { Region, Skill } from "@atlasacademy/api-connector";
+import { useEffect, useState } from "react";
 import { OverlayTrigger, Popover } from "react-bootstrap";
-import SkillDescriptor from "./SkillDescriptor";
+import Api from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
+import SkillDescriptor from "./SkillDescriptor";
 
 const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
     const { region, skill } = props;
@@ -57,3 +59,15 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
 };
 
 export default SkillPopover;
+
+export const SkillPopOverId = (props: { region: Region; skillId: number }) => {
+    const [skill, setSkill] = useState<Skill.Skill>(null as any);
+    useEffect(() => {
+        Api.skill(props.skillId, false).then((s) => setSkill(s));
+    }, [props.skillId]);
+    if (skill !== null) {
+        return <SkillPopover region={props.region} skill={skill} />;
+    } else {
+        return null;
+    }
+};
