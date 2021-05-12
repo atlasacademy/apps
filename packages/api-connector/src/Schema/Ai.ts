@@ -149,6 +149,9 @@ export enum AiCond {
     COUNT_EQUAL_INDIVIDUALITY_OPPONENT_FRONT = "countEqualIndividualityOpponentFront",
     COUNT_EQUAL_INDIVIDUALITY_OPPONENT_CENTER = "countEqualIndividualityOpponentCenter",
     COUNT_EQUAL_INDIVIDUALITY_OPPONENT_BACK = "countEqualIndividualityOpponentBack",
+    CHECK_PRECEDING_ENEMY = "checkPrecedingEnemy",
+    COUNT_HIGHER_REMAIN_TURN = "countHigherRemainTurn",
+    COUNT_LOWER_REMAIN_TURN = "countLowerRemainTurn",
 }
 
 export enum AiTiming {

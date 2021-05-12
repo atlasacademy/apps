@@ -152,6 +152,7 @@ export enum CondType {
     LIMIT_COUNT_IMAGE_EQUAL = "limitCountImageEqual",
     LIMIT_COUNT_IMAGE_ABOVE = "limitCountImageAbove",
     LIMIT_COUNT_IMAGE_BELOW = "limitCountImageBelow",
+    EVENT_TYPE_START_TIME_TO_END_DATE = "eventTypeStartTimeToEndDate",
 }
 
 export default CondType;

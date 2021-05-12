@@ -12,8 +12,9 @@ export enum ShopType {
     BGM = "bgm",
     LIMIT_MATERIAL = "limitMaterial",
     GRAIL_FRAGMENTS = "grailFragments",
-    SHOP04 = "shop04",
+    SVT_COSTUME = "svtCostume",
 }
+
 export enum PayType {
     STONE = "stone",
     QP = "qp",
