@@ -19,7 +19,7 @@ export default function handleChanceSection(region: Region, sections: FuncDescri
         || func.funcType === Func.FuncType.ENEMY_ENCOUNT_RATE_UP
     )) {
         parts.push(asPercent(dataVal.RateCount, 1) + ' Chance per Target to');
-    } else if (!dataVal.Rate && func.funcType !== Func.FuncType.NONE) {
+    } else if (!dataVal.Rate) {
         parts.push('Chance to');
     }
 

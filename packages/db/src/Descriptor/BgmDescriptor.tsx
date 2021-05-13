@@ -27,7 +27,7 @@ export default function BgmDescriptor(props: { region: Region; bgm: Bgm.Bgm }) {
                     variant={"info"}
                     href={bgm.audioAsset}
                     target="_blank"
-                    title={`Download ${bgm.name}`}
+                    title={`Download ${showName}`}
                 >
                     {showName}&nbsp;
                     <FontAwesomeIcon icon={faFileAudio} />

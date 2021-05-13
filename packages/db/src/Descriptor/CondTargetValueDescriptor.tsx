@@ -66,6 +66,28 @@ export default function CondTargetValueDescriptor(props: {
                     at bond level {value}
                 </>
             );
+        case CondType.SVT_FRIENDSHIP_BELOW:
+            return (
+                <>
+                    <ServantDescriptorId
+                        region={region}
+                        id={target}
+                        servants={props.servants}
+                    />{" "}
+                    at bond level {value} or lower
+                </>
+            );
+        case CondType.SVT_FRIENDSHIP_ABOVE:
+            return (
+                <>
+                    <ServantDescriptorId
+                        region={region}
+                        id={target}
+                        servants={props.servants}
+                    />{" "}
+                    at bond level {value} or higher
+                </>
+            );
         case CondType.EVENT_END:
             return (
                 <>

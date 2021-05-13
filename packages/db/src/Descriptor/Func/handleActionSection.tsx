@@ -181,6 +181,11 @@ export default function handleActionSection(region: Region, sections: FuncDescri
     }
 
     switch (func.funcType) {
+        case Func.FuncType.NONE:
+            sections.amount.showing = false;
+            sections.target.showing = false;
+            sections.chance.showing = false;
+            break;
         case Func.FuncType.ABSORB_NPTURN:
         case Func.FuncType.GAIN_HP_FROM_TARGETS:
         case Func.FuncType.GAIN_NP_FROM_TARGETS:
@@ -190,7 +195,6 @@ export default function handleActionSection(region: Region, sections: FuncDescri
         case Func.FuncType.CARD_RESET:
         case Func.FuncType.GAIN_STAR:
         case Func.FuncType.LOSS_STAR:
-        case Func.FuncType.NONE:
             sections.target.showing = false;
             break;
         case Func.FuncType.DELAY_NPTURN:
