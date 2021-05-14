@@ -34,7 +34,7 @@ class Manager {
         const value = window.localStorage.getItem(languageKey),
             language: Language | undefined = Object.values(Language).find(v => v === value);
 
-        return language ?? Language.DEFAULT;
+        return language ?? Language.ENGLISH;
     }
 
     static setLanguage(value: string) {
