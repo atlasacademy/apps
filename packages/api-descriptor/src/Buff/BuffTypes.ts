@@ -31,6 +31,7 @@ export const upDownBuffs: UpDownBuffType[] = [
         down: Buff.BuffType.DOWN_DAMAGE_INDIVIDUALITY_ACTIVEONLY,
         description: "SP.DMG"
     },
+    {up: Buff.BuffType.UP_DAMAGE_EVENT_POINT, description: "SP.DMG"},
     {up: Buff.BuffType.UP_DAMAGEDROPNP, down: Buff.BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged"},
     {up: Buff.BuffType.UP_DEFENCE, down: Buff.BuffType.DOWN_DEFENCE, description: "DEF"},
     {up: Buff.BuffType.UP_DEFENCECOMMANDALL, down: Buff.BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},

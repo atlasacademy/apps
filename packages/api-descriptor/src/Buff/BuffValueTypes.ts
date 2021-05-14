@@ -26,6 +26,7 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.DOWN_DAMAGE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_DAMAGE_INDIVIDUALITY_ACTIVEONLY, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_DAMAGE_INDIVIDUALITY_ACTIVEONLY, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.UP_DAMAGE_EVENT_POINT, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_DAMAGEDROPNP, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_DAMAGEDROPNP, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_DEFENCE, {value: DataValField.VALUE, power: 1}],
