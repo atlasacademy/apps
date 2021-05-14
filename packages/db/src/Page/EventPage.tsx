@@ -15,6 +15,7 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
+import PointBuffDescriptor from "../Descriptor/PointBuffDescriptor";
 import ShopPurchaseDescriptor from "../Descriptor/ShopPurchaseDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
@@ -31,12 +32,13 @@ import {
     Servant,
     EnumList,
     War,
+    Gift,
 } from "@atlasacademy/api-connector";
 
 interface TabInfo {
     type: "ladder" | "shop" | "mission" | "tower" | "lottery";
     id: number;
-    title: string;
+    title: string | React.ReactNode;
     tabKey: string;
 }
 
@@ -167,10 +169,10 @@ class EventPage extends React.Component<IProps, IState> {
         enums?: EnumList
     ) {
         const scrollToMissions = (id: number) => {
-            let elementRef = this.state.missionRefs.get(id);
-            (elementRef as React.RefObject<HTMLDivElement>)?.current?.scrollIntoView(
-                { behavior: "smooth" }
-            );
+            let elementRef = this.state.missionRefs.get(
+                id
+            ) as React.RefObject<HTMLDivElement>;
+            elementRef?.current?.scrollIntoView({ behavior: "smooth" });
         };
         return [
             Mission.ProgressType.OPEN_CONDITION,
@@ -300,6 +302,9 @@ class EventPage extends React.Component<IProps, IState> {
         const pointBuffMap = new Map(
             allPointBuffs.map((pointBuff) => [pointBuff.id, pointBuff])
         );
+        const pointBuffPointMap = new Map(
+            allPointBuffs.map((pointBuff) => [pointBuff.eventPoint, pointBuff])
+        );
         return (
             <Table hover responsive>
                 <thead>
@@ -310,6 +315,31 @@ class EventPage extends React.Component<IProps, IState> {
                 </thead>
                 <tbody>
                     {rewards.map((reward) => {
+                        const pointBuff = pointBuffPointMap.get(reward.point);
+                        let pointBuffDescription = null;
+                        if (pointBuff !== undefined) {
+                            const pointBuffGifts = reward.gifts
+                                .filter(
+                                    (gift) =>
+                                        gift.type ===
+                                        Gift.GiftType.EVENT_POINT_BUFF
+                                )
+                                .map((gift) => gift.objectId);
+                            // In Oniland, point buffs are listed as rewards but in MIXA event, they aren't.
+                            // If point buffs are rewards, Gift Descriptor can handle them.
+                            // Otherwise, pointBuffDescription is used.
+                            if (!pointBuffGifts.includes(pointBuff.id)) {
+                                pointBuffDescription = (
+                                    <>
+                                        <br />
+                                        <PointBuffDescriptor
+                                            region={region}
+                                            pointBuff={pointBuff}
+                                        />
+                                    </>
+                                );
+                            }
+                        }
                         return (
                             <tr key={reward.point}>
                                 <th scope="row">
@@ -328,6 +358,7 @@ class EventPage extends React.Component<IProps, IState> {
                                         )),
                                         ", "
                                     )}
+                                    {pointBuffDescription}
                                 </td>
                             </tr>
                         );
@@ -657,27 +688,57 @@ class EventPage extends React.Component<IProps, IState> {
                 })
         );
 
+        const pointGroupMap = new Map(
+            event.pointGroups.map((pointGroup) => [
+                pointGroup.groupId,
+                pointGroup,
+            ])
+        );
+
         tabs = tabs.concat(
             Array.from(new Set(event.rewards.map((reward) => reward.groupId)))
                 .sort((a, b) => a - b)
                 .map((groupId) => {
+                    let title: string | React.ReactNode = `Ladder ${groupId}`;
+                    const pointGroupInfo = pointGroupMap.get(groupId);
+                    if (groupId === 0) {
+                        title = "Ladder";
+                    } else if (pointGroupInfo !== undefined) {
+                        title = (
+                            <>
+                                <img
+                                    style={{ height: "1.75em" }}
+                                    src={pointGroupInfo.icon}
+                                    alt={`${pointGroupInfo.name} Icon`}
+                                />
+                                {pointGroupInfo.name}
+                            </>
+                        );
+                    }
                     return {
                         type: "ladder",
                         id: groupId,
-                        title: `Ladder ${groupId}`,
+                        title: title,
                         tabKey: `ladder-${groupId}`,
                     };
                 })
         );
 
+        const shopSlots = Array.from(
+            new Set(event.shop.map((shop) => shop.slot))
+        );
+
         tabs = tabs.concat(
-            Array.from(new Set(event.shop.map((shop) => shop.slot)))
+            shopSlots
                 .sort((a, b) => a - b)
                 .map((shopSlot) => {
                     return {
                         type: "shop",
                         id: shopSlot,
-                        title: `Shop ${shopSlot}`,
+                        title:
+                            shopSlots.length === 1
+                                ? "Shop"
+                                : `Shop ${shopSlot}`,
                         tabKey: `shop-${shopSlot}`,
                     };
                 })
@@ -728,7 +789,7 @@ class EventPage extends React.Component<IProps, IState> {
                 </div>
 
                 <Tabs
-                    id={"servant-tabs"}
+                    id={"event-reward-tabs"}
                     defaultActiveKey={
                         this.props.tab ??
                         (tabs.length > 0 ? tabs[0].tabKey : undefined)
