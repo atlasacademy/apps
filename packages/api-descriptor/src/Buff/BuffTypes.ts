@@ -26,6 +26,11 @@ export const upDownBuffs: UpDownBuffType[] = [
         description: "Attacker Star Drop Rate"
     },
     {up: Buff.BuffType.UP_DAMAGE, down: Buff.BuffType.DOWN_DAMAGE, description: "SP.DMG"},
+    {
+        up: Buff.BuffType.UP_DAMAGE_INDIVIDUALITY_ACTIVEONLY,
+        down: Buff.BuffType.DOWN_DAMAGE_INDIVIDUALITY_ACTIVEONLY,
+        description: "SP.DMG"
+    },
     {up: Buff.BuffType.UP_DAMAGEDROPNP, down: Buff.BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged"},
     {up: Buff.BuffType.UP_DEFENCE, down: Buff.BuffType.DOWN_DEFENCE, description: "DEF"},
     {up: Buff.BuffType.UP_DEFENCECOMMANDALL, down: Buff.BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance"},
