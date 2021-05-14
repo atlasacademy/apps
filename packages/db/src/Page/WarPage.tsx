@@ -22,8 +22,28 @@ import { QuestTypeDescription } from "./QuestPage";
 
 const imgOnError = (e: React.SyntheticEvent<HTMLImageElement, ErrorEvent>) => {
     const el = e.target as HTMLImageElement;
-    el.onerror = null;
-    el.src = "";
+    if (el.src !== "") {
+        el.onerror = null;
+        el.src = "";
+        el.alt = "";
+    }
+};
+
+const SpotImage = (props: { src?: string; name: string; height: string }) => {
+    if (props.src === undefined) return null;
+    return (
+        <img
+            style={{
+                width: "auto",
+                height: props.height,
+                position: "relative",
+                top: "-10px",
+            }}
+            src={props.src}
+            onError={imgOnError}
+            alt={`Spot ${props.name}'s image`}
+        />
+    );
 };
 
 const phaseLink = (region: Region, quest: Quest.Quest, phase: number) => {
@@ -90,16 +110,10 @@ const QuestTable = (props: {
                         </td>
                         {props.spots !== undefined ? (
                             <td style={{ whiteSpace: "nowrap" }}>
-                                <img
-                                    style={{
-                                        width: "auto",
-                                        height: "2em",
-                                        position: "relative",
-                                        top: "-10px",
-                                    }}
+                                <SpotImage
                                     src={props.spots[i].image}
-                                    onError={imgOnError}
-                                    alt={`Spot ${props.spots[i].name}'s image`}
+                                    name={props.spots[i].name}
+                                    height="2em"
                                 />{" "}
                                 <span style={{ whiteSpace: "normal" }}>
                                     {props.spots[i].name}
@@ -147,26 +161,24 @@ const MainQuests = (props: {
         }
     }
 
-    if (mainQuests.length > 0) {
-        mainQuests = mainQuests.sort((a, b) => a.quest.id - b.quest.id);
+    if (mainQuests.length === 0) return null;
 
-        const questTable = (
-            <QuestTable
-                region={props.region}
-                quests={mainQuests.map((quest) => quest.quest)}
-                itemMap={props.itemMap}
-                spots={mainQuests.map((quest) => quest.spot)}
-            />
-        );
+    mainQuests = mainQuests.sort((a, b) => a.quest.id - b.quest.id);
 
-        return renderCollapsibleContent({
-            title: "Main Quests",
-            content: questTable,
-            subheader: false,
-        });
-    } else {
-        return null;
-    }
+    const questTable = (
+        <QuestTable
+            region={props.region}
+            quests={mainQuests.map((quest) => quest.quest)}
+            itemMap={props.itemMap}
+            spots={mainQuests.map((quest) => quest.spot)}
+        />
+    );
+
+    return renderCollapsibleContent({
+        title: "Main Quests",
+        content: questTable,
+        subheader: false,
+    });
 };
 
 const Spot = (props: {
@@ -178,41 +190,29 @@ const Spot = (props: {
     const spot = props.spot;
     const filteredQuest = spot.quests.filter(props.filterQuest);
 
-    if (filteredQuest.length > 0) {
-        const title = (
-            <span>
-                <img
-                    style={{
-                        width: "auto",
-                        height: "1.5em",
-                        position: "relative",
-                        top: "-10px",
-                    }}
-                    src={spot.image}
-                    onError={imgOnError}
-                    alt={`Spot ${spot.name}'s image`}
-                />
-                {spot.name}
-            </span>
-        );
+    if (filteredQuest.length === 0) return null;
 
-        const questTable = (
-            <QuestTable
-                region={props.region}
-                quests={filteredQuest}
-                itemMap={props.itemMap}
-            />
-        );
+    const title = (
+        <span>
+            <SpotImage src={spot.image} name={spot.name} height="1.5em" />
+            {spot.name}
+        </span>
+    );
 
-        return renderCollapsibleContent({
-            title: title,
-            content: questTable,
-            subheader: true,
-            initialOpen: filteredQuest.length > 0,
-        });
-    } else {
-        return null;
-    }
+    const questTable = (
+        <QuestTable
+            region={props.region}
+            quests={filteredQuest}
+            itemMap={props.itemMap}
+        />
+    );
+
+    return renderCollapsibleContent({
+        title: title,
+        content: questTable,
+        subheader: true,
+        initialOpen: filteredQuest.length > 0,
+    });
 };
 
 const SpotQuestList = (props: {
@@ -230,29 +230,27 @@ const SpotQuestList = (props: {
         }
     }
 
-    if (hasFilteredQuest) {
-        const spots = (
-            <div>
-                {props.spots.map((spot) => (
-                    <Spot
-                        key={spot.id}
-                        region={props.region}
-                        spot={spot}
-                        filterQuest={props.filterQuest}
-                        itemMap={props.itemMap}
-                    />
-                ))}
-            </div>
-        );
+    if (!hasFilteredQuest) return null;
 
-        return renderCollapsibleContent({
-            title: props.title,
-            content: spots,
-            subheader: false,
-        });
-    } else {
-        return null;
-    }
+    const spots = (
+        <div>
+            {props.spots.map((spot) => (
+                <Spot
+                    key={spot.id}
+                    region={props.region}
+                    spot={spot}
+                    filterQuest={props.filterQuest}
+                    itemMap={props.itemMap}
+                />
+            ))}
+        </div>
+    );
+
+    return renderCollapsibleContent({
+        title: props.title,
+        content: spots,
+        subheader: false,
+    });
 };
 
 interface IProps extends RouteComponentProps {
@@ -324,15 +322,16 @@ class WarPage extends React.Component<IProps, IState> {
                 ""
             );
 
-        const banners = [war.banner].concat(
-            war.warAdds
-                .filter(
-                    (warAdd) =>
-                        warAdd.type === War.WarOverwriteType.BANNER &&
-                        warAdd.overwriteBanner !== undefined
-                )
-                .map((warAdd) => warAdd.overwriteBanner)
-        );
+        let banners: string[] = [];
+        if (war.banner !== undefined) banners.push(war.banner);
+        for (let warAdd of war.warAdds) {
+            if (
+                warAdd.type === War.WarOverwriteType.BANNER &&
+                warAdd.overwriteBanner !== undefined
+            ) {
+                banners.push(warAdd.overwriteBanner);
+            }
+        }
 
         const bannerImages = (
             <>
@@ -423,6 +422,7 @@ class WarPage extends React.Component<IProps, IState> {
                         questType.toString();
                     return (
                         <SpotQuestList
+                            key={questType}
                             title={`${questTypeDescription} Quests`}
                             region={this.props.region}
                             spots={war.spots}
