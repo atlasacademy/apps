@@ -1,15 +1,11 @@
 import { Event, Gift, Item, Region } from "@atlasacademy/api-connector";
 import { AssetHost } from "../Api";
-import ItemIcon from "../Component/ItemIcon";
-import { CommandCodeDescriptorId } from "../Descriptor/CommandCodeDescriptor";
-import CostumeDescriptor from "../Descriptor/CostumeDescriptor";
-import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
-import { FuncDescriptorId } from "../Descriptor/FuncDescriptor";
-import { MysticCodeDescriptorId } from "../Descriptor/MysticCodeDescriptor";
-import {
-    IconDescriptorMap,
-    ItemDescriptorId,
-} from "../Descriptor/ItemDescriptor";
+import { CommandCodeDescriptorId } from "./CommandCodeDescriptor";
+import CostumeDescriptor from "./CostumeDescriptor";
+import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
+import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
+import { MysticCodeDescriptorId } from "./MysticCodeDescriptor";
+import PointBuffDescriptor from "./PointBuffDescriptor";
 
 export default function GiftDescriptor(props: {
     region: Region;
@@ -119,38 +115,11 @@ export default function GiftDescriptor(props: {
                     ? props.pointBuffs.get(gift.objectId)
                     : undefined;
             if (pointBuff !== undefined) {
-                const pointBuffItem = {
-                    id: pointBuff.id,
-                    name: pointBuff.name,
-                    type: Item.ItemType.EVENT_ITEM,
-                    uses: [],
-                    detail: pointBuff.detail,
-                    individuality: [],
-                    icon: pointBuff.icon,
-                    background: pointBuff.background,
-                    priority: 0,
-                    dropPriority: 0,
-                };
                 return (
-                    <>
-                        <ItemIcon region={region} item={pointBuffItem} />
-                        <b>{pointBuff.name}</b>
-                        <br />
-                        <b>Detail:</b> {pointBuff.detail}
-                        <br />
-                        <b>Functions:</b>{" "}
-                        <ul style={{ margin: 0 }}>
-                            {pointBuff.funcIds.map((funcId) => (
-                                <li key={funcId}>
-                                    <FuncDescriptorId
-                                        region={region}
-                                        funcId={funcId}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                        <b>Value:</b> {pointBuff.value / 10}%
-                    </>
+                    <PointBuffDescriptor
+                        region={region}
+                        pointBuff={pointBuff}
+                    />
                 );
             } else {
                 return <>Event Buff {gift.objectId}</>;

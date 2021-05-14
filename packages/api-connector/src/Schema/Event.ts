@@ -37,6 +37,12 @@ export interface EventReward {
     bgImageGet: string;
 }
 
+export interface EventPointGroup {
+    groupId: number;
+    name: string;
+    icon: string;
+}
+
 export interface EventPointBuff {
     id: number;
     funcIds: number[];
@@ -117,6 +123,7 @@ export interface Event {
     warIds: number[];
     shop: Shop[];
     rewards: EventReward[];
+    pointGroups: EventPointGroup[];
     pointBuffs: EventPointBuff[];
     missions: Mission[];
     towers: EventTower[];
