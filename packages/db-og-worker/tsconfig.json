@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "commonjs",
-    "target": "es2020",
+    "target": "es2018",
     "lib": ["es2020", "webworker"],
     "alwaysStrict": true,
     "strict": true,
