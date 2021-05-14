@@ -662,6 +662,8 @@ class EventPage extends React.Component<IProps, IState> {
             });
         }
 
+        const lotteries = new Set(event.lotteries.map((lottery) => lottery.id));
+
         tabs = tabs.concat(
             event.lotteries
                 .sort((a, b) => a.id - b.id)
@@ -669,11 +671,16 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "lottery",
                         id: lottery.id,
-                        title: `Lottery ${lottery.id}`,
+                        title:
+                            lotteries.size === 1
+                                ? "Lottery"
+                                : `Lottery ${lottery.id}`,
                         tabKey: `lottery-${lottery.id}`,
                     };
                 })
         );
+
+        const towers = new Set(event.towers.map((tower) => tower.towerId));
 
         tabs = tabs.concat(
             event.towers
@@ -682,7 +689,7 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "tower",
                         id: tower.towerId,
-                        title: tower.name,
+                        title: towers.size === 1 ? "Tower" : tower.name,
                         tabKey: `tower-${tower.towerId}`,
                     };
                 })

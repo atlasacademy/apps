@@ -50,8 +50,8 @@ function overwrite(
 ) {
     const defaultDescription =
         "Atlas Academy DB - FGO Game Data Navigator - without any of the fluff.";
-    const metaDescription = `${description || title} - ${defaultDescription}`;
-    const ogDescription = description || defaultDescription;
+    const metaDescription = `${description ?? title} - ${defaultDescription}`;
+    const ogDescription = description ?? defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
         .on('[name="description"]', new Handler(metaDescription))
@@ -156,7 +156,7 @@ async function handleRequest(request: Request) {
 
         if (paths.length > 0) {
             const tabTitle =
-                tabTitles.get(paths[0]) ||
+                tabTitles.get(paths[0]) ??
                 paths[0]
                     .split("-")
                     .map((word) => toTitleCase(word))
@@ -164,7 +164,7 @@ async function handleRequest(request: Request) {
             title = `${title} - ${tabTitle}`;
         }
 
-        return overwrite(page, title, face || icon);
+        return overwrite(page, title, face ?? icon);
     }
 
     switch (subpage) {

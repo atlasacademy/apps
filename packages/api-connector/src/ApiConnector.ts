@@ -505,9 +505,10 @@ class ApiConnector {
     }
 
     event(id: number, cacheDuration?: number): Promise<Event> {
+        const query = this.getQueryString(this.getURLSearchParams({}));
         const fetch = () => {
             return ApiConnector.fetch<Event>(
-                `${this.host}/nice/${this.region}/event/${id}`
+                `${this.host}/nice/${this.region}/event/${id}${query}`
             );
         };
         if (cacheDuration === undefined) return fetch();
@@ -519,9 +520,10 @@ class ApiConnector {
     }
 
     eventBasic(id: number, cacheDuration?: number): Promise<EventBasic> {
+        const query = this.getQueryString(this.getURLSearchParams({}));
         const fetch = () => {
             return ApiConnector.fetch<Event>(
-                `${this.host}/basic/${this.region}/event/${id}`
+                `${this.host}/basic/${this.region}/event/${id}${query}`
             );
         };
         if (cacheDuration === undefined) return fetch();
@@ -533,11 +535,15 @@ class ApiConnector {
     }
 
     eventList(cacheDuration?: number): Promise<EventBasic[]> {
-        const fetch = () => {
-            return ApiConnector.fetch<EventBasic[]>(
-                `${this.host}/export/${this.region}/basic_event.json`
-            );
-        };
+        let source: string;
+
+        if (this.region === Region.JP && this.language === Language.ENGLISH) {
+            source = `${this.host}/export/JP/basic_event_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/basic_event.json`;
+        }
+
+        const fetch = () => ApiConnector.fetch<EventBasic[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
@@ -549,9 +555,10 @@ class ApiConnector {
     }
 
     war(id: number, cacheDuration?: number): Promise<War> {
+        const query = this.getQueryString(this.getURLSearchParams({}));
         const fetch = () => {
             return ApiConnector.fetch<War>(
-                `${this.host}/nice/${this.region}/war/${id}`
+                `${this.host}/nice/${this.region}/war/${id}${query}`
             );
         };
         if (cacheDuration === undefined) return fetch();
@@ -563,9 +570,10 @@ class ApiConnector {
     }
 
     warBasic(id: number, cacheDuration?: number): Promise<WarBasic> {
+        const query = this.getQueryString(this.getURLSearchParams({}));
         const fetch = () => {
             return ApiConnector.fetch<WarBasic>(
-                `${this.host}/basic/${this.region}/war/${id}`
+                `${this.host}/basic/${this.region}/war/${id}${query}`
             );
         };
         if (cacheDuration === undefined) return fetch();
@@ -577,11 +585,15 @@ class ApiConnector {
     }
 
     warList(cacheDuration?: number): Promise<WarBasic[]> {
-        const fetch = () => {
-            return ApiConnector.fetch<WarBasic[]>(
-                `${this.host}/export/${this.region}/basic_war.json`
-            );
-        };
+        let source: string;
+
+        if (this.region === Region.JP && this.language === Language.ENGLISH) {
+            source = `${this.host}/export/JP/basic_war_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/basic_war.json`;
+        }
+
+        const fetch = () => ApiConnector.fetch<WarBasic[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
