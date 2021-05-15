@@ -290,6 +290,10 @@ const QuestEnemySubData = (props: {
         <Table bordered responsive className="quest-enemy-data-table">
             <tbody>
                 {renderSpanningRow({
+                    title: "Class",
+                    content: toTitleCase(enemy.svt.className),
+                })}
+                {renderSpanningRow({
                     title: "Attribute",
                     content: toTitleCase(enemy.svt.attribute),
                 })}

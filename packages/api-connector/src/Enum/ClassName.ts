@@ -12,6 +12,7 @@ enum ClassName {
     AVENGER = "avenger",
     GRAND_CASTER = "grandCaster",
     BEAST_II = "beastII",
+    USHI_CHAOS_TIDE = "ushiChaosTide",
     BEAST_I = "beastI",
     MOON_CANCER = "moonCancer",
     BEAST_IIIR = "beastIIIR",
@@ -19,6 +20,7 @@ enum ClassName {
     BEAST_IIIL = "beastIIIL",
     BEAST_UNKNOWN = "beastUnknown",
     UNKNOWN = "unknown",
+    CCC_FINALE_EMIYA_ALTER = "cccFinaleEmiyaAlter",
     ALL = "ALL",
     EXTRA = "EXTRA",
 }
