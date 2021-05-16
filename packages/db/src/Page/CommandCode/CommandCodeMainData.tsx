@@ -4,6 +4,7 @@ import React from "react";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
+import { handleNewLine } from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
@@ -26,7 +27,7 @@ class CommandCodeMainData extends React.Component<IProps> {
                     "Name": commandCode.name,
                     "Rarity": <RarityDescriptor rarity={commandCode.rarity}/>,
                     "Illustrator": commandCode.illustrator,
-                    "Comment": commandCode.comment,
+                    "Comment": handleNewLine(commandCode.comment),
                 }}/>
                 <span>
                     <RawDataViewer text="Nice" data={commandCode}/>
