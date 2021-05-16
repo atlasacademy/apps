@@ -72,7 +72,7 @@ export default function SearchableSelect<T>(props: IProps<T>) {
                     props.selectedAsPlaceholder ? undefined : selectedOptions
                 }
                 placeholder={
-                    props.selectedAsPlaceholder
+                    props.selectedAsPlaceholder && selectedOptions.length > 0
                         ? selectedOptions[0].label
                         : "All"
                 }
