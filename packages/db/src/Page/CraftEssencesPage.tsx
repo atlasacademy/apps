@@ -333,7 +333,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                               height={50}/>
                                 </Link>
                             </td>
-                            <td>
+                            <td style={{ whiteSpace: Manager.showingJapaneseText() ? "pre-wrap": "normal" }}>
                                 <Link to={route}>
                                     {craftEssence.name}
                                 </Link>

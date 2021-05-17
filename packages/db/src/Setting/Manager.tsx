@@ -55,6 +55,10 @@ class Manager {
         Manager.triggerCallbacks();
     }
 
+    static showingJapaneseText(): boolean {
+        return this.region() === Region.JP && this.language() === Language.DEFAULT;
+    }
+
     static theme(): Theme {
         const value = window.localStorage.getItem(themeKey),
             theme = Object.values(Theme).find(v => v === value);

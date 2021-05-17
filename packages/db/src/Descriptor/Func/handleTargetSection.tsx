@@ -3,7 +3,7 @@ import {FuncDescriptorSections} from "./FuncDescriptorSections";
 
 export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     [Func.FuncTargetType.SELF, 'self'],
-    [Func.FuncTargetType.PT_ONE, 'party member'],
+    [Func.FuncTargetType.PT_ONE, 'one party member'],
     // PT_ANOTHER
     [Func.FuncTargetType.PT_ALL, 'party'],
     [Func.FuncTargetType.ENEMY, 'one enemy'],
@@ -12,10 +12,10 @@ export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     [Func.FuncTargetType.PT_FULL, 'party (including reserve)'],
     [Func.FuncTargetType.ENEMY_FULL, 'all enemies (including reserve)'],
     [Func.FuncTargetType.PT_OTHER, 'party except self'],
-    [Func.FuncTargetType.PT_ONE_OTHER, 'other party members besides target'],
-    [Func.FuncTargetType.PT_RANDOM, 'random party member'],
+    [Func.FuncTargetType.PT_ONE_OTHER, 'another party member besides target'],
+    [Func.FuncTargetType.PT_RANDOM, 'one random party member'],
     [Func.FuncTargetType.ENEMY_OTHER, 'other enemies besides target'],
-    [Func.FuncTargetType.ENEMY_RANDOM, 'random enemy'],
+    [Func.FuncTargetType.ENEMY_RANDOM, 'one random enemy'],
     [Func.FuncTargetType.PT_OTHER_FULL, 'party except self (including reserve)'],
     [Func.FuncTargetType.ENEMY_OTHER_FULL, 'other enemies (including reserve)'],
     [Func.FuncTargetType.PTSELECT_ONE_SUB, 'active party member and reserve party member'],

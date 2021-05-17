@@ -395,7 +395,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                               height={50}/>
                                 </Link>
                             </td>
-                            <td>
+                            <td style={{ whiteSpace: Manager.showingJapaneseText() ? "nowrap": "normal" }}>
                                 <Link to={route}>
                                     {servant.name}
                                 </Link>
