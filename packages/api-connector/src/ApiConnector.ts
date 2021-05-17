@@ -281,10 +281,6 @@ class ApiConnector {
             }
         }
 
-        if (this.language === Language.ENGLISH) {
-            searchParams.set("lang", "en");
-        }
-
         return searchParams;
     }
 
@@ -295,8 +291,15 @@ class ApiConnector {
     }
 
     getQueryString(query: URLSearchParams) {
+        if (this.language === Language.ENGLISH) {
+            query.set("lang", "en");
+        }
         const queryString = query.toString();
         return `${queryString !== "" ? "?" : ""}${queryString}`;
+    }
+
+    showJPdataWithEnglishText() {
+        return this.region === Region.JP && this.language === Language.ENGLISH;
     }
 
     buff(
@@ -304,12 +307,10 @@ class ApiConnector {
         reverse?: ReverseOptions,
         cacheDuration?: number
     ): Promise<Buff> {
-        const query = this.getReverseParams(reverse);
+        const query = this.getQueryString(this.getReverseParams(reverse));
         const fetch = () => {
             return ApiConnector.fetch<Buff>(
-                `${this.host}/nice/${
-                    this.region
-                }/buff/${id}${this.getQueryString(query)}`
+                `${this.host}/nice/${this.region}/buff/${id}${query}`
             );
         };
 
@@ -327,12 +328,10 @@ class ApiConnector {
         reverse?: ReverseOptions,
         cacheDuration?: number
     ): Promise<BasicBuff> {
-        const query = this.getReverseParams(reverse);
+        const query = this.getQueryString(this.getReverseParams(reverse));
         const fetch = () => {
             return ApiConnector.fetch<BasicBuff>(
-                `${this.host}/basic/${
-                    this.region
-                }/buff/${id}${this.getQueryString(query)}`
+                `${this.host}/basic/${this.region}/buff/${id}${query}`
             );
         };
 
@@ -357,7 +356,7 @@ class ApiConnector {
     }
 
     commandCode(id: number, cacheDuration?: number): Promise<CommandCode> {
-        const query = this.language === Language.ENGLISH ? "?lang=en" : "";
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<CommandCode>(
                 `${this.host}/nice/${this.region}/CC/${id}${query}`
@@ -377,7 +376,7 @@ class ApiConnector {
         id: number,
         cacheDuration?: number
     ): Promise<CommandCodeBasic> {
-        const query = this.language === Language.ENGLISH ? "?lang=en" : "";
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<CommandCodeBasic>(
                 `${this.host}/basic/${this.region}/CC/${id}${query}`
@@ -396,7 +395,7 @@ class ApiConnector {
     async commandCodeList(cacheDuration?: number): Promise<CommandCodeBasic[]> {
         let source: string;
 
-        if (this.region === Region.JP && this.language === Language.ENGLISH) {
+        if (this.showJPdataWithEnglishText()) {
             source = `${this.host}/export/JP/basic_command_code_lang_en.json`;
         } else {
             source = `${this.host}/export/${this.region}/basic_command_code.json`;
@@ -442,7 +441,7 @@ class ApiConnector {
         id: number,
         cacheDuration?: number
     ): Promise<CraftEssenceBasic> {
-        const query = this.language === Language.ENGLISH ? "?lang=en" : "",
+        const query = this.getQueryString(new URLSearchParams()),
             fetch = () => {
                 return ApiConnector.fetch<CraftEssenceBasic>(
                     `${this.host}/basic/${this.region}/equip/${id}${query}`
@@ -461,20 +460,13 @@ class ApiConnector {
     craftEssenceList(cacheDuration?: number): Promise<CraftEssenceBasic[]> {
         let source: string;
 
-        if (this.region === Region.NA) {
-            source = `${this.host}/export/NA/basic_equip.json`;
-        } else if (
-            this.region === Region.JP &&
-            this.language === Language.DEFAULT
-        ) {
-            source = `${this.host}/export/JP/basic_equip.json`;
-        } else {
+        if (this.showJPdataWithEnglishText()) {
             source = `${this.host}/export/JP/basic_equip_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/basic_equip.json`;
         }
 
-        const fetch = () => {
-            return ApiConnector.fetch<CraftEssenceBasic[]>(source);
-        };
+        const fetch = () => ApiConnector.fetch<CraftEssenceBasic[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
@@ -505,7 +497,7 @@ class ApiConnector {
     }
 
     event(id: number, cacheDuration?: number): Promise<Event> {
-        const query = this.getQueryString(this.getURLSearchParams({}));
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<Event>(
                 `${this.host}/nice/${this.region}/event/${id}${query}`
@@ -520,7 +512,7 @@ class ApiConnector {
     }
 
     eventBasic(id: number, cacheDuration?: number): Promise<EventBasic> {
-        const query = this.getQueryString(this.getURLSearchParams({}));
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<Event>(
                 `${this.host}/basic/${this.region}/event/${id}${query}`
@@ -537,7 +529,7 @@ class ApiConnector {
     eventList(cacheDuration?: number): Promise<EventBasic[]> {
         let source: string;
 
-        if (this.region === Region.JP && this.language === Language.ENGLISH) {
+        if (this.showJPdataWithEnglishText()) {
             source = `${this.host}/export/JP/basic_event_lang_en.json`;
         } else {
             source = `${this.host}/export/${this.region}/basic_event.json`;
@@ -555,7 +547,7 @@ class ApiConnector {
     }
 
     war(id: number, cacheDuration?: number): Promise<War> {
-        const query = this.getQueryString(this.getURLSearchParams({}));
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<War>(
                 `${this.host}/nice/${this.region}/war/${id}${query}`
@@ -570,7 +562,7 @@ class ApiConnector {
     }
 
     warBasic(id: number, cacheDuration?: number): Promise<WarBasic> {
-        const query = this.getQueryString(this.getURLSearchParams({}));
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<WarBasic>(
                 `${this.host}/basic/${this.region}/war/${id}${query}`
@@ -587,7 +579,7 @@ class ApiConnector {
     warList(cacheDuration?: number): Promise<WarBasic[]> {
         let source: string;
 
-        if (this.region === Region.JP && this.language === Language.ENGLISH) {
+        if (this.showJPdataWithEnglishText()) {
             source = `${this.host}/export/JP/basic_war_lang_en.json`;
         } else {
             source = `${this.host}/export/${this.region}/basic_war.json`;
@@ -609,12 +601,10 @@ class ApiConnector {
         reverse?: ReverseOptions,
         cacheDuration?: number
     ): Promise<Func> {
-        const query = this.getReverseParams(reverse);
+        const query = this.getQueryString(this.getReverseParams(reverse));
         const fetch = () => {
             return ApiConnector.fetch<Func>(
-                `${this.host}/nice/${
-                    this.region
-                }/function/${id}${this.getQueryString(query)}`
+                `${this.host}/nice/${this.region}/function/${id}${query}`
             );
         };
 
@@ -632,12 +622,10 @@ class ApiConnector {
         reverse?: ReverseOptions,
         cacheDuration?: number
     ): Promise<BasicFunc> {
-        const query = this.getReverseParams(reverse);
+        const query = this.getQueryString(this.getReverseParams(reverse));
         const fetch = () => {
             return ApiConnector.fetch<BasicFunc>(
-                `${this.host}/basic/${
-                    this.region
-                }/function/${id}${this.getQueryString(query)}`
+                `${this.host}/basic/${this.region}/function/${id}${query}`
             );
         };
 
@@ -651,9 +639,10 @@ class ApiConnector {
     }
 
     item(id: number, cacheDuration?: number): Promise<Item> {
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<Item>(
-                `${this.host}/nice/${this.region}/item/${id}`
+                `${this.host}/nice/${this.region}/item/${id}${query}`
             );
         };
 
@@ -667,11 +656,14 @@ class ApiConnector {
     }
 
     itemList(cacheDuration?: number): Promise<Item[]> {
-        const fetch = () => {
-            return ApiConnector.fetch<Item[]>(
-                `${this.host}/export/${this.region}/nice_item.json`
-            );
-        };
+        let source: string;
+        if (this.showJPdataWithEnglishText()) {
+            source = `${this.host}/export/JP/nice_item_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/nice_item.json`;
+        }
+
+        const fetch = () => ApiConnector.fetch<Item[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
@@ -683,7 +675,7 @@ class ApiConnector {
     }
 
     mysticCode(id: number, cacheDuration?: number): Promise<MysticCode> {
-        const query = this.language === Language.ENGLISH ? "?lang=en" : "";
+        const query = this.getQueryString(new URLSearchParams());
 
         const fetch = () => {
             return ApiConnector.fetch<MysticCode>(
@@ -704,7 +696,7 @@ class ApiConnector {
         id: number,
         cacheDuration?: number
     ): Promise<MysticCodeBasic> {
-        const query = this.language === Language.ENGLISH ? "?lang=en" : "";
+        const query = this.getQueryString(new URLSearchParams());
 
         const fetch = () => {
             return ApiConnector.fetch<MysticCodeBasic>(
@@ -723,21 +715,13 @@ class ApiConnector {
 
     mysticCodeList(cacheDuration?: number): Promise<MysticCodeBasic[]> {
         let source: string;
-
-        if (this.region === Region.NA) {
-            source = `${this.host}/export/NA/basic_mystic_code.json`;
-        } else if (
-            this.region === Region.JP &&
-            this.language === Language.DEFAULT
-        ) {
-            source = `${this.host}/export/JP/basic_mystic_code.json`;
-        } else {
+        if (this.showJPdataWithEnglishText()) {
             source = `${this.host}/export/JP/basic_mystic_code_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/basic_mystic_code.json`;
         }
 
-        const fetch = () => {
-            return ApiConnector.fetch<MysticCodeBasic[]>(source);
-        };
+        const fetch = () => ApiConnector.fetch<MysticCodeBasic[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
@@ -753,12 +737,10 @@ class ApiConnector {
         reverse?: ReverseOptions,
         cacheDuration?: number
     ): Promise<NoblePhantasm> {
-        const query = this.getReverseParams(reverse);
+        const query = this.getQueryString(this.getReverseParams(reverse));
         const fetch = () => {
             return ApiConnector.fetch<NoblePhantasm>(
-                `${this.host}/nice/${this.region}/NP/${id}${this.getQueryString(
-                    query
-                )}`
+                `${this.host}/nice/${this.region}/NP/${id}${query}`
             );
         };
 
@@ -844,7 +826,7 @@ class ApiConnector {
     }
 
     entityBasic(id: number, cacheDuration?: number): Promise<EntityBasic> {
-        const query = this.language === Language.ENGLISH ? "?lang=en" : "";
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<EntityBasic>(
                 `${this.host}/basic/${this.region}/svt/${id}${query}`
@@ -885,21 +867,13 @@ class ApiConnector {
 
     servantList(cacheDuration?: number): Promise<ServantBasic[]> {
         let source: string;
-
-        if (this.region === Region.NA) {
-            source = `${this.host}/export/NA/basic_servant.json`;
-        } else if (
-            this.region === Region.JP &&
-            this.language === Language.DEFAULT
-        ) {
-            source = `${this.host}/export/JP/basic_servant.json`;
-        } else {
+        if (this.showJPdataWithEnglishText()) {
             source = `${this.host}/export/JP/basic_servant_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/basic_servant.json`;
         }
 
-        const fetch = () => {
-            return ApiConnector.fetch<ServantBasic[]>(source);
-        };
+        const fetch = () => ApiConnector.fetch<ServantBasic[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
@@ -912,21 +886,13 @@ class ApiConnector {
 
     servantListNice(cacheDuration?: number): Promise<Servant[]> {
         let source: string;
-
-        if (this.region === Region.NA) {
-            source = `${this.host}/export/NA/nice_servant.json`;
-        } else if (
-            this.region === Region.JP &&
-            this.language === Language.DEFAULT
-        ) {
-            source = `${this.host}/export/JP/nice_servant.json`;
-        } else {
+        if (this.showJPdataWithEnglishText()) {
             source = `${this.host}/export/JP/nice_servant_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/nice_servant.json`;
         }
 
-        const fetch = () => {
-            return ApiConnector.fetch<Servant[]>(source);
-        };
+        const fetch = () => ApiConnector.fetch<Servant[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
@@ -942,12 +908,10 @@ class ApiConnector {
         reverse?: ReverseOptions,
         cacheDuration?: number
     ): Promise<Skill> {
-        const query = this.getReverseParams(reverse);
+        const query = this.getQueryString(this.getReverseParams(reverse));
         const fetch = () => {
             return ApiConnector.fetch<Skill>(
-                `${this.host}/nice/${
-                    this.region
-                }/skill/${id}${this.getQueryString(query)}`
+                `${this.host}/nice/${this.region}/skill/${id}${query}`
             );
         };
 
@@ -965,12 +929,10 @@ class ApiConnector {
         reverse?: ReverseOptions,
         cacheDuration?: number
     ): Promise<SkillBasic> {
-        const query = this.getReverseParams(reverse);
+        const query = this.getQueryString(this.getReverseParams(reverse));
         const fetch = () => {
             return ApiConnector.fetch<Skill>(
-                `${this.host}/basic/${
-                    this.region
-                }/skill/${id}${this.getQueryString(query)}`
+                `${this.host}/basic/${this.region}/skill/${id}${query}`
             );
         };
 
