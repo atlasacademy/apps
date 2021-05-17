@@ -1,0 +1,35 @@
+{
+  "name": "@atlasacademy/battle",
+  "version": "3.0.17",
+  "description": "Library to run fgo battle simulations",
+  "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/battle",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
+    "build": "tsc",
+    "link": "npm run build && cd dist && npm link",
+    "watch": "tsc -w --preserveWatchOutput"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/chai": "^4.2.18",
+    "@types/mocha": "^8.2.2",
+    "@types/uuid": "^8.3.0",
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "@atlasacademy/api-connector": "^3.0.17",
+    "axios": "^0.21.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

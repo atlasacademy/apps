@@ -1,0 +1,50 @@
+import {Skill} from "@atlasacademy/api-connector/dist/Schema/Skill";
+import {Battle} from "../Battle";
+import BattleEvent from "../Event/BattleEvent";
+import BattleSkillFunc from "./BattleSkillFunc";
+
+export interface BattleSkillProps {
+    actorId: number,
+    id: number,
+    skill: Skill,
+    level: number,
+}
+
+export interface BattleSkillState {
+    cooldown: number,
+    funcs: BattleSkillFunc[],
+}
+
+export default class BattleSkill {
+    public state: BattleSkillState;
+
+    constructor(public props: BattleSkillProps, state: BattleSkillState | null) {
+        this.state = state ?? {
+            cooldown: 0,
+            funcs: props.skill.functions.map((func, i) => {
+                return new BattleSkillFunc({
+                    actorId: props.actorId,
+                    func,
+                }, {
+                    dataVal: func.svals[props.level - 1],
+                });
+            })
+        };
+    }
+
+    activate(battle: Battle): BattleEvent[] {
+        const events = [];
+        for (let i = 0; i < this.state.funcs.length; i++) {
+            const func = this.state.funcs[i];
+
+            events.push(...func.execute(battle));
+        }
+
+        return events;
+    }
+
+    clone(): BattleSkill {
+        return new BattleSkill(this.props, {...this.state});
+    }
+
+}
