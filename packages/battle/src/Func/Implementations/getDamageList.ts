@@ -148,7 +148,7 @@ export default function getDamageList(actor: BattleActor,
         damageList = [];
 
     for (let i = 0; i < hits.length - 1; i++) {
-        let damageInstance = damageTotal * hits[i] / hitDistributionTotal;
+        let damageInstance = Math.floor(damageTotal * hits[i] / hitDistributionTotal);
         if (damageInstance <= 0 && didHit) {
             damageInstance = 1;
         }
@@ -182,13 +182,13 @@ export default function getDamageList(actor: BattleActor,
         }
 
         let stars = 0,
-            starRange = starRate * overkillStarMod + overkillStarBonus;
+            starRange = Math.floor(starRate * overkillStarMod + overkillStarBonus);
         for (let j = Math.min(starRange, maxStarRate); j > 0; j -= 1000) {
             stars += battle.random(0, 1000) >= j ? 0 : 1;
         }
 
-        let attackNpGained = calcNpGained(actor, attackNpGainRate * overkillNpGainMod),
-            defenceNpGained = calcNpGained(target, defenceNpGainRate * overkillNpGainMod);
+        let attackNpGained = calcNpGained(actor, Math.floor(attackNpGainRate * overkillNpGainMod)),
+            defenceNpGained = calcNpGained(target, Math.floor(defenceNpGainRate * overkillNpGainMod));
 
         let event = new BattleDamageEvent(actor, target, true, {
             damage: damageList[i],
