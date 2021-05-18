@@ -101,7 +101,7 @@ export default function getDamageList(actor: BattleActor,
     damageTotal *= battle.random(
         GameConstantManager.getValue('ATTACK_RATE_RANDOM_MIN'),
         GameConstantManager.getValue('ATTACK_RATE_RANDOM_MAX')
-    );
+    ) / 1000;
     damageTotal *= GameConstantManager.getValue('ATTACK_RATE') / 1000;
     damageTotal *= attackMagnification(battle, attack, actor, target);
 
@@ -130,7 +130,7 @@ export default function getDamageList(actor: BattleActor,
     damageTotal *= npTraitBonusMagnification(battle, actor, target);
     damageTotal += attackBonus(battle, attack, actor, target);
     if (!attack.np && attack.busterChain())
-        damageTotal += actor.props.baseAttack * GameConstantManager.getValue('CHAINBONUS_BUSTER_RATE');
+        damageTotal += actor.props.baseAttack * GameConstantManager.getRateValue('CHAINBONUS_BUSTER_RATE');
 
     if (attack.np && actor.noblePhantasm().props.type === NoblePhantasmType.NOBLE_SAFE) {
         if (damageTotal >= target.state.health)
@@ -176,8 +176,8 @@ export default function getDamageList(actor: BattleActor,
         target.reduceHpForOverkill(damageList[i]);
 
         if (overkill) {
-            overkillNpGainMod = GameConstantManager.getValue('OVER_KILL_NP_RATE');
-            overkillStarMod = GameConstantManager.getValue('OVER_KILL_STAR_RATE');
+            overkillNpGainMod = GameConstantManager.getRateValue('OVER_KILL_NP_RATE');
+            overkillStarMod = GameConstantManager.getRateValue('OVER_KILL_STAR_RATE');
             overkillStarBonus = GameConstantManager.getValue('OVER_KILL_STAR_ADD');
         }
 
