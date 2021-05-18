@@ -1,15 +1,26 @@
-import {ClassName} from "@atlasacademy/api-connector";
+import {Card, ClassName} from "@atlasacademy/api-connector";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
+import {BattleAttackActionList} from "../Action/BattleAttackAction";
+import {Battle} from "../Battle";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
+import BattleEvent from "../Event/BattleEvent";
+import getDamageList from "../Func/Implementations/getDamageList";
 import {GameBuffGroup} from "../Game/GameBuffConstantMap";
 import BattleSkill from "../Skill/BattleSkill";
-import {Battle} from "../Battle";
+
+export interface BattleActorHitDistribution {
+    buster?: number[],
+    arts?: number[];
+    quick?: number[];
+    extra?: number[];
+}
 
 export interface BattleActorProps {
     baseAttack: number,
     baseHealth: number,
     className: ClassName,
+    hits: BattleActorHitDistribution,
     id: number,
     level: number,
     name: string,
@@ -45,6 +56,30 @@ export class BattleActor {
         return Math.round(attack);
     }
 
+    autoAttack(action: BattleAttackActionList, num: number, battle?: Battle, target?: BattleActor): BattleEvent[] {
+        const attack = action.get(num);
+        if (!attack)
+            return [];
+
+        let hits = [100];
+        switch (attack.card) {
+            case Card.BUSTER:
+                hits = this.props.hits.buster ?? [100];
+                break;
+            case Card.QUICK:
+                hits = this.props.hits.quick ?? [100];
+                break;
+            case Card.ARTS:
+                hits = this.props.hits.arts ?? [100];
+                break;
+            case Card.EXTRA:
+                hits = this.props.hits.extra ?? [100];
+                break;
+        }
+
+        return getDamageList(this, attack, hits, false, battle, target);
+    }
+
     clone(): BattleActor {
         return new BattleActor(this.props, this.cloneState());
     }
@@ -55,8 +90,8 @@ export class BattleActor {
         return this.props.traits.filter(_trait => _trait.id === traitId).length > 0;
     }
 
-    health(state?: Battle): number {
-        const traits = this.traits(state),
+    health(battle?: Battle): number {
+        const traits = this.traits(battle),
             targetTraits: Trait[] = [];
 
         return (
@@ -73,11 +108,11 @@ export class BattleActor {
         return this.state.skills.filter(skill => skill.props.id === num).shift();
     }
 
-    traits(state?: Battle): Trait[] {
+    traits(battle?: Battle): Trait[] {
         const traits: Trait[] = [];
 
         traits.push(...this.props.traits);
-        if (state) traits.push(...state.state.traits);
+        if (battle) traits.push(...battle.state.traits);
 
         return traits;
     }
@@ -89,4 +124,27 @@ export class BattleActor {
             skills: this.state.skills.map(skill => skill.clone()),
         };
     }
+
+
+    private getAttackDamageList(card: Card): number[] {
+        let damageList = [100];
+
+        switch (card) {
+            case Card.BUSTER:
+                damageList = this.props.hits.buster ?? [100];
+                break;
+            case Card.QUICK:
+                damageList = this.props.hits.quick ?? [100];
+                break;
+            case Card.ARTS:
+                damageList = this.props.hits.arts ?? [100];
+                break;
+            case Card.EXTRA:
+                damageList = this.props.hits.extra ?? [100];
+                break;
+        }
+
+        return damageList;
+    }
+
 }

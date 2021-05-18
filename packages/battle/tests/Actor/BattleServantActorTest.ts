@@ -72,7 +72,7 @@ describe('BattleServantActor', () => {
         actions.add(servant, Card.QUICK);
         actions.add(servant, Card.ARTS);
 
-        // servant.autoAttack(battle, target, actions, 1);
+        servant.autoAttack(battle, target, actions, 1);
         // servant.autoAttack(battle, target, actions, 2);
         // servant.autoAttack(battle, target, actions, 3);
         // servant.autoAttack(battle, target, actions, 4);

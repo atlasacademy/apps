@@ -3,7 +3,9 @@ import {BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
 export enum GameBuffGroup {
     ATK = "atk",
     COMMAND_ATK = "commandAtk",
+    COMMAND_DEF = "commandDef",
     MAX_HP_VALUE = "maxhpValue",
+    MULTI_ATTACK = "multiattack",
 }
 
 export enum GameBuffLimit {

@@ -1,12 +1,19 @@
 import {Card} from "@atlasacademy/api-connector";
 import {BattleActor} from "../Actor/BattleActor";
 
-export default class BattleAttackAction {
+export interface BattleAttackAction {
+    actor: BattleActor,
+    card: Card,
+    np: boolean,
+    num: number,
+}
 
-    public actions: { actor: BattleActor, card: Card }[] = [];
+export class BattleAttackActionList {
 
-    add(actor: BattleActor, card: Card) {
-        this.actions.push({actor, card});
+    public actions: BattleAttackAction[] = [];
+
+    add(actor: BattleActor, card: Card, np: boolean) {
+        this.actions.push({actor, card, np, num: this.actions.length + 1});
 
         const validCards = [Card.BUSTER, Card.QUICK, Card.ARTS],
             validCardCount = this.actions
@@ -15,6 +22,11 @@ export default class BattleAttackAction {
                 .length;
 
         if (validCardCount >= 3)
-            this.actions.push({actor, card: Card.EXTRA});
+            this.actions.push({actor, card: Card.EXTRA, np: false, num: this.actions.length + 1});
     }
+
+    get(num: number): BattleAttackAction | undefined {
+        return this.actions[num - 1];
+    }
+
 }

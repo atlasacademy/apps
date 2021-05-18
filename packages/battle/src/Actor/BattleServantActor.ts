@@ -43,6 +43,7 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
         baseAttack: servantProps.servant.atkGrowth[level - 1] + (servantProps.fouAttack ?? 1000),
         baseHealth: servantProps.servant.hpGrowth[level - 1] + (servantProps.fouHealth ?? 1000),
         className: servantProps.servant.className,
+        hits: servantProps.servant.hitsDistribution,
         id: servantProps.id,
         level,
         name: servantProps.servant.ruby,
