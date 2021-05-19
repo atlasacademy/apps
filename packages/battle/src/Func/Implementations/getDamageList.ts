@@ -9,41 +9,6 @@ import GameConstantManager from "../../Game/GameConstantManager";
 import {GameConstantKey} from "../../Game/GameConstants";
 import {Variable, VariableType} from "../../Game/Variable";
 
-function cardHitDistribution(battle: Battle,
-                             attack: BattleAttackAction,
-                             actor: BattleActor,
-                             target: BattleActor): number[] {
-    let hits = [100];
-    switch (attack.card) {
-        case Card.BUSTER:
-            hits = actor.props.hits.buster ?? [100];
-            break;
-        case Card.QUICK:
-            hits = actor.props.hits.quick ?? [100];
-            break;
-        case Card.ARTS:
-            hits = actor.props.hits.arts ?? [100];
-            break;
-        case Card.EXTRA:
-            hits = actor.props.hits.extra ?? [100];
-            break;
-    }
-
-    const multiHit = actor.state.buffs.netBuffs(
-        GameBuffGroup.MULTI_ATTACK,
-        actor.traits(battle, attack),
-        target.traits(battle, attack)
-    );
-
-    if (multiHit > 1) {
-        hits = hits.map(hit => {
-            return new Array(multiHit).fill(hit).map(damage => Math.floor(damage / multiHit));
-        }).flat();
-    }
-
-    return hits;
-}
-
 // function classAttack(className: ClassName): number {
 //     const classAttack = GameConstantManager.classAttackRate(className);
 //     if (!classAttack) {
@@ -100,19 +65,18 @@ function getDamageList(battle: Battle,
                        attack: BattleAttackAction,
                        actor: BattleActor,
                        target: BattleActor): BattleEvent[] {
-    let hits = cardHitDistribution(battle, attack, actor, target);
-    // if (attack.np)
-    //     hits = npHitDistribution(battle, actor);
-    //
-    // hits = applyMultiAttack(hits, battle, attack, actor, target);
-    // let hitDistributionTotal = hits.reduce((a, b) => a + b);
-    // let damageTotal = new Variable(VariableType.FLOAT, actor.props.baseAttack * hitDistributionTotal / 100);
-    //
-    // let percentMod = new Variable(VariableType.FLOAT, 1000);
-    // if (attack.np) {
-    //     percentMod = npBaseValue(actor);
+    let hits = actor.hits(attack, battle, target);
+    if (attack.np)
+        hits = actor.noblePhantasm().hits();
+
+    let hitDistributionTotal = hits.reduce((a, b) => a + b);
+    let damageTotal = new Variable(VariableType.FLOAT, actor.props.baseAttack * hitDistributionTotal / 100);
+
+    let percentMod = new Variable(VariableType.FLOAT, 1000);
+    if (attack.np) {
+        // percentMod = npBaseValue(actor);
     //     percentMod = percentMod.add(npRatioMagnification(actor));
-    // }
+    }
     // percentMod = percentMod.divide(new Variable(VariableType.FLOAT, 1000));
     //
     // damageTotal = damageTotal.multiply(percentMod);
@@ -236,5 +200,4 @@ function getDamageList(battle: Battle,
     return [];
 }
 
-export {cardHitDistribution};
 export default getDamageList;

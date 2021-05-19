@@ -4,6 +4,7 @@ import {Servant} from "@atlasacademy/api-connector/dist/Schema/Servant";
 import {Skill} from "@atlasacademy/api-connector/dist/Schema/Skill";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
+import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 import {BattleActor, BattleActorProps, BattleActorState} from "./BattleActor";
 
@@ -66,6 +67,22 @@ function castSkill(skills: Skill[], actorId: number, position: number, level: nu
     return new BattleSkill({actorId, id: position, skill, level}, null);
 }
 
+function getNoblePhantasm(servantProps: BattleServantActorProps): BattleNoblePhantasm {
+    const questIds = servantProps.questIds ?? servantProps.servant.relateQuestIds,
+        noblePhantasm = servantProps.servant.noblePhantasms
+            .filter(noblePhantasm => !noblePhantasm.condQuestId || questIds.includes(noblePhantasm.condQuestId))
+            .sort((a, b) => b.id - a.id)
+            .shift();
+
+    if (!noblePhantasm)
+        throw new Error('FAILED TO FIND NOBLE PHANTASM');
+
+    return new BattleNoblePhantasm({
+        level: servantProps.noblePhantasmLevel ?? 1,
+        np: noblePhantasm,
+    }, null);
+}
+
 function getSkills(servantProps: BattleServantActorProps): BattleSkill[] {
     const questIds = servantProps.questIds ?? servantProps.servant.relateQuestIds,
         skills: BattleSkill[] = [];
@@ -89,6 +106,7 @@ export default class BattleServantActor extends BattleActor {
             buffs: new BattleBuffManager([]),
             gauge: 0,
             health: 0,
+            noblePhantasm: getNoblePhantasm(servantProps),
             position: 0,
             skills: getSkills(servantProps),
         });

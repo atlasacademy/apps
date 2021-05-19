@@ -1,4 +1,4 @@
-import {ClassName} from "@atlasacademy/api-connector";
+import {Card, ClassName} from "@atlasacademy/api-connector";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
 import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {Battle} from "../Battle";
@@ -7,6 +7,7 @@ import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
 import getDamageList from "../Func/Implementations/getDamageList";
 import {GameBuffGroup} from "../Game/GameBuffConstantMap";
+import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 
 export interface BattleActorHitDistribution {
@@ -33,6 +34,7 @@ export interface BattleActorState {
     buffs: BattleBuffManager,
     gauge: number,
     health: number,
+    noblePhantasm: BattleNoblePhantasm,
     position: number,
     skills: BattleSkill[],
 }
@@ -78,19 +80,56 @@ export class BattleActor {
         );
     }
 
+    hits(attack: BattleAttackAction, battle?: Battle, target?: BattleActor): number[] {
+        let hits = [100];
+        switch (attack.card) {
+            case Card.BUSTER:
+                hits = this.props.hits.buster ?? [100];
+                break;
+            case Card.QUICK:
+                hits = this.props.hits.quick ?? [100];
+                break;
+            case Card.ARTS:
+                hits = this.props.hits.arts ?? [100];
+                break;
+            case Card.EXTRA:
+                hits = this.props.hits.extra ?? [100];
+                break;
+        }
+
+        const multiHit = this.state.buffs.netBuffs(
+            GameBuffGroup.MULTI_ATTACK,
+            this.traits(battle, attack),
+            target?.traits(battle, attack) ?? []
+        );
+
+        if (multiHit > 1) {
+            hits = hits.map(hit => {
+                return new Array(multiHit).fill(hit).map(damage => Math.floor(damage / multiHit));
+            }).flat();
+        }
+
+        return hits;
+    }
+
     isAlive(): boolean {
         return this.state.health > 0;
+    }
+
+    noblePhantasm(): BattleNoblePhantasm {
+        return this.state.noblePhantasm;
     }
 
     skill(num: number): BattleSkill | undefined {
         return this.state.skills.filter(skill => skill.props.id === num).shift();
     }
 
-    traits(battle: Battle, attack?: BattleAttackAction): Trait[] {
+    traits(battle?: Battle, attack?: BattleAttackAction): Trait[] {
         const traits: Trait[] = [];
 
         traits.push(...this.props.traits);
-        traits.push(...battle.state.traits);
+        if (battle)
+            traits.push(...battle.state.traits);
         if (attack)
             traits.push(...attack.traits());
 
@@ -101,6 +140,7 @@ export class BattleActor {
         return {
             ...this.state,
             buffs: this.state.buffs.clone(),
+            noblePhantasm: this.state.noblePhantasm.clone(),
             skills: this.state.skills.map(skill => skill.clone()),
         };
     }

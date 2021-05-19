@@ -3,16 +3,18 @@ export enum BattleRandomType {
     RANDOM,
     LOW,
     HIGH,
+    MANUAL,
 }
 
 export class BattleRandom {
 
-    constructor(public type: BattleRandomType) {
+    constructor(public type: BattleRandomType,
+                public values: number[] = []) {
         //
     }
 
     clone(): BattleRandom {
-        return new BattleRandom(this.type);
+        return new BattleRandom(this.type, this.values);
     }
 
     generate(min: number, max: number): number {
@@ -25,6 +27,11 @@ export class BattleRandom {
         return Math.floor(min) + plus;
     }
 
+    setType(type: BattleRandomType, values: number[] = []) {
+        this.type = type;
+        this.values = values;
+    }
+
     private next(): number {
         switch (this.type) {
             case BattleRandomType.AVERAGE:
@@ -35,6 +42,12 @@ export class BattleRandom {
                 throw new Error('THIS IS A BAD IDEA');
             case BattleRandomType.LOW:
                 return 0;
+            case BattleRandomType.MANUAL:
+                const value = this.values.shift();
+                if (value === undefined)
+                    throw new Error('NO MANUAL VALUES AVAILABLE');
+
+                return value;
         }
     }
 

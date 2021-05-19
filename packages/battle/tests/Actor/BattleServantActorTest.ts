@@ -1,19 +1,21 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
 import {Servant} from "@atlasacademy/api-connector/dist/Schema/Servant";
 import {expect} from 'chai';
-import {BattleAttackActionList} from "../../src/Action/BattleAttackAction";
+import {BattleAttackAction, BattleAttackActionList} from "../../src/Action/BattleAttackAction";
 import BattleServantActor from "../../src/Actor/BattleServantActor";
 import {Battle} from "../../src/Battle";
 import {BattleTeam} from "../../src/Enum/BattleTeam";
-import artoria from "../samples/servant/artoria.json";
-import cu from "../samples/servant/cu.json";
+
+import artoriaData from "../samples/servant/artoria.json";
+import cuData from "../samples/servant/cu.json";
+import musashiData from "../samples/servant/musashi.json";
 
 describe('BattleServantActor', () => {
-    it('infers default servant settings', () => {
+    it('defaults', () => {
         const servant = new BattleServantActor({
             id: 1,
             phase: 1,
-            servant: <Servant>artoria,
+            servant: <Servant>artoriaData,
             team: BattleTeam.PLAYER,
         }, null);
 
@@ -43,13 +45,13 @@ describe('BattleServantActor', () => {
             servant = new BattleServantActor({
                 id: 1,
                 phase: 1,
-                servant: <Servant>artoria,
+                servant: <Servant>artoriaData,
                 team: BattleTeam.PLAYER,
             }, null),
             target = new BattleServantActor({
                 id: 2,
                 phase: 1,
-                servant: <Servant>cu,
+                servant: <Servant>cuData,
                 team: BattleTeam.ENEMY,
             }, null);
 
@@ -69,5 +71,75 @@ describe('BattleServantActor', () => {
         // servant.autoAttack(battle, target, actions, 3);
         // servant.autoAttack(battle, target, actions, 4);
 
+    });
+
+    it('hits - artoria normal', () => {
+        let battle = new Battle(null),
+            servant = new BattleServantActor({
+                id: 1,
+                phase: 1,
+                servant: <Servant>artoriaData,
+                team: BattleTeam.PLAYER,
+            }, null),
+            actions: BattleAttackActionList;
+
+        battle.addActor(servant);
+
+        actions = new BattleAttackActionList();
+        actions.add(servant, Card.BUSTER, false);
+        actions.add(servant, Card.QUICK, false);
+        actions.add(servant, Card.ARTS, false);
+
+        expect(servant.hits(<BattleAttackAction>actions.get(1), battle)).to.eql([100]);
+        expect(servant.hits(<BattleAttackAction>actions.get(2), battle)).to.eql([33, 67]);
+        expect(servant.hits(<BattleAttackAction>actions.get(3), battle)).to.eql([33, 67]);
+        expect(servant.hits(<BattleAttackAction>actions.get(4), battle)).to.eql([12, 25, 63]);
+    });
+
+    it('hits - musashi normal', () => {
+        let battle = new Battle(null),
+            musashi = new BattleServantActor({
+                id: 2,
+                phase: 1,
+                servant: <Servant>musashiData,
+                team: BattleTeam.PLAYER,
+            }, null),
+            actions: BattleAttackActionList;
+
+        battle.addActor(musashi);
+
+        actions = new BattleAttackActionList();
+        actions.add(musashi, Card.BUSTER, false);
+        actions.add(musashi, Card.QUICK, false);
+        actions.add(musashi, Card.ARTS, false);
+        expect(musashi.hits(<BattleAttackAction>actions.get(1), battle)).to.eql([33, 67]);
+        expect(musashi.hits(<BattleAttackAction>actions.get(2), battle)).to.eql([16, 33, 51]);
+        expect(musashi.hits(<BattleAttackAction>actions.get(3), battle)).to.eql([16, 33, 51]);
+        expect(musashi.hits(<BattleAttackAction>actions.get(4), battle)).to.eql([10, 20, 30, 40]);
+    });
+
+    it('hits - musashi skill 1', () => {
+        let battle = new Battle(null),
+            servant = new BattleServantActor({
+                id: 2,
+                phase: 1,
+                servant: <Servant>musashiData,
+                team: BattleTeam.PLAYER,
+            }, null),
+            actions: BattleAttackActionList;
+
+        battle.addActor(servant);
+
+        servant.skill(1)?.activate(battle);
+
+        actions = new BattleAttackActionList();
+        actions.add(servant, Card.BUSTER, false);
+        actions.add(servant, Card.QUICK, false);
+        actions.add(servant, Card.ARTS, false);
+
+        expect(servant.hits(<BattleAttackAction>actions.get(1), battle)).to.eql([16, 16, 33, 33]);
+        expect(servant.hits(<BattleAttackAction>actions.get(2), battle)).to.eql([8, 8, 16, 16, 25, 25]);
+        expect(servant.hits(<BattleAttackAction>actions.get(3), battle)).to.eql([8, 8, 16, 16, 25, 25]);
+        expect(servant.hits(<BattleAttackAction>actions.get(4), battle)).to.eql([5, 5, 10, 10, 15, 15, 20, 20]);
     });
 });
