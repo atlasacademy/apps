@@ -6,6 +6,7 @@ import {BattleTeam} from "../../Enum/BattleTeam";
 import BattleEvent from "../../Event/BattleEvent";
 import {GameBuffGroup} from "../../Game/GameBuffConstantMap";
 import GameConstantManager from "../../Game/GameConstantManager";
+import {Variable, VariableType} from "../../Game/Variable";
 
 function applyMultiAttack(damageList: number[],
                           battle: Battle,
@@ -88,107 +89,112 @@ export default function getDamageList(actor: BattleActor,
                                       percentMods: number[]): BattleEvent[] {
     hits = applyMultiAttack(hits, battle, attack, actor, target);
     let hitDistributionTotal = hits.reduce((a, b) => a + b);
-    let damageTotal = actor.props.baseAttack * hitDistributionTotal / 100;
+    let damageTotal = new Variable(VariableType.FLOAT, actor.props.baseAttack * hitDistributionTotal / 100);
 
-    let percentMod = percentMods[0] ?? 0;
-    percentMod += npRatioMagnification(actor);
+    let percentMod = new Variable(VariableType.FLOAT, percentMods[0] ?? 0);
+    percentMod = percentMod.add(npRatioMagnification(actor));
+    percentMod = percentMod.divide(new Variable(VariableType.FLOAT, 1000));
 
-    damageTotal *= percentMod;
-    damageTotal *= commandCardAttack(battle, attack, actor, target);
-    damageTotal *= classAttack(actor.props.className) / 1000;
-    damageTotal *= classMagnification(actor.className(battle, attack), target.className(battle, attack));
-    damageTotal *= attributeMagnification(actor.props.attribute, target.props.attribute);
-    damageTotal *= battle.random(
+    damageTotal = damageTotal.multiply(percentMod);
+    damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
+    damageTotal = damageTotal.multiply(classAttack(actor.props.className));
+    damageTotal = damageTotal.multiply(classMagnification(actor.className(battle, attack), target.className(battle, attack)));
+    damageTotal = damageTotal.multiply(attributeMagnification(actor.props.attribute, target.props.attribute));
+    damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, battle.random(
         GameConstantManager.getValue('ATTACK_RATE_RANDOM_MIN'),
         GameConstantManager.getValue('ATTACK_RATE_RANDOM_MAX')
-    ) / 1000;
-    damageTotal *= GameConstantManager.getValue('ATTACK_RATE') / 1000;
-    damageTotal *= attackMagnification(battle, attack, actor, target);
+    ) / 1000));
+    damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('ATTACK_RATE')));
+    damageTotal = damageTotal.multiply(attackMagnification(battle, attack, actor, target));
 
     let critical = isCritical(battle);
     if (critical)
-        damageTotal *= GameConstantManager.getValue('CRITICAL_ATTACK_RATE') / 1000;
+        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('CRITICAL_ATTACK_RATE')));
 
     if (attack.isGrand())
-        damageTotal *= GameConstantManager.getValue('EXTRA_ATTACK_RATE_GRAND') / 1000;
+        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('EXTRA_ATTACK_RATE_GRAND')));
     else if (attack.card === Card.EXTRA)
-        damageTotal *= GameConstantManager.getValue('EXTRA_ATTACK_RATE_SINGLE') / 1000;
+        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('EXTRA_ATTACK_RATE_SINGLE')));
 
-    damageTotal *= specialDefence(battle, attack, actor, target);
+    damageTotal = damageTotal.multiply(specialDefence(battle, attack, actor, target));
 
-    let powerMod = 1;
-    powerMod += powerMagnification(battle, attack, actor, target);
-    powerMod += selfDamageMagnification(battle, attack, actor, target);
+    let powerMod = new Variable(VariableType.FLOAT, 1);
+    powerMod = powerMod.add(powerMagnification(battle, attack, actor, target));
+    powerMod = powerMod.add(selfDamageMagnification(battle, attack, actor, target));
     if (critical)
-        powerMod += criticalMod(battle, attack, actor, target);
+        powerMod = powerMod.add(criticalMod(battle, attack, actor, target));
     if (attack.np)
-        powerMod += npMagnification(battle, attack, actor, target);
-    if (powerMod < 0.001)
-        powerMod = 0.001;
+        powerMod = powerMod.add(npMagnification(battle, attack, actor, target));
+    if (powerMod.value() < 0.001)
+        powerMod = new Variable(VariableType.FLOAT, 0.001);
 
-    damageTotal *= powerMod;
-    damageTotal *= npTraitBonusMagnification(battle, actor, target);
-    damageTotal += attackBonus(battle, attack, actor, target);
+    damageTotal = damageTotal.multiply(powerMod);
+    damageTotal = damageTotal.multiply(npTraitBonusMagnification(battle, actor, target));
+    damageTotal = damageTotal.add(attackBonus(battle, attack, actor, target));
     if (!attack.np && attack.busterChain())
-        damageTotal += actor.props.baseAttack * GameConstantManager.getRateValue('CHAINBONUS_BUSTER_RATE');
+        damageTotal = damageTotal.add(busterChainBonus(actor));
 
     if (attack.np && actor.noblePhantasm().props.type === NoblePhantasmType.NOBLE_SAFE) {
-        if (damageTotal >= target.state.health)
-            damageTotal = target.state.health - 1;
+        if (damageTotal.value() >= target.state.health)
+            damageTotal = new Variable(VariableType.FLOAT, target.state.health - 1);
     }
 
-    if (damageTotal < 0)
-        damageTotal = 0;
+    if (damageTotal.value() < 0)
+        damageTotal = new Variable(VariableType.FLOAT, 0);
 
-    let didHit = damageTotal > 0 ? checkAbleToHit(battle, attack, actor, target) : false;
+    let didHit = damageTotal.value() > 0 ? checkAbleToHit(battle, attack, actor, target) : false;
 
-    damageTotal = Math.floor(damageTotal);
+    damageTotal = damageTotal.cast(VariableType.INT);
 
-    let damageSum = 0,
-        damageList = [];
+    let damageList: number[] = [],
+        remainingDamage = damageTotal.copy();
 
     for (let i = 0; i < hits.length - 1; i++) {
-        let damageInstance = Math.floor(damageTotal * hits[i] / hitDistributionTotal);
-        if (damageInstance <= 0 && didHit) {
-            damageInstance = 1;
+        let damageInstance = damageTotal.copy();
+        damageInstance = damageInstance.multiply(new Variable(VariableType.INT, hits[i]));
+        damageInstance = damageInstance.divide(new Variable(VariableType.INT, , hitDistributionTotal));
+        if (damageInstance.value() <= 0 && didHit) {
+            damageInstance = new Variable(VariableType.INT, 1);
         }
 
-        damageList.push(damageInstance);
-        damageSum += damageInstance;
+        damageList.push(damageInstance.value());
+        remainingDamage.subtract(damageInstance);
     }
 
-    let remainingDamage = damageTotal - damageSum;
-    if (remainingDamage <= 0 && didHit)
-        remainingDamage = 1;
-    damageList.push(remainingDamage);
+    if (remainingDamage.value() <= 0 && didHit)
+        remainingDamage = new Variable(VariableType.INT, 1);
+    damageList.push(remainingDamage.value());
 
     let attackNpGainRate = attackNpGainRate(battle, attack, actor, target),
         defenceNpGainRate = defenceNpGainRate(battle, attack, actor, target),
         starRate = starRate(battle, attack, actor, target),
-        overkillNpGainMod = 1,
-        overkillStarMod = 1,
-        overkillStarBonus = 0,
+        overkillNpGainMod = new Variable(VariableType.FLOAT, 1),
+        overkillStarMod = new Variable(VariableType.FLOAT, 1),
+        overkillStarBonus = new Variable(VariableType.FLOAT, 0),
         maxStarRate = GameConstantManager.getValue('STAR_RATE_MAX'),
         events = [];
 
     for (let i = 0; i < damageList.length; i++) {
-        let overkill = target.overkill(damageList[i]);
-        target.reduceHpForOverkill(damageList[i]);
+        let overkill = target.overkill(damageList[i].value());
+        target.reduceHpForOverkill(damageList[i].value());
 
         if (overkill) {
-            overkillNpGainMod = GameConstantManager.getRateValue('OVER_KILL_NP_RATE');
-            overkillStarMod = GameConstantManager.getRateValue('OVER_KILL_STAR_RATE');
-            overkillStarBonus = GameConstantManager.getValue('OVER_KILL_STAR_ADD');
+            overkillNpGainMod = new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('OVER_KILL_NP_RATE'));
+            overkillStarMod = new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('OVER_KILL_STAR_RATE'));
+            overkillStarBonus = new Variable(VariableType.FLOAT, GameConstantManager.getValue('OVER_KILL_STAR_ADD'));
         }
 
         let stars = 0,
-            starRange = Math.floor(starRate * overkillStarMod + overkillStarBonus);
-        for (let j = Math.min(starRange, maxStarRate); j > 0; j -= 1000) {
+            starRange = starRate
+                .multiply(overkillStarMod)
+                .add(overkillStarBonus)
+                .cast(VariableType.INT);
+        for (let j = Math.min(starRange.value(), maxStarRate); j > 0; j -= 1000) {
             stars += battle.random(0, 1000) >= j ? 0 : 1;
         }
 
-        let attackNpGained = calcNpGained(actor, Math.floor(attackNpGainRate * overkillNpGainMod)),
-            defenceNpGained = calcNpGained(target, Math.floor(defenceNpGainRate * overkillNpGainMod));
+        let attackNpGained = calcNpGained(actor, attackNpGainRate.multiply(overkillNpGainMod)),
+            defenceNpGained = calcNpGained(target, defenceNpGainRate.multiply(overkillNpGainMod));
 
         let event = new BattleDamageEvent(actor, target, true, {
             damage: damageList[i],
