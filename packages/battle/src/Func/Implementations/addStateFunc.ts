@@ -20,7 +20,7 @@ export default function addStateFunc(battle: Battle,
         }, null);
 
         const rate = func.state.dataVal.Rate;
-        if (rate !== undefined && battle.random(0, 1000) < rate) {
+        if (rate !== undefined && battle.random(0, 1000) >= rate) {
             const event = new BattleBuffEvent(actor, target, false, buff);
             battle.addEvent(event);
             events.push(event);

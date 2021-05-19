@@ -93,7 +93,7 @@ export default class BattleServantActor extends BattleActor {
             skills: getSkills(servantProps),
         });
 
-        this.state.health = this.health();
+        this.state.health = this.props.baseHealth;
     }
 
     clone(): BattleServantActor {

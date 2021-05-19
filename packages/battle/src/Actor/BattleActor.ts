@@ -1,6 +1,6 @@
-import {Card, ClassName} from "@atlasacademy/api-connector";
+import {ClassName} from "@atlasacademy/api-connector";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
-import {BattleAttackActionList} from "../Action/BattleAttackAction";
+import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {Battle} from "../Battle";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
@@ -27,8 +27,6 @@ export interface BattleActorProps {
     phase: number,
     team: BattleTeam,
     traits: Trait[],
-    // questEnemy?: QuestEnemy,
-    // servantProps?: BattleServantProps,
 }
 
 export interface BattleActorState {
@@ -46,7 +44,7 @@ export class BattleActor {
         //
     }
 
-    attack(battle?: Battle, target?: BattleActor): number {
+    attack(battle: Battle, target?: BattleActor): number {
         const traits = this.traits(battle),
             targetTraits = target?.traits(battle) ?? [];
 
@@ -56,28 +54,8 @@ export class BattleActor {
         return Math.round(attack);
     }
 
-    autoAttack(action: BattleAttackActionList, num: number, battle?: Battle, target?: BattleActor): BattleEvent[] {
-        const attack = action.get(num);
-        if (!attack)
-            return [];
-
-        let hits = [100];
-        switch (attack.card) {
-            case Card.BUSTER:
-                hits = this.props.hits.buster ?? [100];
-                break;
-            case Card.QUICK:
-                hits = this.props.hits.quick ?? [100];
-                break;
-            case Card.ARTS:
-                hits = this.props.hits.arts ?? [100];
-                break;
-            case Card.EXTRA:
-                hits = this.props.hits.extra ?? [100];
-                break;
-        }
-
-        return getDamageList(this, attack, hits, false, battle, target);
+    autoAttack(attack: BattleAttackAction, battle: Battle, target: BattleActor): BattleEvent[] {
+        return getDamageList(battle, attack, this, target);
     }
 
     clone(): BattleActor {
@@ -90,7 +68,7 @@ export class BattleActor {
         return this.props.traits.filter(_trait => _trait.id === traitId).length > 0;
     }
 
-    health(battle?: Battle): number {
+    health(battle: Battle): number {
         const traits = this.traits(battle),
             targetTraits: Trait[] = [];
 
@@ -108,11 +86,13 @@ export class BattleActor {
         return this.state.skills.filter(skill => skill.props.id === num).shift();
     }
 
-    traits(battle?: Battle): Trait[] {
+    traits(battle: Battle, attack?: BattleAttackAction): Trait[] {
         const traits: Trait[] = [];
 
         traits.push(...this.props.traits);
-        if (battle) traits.push(...battle.state.traits);
+        traits.push(...battle.state.traits);
+        if (attack)
+            traits.push(...attack.traits());
 
         return traits;
     }
@@ -123,28 +103,6 @@ export class BattleActor {
             buffs: this.state.buffs.clone(),
             skills: this.state.skills.map(skill => skill.clone()),
         };
-    }
-
-
-    private getAttackDamageList(card: Card): number[] {
-        let damageList = [100];
-
-        switch (card) {
-            case Card.BUSTER:
-                damageList = this.props.hits.buster ?? [100];
-                break;
-            case Card.QUICK:
-                damageList = this.props.hits.quick ?? [100];
-                break;
-            case Card.ARTS:
-                damageList = this.props.hits.arts ?? [100];
-                break;
-            case Card.EXTRA:
-                damageList = this.props.hits.extra ?? [100];
-                break;
-        }
-
-        return damageList;
     }
 
 }
