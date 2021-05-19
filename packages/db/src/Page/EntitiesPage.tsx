@@ -52,6 +52,8 @@ interface IState {
     gender?: Entity.Gender[];
     attribute?: Entity.Attribute[];
     trait: number[];
+    illustrator?: string;
+    cv?: string;
 }
 
 class EntitiesPage extends React.Component<IProps, IState> {
@@ -71,6 +73,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
             this.state = {
                 ...defaultState,
                 name: searchParams.get('name') ?? undefined,
+                illustrator: searchParams.get('illustrator') ?? undefined,
+                cv: searchParams.get('cv') ?? undefined,
                 type: searchParams.getAll('type') as Entity.EntityType[],
                 className: searchParams.getAll('className') as ClassName[],
                 gender: searchParams.getAll('gender') as Entity.Gender[],
@@ -141,7 +145,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
             className: this.state.className,
             gender: this.state.gender,
             attribute: this.state.attribute,
-            trait: this.state.trait
+            trait: this.state.trait,
+            illustrator: this.state.illustrator,
+            cv: this.state.cv
         }).toString();
     }
 
@@ -151,7 +157,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
     private async search() {
         // no filter set
-        if (!this.state.name
+        if (!this.state.name && !this.state.illustrator && !this.state.cv
             && (this.state.type === undefined || this.state.type.length === 0)
             && (this.state.className === undefined || this.state.className.length === 0)
             && (this.state.gender === undefined || this.state.gender.length === 0)
@@ -172,7 +178,10 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 this.state.className,
                 this.state.gender,
                 this.state.attribute,
-                this.state.trait
+                this.state.trait,
+                undefined,
+                this.state.illustrator,
+                this.state.cv
             );
 
             this.setQueryURL();
@@ -277,6 +286,20 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                        onUpdate={(trait => {
                                            this.setState({trait: trait});
                                        })}/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Illustrator</Form.Label>
+                        <Form.Control value={this.state.illustrator ?? ''}
+                                      onChange={(ev: ChangeEvent) => {
+                                          this.setState({illustrator: ev.target.value});
+                                      }}/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Voice Actor</Form.Label>
+                        <Form.Control value={this.state.cv ?? ''}
+                                      onChange={(ev: ChangeEvent) => {
+                                          this.setState({cv: ev.target.value});
+                                      }}/>
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>
                         Search

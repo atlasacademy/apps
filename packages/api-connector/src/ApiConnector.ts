@@ -145,6 +145,8 @@ type EntitySearchOptions = {
     attribute?: Attribute[];
     trait?: number[];
     voiceCondSvt?: number[];
+    illustrator?: string;
+    cv?: string;
 };
 
 type ItemSearchOptions = {
@@ -989,52 +991,42 @@ class ApiConnector {
     }
 
     searchBuff(options: BuffSearchOptions): Promise<BasicBuff[]> {
-        const searchParams = this.getURLSearchParams(options);
+        const query = this.getQueryString(this.getURLSearchParams(options));
 
         return ApiConnector.fetch<BasicBuff[]>(
-            `${this.host}/basic/${
-                this.region
-            }/buff/search?${searchParams.toString()}`
+            `${this.host}/basic/${this.region}/buff/search${query}`
         );
     }
 
     searchFunc(options: FuncSearchOptions): Promise<BasicFunc[]> {
-        const searchParams = this.getURLSearchParams(options);
+        const query = this.getQueryString(this.getURLSearchParams(options));
 
         return ApiConnector.fetch<BasicFunc[]>(
-            `${this.host}/basic/${
-                this.region
-            }/function/search?${searchParams.toString()}`
+            `${this.host}/basic/${this.region}/function/search${query}`
         );
     }
 
     searchSkill(options: SkillSearchOptions): Promise<SkillBasic[]> {
-        const searchParams = this.getURLSearchParams(options);
+        const query = this.getQueryString(this.getURLSearchParams(options));
 
         return ApiConnector.fetch<SkillBasic[]>(
-            `${this.host}/basic/${
-                this.region
-            }/skill/search?${searchParams.toString()}`
+            `${this.host}/basic/${this.region}/skill/search${query}`
         );
     }
 
     searchNP(options: NPSearchOptions): Promise<NoblePhantasmBasic[]> {
-        const searchParams = this.getURLSearchParams(options);
+        const query = this.getQueryString(this.getURLSearchParams(options));
 
         return ApiConnector.fetch<SkillBasic[]>(
-            `${this.host}/basic/${
-                this.region
-            }/NP/search?${searchParams.toString()}`
+            `${this.host}/basic/${this.region}/NP/search${query}`
         );
     }
 
     searchEntity(options: EntitySearchOptions): Promise<EntityBasic[]> {
-        const searchParams = this.getURLSearchParams(options);
+        const query = this.getQueryString(this.getURLSearchParams(options));
 
         return ApiConnector.fetch<EntityBasic[]>(
-            `${this.host}/basic/${
-                this.region
-            }/svt/search?${searchParams.toString()}`
+            `${this.host}/basic/${this.region}/svt/search${query}`
         );
     }
 
@@ -1042,19 +1034,18 @@ class ApiConnector {
         options: ItemSearchOptions,
         cacheDuration?: number
     ): Promise<Item[]> {
-        const searchParams = this.getURLSearchParams(options);
-        let searchQuery = searchParams.toString();
+        const query = this.getQueryString(this.getURLSearchParams(options));
 
         const fetch = () => {
             return ApiConnector.fetch<Item[]>(
-                `${this.host}/nice/${this.region}/item/search?${searchQuery}`
+                `${this.host}/nice/${this.region}/item/search${query}`
             );
         };
 
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.searchItem.get(
-            searchQuery,
+            query,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
         );

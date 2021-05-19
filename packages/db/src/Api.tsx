@@ -245,7 +245,9 @@ class Api {
         gender?: Entity.Gender[],
         attribute?: Entity.Attribute[],
         trait?: number[],
-        voiceCondSvt?: number[]
+        voiceCondSvt?: number[],
+        illustrator?: string,
+        cv?: string
     ): Promise<Entity.EntityBasic[]> {
         return apiConnector.searchEntity({
             name,
@@ -255,6 +257,8 @@ class Api {
             attribute,
             trait,
             voiceCondSvt,
+            illustrator,
+            cv
         });
     }
 

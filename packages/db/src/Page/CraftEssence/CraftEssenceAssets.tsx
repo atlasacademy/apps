@@ -1,5 +1,6 @@
 import {CraftEssence, Entity, Region} from "@atlasacademy/api-connector";
 import React from "react";
+import {Link} from "react-router-dom";
 import {mergeElements} from "../../Helper/OutputHelper";
 import {Alert} from "react-bootstrap";
 
@@ -36,8 +37,10 @@ class CraftEssenceAssets extends React.Component<IProps> {
         return (
             <div>
                 <Alert variant="success">
-                    Illustrator :&nbsp;
-                    {this.props.craftEssence.profile?.illustrator}
+                    Illustrator:&nbsp;
+                    <Link to={`/${this.props.region}/entities?illustrator=${this.props.craftEssence.profile?.illustrator}`}>
+                        {this.props.craftEssence.profile?.illustrator}
+                    </Link>
                 </Alert>
                 <h3>Portraits</h3>
                 <div>
