@@ -1,3 +1,4 @@
+import {FuncType} from "@atlasacademy/api-connector/dist/Schema/Func";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
@@ -57,6 +58,30 @@ import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc
 //     return cardBase * cardBonus + cardConstant.addAtk / 1000;
 // }
 
+function npDamageBonus(actor: BattleActor,
+                       func: BattleNoblePhantasmFunc): Variable {
+    let bonus = new Variable(VariableType.FLOAT, 0);
+
+    if (func.props.func.funcType === FuncType.DAMAGE_NP_HPRATIO_HIGH) {
+        bonus = new Variable(VariableType.FLOAT, func.state.dataVal.Target ?? 0);
+
+        let ratio = new Variable(VariableType.FLOAT, actor.state.health);
+        ratio = ratio.divide(new Variable(VariableType.FLOAT, actor.state.maxHealth));
+
+        bonus = bonus.multiply(ratio);
+    } else if (func.props.func.funcType === FuncType.DAMAGE_NP_HPRATIO_LOW) {
+        bonus = new Variable(VariableType.FLOAT, func.state.dataVal.Target ?? 0);
+
+        let ratio = new Variable(VariableType.FLOAT, actor.state.health);
+        ratio = ratio.divide(new Variable(VariableType.FLOAT, actor.state.maxHealth));
+        ratio = Variable.make(VariableType.FLOAT, 1).subtract(ratio);
+
+        bonus = bonus.multiply(ratio);
+    }
+
+    return bonus;
+}
+
 function getDamageList(battle: Battle,
                        attack: BattleAttackAction,
                        actor: BattleActor,
@@ -72,11 +97,11 @@ function getDamageList(battle: Battle,
     let percentMod = new Variable(VariableType.FLOAT, 1000);
     if (attack.np && func) {
         percentMod = new Variable(VariableType.FLOAT, func.state.dataVal.Value ?? 0);
-        // percentMod = percentMod.add(npRatioMagnification(actor));
+        percentMod = percentMod.add(npDamageBonus(actor, func));
     }
-    // percentMod = percentMod.divide(new Variable(VariableType.FLOAT, 1000));
-    //
-    // damageTotal = damageTotal.multiply(percentMod);
+    percentMod = percentMod.divide(new Variable(VariableType.FLOAT, 1000));
+
+    damageTotal = damageTotal.multiply(percentMod);
     // damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
     // damageTotal = damageTotal.multiply(classAttack(actor.props.className));
     // damageTotal = damageTotal.multiply(classMagnification(actor.className(battle, attack), target.className(battle, attack)));
@@ -195,6 +220,10 @@ function getDamageList(battle: Battle,
     // }
 
     return [];
+}
+
+export {
+    npDamageBonus,
 }
 
 export default getDamageList;

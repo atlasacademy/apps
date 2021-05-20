@@ -107,12 +107,14 @@ export default class BattleServantActor extends BattleActor {
             buffs: new BattleBuffManager([]),
             gauge: 0,
             health: 0,
+            maxHealth: 0,
             noblePhantasm: getNoblePhantasm(servantProps),
             position: 0,
             skills: getSkills(servantProps),
         });
 
         this.state.health = this.props.baseHealth;
+        this.state.maxHealth = this.props.baseHealth;
     }
 
     clone(): BattleServantActor {

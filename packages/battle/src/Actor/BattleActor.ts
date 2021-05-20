@@ -34,6 +34,7 @@ export interface BattleActorState {
     buffs: BattleBuffManager,
     gauge: number,
     health: number,
+    maxHealth: number;
     noblePhantasm: BattleNoblePhantasm,
     position: number,
     skills: BattleSkill[],

@@ -34,8 +34,17 @@ export default class BattleNoblePhantasm {
         });
     }
 
+    func(id: number): BattleNoblePhantasmFunc | undefined {
+        return this.state.funcs[id - 1];
+    }
+
     hits(): number[] {
         return this.props.np.npDistribution;
     }
 
+    setOvercharge(overcharge: number) {
+        for (let i = 0; i < this.state.funcs.length; i++) {
+            this.state.funcs[i].setOvercharge(overcharge);
+        }
+    }
 }
