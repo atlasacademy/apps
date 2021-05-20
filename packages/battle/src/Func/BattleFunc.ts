@@ -9,10 +9,12 @@ import addStateFunc from "./Implementations/addStateFunc";
 export interface BattleFuncProps {
     actorId: number,
     func: Func,
+    level: number,
 }
 
 export interface BattleFuncState {
     dataVal: DataVal,
+    overcharge: number,
 }
 
 export default abstract class BattleFunc {
@@ -43,6 +45,29 @@ export default abstract class BattleFunc {
         }
 
         return events;
+    }
+
+    protected cloneState(): BattleFuncState {
+        return {
+            ...this.state,
+        };
+    }
+
+    protected static dataVal(func: Func, level: number, overcharge: number): DataVal {
+        let sval : DataVal[];
+
+        if (overcharge === 5 && func.svals5 && func.svals5.length)
+            sval = func.svals5;
+        else if (overcharge === 4 && func.svals4 && func.svals4.length)
+            sval = func.svals4;
+        else if (overcharge === 3 && func.svals3 && func.svals3.length)
+            sval = func.svals3;
+        else if (overcharge === 2 && func.svals2 && func.svals2.length)
+            sval = func.svals2;
+        else
+            sval = func.svals;
+
+        return sval[level - 1] ?? sval[sval.length - 1] ?? {};
     }
 
     private executeStandardFunc(battle: Battle, actor: BattleActor, target: BattleActor) {

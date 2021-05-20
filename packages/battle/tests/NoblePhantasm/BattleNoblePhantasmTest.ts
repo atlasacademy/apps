@@ -7,6 +7,7 @@ import emiyaData from "../samples/servant/emiya.json";
 describe('BattleNoblePhantasmTest', () => {
     it('hits', () => {
         const noblePhantasm = new BattleNoblePhantasm({
+            actorId: 1,
             np: <NoblePhantasm.NoblePhantasm>emiyaData.noblePhantasms.filter(np => np.id === 200102).shift(),
             level: 1
         }, null);

@@ -78,6 +78,7 @@ function getNoblePhantasm(servantProps: BattleServantActorProps): BattleNoblePha
         throw new Error('FAILED TO FIND NOBLE PHANTASM');
 
     return new BattleNoblePhantasm({
+        actorId: servantProps.id,
         level: servantProps.noblePhantasmLevel ?? 1,
         np: noblePhantasm,
     }, null);

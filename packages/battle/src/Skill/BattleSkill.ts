@@ -25,9 +25,8 @@ export default class BattleSkill {
                 return new BattleSkillFunc({
                     actorId: props.actorId,
                     func,
-                }, {
-                    dataVal: func.svals[props.level - 1],
-                });
+                    level: props.level,
+                }, null);
             })
         };
     }

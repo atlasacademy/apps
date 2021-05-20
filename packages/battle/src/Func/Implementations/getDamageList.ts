@@ -1,13 +1,9 @@
-import {Card, ClassName} from "@atlasacademy/api-connector";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
-import {BattleTeam} from "../../Enum/BattleTeam";
 import BattleEvent from "../../Event/BattleEvent";
-import {GameBuffGroup} from "../../Game/GameBuffConstantMap";
-import GameConstantManager from "../../Game/GameConstantManager";
-import {GameConstantKey} from "../../Game/GameConstants";
 import {Variable, VariableType} from "../../Game/Variable";
+import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
 
 // function classAttack(className: ClassName): number {
 //     const classAttack = GameConstantManager.classAttackRate(className);
@@ -64,7 +60,8 @@ import {Variable, VariableType} from "../../Game/Variable";
 function getDamageList(battle: Battle,
                        attack: BattleAttackAction,
                        actor: BattleActor,
-                       target: BattleActor): BattleEvent[] {
+                       target: BattleActor,
+                       func?: BattleNoblePhantasmFunc): BattleEvent[] {
     let hits = actor.hits(attack, battle, target);
     if (attack.np)
         hits = actor.noblePhantasm().hits();
@@ -73,9 +70,9 @@ function getDamageList(battle: Battle,
     let damageTotal = new Variable(VariableType.FLOAT, actor.props.baseAttack * hitDistributionTotal / 100);
 
     let percentMod = new Variable(VariableType.FLOAT, 1000);
-    if (attack.np) {
-        // percentMod = npBaseValue(actor);
-    //     percentMod = percentMod.add(npRatioMagnification(actor));
+    if (attack.np && func) {
+        percentMod = new Variable(VariableType.FLOAT, func.state.dataVal.Value ?? 0);
+        // percentMod = percentMod.add(npRatioMagnification(actor));
     }
     // percentMod = percentMod.divide(new Variable(VariableType.FLOAT, 1000));
     //
