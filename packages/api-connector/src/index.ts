@@ -10,6 +10,7 @@ import * as Buff from "./Schema/Buff";
 import * as Change from "./Schema/Change";
 import * as CommandCode from "./Schema/CommandCode";
 import * as CraftEssence from "./Schema/CraftEssence";
+import { Cv } from "./Schema/Cv";
 import * as DataVal from "./Schema/DataVal";
 import * as Enemy from "./Schema/Enemy";
 import * as Entity from "./Schema/Entity";
@@ -17,6 +18,7 @@ import * as Event from "./Schema/Event";
 import * as Func from "./Schema/Func";
 import * as Gift from "./Schema/Gift";
 import * as Item from "./Schema/Item";
+import { Illustrator } from "./Schema/Illustrator";
 import * as Mission from "./Schema/Mission";
 import * as MysticCode from "./Schema/MysticCode";
 import * as NoblePhantasm from "./Schema/NoblePhantasm";
@@ -49,6 +51,7 @@ export {
     Buff,
     CommandCode,
     CraftEssence,
+    Cv,
     DataVal,
     Enemy,
     Entity,
@@ -56,6 +59,7 @@ export {
     Func,
     Gift,
     Item,
+    Illustrator,
     Mission,
     MysticCode,
     NoblePhantasm,

@@ -8,13 +8,20 @@ import ResultCache from "./ResultCache";
 import { Change } from "./Schema/Change";
 import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode";
 import { CraftEssence, CraftEssenceBasic } from "./Schema/CraftEssence";
+import { Cv } from "./Schema/Cv";
 import { Enemy } from "./Schema/Enemy";
 import { Event, EventBasic, EventType } from "./Schema/Event";
 import { GiftType } from "./Schema/Gift";
+import { Illustrator } from "./Schema/Illustrator";
 import { Item, ItemBackgroundType, ItemType, ItemUse } from "./Schema/Item";
 import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode";
 import { NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm";
 import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile";
+import { Servant, ServantBasic } from "./Schema/Servant";
+import { PayType, PurchaseType, ShopType } from "./Schema/Shop";
+import { Skill, SkillBasic, SkillType } from "./Schema/Skill";
+import { Trait } from "./Schema/Trait";
+import { War, WarBasic, WarStartType } from "./Schema/War";
 import {
     Quest,
     QuestBasic,
@@ -22,11 +29,6 @@ import {
     QuestPhase,
     QuestType,
 } from "./Schema/Quest";
-import { Servant, ServantBasic } from "./Schema/Servant";
-import { PayType, PurchaseType, ShopType } from "./Schema/Shop";
-import { Skill, SkillBasic, SkillType } from "./Schema/Skill";
-import { Trait } from "./Schema/Trait";
-import { War, WarBasic, WarStartType } from "./Schema/War";
 import {
     AiActNum,
     AiActTarget,
@@ -230,6 +232,8 @@ class ApiConnector {
         funcBasic: new ResultCache<number, BasicFunc>(),
         item: new ResultCache<number, Item>(),
         itemList: new ResultCache<null, Item[]>(),
+        illustratorList: new ResultCache<null, Illustrator[]>(),
+        cvList: new ResultCache<null, Cv[]>(),
         searchItem: new ResultCache<string, Item[]>(),
         mysticCode: new ResultCache<number, MysticCode>(),
         mysticCodeBasic: new ResultCache<number, MysticCodeBasic>(),
@@ -670,6 +674,36 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.itemList.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    illustratorList(cacheDuration?: number): Promise<Illustrator[]> {
+        const fetch = () =>
+            ApiConnector.fetch<Illustrator[]>(
+                `${this.host}/export/${this.region}/nice_illustrator.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.illustratorList.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    cvList(cacheDuration?: number): Promise<Cv[]> {
+        const fetch = () =>
+            ApiConnector.fetch<Cv[]>(
+                `${this.host}/export/${this.region}/nice_cv.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.cvList.get(
             null,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration

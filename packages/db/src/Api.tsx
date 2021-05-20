@@ -25,6 +25,8 @@ import {
     Skill,
     Trait,
     War,
+    Illustrator,
+    Cv,
 } from "@atlasacademy/api-connector";
 
 export const Host = "https://api.atlasacademy.io";
@@ -121,6 +123,14 @@ class Api {
 
     static itemList(): Promise<Item.Item[]> {
         return apiConnector.itemList(-1);
+    }
+
+    static illustratorList(): Promise<Illustrator[]> {
+        return apiConnector.illustratorList();
+    }
+
+    static cvList(): Promise<Cv[]> {
+        return apiConnector.cvList();
     }
 
     static mysticCode(id: number): Promise<MysticCode.MysticCode> {
@@ -258,7 +268,7 @@ class Api {
             trait,
             voiceCondSvt,
             illustrator,
-            cv
+            cv,
         });
     }
 

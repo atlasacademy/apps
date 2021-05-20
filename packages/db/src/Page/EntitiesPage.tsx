@@ -44,6 +44,8 @@ interface IState {
     loading: boolean;
     error?: AxiosError;
     traitList: Trait.Trait[];
+    illustratorList: string[];
+    cvList: string[];
     searching: boolean;
     entities: Entity.EntityBasic[];
     name?: string;
@@ -63,6 +65,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
         const defaultState: IState = {
             loading: true,
             traitList: [],
+            illustratorList: [],
+            cvList: [],
             searching: false,
             entities: [],
             trait: []
@@ -93,10 +97,12 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
     async componentDidMount() {
         Manager.setRegion(this.props.region);
-        document.title = `[${this.props.region}] Entities - Atlas Academy DB`
+        document.title = `[${this.props.region}] Entities - Atlas Academy DB`;
 
         try {
-            const traitList = await Api.traitList();
+            const [traitList, illustratorList, cvList] = await Promise.all([
+                Api.traitList(), Api.illustratorList(), Api.cvList()
+            ]);
             if (this.props.location.search !== "" || this.props.traitSelected) {
                 await this.search();
             }
@@ -107,7 +113,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
             this.setState({
                 loading: false,
-                traitList
+                traitList,
+                illustratorList: illustratorList.map(illustrator => illustrator.name),
+                cvList: cvList.map(cv => cv.name),
             });
         } catch (e) {
             this.setState({
@@ -289,17 +297,29 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Illustrator</Form.Label>
-                        <Form.Control value={this.state.illustrator ?? ''}
-                                      onChange={(ev: ChangeEvent) => {
-                                          this.setState({illustrator: ev.target.value});
-                                      }}/>
+                        <SearchableSelect<string>
+                            id="select-illustrator"
+                            options={this.state.illustratorList}
+                            labels={new Map(this.state.illustratorList.map(illustrator => [illustrator, ""]))}
+                            selected={this.state.illustrator ?? undefined}
+                            onChange={(value?: string) => {
+                                this.setState({ illustrator: value });
+                            }}
+                            disableLabelStyling={true}
+                        />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Voice Actor</Form.Label>
-                        <Form.Control value={this.state.cv ?? ''}
-                                      onChange={(ev: ChangeEvent) => {
-                                          this.setState({cv: ev.target.value});
-                                      }}/>
+                        <SearchableSelect<string>
+                            id="select-voice-actor"
+                            options={this.state.cvList}
+                            labels={new Map(this.state.cvList.map(illustrator => [illustrator, ""]))}
+                            selected={this.state.cv ?? undefined}
+                            onChange={(value?: string) => {
+                                this.setState({ cv: value });
+                            }}
+                            disableLabelStyling={true}
+                        />
                     </Form.Group>
                     <Button variant={'primary'} onClick={() => this.search()}>
                         Search
