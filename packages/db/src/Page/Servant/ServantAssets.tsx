@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {mergeElements} from "../../Helper/OutputHelper";
 import {Alert} from "react-bootstrap";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
 
 interface IProps {
     region: Region;
@@ -77,10 +78,9 @@ class ServantAssets extends React.Component<IProps> {
         return (
             <div>
                 <Alert variant="success">
-                    Illustrator:&nbsp;
-                    <Link to={`/${this.props.region}/entities?illustrator=${this.props.servant.profile?.illustrator}`}>
-                        {this.props.servant.profile?.illustrator}
-                    </Link>
+                    <IllustratorDescriptor
+                        region={this.props.region}
+                        illustrator={this.props.servant.profile?.illustrator}/>
                 </Alert>
                     {content.map(content => <div key={content.title}>{renderCollapsibleContent(content)}</div>)}
                     {this.props.servant.extraAssets.charaFigure.story ? renderCollapsibleContent({

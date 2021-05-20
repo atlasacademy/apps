@@ -142,6 +142,7 @@ export default function (func: Func.BasicFunc,
                 case Func.FuncType.DAMAGE_NP_RARE:
                 case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
+                case Func.FuncType.SERVANT_FRIENDSHIP_UP:
                     break;
                 default:
                     addPartials([

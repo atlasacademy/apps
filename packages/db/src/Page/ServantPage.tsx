@@ -1,7 +1,7 @@
 import {Region, Entity, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
-import {Col, Row, Tab, Tabs} from "react-bootstrap";
+import {Alert, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
 import Api, {Host} from "../Api";
@@ -26,6 +26,8 @@ import ServantCostumeDetails from "./Servant/ServantCostumeDetails";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
 import ServantTraits from "./Servant/ServantTraits";
 import ServantVoiceLines from "./Servant/ServantVoiceLines";
+import VoiceActorDescriptor from "../Descriptor/VoiceActorDescriptor";
+import IllustratorDescriptor from "../Descriptor/IllustratorDescriptor";
 
 type AssetType = "ascension" | "costume";
 
@@ -277,6 +279,14 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantStatGrowth region={this.props.region} servant={servant}/>
                     </Tab>
                     <Tab eventKey={'lore'} title={'Profile'}>
+                        <br/>
+                        <Alert variant="success" style={{ lineHeight: "2em" }}>
+                            <IllustratorDescriptor
+                                region={this.props.region}
+                                illustrator={this.state.servant.profile?.illustrator}/>
+                            <br/>
+                            <VoiceActorDescriptor region={this.props.region} cv={this.state.servant.profile?.cv}/>
+                        </Alert>
                         <ServantBondGrowth bondGrowth={servant.bondGrowth} />
                         <ServantProfileStats region={this.props.region} profile={servant.profile}/>
                         <ServantRelatedQuests region={this.props.region} questIds={servant.relateQuestIds}/>

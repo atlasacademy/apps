@@ -14,6 +14,7 @@ import EntityDescriptor from "../../Descriptor/EntityDescriptor";
 import {handleNewLine, mergeElements} from "../../Helper/OutputHelper";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import mergeVoiceLine from "../../Descriptor/VoiceLineMerger";
+import VoiceActorDescriptor from "../../Descriptor/VoiceActorDescriptor";
 
 let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
 
@@ -183,10 +184,7 @@ export default function ServantVoiceLines(
     return (
         <>
             <Alert variant="success">
-                Voice Actor:&nbsp;
-                <Link to={`/${props.region}/entities?cv=${props.servant.profile?.cv}`}>
-                    {props.servant.profile?.cv}
-                </Link>
+                <VoiceActorDescriptor region={props.region} cv={props.servant.profile?.cv}/>
             </Alert>
             <Alert variant="success">
                 {relatedVoiceSvts

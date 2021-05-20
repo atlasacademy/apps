@@ -91,7 +91,7 @@ class ItemsPage extends React.Component<IProps, IState> {
             {
                 disabled
                     ? <span className={'page-link'}>{label}</span>
-                    : <button className={'page-link'} onClick={() => this.setPage(page)}>{label}</button>
+                    : <button className={'page-link'} onClick={(e) => {e.preventDefault(); this.setPage(page);}}>{label}</button>
             }
         </li>
     }
