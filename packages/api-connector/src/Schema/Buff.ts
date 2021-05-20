@@ -168,6 +168,7 @@ interface BuffRelationOverwrite {
 }
 
 interface BuffScript {
+    checkIndvType?: number;
     relationId?: BuffRelationOverwrite;
     ReleaseText?: string;
     DamageRelease?: number;

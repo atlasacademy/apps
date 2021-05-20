@@ -8,12 +8,17 @@ import {buffTriggerTypes, buffTypeDescriptions} from "./BuffTypes";
 function appendTraitFilters(
     selfTraits: Trait.Trait[],
     targetTraits: Trait.Trait[],
+    checkIndvType?: number,
     selfParticle = "for",
     targetParticle = "vs."
 ): BasePartial[] {
+    if (checkIndvType === 1) {
+        selfParticle = "if self has";
+        targetParticle = "if target has";
+    }
     const partials: BasePartial[] = [],
-        selfTraitFilters = traitReferences(selfTraits),
-        targetTraitFilters = traitReferences(targetTraits);
+        selfTraitFilters = traitReferences(selfTraits, checkIndvType),
+        targetTraitFilters = traitReferences(targetTraits, checkIndvType);
 
     if (selfTraitFilters.length) {
         partials.push(new ParticlePartial(` ${selfParticle} `));
@@ -28,10 +33,10 @@ function appendTraitFilters(
     return partials;
 }
 
-function traitReferences(traits: Trait.Trait[]): BasePartial[] {
+function traitReferences(traits: Trait.Trait[], checkIndvType?: number): BasePartial[] {
+    const joinWord = checkIndvType === 1 ? ' and ' : ' or ';
     return insertParticles(
-        traits.map(trait => new TraitReferencePartial(trait)),
-        ' & '
+        traits.map(trait => new TraitReferencePartial(trait)), joinWord
     );
 }
 
@@ -44,7 +49,7 @@ export default function (buff: Buff.BasicBuff): Descriptor {
 
     if (buff.type === Buff.BuffType.PREVENT_DEATH_BY_DAMAGE && typeDescription) {
         partials.push(new TextPartial(typeDescription));
-        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, "for", "from"));
+        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, buff.script.checkIndvType, "for", "from"));
     } else if (upDownBuffType) {
         if (upDownBuffType.up === buff.type) {
             partials.push(new TextPartial(`${upDownBuffType.description} Up`));
@@ -52,13 +57,13 @@ export default function (buff: Buff.BasicBuff): Descriptor {
             partials.push(new TextPartial(`${upDownBuffType.description} Down`));
         }
 
-        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv));
+        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, buff.script.checkIndvType));
     } else if (traitDescription) {
         partials.push(new TextPartial(traitDescription));
-        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv));
+        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, buff.script.checkIndvType));
     } else if (typeDescription) {
         partials.push(new TextPartial(typeDescription));
-        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv));
+        partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, buff.script.checkIndvType));
     } else if (triggerType) {
         partials.push(new TextPartial('Trigger Skills'));
         partials.push(new ParticlePartial(triggerType.after ? ' on ' : ' before '));
@@ -74,7 +79,7 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         }
 
         partials.push(new TextPartial(triggerType.event));
-        partials.push(...appendTraitFilters([], buff.ckOpIndv));
+        partials.push(...appendTraitFilters([], buff.ckOpIndv, buff.script.checkIndvType));
     } else if (buff.name) {
         partials.push(new TextPartial(buff.name));
     } else {
