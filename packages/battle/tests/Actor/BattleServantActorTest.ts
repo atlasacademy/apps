@@ -1,5 +1,4 @@
-import {Card, ClassName} from "@atlasacademy/api-connector";
-import {Servant} from "@atlasacademy/api-connector/dist/Schema/Servant";
+import {Card, ClassName, Servant} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
 import {BattleAttackAction, BattleAttackActionList} from "../../src/Action/BattleAttackAction";
 import BattleServantActor from "../../src/Actor/BattleServantActor";
@@ -15,7 +14,7 @@ describe('BattleServantActor', () => {
         const servant = new BattleServantActor({
             id: 1,
             phase: 1,
-            servant: <Servant>artoriaData,
+            servant: <Servant.Servant>artoriaData,
             team: BattleTeam.PLAYER,
         }, null);
 
@@ -45,13 +44,13 @@ describe('BattleServantActor', () => {
             servant = new BattleServantActor({
                 id: 1,
                 phase: 1,
-                servant: <Servant>artoriaData,
+                servant: <Servant.Servant>artoriaData,
                 team: BattleTeam.PLAYER,
             }, null),
             target = new BattleServantActor({
                 id: 2,
                 phase: 1,
-                servant: <Servant>cuData,
+                servant: <Servant.Servant>cuData,
                 team: BattleTeam.ENEMY,
             }, null);
 
@@ -78,7 +77,7 @@ describe('BattleServantActor', () => {
             servant = new BattleServantActor({
                 id: 1,
                 phase: 1,
-                servant: <Servant>artoriaData,
+                servant: <Servant.Servant>artoriaData,
                 team: BattleTeam.PLAYER,
             }, null),
             actions: BattleAttackActionList;
@@ -101,7 +100,7 @@ describe('BattleServantActor', () => {
             musashi = new BattleServantActor({
                 id: 2,
                 phase: 1,
-                servant: <Servant>musashiData,
+                servant: <Servant.Servant>musashiData,
                 team: BattleTeam.PLAYER,
             }, null),
             actions: BattleAttackActionList;
@@ -123,7 +122,7 @@ describe('BattleServantActor', () => {
             servant = new BattleServantActor({
                 id: 2,
                 phase: 1,
-                servant: <Servant>musashiData,
+                servant: <Servant.Servant>musashiData,
                 team: BattleTeam.PLAYER,
             }, null),
             actions: BattleAttackActionList;
