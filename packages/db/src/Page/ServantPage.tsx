@@ -246,6 +246,18 @@ class ServantPage extends React.Component<IProps, IState> {
                                 );
                             })}
                         </Row>
+                        {servant.extraPassive.length > 0 ? <h3 style={{ margin: "1em 0 "}}>Event Bonus</h3> : null}
+                        <Row>
+                            {servant.extraPassive.map((skill) => {
+                                return (
+                                    <Col xs={12}
+                                         lg={(servant.extraPassive.length ?? 1) > 1 ? 6 : 12}
+                                         key={skill.id}>
+                                        <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
+                                    </Col>
+                                );
+                            })}
+                        </Row>
                     </Tab>
                     <Tab eventKey={'traits'} title={'Traits'}>
                         <br/>

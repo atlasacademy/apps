@@ -21,6 +21,20 @@ export interface SkillScript {
     HP_PER_LOWER?: number[];
 }
 
+export interface ExtraPassive {
+    num: number;
+    priority: number;
+    condQuestId: number;
+    condQuestPhase: number;
+    condLv: number;
+    condLimitCount: number;
+    condFriendshipRank: number;
+    eventId: number;
+    flag: number;
+    startedAt: number;
+    endedAt: number;
+}
+
 export interface SkillBasic {
     id: number;
     name: string;
@@ -50,6 +64,7 @@ export interface Skill extends SkillBasic {
     coolDown: number[];
     actIndividuality: Trait[];
     script: SkillScript;
+    extraPassive: ExtraPassive[];
     aiIds?: Record<AiType, number[]>;
     functions: Func[];
     reverse?: {

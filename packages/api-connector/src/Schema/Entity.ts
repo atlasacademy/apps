@@ -74,6 +74,10 @@ export interface EntityAssets {
     image: EntityAssetMap;
 }
 
+export interface CardDetail {
+    attackIndividuality: Trait[];
+}
+
 export interface EntityLevelUpMaterials {
     items: { item: Item, amount: number }[],
     qp: number,
@@ -103,13 +107,25 @@ export interface Entity {
     instantDeathChance: number;
     cards: Card[];
     hitsDistribution: {
+        none?: number[];
         buster?: number[];
         arts?: number[];
         quick?: number[];
         extra?: number[];
+        blank?: number[];
         weak?: number[];
         strength?: number[];
     },
+    cardDetails: {
+        none?: CardDetail;
+        buster?: CardDetail;
+        arts?: CardDetail;
+        quick?: CardDetail;
+        extra?: CardDetail;
+        blank?: CardDetail;
+        weak?: CardDetail;
+        strength?: CardDetail;
+    }
     atkBase: number;
     atkMax: number;
     hpBase: number;
@@ -126,6 +142,7 @@ export interface Entity {
     costumeMaterials: EntityLevelUpMaterialProgression;
     skills: Skill[];
     classPassive: Skill[],
+    extraPassive: Skill[],
     noblePhantasms: NoblePhantasm[];
 }
 
