@@ -81,7 +81,9 @@ export class BattleActor {
         );
     }
 
-    hits(attack: BattleAttackAction, battle?: Battle, target?: BattleActor): number[] {
+    baseHits(attack: BattleAttackAction, battle?: Battle, target?: BattleActor): number[] {
+        if (attack.np) return this.noblePhantasm().hits();
+
         let hits = [100];
         switch (attack.card) {
             case Card.BUSTER:
@@ -98,18 +100,23 @@ export class BattleActor {
                 break;
         }
 
-        const multiHit = this.state.buffs.netBuffs(
+        return hits;
+    }
+
+    multihit(attack: BattleAttackAction, battle?: Battle, target?: BattleActor): number {
+        return this.state.buffs.netBuffs( // TODO: use confirmationBuff
             GameBuffGroup.MULTI_ATTACK,
             this.traits(battle, attack),
-            target?.traits(battle, attack) ?? []
+            target?.traits(battle) ?? []
         );
+    }
 
+    hits(attack: BattleAttackAction, battle?: Battle, target?: BattleActor): number[] {
+        const hits = this.baseHits(attack, battle, target);
+        const multiHit = this.multihit(attack, battle, target);
         if (multiHit > 1) {
-            hits = hits.map(hit => {
-                return new Array(multiHit).fill(hit).map(damage => Math.floor(damage / multiHit));
-            }).flat();
+            return hits.map(hit => new Array(multiHit).fill(hit)).flat();
         }
-
         return hits;
     }
 
@@ -133,7 +140,8 @@ export class BattleActor {
             traits.push(...battle.state.traits);
         if (attack)
             traits.push(...attack.traits());
-
+        // TODO: BuffList.ACTION.INDIVIDUALITY_ADD
+        // TODO: BuffList.ACTION.INDIVIDUALITY_SUB
         return traits;
     }
 

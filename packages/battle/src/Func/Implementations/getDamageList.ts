@@ -87,12 +87,10 @@ function getDamageList(battle: Battle,
                        actor: BattleActor,
                        target: BattleActor,
                        func?: BattleNoblePhantasmFunc): BattleEvent[] {
-    let hits = actor.hits(attack, battle, target);
-    if (attack.np)
-        hits = actor.noblePhantasm().hits();
+    const hits = actor.hits(attack, battle, target);
 
-    let hitDistributionTotal = hits.reduce((a, b) => a + b);
-    let damageTotal = new Variable(VariableType.FLOAT, actor.props.baseAttack * hitDistributionTotal / 100);
+    const baseHitDistributionTotal = actor.baseHits(attack, battle, target).reduce((a, b) => a + b);
+    let damageTotal = new Variable(VariableType.FLOAT, actor.props.baseAttack * baseHitDistributionTotal / 100);
 
     let percentMod = new Variable(VariableType.FLOAT, 1000);
     if (attack.np && func) {

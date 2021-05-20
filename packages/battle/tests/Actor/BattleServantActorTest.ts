@@ -136,9 +136,9 @@ describe('BattleServantActor', () => {
         actions.add(servant, Card.QUICK, false);
         actions.add(servant, Card.ARTS, false);
 
-        expect(servant.hits(<BattleAttackAction>actions.get(1), battle)).to.eql([16, 16, 33, 33]);
-        expect(servant.hits(<BattleAttackAction>actions.get(2), battle)).to.eql([8, 8, 16, 16, 25, 25]);
-        expect(servant.hits(<BattleAttackAction>actions.get(3), battle)).to.eql([8, 8, 16, 16, 25, 25]);
-        expect(servant.hits(<BattleAttackAction>actions.get(4), battle)).to.eql([5, 5, 10, 10, 15, 15, 20, 20]);
+        expect(servant.hits(<BattleAttackAction>actions.get(1), battle)).to.eql([33, 33, 67, 67]);
+        expect(servant.hits(<BattleAttackAction>actions.get(2), battle)).to.eql([16, 16, 33, 33, 51, 51]);
+        expect(servant.hits(<BattleAttackAction>actions.get(3), battle)).to.eql([16, 16, 33, 33, 51, 51]);
+        expect(servant.hits(<BattleAttackAction>actions.get(4), battle)).to.eql([10, 10, 20, 20, 30, 30, 40, 40]);
     });
 });

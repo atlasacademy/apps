@@ -1,3 +1,4 @@
+import { Trait } from "@atlasacademy/api-connector";
 import {NoblePhantasm} from "@atlasacademy/api-connector/dist/Schema/NoblePhantasm";
 import BattleNoblePhantasmFunc from "./BattleNoblePhantasmFunc";
 
@@ -40,6 +41,10 @@ export default class BattleNoblePhantasm {
 
     hits(): number[] {
         return this.props.np.npDistribution;
+    }
+
+    traits(): Trait.Trait[] {
+        return this.props.np.individuality;
     }
 
     setOvercharge(overcharge: number) {

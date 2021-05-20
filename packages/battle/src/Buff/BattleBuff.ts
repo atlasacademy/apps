@@ -1,6 +1,8 @@
 import {Buff} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import {DataVal} from "@atlasacademy/api-connector/dist/Schema/DataVal";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
+import {checkTrait} from "../Trait/checkTrait";
+import {checkAllTrait} from "../Trait/checkAllTrait";
 
 
 export interface BattleBuffProps {
@@ -37,7 +39,27 @@ export class BattleBuff {
         return this.props.buff.name;
     }
 
-    value(traits: Trait[], targetTraits: Trait[]): number {
-        return this.props.dataVal.Value ?? 0;
+    checkBuffTrait(self: Trait[], target: Trait[]): boolean {
+        switch (this.props.buff.script.checkIndvType) {
+            case undefined:
+                return checkTrait(self, target)
+            case 1:
+                checkAllTrait(self, target);
+            // case 2:
+            // case 3:
+            default:
+                throw new Error('Unknown buff checkIndvType');
+        }
+    }
+
+    checkTrait(self: Trait[], target: Trait[]): boolean {
+        return this.checkBuffTrait(self, this.props.buff.ckSelfIndv) && checkTrait(target, this.props.buff.ckOpIndv);
+    }
+
+    value(self: Trait[], target: Trait[]): number {
+        if (this.checkTrait(self, target))
+            return this.props.dataVal.Value ?? 0;
+
+        return 0;
     }
 }
