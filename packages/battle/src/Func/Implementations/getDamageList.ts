@@ -1,4 +1,4 @@
-import {Card, Func} from "@atlasacademy/api-connector";
+import {Card, ClassName, Func} from "@atlasacademy/api-connector";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
@@ -18,6 +18,17 @@ import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc
 //
 //     return classAttack;
 // }
+
+function classAttackRate(className: ClassName): Variable {
+    const attackValue = GameConstantManager.classAttackRate(className);
+    if (attackValue === undefined)
+        throw Error('FAILED TO GET CLASS ATTACK RATE.');
+
+    let attackRate = new Variable(VariableType.FLOAT, attackValue);
+    attackRate = attackRate.divide(new Variable(VariableType.FLOAT, 1000));
+
+    return attackRate;
+}
 
 function commandCardAttack(battle: Battle,
                            attack: BattleAttackAction,
@@ -103,7 +114,7 @@ function getDamageList(battle: Battle,
     const hits = actor.hits(attack, target);
 
     const baseHitDistributionTotal = actor.baseHits(attack).reduce((a, b) => a + b);
-    let damageTotal = new Variable(VariableType.FLOAT, actor.props.baseAttack * baseHitDistributionTotal / 100);
+    let damageTotal = new Variable(VariableType.FLOAT, actor.baseAttack() * baseHitDistributionTotal / 100);
 
     let percentMod = new Variable(VariableType.FLOAT, 1000);
     if (attack.np && func) {
@@ -114,7 +125,7 @@ function getDamageList(battle: Battle,
 
     damageTotal = damageTotal.multiply(percentMod);
     damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
-    // damageTotal = damageTotal.multiply(classAttack(actor.props.className));
+    damageTotal = damageTotal.multiply(classAttackRate(actor.className()));
     // damageTotal = damageTotal.multiply(classMagnification(actor.className(battle, attack), target.className(battle, attack)));
     // damageTotal = damageTotal.multiply(attributeMagnification(actor.props.attribute, target.props.attribute));
     // damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, battle.random(
@@ -234,6 +245,7 @@ function getDamageList(battle: Battle,
 }
 
 export {
+    classAttackRate,
     commandCardAttack,
     npDamageBonus,
 }

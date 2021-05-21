@@ -1,7 +1,8 @@
-import {Card, Region} from "@atlasacademy/api-connector";
+import {Card, ClassName, Region} from "@atlasacademy/api-connector";
 import axios from "axios";
 import GameBuffConstantMap, {GameBuffConstant, GameBuffGroup} from "./GameBuffConstantMap";
 import GameCardConstantMap, {GameCardConstant} from "./GameCardConstantMap";
+import GameClassAttackRates from "./GameClassAttackRates";
 import GameConstants, {GameConstantKey} from "./GameConstants";
 
 class GameConstantManager {
@@ -10,13 +11,16 @@ class GameConstantManager {
     private region: Region = Region.JP;
     private buffConstantMap?: GameBuffConstantMap = undefined;
     private cardConstantMap?: GameCardConstantMap = undefined;
+    private classAttackRates?: GameClassAttackRates = undefined;
     private constants?: GameConstants = undefined;
 
     public initManually(constants?: GameConstants,
                         buffConstantMap?: GameBuffConstantMap,
-                        cardConstantMap?: GameCardConstantMap) {
+                        cardConstantMap?: GameCardConstantMap,
+                        classAttackRates?: GameClassAttackRates) {
         this.buffConstantMap = buffConstantMap;
         this.cardConstantMap = cardConstantMap;
+        this.classAttackRates = classAttackRates;
         this.constants = constants;
 
         this.loaded = true;
@@ -35,13 +39,16 @@ class GameConstantManager {
         this.buffConstantMap = undefined;
 
         this.buffConstantMap = (
-            await axios.get<GameBuffConstantMap>(`${this.host}/${this.region}/NiceBuffList.ActionList.json`)
+            await axios.get<GameBuffConstantMap>(`${this.host}/export/${this.region}/NiceBuffList.ActionList.json`)
         ).data;
         this.cardConstantMap = (
-            await axios.get<GameCardConstantMap>(`${this.host}/${this.region}/NiceCard.json`)
+            await axios.get<GameCardConstantMap>(`${this.host}/export/${this.region}/NiceCard.json`)
+        ).data;
+        this.classAttackRates = (
+            await axios.get<GameClassAttackRates>(`${this.host}/export/${this.region}/NiceClassAttackRate.json`)
         ).data;
         this.constants = (
-            await axios.get<GameConstants>(`${this.host}/${this.region}/NiceConstant.json`)
+            await axios.get<GameConstants>(`${this.host}/export/${this.region}/NiceConstant.json`)
         ).data;
 
         this.loaded = true;
@@ -49,6 +56,8 @@ class GameConstantManager {
 
     reset() {
         this.buffConstantMap = undefined;
+        this.cardConstantMap = undefined;
+        this.classAttackRates = undefined;
         this.constants = undefined;
         this.loaded = false;
     }
@@ -71,6 +80,16 @@ class GameConstantManager {
             return undefined;
 
         return (this.cardConstantMap[card] ?? {})[num];
+    }
+
+    classAttackRate(className: ClassName): number | undefined {
+        if (!this.loaded)
+            return undefined;
+
+        if (!this.classAttackRates)
+            return undefined;
+
+        return this.classAttackRates[className];
     }
 
     getRateValue(key: GameConstantKey): number {

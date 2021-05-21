@@ -66,6 +66,10 @@ export class BattleActor {
         return getDamageList(this.battle(), attack, this, target);
     }
 
+    baseAttack(): number {
+        return this.props.baseAttack;
+    }
+
     baseHits(attack: BattleAttackAction): number[] {
         if (attack.np) return this.noblePhantasm().hits();
 
@@ -93,6 +97,10 @@ export class BattleActor {
             throw new Error('BATTLE NOT SET');
 
         return this.state.battle;
+    }
+
+    className() : ClassName {
+        return this.props.className;
     }
 
     hasTrait(trait: Trait | number): boolean {
@@ -164,5 +172,4 @@ export class BattleActor {
             skills: this.state.skills.map(skill => skill.clone()),
         };
     }
-
 }
