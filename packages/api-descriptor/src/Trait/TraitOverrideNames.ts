@@ -44,6 +44,7 @@ const TraitOverrideNames = new Map<number, string>([
     [4004, "Card:Extra"],
     [4008, "Player Card"],
     [4100, "Critical Hit"],
+    [4101, "AOE NP"],
 ]);
 
 export default TraitOverrideNames as ReadonlyMap<number, string>;

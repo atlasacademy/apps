@@ -1,4 +1,5 @@
 import {Region, Servant, Trait} from "@atlasacademy/api-connector";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
 import React from "react";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import {mergeElements} from "../../Helper/OutputHelper";
@@ -99,9 +100,29 @@ class ServantTraits extends React.Component<IProps> {
                     </div>
                 ))}
 
-                <br/>
-                <br/>
-                <br/>
+                <h3>Attack Traits</h3>
+                <ul>
+                    {Object.entries(this.props.servant.cardDetails).map(value => {
+                        const [card, cardDetail] = value;
+                        if (cardDetail !== undefined)
+                            return (
+                                <li key={card}>
+                                    {toTitleCase(card)}:{" "}
+                                    {mergeElements(
+                                        cardDetail.attackIndividuality.map((trait) => (
+                                            <TraitDescription
+                                                region={this.props.region}
+                                                trait={trait}
+                                                owner="buffs"
+                                                ownerParameter="ckOpIndv"
+                                            />
+                                        )),
+                                        ", "
+                                    )}
+                                </li>
+                            )
+                    })}
+                </ul>
             </div>
         );
     }

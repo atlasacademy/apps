@@ -10,8 +10,8 @@ interface IProps {
     trait: Trait.Trait | number;
     disableLink?: boolean;
     overrideTraits?: Trait.Trait[];
-    owner?: "entities" | "funcs" | "buffs";
-    ownerParameter?: "trait" | "vals" | "tvals" | "questTvals" | "ckSelfIndv" | "ckOpIndv";
+    owner?: "entities" | "funcs" | "buffs" | "noble-phantasms";
+    ownerParameter?: "trait" | "vals" | "tvals" | "questTvals" | "ckSelfIndv" | "ckOpIndv" | "individuality";
 }
 
 interface IState {

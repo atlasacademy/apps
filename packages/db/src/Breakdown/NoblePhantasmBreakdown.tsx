@@ -5,6 +5,7 @@ import CardType from "../Component/CardType";
 import CommandCard from "../Component/CommandCard";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
+import TraitDescription from "../Descriptor/TraitDescription";
 import {asPercent, handleNewLine, mergeElements} from "../Helper/OutputHelper";
 import EffectBreakdown from "./EffectBreakdown";
 
@@ -91,7 +92,19 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                             {np.type !== "" ? <span><b>Type:</b> {np.type}<br /></span> : null}
                             {this.props.hideCard ? <span><b>Card:</b> <CardType card={np.card} height={60}/><br/></span> : null}
                             <b>Hits:</b> {np.npDistribution.length} Hits
-                            – {mergeElements(np.npDistribution.map(hit => asPercent(hit, 0)), ', ')}
+                            – {mergeElements(np.npDistribution.map(hit => asPercent(hit, 0)), ', ')}<br />
+                            <b>Traits:</b>{" "}
+                            {mergeElements(
+                                np.individuality.map((trait) => (
+                                    <TraitDescription
+                                        region={this.props.region}
+                                        trait={trait}
+                                        owner="noble-phantasms"
+                                        ownerParameter="individuality"
+                                    />
+                                )),
+                                ", "
+                            )}
                         </p>
                     </Col>
                 </Row>
