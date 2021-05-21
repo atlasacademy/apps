@@ -1,8 +1,12 @@
-import {FuncType} from "@atlasacademy/api-connector/dist/Schema/Func";
+import {Card, Func} from "@atlasacademy/api-connector";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
+import {BattleTeam} from "../../Enum/BattleTeam";
 import BattleEvent from "../../Event/BattleEvent";
+import {GameBuffGroup} from "../../Game/GameBuffConstantMap";
+import GameConstantManager from "../../Game/GameConstantManager";
+import {GameConstantKey} from "../../Game/GameConstants";
 import {Variable, VariableType} from "../../Game/Variable";
 import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
 
@@ -15,61 +19,70 @@ import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc
 //     return classAttack;
 // }
 
-// function commandCardAttack(battle: Battle,
-//                            attack: BattleAttackAction,
-//                            actor: BattleActor,
-//                            target: BattleActor): number {
-//     const cardConstant = GameConstantManager.cardConstants(attack.card, attack.np ? 1 : attack.num);
-//     if (!cardConstant) {
-//         throw new Error('FAILED TO FIND CARD CONSTANT');
-//     }
-//
-//     let cardBase = 0;
-//     if (actor.props.team === BattleTeam.ENEMY) {
-//         switch (attack.card) {
-//             case Card.ARTS:
-//                 cardBase = GameConstantManager.getValue('ENEMY_ATTACK_RATE_ARTS');
-//                 break;
-//             case Card.QUICK:
-//                 cardBase = GameConstantManager.getValue('ENEMY_ATTACK_RATE_QUICK');
-//                 break;
-//             case Card.BUSTER:
-//                 cardBase = GameConstantManager.getValue('ENEMY_ATTACK_RATE_BUSTER');
-//                 break;
-//             default:
-//                 cardBase = cardConstant.adjustAtk;
-//         }
-//     } else {
-//         cardBase = cardConstant.adjustAtk;
-//     }
-//
-//     let cardBonus = 1;
-//     cardBonus += actor.state.buffs.netBuffs(
-//         GameBuffGroup.COMMAND_ATK,
-//         actor.traits(battle).concat(cardConstant.individuality),
-//         target?.traits(battle) ?? []
-//     );
-//     cardBonus -= actor.state.buffs.netBuffs(
-//         GameBuffGroup.COMMAND_DEF,
-//         actor.traits(battle),
-//         (target?.traits(battle) ?? []).concat(cardConstant.individuality)
-//     );
-//
-//     return cardBase * cardBonus + cardConstant.addAtk / 1000;
-// }
+function commandCardAttack(battle: Battle,
+                           attack: BattleAttackAction,
+                           actor: BattleActor,
+                           target: BattleActor): Variable {
+    const cardConstant = GameConstantManager.cardConstants(attack.card, attack.np ? 1 : attack.num);
+    if (!cardConstant) {
+        throw new Error('FAILED TO FIND CARD CONSTANT');
+    }
+
+    let cardBaseValue = 0;
+    if (actor.props.team === BattleTeam.ENEMY) {
+        switch (attack.card) {
+            case Card.ARTS:
+                cardBaseValue = GameConstantManager.getValue(GameConstantKey.ENEMY_ATTACK_RATE_ARTS);
+                break;
+            case Card.QUICK:
+                cardBaseValue = GameConstantManager.getValue(GameConstantKey.ENEMY_ATTACK_RATE_QUICK);
+                break;
+            case Card.BUSTER:
+                cardBaseValue = GameConstantManager.getValue(GameConstantKey.ENEMY_ATTACK_RATE_BUSTER);
+                break;
+            default:
+                cardBaseValue = cardConstant.adjustAtk;
+        }
+    } else {
+        cardBaseValue = cardConstant.adjustAtk;
+    }
+
+    let cardBase = Variable.make(VariableType.FLOAT, cardBaseValue).divide(new Variable(VariableType.FLOAT, 1000)),
+        cardBonus = new Variable(VariableType.FLOAT, 1),
+        cardAdd = new Variable(VariableType.FLOAT, cardConstant.addAtk);
+
+    cardBonus = cardBonus.add(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
+        GameBuffGroup.COMMAND_ATK,
+        actor.traits(battle, attack),
+        target.traits(battle)
+    )));
+
+    cardBonus = cardBonus.subtract(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
+        GameBuffGroup.COMMAND_DEF,
+        actor.traits(battle),
+        target.traits(battle, attack)
+    )));
+
+    if (cardBonus.value() < 0)
+        cardBonus = new Variable(VariableType.FLOAT, 0);
+
+    cardAdd = cardAdd.divide(new Variable(VariableType.FLOAT, 1000));
+
+    return cardBase.multiply(cardBonus).add(cardAdd);
+}
 
 function npDamageBonus(actor: BattleActor,
                        func: BattleNoblePhantasmFunc): Variable {
     let bonus = new Variable(VariableType.FLOAT, 0);
 
-    if (func.props.func.funcType === FuncType.DAMAGE_NP_HPRATIO_HIGH) {
+    if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_HPRATIO_HIGH) {
         bonus = new Variable(VariableType.FLOAT, func.state.dataVal.Target ?? 0);
 
         let ratio = new Variable(VariableType.FLOAT, actor.state.health);
         ratio = ratio.divide(new Variable(VariableType.FLOAT, actor.state.maxHealth));
 
         bonus = bonus.multiply(ratio);
-    } else if (func.props.func.funcType === FuncType.DAMAGE_NP_HPRATIO_LOW) {
+    } else if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_HPRATIO_LOW) {
         bonus = new Variable(VariableType.FLOAT, func.state.dataVal.Target ?? 0);
 
         let ratio = new Variable(VariableType.FLOAT, actor.state.health);
@@ -100,7 +113,7 @@ function getDamageList(battle: Battle,
     percentMod = percentMod.divide(new Variable(VariableType.FLOAT, 1000));
 
     damageTotal = damageTotal.multiply(percentMod);
-    // damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
+    damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
     // damageTotal = damageTotal.multiply(classAttack(actor.props.className));
     // damageTotal = damageTotal.multiply(classMagnification(actor.className(battle, attack), target.className(battle, attack)));
     // damageTotal = damageTotal.multiply(attributeMagnification(actor.props.attribute, target.props.attribute));
@@ -221,6 +234,7 @@ function getDamageList(battle: Battle,
 }
 
 export {
+    commandCardAttack,
     npDamageBonus,
 }
 

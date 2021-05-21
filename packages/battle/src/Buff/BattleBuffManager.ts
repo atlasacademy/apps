@@ -18,7 +18,7 @@ export default class BattleBuffManager {
         this.list.push(buff);
     }
 
-    netBuffs(group: GameBuffGroup, traits: Trait[], targetTraits: Trait[]) {
+    netBuffs(group: GameBuffGroup, traits: Trait[], targetTraits: Trait[]): number {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
@@ -33,6 +33,13 @@ export default class BattleBuffManager {
                 value += buffs[j].value(traits, targetTraits);
             }
         }
+
+        return value;
+    }
+
+    netBuffsRate(group: GameBuffGroup, traits: Trait[], targetTraits: Trait[]): number {
+        let value = this.netBuffs(group, traits, targetTraits) / 1000;
+        value = Math.fround(value);
 
         return value;
     }
