@@ -7,8 +7,6 @@ import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
 import getDamageList from "../Func/Implementations/getDamageList";
 import {GameBuffGroup} from "../Game/GameBuffConstantMap";
-import GameConstantManager from "../Game/GameConstantManager";
-import {GameConstantKey} from "../Game/GameConstants";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 
@@ -33,6 +31,7 @@ export interface BattleActorProps {
 }
 
 export interface BattleActorState {
+    battle?: Battle,
     buffs: BattleBuffManager,
     gauge: number,
     health: number,
@@ -53,9 +52,9 @@ export class BattleActor {
         return new BattleActor(this.props, this.cloneState());
     }
 
-    attack(battle: Battle, target?: BattleActor): number {
-        const traits = this.traits(battle),
-            targetTraits = target?.traits(battle) ?? [];
+    attack(target?: BattleActor): number {
+        const traits = this.traits(),
+            targetTraits = target?.traits() ?? [];
 
         let attack = this.props.baseAttack;
         attack *= 1 + (this.state.buffs.netBuffs(GameBuffGroup.ATK, traits, targetTraits) / 1000);
@@ -63,11 +62,11 @@ export class BattleActor {
         return Math.round(attack);
     }
 
-    autoAttack(attack: BattleAttackAction, battle: Battle, target: BattleActor): BattleEvent[] {
-        return getDamageList(battle, attack, this, target);
+    autoAttack(attack: BattleAttackAction, target: BattleActor): BattleEvent[] {
+        return getDamageList(this.battle(), attack, this, target);
     }
 
-    baseHits(attack: BattleAttackAction, battle?: Battle, target?: BattleActor): number[] {
+    baseHits(attack: BattleAttackAction): number[] {
         if (attack.np) return this.noblePhantasm().hits();
 
         let hits = [100];
@@ -89,14 +88,21 @@ export class BattleActor {
         return hits;
     }
 
+    battle(): Battle {
+        if (this.state.battle === undefined)
+            throw new Error('BATTLE NOT SET');
+
+        return this.state.battle;
+    }
+
     hasTrait(trait: Trait | number): boolean {
         const traitId: number = typeof trait === "number" ? trait : trait.id;
 
         return this.props.traits.filter(_trait => _trait.id === traitId).length > 0;
     }
 
-    health(battle: Battle): number {
-        const traits = this.traits(battle),
+    health(): number {
+        const traits = this.traits(),
             targetTraits: Trait[] = [];
 
         return (
@@ -105,9 +111,9 @@ export class BattleActor {
         );
     }
 
-    hits(attack: BattleAttackAction, battle?: Battle, target?: BattleActor): number[] {
-        const hits = this.baseHits(attack, battle, target);
-        const multiHit = this.multihit(attack, battle, target);
+    hits(attack: BattleAttackAction, target?: BattleActor): number[] {
+        const hits = this.baseHits(attack);
+        const multiHit = this.multihit(attack, target);
         if (multiHit > 1) {
             return hits.map(hit => new Array(multiHit).fill(hit)).flat();
         }
@@ -118,11 +124,11 @@ export class BattleActor {
         return this.state.health > 0;
     }
 
-    multihit(attack: BattleAttackAction, battle?: Battle, target?: BattleActor): number {
+    multihit(attack: BattleAttackAction, target?: BattleActor): number {
         return this.state.buffs.netBuffs( // TODO: use confirmationBuff
             GameBuffGroup.MULTI_ATTACK,
-            this.traits(battle, attack),
-            target?.traits(battle) ?? []
+            this.traits(attack),
+            target?.traits() ?? []
         );
     }
 
@@ -130,16 +136,19 @@ export class BattleActor {
         return this.state.noblePhantasm;
     }
 
+    setBattle(battle: Battle) {
+        this.state.battle = battle;
+    }
+
     skill(num: number): BattleSkill | undefined {
         return this.state.skills.filter(skill => skill.props.id === num).shift();
     }
 
-    traits(battle?: Battle, attack?: BattleAttackAction): Trait[] {
+    traits(attack?: BattleAttackAction): Trait[] {
         const traits: Trait[] = [];
 
         traits.push(...this.props.traits);
-        if (battle)
-            traits.push(...battle.state.traits);
+        traits.push(...this.battle().state.traits);
         if (attack)
             traits.push(...attack.traits());
         // TODO: BuffList.ACTION.INDIVIDUALITY_ADD

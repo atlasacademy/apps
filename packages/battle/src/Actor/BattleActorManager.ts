@@ -1,4 +1,5 @@
 import {FuncTargetType} from "@atlasacademy/api-connector/dist/Schema/Func";
+import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
 import {BattleActor} from "./BattleActor";
 
@@ -181,6 +182,10 @@ export default class BattleActorManager {
         return this.actorsByTeam(team)
             .filter(actor => actor.props.phase === phase)
             .filter(actor => actor.state.position > 3);
+    }
+
+    setBattle(battle: Battle) {
+        this.state.actors.forEach(actor => actor.setBattle(battle));
     }
 
     private resetPositions() {

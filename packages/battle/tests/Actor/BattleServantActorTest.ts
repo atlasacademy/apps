@@ -28,15 +28,15 @@ describe('BattleServantActor', () => {
         expect(servant.hasTrait(1)).to.equal(false);
         expect(servant.hasTrait(2)).to.equal(true);
         expect(servant.hasTrait(2009)).to.equal(true);
-        expect(servant.attack(battle)).to.equal(12221);
-        expect(servant.health(battle)).to.equal(16150);
+        expect(servant.attack()).to.equal(12221);
+        expect(servant.health()).to.equal(16150);
 
         expect(servant.skill(1)?.props.skill.id).to.equal(5450);
         expect(servant.skill(2)?.props.skill.id).to.equal(756450);
         expect(servant.skill(3)?.props.skill.id).to.equal(501650);
 
         servant.skill(1)?.activate(battle);
-        expect(servant.attack(battle)).to.equal(14421);
+        expect(servant.attack()).to.equal(14421);
     });
 
     it('autoAttack', () => {
@@ -89,10 +89,10 @@ describe('BattleServantActor', () => {
         actions.add(servant, Card.QUICK, false);
         actions.add(servant, Card.ARTS, false);
 
-        expect(servant.hits(<BattleAttackAction>actions.get(1), battle)).to.eql([100]);
-        expect(servant.hits(<BattleAttackAction>actions.get(2), battle)).to.eql([33, 67]);
-        expect(servant.hits(<BattleAttackAction>actions.get(3), battle)).to.eql([33, 67]);
-        expect(servant.hits(<BattleAttackAction>actions.get(4), battle)).to.eql([12, 25, 63]);
+        expect(servant.hits(<BattleAttackAction>actions.get(1))).to.eql([100]);
+        expect(servant.hits(<BattleAttackAction>actions.get(2))).to.eql([33, 67]);
+        expect(servant.hits(<BattleAttackAction>actions.get(3))).to.eql([33, 67]);
+        expect(servant.hits(<BattleAttackAction>actions.get(4))).to.eql([12, 25, 63]);
     });
 
     it('hits - musashi normal', () => {
@@ -111,10 +111,10 @@ describe('BattleServantActor', () => {
         actions.add(musashi, Card.BUSTER, false);
         actions.add(musashi, Card.QUICK, false);
         actions.add(musashi, Card.ARTS, false);
-        expect(musashi.hits(<BattleAttackAction>actions.get(1), battle)).to.eql([33, 67]);
-        expect(musashi.hits(<BattleAttackAction>actions.get(2), battle)).to.eql([16, 33, 51]);
-        expect(musashi.hits(<BattleAttackAction>actions.get(3), battle)).to.eql([16, 33, 51]);
-        expect(musashi.hits(<BattleAttackAction>actions.get(4), battle)).to.eql([10, 20, 30, 40]);
+        expect(musashi.hits(<BattleAttackAction>actions.get(1))).to.eql([33, 67]);
+        expect(musashi.hits(<BattleAttackAction>actions.get(2))).to.eql([16, 33, 51]);
+        expect(musashi.hits(<BattleAttackAction>actions.get(3))).to.eql([16, 33, 51]);
+        expect(musashi.hits(<BattleAttackAction>actions.get(4))).to.eql([10, 20, 30, 40]);
     });
 
     it('hits - musashi skill 1', () => {
@@ -136,9 +136,9 @@ describe('BattleServantActor', () => {
         actions.add(servant, Card.QUICK, false);
         actions.add(servant, Card.ARTS, false);
 
-        expect(servant.hits(<BattleAttackAction>actions.get(1), battle)).to.eql([33, 33, 67, 67]);
-        expect(servant.hits(<BattleAttackAction>actions.get(2), battle)).to.eql([16, 16, 33, 33, 51, 51]);
-        expect(servant.hits(<BattleAttackAction>actions.get(3), battle)).to.eql([16, 16, 33, 33, 51, 51]);
-        expect(servant.hits(<BattleAttackAction>actions.get(4), battle)).to.eql([10, 10, 20, 20, 30, 30, 40, 40]);
+        expect(servant.hits(<BattleAttackAction>actions.get(1))).to.eql([33, 33, 67, 67]);
+        expect(servant.hits(<BattleAttackAction>actions.get(2))).to.eql([16, 16, 33, 33, 51, 51]);
+        expect(servant.hits(<BattleAttackAction>actions.get(3))).to.eql([16, 16, 33, 33, 51, 51]);
+        expect(servant.hits(<BattleAttackAction>actions.get(4))).to.eql([10, 10, 20, 20, 30, 30, 40, 40]);
     });
 });

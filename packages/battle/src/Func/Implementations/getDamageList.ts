@@ -53,14 +53,14 @@ function commandCardAttack(battle: Battle,
 
     cardBonus = cardBonus.add(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
         GameBuffGroup.COMMAND_ATK,
-        actor.traits(battle, attack),
-        target.traits(battle)
+        actor.traits(attack),
+        target.traits()
     )));
 
     cardBonus = cardBonus.subtract(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
         GameBuffGroup.COMMAND_DEF,
-        actor.traits(battle),
-        target.traits(battle, attack)
+        actor.traits(),
+        target.traits(attack)
     )));
 
     if (cardBonus.value() < 0)
@@ -100,9 +100,9 @@ function getDamageList(battle: Battle,
                        actor: BattleActor,
                        target: BattleActor,
                        func?: BattleNoblePhantasmFunc): BattleEvent[] {
-    const hits = actor.hits(attack, battle, target);
+    const hits = actor.hits(attack, target);
 
-    const baseHitDistributionTotal = actor.baseHits(attack, battle, target).reduce((a, b) => a + b);
+    const baseHitDistributionTotal = actor.baseHits(attack).reduce((a, b) => a + b);
     let damageTotal = new Variable(VariableType.FLOAT, actor.props.baseAttack * baseHitDistributionTotal / 100);
 
     let percentMod = new Variable(VariableType.FLOAT, 1000);

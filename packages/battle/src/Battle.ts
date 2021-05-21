@@ -32,15 +32,20 @@ export class Battle {
     }
 
     clone(): Battle {
-        return new Battle({
+        const battle = new Battle({
             ...this.state,
             actors: this.state.actors.clone(),
             random: this.state.random.clone(),
         });
+
+        this.state.actors.setBattle(battle);
+
+        return battle;
     }
 
     addActor(actor: BattleActor) {
         this.state.actors.add(actor);
+        actor.setBattle(this);
     }
 
     addEvent(event: BattleEvent) {
