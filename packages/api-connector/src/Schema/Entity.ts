@@ -1,18 +1,10 @@
 import Card from "../Enum/Card";
 import ClassName from "../Enum/ClassName";
+import {Attribute} from "./Attribute";
 import {Item} from "./Item";
 import {NoblePhantasm} from "./NoblePhantasm";
 import {Skill} from "./Skill";
 import {Trait} from "./Trait";
-
-export enum Attribute {
-    HUMAN = "human",
-    SKY = "sky",
-    EARTH = "earth",
-    STAR = "star",
-    BEAST = "beast",
-    VOID = "void",
-}
 
 export enum EntityType {
     NORMAL = "normal",
@@ -25,7 +17,7 @@ export enum EntityType {
     SVT_EQUIP_MATERIAL = "svtEquipMaterial",
     ENEMY_COLLECTION_DETAIL = "enemyCollectionDetail",
     ALL = "all",
-    // COMMAND_CODE = "commandCode",
+    COMMAND_CODE = "commandCode",
 }
 
 export enum EntityFlag {

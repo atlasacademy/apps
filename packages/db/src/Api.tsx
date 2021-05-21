@@ -2,6 +2,7 @@ import Manager from "./Setting/Manager";
 import {
     Ai,
     ApiConnector,
+    Attribute,
     Buff,
     Card,
     Change,
@@ -253,7 +254,7 @@ class Api {
         type?: Entity.EntityType[],
         className?: ClassName[],
         gender?: Entity.Gender[],
-        attribute?: Entity.Attribute[],
+        attribute?: Attribute.Attribute[],
         trait?: number[],
         voiceCondSvt?: number[],
         illustrator?: string,

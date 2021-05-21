@@ -1,4 +1,4 @@
-import {ClassName, Entity, Region, Trait} from "@atlasacademy/api-connector";
+import {Attribute, ClassName, Entity, Region, Trait} from "@atlasacademy/api-connector";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AxiosError} from "axios";
@@ -15,7 +15,7 @@ import Manager from "../Setting/Manager";
 import TraitsSelector from "../Component/TraitsSelector";
 import {getURLSearchParams} from "../Helper/StringHelper";
 
-const attributeDescriptions = new Map<Entity.Attribute, string>(),
+const attributeDescriptions = new Map<Attribute.Attribute, string>(),
     classNameDescriptions = new Map<ClassName, string>(),
     entityTypeDescriptions = new Map<Entity.EntityType, string>([
         [Entity.EntityType.NORMAL, 'Servant'],
@@ -52,7 +52,7 @@ interface IState {
     type?: Entity.EntityType[];
     className?: ClassName[];
     gender?: Entity.Gender[];
-    attribute?: Entity.Attribute[];
+    attribute?: Attribute.Attribute[];
     trait: number[];
     illustrator?: string;
     cv?: string;
@@ -82,7 +82,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 type: searchParams.getAll('type') as Entity.EntityType[],
                 className: searchParams.getAll('className') as ClassName[],
                 gender: searchParams.getAll('gender') as Entity.Gender[],
-                attribute: searchParams.getAll('attribute') as Entity.Attribute[],
+                attribute: searchParams.getAll('attribute') as Attribute.Attribute[],
                 trait: searchParams.getAll('trait').map(num => parseInt(num)),
             }
         } else if (props.traitSelected) {
@@ -134,9 +134,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
             case Entity.EntityType.HEROINE:
                 return entity.collectionNo === 0
                     ? `/${this.props.region}/enemy/${entity.id}`
-                    : `/${this.props.region}/servant/${entity.id}`;
+                    : `/${this.props.region}/servant/${entity.collectionNo}`;
             case Entity.EntityType.SERVANT_EQUIP:
-                return `/${this.props.region}/craft-essence/${entity.id}`;
+                return `/${this.props.region}/craft-essence/${entity.collectionNo}`;
             case Entity.EntityType.ENEMY:
             case Entity.EntityType.ENEMY_COLLECTION:
             case Entity.EntityType.ENEMY_COLLECTION_DETAIL:
@@ -277,11 +277,11 @@ class EntitiesPage extends React.Component<IProps, IState> {
 
                     <Form.Group>
                         <Form.Label>Attribute</Form.Label>
-                        <SearchableSelect<Entity.Attribute> id='select-Attribute'
-                                                     options={Object.values(Entity.Attribute)}
+                        <SearchableSelect<Attribute.Attribute> id='select-Attribute'
+                                                     options={Object.values(Attribute.Attribute)}
                                                      labels={attributeDescriptions}
                                                      selected={this.state.attribute ? this.state.attribute[0] : undefined}
-                                                     onChange={(value?: Entity.Attribute) => {
+                                                     onChange={(value?: Attribute.Attribute) => {
                                                          this.setState({attribute: value ? [value] : []});
                                                      }}/>
                     </Form.Group>

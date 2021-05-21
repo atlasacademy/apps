@@ -26,3 +26,13 @@ enum ClassName {
 }
 
 export default ClassName;
+
+export type ClassAttackRateMap = {
+    [key in ClassName]: number;
+};
+
+export type ClassAffinityMap = {
+    [key in ClassName]?: {
+        [key in ClassName]?: number;
+    };
+};

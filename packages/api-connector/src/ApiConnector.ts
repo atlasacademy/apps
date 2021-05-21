@@ -1,23 +1,28 @@
 import axios from "axios";
-import Card from "./Enum/Card";
+import Card, { CardConstantMap } from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
+import { ClassAffinityMap, ClassAttackRateMap } from "./Enum/ClassName";
 import Cond from "./Enum/Cond";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import ResultCache from "./ResultCache";
+import { Attribute, AttributeAffinityMap } from "./Schema/Attribute";
 import { Change } from "./Schema/Change";
 import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode";
+import { Constants } from "./Schema/Constant";
 import { CraftEssence, CraftEssenceBasic } from "./Schema/CraftEssence";
 import { Cv } from "./Schema/Cv";
 import { Enemy } from "./Schema/Enemy";
+import { EntityBasic, EntityFlag, EntityType, Gender } from "./Schema/Entity";
 import { Event, EventBasic, EventType } from "./Schema/Event";
 import { GiftType } from "./Schema/Gift";
 import { Illustrator } from "./Schema/Illustrator";
 import { Item, ItemBackgroundType, ItemType, ItemUse } from "./Schema/Item";
+import { MasterLevelInfoMap } from "./Schema/Master";
 import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode";
 import { NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm";
 import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile";
-import { Servant, ServantBasic } from "./Schema/Servant";
+import { GrailCostInfoMap, Servant, ServantBasic } from "./Schema/Servant";
 import { PayType, PurchaseType, ShopType } from "./Schema/Shop";
 import { Skill, SkillBasic, SkillType } from "./Schema/Skill";
 import { Trait } from "./Schema/Trait";
@@ -39,6 +44,7 @@ import {
     AiType,
 } from "./Schema/Ai";
 import {
+    BuffConstantMap,
     BasicBuff,
     Buff,
     BuffType,
@@ -51,13 +57,6 @@ import {
     ProgressType,
     RewardType,
 } from "./Schema/Mission";
-import {
-    Attribute,
-    EntityBasic,
-    EntityType,
-    EntityFlag,
-    Gender,
-} from "./Schema/Entity";
 import {
     BasicFunc,
     Func,
@@ -216,11 +215,17 @@ class ApiConnector {
     private region: Region;
     private language: Language;
     private cache = {
+        attributeAffinityMap: new ResultCache<null, AttributeAffinityMap>(),
         buff: new ResultCache<number, Buff>(),
         buffBasic: new ResultCache<number, BasicBuff>(),
+        buffConstantMap: new ResultCache<null, BuffConstantMap>(),
+        cardConstantMap: new ResultCache<null, CardConstantMap>(),
         commandCode: new ResultCache<number, CommandCode>(),
         commandCodeBasic: new ResultCache<number, CommandCodeBasic>(),
         commandCodeList: new ResultCache<null, CommandCodeBasic[]>(),
+        constants: new ResultCache<null, Constants>(),
+        classAttackRateMap: new ResultCache<null, ClassAttackRateMap>(),
+        classAffinityMap: new ResultCache<null, ClassAffinityMap>(),
         craftEssence: new ResultCache<number, CraftEssence>(),
         craftEssenceBasic: new ResultCache<number, CraftEssenceBasic>(),
         craftEssenceList: new ResultCache<null, CraftEssenceBasic[]>(),
@@ -230,11 +235,13 @@ class ApiConnector {
         eventList: new ResultCache<null, EventBasic[]>(),
         func: new ResultCache<number, Func>(),
         funcBasic: new ResultCache<number, BasicFunc>(),
+        grailCostInfoMap: new ResultCache<null, GrailCostInfoMap>(),
         item: new ResultCache<number, Item>(),
         itemList: new ResultCache<null, Item[]>(),
         illustratorList: new ResultCache<null, Illustrator[]>(),
         cvList: new ResultCache<null, Cv[]>(),
         searchItem: new ResultCache<string, Item[]>(),
+        masterLevelInfoMap: new ResultCache<null, MasterLevelInfoMap>(),
         mysticCode: new ResultCache<number, MysticCode>(),
         mysticCodeBasic: new ResultCache<number, MysticCodeBasic>(),
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
@@ -1080,6 +1087,126 @@ class ApiConnector {
 
         return this.cache.searchItem.get(
             query,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    constant(cacheDuration?: number): Promise<Constants> {
+        const fetch = () =>
+            ApiConnector.fetch<Constants>(
+                `${this.host}/export/${this.region}/NiceConstant.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.constants.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    buffConstant(cacheDuration?: number): Promise<BuffConstantMap> {
+        const fetch = () =>
+            ApiConnector.fetch<BuffConstantMap>(
+                `${this.host}/export/${this.region}/NiceBuffList.ActionList.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.buffConstantMap.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    cardConstant(cacheDuration?: number): Promise<CardConstantMap> {
+        const fetch = () =>
+            ApiConnector.fetch<CardConstantMap>(
+                `${this.host}/export/${this.region}/NiceCard.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.cardConstantMap.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    attributeConstant(cacheDuration?: number): Promise<AttributeAffinityMap> {
+        const fetch = () =>
+            ApiConnector.fetch<AttributeAffinityMap>(
+                `${this.host}/export/${this.region}/NiceAttributeRelation.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.attributeAffinityMap.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    classAttackConstant(cacheDuration?: number): Promise<ClassAttackRateMap> {
+        const fetch = () =>
+            ApiConnector.fetch<ClassAttackRateMap>(
+                `${this.host}/export/${this.region}/NiceClassAttackRate.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.classAttackRateMap.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    classAffinityConstant(cacheDuration?: number): Promise<ClassAffinityMap> {
+        const fetch = () =>
+            ApiConnector.fetch<ClassAffinityMap>(
+                `${this.host}/export/${this.region}/NiceClassRelation.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.classAffinityMap.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    masterLevelConstant(cacheDuration?: number): Promise<MasterLevelInfoMap> {
+        const fetch = () =>
+            ApiConnector.fetch<MasterLevelInfoMap>(
+                `${this.host}/export/${this.region}/NiceUserLevel.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.masterLevelInfoMap.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    grailConstant(cacheDuration?: number): Promise<GrailCostInfoMap> {
+        const fetch = () =>
+            ApiConnector.fetch<GrailCostInfoMap>(
+                `${this.host}/export/${this.region}/NiceSvtGrailCost.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.grailCostInfoMap.get(
+            null,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
         );

@@ -315,3 +315,18 @@ export interface Buff extends BasicBuff {
         };
     };
 }
+
+export interface BuffConstant {
+    limit: BuffLimit;
+    plusTypes: BuffType[];
+    minusTypes: BuffType[];
+    baseParam: number;
+    baseValue: number;
+    isRec: boolean;
+    plusAction: number;
+    maxRate: number[];
+}
+
+export type BuffConstantMap = {
+    [key in BuffAction]: BuffConstant;
+};

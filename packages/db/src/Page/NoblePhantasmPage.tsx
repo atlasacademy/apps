@@ -12,6 +12,9 @@ import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import Manager from "../Setting/Manager";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 import getRubyText from "../Helper/StringHelper";
+import { asPercent, mergeElements } from "../Helper/OutputHelper";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
+import TraitDescription from "../Descriptor/TraitDescription";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
@@ -91,10 +94,19 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 <DataTable data={{
                     "ID": noblePhantasm.id,
                     "Name": getRubyText(this.props.region, noblePhantasm.name, noblePhantasm.ruby),
-                    "Type": noblePhantasm.type,
-                    "Rank": noblePhantasm.rank,
                     "Detail": noblePhantasm.detail,
-                    "Card Type": noblePhantasm.card,
+                    "Rank": noblePhantasm.rank,
+                    "Type": noblePhantasm.type,
+                    "Card Type": toTitleCase(noblePhantasm.card),
+                    "Hits": mergeElements(noblePhantasm.npDistribution.map(hit => asPercent(hit, 0)), ', '),
+                    "Traits": mergeElements(noblePhantasm.individuality.map((trait) => (
+                        <TraitDescription
+                            region={this.props.region}
+                            trait={trait}
+                            owner="noble-phantasms"
+                            ownerParameter="individuality"
+                        />
+                    )), ", "),
                     "Owner": (
                         <div>
                             {(noblePhantasm.reverse?.basic?.servant ?? [])

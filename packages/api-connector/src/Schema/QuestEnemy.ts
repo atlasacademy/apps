@@ -1,4 +1,5 @@
-import { Attribute, EntityBasic } from "./Entity";
+import { Attribute } from "./Attribute";
+import { EntityBasic } from "./Entity";
 import { NoblePhantasm } from "./NoblePhantasm";
 import { Skill } from "./Skill";
 import { Trait } from "./Trait";

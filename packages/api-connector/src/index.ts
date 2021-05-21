@@ -5,10 +5,12 @@ import CondType from "./Enum/Cond";
 import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import * as Ai from "./Schema/Ai";
+import * as Attribute from "./Schema/Attribute";
 import * as Bgm from "./Schema/Bgm";
 import * as Buff from "./Schema/Buff";
 import * as Change from "./Schema/Change";
 import * as CommandCode from "./Schema/CommandCode";
+import * as Constant from "./Schema/Constant";
 import * as CraftEssence from "./Schema/CraftEssence";
 import { Cv } from "./Schema/Cv";
 import * as DataVal from "./Schema/DataVal";
@@ -19,6 +21,7 @@ import * as Func from "./Schema/Func";
 import * as Gift from "./Schema/Gift";
 import * as Item from "./Schema/Item";
 import { Illustrator } from "./Schema/Illustrator";
+import * as Master from "./Schema/Master";
 import * as Mission from "./Schema/Mission";
 import * as MysticCode from "./Schema/MysticCode";
 import * as NoblePhantasm from "./Schema/NoblePhantasm";
@@ -38,6 +41,7 @@ export {
     ReverseData,
     EnumList,
 
+    Attribute,
     Card,
     Change,
     ClassName,
@@ -50,6 +54,7 @@ export {
     Bgm,
     Buff,
     CommandCode,
+    Constant,
     CraftEssence,
     Cv,
     DataVal,
@@ -61,6 +66,7 @@ export {
     Item,
     Illustrator,
     Mission,
+    Master,
     MysticCode,
     NoblePhantasm,
     Profile,

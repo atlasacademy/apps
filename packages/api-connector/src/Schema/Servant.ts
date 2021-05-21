@@ -1,14 +1,15 @@
-import {Entity, EntityBasic, EntityType} from "./Entity";
-import {Profile} from "./Profile";
-import {Trait} from "./Trait";
+import { Entity, EntityBasic, EntityType } from "./Entity";
+import { ItemBackgroundType } from "./Item";
+import { Profile } from "./Profile";
+import { Trait } from "./Trait";
 
 interface ServantAscensionAdditionDetails<T> {
     ascension: {
         [key: number]: T;
-    }
+    };
     costume: {
         [key: number]: T;
-    }
+    };
 }
 
 export interface ServantAscensionAdditions {
@@ -24,16 +25,34 @@ export interface ServantAscensionAdditions {
 export interface ServantScript {
     SkillRankUp?: {
         [key: number]: number[];
-    }
+    };
 }
 
 export interface Servant extends Entity {
-    type: EntityType.NORMAL | EntityType.HEROINE | EntityType.ENEMY_COLLECTION_DETAIL;
+    type:
+        | EntityType.NORMAL
+        | EntityType.HEROINE
+        | EntityType.ENEMY_COLLECTION_DETAIL;
     ascensionAdd: ServantAscensionAdditions;
     script: ServantScript;
-    profile?: Profile,
+    profile?: Profile;
 }
 
 export interface ServantBasic extends EntityBasic {
-    type: EntityType.NORMAL | EntityType.HEROINE | EntityType.ENEMY_COLLECTION_DETAIL;
+    type:
+        | EntityType.NORMAL
+        | EntityType.HEROINE
+        | EntityType.ENEMY_COLLECTION_DETAIL;
 }
+
+export interface GrailCostInfo {
+    qp: number;
+    addLvMax: number;
+    frameType: ItemBackgroundType;
+}
+
+export type GrailCostInfoMap = {
+    [key in number]?: {
+        [key in number]?: GrailCostInfo;
+    };
+};
