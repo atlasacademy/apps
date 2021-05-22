@@ -1,6 +1,5 @@
-import {BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {BuffAction, BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
-import {GameBuffGroup} from "../Game/GameBuffConstantMap";
 import GameConstantManager from "../Game/GameConstantManager";
 import {BattleBuff} from "./BattleBuff";
 
@@ -18,7 +17,7 @@ export default class BattleBuffManager {
         this.list.push(buff);
     }
 
-    netBuffs(group: GameBuffGroup, traits: Trait[], targetTraits: Trait[]): number {
+    netBuffs(group: BuffAction, traits: Trait[], targetTraits: Trait[]): number {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
@@ -37,7 +36,7 @@ export default class BattleBuffManager {
         return value;
     }
 
-    netBuffsRate(group: GameBuffGroup, traits: Trait[], targetTraits: Trait[]): number {
+    netBuffsRate(group: BuffAction, traits: Trait[], targetTraits: Trait[]): number {
         let value = this.netBuffs(group, traits, targetTraits) / 1000;
         value = Math.fround(value);
 

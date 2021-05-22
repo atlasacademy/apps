@@ -1,4 +1,5 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
+import {BuffAction} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
 import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {Battle} from "../Battle";
@@ -6,7 +7,6 @@ import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
 import getDamageList from "../Func/Implementations/getDamageList";
-import {GameBuffGroup} from "../Game/GameBuffConstantMap";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 
@@ -57,7 +57,7 @@ export class BattleActor {
             targetTraits = target?.traits() ?? [];
 
         let attack = this.props.baseAttack;
-        attack *= 1 + (this.state.buffs.netBuffs(GameBuffGroup.ATK, traits, targetTraits) / 1000);
+        attack *= 1 + (this.state.buffs.netBuffs(BuffAction.ATK, traits, targetTraits) / 1000);
 
         return Math.round(attack);
     }
@@ -115,7 +115,7 @@ export class BattleActor {
 
         return (
             this.props.baseHealth
-            + this.state.buffs.netBuffs(GameBuffGroup.MAX_HP_VALUE, traits, targetTraits)
+            + this.state.buffs.netBuffs(BuffAction.MAXHP_VALUE, traits, targetTraits)
         );
     }
 
@@ -134,7 +134,7 @@ export class BattleActor {
 
     multihit(attack: BattleAttackAction, target?: BattleActor): number {
         return this.state.buffs.netBuffs( // TODO: use confirmationBuff
-            GameBuffGroup.MULTI_ATTACK,
+            BuffAction.MULTIATTACK,
             this.traits(attack),
             target?.traits() ?? []
         );

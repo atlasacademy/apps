@@ -1,23 +1,33 @@
-import {Card, ClassName, Region} from "@atlasacademy/api-connector";
-import axios from "axios";
-import GameBuffConstantMap, {GameBuffConstant, GameBuffGroup} from "./GameBuffConstantMap";
-import GameCardConstantMap, {GameCardConstant} from "./GameCardConstantMap";
-import GameClassAttackRates from "./GameClassAttackRates";
-import GameConstants, {GameConstantKey} from "./GameConstants";
+import { ClassAttackRateMap } from "@atlasacademy/api-connector/dist/Enum/ClassName";
+import {
+    ApiConnector,
+    Buff,
+    Card,
+    ClassName,
+    Constant,
+    Region,
+} from "@atlasacademy/api-connector";
+import {
+    CardConstant,
+    CardConstantMap,
+} from "@atlasacademy/api-connector/dist/Enum/Card";
+import { AttributeAffinityMap } from "@atlasacademy/api-connector/dist/Schema/Attribute";
 
 class GameConstantManager {
     private host: string = "https://api.atlasacademy.io";
     private loaded: boolean = false;
     private region: Region = Region.JP;
-    private buffConstantMap?: GameBuffConstantMap = undefined;
-    private cardConstantMap?: GameCardConstantMap = undefined;
-    private classAttackRates?: GameClassAttackRates = undefined;
-    private constants?: GameConstants = undefined;
+    private buffConstantMap?: Buff.BuffConstantMap = undefined;
+    private cardConstantMap?: CardConstantMap = undefined;
+    private classAttackRates?: ClassAttackRateMap = undefined;
+    private constants?: Constant.Constants = undefined;
 
-    public initManually(constants?: GameConstants,
-                        buffConstantMap?: GameBuffConstantMap,
-                        cardConstantMap?: GameCardConstantMap,
-                        classAttackRates?: GameClassAttackRates) {
+    public initManually(
+        constants?: Constant.Constants,
+        buffConstantMap?: Buff.BuffConstantMap,
+        cardConstantMap?: CardConstantMap,
+        classAttackRates?: ClassAttackRateMap
+    ) {
         this.buffConstantMap = buffConstantMap;
         this.cardConstantMap = cardConstantMap;
         this.classAttackRates = classAttackRates;
@@ -38,18 +48,15 @@ class GameConstantManager {
 
         this.buffConstantMap = undefined;
 
-        this.buffConstantMap = (
-            await axios.get<GameBuffConstantMap>(`${this.host}/export/${this.region}/NiceBuffList.ActionList.json`)
-        ).data;
-        this.cardConstantMap = (
-            await axios.get<GameCardConstantMap>(`${this.host}/export/${this.region}/NiceCard.json`)
-        ).data;
-        this.classAttackRates = (
-            await axios.get<GameClassAttackRates>(`${this.host}/export/${this.region}/NiceClassAttackRate.json`)
-        ).data;
-        this.constants = (
-            await axios.get<GameConstants>(`${this.host}/export/${this.region}/NiceConstant.json`)
-        ).data;
+        const api = new ApiConnector({
+            host: this.host,
+            region: this.region,
+        });
+
+        this.buffConstantMap = await api.buffConstant();
+        this.cardConstantMap = await api.cardConstant();
+        this.classAttackRates = await api.classAttackConstant();
+        this.constants = await api.constant();
 
         this.loaded = true;
     }
@@ -62,46 +69,38 @@ class GameConstantManager {
         this.loaded = false;
     }
 
-    buffConstants(group: GameBuffGroup): GameBuffConstant | undefined {
-        if (!this.loaded)
-            return undefined;
+    buffConstants(group: Buff.BuffAction): Buff.BuffConstant | undefined {
+        if (!this.loaded) return undefined;
 
-        if (!this.buffConstantMap)
-            return undefined;
+        if (!this.buffConstantMap) return undefined;
 
         return this.buffConstantMap[group];
     }
 
-    cardConstants(card: Card, num: number): GameCardConstant | undefined {
-        if (!this.loaded)
-            return undefined;
+    cardConstants(card: Card, num: number): CardConstant | undefined {
+        if (!this.loaded) return undefined;
 
-        if (!this.cardConstantMap)
-            return undefined;
+        if (!this.cardConstantMap) return undefined;
 
         return (this.cardConstantMap[card] ?? {})[num];
     }
 
     classAttackRate(className: ClassName): number | undefined {
-        if (!this.loaded)
-            return undefined;
+        if (!this.loaded) return undefined;
 
-        if (!this.classAttackRates)
-            return undefined;
+        if (!this.classAttackRates) return undefined;
 
         return this.classAttackRates[className];
     }
 
-    getRateValue(key: GameConstantKey): number {
+    getRateValue(key: Constant.Constant): number {
         return Math.fround(this.getValue(key) / 1000);
     }
 
-    getValue(key: GameConstantKey): number {
-        if (!this.loaded)
-            return -1;
+    getValue(key: Constant.Constant): number {
+        if (!this.loaded) return -1;
 
-        if (!this.constants)
-            return -1;
+        if (!this.constants) return -1;
 
         return this.constants[key] ?? -1;
     }

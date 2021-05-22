@@ -1,12 +1,12 @@
 import {Card, ClassName, Func} from "@atlasacademy/api-connector";
+import {BuffAction} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {Constant} from "@atlasacademy/api-connector/dist/Schema/Constant";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
 import {BattleTeam} from "../../Enum/BattleTeam";
 import BattleEvent from "../../Event/BattleEvent";
-import {GameBuffGroup} from "../../Game/GameBuffConstantMap";
 import GameConstantManager from "../../Game/GameConstantManager";
-import {GameConstantKey} from "../../Game/GameConstants";
 import {Variable, VariableType} from "../../Game/Variable";
 import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
 
@@ -43,13 +43,13 @@ function commandCardAttack(battle: Battle,
     if (actor.props.team === BattleTeam.ENEMY) {
         switch (attack.card) {
             case Card.ARTS:
-                cardBaseValue = GameConstantManager.getValue(GameConstantKey.ENEMY_ATTACK_RATE_ARTS);
+                cardBaseValue = GameConstantManager.getValue(Constant.ENEMY_ATTACK_RATE_ARTS);
                 break;
             case Card.QUICK:
-                cardBaseValue = GameConstantManager.getValue(GameConstantKey.ENEMY_ATTACK_RATE_QUICK);
+                cardBaseValue = GameConstantManager.getValue(Constant.ENEMY_ATTACK_RATE_QUICK);
                 break;
             case Card.BUSTER:
-                cardBaseValue = GameConstantManager.getValue(GameConstantKey.ENEMY_ATTACK_RATE_BUSTER);
+                cardBaseValue = GameConstantManager.getValue(Constant.ENEMY_ATTACK_RATE_BUSTER);
                 break;
             default:
                 cardBaseValue = cardConstant.adjustAtk;
@@ -63,13 +63,13 @@ function commandCardAttack(battle: Battle,
         cardAdd = new Variable(VariableType.FLOAT, cardConstant.addAtk);
 
     cardBonus = cardBonus.add(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
-        GameBuffGroup.COMMAND_ATK,
+        BuffAction.COMMAND_ATK,
         actor.traits(attack),
         target.traits()
     )));
 
     cardBonus = cardBonus.subtract(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
-        GameBuffGroup.COMMAND_DEF,
+        BuffAction.COMMAND_DEF,
         actor.traits(),
         target.traits(attack)
     )));

@@ -1,5 +1,5 @@
 import {ClassName} from "@atlasacademy/api-connector";
-import {assert, expect} from 'chai';
+import {expect} from 'chai';
 import {classAttackRate} from "../../../../src/Func/Implementations/getDamageList";
 
 describe('getDamageList classAttackRate', () => {
