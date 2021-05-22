@@ -1,12 +1,14 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
-import {BuffAction} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {BuffAction, BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
 import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {Battle} from "../Battle";
+import {BattleBuff} from "../Buff/BattleBuff";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
 import getDamageList from "../Func/Implementations/getDamageList";
+import IdTranslator from "../Game/IdTranslator";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 
@@ -52,6 +54,10 @@ export class BattleActor {
         return new BattleActor(this.props, this.cloneState());
     }
 
+    addBuff(buff: BattleBuff) {
+        this.state.buffs.add(buff);
+    }
+
     attack(target?: BattleActor): number {
         const traits = this.traits(),
             targetTraits = target?.traits() ?? [];
@@ -68,6 +74,10 @@ export class BattleActor {
 
     baseAttack(): number {
         return this.props.baseAttack;
+    }
+
+    baseClassName(): ClassName {
+        return this.props.className;
     }
 
     baseHits(attack: BattleAttackAction): number[] {
@@ -99,8 +109,16 @@ export class BattleActor {
         return this.state.battle;
     }
 
-    className() : ClassName {
-        return this.props.className;
+    className(attack?: BattleAttackAction, target?: BattleActor): ClassName {
+        const traits = this.traits(attack),
+            targetTraits = target?.traits() ?? [],
+            classId = this.state.buffs.getValue(BuffAction.OVERWRITE_BATTLECLASS, traits, targetTraits);
+
+        let className;
+        if (classId !== undefined)
+            className = IdTranslator.className(classId);
+
+        return className ?? this.baseClassName();
     }
 
     hasTrait(trait: Trait | number): boolean {

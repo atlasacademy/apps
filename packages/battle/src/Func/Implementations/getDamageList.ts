@@ -125,7 +125,7 @@ function getDamageList(battle: Battle,
 
     damageTotal = damageTotal.multiply(percentMod);
     damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
-    damageTotal = damageTotal.multiply(classAttackRate(actor.className()));
+    damageTotal = damageTotal.multiply(classAttackRate(actor.baseClassName()));
     // damageTotal = damageTotal.multiply(classMagnification(actor.className(battle, attack), target.className(battle, attack)));
     // damageTotal = damageTotal.multiply(attributeMagnification(actor.props.attribute, target.props.attribute));
     // damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, battle.random(

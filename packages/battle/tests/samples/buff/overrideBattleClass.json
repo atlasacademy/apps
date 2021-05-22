@@ -1,0 +1,55 @@
+{
+  "id": 542,
+  "name": "クラス相性変化：キャスター",
+  "detail": "クラス相性を〔キャスター〕に変更する",
+  "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_520.png",
+  "type": "overwriteBattleclass",
+  "buffGroup": 0,
+  "script": {},
+  "vals": [],
+  "tvals": [],
+  "ckSelfIndv": [],
+  "ckOpIndv": [],
+  "maxRate": 0,
+  "reverse": {
+    "basic": {
+      "function": [
+        {
+          "funcId": 1672,
+          "funcType": "addState",
+          "funcTargetType": "enemy",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 542,
+              "name": "クラス相性変化：キャスター",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_520.png",
+              "type": "overwriteBattleclass",
+              "script": {},
+              "vals": [],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [
+                {
+                  "id": 960976,
+                  "name": "Phantasmagoric: Like the Wind",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                }
+              ],
+              "NP": []
+            }
+          }
+        }
+      ]
+    }
+  }
+}
