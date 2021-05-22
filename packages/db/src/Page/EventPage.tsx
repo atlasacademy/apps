@@ -196,6 +196,8 @@ class EventPage extends React.Component<IProps, IState> {
                         handleNavigateMissionId={scrollToMissions}
                     />
                 );
+            } else {
+                return null;
             }
         });
     }

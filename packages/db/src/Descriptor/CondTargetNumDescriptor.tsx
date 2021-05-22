@@ -1,3 +1,4 @@
+import { Button } from "react-bootstrap";
 import CondMissionDetailDescriptor from "./CondMissionDetailDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";
@@ -16,6 +17,7 @@ import {
     MultipleQuests,
     MultipleServants,
 } from "./MultipleDescriptors";
+import "../Component/MoveButton.css";
 
 export default function CondTargetNumDescriptor(props: {
     region: Region;
@@ -161,17 +163,15 @@ export default function CondTargetNumDescriptor(props: {
             return (
                 <>
                     Achieved mission{" "}
-                    {/* A dummy href is needed because bootstrap disables <a> styles without href */}
-                    {/* https://github.com/twbs/bootstrap/blob/6d93a1371/scss/_reboot.scss#L262 */}
-                    <a
-                        href="#"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            props.handleNavigateMissionId?.(targets[0]);
-                        }}
+                    <Button
+                        variant="link"
+                        className="move-button"
+                        onClick={() =>
+                            props.handleNavigateMissionId?.(targets[0])
+                        }
                     >
                         {missionDispNo}: {missionName}
-                    </a>
+                    </Button>
                 </>
             );
         case CondType.EVENT_TOTAL_POINT:

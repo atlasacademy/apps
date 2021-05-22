@@ -1,4 +1,4 @@
-import {Language} from "@atlasacademy/api-connector";
+import {Region, Language, Ai} from "@atlasacademy/api-connector";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {Suspense} from 'react';
 import {Container} from "react-bootstrap";
@@ -97,70 +97,70 @@ class App extends React.Component<any, IState> {
                     </Helmet>
                     <Switch>
                         <Route exact={true} path="/:region(JP|NA)/buff/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params
+                            const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <BuffPage key={`${region}-${id}`} region={region} id={id}/>
+                                    <BuffPage key={`${region}-${id}`} region={region as Region} id={parseInt(id)}/>
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/command-code/:id([0-9]+)/:tab([a-z0-9\-]+)?"
+                        <Route exact={true} path="/:region(JP|NA)/command-code/:id([0-9]+)/:tab?"
                                render={props => {
-                                   const {region, id, tab} = props.match.params
+                                   const {region, id, tab} = props.match.params;
                                    return (
                                        <Suspense fallback={<Loading/>}>
-                                           <CommandCodePage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
+                                           <CommandCodePage key={`${region}-${id}`} region={region as Region} id={parseInt(id)} tab={tab}/>
                                        </Suspense>
                                    );
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA)/craft-essence/:id([0-9]+)/:tab([a-z0-9\-]+)?"
+                        <Route exact={true} path="/:region(JP|NA)/craft-essence/:id([0-9]+)/:tab?"
                                render={props => {
-                                   const {region, id, tab} = props.match.params
+                                   const {region, id, tab} = props.match.params;
                                    return (
                                        <Suspense fallback={<Loading/>}>
-                                           <CraftEssencePage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
+                                           <CraftEssencePage key={`${region}-${id}`} region={region as Region} id={parseInt(id)} tab={tab}/>
                                        </Suspense>
                                    );
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA)/enemy/:id([0-9]+)/:tab([a-z0-9\-]+)?"
+                        <Route exact={true} path="/:region(JP|NA)/enemy/:id([0-9]+)/:tab?"
                                render={props => {
-                                   const {region, id, tab} = props.match.params
+                                   const {region, id, tab} = props.match.params;
                                    return (
                                        <Suspense fallback={<Loading/>}>
-                                           <EnemyPage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
+                                           <EnemyPage key={`${region}-${id}`} region={region as Region} id={parseInt(id)} tab={tab}/>
                                        </Suspense>
                                    );
                                }}/>
                         <Route exact={true} path="/:region(JP|NA)/func/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params
+                            const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <FuncPage key={`${region}-${id}`} region={region} id={id}/>
+                                    <FuncPage key={`${region}-${id}`} region={region as Region} id={parseInt(id)}/>
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/item/:id([0-9]+)/:tab([a-z0-9\-]+)?" render={props => {
-                            const {region, id, tab} = props.match.params
+                        <Route exact={true} path="/:region(JP|NA)/item/:id([0-9]+)/:tab?" render={props => {
+                            const {region, id, tab} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <ItemPage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
+                                    <ItemPage key={`${region}-${id}`} region={region as Region} id={parseInt(id)} tab={tab}/>
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/mystic-code/:id([0-9]+)/:tab([a-z0-9\-]+)?"
+                        <Route exact={true} path="/:region(JP|NA)/mystic-code/:id([0-9]+)/:tab?"
                                render={props => {
-                                   const {region, id, tab} = props.match.params
+                                   const {region, id, tab} = props.match.params;
                                    return (
                                        <Suspense fallback={<Loading/>}>
-                                           <MysticCodePage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
+                                           <MysticCodePage key={`${region}-${id}`} region={region as Region} id={parseInt(id)} tab={tab}/>
                                        </Suspense>
                                    );
                                }}/>
                         <Route exact={true} path="/:region(JP|NA)/noble-phantasm/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params
+                            const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <NoblePhantasmPage key={`${region}-${id}`} region={region} id={id}/>
+                                    <NoblePhantasmPage key={`${region}-${id}`} region={region as Region} id={parseInt(id)}/>
                                 </Suspense>
                             );
                         }}/>
@@ -168,33 +168,39 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <NoblePhantasmsPage key={region} region={region} path="noble-phantasms"/>
+                                    <NoblePhantasmsPage key={region} region={region as Region} path="noble-phantasms"/>
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)/:stage([a-z0-9\-]+)?"
+                        <Route exact={true} path="/:region(JP|NA)/quest/:id([0-9]+)/:phase([0-9]+)/:stage?"
                         render={props => {
-                            const {region, id, phase, stage} = props.match.params
+                            const {region, id, phase, stage} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <QuestPage key={`${region}-${id}-${phase}`} region={region} id={id} phase={phase} stage={stage} />
+                                    <QuestPage
+                                        key={`${region}-${id}-${phase}`}
+                                        region={region as Region}
+                                        id={parseInt(id)}
+                                        phase={parseInt(phase)}
+                                        stage={stage ? parseInt(stage.replace("stage-", "")) : undefined}
+                                    />
                                 </Suspense>
                             )
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/ai/:aiType(svt|field)/:id([0-9]+)" render={props => {
-                            const {region, aiType, id} = props.match.params
+                            const {region, aiType, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <AiPage key={`${region}-${aiType}-${id}`} region={region} aiType={aiType} id={id}/>
+                                    <AiPage key={`${region}-${aiType}-${id}`} region={region as Region} aiType={aiType as Ai.AiType} id={parseInt(id)}/>
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/servant/:id([0-9]+)/:tab([a-z0-9\-]+)?"
+                        <Route exact={true} path="/:region(JP|NA)/servant/:id([0-9]+)/:tab?"
                                render={props => {
                                    const {region, id, tab} = props.match.params;
                                    return (
                                        <Suspense fallback={<Loading/>}>
-                                           <ServantPage key={`${region}-${id}`} region={region} id={id} tab={tab}/>
+                                           <ServantPage key={`${region}-${id}`} region={region as Region} id={parseInt(id)} tab={tab}/>
                                        </Suspense>
                                    )
                                }}/>
@@ -202,15 +208,15 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <SkillsPage key={region} region={region} path="skills"/>
+                                    <SkillsPage key={region} region={region as Region} path="skills"/>
                                 </Suspense>
                             );
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/skill/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params
+                            const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <SkillPage key={`${region}-${id}`} region={region} id={id}/>
+                                    <SkillPage key={`${region}-${id}`} region={region as Region} id={parseInt(id)}/>
                                 </Suspense>
                             )
                         }}/>
@@ -218,7 +224,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <BuffsPage key={region} region={region} path="buffs"/>
+                                    <BuffsPage key={region} region={region as Region} path="buffs"/>
                                 </Suspense>
                             );
                         }}/>
@@ -226,7 +232,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <CommandCodesPage key={region} region={region}/>
+                                    <CommandCodesPage key={region} region={region as Region}/>
                                 </Suspense>
                             );
                         }}/>
@@ -234,7 +240,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <CraftEssencesPage key={region} region={region}/>
+                                    <CraftEssencesPage key={region} region={region as Region}/>
                                 </Suspense>
                             );
                         }}/>
@@ -242,7 +248,7 @@ class App extends React.Component<any, IState> {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <EntitiesPage key={region} region={region} traitSelected={parseInt(id)}/>
+                                    <EntitiesPage key={region} region={region as Region} traitSelected={parseInt(id)}/>
                                 </Suspense>
                             );
                         }}/>
@@ -250,7 +256,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <EntitiesPage key={region} region={region}/>
+                                    <EntitiesPage key={region} region={region as Region}/>
                                 </Suspense>
                             );
                         }}/>
@@ -258,23 +264,23 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <FuncsPage key={region} region={region} path="funcs"/>
+                                    <FuncsPage key={region} region={region as Region} path="funcs"/>
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/items/:tab([a-z0-9\-]+)?" render={props => {
+                        <Route exact={true} path="/:region(JP|NA)/items/:tab?" render={props => {
                             const {region, tab} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <ItemsPage key={region} region={region} tab={tab}/>
+                                    <ItemsPage key={region} region={region as Region} tab={tab}/>
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA)/event/:id([0-9]+)/:tab([a-z0-9\-]+)?" render={props => {
-                            const {region, id, tab} = props.match.params
+                        <Route exact={true} path="/:region(JP|NA)/event/:id([0-9]+)/:tab?" render={props => {
+                            const {region, id, tab} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <EventPage key={`${region}-event-${id}`} region={region} eventId={id} tab={tab}/>
+                                    <EventPage key={`${region}-event-${id}`} region={region as Region} eventId={parseInt(id)} tab={tab}/>
                                 </Suspense>
                             )
                         }}/>
@@ -282,15 +288,15 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <EventsPage key={region} region={region}/>
+                                    <EventsPage key={region} region={region as Region}/>
                                 </Suspense>
                             )
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/war/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params
+                            const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <WarPage key={`${region}-war-${id}`} region={region} warId={id}/>
+                                    <WarPage key={`${region}-war-${id}`} region={region as Region} warId={parseInt(id)}/>
                                 </Suspense>
                             )
                         }}/>
@@ -298,7 +304,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <WarsPage key={region} region={region}/>
+                                    <WarsPage key={region} region={region as Region}/>
                                 </Suspense>
                             )
                         }}/>
@@ -306,7 +312,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <MysticCodesPage key={region} region={region}/>
+                                    <MysticCodesPage key={region} region={region as Region}/>
                                 </Suspense>
                             )
                         }}/>
@@ -314,7 +320,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <ServantsPage key={region} region={region}/>
+                                    <ServantsPage key={region} region={region as Region}/>
                                 </Suspense>
                             )
                         }}/>
@@ -324,7 +330,7 @@ class App extends React.Component<any, IState> {
                                 <Suspense fallback={<Loading/>}>
                                     <ChangelogPage
                                         key={region}
-                                        region={region}
+                                        region={region as Region}
                                         localTime={this.state.localTime}
                                         visibleOnly={this.state.changelogVisibleOnly}/>
                                 </Suspense>
@@ -334,7 +340,7 @@ class App extends React.Component<any, IState> {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <HomePage key={region} region={region}/>
+                                    <HomePage key={region} region={region as Region}/>
                                 </Suspense>
                             )
                         }} />

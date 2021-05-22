@@ -41,7 +41,7 @@ const SpotImage = (props: { src?: string; name: string; height: string }) => {
             }}
             src={props.src}
             onError={imgOnError}
-            alt={`Spot ${props.name}'s image`}
+            alt={`Spot ${props.name}`}
         />
     );
 };

@@ -104,7 +104,7 @@ class ServantTraits extends React.Component<IProps> {
                 <ul>
                     {Object.entries(this.props.servant.cardDetails).map(value => {
                         const [card, cardDetail] = value;
-                        if (cardDetail !== undefined)
+                        if (cardDetail !== undefined) {
                             return (
                                 <li key={card}>
                                     {toTitleCase(card)}:{" "}
@@ -121,6 +121,9 @@ class ServantTraits extends React.Component<IProps> {
                                     )}
                                 </li>
                             )
+                        } else {
+                            return null;
+                        }
                     })}
                 </ul>
             </div>

@@ -1,5 +1,5 @@
 import { toTitleCase } from "@atlasacademy/api-descriptor";
-import { Col, Row, Table } from "react-bootstrap";
+import { Button, Col, Row, Table } from "react-bootstrap";
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
 import AiDescriptor from "../Descriptor/AiDescriptor";
@@ -9,6 +9,7 @@ import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { asPercent, mergeElements, Renderable } from "../Helper/OutputHelper";
 import { ordinalNumeral } from "../Helper/StringHelper";
+import "./MoveButton.css";
 import "./QuestEnemy.css";
 import {
     QuestEnemy,
@@ -113,15 +114,11 @@ function EnemyNpcDescription(props: {
     const enemy = props.enemyLookUp.get(hash);
     if (enemy !== undefined) {
         return (
-            <a
-                href="#"
-                onClick={(e) => {
-                    e.preventDefault();
-                    props.handleNavigateEnemyHash?.(hash);
-                }}
+            <Button
+                variant="link"
+                className="move-button"
+                onClick={() => props.handleNavigateEnemyHash?.(hash)}
             >
-                {/* A dummy href is needed because bootstrap disables <a> styles without href */}
-                {/* https://github.com/twbs/bootstrap/blob/6d93a1371/scss/_reboot.scss#L262 */}
                 {enemy.userSvtId}.{" "}
                 <ClassIcon
                     className={enemy.svt.className}
@@ -133,7 +130,7 @@ function EnemyNpcDescription(props: {
                     location={enemy.svt.face}
                 />{" "}
                 {enemy.name} Lv. {enemy.lv}
-            </a>
+            </Button>
         );
     } else {
         return <>Enemy {props.npcId}</>;

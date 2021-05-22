@@ -1,6 +1,5 @@
 import {Entity, Region, Servant} from "@atlasacademy/api-connector";
 import React from "react";
-import {Link} from "react-router-dom";
 import {mergeElements} from "../../Helper/OutputHelper";
 import {Alert} from "react-bootstrap";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";

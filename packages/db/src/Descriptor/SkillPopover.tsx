@@ -1,9 +1,10 @@
 import { Region, Skill } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
-import { OverlayTrigger, Popover } from "react-bootstrap";
+import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 import Api from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import SkillDescriptor from "./SkillDescriptor";
+import "../Component/MoveButton.css";
 
 const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
     const { region, skill } = props;
@@ -47,13 +48,13 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
                 ],
             }}
         >
-            <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+            <Button
+                variant="link"
+                className="move-button"
                 title={`Click to view details of skill ${skill.name}`}
             >
                 {SkillDescriptor.renderAsString(skill)}
-            </a>
+            </Button>
         </OverlayTrigger>
     );
 };

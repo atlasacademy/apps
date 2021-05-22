@@ -1,6 +1,7 @@
 import { Region, NoblePhantasm } from "@atlasacademy/api-connector";
-import { OverlayTrigger, Popover } from "react-bootstrap";
+import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
+import "../Component/MoveButton.css";
 
 const NoblePhantasmPopover = (props: {
     region: Region;
@@ -42,13 +43,13 @@ const NoblePhantasmPopover = (props: {
                 ],
             }}
         >
-            <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+            <Button
+                variant="link"
+                className="move-button"
                 title={`Click to view details of noble phantasm ${noblePhantasm.name}`}
             >
                 [{noblePhantasm.name}]
-            </a>
+            </Button>
         </OverlayTrigger>
     );
 };

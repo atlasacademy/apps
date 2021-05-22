@@ -1,13 +1,13 @@
 import { Ai, Region, Skill, Trait } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import AiDescriptor from "../../Descriptor/AiDescriptor";
 import { BuffIdDescriptor } from "../../Descriptor/BuffDescription";
 import SkillPopover, { SkillPopOverId } from "../../Descriptor/SkillPopover";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
-import { SkillDescriptorId } from "../../Descriptor/SkillDescriptor";
+import "../../Component/MoveButton.css";
 
 enum SUBJECT {
     SELF = "Self",
@@ -247,17 +247,13 @@ function NextAi(props: {
 }) {
     if (props.avals.length >= 2 && props.avals[0] !== 0) {
         return (
-            <a
-                href="#"
-                onClick={(e) => {
-                    e.preventDefault();
-                    props.handleNavigateAiId?.(props.avals[0]);
-                }}
+            <Button
+                variant="link"
+                className="move-button"
+                onClick={() => props.handleNavigateAiId?.(props.avals[0])}
             >
-                {/* A dummy href is needed because bootstrap disables <a> styles without href */}
-                {/* https://github.com/twbs/bootstrap/blob/6d93a1371/scss/_reboot.scss#L262 */}
                 {AiDescriptor.renderAsString(props.aiType, props.avals[0])}
-            </a>
+            </Button>
         );
     } else {
         return null;
