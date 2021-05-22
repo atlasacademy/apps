@@ -8,6 +8,7 @@ interface IProps {
     skillId: number;
     level?: number;
     levels?: number[];
+    popOver?: boolean;
 }
 
 interface IState {
@@ -41,7 +42,8 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
                                   funcs={this.state.skill.functions}
                                   level={this.props.level}
                                   levels={this.props.levels}
-                                  relatedSkillId={this.state.skill.id}/>
+                                  relatedSkillId={this.state.skill.id}
+                                  popOver={this.props.popOver}/>
         );
     }
 }

@@ -11,7 +11,7 @@ interface IProps {
     gain?: NoblePhantasm.NoblePhantasmGain;
     levels?: number;
     scripts?: Skill.SkillScript;
-    narrowWidth?: boolean;
+    popOver?: boolean;
 }
 
 class EffectBreakdown extends React.Component<IProps> {
@@ -33,7 +33,7 @@ class EffectBreakdown extends React.Component<IProps> {
                                       gain={this.props.gain}
                                       level={this.props.levels}
                                       scripts={this.props.scripts}
-                                      narrowWidth={this.props.narrowWidth}/>
+                                      popOver={this.props.popOver}/>
                 </tbody>
             </Table>
         );

@@ -20,6 +20,7 @@ const NoblePhantasmPopover = (props: {
                     funcs={noblePhantasm.functions}
                     gain={noblePhantasm.npGain}
                     levels={noblePhantasm.functions[0]?.svals.length ?? 1}
+                    popOver={true}
                 />
             </Popover.Content>
         </Popover>

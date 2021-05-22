@@ -18,15 +18,12 @@ interface IProps {
     levels?: number[];
     scripts?: Skill.SkillScript;
     relatedSkillId?: number;
-    narrowWidth?: boolean; // Set the table width to be as small as possible;
+    popOver?: boolean;
 }
 
 class EffectBreakdownLines extends React.Component<IProps> {
     render() {
-        const effectStyle =  this.props.narrowWidth ? {} : {
-            maxWidth: "45%",
-            minWidth: "300px",
-            width: "45%"}
+        const effectStyle = this.props.popOver ? { maxWidth: "400px" } : { width: "45%", minWidth: "300px" };
         return (
             <React.Fragment>
                 {this.props.cooldowns ? (
@@ -96,7 +93,8 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                                                   region={this.props.region}
                                                                   skillId={relatedSkill.skillId}
                                                                   levels={relatedSkill.skillLvs}
-                                                                  level={this.props.level}/>
+                                                                  level={this.props.level}
+                                                                  popOver={this.props.popOver}/>
                             })}
                         </React.Fragment>
                     );
