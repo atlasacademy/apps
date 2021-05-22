@@ -328,5 +328,5 @@ export interface BuffConstant {
 }
 
 export type BuffConstantMap = {
-    [key in BuffAction]: BuffConstant;
+    [key in BuffAction]?: BuffConstant;
 };
