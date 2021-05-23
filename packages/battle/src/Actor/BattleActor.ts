@@ -1,4 +1,5 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
+import {Attribute} from "@atlasacademy/api-connector/dist/Schema/Attribute";
 import {BuffAction} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
 import {BattleAttackAction} from "../Action/BattleAttackAction";
@@ -20,6 +21,7 @@ export interface BattleActorHitDistribution {
 }
 
 export interface BattleActorProps {
+    attribute: Attribute,
     baseAttack: number,
     baseHealth: number,
     className: ClassName,
@@ -66,6 +68,10 @@ export class BattleActor {
         attack *= 1 + (this.state.buffs.netBuffs(BuffAction.ATK, traits, targetTraits) / 1000);
 
         return Math.round(attack);
+    }
+
+    attribute(): Attribute {
+        return this.props.attribute;
     }
 
     autoAttack(attack: BattleAttackAction, target: BattleActor): BattleEvent[] {

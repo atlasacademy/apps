@@ -10,17 +10,16 @@ import GameConstantManager from "../../Game/GameConstantManager";
 import {Variable, VariableType} from "../../Game/Variable";
 import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
 
-// function classAttack(className: ClassName): number {
-//     const classAttack = GameConstantManager.classAttackRate(className);
-//     if (!classAttack) {
-//         throw new Error('FAILED TO FIND CLASS ATTACK RATE');
-//     }
-//
-//     return classAttack;
-// }
+function attributeAffinityRate(actor: BattleActor, target: BattleActor): Variable {
+    let affinity = GameConstantManager.attributeAffinity(actor.attribute(), target.attribute());
+    if (affinity === undefined)
+        affinity = 1000;
+
+    return Variable.make(VariableType.FLOAT, affinity).divide(new Variable(VariableType.FLOAT, 1000));
+}
 
 function classAttackRate(className: ClassName): Variable {
-    const attackValue = GameConstantManager.classAttackRate(className);
+    const attackValue = GameConstantManager.classAttack(className);
     if (attackValue === undefined)
         throw Error('FAILED TO GET CLASS ATTACK RATE.');
 
@@ -33,7 +32,7 @@ function classAttackRate(className: ClassName): Variable {
 function classAffinityRate(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
     let attackerClass = actor.className(attack, target, true),
         defenderClass = target.className(attack, actor, false),
-        affinity = GameConstantManager.classAffinityRate(attackerClass, defenderClass);
+        affinity = GameConstantManager.classAffinity(attackerClass, defenderClass);
 
     if (affinity === undefined)
         affinity = 1000;
@@ -140,7 +139,7 @@ function getDamageList(battle: Battle,
     damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
     damageTotal = damageTotal.multiply(classAttackRate(actor.baseClassName()));
     damageTotal = damageTotal.multiply(classAffinityRate(attack, actor, target));
-    // damageTotal = damageTotal.multiply(attributeMagnification(actor.props.attribute, target.props.attribute));
+    damageTotal = damageTotal.multiply(attributeAffinityRate(actor, target));
     // damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, battle.random(
     //     GameConstantManager.getValue(GameConstantKey.ATTACK_RATE_RANDOM_MIN),
     //     GameConstantManager.getValue(GameConstantKey.ATTACK_RATE_RANDOM_MAX)
@@ -258,6 +257,7 @@ function getDamageList(battle: Battle,
 }
 
 export {
+    attributeAffinityRate,
     classAffinityRate,
     classAttackRate,
     commandCardAttack,

@@ -12,11 +12,13 @@ import {
     CardConstant,
     CardConstantMap,
 } from "@atlasacademy/api-connector/dist/Enum/Card";
+import {Attribute, AttributeAffinityMap} from "@atlasacademy/api-connector/dist/Schema/Attribute";
 
 class GameConstantManager {
     private host: string = "https://api.atlasacademy.io";
     private loaded: boolean = false;
     private region: Region = Region.JP;
+    private attributeAffinityMap?: AttributeAffinityMap = undefined;
     private buffConstantMap?: Buff.BuffConstantMap = undefined;
     private cardConstantMap?: CardConstantMap = undefined;
     private classAffinityMap?: ClassAffinityMap = undefined;
@@ -26,12 +28,14 @@ class GameConstantManager {
 
     public initManually(
         constants?: Constant.Constants,
+        attributeAffinityMap?: AttributeAffinityMap,
         buffConstantMap?: Buff.BuffConstantMap,
         cardConstantMap?: CardConstantMap,
         classAffinityMap?: ClassAffinityMap,
         classAttackRates?: ClassAttackRateMap,
         enumMap?: EnumList
     ) {
+        this.attributeAffinityMap = attributeAffinityMap;
         this.buffConstantMap = buffConstantMap;
         this.cardConstantMap = cardConstantMap;
         this.classAffinityMap = classAffinityMap;
@@ -60,6 +64,7 @@ class GameConstantManager {
         });
 
         await Promise.all([
+            async () => this.attributeAffinityMap = await api.attributeConstant(),
             async () => this.buffConstantMap = await api.buffConstant(),
             async () => this.cardConstantMap = await api.cardConstant(),
             async () => this.classAffinityMap = await api.classAffinityConstant(),
@@ -72,6 +77,7 @@ class GameConstantManager {
     }
 
     reset() {
+        this.attributeAffinityMap = undefined;
         this.buffConstantMap = undefined;
         this.cardConstantMap = undefined;
         this.classAffinityMap = undefined;
@@ -80,9 +86,15 @@ class GameConstantManager {
         this.loaded = false;
     }
 
+    attributeAffinity(attacker: Attribute, defender: Attribute): number | undefined {
+        if (!this.loaded) return undefined;
+        if (!this.attributeAffinityMap) return undefined;
+
+        return (this.attributeAffinityMap[attacker] ?? {})[defender];
+    }
+
     buffConstants(group: Buff.BuffAction): Buff.BuffConstant | undefined {
         if (!this.loaded) return undefined;
-
         if (!this.buffConstantMap) return undefined;
 
         return this.buffConstantMap[group];
@@ -90,22 +102,20 @@ class GameConstantManager {
 
     cardConstants(card: Card, num: number): CardConstant | undefined {
         if (!this.loaded) return undefined;
-
         if (!this.cardConstantMap) return undefined;
 
         return (this.cardConstantMap[card] ?? {})[num];
     }
 
-    classAffinityRate(attacker: ClassName, defender: ClassName): number | undefined {
+    classAffinity(attacker: ClassName, defender: ClassName): number | undefined {
         if (!this.loaded) return undefined;
         if (!this.classAffinityMap) return undefined;
 
         return (this.classAffinityMap[attacker] ?? {})[defender];
     }
 
-    classAttackRate(className: ClassName): number | undefined {
+    classAttack(className: ClassName): number | undefined {
         if (!this.loaded) return undefined;
-
         if (!this.classAttackRates) return undefined;
 
         return this.classAttackRates[className];
@@ -121,7 +131,6 @@ class GameConstantManager {
 
     getValue(key: Constant.Constant): number {
         if (!this.loaded) return -1;
-
         if (!this.constants) return -1;
 
         return this.constants[key] ?? -1;

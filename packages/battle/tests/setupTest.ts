@@ -1,10 +1,8 @@
-import { EnumList } from "@atlasacademy/api-connector";
-import { CardConstantMap } from "@atlasacademy/api-connector/dist/Enum/Card";
-import {ClassAffinityMap, ClassAttackRateMap} from "@atlasacademy/api-connector/dist/Enum/ClassName";
-import { BuffConstantMap } from "@atlasacademy/api-connector/dist/Schema/Buff";
-import { Constants } from "@atlasacademy/api-connector/dist/Schema/Constant";
+import {EnumList} from "@atlasacademy/api-connector";
+import {BuffConstantMap} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import GameConstantManager from "../src/Game/GameConstantManager";
 
+import attributeAffinity from "./samples/game/attributeAffinity.json";
 import buffConstants from "./samples/game/buffs.json";
 import cards from "./samples/game/cards.json";
 import classAffinity from "./samples/game/classAffinity.json";
@@ -14,11 +12,12 @@ import enums from "./samples/game/enums.json";
 
 before(() => {
     GameConstantManager.initManually(
-        <Constants>constants,
+        constants,
+        attributeAffinity,
         <BuffConstantMap>buffConstants,
-        <CardConstantMap>cards,
-        <ClassAffinityMap>classAffinity,
-        <ClassAttackRateMap>classAttackRates,
+        cards,
+        classAffinity,
+        classAttackRates,
         <EnumList>enums
     );
 });

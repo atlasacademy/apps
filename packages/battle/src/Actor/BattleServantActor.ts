@@ -41,6 +41,7 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
 
 
     return {
+        attribute: servantProps.servant.attribute,
         baseAttack: servantProps.servant.atkGrowth[level - 1] + (servantProps.fouAttack ?? 1000),
         baseHealth: servantProps.servant.hpGrowth[level - 1] + (servantProps.fouHealth ?? 1000),
         className: servantProps.servant.className,
