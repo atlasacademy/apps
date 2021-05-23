@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const IllustratorDescriptor = (props: {
     region: Region;
     illustrator?: string;
+    hideTypeText?: boolean;
 }) => {
     const query =
         props.illustrator === undefined
@@ -11,7 +12,7 @@ const IllustratorDescriptor = (props: {
             : `?illustrator=${encodeURIComponent(props.illustrator)}`;
     return (
         <>
-            Illustrator:&nbsp;
+            {props.hideTypeText ? null : <>Illustrator:&nbsp;</>}
             <Link to={`/${props.region}/entities${query}`}>
                 {props.illustrator}
             </Link>

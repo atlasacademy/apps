@@ -88,12 +88,13 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1>{noblePhantasm.name}</h1>
+                <h1>{getRubyText(this.props.region, noblePhantasm.name, noblePhantasm.ruby)}</h1>
                 <br/>
 
                 <DataTable data={{
                     "ID": noblePhantasm.id,
-                    "Name": getRubyText(this.props.region, noblePhantasm.name, noblePhantasm.ruby),
+                    "Name": noblePhantasm.name,
+                    "Ruby": noblePhantasm.ruby,
                     "Detail": noblePhantasm.detail,
                     "Rank": noblePhantasm.rank,
                     "Type": noblePhantasm.type,

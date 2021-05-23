@@ -5,6 +5,7 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import { handleNewLine } from "../../Helper/OutputHelper";
+import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
 
 interface IProps {
     region: Region;
@@ -26,7 +27,13 @@ class CommandCodeMainData extends React.Component<IProps> {
                     "Collection": commandCode.collectionNo,
                     "Name": commandCode.name,
                     "Rarity": <RarityDescriptor rarity={commandCode.rarity}/>,
-                    "Illustrator": commandCode.illustrator,
+                    "Illustrator": (
+                        <IllustratorDescriptor
+                            region={this.props.region}
+                            illustrator={commandCode.illustrator}
+                            hideTypeText={true}
+                        />
+                    ),
                     "Comment": handleNewLine(commandCode.comment),
                 }}/>
                 <span>
