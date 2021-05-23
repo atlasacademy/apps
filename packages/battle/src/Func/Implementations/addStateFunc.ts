@@ -20,7 +20,7 @@ export default async function addStateFunc(battle: Battle,
         }, null);
 
         const rate = func.state.dataVal.Rate,
-            chance = await battle.random(0, 1000, "Buff Chance: " + buff.name());
+            chance = await battle.random().generate(0, 1000, "Buff Chance: " + buff.name());
 
         if (rate !== undefined && chance >= rate) {
             const event = new BattleBuffEvent(actor, target, false, buff);

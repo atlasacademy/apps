@@ -74,7 +74,7 @@ export class BattleActor {
         return this.props.attribute;
     }
 
-    autoAttack(attack: BattleAttackAction, target: BattleActor): BattleEvent[] {
+    async autoAttack(attack: BattleAttackAction, target: BattleActor): Promise<BattleEvent[]> {
         return getDamageList(this.battle(), attack, this, target);
     }
 

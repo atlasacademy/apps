@@ -1,6 +1,4 @@
-import {Card, ClassName, Func} from "@atlasacademy/api-connector";
-import {BuffAction, ClassRelationOverwriteType} from "@atlasacademy/api-connector/dist/Schema/Buff";
-import {Constant} from "@atlasacademy/api-connector/dist/Schema/Constant";
+import {Buff, Card, ClassName, Constant, Func} from "@atlasacademy/api-connector";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
@@ -40,9 +38,9 @@ function classAffinityOverrideRate(affinity: number,
         overrideBuffs: BattleBuff[];
 
     if (attacking) {
-        overrideBuffs = actor.buffsByGroup(BuffAction.OVERWRITE_CLASS_RELATION, attack, target, true);
+        overrideBuffs = actor.buffsByGroup(Buff.BuffAction.OVERWRITE_CLASS_RELATION, attack, target, true);
     } else {
-        overrideBuffs = target.buffsByGroup(BuffAction.OVERWRITE_CLASS_RELATION, attack, actor, false);
+        overrideBuffs = target.buffsByGroup(Buff.BuffAction.OVERWRITE_CLASS_RELATION, attack, actor, false);
     }
 
     overrideBuffs.forEach(buff => {
@@ -56,13 +54,13 @@ function classAffinityOverrideRate(affinity: number,
                     value = relationMap[attackerClass][defenderClass].damageRate;
 
                 switch (type) {
-                    case ClassRelationOverwriteType.OVERWRITE_FORCE:
+                    case Buff.ClassRelationOverwriteType.OVERWRITE_FORCE:
                         affinity = value;
                         break;
-                    case ClassRelationOverwriteType.OVERWRITE_MORE_THAN_TARGET:
+                    case Buff.ClassRelationOverwriteType.OVERWRITE_MORE_THAN_TARGET:
                         affinity = Math.min(affinity, value);
                         break;
-                    case ClassRelationOverwriteType.OVERWRITE_LESS_THAN_TARGET:
+                    case Buff.ClassRelationOverwriteType.OVERWRITE_LESS_THAN_TARGET:
                         affinity = Math.max(affinity, value);
                         break;
                 }
@@ -103,13 +101,13 @@ function commandCardAttack(battle: Battle,
     if (actor.props.team === BattleTeam.ENEMY) {
         switch (attack.card) {
             case Card.ARTS:
-                cardBaseValue = GameConstantManager.getValue(Constant.ENEMY_ATTACK_RATE_ARTS);
+                cardBaseValue = GameConstantManager.getValue(Constant.Constant.ENEMY_ATTACK_RATE_ARTS);
                 break;
             case Card.QUICK:
-                cardBaseValue = GameConstantManager.getValue(Constant.ENEMY_ATTACK_RATE_QUICK);
+                cardBaseValue = GameConstantManager.getValue(Constant.Constant.ENEMY_ATTACK_RATE_QUICK);
                 break;
             case Card.BUSTER:
-                cardBaseValue = GameConstantManager.getValue(Constant.ENEMY_ATTACK_RATE_BUSTER);
+                cardBaseValue = GameConstantManager.getValue(Constant.Constant.ENEMY_ATTACK_RATE_BUSTER);
                 break;
             default:
                 cardBaseValue = cardConstant.adjustAtk;
@@ -123,13 +121,13 @@ function commandCardAttack(battle: Battle,
         cardAdd = new Variable(VariableType.FLOAT, cardConstant.addAtk);
 
     cardBonus = cardBonus.add(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
-        BuffAction.COMMAND_ATK,
+        Buff.BuffAction.COMMAND_ATK,
         actor.traits(attack),
         target.traits()
     )));
 
     cardBonus = cardBonus.subtract(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
-        BuffAction.COMMAND_DEF,
+        Buff.BuffAction.COMMAND_DEF,
         actor.traits(),
         target.traits(attack)
     )));
@@ -166,11 +164,21 @@ function npDamageBonus(actor: BattleActor,
     return bonus;
 }
 
-function getDamageList(battle: Battle,
-                       attack: BattleAttackAction,
-                       actor: BattleActor,
-                       target: BattleActor,
-                       func?: BattleNoblePhantasmFunc): BattleEvent[] {
+async function randomAttack(battle: Battle): Promise<Variable> {
+    const random = await battle.random().generate(
+        GameConstantManager.getValue(Constant.Constant.ATTACK_RATE_RANDOM_MIN),
+        GameConstantManager.getValue(Constant.Constant.ATTACK_RATE_RANDOM_MAX),
+        'ATTACK RANDOM RANGE'
+    );
+
+    return Variable.make(VariableType.FLOAT, random).divide(new Variable(VariableType.FLOAT, 1000));
+}
+
+async function getDamageList(battle: Battle,
+                             attack: BattleAttackAction,
+                             actor: BattleActor,
+                             target: BattleActor,
+                             func?: BattleNoblePhantasmFunc): Promise<BattleEvent[]> {
     const hits = actor.hits(attack, target);
 
     const baseHitDistributionTotal = actor.baseHits(attack).reduce((a, b) => a + b);
@@ -188,6 +196,7 @@ function getDamageList(battle: Battle,
     damageTotal = damageTotal.multiply(classAttackRate(actor.baseClassName()));
     damageTotal = damageTotal.multiply(classAffinityRate(attack, actor, target));
     damageTotal = damageTotal.multiply(attributeAffinityRate(actor, target));
+    damageTotal = damageTotal.multiply(await randomAttack(battle));
     // damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, battle.random(
     //     GameConstantManager.getValue(GameConstantKey.ATTACK_RATE_RANDOM_MIN),
     //     GameConstantManager.getValue(GameConstantKey.ATTACK_RATE_RANDOM_MAX)
@@ -311,6 +320,7 @@ export {
     classAttackRate,
     commandCardAttack,
     npDamageBonus,
+    randomAttack,
 }
 
 export default getDamageList;
