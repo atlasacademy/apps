@@ -196,7 +196,6 @@ export interface EnumList {
     NiceMissionType: { [key: string]: MissionType };
     NiceMissionRewardType: { [key: string]: RewardType };
     NiceMissionProgressType: { [key: string]: ProgressType };
-    NiceDetailMissionCondType: { [key: string]: DetailCondType };
     NiceDetailMissionCondLinkType: { [key: string]: DetailCondLinkType };
 }
 
