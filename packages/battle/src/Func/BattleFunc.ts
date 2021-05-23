@@ -24,7 +24,7 @@ export default abstract class BattleFunc {
         //
     }
 
-    execute(battle: Battle): BattleEvent[] {
+    async execute(battle: Battle): Promise<BattleEvent[]> {
         const actor = battle.getActor(this.props.actorId);
         if (!actor)
             throw new Error('ACTOR DOES NOT EXIST');
@@ -40,7 +40,7 @@ export default abstract class BattleFunc {
         } else {
             const targets = battle.getTargets(actor, this.props.func.funcTargetType);
             for (let i = 0; i < targets.length; i++) {
-                events.push(...this.executeStandardFunc(battle, actor, targets[i]));
+                events.push(...await this.executeStandardFunc(battle, actor, targets[i]));
             }
         }
 

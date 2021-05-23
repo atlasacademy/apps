@@ -31,12 +31,12 @@ export default class BattleSkill {
         };
     }
 
-    activate(battle: Battle): BattleEvent[] {
+    async activate(battle: Battle): Promise<BattleEvent[]> {
         const events = [];
         for (let i = 0; i < this.state.funcs.length; i++) {
             const func = this.state.funcs[i];
 
-            events.push(...func.execute(battle));
+            events.push(...await func.execute(battle));
         }
 
         return events;

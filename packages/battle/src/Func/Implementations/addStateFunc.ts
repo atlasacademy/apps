@@ -5,11 +5,11 @@ import BattleBuffEvent from "../../Event/BattleBuffEvent";
 import BattleEvent from "../../Event/BattleEvent";
 import BattleFunc from "../BattleFunc";
 
-export default function addStateFunc(battle: Battle,
+export default async function addStateFunc(battle: Battle,
                                      func: BattleFunc,
                                      actor: BattleActor,
                                      target: BattleActor,
-                                     short: boolean): BattleEvent[] {
+                                     short: boolean): Promise<BattleEvent[]> {
     const events = [];
 
     for (let i = 0; i < func.props.func.buffs.length; i++) {
@@ -19,8 +19,10 @@ export default function addStateFunc(battle: Battle,
             short
         }, null);
 
-        const rate = func.state.dataVal.Rate;
-        if (rate !== undefined && battle.random(0, 1000) >= rate) {
+        const rate = func.state.dataVal.Rate,
+            chance = await battle.random(0, 1000, "Buff Chance: " + buff.name());
+
+        if (rate !== undefined && chance >= rate) {
             const event = new BattleBuffEvent(actor, target, false, buff);
             battle.addEvent(event);
             events.push(event);

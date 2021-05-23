@@ -68,8 +68,8 @@ export class Battle {
         return this.state.actors.phase();
     }
 
-    random(min: number, max: number): number {
-        return this.state.random.generate(min, max);
+    random(min: number, max: number, message: string = ""): Promise<number> {
+        return this.state.random.generate(min, max, message);
     }
 
 }

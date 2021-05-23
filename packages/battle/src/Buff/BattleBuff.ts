@@ -53,6 +53,10 @@ export class BattleBuff {
         return this.checkBuffTrait(self, this.props.buff.ckSelfIndv) && checkTrait(target, this.props.buff.ckOpIndv);
     }
 
+    name() {
+        return this.props.buff.name;
+    }
+
     value(self: Trait.Trait[], target: Trait.Trait[]): number {
         if (this.checkTrait(self, target))
             return this.props.dataVal.Value ?? 0;

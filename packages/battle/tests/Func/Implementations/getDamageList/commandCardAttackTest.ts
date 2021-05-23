@@ -26,7 +26,7 @@ describe('getDamageList commandCardAttack', () => {
         expect(commandCardAttack(battle, actions.get(4), servant, target).value()).to.equal(1);
     });
 
-    it('bonus - musashi mana burst', () => {
+    it('bonus - musashi mana burst', async () => {
         const servant = musashi(BattleTeam.PLAYER),
             target = cu(BattleTeam.ENEMY),
             battle = new Battle(null);
@@ -38,7 +38,7 @@ describe('getDamageList commandCardAttack', () => {
         actions.add(servant, Card.BUSTER, false);
         expect(commandCardAttack(battle, actions.get(1), servant, target).value()).to.equal(2);
 
-        servant.skill(2)?.activate(battle);
+        await servant.skill(2)?.activate(battle);
         actions = new BattleAttackActionList();
         actions.add(servant, Card.BUSTER, false);
         expect(commandCardAttack(battle, actions.get(1), servant, target).value()).to.equal(2.75);

@@ -41,14 +41,14 @@ describe('BattleServantActor hits', () => {
         expect(servant.hits(actions.get(4))).to.eql([10, 20, 30, 40]);
     });
 
-    it('musashi skill 1', () => {
+    it('musashi skill 1', async () => {
         let battle = new Battle(null),
             servant = musashi(BattleTeam.PLAYER),
             actions: BattleAttackActionList;
 
         battle.addActor(servant);
 
-        servant.skill(1)?.activate(battle);
+        await servant.skill(1)?.activate(battle);
 
         actions = new BattleAttackActionList();
         actions.add(servant, Card.BUSTER, false);

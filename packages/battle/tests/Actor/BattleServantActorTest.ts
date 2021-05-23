@@ -7,7 +7,7 @@ import {BattleTeam} from "../../src/Enum/BattleTeam";
 import {artoria, cu} from "../helpers";
 
 describe('BattleServantActor', () => {
-    it('defaults', () => {
+    it('defaults', async () => {
         const servant = artoria(BattleTeam.PLAYER),
             battle = new Battle(null);
 
@@ -27,7 +27,7 @@ describe('BattleServantActor', () => {
         expect(servant.skill(2)?.props.skill.id).to.equal(756450);
         expect(servant.skill(3)?.props.skill.id).to.equal(501650);
 
-        servant.skill(1)?.activate(battle);
+        await servant.skill(1)?.activate(battle);
         expect(servant.attack()).to.equal(14421);
     });
 
