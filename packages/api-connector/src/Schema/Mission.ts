@@ -50,7 +50,7 @@ export enum DetailCondType {
     DEFEAT_SERVANT_CLASS = 15,
     DEFEAT_ENEMY_NOT_SERVANT_CLASS = 16,
     BATTLE_SVT_INDIVIDUALITY_IN_DECK = 17,
-    BATTLE_SVT_CLASS_IN_DECK = 18,  // Filter by svt class
+    BATTLE_SVT_CLASS_IN_DECK = 18, // Filter by svt class
     SVT_GET_BATTLE = 19, // Embers are svt instead of items
     FRIEND_POINT_SUMMON = 21,
     BATTLE_SVT_ID_IN_DECK_1 = 22,

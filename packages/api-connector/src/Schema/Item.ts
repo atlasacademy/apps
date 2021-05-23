@@ -1,4 +1,4 @@
-import {Trait} from "./Trait";
+import { Trait } from "./Trait";
 
 export enum ItemBackgroundType {
     ZERO = "zero",

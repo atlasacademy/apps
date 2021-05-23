@@ -1,9 +1,9 @@
-import {Skill} from "./Skill";
+import { Skill } from "./Skill";
 
 export interface CommandCodeAssetMap {
     cc?: {
         [key: number]: string;
-    }
+    };
 }
 
 export interface CommandCodeAssets {

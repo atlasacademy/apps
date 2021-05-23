@@ -1,18 +1,18 @@
-import {Skill} from "./Skill";
+import { Skill } from "./Skill";
 
 export interface MysticCodeAssets {
     item: {
         male: string;
         female: string;
-    }
+    };
     masterFace: {
         male: string;
         female: string;
-    }
+    };
     masterFigure: {
         male: string;
         female: string;
-    }
+    };
 }
 
 export interface MysticCodeBasic {
@@ -40,5 +40,5 @@ export interface MysticCodeBasic {
     item: {
         male: string;
         female: string;
-    }
+    };
 }

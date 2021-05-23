@@ -1,10 +1,10 @@
 import Card from "../Enum/Card";
 import ClassName from "../Enum/ClassName";
-import {Attribute} from "./Attribute";
-import {Item} from "./Item";
-import {NoblePhantasm} from "./NoblePhantasm";
-import {Skill} from "./Skill";
-import {Trait} from "./Trait";
+import { Attribute } from "./Attribute";
+import { Item } from "./Item";
+import { NoblePhantasm } from "./NoblePhantasm";
+import { Skill } from "./Skill";
+import { Trait } from "./Trait";
 
 export enum EntityType {
     NORMAL = "normal",
@@ -39,19 +39,19 @@ export enum Gender {
 export interface EntityAssetMap {
     ascension?: {
         [key: number]: string;
-    }
+    };
     story?: {
         [key: number]: string;
-    }
+    };
     costume?: {
         [key: number]: string;
-    }
+    };
     equip?: {
         [key: number]: string;
-    }
+    };
     cc?: {
         [key: number]: string;
-    }
+    };
 }
 
 export interface EntityAssets {
@@ -71,8 +71,8 @@ export interface CardDetail {
 }
 
 export interface EntityLevelUpMaterials {
-    items: { item: Item, amount: number }[],
-    qp: number,
+    items: { item: Item; amount: number }[];
+    qp: number;
 }
 
 export interface EntityLevelUpMaterialProgression {
@@ -90,7 +90,7 @@ export interface Entity {
     rarity: number;
     cost: number;
     lvMax: number;
-    extraAssets: EntityAssets,
+    extraAssets: EntityAssets;
     gender: Gender;
     attribute: Attribute;
     traits: Trait[];
@@ -107,7 +107,7 @@ export interface Entity {
         blank?: number[];
         weak?: number[];
         strength?: number[];
-    },
+    };
     cardDetails: {
         none?: CardDetail;
         buster?: CardDetail;
@@ -117,7 +117,7 @@ export interface Entity {
         blank?: CardDetail;
         weak?: CardDetail;
         strength?: CardDetail;
-    }
+    };
     atkBase: number;
     atkMax: number;
     hpBase: number;
@@ -133,13 +133,13 @@ export interface Entity {
     skillMaterials: EntityLevelUpMaterialProgression;
     costumeMaterials: EntityLevelUpMaterialProgression;
     skills: Skill[];
-    classPassive: Skill[],
-    extraPassive: Skill[],
+    classPassive: Skill[];
+    extraPassive: Skill[];
     noblePhantasms: NoblePhantasm[];
 }
 
 export interface EntityBasic {
-    id: number,
+    id: number;
     collectionNo: number;
     name: string;
     type: EntityType;
