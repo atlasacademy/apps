@@ -17,10 +17,27 @@ export default class BattleBuffManager {
         this.list.push(buff);
     }
 
+    getBuffs(group: BuffAction, traits: Trait[], targetTraits: Trait[], plus: boolean): BattleBuff[] {
+        const buffConstant = GameConstantManager.buffConstants(group);
+        if (!buffConstant)
+            throw new Error(`UNKNOWN BUFF GROUP ${group}`);
+
+        const buffs = [],
+            applicableTypes = plus ? buffConstant.plusTypes : buffConstant.minusTypes;
+
+        for (let i in applicableTypes) {
+            const type = applicableTypes[i];
+
+            buffs.push(...this.getType(type));
+        }
+
+        return buffs;
+    }
+
     getValue(group: BuffAction, traits: Trait[], targetTraits: Trait[]): number | undefined {
         let value: number | undefined = undefined;
 
-        this.applicablePlusBuffs(group, traits, targetTraits).forEach(buff => {
+        this.getBuffs(group, traits, targetTraits, true).forEach(buff => {
             const buffValue = buff.value(traits, targetTraits);
             if (value === undefined && buffValue !== 0)
                 value = buffValue;
@@ -36,11 +53,11 @@ export default class BattleBuffManager {
 
         let value = buffConstant.baseValue;
 
-        this.applicablePlusBuffs(group, traits, targetTraits).forEach(buff => {
+        this.getBuffs(group, traits, targetTraits, true).forEach(buff => {
             value += buff.value(traits, targetTraits);
         });
 
-        this.applicableMinusBuffs(group, traits, targetTraits).forEach(buff => {
+        this.getBuffs(group, traits, targetTraits, false).forEach(buff => {
             value -= buff.value(traits, targetTraits);
         });
 
@@ -52,36 +69,6 @@ export default class BattleBuffManager {
         value = Math.fround(value);
 
         return value;
-    }
-
-    private applicableMinusBuffs(group: BuffAction, traits: Trait[], targetTraits: Trait[]): BattleBuff[] {
-        const buffConstant = GameConstantManager.buffConstants(group);
-        if (!buffConstant)
-            throw new Error(`UNKNOWN BUFF GROUP ${group}`);
-
-        const buffs = [];
-        for (let i in buffConstant.minusTypes) {
-            const type = buffConstant.minusTypes[i];
-
-            buffs.push(...this.getType(type));
-        }
-
-        return buffs;
-    }
-
-    private applicablePlusBuffs(group: BuffAction, traits: Trait[], targetTraits: Trait[]): BattleBuff[] {
-        const buffConstant = GameConstantManager.buffConstants(group);
-        if (!buffConstant)
-            throw new Error(`UNKNOWN BUFF GROUP ${group}`);
-
-        const buffs = [];
-        for (let i in buffConstant.plusTypes) {
-            const type = buffConstant.plusTypes[i];
-
-            buffs.push(...this.getType(type));
-        }
-
-        return buffs;
     }
 
     private getType(type: BuffType): BattleBuff[] {

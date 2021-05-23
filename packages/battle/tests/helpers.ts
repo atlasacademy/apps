@@ -8,6 +8,7 @@ import cuData from "./samples/servant/cu.json";
 import emiyaData from "./samples/servant/emiya.json";
 import hijikataData from "./samples/servant/hijikata.json";
 import musashiData from "./samples/servant/musashi.json";
+import reinesData from "./samples/servant/reines.json";
 
 function makeActor(data: Servant.Servant, team: BattleTeam): BattleActor {
     return new BattleServantActor({
@@ -36,4 +37,8 @@ export function hijikata(team: BattleTeam): BattleActor {
 
 export function musashi(team: BattleTeam): BattleActor {
     return makeActor(<Servant.Servant>musashiData, team);
+}
+
+export function reines(team: BattleTeam): BattleActor {
+    return makeActor(<Servant.Servant>reinesData, team);
 }

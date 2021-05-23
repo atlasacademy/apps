@@ -1,5 +1,7 @@
 import { Trait } from "@atlasacademy/api-connector";
 import {NoblePhantasm} from "@atlasacademy/api-connector/dist/Schema/NoblePhantasm";
+import {Battle} from "../Battle";
+import BattleEvent from "../Event/BattleEvent";
 import BattleNoblePhantasmFunc from "./BattleNoblePhantasmFunc";
 
 export interface BattleNoblePhantasmProps {
@@ -33,6 +35,17 @@ export default class BattleNoblePhantasm {
         return new BattleNoblePhantasm(this.props, {
             ...this.state
         });
+    }
+
+    async activate(battle: Battle): Promise<BattleEvent[]> {
+        const events = [];
+        for (let i = 0; i < this.state.funcs.length; i++) {
+            const func = this.state.funcs[i];
+
+            events.push(...await func.execute(battle));
+        }
+
+        return events;
     }
 
     func(id: number): BattleNoblePhantasmFunc | undefined {

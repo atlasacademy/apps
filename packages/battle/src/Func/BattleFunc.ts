@@ -70,12 +70,17 @@ export default abstract class BattleFunc {
         return sval[level - 1] ?? sval[sval.length - 1] ?? {};
     }
 
-    private executeStandardFunc(battle: Battle, actor: BattleActor, target: BattleActor) {
+    private async executeStandardFunc(battle: Battle, actor: BattleActor, target: BattleActor): Promise<BattleEvent[]> {
         switch (this.props.func.funcType) {
             case FuncType.ADD_STATE:
                 return addStateFunc(battle, this, actor, target, false);
             case FuncType.ADD_STATE_SHORT:
                 return addStateFunc(battle, this, actor, target, true);
+            case FuncType.NONE:
+                return [];
+            case FuncType.SUB_STATE:
+                // TODO
+                return [];
             default:
                 throw new Error('UNSUPPORTED FUNC TYPE: ' + this.props.func.funcType);
         }

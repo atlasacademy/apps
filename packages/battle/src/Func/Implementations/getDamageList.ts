@@ -1,9 +1,10 @@
 import {Card, ClassName, Func} from "@atlasacademy/api-connector";
-import {BuffAction} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {BuffAction, ClassRelationOverwriteType} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import {Constant} from "@atlasacademy/api-connector/dist/Schema/Constant";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
+import {BattleBuff} from "../../Buff/BattleBuff";
 import {BattleTeam} from "../../Enum/BattleTeam";
 import BattleEvent from "../../Event/BattleEvent";
 import GameConstantManager from "../../Game/GameConstantManager";
@@ -29,6 +30,49 @@ function classAttackRate(className: ClassName): Variable {
     return attackRate;
 }
 
+function classAffinityOverrideRate(affinity: number,
+                                   attack: BattleAttackAction,
+                                   actor: BattleActor,
+                                   target: BattleActor,
+                                   attacking: boolean): number {
+    let attackerClass = actor.className(attack, target, true),
+        defenderClass = target.className(attack, actor, false),
+        overrideBuffs: BattleBuff[];
+
+    if (attacking) {
+        overrideBuffs = actor.buffsByGroup(BuffAction.OVERWRITE_CLASS_RELATION, attack, target, true);
+    } else {
+        overrideBuffs = target.buffsByGroup(BuffAction.OVERWRITE_CLASS_RELATION, attack, actor, false);
+    }
+
+    overrideBuffs.forEach(buff => {
+        let relationOverwrite = buff.props.buff.script.relationId;
+
+        if (relationOverwrite) {
+            let relationMap = attacking ? relationOverwrite.atkSide : relationOverwrite.defSide;
+
+            if (relationMap[attackerClass] && relationMap[attackerClass][defenderClass]) {
+                const type = relationMap[attackerClass][defenderClass].type,
+                    value = relationMap[attackerClass][defenderClass].damageRate;
+
+                switch (type) {
+                    case ClassRelationOverwriteType.OVERWRITE_FORCE:
+                        affinity = value;
+                        break;
+                    case ClassRelationOverwriteType.OVERWRITE_MORE_THAN_TARGET:
+                        affinity = Math.min(affinity, value);
+                        break;
+                    case ClassRelationOverwriteType.OVERWRITE_LESS_THAN_TARGET:
+                        affinity = Math.max(affinity, value);
+                        break;
+                }
+            }
+        }
+    });
+
+    return affinity;
+}
+
 function classAffinityRate(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
     let attackerClass = actor.className(attack, target, true),
         defenderClass = target.className(attack, actor, false),
@@ -37,7 +81,11 @@ function classAffinityRate(attack: BattleAttackAction, actor: BattleActor, targe
     if (affinity === undefined)
         affinity = 1000;
 
-    // TODO: RELATION OVERRIDE
+    // Choosing to ignore old OVERWRITE_CLASSRELATIO_ATK and OVERWRITE_CLASSRELATIO_DEF.
+    // This implementation has been phased out and there are no buffs that use this type.
+
+    affinity = classAffinityOverrideRate(affinity, attack, actor, target, true);
+    affinity = classAffinityOverrideRate(affinity, attack, actor, target, false);
 
     return Variable.make(VariableType.FLOAT, affinity).divide(new Variable(VariableType.FLOAT, 1000));
 }
@@ -258,6 +306,7 @@ function getDamageList(battle: Battle,
 
 export {
     attributeAffinityRate,
+    classAffinityOverrideRate,
     classAffinityRate,
     classAttackRate,
     commandCardAttack,

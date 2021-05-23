@@ -115,9 +115,20 @@ export class BattleActor {
         return this.state.battle;
     }
 
-    className(attack?: BattleAttackAction, target?: BattleActor, attacking: boolean = true): ClassName {
-        const traits = this.traits(attacking ? attack : undefined),
-            targetTraits = target?.traits(attacking ? undefined : attack) ?? [],
+    buffsByGroup(group: BuffAction,
+                 attack?: BattleAttackAction,
+                 target?: BattleActor,
+                 actor: boolean = true,
+                 plus: boolean = true): BattleBuff[] {
+        const traits = this.traits(actor ? attack : undefined),
+            targetTraits = target?.traits(actor ? undefined : attack) ?? [];
+
+        return this.state.buffs.getBuffs(group, traits, targetTraits, plus);
+    }
+
+    className(attack?: BattleAttackAction, target?: BattleActor, actor: boolean = true): ClassName {
+        const traits = this.traits(actor ? attack : undefined),
+            targetTraits = target?.traits(actor ? undefined : attack) ?? [],
             classId = this.state.buffs.getValue(BuffAction.OVERWRITE_BATTLECLASS, traits, targetTraits);
 
         let className;
