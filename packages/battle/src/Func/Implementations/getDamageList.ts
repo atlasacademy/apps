@@ -197,11 +197,7 @@ async function getDamageList(battle: Battle,
     damageTotal = damageTotal.multiply(classAffinityRate(attack, actor, target));
     damageTotal = damageTotal.multiply(attributeAffinityRate(actor, target));
     damageTotal = damageTotal.multiply(await randomAttack(battle));
-    // damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, battle.random(
-    //     GameConstantManager.getValue(GameConstantKey.ATTACK_RATE_RANDOM_MIN),
-    //     GameConstantManager.getValue(GameConstantKey.ATTACK_RATE_RANDOM_MAX)
-    // ) / 1000));
-    // damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('ATTACK_RATE')));
+    damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.ATTACK_RATE)));
     // damageTotal = damageTotal.multiply(attackMagnification(battle, attack, actor, target));
     //
     // let critical = isCritical(battle);
