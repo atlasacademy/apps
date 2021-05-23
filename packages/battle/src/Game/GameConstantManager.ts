@@ -5,13 +5,13 @@ import {
     Card,
     ClassName,
     Constant,
+    EnumList,
     Region,
 } from "@atlasacademy/api-connector";
 import {
     CardConstant,
     CardConstantMap,
 } from "@atlasacademy/api-connector/dist/Enum/Card";
-import { AttributeAffinityMap } from "@atlasacademy/api-connector/dist/Schema/Attribute";
 
 class GameConstantManager {
     private host: string = "https://api.atlasacademy.io";
@@ -21,17 +21,20 @@ class GameConstantManager {
     private cardConstantMap?: CardConstantMap = undefined;
     private classAttackRates?: ClassAttackRateMap = undefined;
     private constants?: Constant.Constants = undefined;
+    private enumMap?: EnumList = undefined;
 
     public initManually(
         constants?: Constant.Constants,
         buffConstantMap?: Buff.BuffConstantMap,
         cardConstantMap?: CardConstantMap,
-        classAttackRates?: ClassAttackRateMap
+        classAttackRates?: ClassAttackRateMap,
+        enumMap?: EnumList
     ) {
         this.buffConstantMap = buffConstantMap;
         this.cardConstantMap = cardConstantMap;
         this.classAttackRates = classAttackRates;
         this.constants = constants;
+        this.enumMap = enumMap;
 
         this.loaded = true;
     }
@@ -57,6 +60,7 @@ class GameConstantManager {
         this.cardConstantMap = await api.cardConstant();
         this.classAttackRates = await api.classAttackConstant();
         this.constants = await api.constant();
+        this.enumMap = await api.enumList();
 
         this.loaded = true;
     }
@@ -95,6 +99,10 @@ class GameConstantManager {
 
     getRateValue(key: Constant.Constant): number {
         return Math.fround(this.getValue(key) / 1000);
+    }
+
+    className(classId: number): ClassName | undefined {
+        return this.enumMap?.SvtClass[classId.toString()]
     }
 
     getValue(key: Constant.Constant): number {
