@@ -1290,5 +1290,6 @@
         "2": "missionStart",
         "3": "master＿missionStart"
     },
+  "NiceDetailMissionCondType": {},
     "NiceLotteryFlag": { "1": "none", "2": "limitReset" }
 }

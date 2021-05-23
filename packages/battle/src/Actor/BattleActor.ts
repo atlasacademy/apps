@@ -1,5 +1,5 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
-import {BuffAction, BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {BuffAction} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
 import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {Battle} from "../Battle";
@@ -8,7 +8,7 @@ import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
 import getDamageList from "../Func/Implementations/getDamageList";
-import IdTranslator from "../Game/IdTranslator";
+import GameConstantManager from "../Game/GameConstantManager";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 
@@ -116,7 +116,7 @@ export class BattleActor {
 
         let className;
         if (classId !== undefined)
-            className = IdTranslator.className(classId);
+            className = GameConstantManager.className(classId);
 
         return className ?? this.baseClassName();
     }
