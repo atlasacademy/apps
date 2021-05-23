@@ -1,4 +1,4 @@
-import { ClassAttackRateMap } from "@atlasacademy/api-connector/dist/Enum/ClassName";
+import {ClassAffinityMap, ClassAttackRateMap} from "@atlasacademy/api-connector/dist/Enum/ClassName";
 import {
     ApiConnector,
     Buff,
@@ -19,6 +19,7 @@ class GameConstantManager {
     private region: Region = Region.JP;
     private buffConstantMap?: Buff.BuffConstantMap = undefined;
     private cardConstantMap?: CardConstantMap = undefined;
+    private classAffinityMap?: ClassAffinityMap = undefined;
     private classAttackRates?: ClassAttackRateMap = undefined;
     private constants?: Constant.Constants = undefined;
     private enumMap?: EnumList = undefined;
@@ -27,11 +28,13 @@ class GameConstantManager {
         constants?: Constant.Constants,
         buffConstantMap?: Buff.BuffConstantMap,
         cardConstantMap?: CardConstantMap,
+        classAffinityMap?: ClassAffinityMap,
         classAttackRates?: ClassAttackRateMap,
         enumMap?: EnumList
     ) {
         this.buffConstantMap = buffConstantMap;
         this.cardConstantMap = cardConstantMap;
+        this.classAffinityMap = classAffinityMap;
         this.classAttackRates = classAttackRates;
         this.constants = constants;
         this.enumMap = enumMap;
@@ -56,11 +59,14 @@ class GameConstantManager {
             region: this.region,
         });
 
-        this.buffConstantMap = await api.buffConstant();
-        this.cardConstantMap = await api.cardConstant();
-        this.classAttackRates = await api.classAttackConstant();
-        this.constants = await api.constant();
-        this.enumMap = await api.enumList();
+        await Promise.all([
+            async () => this.buffConstantMap = await api.buffConstant(),
+            async () => this.cardConstantMap = await api.cardConstant(),
+            async () => this.classAffinityMap = await api.classAffinityConstant(),
+            async () => this.classAttackRates = await api.classAttackConstant(),
+            async () => this.constants = await api.constant(),
+            async () => this.enumMap = await api.enumList(),
+        ]);
 
         this.loaded = true;
     }
@@ -68,6 +74,7 @@ class GameConstantManager {
     reset() {
         this.buffConstantMap = undefined;
         this.cardConstantMap = undefined;
+        this.classAffinityMap = undefined;
         this.classAttackRates = undefined;
         this.constants = undefined;
         this.loaded = false;
@@ -87,6 +94,13 @@ class GameConstantManager {
         if (!this.cardConstantMap) return undefined;
 
         return (this.cardConstantMap[card] ?? {})[num];
+    }
+
+    classAffinityRate(attacker: ClassName, defender: ClassName): number | undefined {
+        if (!this.loaded) return undefined;
+        if (!this.classAffinityMap) return undefined;
+
+        return (this.classAffinityMap[attacker] ?? {})[defender];
     }
 
     classAttackRate(className: ClassName): number | undefined {

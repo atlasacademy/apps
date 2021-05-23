@@ -109,9 +109,9 @@ export class BattleActor {
         return this.state.battle;
     }
 
-    className(attack?: BattleAttackAction, target?: BattleActor): ClassName {
-        const traits = this.traits(attack),
-            targetTraits = target?.traits() ?? [],
+    className(attack?: BattleAttackAction, target?: BattleActor, attacking: boolean = true): ClassName {
+        const traits = this.traits(attacking ? attack : undefined),
+            targetTraits = target?.traits(attacking ? undefined : attack) ?? [],
             classId = this.state.buffs.getValue(BuffAction.OVERWRITE_BATTLECLASS, traits, targetTraits);
 
         let className;

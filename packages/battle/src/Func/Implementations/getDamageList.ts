@@ -30,6 +30,19 @@ function classAttackRate(className: ClassName): Variable {
     return attackRate;
 }
 
+function classAffinityRate(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    let attackerClass = actor.className(attack, target, true),
+        defenderClass = target.className(attack, actor, false),
+        affinity = GameConstantManager.classAffinityRate(attackerClass, defenderClass);
+
+    if (affinity === undefined)
+        affinity = 1000;
+
+    // TODO: RELATION OVERRIDE
+
+    return Variable.make(VariableType.FLOAT, affinity).divide(new Variable(VariableType.FLOAT, 1000));
+}
+
 function commandCardAttack(battle: Battle,
                            attack: BattleAttackAction,
                            actor: BattleActor,
@@ -126,7 +139,7 @@ function getDamageList(battle: Battle,
     damageTotal = damageTotal.multiply(percentMod);
     damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
     damageTotal = damageTotal.multiply(classAttackRate(actor.baseClassName()));
-    // damageTotal = damageTotal.multiply(classMagnification(actor.className(battle, attack), target.className(battle, attack)));
+    damageTotal = damageTotal.multiply(classAffinityRate(attack, actor, target));
     // damageTotal = damageTotal.multiply(attributeMagnification(actor.props.attribute, target.props.attribute));
     // damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, battle.random(
     //     GameConstantManager.getValue(GameConstantKey.ATTACK_RATE_RANDOM_MIN),
@@ -245,6 +258,7 @@ function getDamageList(battle: Battle,
 }
 
 export {
+    classAffinityRate,
     classAttackRate,
     commandCardAttack,
     npDamageBonus,
