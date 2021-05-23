@@ -1,30 +1,17 @@
-import {Buff, Card, ClassName, Servant} from "@atlasacademy/api-connector";
+import {Buff, Card, ClassName} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
-import {BattleAttackAction, BattleAttackActionList} from "../../../src/Action/BattleAttackAction";
-import BattleServantActor from "../../../src/Actor/BattleServantActor";
+import {BattleAttackActionList} from "../../../src/Action/BattleAttackAction";
 import {Battle} from "../../../src/Battle";
 import {BattleBuff} from "../../../src/Buff/BattleBuff";
 import {BattleTeam} from "../../../src/Enum/BattleTeam";
-
-import artoriaData from "../../samples/servant/artoria.json";
-import cuData from "../../samples/servant/cu.json";
+import {artoria, cu} from "../../helpers";
 import overrideClassData from "../../samples/buff/overrideBattleClass.json";
 
 describe('BattleServantActor className', () => {
     it('normal', () => {
         let battle = new Battle(null),
-            servant = new BattleServantActor({
-                id: 1,
-                phase: 1,
-                servant: <Servant.Servant>artoriaData,
-                team: BattleTeam.PLAYER,
-            }, null),
-            target = new BattleServantActor({
-                id: 2,
-                phase: 1,
-                servant: <Servant.Servant>cuData,
-                team: BattleTeam.ENEMY,
-            }, null),
+            servant = artoria(BattleTeam.PLAYER),
+            target = cu(BattleTeam.ENEMY),
             actions: BattleAttackActionList;
 
         battle.addActor(servant);
@@ -36,27 +23,17 @@ describe('BattleServantActor className', () => {
         actions.add(servant, Card.ARTS, false);
 
         expect(servant.baseClassName()).to.equal(ClassName.SABER);
-        expect(servant.className(<BattleAttackAction>actions.get(1), target)).to.equal(ClassName.SABER);
+        expect(servant.className(actions.get(1), target)).to.equal(ClassName.SABER);
     });
 
     it('override', () => {
         let battle = new Battle(null),
-            servant = new BattleServantActor({
-                id: 1,
-                phase: 1,
-                servant: <Servant.Servant>artoriaData,
-                team: BattleTeam.PLAYER,
-            }, null),
-            target = new BattleServantActor({
-                id: 2,
-                phase: 1,
-                servant: <Servant.Servant>cuData,
-                team: BattleTeam.ENEMY,
-            }, null),
+            servant = artoria(BattleTeam.PLAYER),
+            target = cu(BattleTeam.ENEMY),
             actions: BattleAttackActionList,
             buff = new BattleBuff({
                 buff: <Buff.Buff><unknown>overrideClassData,
-                dataVal: { Value: 5},
+                dataVal: {Value: 5},
                 short: false,
             }, null);
 
@@ -70,6 +47,6 @@ describe('BattleServantActor className', () => {
         actions.add(servant, Card.ARTS, false);
 
         expect(servant.baseClassName()).to.equal(ClassName.SABER);
-        expect(servant.className(<BattleAttackAction>actions.get(1), target)).to.equal(ClassName.CASTER);
+        expect(servant.className(actions.get(1), target)).to.equal(ClassName.CASTER);
     });
 });

@@ -1,23 +1,16 @@
-import {Card, ClassName, Servant} from "@atlasacademy/api-connector";
+import {Card, ClassName} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
 import {BattleAttackActionList} from "../../src/Action/BattleAttackAction";
 import BattleServantActor from "../../src/Actor/BattleServantActor";
 import {Battle} from "../../src/Battle";
 import {BattleTeam} from "../../src/Enum/BattleTeam";
-
-import artoriaData from "../samples/servant/artoria.json";
-import cuData from "../samples/servant/cu.json";
+import {artoria, cu} from "../helpers";
 
 describe('BattleServantActor', () => {
     it('defaults', () => {
-        const servant = new BattleServantActor({
-            id: 1,
-            phase: 1,
-            servant: <Servant.Servant>artoriaData,
-            team: BattleTeam.PLAYER,
-        }, null);
+        const servant = artoria(BattleTeam.PLAYER),
+            battle = new Battle(null);
 
-        const battle = new Battle(null);
         battle.addActor(servant);
 
         expect(servant.props.className).to.equal(ClassName.SABER);
@@ -40,18 +33,8 @@ describe('BattleServantActor', () => {
 
     it('autoAttack', () => {
         const battle = new Battle(null),
-            servant = new BattleServantActor({
-                id: 1,
-                phase: 1,
-                servant: <Servant.Servant>artoriaData,
-                team: BattleTeam.PLAYER,
-            }, null),
-            target = new BattleServantActor({
-                id: 2,
-                phase: 1,
-                servant: <Servant.Servant>cuData,
-                team: BattleTeam.ENEMY,
-            }, null);
+            servant = artoria(BattleTeam.PLAYER),
+            target = cu(BattleTeam.ENEMY);
 
         battle.addActor(servant);
         battle.addActor(target);

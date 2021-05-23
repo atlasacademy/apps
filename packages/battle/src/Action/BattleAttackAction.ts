@@ -40,8 +40,12 @@ export class BattleAttackActionList {
             this.actions.push(new BattleAttackAction(actor, Card.EXTRA, false, this.actions.length + 1));
     }
 
-    get(num: number): BattleAttackAction | undefined {
-        return this.actions[num - 1];
+    get(num: number): BattleAttackAction {
+        const action = this.actions[num - 1];
+        if (!action)
+            throw new Error('UNKNOWN ACTION');
+
+        return action;
     }
 
 }

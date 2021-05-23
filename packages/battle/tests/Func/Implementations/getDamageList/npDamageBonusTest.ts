@@ -1,22 +1,13 @@
-import {Servant} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
-import BattleServantActor from "../../../../src/Actor/BattleServantActor";
 import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {npDamageBonus} from "../../../../src/Func/Implementations/getDamageList";
 import {Variable} from "../../../../src/Game/Variable";
 import BattleNoblePhantasmFunc from "../../../../src/NoblePhantasm/BattleNoblePhantasmFunc";
-
-import artoriaData from "../../../samples/servant/artoria.json";
-import hijikataData from "../../../samples/servant/hijikata.json";
+import {artoria, hijikata} from "../../../helpers";
 
 describe('getDamageList npDamageBonus', () => {
     it('no bonus', () => {
-        const servant = new BattleServantActor({
-                id: 1,
-                phase: 1,
-                servant: <Servant.Servant>artoriaData,
-                team: BattleTeam.PLAYER,
-            }, null),
+        const servant = artoria(BattleTeam.PLAYER),
             func = servant.noblePhantasm().func(1);
 
         expect(func).to.instanceof(BattleNoblePhantasmFunc);
@@ -26,12 +17,7 @@ describe('getDamageList npDamageBonus', () => {
     });
 
     it('low hp bonus - hijikata overcharge 1', () => {
-        let servant = new BattleServantActor({
-                id: 1,
-                phase: 1,
-                servant: <Servant.Servant>hijikataData,
-                team: BattleTeam.PLAYER,
-            }, null),
+        let servant = hijikata(BattleTeam.PLAYER),
             func = servant.noblePhantasm().func(1),
             bonus: Variable;
 
@@ -58,12 +44,7 @@ describe('getDamageList npDamageBonus', () => {
     });
 
     it('low hp bonus - hijikata overcharge 2', () => {
-        let servant = new BattleServantActor({
-                id: 1,
-                phase: 1,
-                servant: <Servant.Servant>hijikataData,
-                team: BattleTeam.PLAYER,
-            }, null),
+        let servant = hijikata(BattleTeam.PLAYER),
             func = servant.noblePhantasm().func(1),
             bonus: Variable;
 
@@ -91,12 +72,7 @@ describe('getDamageList npDamageBonus', () => {
     });
 
     it('low hp bonus - hijikata overcharge 5', () => {
-        let servant = new BattleServantActor({
-                id: 1,
-                phase: 1,
-                servant: <Servant.Servant>hijikataData,
-                team: BattleTeam.PLAYER,
-            }, null),
+        let servant = hijikata(BattleTeam.PLAYER),
             func = servant.noblePhantasm().func(1),
             bonus: Variable;
 
