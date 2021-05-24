@@ -9,6 +9,28 @@ import GameConstantManager from "../../Game/GameConstantManager";
 import {Variable, VariableType} from "../../Game/Variable";
 import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
 
+function attackMagnification(attack: BattleAttackAction,
+                             actor: BattleActor,
+                             target: BattleActor,
+                             func?: BattleNoblePhantasmFunc): Variable {
+    const attackUpValue = actor.netBuffsByGroup(Buff.BuffAction.ATK, attack, target, true),
+        defensePierceBuffs = actor.buffsByGroup(Buff.BuffAction.PIERCE_DEFENCE),
+        defensePierce = defensePierceBuffs.length || func?.props.func.funcType === Func.FuncType.DAMAGE_NP_PIERCE,
+        defenseGroup = defensePierce ? Buff.BuffAction.DEFENCE_PIERCE : Buff.BuffAction.DEFENCE,
+        defenseUpValue = target.netBuffsByGroup(defenseGroup, attack, actor, false),
+        attackUp = Variable.make(VariableType.FLOAT, attackUpValue).divide(new Variable(VariableType.FLOAT, 1000)),
+        defenseUp = Variable.make(VariableType.FLOAT, defenseUpValue).divide(new Variable(VariableType.FLOAT, 1000));
+
+    let magnification = Variable.make(VariableType.FLOAT, 1)
+        .add(attackUp)
+        .subtract(defenseUp);
+
+    if (magnification.value() < 0)
+        magnification = new Variable(VariableType.FLOAT, 0);
+
+    return magnification;
+}
+
 function attributeAffinityRate(actor: BattleActor, target: BattleActor): Variable {
     let affinity = GameConstantManager.attributeAffinity(actor.attribute(), target.attribute());
     if (affinity === undefined)
@@ -198,7 +220,7 @@ async function getDamageList(battle: Battle,
     damageTotal = damageTotal.multiply(attributeAffinityRate(actor, target));
     damageTotal = damageTotal.multiply(await randomAttack(battle));
     damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.ATTACK_RATE)));
-    // damageTotal = damageTotal.multiply(attackMagnification(battle, attack, actor, target));
+    damageTotal = damageTotal.multiply(attackMagnification(attack, actor, target, func));
     //
     // let critical = isCritical(battle);
     // if (critical)
@@ -310,6 +332,7 @@ async function getDamageList(battle: Battle,
 }
 
 export {
+    attackMagnification,
     attributeAffinityRate,
     classAffinityOverrideRate,
     classAffinityRate,

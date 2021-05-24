@@ -1,0 +1,511 @@
+{
+  "id": 510,
+  "name": "防御無視",
+  "detail": "防御力アップを無視してダメージを与える",
+  "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+  "type": "pierceDefence",
+  "buffGroup": 450,
+  "script": {},
+  "vals": [
+    {
+      "id": 3004,
+      "name": "buffPositiveEffect"
+    },
+    {
+      "id": 3006,
+      "name": "buffIncreaseDamage"
+    }
+  ],
+  "tvals": [],
+  "ckSelfIndv": [],
+  "ckOpIndv": [],
+  "maxRate": 0,
+  "reverse": {
+    "basic": {
+      "function": [
+        {
+          "funcId": 4774,
+          "funcType": "addStateShort",
+          "funcTargetType": "ptAll",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 510,
+              "name": "防御無視",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+              "type": "pierceDefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3006,
+                  "name": "buffIncreaseDamage"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [
+                {
+                  "id": 963772,
+                  "name": "",
+                  "ruby": "",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                }
+              ],
+              "NP": []
+            }
+          }
+        },
+        {
+          "funcId": 3175,
+          "funcType": "addStateShort",
+          "funcTargetType": "enemyAll",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 510,
+              "name": "防御無視",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+              "type": "pierceDefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3006,
+                  "name": "buffIncreaseDamage"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [
+                {
+                  "id": 962221,
+                  "name": "Emperor Combination",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                }
+              ],
+              "NP": []
+            }
+          }
+        },
+        {
+          "funcId": 1810,
+          "funcType": "addState",
+          "funcTargetType": "enemy",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 510,
+              "name": "防御無視",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+              "type": "pierceDefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3006,
+                  "name": "buffIncreaseDamage"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [
+                {
+                  "id": 961084,
+                  "name": "Treasures abound! Yeah!",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                }
+              ],
+              "NP": []
+            }
+          }
+        },
+        {
+          "funcId": 4947,
+          "funcType": "addStateShort",
+          "funcTargetType": "enemyAll",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 510,
+              "name": "防御無視",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+              "type": "pierceDefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3006,
+                  "name": "buffIncreaseDamage"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [
+                {
+                  "id": 963902,
+                  "name": "カタフラクティシフト／アロー",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 963894,
+                  "name": "カタフラクティシフト／アロー",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                }
+              ],
+              "NP": []
+            }
+          }
+        },
+        {
+          "funcId": 1588,
+          "funcType": "addStateShort",
+          "funcTargetType": "self",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 510,
+              "name": "防御無視",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+              "type": "pierceDefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3006,
+                  "name": "buffIncreaseDamage"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [
+                {
+                  "id": 992415,
+                  "name": "Pestle of the Kleshas",
+                  "ruby": "ぼんのうひつめつのきね",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00303.png"
+                },
+                {
+                  "id": 744450,
+                  "name": "ブラックバレル B",
+                  "ruby": "ぶらっくばれる",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00306.png"
+                },
+                {
+                  "id": 964099,
+                  "name": "「天は巡らず」",
+                  "ruby": "",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 992611,
+                  "name": "City where Dreams are Born",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00301.png"
+                },
+                {
+                  "id": 992612,
+                  "name": "City where Dreams are Born",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00301.png"
+                },
+                {
+                  "id": 962951,
+                  "name": "真芯両断",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 966090,
+                  "name": "「へいよーナマステ。」",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 333675,
+                  "name": "The Freeshooter EX",
+                  "ruby": "まだんのしゃしゅ",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00312.png"
+                },
+                {
+                  "id": 966028,
+                  "name": "『不正干渉者の排除を開始します』",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 991308,
+                  "name": "Child of Atlas",
+                  "ruby": "あとらすのえいじ",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00301.png"
+                },
+                {
+                  "id": 991309,
+                  "name": "Child of Atlas",
+                  "ruby": "あとらすのえいじ",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00301.png"
+                },
+                {
+                  "id": 966127,
+                  "name": "「当方の見せ場のようだ！」",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 961458,
+                  "name": "In the Air",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 962739,
+                  "name": "「ああ！腹が立つ！！」",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 964661,
+                  "name": "神道無念流",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 962104,
+                  "name": "Excavation Form",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 454650,
+                  "name": "Mystic Eyes of Distortion EX",
+                  "ruby": "わいきょくのまがん",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00306.png"
+                },
+                {
+                  "id": 964063,
+                  "name": "暴虐の権化",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                }
+              ],
+              "NP": [
+                {
+                  "id": 203101,
+                  "name": "Arc de Triomphe de l'Étoile",
+                  "ruby": "アルク・ドゥ・トリオンフ・ドゥ・レトワール"
+                },
+                {
+                  "id": 203102,
+                  "name": "Arc de Triomphe de l'Étoile",
+                  "ruby": "アルク・ドゥ・トリオンフ・ドゥ・レトワール"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "funcId": 1589,
+          "funcType": "addStateShort",
+          "funcTargetType": "ptOne",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 510,
+              "name": "防御無視",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+              "type": "pierceDefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3006,
+                  "name": "buffIncreaseDamage"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [
+                {
+                  "id": 965499,
+                  "name": "アポロンの助言「今が攻撃のチャンスだ」",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 964806,
+                  "name": "「姉上、援護します！」",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                },
+                {
+                  "id": 964255,
+                  "name": "「It's Party Time!」",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                }
+              ],
+              "NP": []
+            }
+          }
+        },
+        {
+          "funcId": 1590,
+          "funcType": "addStateShort",
+          "funcTargetType": "ptAll",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 510,
+              "name": "防御無視",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+              "type": "pierceDefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3006,
+                  "name": "buffIncreaseDamage"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [],
+              "NP": [
+                {
+                  "id": 900501,
+                  "name": "Elementary, My Dear",
+                  "ruby": "エレメンタリー・マイ・ディア"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "funcId": 6807,
+          "funcType": "addStateShort",
+          "funcTargetType": "ptOther",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 510,
+              "name": "防御無視",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_351.png",
+              "type": "pierceDefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3006,
+                  "name": "buffIncreaseDamage"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [
+                {
+                  "id": 965762,
+                  "name": "「スペシャルアタックッスよ！」",
+                  "ruby": "-",
+                  "icon": "https://assets.atlasacademy.io/GameData/JP/SkillIcons/skill_00600.png"
+                }
+              ],
+              "NP": []
+            }
+          }
+        }
+      ]
+    }
+  }
+}

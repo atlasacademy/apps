@@ -175,6 +175,16 @@ export class BattleActor {
         );
     }
 
+    netBuffsByGroup(group: BuffAction,
+                    attack?: BattleAttackAction,
+                    target?: BattleActor,
+                    actor: boolean = true): number {
+        const traits = this.traits(actor ? attack : undefined),
+            targetTraits = target?.traits(actor ? undefined : attack) ?? [];
+
+        return this.state.buffs.netBuffs(group, traits, targetTraits);
+    }
+
     noblePhantasm(): BattleNoblePhantasm {
         return this.state.noblePhantasm;
     }
