@@ -6,6 +6,8 @@ import GameConstantManager from "../Game/GameConstantManager";
 export class BattleAttackAction {
     constructor(public actor: BattleActor,
                 public card: Card,
+                public critical: boolean,
+                public grand: boolean,
                 public np: boolean,
                 public num: number) {
         //
@@ -28,16 +30,19 @@ export class BattleAttackActionList {
     public actions: BattleAttackAction[] = [];
 
     add(actor: BattleActor, card: Card, np: boolean) {
-        this.actions.push(new BattleAttackAction(actor, card, np, this.actions.length + 1));
+        this.actions.push(new BattleAttackAction(actor, card, false, false, np, this.actions.length + 1));
 
         const validCards = [Card.BUSTER, Card.QUICK, Card.ARTS],
-            validCardCount = this.actions
+            actorCards = this.actions
                 .filter(action => action.actor.props.id === actor.props.id)
                 .filter(action => validCards.includes(action.card))
-                .length;
+                .map(action => action.card),
+            validCardCount = actorCards.length,
+            grand = actorCards.filter(actorCard => actorCard === card).length === 3;
 
-        if (validCardCount >= 3)
-            this.actions.push(new BattleAttackAction(actor, Card.EXTRA, false, this.actions.length + 1));
+        if (validCardCount >= 3) {
+            this.actions.push(new BattleAttackAction(actor, Card.EXTRA, false, grand, false, this.actions.length + 1));
+        }
     }
 
     get(num: number): BattleAttackAction {

@@ -221,15 +221,14 @@ async function getDamageList(battle: Battle,
     damageTotal = damageTotal.multiply(await randomAttack(battle));
     damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.ATTACK_RATE)));
     damageTotal = damageTotal.multiply(attackMagnification(attack, actor, target, func));
-    //
-    // let critical = isCritical(battle);
-    // if (critical)
-    //     damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('CRITICAL_ATTACK_RATE')));
-    //
-    // if (attack.isGrand())
-    //     damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('EXTRA_ATTACK_RATE_GRAND')));
-    // else if (attack.card === Card.EXTRA)
-    //     damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('EXTRA_ATTACK_RATE_SINGLE')));
+
+    if (attack.critical)
+        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.CRITICAL_ATTACK_RATE)));
+
+    if (attack.card === Card.EXTRA && attack.grand)
+        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_GRAND)));
+    else if (attack.card === Card.EXTRA)
+        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE)));
     //
     // damageTotal = damageTotal.multiply(specialDefence(battle, attack, actor, target));
     //
