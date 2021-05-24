@@ -159,6 +159,12 @@ function commandCardAttack(battle: Battle,
     return cardBase.multiply(cardBonus).add(cardAdd);
 }
 
+function criticalMagnification(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    const value = actor.buffs().netBuffs(Buff.BuffAction.CRITICAL_DAMAGE, actor.traits(attack), target.traits());
+
+    return Variable.float(value).divide(Variable.float(1000));
+}
+
 function npDamageBonus(actor: BattleActor,
                        func: BattleNoblePhantasmFunc): Variable {
     let bonus = Variable.float(0);
@@ -181,6 +187,12 @@ function npDamageBonus(actor: BattleActor,
     }
 
     return bonus;
+}
+
+function npMagnification(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    const value = actor.buffs().netBuffs(Buff.BuffAction.NPDAMAGE, actor.traits(attack), target.traits());
+
+    return Variable.float(value).divide(Variable.float(1000));
 }
 
 function powerMagnification(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
@@ -227,6 +239,12 @@ async function randomAttack(battle: Battle): Promise<Variable> {
     );
 
     return Variable.float(random).divide(Variable.float(1000));
+}
+
+function selfDamageMagnification(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    const value = target.buffs().netBuffs(Buff.BuffAction.SELFDAMAGE, target.traits(), actor.traits(attack));
+
+    return Variable.float(value).divide(Variable.float(1000));
 }
 
 function specialDefence(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
@@ -278,15 +296,15 @@ async function getDamageList(battle: Battle,
 
     let powerMod = Variable.float(1);
     powerMod = powerMod.add(powerMagnification(attack, actor, target));
-    // powerMod = powerMod.add(selfDamageMagnification(battle, attack, actor, target));
-    // if (critical)
-    //     powerMod = powerMod.add(criticalMod(battle, attack, actor, target));
-    // if (attack.np)
-    //     powerMod = powerMod.add(npMagnification(battle, attack, actor, target));
-    // if (powerMod.value() < 0.001)
-    //     powerMod = new Variable(VariableType.FLOAT, 0.001);
-    //
-    // damageTotal = damageTotal.multiply(powerMod);
+    powerMod = powerMod.add(selfDamageMagnification(attack, actor, target));
+    if (attack.critical)
+        powerMod = powerMod.add(criticalMagnification(attack, actor, target));
+    if (attack.np)
+        powerMod = powerMod.add(npMagnification(attack, actor, target));
+    if (powerMod.value() < 0.001)
+        powerMod = Variable.float(0.001);
+
+    damageTotal = damageTotal.multiply(powerMod);
     // damageTotal = damageTotal.multiply(npTraitBonusMagnification(battle, actor, target));
     // damageTotal = damageTotal.add(attackBonus(battle, attack, actor, target));
     // if (!attack.np && attack.busterChain())
@@ -381,9 +399,11 @@ export {
     classAffinityRate,
     classAttackRate,
     commandCardAttack,
+    criticalMagnification,
     npDamageBonus,
     powerMagnification,
     randomAttack,
+    selfDamageMagnification,
     specialDefence,
 }
 
