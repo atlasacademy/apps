@@ -34,6 +34,7 @@ describe('BattleServantActor className', () => {
             buff = new BattleBuff({
                 buff: <Buff.Buff><unknown>overrideClassData,
                 dataVal: {Value: 5},
+                passive: false,
                 short: false,
             }, null);
 

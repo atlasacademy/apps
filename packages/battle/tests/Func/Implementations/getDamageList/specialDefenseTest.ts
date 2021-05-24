@@ -30,6 +30,7 @@ describe('getDamageList specialDefense', () => {
             dataVal: {
                 Value: 500,
             },
+            passive: false,
             short: false,
         }, null));
         expect(specialDefence(actions.get(1), servant, target).value()).to.equal(0.5);

@@ -19,6 +19,14 @@ export class Variable {
         }
     }
 
+    public static float(value: number): Variable {
+        return Variable.make(VariableType.FLOAT, value);
+    }
+
+    public static int(value: number): Variable {
+        return Variable.make(VariableType.INT, value);
+    }
+
     public static make(type: VariableType, value: number): Variable {
         return new Variable(type, value);
     }

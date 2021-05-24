@@ -10,6 +10,7 @@ export interface BattleFuncProps {
     actorId: number,
     func: Func,
     level: number,
+    passive: boolean,
 }
 
 export interface BattleFuncState {
@@ -73,9 +74,9 @@ export default abstract class BattleFunc {
     private async executeStandardFunc(battle: Battle, actor: BattleActor, target: BattleActor): Promise<BattleEvent[]> {
         switch (this.props.func.funcType) {
             case FuncType.ADD_STATE:
-                return addStateFunc(battle, this, actor, target, false);
+                return addStateFunc(battle, this, actor, target, false, this.props.passive);
             case FuncType.ADD_STATE_SHORT:
-                return addStateFunc(battle, this, actor, target, true);
+                return addStateFunc(battle, this, actor, target, true, this.props.passive);
             case FuncType.NONE:
                 return [];
             case FuncType.SUB_STATE:

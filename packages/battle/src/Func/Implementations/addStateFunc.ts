@@ -6,16 +6,18 @@ import BattleEvent from "../../Event/BattleEvent";
 import BattleFunc from "../BattleFunc";
 
 export default async function addStateFunc(battle: Battle,
-                                     func: BattleFunc,
-                                     actor: BattleActor,
-                                     target: BattleActor,
-                                     short: boolean): Promise<BattleEvent[]> {
+                                           func: BattleFunc,
+                                           actor: BattleActor,
+                                           target: BattleActor,
+                                           short: boolean,
+                                           passive: boolean): Promise<BattleEvent[]> {
     const events = [];
 
     for (let i = 0; i < func.props.func.buffs.length; i++) {
         const buff = new BattleBuff({
             buff: func.props.func.buffs[i],
             dataVal: func.state.dataVal,
+            passive,
             short
         }, null);
 

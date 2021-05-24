@@ -26,6 +26,7 @@ export default class BattleSkill {
                     actorId: props.actorId,
                     func,
                     level: props.level,
+                    passive: false,
                 }, null);
             })
         };

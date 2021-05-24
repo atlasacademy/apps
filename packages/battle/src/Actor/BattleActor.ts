@@ -1,7 +1,6 @@
-import {Card, ClassName} from "@atlasacademy/api-connector";
+import {Card, ClassName, Trait} from "@atlasacademy/api-connector";
 import {Attribute} from "@atlasacademy/api-connector/dist/Schema/Attribute";
 import {BuffAction} from "@atlasacademy/api-connector/dist/Schema/Buff";
-import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
 import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {Battle} from "../Battle";
 import {BattleBuff} from "../Buff/BattleBuff";
@@ -31,7 +30,7 @@ export interface BattleActorProps {
     name: string,
     phase: number,
     team: BattleTeam,
-    traits: Trait[],
+    traits: Trait.Trait[],
 }
 
 export interface BattleActorState {
@@ -115,6 +114,10 @@ export class BattleActor {
         return this.state.battle;
     }
 
+    buffs(): BattleBuffManager {
+        return this.state.buffs;
+    }
+
     buffsByGroup(group: BuffAction,
                  attack?: BattleAttackAction,
                  target?: BattleActor,
@@ -124,6 +127,10 @@ export class BattleActor {
             targetTraits = target?.traits(actor ? undefined : attack) ?? [];
 
         return this.state.buffs.getBuffs(group, traits, targetTraits, plus);
+    }
+
+    buffTraits(passive: boolean): Trait.Trait[] {
+        return this.buffs().traits(passive);
     }
 
     className(attack?: BattleAttackAction, target?: BattleActor, actor: boolean = true): ClassName {
@@ -138,7 +145,7 @@ export class BattleActor {
         return className ?? this.baseClassName();
     }
 
-    hasTrait(trait: Trait | number): boolean {
+    hasTrait(trait: Trait.Trait | number): boolean {
         const traitId: number = typeof trait === "number" ? trait : trait.id;
 
         return this.props.traits.filter(_trait => _trait.id === traitId).length > 0;
@@ -146,7 +153,7 @@ export class BattleActor {
 
     health(): number {
         const traits = this.traits(),
-            targetTraits: Trait[] = [];
+            targetTraits: Trait.Trait[] = [];
 
         return (
             this.props.baseHealth
@@ -204,8 +211,8 @@ export class BattleActor {
         return this.state.skills.filter(skill => skill.props.id === num).shift();
     }
 
-    traits(attack?: BattleAttackAction): Trait[] {
-        const traits: Trait[] = [];
+    traits(attack?: BattleAttackAction): Trait.Trait[] {
+        const traits: Trait.Trait[] = [];
 
         traits.push(...this.props.traits);
         traits.push(...this.battle().state.traits);

@@ -5,6 +5,7 @@ import {checkTrait} from "../Trait/checkTrait";
 export interface BattleBuffProps {
     buff: Buff.Buff,
     dataVal: DataVal.DataVal,
+    passive: boolean,
     short: boolean,
 }
 
@@ -53,8 +54,12 @@ export class BattleBuff {
         return this.checkBuffTrait(self, this.props.buff.ckSelfIndv) && checkTrait(target, this.props.buff.ckOpIndv);
     }
 
-    name() {
+    name(): string {
         return this.props.buff.name;
+    }
+
+    passive(): boolean {
+        return this.props.passive;
     }
 
     value(self: Trait.Trait[], target: Trait.Trait[]): number {
@@ -62,5 +67,9 @@ export class BattleBuff {
             return this.props.dataVal.Value ?? 0;
 
         return 0;
+    }
+
+    traits(): Trait.Trait[] {
+        return this.props.buff.vals;
     }
 }

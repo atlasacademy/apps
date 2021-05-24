@@ -186,6 +186,42 @@ function npDamageBonus(actor: BattleActor,
     return bonus;
 }
 
+function powerMagnification(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    let magnification = Variable.int(0);
+
+    // target traits
+    magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
+        Buff.BuffAction.DAMAGE,
+        actor.traits(attack),
+        target.traits()
+    )));
+
+    // target passive traits
+    magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
+        Buff.BuffAction.DAMAGE_INDIVIDUALITY,
+        actor.traits(attack),
+        target.buffTraits(true)
+    )));
+
+    // target active traits
+    magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
+        Buff.BuffAction.DAMAGE_INDIVIDUALITY_ACTIVEONLY,
+        actor.traits(attack),
+        target.buffTraits(false)
+    )));
+
+    // target active traits
+    magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
+        Buff.BuffAction.DAMAGE_EVENT_POINT,
+        actor.traits(attack),
+        target.buffTraits(false)
+    )));
+
+    return Variable
+        .float(magnification.value())
+        .divide(Variable.float(1000));
+}
+
 async function randomAttack(battle: Battle): Promise<Variable> {
     const random = await battle.random().generate(
         GameConstantManager.getValue(Constant.Constant.ATTACK_RATE_RANDOM_MIN),
@@ -242,9 +278,9 @@ async function getDamageList(battle: Battle,
         damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE)));
 
     damageTotal = damageTotal.multiply(specialDefence(attack, actor, target));
-    //
-    // let powerMod = new Variable(VariableType.FLOAT, 1);
-    // powerMod = powerMod.add(powerMagnification(battle, attack, actor, target));
+
+    let powerMod = Variable.float(1);
+    powerMod = powerMod.add(powerMagnification(attack, actor, target));
     // powerMod = powerMod.add(selfDamageMagnification(battle, attack, actor, target));
     // if (critical)
     //     powerMod = powerMod.add(criticalMod(battle, attack, actor, target));
@@ -349,6 +385,7 @@ export {
     classAttackRate,
     commandCardAttack,
     npDamageBonus,
+    powerMagnification,
     randomAttack,
     specialDefence,
 }

@@ -38,6 +38,7 @@ describe('getDamageList attackMagnification', () => {
         servant.addBuff(new BattleBuff({
             buff: <Buff.Buff><unknown>pierceDefenceData,
             dataVal: {},
+            passive: false,
             short: true,
         }, null));
         expect(attackMagnification(actions.get(1), servant, target, undefined).value()).to.be.closeTo(1.18, 0.0001);

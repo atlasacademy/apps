@@ -1,5 +1,5 @@
+import {Trait} from "@atlasacademy/api-connector";
 import {BuffAction, BuffLimit, BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
-import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
 import GameConstantManager from "../Game/GameConstantManager";
 import {BattleBuff} from "./BattleBuff";
 
@@ -17,7 +17,7 @@ export default class BattleBuffManager {
         this.list.push(buff);
     }
 
-    getBuffs(group: BuffAction, traits: Trait[], targetTraits: Trait[], plus: boolean): BattleBuff[] {
+    getBuffs(group: BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[], plus: boolean): BattleBuff[] {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
@@ -34,7 +34,7 @@ export default class BattleBuffManager {
         return buffs;
     }
 
-    getValue(group: BuffAction, traits: Trait[], targetTraits: Trait[]): number | undefined {
+    getValue(group: BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number | undefined {
         let value: number | undefined = undefined;
 
         this.getBuffs(group, traits, targetTraits, true).forEach(buff => {
@@ -46,7 +46,7 @@ export default class BattleBuffManager {
         return value;
     }
 
-    netBuffs(group: BuffAction, traits: Trait[], targetTraits: Trait[]): number {
+    netBuffs(group: BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
@@ -79,11 +79,23 @@ export default class BattleBuffManager {
         return value;
     }
 
-    netBuffsRate(group: BuffAction, traits: Trait[], targetTraits: Trait[]): number {
+    netBuffsRate(group: BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
         let value = this.netBuffs(group, traits, targetTraits) / 1000;
         value = Math.fround(value);
 
         return value;
+    }
+
+    traits(passive: boolean) {
+        const traits: Trait.Trait[] = [];
+
+        this.list
+            .filter(buff => buff.passive() === passive)
+            .forEach(buff => {
+                traits.push(...buff.traits());
+            });
+
+        return traits;
     }
 
     private getType(type: BuffType): BattleBuff[] {

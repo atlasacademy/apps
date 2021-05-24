@@ -26,6 +26,7 @@ export default class BattleNoblePhantasm {
                     actorId: this.props.actorId,
                     func,
                     level: this.props.level,
+                    passive: false,
                 }, null);
             }),
         };
