@@ -1,5 +1,4 @@
-import {DataVal} from "@atlasacademy/api-connector/dist/Schema/DataVal";
-import {Func, FuncTargetTeam, FuncType} from "@atlasacademy/api-connector/dist/Schema/Func";
+import {DataVal, Func} from "@atlasacademy/api-connector";
 import {BattleActor} from "../Actor/BattleActor";
 import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
@@ -8,13 +7,13 @@ import addStateFunc from "./Implementations/addStateFunc";
 
 export interface BattleFuncProps {
     actorId: number,
-    func: Func,
+    func: Func.Func,
     level: number,
     passive: boolean,
 }
 
 export interface BattleFuncState {
-    dataVal: DataVal,
+    dataVal: DataVal.DataVal,
     overcharge: number,
 }
 
@@ -30,9 +29,9 @@ export default abstract class BattleFunc {
         if (!actor)
             throw new Error('ACTOR DOES NOT EXIST');
 
-        if (this.props.func.funcTargetTeam === FuncTargetTeam.PLAYER && actor.props.team !== BattleTeam.PLAYER)
+        if (this.props.func.funcTargetTeam === Func.FuncTargetTeam.PLAYER && actor.props.team !== BattleTeam.PLAYER)
             return [];
-        if (this.props.func.funcTargetTeam === FuncTargetTeam.ENEMY && actor.props.team !== BattleTeam.ENEMY)
+        if (this.props.func.funcTargetTeam === Func.FuncTargetTeam.ENEMY && actor.props.team !== BattleTeam.ENEMY)
             return [];
 
         const events = [];
@@ -54,8 +53,8 @@ export default abstract class BattleFunc {
         };
     }
 
-    protected static dataVal(func: Func, level: number, overcharge: number): DataVal {
-        let sval : DataVal[];
+    protected static dataVal(func: Func.Func, level: number, overcharge: number): DataVal.DataVal {
+        let sval: DataVal.DataVal[];
 
         if (overcharge === 5 && func.svals5 && func.svals5.length)
             sval = func.svals5;
@@ -73,13 +72,13 @@ export default abstract class BattleFunc {
 
     private async executeStandardFunc(battle: Battle, actor: BattleActor, target: BattleActor): Promise<BattleEvent[]> {
         switch (this.props.func.funcType) {
-            case FuncType.ADD_STATE:
+            case Func.FuncType.ADD_STATE:
                 return addStateFunc(battle, this, actor, target, false, this.props.passive);
-            case FuncType.ADD_STATE_SHORT:
+            case Func.FuncType.ADD_STATE_SHORT:
                 return addStateFunc(battle, this, actor, target, true, this.props.passive);
-            case FuncType.NONE:
+            case Func.FuncType.NONE:
                 return [];
-            case FuncType.SUB_STATE:
+            case Func.FuncType.SUB_STATE:
                 // TODO
                 return [];
             default:

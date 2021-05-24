@@ -1,5 +1,4 @@
-import {Card} from "@atlasacademy/api-connector";
-import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
+import {Card, Trait} from "@atlasacademy/api-connector";
 import {BattleActor} from "../Actor/BattleActor";
 import GameConstantManager from "../Game/GameConstantManager";
 
@@ -13,7 +12,7 @@ export class BattleAttackAction {
         //
     }
 
-    traits(): Trait[] {
+    traits(): Trait.Trait[] {
         if (this.np) return this.actor.noblePhantasm().traits();
 
         const cardConstant = GameConstantManager.cardConstants(this.card, this.num);

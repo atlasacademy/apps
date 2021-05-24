@@ -1,6 +1,4 @@
-import {Card, ClassName, Trait} from "@atlasacademy/api-connector";
-import {Attribute} from "@atlasacademy/api-connector/dist/Schema/Attribute";
-import {BuffAction} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {Attribute, Buff, Card, ClassName, Trait} from "@atlasacademy/api-connector";
 import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {Battle} from "../Battle";
 import {BattleBuff} from "../Buff/BattleBuff";
@@ -20,7 +18,7 @@ export interface BattleActorHitDistribution {
 }
 
 export interface BattleActorProps {
-    attribute: Attribute,
+    attribute: Attribute.Attribute,
     baseAttack: number,
     baseHealth: number,
     className: ClassName,
@@ -64,12 +62,12 @@ export class BattleActor {
             targetTraits = target?.traits() ?? [];
 
         let attack = this.props.baseAttack;
-        attack *= Math.fround(this.state.buffs.netBuffs(BuffAction.ATK, traits, targetTraits) / 1000);
+        attack *= Math.fround(this.state.buffs.netBuffs(Buff.BuffAction.ATK, traits, targetTraits) / 1000);
 
         return Math.round(attack);
     }
 
-    attribute(): Attribute {
+    attribute(): Attribute.Attribute {
         return this.props.attribute;
     }
 
@@ -118,7 +116,7 @@ export class BattleActor {
         return this.state.buffs;
     }
 
-    buffsByGroup(group: BuffAction,
+    buffsByGroup(group: Buff.BuffAction,
                  attack?: BattleAttackAction,
                  target?: BattleActor,
                  actor: boolean = true,
@@ -136,7 +134,7 @@ export class BattleActor {
     className(attack?: BattleAttackAction, target?: BattleActor, actor: boolean = true): ClassName {
         const traits = this.traits(actor ? attack : undefined),
             targetTraits = target?.traits(actor ? undefined : attack) ?? [],
-            classId = this.state.buffs.getValue(BuffAction.OVERWRITE_BATTLECLASS, traits, targetTraits);
+            classId = this.state.buffs.getValue(Buff.BuffAction.OVERWRITE_BATTLECLASS, traits, targetTraits);
 
         let className;
         if (classId !== undefined)
@@ -157,7 +155,7 @@ export class BattleActor {
 
         return (
             this.props.baseHealth
-            + this.state.buffs.netBuffs(BuffAction.MAXHP_VALUE, traits, targetTraits)
+            + this.state.buffs.netBuffs(Buff.BuffAction.MAXHP_VALUE, traits, targetTraits)
         );
     }
 
@@ -176,7 +174,7 @@ export class BattleActor {
 
     multihit(attack: BattleAttackAction, target?: BattleActor): number {
         const multiBuffs = this.state.buffs.getBuffs( // TODO: use confirmationBuff
-            BuffAction.MULTIATTACK,
+            Buff.BuffAction.MULTIATTACK,
             this.traits(attack),
             target?.traits() ?? [],
             true
@@ -189,7 +187,7 @@ export class BattleActor {
         return value;
     }
 
-    netBuffsByGroup(group: BuffAction,
+    netBuffsByGroup(group: Buff.BuffAction,
                     attack?: BattleAttackAction,
                     target?: BattleActor,
                     actor: boolean = true): number {

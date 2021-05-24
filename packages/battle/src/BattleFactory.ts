@@ -1,5 +1,4 @@
-import {QuestPhase} from "@atlasacademy/api-connector/dist/Schema/Quest";
-import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
+import {Quest, Trait} from "@atlasacademy/api-connector";
 import {BattleActor, BattleActorProps} from "./Actor/BattleActor";
 import {BattleTeam} from "./Enum/BattleTeam";
 import {Battle} from "./Battle";
@@ -7,7 +6,7 @@ import {Battle} from "./Battle";
 export class BattleFactory {
     private actors: BattleActor[] = [];
     private currentPhase: number = 1;
-    private fieldTraits: Trait[] = [];
+    private fieldTraits: Trait.Trait[] = [];
 
     public reset() {
         this.actors = [];
@@ -30,7 +29,7 @@ export class BattleFactory {
         // this.actors.push(actor);
     }
 
-    public addFieldTraits(traits: Trait[]) {
+    public addFieldTraits(traits: Trait.Trait[]) {
         this.fieldTraits.push(...traits);
     }
 
@@ -62,7 +61,7 @@ export class BattleFactory {
     //     );
     // }
 
-    public setQuest(quest: QuestPhase) {
+    public setQuest(quest: Quest.QuestPhase) {
         this.addFieldTraits(quest.individuality);
 
         quest.stages.forEach(stage => {

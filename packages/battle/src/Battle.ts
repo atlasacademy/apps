@@ -1,5 +1,4 @@
-import {FuncTargetType} from "@atlasacademy/api-connector/dist/Schema/Func";
-import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
+import {Func, Trait} from "@atlasacademy/api-connector";
 import {BattleActor} from "./Actor/BattleActor";
 import BattleActorManager from "./Actor/BattleActorManager";
 import {BattleRandom, BattleRandomType} from "./BattleRandom";
@@ -12,7 +11,7 @@ export interface BattleState {
     events: BattleEvent[],
     random: BattleRandom,
     selectExtra: number,
-    traits: Trait[],
+    traits: Trait.Trait[],
     turn: number,
 }
 
@@ -60,7 +59,7 @@ export class Battle {
         return this.state.actors.actorById(id);
     }
 
-    getTargets(actor: BattleActor, targetType: FuncTargetType): BattleActor[] {
+    getTargets(actor: BattleActor, targetType: Func.FuncTargetType): BattleActor[] {
         return this.state.actors.getTargets(actor, targetType);
     }
 

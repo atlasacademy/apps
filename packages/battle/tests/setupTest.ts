@@ -1,5 +1,4 @@
-import {EnumList} from "@atlasacademy/api-connector";
-import {BuffConstantMap} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {Buff, EnumList} from "@atlasacademy/api-connector";
 import GameConstantManager from "../src/Game/GameConstantManager";
 
 import attributeAffinity from "./samples/game/attributeAffinity.json";
@@ -14,7 +13,7 @@ before(() => {
     GameConstantManager.initManually(
         constants,
         attributeAffinity,
-        <BuffConstantMap>buffConstants,
+        <Buff.BuffConstantMap>buffConstants,
         cards,
         classAffinity,
         classAttackRates,

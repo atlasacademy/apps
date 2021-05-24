@@ -1,4 +1,4 @@
-import {Skill} from "@atlasacademy/api-connector/dist/Schema/Skill";
+import {Skill} from "@atlasacademy/api-connector";
 import {Battle} from "../Battle";
 import BattleEvent from "../Event/BattleEvent";
 import BattleSkillFunc from "./BattleSkillFunc";
@@ -6,7 +6,7 @@ import BattleSkillFunc from "./BattleSkillFunc";
 export interface BattleSkillProps {
     actorId: number,
     id: number,
-    skill: Skill,
+    skill: Skill.Skill,
     level: number,
 }
 

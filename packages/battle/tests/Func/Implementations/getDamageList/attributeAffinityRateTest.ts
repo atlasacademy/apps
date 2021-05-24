@@ -1,4 +1,4 @@
-import {Attribute} from "@atlasacademy/api-connector/dist/Schema/Attribute";
+import {Attribute} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
 import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {attributeAffinityRate} from "../../../../src/Func/Implementations/getDamageList";
@@ -19,7 +19,7 @@ describe('getDamageList attributeAffinityRate', () => {
         const servant = artoria(BattleTeam.PLAYER),
             target = cu(BattleTeam.ENEMY);
 
-        target.props.attribute = Attribute.VOID;
+        target.props.attribute = Attribute.Attribute.VOID;
 
         expect(attributeAffinityRate(servant, target).value()).to.equal(1);
     });

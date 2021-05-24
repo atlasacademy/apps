@@ -1,7 +1,4 @@
-import {CommandCode} from "@atlasacademy/api-connector/dist/Schema/CommandCode";
-import {CraftEssence} from "@atlasacademy/api-connector/dist/Schema/CraftEssence";
-import {Servant} from "@atlasacademy/api-connector/dist/Schema/Servant";
-import {Skill} from "@atlasacademy/api-connector/dist/Schema/Skill";
+import {CommandCode, CraftEssence, Servant, Skill} from "@atlasacademy/api-connector";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
@@ -9,15 +6,15 @@ import BattleSkill from "../Skill/BattleSkill";
 import {BattleActor, BattleActorProps, BattleActorState} from "./BattleActor";
 
 export interface BattleServantActorProps {
-    servant: Servant,
+    servant: Servant.Servant,
     id: number,
     phase: number,
     team: BattleTeam,
 
     ascensionOrCostumeId?: number,
     commandCardBonuses?: Array<number>,
-    commandCodes?: Array<CommandCode | null>,
-    craftEssence?: CraftEssence,
+    commandCodes?: Array<CommandCode.CommandCode | null>,
+    craftEssence?: CraftEssence.CraftEssence,
     craftEssenceLevel?: number,
     craftEssenceLimitBreak?: boolean,
     fouAttack?: number,
@@ -55,7 +52,7 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
     };
 }
 
-function castSkill(skills: Skill[], actorId: number, position: number, level: number, questIds: number[]): BattleSkill | undefined {
+function castSkill(skills: Skill.Skill[], actorId: number, position: number, level: number, questIds: number[]): BattleSkill | undefined {
     const skill = skills
         .filter(skill => skill.num === position)
         .filter(skill => !skill.condQuestId || questIds.includes(skill.condQuestId))

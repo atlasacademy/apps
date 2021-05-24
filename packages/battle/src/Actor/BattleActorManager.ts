@@ -1,4 +1,4 @@
-import {FuncTargetType} from "@atlasacademy/api-connector/dist/Schema/Func";
+import {Func} from "@atlasacademy/api-connector";
 import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
 import {BattleActor} from "./BattleActor";
@@ -60,7 +60,7 @@ export default class BattleActorManager {
         this.resetSelection();
     }
 
-    getTargets(actor: BattleActor, targetType: FuncTargetType): BattleActor[] {
+    getTargets(actor: BattleActor, targetType: Func.FuncTargetType): BattleActor[] {
         const targets: (BattleActor | undefined)[] = [],
             team = actor.props.team,
             opponentTeam = team === BattleTeam.PLAYER ? BattleTeam.ENEMY : BattleTeam.PLAYER,
@@ -71,72 +71,72 @@ export default class BattleActorManager {
             targetAllySubActor = this.actorByPosition(team, this.state.playerSelectReserve);
 
         switch (targetType) {
-            case FuncTargetType.SELF:
+            case Func.FuncTargetType.SELF:
                 targets.push(this.actorById(actor.props.id));
                 break;
-            case FuncTargetType.PT_ONE:
-            case FuncTargetType.PT_RANDOM:
+            case Func.FuncTargetType.PT_ONE:
+            case Func.FuncTargetType.PT_RANDOM:
                 targets.push(targetAllyActor);
                 break;
-            case FuncTargetType.PT_ALL:
+            case Func.FuncTargetType.PT_ALL:
                 targets.push(...this.activeActorsByTeam(team));
                 break;
-            case FuncTargetType.ENEMY:
-            case FuncTargetType.ENEMY_RANDOM:
+            case Func.FuncTargetType.ENEMY:
+            case Func.FuncTargetType.ENEMY_RANDOM:
                 targets.push(targetOpponentActor);
                 break;
-            case FuncTargetType.ENEMY_ALL:
+            case Func.FuncTargetType.ENEMY_ALL:
                 targets.push(...this.activeActorsByTeam(opponentTeam));
                 break;
-            case FuncTargetType.PT_FULL:
+            case Func.FuncTargetType.PT_FULL:
                 targets.push(...this.actorsByTeam(team));
                 break;
-            case FuncTargetType.ENEMY_FULL:
+            case Func.FuncTargetType.ENEMY_FULL:
                 targets.push(...this.actorsByTeam(opponentTeam));
                 break;
-            case FuncTargetType.PT_OTHER:
+            case Func.FuncTargetType.PT_OTHER:
                 targets.push(
                     ...this
                         .activeActorsByTeam(team)
                         .filter(_actor => _actor.props.id !== actor.props.id)
                 );
                 break;
-            case FuncTargetType.PT_ONE_OTHER:
+            case Func.FuncTargetType.PT_ONE_OTHER:
                 targets.push(
                     ...this
                         .activeActorsByTeam(team)
                         .filter(_actor => _actor.props.id !== targetAllyActor?.props.id)
                 );
                 break;
-            case FuncTargetType.ENEMY_OTHER:
+            case Func.FuncTargetType.ENEMY_OTHER:
                 targets.push(
                     ...this
                         .activeActorsByTeam(team)
                         .filter(_actor => _actor.props.id !== targetOpponentActor?.props.id)
                 );
                 break;
-            case FuncTargetType.PT_OTHER_FULL:
+            case Func.FuncTargetType.PT_OTHER_FULL:
                 targets.push(
                     ...this
                         .actorsByTeam(team)
                         .filter(_actor => _actor.props.id !== actor.props.id)
                 );
                 break;
-            case FuncTargetType.ENEMY_OTHER_FULL:
+            case Func.FuncTargetType.ENEMY_OTHER_FULL:
                 targets.push(
                     ...this
                         .actorsByTeam(opponentTeam)
                         .filter(_actor => _actor.props.id !== targetOpponentActor?.props.id)
                 );
                 break;
-            case FuncTargetType.PTSELECT_ONE_SUB:
+            case Func.FuncTargetType.PTSELECT_ONE_SUB:
                 if (targetAllyActor && targetAllySubActor)
                     targets.push(targetAllyActor, targetAllySubActor);
                 break;
-            case FuncTargetType.PTSELECT_SUB:
+            case Func.FuncTargetType.PTSELECT_SUB:
                 targets.push(targetAllySubActor);
                 break;
-            case FuncTargetType.PT_SELF_ANOTHER_FIRST:
+            case Func.FuncTargetType.PT_SELF_ANOTHER_FIRST:
                 targets.push(
                     this
                         .activeActorsByTeam(team)
@@ -144,7 +144,7 @@ export default class BattleActorManager {
                         .shift()
                 );
                 break;
-            case FuncTargetType.PT_SELF_ANOTHER_LAST:
+            case Func.FuncTargetType.PT_SELF_ANOTHER_LAST:
                 targets.push(
                     this
                         .activeActorsByTeam(team)

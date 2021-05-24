@@ -1,4 +1,3 @@
-import {FuncType} from "@atlasacademy/api-connector/dist/Schema/Func";
 import BattleFunc, {BattleFuncProps, BattleFuncState} from "../Func/BattleFunc";
 
 export default class BattleNoblePhantasmFunc extends BattleFunc {

@@ -1,24 +1,12 @@
+import {ApiConnector, Attribute, Buff, Card, ClassName, Constant, EnumList, Region,} from "@atlasacademy/api-connector";
+import {CardConstant, CardConstantMap} from "@atlasacademy/api-connector/dist/Enum/Card";
 import {ClassAffinityMap, ClassAttackRateMap} from "@atlasacademy/api-connector/dist/Enum/ClassName";
-import {
-    ApiConnector,
-    Buff,
-    Card,
-    ClassName,
-    Constant,
-    EnumList,
-    Region,
-} from "@atlasacademy/api-connector";
-import {
-    CardConstant,
-    CardConstantMap,
-} from "@atlasacademy/api-connector/dist/Enum/Card";
-import {Attribute, AttributeAffinityMap} from "@atlasacademy/api-connector/dist/Schema/Attribute";
 
 class GameConstantManager {
     private host: string = "https://api.atlasacademy.io";
     private loaded: boolean = false;
     private region: Region = Region.JP;
-    private attributeAffinityMap?: AttributeAffinityMap = undefined;
+    private attributeAffinityMap?: Attribute.AttributeAffinityMap = undefined;
     private buffConstantMap?: Buff.BuffConstantMap = undefined;
     private cardConstantMap?: CardConstantMap = undefined;
     private classAffinityMap?: ClassAffinityMap = undefined;
@@ -28,7 +16,7 @@ class GameConstantManager {
 
     public initManually(
         constants?: Constant.Constants,
-        attributeAffinityMap?: AttributeAffinityMap,
+        attributeAffinityMap?: Attribute.AttributeAffinityMap,
         buffConstantMap?: Buff.BuffConstantMap,
         cardConstantMap?: CardConstantMap,
         classAffinityMap?: ClassAffinityMap,
@@ -86,7 +74,7 @@ class GameConstantManager {
         this.loaded = false;
     }
 
-    attributeAffinity(attacker: Attribute, defender: Attribute): number | undefined {
+    attributeAffinity(attacker: Attribute.Attribute, defender: Attribute.Attribute): number | undefined {
         if (!this.loaded) return undefined;
         if (!this.attributeAffinityMap) return undefined;
 

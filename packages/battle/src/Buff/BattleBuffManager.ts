@@ -1,5 +1,4 @@
-import {Trait} from "@atlasacademy/api-connector";
-import {BuffAction, BuffLimit, BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {Buff, Trait} from "@atlasacademy/api-connector";
 import GameConstantManager from "../Game/GameConstantManager";
 import {BattleBuff} from "./BattleBuff";
 
@@ -17,7 +16,7 @@ export default class BattleBuffManager {
         this.list.push(buff);
     }
 
-    getBuffs(group: BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[], plus: boolean): BattleBuff[] {
+    getBuffs(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[], plus: boolean): BattleBuff[] {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
@@ -34,7 +33,7 @@ export default class BattleBuffManager {
         return buffs;
     }
 
-    getValue(group: BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number | undefined {
+    getValue(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number | undefined {
         let value: number | undefined = undefined;
 
         this.getBuffs(group, traits, targetTraits, true).forEach(buff => {
@@ -46,7 +45,7 @@ export default class BattleBuffManager {
         return value;
     }
 
-    netBuffs(group: BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
+    netBuffs(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
@@ -68,18 +67,18 @@ export default class BattleBuffManager {
             value -= Math.floor(buff.value(traits, targetTraits));
         });
 
-        if (buffConstant.limit === BuffLimit.LOWER)
+        if (buffConstant.limit === Buff.BuffLimit.LOWER)
             value = Math.max(value, 0);
 
         value -= buffConstant.baseValue;
 
-        if (buffConstant.limit === BuffLimit.UPPER)
+        if (buffConstant.limit === Buff.BuffLimit.UPPER)
             value = Math.min(value, upperLimit);
 
         return value;
     }
 
-    netBuffsRate(group: BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
+    netBuffsRate(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
         let value = this.netBuffs(group, traits, targetTraits) / 1000;
         value = Math.fround(value);
 
@@ -98,7 +97,7 @@ export default class BattleBuffManager {
         return traits;
     }
 
-    private getType(type: BuffType): BattleBuff[] {
+    private getType(type: Buff.BuffType): BattleBuff[] {
         return this.list.filter(buff => buff.props.buff.type === type);
     }
 }

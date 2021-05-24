@@ -1,12 +1,11 @@
-import { Trait } from "@atlasacademy/api-connector";
-import {NoblePhantasm} from "@atlasacademy/api-connector/dist/Schema/NoblePhantasm";
+import {NoblePhantasm, Trait} from "@atlasacademy/api-connector";
 import {Battle} from "../Battle";
 import BattleEvent from "../Event/BattleEvent";
 import BattleNoblePhantasmFunc from "./BattleNoblePhantasmFunc";
 
 export interface BattleNoblePhantasmProps {
     actorId: number,
-    np: NoblePhantasm,
+    np: NoblePhantasm.NoblePhantasm,
     level: number,
 }
 
