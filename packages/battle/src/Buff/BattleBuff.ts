@@ -3,7 +3,7 @@ import {checkAllTrait} from "../Trait/checkAllTrait";
 import {checkTrait} from "../Trait/checkTrait";
 
 export interface BattleBuffProps {
-    buff: Buff.BasicBuff,
+    buff: Buff.Buff,
     dataVal: DataVal.DataVal,
     short: boolean,
 }

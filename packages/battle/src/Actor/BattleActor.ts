@@ -65,7 +65,7 @@ export class BattleActor {
             targetTraits = target?.traits() ?? [];
 
         let attack = this.props.baseAttack;
-        attack *= 1 + (this.state.buffs.netBuffs(BuffAction.ATK, traits, targetTraits) / 1000);
+        attack *= Math.fround(this.state.buffs.netBuffs(BuffAction.ATK, traits, targetTraits) / 1000);
 
         return Math.round(attack);
     }
@@ -168,11 +168,18 @@ export class BattleActor {
     }
 
     multihit(attack: BattleAttackAction, target?: BattleActor): number {
-        return this.state.buffs.netBuffs( // TODO: use confirmationBuff
+        const multiBuffs = this.state.buffs.getBuffs( // TODO: use confirmationBuff
             BuffAction.MULTIATTACK,
             this.traits(attack),
-            target?.traits() ?? []
+            target?.traits() ?? [],
+            true
         );
+
+        let value = 1;
+        if (multiBuffs.length)
+            value = multiBuffs[0].value(this.traits(attack), target?.traits() ?? []);
+
+        return value;
     }
 
     netBuffsByGroup(group: BuffAction,

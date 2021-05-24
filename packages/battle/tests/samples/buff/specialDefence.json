@@ -1,0 +1,66 @@
+{
+  "id": 315,
+  "name": "特殊耐性アップ",
+  "detail": "全ての攻撃に対する耐性を得る。ターン経過で徐々に効果ダウン",
+  "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_334.png",
+  "type": "upSpecialdefence",
+  "buffGroup": 0,
+  "script": {},
+  "vals": [
+    {
+      "id": 3004,
+      "name": "buffPositiveEffect"
+    },
+    {
+      "id": 3016,
+      "name": "buffSpecialResistUp"
+    }
+  ],
+  "tvals": [],
+  "ckSelfIndv": [],
+  "ckOpIndv": [],
+  "maxRate": 5000,
+  "reverse": {
+    "basic": {
+      "function": [
+        {
+          "funcId": 1089,
+          "funcType": "addState",
+          "funcTargetType": "self",
+          "funcTargetTeam": "playerAndEnemy",
+          "functvals": [],
+          "funcquestTvals": [],
+          "traitVals": [],
+          "buffs": [
+            {
+              "id": 315,
+              "name": "特殊耐性アップ",
+              "icon": "https://assets.atlasacademy.io/GameData/JP/BuffIcons/bufficon_334.png",
+              "type": "upSpecialdefence",
+              "script": {},
+              "vals": [
+                {
+                  "id": 3004,
+                  "name": "buffPositiveEffect"
+                },
+                {
+                  "id": 3016,
+                  "name": "buffSpecialResistUp"
+                }
+              ],
+              "tvals": [],
+              "ckSelfIndv": [],
+              "ckOpIndv": []
+            }
+          ],
+          "reverse": {
+            "basic": {
+              "skill": [],
+              "NP": []
+            }
+          }
+        }
+      ]
+    }
+  }
+}

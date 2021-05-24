@@ -1,4 +1,4 @@
-import {BuffAction, BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
+import {BuffAction, BuffLimit, BuffType} from "@atlasacademy/api-connector/dist/Schema/Buff";
 import {Trait} from "@atlasacademy/api-connector/dist/Schema/Trait";
 import GameConstantManager from "../Game/GameConstantManager";
 import {BattleBuff} from "./BattleBuff";
@@ -51,15 +51,30 @@ export default class BattleBuffManager {
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
 
-        let value = buffConstant.baseValue;
+        let value = buffConstant.baseParam,
+            upperLimit = buffConstant.baseParam;
 
         this.getBuffs(group, traits, targetTraits, true).forEach(buff => {
-            value += buff.value(traits, targetTraits);
+            if (upperLimit < buff.props.buff.maxRate)
+                upperLimit = buff.props.buff.maxRate;
+
+            value += Math.floor(buff.value(traits, targetTraits));
         });
 
         this.getBuffs(group, traits, targetTraits, false).forEach(buff => {
-            value -= buff.value(traits, targetTraits);
+            if (upperLimit < buff.props.buff.maxRate)
+                upperLimit = buff.props.buff.maxRate;
+
+            value -= Math.floor(buff.value(traits, targetTraits));
         });
+
+        if (buffConstant.limit === BuffLimit.LOWER)
+            value = Math.max(value, 0);
+
+        value -= buffConstant.baseValue;
+
+        if (buffConstant.limit === BuffLimit.UPPER)
+            value = Math.min(value, upperLimit);
 
         return value;
     }

@@ -196,6 +196,17 @@ async function randomAttack(battle: Battle): Promise<Variable> {
     return Variable.make(VariableType.FLOAT, random).divide(new Variable(VariableType.FLOAT, 1000));
 }
 
+function specialDefence(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    const value = target.netBuffsByGroup(Buff.BuffAction.SPECIALDEFENCE, attack, actor, false);
+
+    let defence = Variable.make(VariableType.FLOAT, value).divide(new Variable(VariableType.FLOAT, 1000));
+    defence = Variable.make(VariableType.FLOAT, 1).subtract(defence);
+    if (defence.value() < 0)
+        defence = new Variable(VariableType.FLOAT, 0);
+
+    return defence;
+}
+
 async function getDamageList(battle: Battle,
                              attack: BattleAttackAction,
                              actor: BattleActor,
@@ -229,8 +240,8 @@ async function getDamageList(battle: Battle,
         damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_GRAND)));
     else if (attack.card === Card.EXTRA)
         damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE)));
-    //
-    // damageTotal = damageTotal.multiply(specialDefence(battle, attack, actor, target));
+
+    damageTotal = damageTotal.multiply(specialDefence(attack, actor, target));
     //
     // let powerMod = new Variable(VariableType.FLOAT, 1);
     // powerMod = powerMod.add(powerMagnification(battle, attack, actor, target));
@@ -339,6 +350,7 @@ export {
     commandCardAttack,
     npDamageBonus,
     randomAttack,
+    specialDefence,
 }
 
 export default getDamageList;
