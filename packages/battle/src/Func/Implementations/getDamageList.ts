@@ -6,7 +6,7 @@ import {BattleBuff} from "../../Buff/BattleBuff";
 import {BattleTeam} from "../../Enum/BattleTeam";
 import BattleEvent from "../../Event/BattleEvent";
 import GameConstantManager from "../../Game/GameConstantManager";
-import {Variable, VariableType} from "../../Game/Variable";
+import {Variable} from "../../Game/Variable";
 import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
 
 function attackMagnification(attack: BattleAttackAction,
@@ -18,15 +18,12 @@ function attackMagnification(attack: BattleAttackAction,
         defensePierce = defensePierceBuffs.length || func?.props.func.funcType === Func.FuncType.DAMAGE_NP_PIERCE,
         defenseGroup = defensePierce ? Buff.BuffAction.DEFENCE_PIERCE : Buff.BuffAction.DEFENCE,
         defenseUpValue = target.netBuffsByGroup(defenseGroup, attack, actor, false),
-        attackUp = Variable.make(VariableType.FLOAT, attackUpValue).divide(new Variable(VariableType.FLOAT, 1000)),
-        defenseUp = Variable.make(VariableType.FLOAT, defenseUpValue).divide(new Variable(VariableType.FLOAT, 1000));
+        attackUp = Variable.float(attackUpValue).divide(Variable.float(1000)),
+        defenseUp = Variable.float(defenseUpValue).divide(Variable.float(1000));
 
-    let magnification = Variable.make(VariableType.FLOAT, 1)
-        .add(attackUp)
-        .subtract(defenseUp);
-
+    let magnification = Variable.float(1).add(attackUp).subtract(defenseUp);
     if (magnification.value() < 0)
-        magnification = new Variable(VariableType.FLOAT, 0);
+        magnification = Variable.float(0);
 
     return magnification;
 }
@@ -36,7 +33,7 @@ function attributeAffinityRate(actor: BattleActor, target: BattleActor): Variabl
     if (affinity === undefined)
         affinity = 1000;
 
-    return Variable.make(VariableType.FLOAT, affinity).divide(new Variable(VariableType.FLOAT, 1000));
+    return Variable.float(affinity).divide(Variable.float(1000));
 }
 
 function classAttackRate(className: ClassName): Variable {
@@ -44,8 +41,8 @@ function classAttackRate(className: ClassName): Variable {
     if (attackValue === undefined)
         throw Error('FAILED TO GET CLASS ATTACK RATE.');
 
-    let attackRate = new Variable(VariableType.FLOAT, attackValue);
-    attackRate = attackRate.divide(new Variable(VariableType.FLOAT, 1000));
+    let attackRate = Variable.float(attackValue);
+    attackRate = attackRate.divide(Variable.float(1000));
 
     return attackRate;
 }
@@ -107,7 +104,7 @@ function classAffinityRate(attack: BattleAttackAction, actor: BattleActor, targe
     affinity = classAffinityOverrideRate(affinity, attack, actor, target, true);
     affinity = classAffinityOverrideRate(affinity, attack, actor, target, false);
 
-    return Variable.make(VariableType.FLOAT, affinity).divide(new Variable(VariableType.FLOAT, 1000));
+    return Variable.float(affinity).divide(Variable.float(1000));
 }
 
 function commandCardAttack(battle: Battle,
@@ -138,47 +135,47 @@ function commandCardAttack(battle: Battle,
         cardBaseValue = cardConstant.adjustAtk;
     }
 
-    let cardBase = Variable.make(VariableType.FLOAT, cardBaseValue).divide(new Variable(VariableType.FLOAT, 1000)),
-        cardBonus = new Variable(VariableType.FLOAT, 1),
-        cardAdd = new Variable(VariableType.FLOAT, cardConstant.addAtk);
+    let cardBase = Variable.float(cardBaseValue).divide(Variable.float(1000)),
+        cardBonus = Variable.float(1),
+        cardAdd = Variable.float(cardConstant.addAtk);
 
-    cardBonus = cardBonus.add(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
+    cardBonus = cardBonus.add(Variable.float(actor.state.buffs.netBuffsRate(
         Buff.BuffAction.COMMAND_ATK,
         actor.traits(attack),
         target.traits()
     )));
 
-    cardBonus = cardBonus.subtract(new Variable(VariableType.FLOAT, actor.state.buffs.netBuffsRate(
+    cardBonus = cardBonus.subtract(Variable.float(actor.state.buffs.netBuffsRate(
         Buff.BuffAction.COMMAND_DEF,
         actor.traits(),
         target.traits(attack)
     )));
 
     if (cardBonus.value() < 0)
-        cardBonus = new Variable(VariableType.FLOAT, 0);
+        cardBonus = Variable.float(0);
 
-    cardAdd = cardAdd.divide(new Variable(VariableType.FLOAT, 1000));
+    cardAdd = cardAdd.divide(Variable.float(1000));
 
     return cardBase.multiply(cardBonus).add(cardAdd);
 }
 
 function npDamageBonus(actor: BattleActor,
                        func: BattleNoblePhantasmFunc): Variable {
-    let bonus = new Variable(VariableType.FLOAT, 0);
+    let bonus = Variable.float(0);
 
     if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_HPRATIO_HIGH) {
-        bonus = new Variable(VariableType.FLOAT, func.state.dataVal.Target ?? 0);
+        bonus = Variable.float(func.state.dataVal.Target ?? 0);
 
-        let ratio = new Variable(VariableType.FLOAT, actor.state.health);
-        ratio = ratio.divide(new Variable(VariableType.FLOAT, actor.state.maxHealth));
+        let ratio = Variable.float(actor.state.health);
+        ratio = ratio.divide(Variable.float(actor.state.maxHealth));
 
         bonus = bonus.multiply(ratio);
     } else if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_HPRATIO_LOW) {
-        bonus = new Variable(VariableType.FLOAT, func.state.dataVal.Target ?? 0);
+        bonus = Variable.float(func.state.dataVal.Target ?? 0);
 
-        let ratio = new Variable(VariableType.FLOAT, actor.state.health);
-        ratio = ratio.divide(new Variable(VariableType.FLOAT, actor.state.maxHealth));
-        ratio = Variable.make(VariableType.FLOAT, 1).subtract(ratio);
+        let ratio = Variable.float(actor.state.health);
+        ratio = ratio.divide(Variable.float(actor.state.maxHealth));
+        ratio = Variable.float(1).subtract(ratio);
 
         bonus = bonus.multiply(ratio);
     }
@@ -229,16 +226,16 @@ async function randomAttack(battle: Battle): Promise<Variable> {
         'ATTACK RANDOM RANGE'
     );
 
-    return Variable.make(VariableType.FLOAT, random).divide(new Variable(VariableType.FLOAT, 1000));
+    return Variable.float(random).divide(Variable.float(1000));
 }
 
 function specialDefence(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
     const value = target.netBuffsByGroup(Buff.BuffAction.SPECIALDEFENCE, attack, actor, false);
 
-    let defence = Variable.make(VariableType.FLOAT, value).divide(new Variable(VariableType.FLOAT, 1000));
-    defence = Variable.make(VariableType.FLOAT, 1).subtract(defence);
+    let defence = Variable.float(value).divide(Variable.float(1000));
+    defence = Variable.float(1).subtract(defence);
     if (defence.value() < 0)
-        defence = new Variable(VariableType.FLOAT, 0);
+        defence = Variable.float(0);
 
     return defence;
 }
@@ -251,14 +248,14 @@ async function getDamageList(battle: Battle,
     const hits = actor.hits(attack, target);
 
     const baseHitDistributionTotal = actor.baseHits(attack).reduce((a, b) => a + b);
-    let damageTotal = new Variable(VariableType.FLOAT, actor.baseAttack() * baseHitDistributionTotal / 100);
+    let damageTotal = Variable.float(actor.baseAttack() * baseHitDistributionTotal / 100);
 
-    let percentMod = new Variable(VariableType.FLOAT, 1000);
+    let percentMod = Variable.float(1000);
     if (attack.np && func) {
-        percentMod = new Variable(VariableType.FLOAT, func.state.dataVal.Value ?? 0);
+        percentMod = Variable.float(func.state.dataVal.Value ?? 0);
         percentMod = percentMod.add(npDamageBonus(actor, func));
     }
-    percentMod = percentMod.divide(new Variable(VariableType.FLOAT, 1000));
+    percentMod = percentMod.divide(Variable.float(1000));
 
     damageTotal = damageTotal.multiply(percentMod);
     damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
@@ -266,16 +263,16 @@ async function getDamageList(battle: Battle,
     damageTotal = damageTotal.multiply(classAffinityRate(attack, actor, target));
     damageTotal = damageTotal.multiply(attributeAffinityRate(actor, target));
     damageTotal = damageTotal.multiply(await randomAttack(battle));
-    damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.ATTACK_RATE)));
+    damageTotal = damageTotal.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.ATTACK_RATE)));
     damageTotal = damageTotal.multiply(attackMagnification(attack, actor, target, func));
 
     if (attack.critical)
-        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.CRITICAL_ATTACK_RATE)));
+        damageTotal = damageTotal.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.CRITICAL_ATTACK_RATE)));
 
     if (attack.card === Card.EXTRA && attack.grand)
-        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_GRAND)));
+        damageTotal = damageTotal.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_GRAND)));
     else if (attack.card === Card.EXTRA)
-        damageTotal = damageTotal.multiply(new Variable(VariableType.FLOAT, GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE)));
+        damageTotal = damageTotal.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE)));
 
     damageTotal = damageTotal.multiply(specialDefence(attack, actor, target));
 
