@@ -796,9 +796,10 @@ class ApiConnector {
     }
 
     quest(id: number, cacheDuration?: number): Promise<Quest> {
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<Quest>(
-                `${this.host}/nice/${this.region}/quest/${id}`
+                `${this.host}/nice/${this.region}/quest/${id}${query}`
             );
         };
 
@@ -816,9 +817,10 @@ class ApiConnector {
         phase: number,
         cacheDuration?: number
     ): Promise<QuestPhase> {
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<QuestPhase>(
-                `${this.host}/nice/${this.region}/quest/${id}/${phase}`
+                `${this.host}/nice/${this.region}/quest/${id}/${phase}${query}`
             );
         };
 
@@ -832,9 +834,10 @@ class ApiConnector {
     }
 
     questBasic(id: number, cacheDuration?: number): Promise<QuestBasic> {
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<QuestBasic>(
-                `${this.host}/basic/${this.region}/quest/${id}`
+                `${this.host}/basic/${this.region}/quest/${id}${query}`
             );
         };
 
@@ -852,9 +855,10 @@ class ApiConnector {
         id: number,
         cacheDuration?: number
     ): Promise<AiCollection> {
+        const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
             return ApiConnector.fetch<AiCollection>(
-                `${this.host}/nice/${this.region}/ai/${type}/${id}`
+                `${this.host}/nice/${this.region}/ai/${type}/${id}${query}`
             );
         };
 

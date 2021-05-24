@@ -1,8 +1,8 @@
 import {CraftEssence, Entity, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import {Link} from "react-router-dom";
 import {mergeElements} from "../../Helper/OutputHelper";
 import {Alert} from "react-bootstrap";
+import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
 
 interface IProps {
     region: Region;
@@ -37,10 +37,10 @@ class CraftEssenceAssets extends React.Component<IProps> {
         return (
             <div>
                 <Alert variant="success">
-                    Illustrator:&nbsp;
-                    <Link to={`/${this.props.region}/entities?illustrator=${this.props.craftEssence.profile?.illustrator}`}>
-                        {this.props.craftEssence.profile?.illustrator}
-                    </Link>
+                    <IllustratorDescriptor
+                        region={this.props.region}
+                        illustrator={this.props.craftEssence.profile?.illustrator}
+                    />
                 </Alert>
                 <h3>Portraits</h3>
                 <div>

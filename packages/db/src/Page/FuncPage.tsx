@@ -12,6 +12,7 @@ import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import {entityDescriptorTable} from "../Descriptor/EntityDescriptor";
 import Manager from "../Setting/Manager";
 import FuncMainData from "./Func/FuncMainData";
+import CommandCodeDescriptor from "../Descriptor/CommandCodeDescriptor";
 
 interface IProps {
     region: Region;
@@ -90,7 +91,13 @@ class FuncPage extends React.Component<IProps, IState> {
                                             {(skill.reverse?.basic?.servant ?? []).map(
                                                 (entity, index) => entityDescriptorTable(this.props.region, entity, index)
                                             )}
-                                            {/*TODO: Command Code Reverse Mapping*/}
+                                            {(skill.reverse?.basic?.CC ?? [])
+                                                .map((commandCode) => (
+                                                    <CommandCodeDescriptor
+                                                        region={this.props.region}
+                                                        commandCode={commandCode}
+                                                    />
+                                            ))}
                                             {(skill.reverse?.basic?.MC ?? []).map((mysticCode) => {
                                                 return <div key={mysticCode.id}>
                                                     <BasicMysticCodeDescriptor region={this.props.region}

@@ -15,6 +15,7 @@ import AiDescriptor from "../Descriptor/AiDescriptor";
 import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 import getRubyText from "../Helper/StringHelper";
+import CommandCodeDescriptor from "../Descriptor/CommandCodeDescriptor";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
@@ -88,14 +89,15 @@ class SkillPage extends React.Component<IProps, IState> {
                         <BuffIcon location={skill.icon} height={48}/>
                     ) : undefined}
                     {skill.icon ? ' ' : undefined}
-                    {skill.name}
+                    {getRubyText(this.props.region, skill.name, skill.ruby, true)}
                 </h1>
 
                 <br/>
 
                 <DataTable data={{
                     "ID": skill.id,
-                    "Name": getRubyText(this.props.region, skill.name, skill.ruby, true),
+                    "Name": skill.name,
+                    "Ruby": skill.ruby,
                     "Detail": skill.detail,
                     "Type": skill.type,
                     "Related AIs": AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),
@@ -108,7 +110,13 @@ class SkillPage extends React.Component<IProps, IState> {
                                     </div>
                                 })
                             }
-                            {/* TODO: Command Code reverse mapping */}
+                            {(skill.reverse?.basic?.CC ?? [])
+                                .map((commandCode) => (
+                                        <CommandCodeDescriptor
+                                            region={this.props.region}
+                                            commandCode={commandCode}
+                                        />
+                            ))}
                             {(skill.reverse?.basic?.MC ?? [])
                                 .map((mysticCode) => {
                                     return (
