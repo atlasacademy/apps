@@ -44,7 +44,10 @@ export default class BattleSkill {
     }
 
     clone(): BattleSkill {
-        return new BattleSkill(this.props, {...this.state});
+        return new BattleSkill(this.props, {
+            ...this.state,
+            funcs: this.state.funcs.map(func => func.clone()),
+        });
     }
 
 }

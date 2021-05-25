@@ -1,5 +1,4 @@
 import {Buff, Card, ClassName, Constant, Func} from "@atlasacademy/api-connector";
-import {FuncType} from "@atlasacademy/api-connector/dist/Schema/Func";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
@@ -9,6 +8,33 @@ import BattleEvent from "../../Event/BattleEvent";
 import GameConstantManager from "../../Game/GameConstantManager";
 import {Variable} from "../../Game/Variable";
 import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
+
+function attackBonus(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    let bonus = Variable.float(0);
+
+    bonus = bonus.add(Variable.float(actor.buffs().netBuffs(
+        Buff.BuffAction.GIVEN_DAMAGE,
+        actor.traits(attack),
+        target.traits()
+    )));
+
+    bonus = bonus.add(Variable.float(target.buffs().netBuffs(
+        Buff.BuffAction.RECEIVE_DAMAGE,
+        actor.traits(),
+        target.traits(attack)
+    )));
+
+    if (attack.firstCard === Card.BUSTER && attack.grand) {
+        let busterBraveBonus = Variable.float(actor.baseAttack());
+        busterBraveBonus = busterBraveBonus.multiply(
+            Variable.float(GameConstantManager.getRateValue(Constant.Constant.CHAINBONUS_BUSTER_RATE))
+        );
+
+        bonus = bonus.add(busterBraveBonus);
+    }
+
+    return bonus;
+}
 
 function attackMagnification(attack: BattleAttackAction,
                              actor: BattleActor,
@@ -199,14 +225,14 @@ function npMagnification(attack: BattleAttackAction, actor: BattleActor, target:
 function npTraitBonusMagnification(func: BattleNoblePhantasmFunc, actor: BattleActor, target: BattleActor): Variable {
     let magnification = Variable.float(1);
 
-    if (func.props.func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL) {
+    if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL) {
         const trait = func.state.dataVal.Target ?? 0,
             correction = func.state.dataVal.Correction ?? 0;
 
         if (target.hasTrait(trait)) {
             magnification = Variable.float(correction).divide(Variable.float(1000));
         }
-    } else if (func.props.func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL) {
+    } else if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL) {
         /**
          * This case is intentionally broken. This code functionality was copied from the NA 1.35.1 APK. In there,
          * the DataVal.Target is passed to the wrong parameter and therefore will always pass the check. I left it as
@@ -220,7 +246,7 @@ function npTraitBonusMagnification(func: BattleNoblePhantasmFunc, actor: BattleA
         if (!buffTraitTarget || target.buffs().hasTrait(buffTraitTarget, false)) {
             magnification = Variable.float(correction).divide(Variable.float(1000));
         }
-    } else if (func.props.func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX) {
+    } else if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX) {
         const trait = func.state.dataVal.Target ?? 0,
             correction = func.state.dataVal.Correction ?? 0;
 
@@ -345,7 +371,8 @@ async function getDamageList(battle: Battle,
 
     if (attack.np && func)
         damageTotal = damageTotal.multiply(npTraitBonusMagnification(func, actor, target));
-    // damageTotal = damageTotal.add(attackBonus(battle, attack, actor, target));
+
+    damageTotal = damageTotal.add(attackBonus(attack, actor, target));
     // if (!attack.np && attack.busterChain())
     //     damageTotal = damageTotal.add(busterChainBonus(actor));
     //
@@ -432,6 +459,7 @@ async function getDamageList(battle: Battle,
 }
 
 export {
+    attackBonus,
     attackMagnification,
     attributeAffinityRate,
     classAffinityOverrideRate,

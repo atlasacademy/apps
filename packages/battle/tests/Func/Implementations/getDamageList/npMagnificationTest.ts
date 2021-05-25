@@ -15,7 +15,7 @@ describe('getDamageList npMagnification', () => {
         battle.addActor(servant);
         battle.addActor(target);
 
-        const attack = new BattleAttackAction(servant, Card.BUSTER, false, false, true, 1);
+        const attack = new BattleAttackAction(servant, Card.BUSTER, false, Card.BUSTER, false, true, 1);
 
         expect(npMagnification(attack, servant, target).value()).to.equal(0);
 

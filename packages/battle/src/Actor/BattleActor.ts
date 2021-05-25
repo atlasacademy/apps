@@ -9,6 +9,7 @@ import getDamageList from "../Func/Implementations/getDamageList";
 import GameConstantManager from "../Game/GameConstantManager";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
+import BattleSkillPassive from "../Skill/BattleSkillPassive";
 
 export interface BattleActorHitDistribution {
     buster?: number[],
@@ -26,6 +27,7 @@ export interface BattleActorProps {
     id: number,
     level: number,
     name: string,
+    passives: BattleSkillPassive[],
     phase: number,
     team: BattleTeam,
     traits: Trait.Trait[],
@@ -199,6 +201,10 @@ export class BattleActor {
 
     noblePhantasm(): BattleNoblePhantasm {
         return this.state.noblePhantasm;
+    }
+
+    passives(): BattleSkillPassive[] {
+        return this.props.passives;
     }
 
     setBattle(battle: Battle) {

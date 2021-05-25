@@ -76,10 +76,15 @@ export default abstract class BattleFunc {
                 return addStateFunc(battle, this, actor, target, false, this.props.passive);
             case Func.FuncType.ADD_STATE_SHORT:
                 return addStateFunc(battle, this, actor, target, true, this.props.passive);
-            case Func.FuncType.NONE:
+            case Func.FuncType.GAIN_NP:
+                // TODO
                 return [];
             case Func.FuncType.SUB_STATE:
                 // TODO
+                return [];
+            case Func.FuncType.EVENT_DROP_UP:
+            case Func.FuncType.SERVANT_FRIENDSHIP_UP:
+            case Func.FuncType.NONE:
                 return [];
             default:
                 throw new Error('UNSUPPORTED FUNC TYPE: ' + this.props.func.funcType);

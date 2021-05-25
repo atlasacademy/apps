@@ -3,6 +3,7 @@ import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
+import BattleSkillPassive from "../Skill/BattleSkillPassive";
 import {BattleActor, BattleActorProps, BattleActorState} from "./BattleActor";
 
 export interface BattleServantActorProps {
@@ -46,6 +47,14 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
         id: servantProps.id,
         level,
         name: servantProps.servant.ruby,
+        passives: [servantProps.servant.classPassive, servantProps.servant.extraPassive].flat().map(skill => {
+            return new BattleSkillPassive({
+                actorId: servantProps.id,
+                id: 0,
+                skill: skill,
+                level: 1,
+            }, null);
+        }),
         phase: servantProps.phase,
         team: servantProps.team,
         traits: traits,

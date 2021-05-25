@@ -6,6 +6,7 @@ export class BattleAttackAction {
     constructor(public actor: BattleActor,
                 public card: Card,
                 public critical: boolean,
+                public firstCard: Card,
                 public grand: boolean,
                 public np: boolean,
                 public num: number) {
@@ -29,7 +30,18 @@ export class BattleAttackActionList {
     public actions: BattleAttackAction[] = [];
 
     add(actor: BattleActor, card: Card, np: boolean) {
-        this.actions.push(new BattleAttackAction(actor, card, false, false, np, this.actions.length + 1));
+        const firstAction = this.actions[0],
+            firstCard = firstAction?.card ?? card;
+
+        this.actions.push(new BattleAttackAction(
+            actor,
+            card,
+            false,
+            firstCard,
+            false,
+            np,
+            this.actions.length + 1
+        ));
 
         const validCards = [Card.BUSTER, Card.QUICK, Card.ARTS],
             actorCards = this.actions
@@ -40,9 +52,24 @@ export class BattleAttackActionList {
             grand = actorCards.filter(actorCard => actorCard === card).length === 3;
 
         if (validCardCount >= 3) {
-            this.actions.push(new BattleAttackAction(actor, Card.EXTRA, false, grand, false, this.actions.length + 1));
+            this.actions.push(new BattleAttackAction(
+                actor,
+                Card.EXTRA,
+                false,
+                firstCard,
+                grand,
+                false,
+                this.actions.length + 1
+            ));
+        }
+
+        if (grand) {
+            for (let i in this.actions) {
+                this.actions[i].grand = true;
+            }
         }
     }
+
 
     get(num: number): BattleAttackAction {
         const action = this.actions[num - 1];

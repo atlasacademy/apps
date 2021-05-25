@@ -60,6 +60,10 @@ export default class BattleActorManager {
         this.resetSelection();
     }
 
+    all(): BattleActor[] {
+        return this.state.actors;
+    }
+
     getTargets(actor: BattleActor, targetType: Func.FuncTargetType): BattleActor[] {
         const targets: (BattleActor | undefined)[] = [],
             team = actor.props.team,

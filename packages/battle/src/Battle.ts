@@ -63,6 +63,21 @@ export class Battle {
         return this.state.actors.getTargets(actor, targetType);
     }
 
+    async init() {
+        const actors = this.state.actors.all();
+
+        for (let i in actors) {
+            const actor = actors[i],
+                passives = actor.passives();
+
+            for (let j in passives) {
+                const passive = passives[j];
+
+                await passive.activate(this);
+            }
+        }
+    }
+
     phase(): number {
         return this.state.actors.phase();
     }
@@ -70,5 +85,4 @@ export class Battle {
     random(): BattleRandom {
         return this.state.random;
     }
-
 }

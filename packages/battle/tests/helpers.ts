@@ -14,6 +14,7 @@ import musashiData from "./samples/servant/musashi.json";
 import orionData from "./samples/servant/orion.json";
 import reinesData from "./samples/servant/reines.json";
 import robinHoodData from "./samples/servant/robin-hood.json";
+import waverData from "./samples/servant/waver.json";
 
 function makeActor(data: Servant.Servant, team: BattleTeam): BattleActor {
     return new BattleServantActor({
@@ -66,4 +67,8 @@ export function reines(team: BattleTeam): BattleActor {
 
 export function robinHood(team: BattleTeam): BattleActor {
     return makeActor(<Servant.Servant>robinHoodData, team);
+}
+
+export function waver(team: BattleTeam): BattleActor {
+    return makeActor(<Servant.Servant>waverData, team);
 }
