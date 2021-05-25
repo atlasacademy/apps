@@ -209,7 +209,7 @@ function npTraitBonusMagnification(func: BattleNoblePhantasmFunc, actor: BattleA
     } else if (func.props.func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL) {
         /**
          * This case is intentionally broken. This code functionality was copied from the NA 1.35.1 APK. In there,
-         * the DataVal.Target is passed to the wrong parameter and therefore will never pass the check. I left it as
+         * the DataVal.Target is passed to the wrong parameter and therefore will always pass the check. I left it as
          * they have implemented it in case some time in the future it comes up again. For now, this is how it is
          * supposed to be working.
          */
@@ -217,7 +217,7 @@ function npTraitBonusMagnification(func: BattleNoblePhantasmFunc, actor: BattleA
             buffTraitTarget = 0,
             correction = func.state.dataVal.Correction ?? 0;
 
-        if (buffTraitTarget && target.buffs().hasTrait(buffTraitTarget, false)) {
+        if (!buffTraitTarget || target.buffs().hasTrait(buffTraitTarget, false)) {
             magnification = Variable.float(correction).divide(Variable.float(1000));
         }
     } else if (func.props.func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX) {
