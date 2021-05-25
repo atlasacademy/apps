@@ -29,7 +29,8 @@ const NoblePhantasmPopover = (props: {
 
     return (
         <OverlayTrigger
-            trigger="focus"
+            trigger="click"
+            rootClose
             placement="auto"
             overlay={popOverContent}
             popperConfig={{

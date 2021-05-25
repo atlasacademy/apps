@@ -34,7 +34,8 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
 
     return (
         <OverlayTrigger
-            trigger="focus"
+            trigger="click"
+            rootClose
             placement="auto"
             overlay={popOverContent}
             popperConfig={{
