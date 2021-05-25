@@ -401,6 +401,7 @@ export {
     commandCardAttack,
     criticalMagnification,
     npDamageBonus,
+    npMagnification,
     powerMagnification,
     randomAttack,
     selfDamageMagnification,
