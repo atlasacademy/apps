@@ -45,6 +45,13 @@ export default class BattleBuffManager {
         return value;
     }
 
+    hasTrait(trait: Trait.Trait | number, activeOnly: boolean) {
+        const traitId: number = typeof trait === "number" ? trait : trait.id,
+            traits = this.traits(activeOnly);
+
+        return traits.filter(_trait => _trait.id === traitId).length > 0;
+    }
+
     netBuffs(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
@@ -85,11 +92,11 @@ export default class BattleBuffManager {
         return value;
     }
 
-    traits(passive: boolean) {
+    traits(activeOnly: boolean) {
         const traits: Trait.Trait[] = [];
 
         this.list
-            .filter(buff => buff.passive() === passive)
+            .filter(buff => !activeOnly || !buff.passive())
             .forEach(buff => {
                 traits.push(...buff.traits());
             });

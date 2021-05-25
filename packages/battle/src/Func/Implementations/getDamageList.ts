@@ -1,4 +1,5 @@
 import {Buff, Card, ClassName, Constant, Func} from "@atlasacademy/api-connector";
+import {FuncType} from "@atlasacademy/api-connector/dist/Schema/Func";
 import {BattleAttackAction} from "../../Action/BattleAttackAction";
 import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
@@ -195,6 +196,42 @@ function npMagnification(attack: BattleAttackAction, actor: BattleActor, target:
     return Variable.float(value).divide(Variable.float(1000));
 }
 
+function npTraitBonusMagnification(func: BattleNoblePhantasmFunc, actor: BattleActor, target: BattleActor): Variable {
+    let magnification = Variable.float(1);
+
+    if (func.props.func.funcType === FuncType.DAMAGE_NP_INDIVIDUAL) {
+        const trait = func.state.dataVal.Target ?? 0,
+            correction = func.state.dataVal.Correction ?? 0;
+
+        if (target.hasTrait(trait)) {
+            magnification = Variable.float(correction).divide(Variable.float(1000));
+        }
+    } else if (func.props.func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL) {
+        /**
+         * This case is intentionally broken. This code functionality was copied from the NA 1.35.1 APK. In there,
+         * the DataVal.Target is passed to the wrong parameter and therefore will never pass the check. I left it as
+         * they have implemented it in case some time in the future it comes up again. For now, this is how it is
+         * supposed to be working.
+         */
+        const actorTraitTarget = func.state.dataVal.Target ?? 0,
+            buffTraitTarget = 0,
+            correction = func.state.dataVal.Correction ?? 0;
+
+        if (buffTraitTarget && target.buffs().hasTrait(buffTraitTarget, false)) {
+            magnification = Variable.float(correction).divide(Variable.float(1000));
+        }
+    } else if (func.props.func.funcType === FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX) {
+        const trait = func.state.dataVal.Target ?? 0,
+            correction = func.state.dataVal.Correction ?? 0;
+
+        if (target.buffs().hasTrait(trait, false)) {
+            magnification = Variable.float(correction).divide(Variable.float(1000));
+        }
+    }
+
+    return magnification;
+}
+
 function powerMagnification(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
     let magnification = Variable.int(0);
 
@@ -209,21 +246,21 @@ function powerMagnification(attack: BattleAttackAction, actor: BattleActor, targ
     magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
         Buff.BuffAction.DAMAGE_INDIVIDUALITY,
         actor.traits(attack),
-        target.buffTraits(true)
+        target.buffTraits(false)
     )));
 
     // target active traits
     magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
         Buff.BuffAction.DAMAGE_INDIVIDUALITY_ACTIVEONLY,
         actor.traits(attack),
-        target.buffTraits(false)
+        target.buffTraits(true)
     )));
 
     // target active traits
     magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
         Buff.BuffAction.DAMAGE_EVENT_POINT,
         actor.traits(attack),
-        target.buffTraits(false)
+        target.buffTraits(true)
     )));
 
     return Variable
@@ -305,7 +342,9 @@ async function getDamageList(battle: Battle,
         powerMod = Variable.float(0.001);
 
     damageTotal = damageTotal.multiply(powerMod);
-    // damageTotal = damageTotal.multiply(npTraitBonusMagnification(battle, actor, target));
+
+    if (attack.np && func)
+        damageTotal = damageTotal.multiply(npTraitBonusMagnification(func, actor, target));
     // damageTotal = damageTotal.add(attackBonus(battle, attack, actor, target));
     // if (!attack.np && attack.busterChain())
     //     damageTotal = damageTotal.add(busterChainBonus(actor));
@@ -402,6 +441,7 @@ export {
     criticalMagnification,
     npDamageBonus,
     npMagnification,
+    npTraitBonusMagnification,
     powerMagnification,
     randomAttack,
     selfDamageMagnification,

@@ -127,8 +127,8 @@ export class BattleActor {
         return this.state.buffs.getBuffs(group, traits, targetTraits, plus);
     }
 
-    buffTraits(passive: boolean): Trait.Trait[] {
-        return this.buffs().traits(passive);
+    buffTraits(activeOnly: boolean): Trait.Trait[] {
+        return this.buffs().traits(activeOnly);
     }
 
     className(attack?: BattleAttackAction, target?: BattleActor, actor: boolean = true): ClassName {

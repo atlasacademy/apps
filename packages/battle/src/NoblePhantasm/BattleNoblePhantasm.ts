@@ -48,7 +48,7 @@ export default class BattleNoblePhantasm {
         return events;
     }
 
-    func(id: number): BattleNoblePhantasmFunc | undefined {
+    func(id: number): BattleNoblePhantasmFunc {
         return this.state.funcs[id - 1];
     }
 
