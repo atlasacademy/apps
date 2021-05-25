@@ -24,7 +24,7 @@ function attackBonus(attack: BattleAttackAction, actor: BattleActor, target: Bat
         target.traits(attack)
     )));
 
-    if (attack.firstCard === Card.BUSTER && attack.grand) {
+    if (!attack.np && attack.firstCard === Card.BUSTER && attack.grand) {
         let busterBraveBonus = Variable.float(actor.baseAttack());
         busterBraveBonus = busterBraveBonus.multiply(
             Variable.float(GameConstantManager.getRateValue(Constant.Constant.CHAINBONUS_BUSTER_RATE))
@@ -373,17 +373,16 @@ async function getDamageList(battle: Battle,
         damageTotal = damageTotal.multiply(npTraitBonusMagnification(func, actor, target));
 
     damageTotal = damageTotal.add(attackBonus(attack, actor, target));
-    // if (!attack.np && attack.busterChain())
-    //     damageTotal = damageTotal.add(busterChainBonus(actor));
-    //
-    // if (attack.np && actor.noblePhantasm().props.type === NoblePhantasmType.NOBLE_SAFE) {
-    //     if (damageTotal.value() >= target.state.health)
-    //         damageTotal = new Variable(VariableType.FLOAT, target.state.health - 1);
-    // }
-    //
-    // if (damageTotal.value() < 0)
-    //     damageTotal = new Variable(VariableType.FLOAT, 0);
-    //
+
+    if (attack.np && func && func.props.func.funcType === Func.FuncType.DAMAGE_NP_SAFE) {
+        if (target.state.health > 0 && damageTotal.value() >= target.state.health) {
+            damageTotal = Variable.float(target.state.health - 1);
+        }
+    }
+
+    if (damageTotal.value() < 0)
+        damageTotal = Variable.float(0);
+
     // let didHit = damageTotal.value() > 0 ? checkAbleToHit(battle, attack, actor, target) : false;
     //
     // damageTotal = damageTotal.cast(VariableType.INT);
