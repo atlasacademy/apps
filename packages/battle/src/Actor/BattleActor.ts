@@ -175,18 +175,13 @@ export class BattleActor {
     }
 
     multihit(attack: BattleAttackAction, target?: BattleActor): number {
-        const multiBuffs = this.state.buffs.getBuffs( // TODO: use confirmationBuff
+        const multiHitBuffValue = this.state.buffs.getValue(
             Buff.BuffAction.MULTIATTACK,
             this.traits(attack),
             target?.traits() ?? [],
-            true
         );
 
-        let value = 1;
-        if (multiBuffs.length)
-            value = multiBuffs[0].value(this.traits(attack), target?.traits() ?? []);
-
-        return value;
+        return multiHitBuffValue ?? 1;
     }
 
     netBuffsByGroup(group: Buff.BuffAction,
@@ -222,8 +217,16 @@ export class BattleActor {
         traits.push(...this.battle().state.traits);
         if (attack)
             traits.push(...attack.traits());
-        // TODO: BuffList.ACTION.INDIVIDUALITY_ADD
-        // TODO: BuffList.ACTION.INDIVIDUALITY_SUB
+
+        const addTraitIds = this.state.buffs.getAllValues(Buff.BuffAction.INDIVIDUALITY_ADD, [], []);
+        for (let traitId of addTraitIds)
+            traits.push({id: traitId, name: `Trait ${traitId}`});
+
+
+        const subTraitIds = this.state.buffs.getAllValues(Buff.BuffAction.INDIVIDUALITY_SUB, [], []);
+        if (subTraitIds.length > 0)
+            return traits.filter(trait => !subTraitIds.includes(trait.id));
+
         return traits;
     }
 

@@ -10,7 +10,9 @@ import emiyaData from "./samples/servant/emiya.json";
 import gilgameshData from "./samples/servant/gilgamesh.json";
 import hijikataData from "./samples/servant/hijikata.json";
 import merlinData from "./samples/servant/merlin.json";
+import moriartyData from "./samples/servant/moriarty.json";
 import musashiData from "./samples/servant/musashi.json";
+import musashiSummerData from "./samples/servant/musashi-summer.json";
 import orionData from "./samples/servant/orion.json";
 import reinesData from "./samples/servant/reines.json";
 import robinHoodData from "./samples/servant/robin-hood.json";
@@ -53,8 +55,16 @@ export function merlin(team: BattleTeam): BattleActor {
     return makeActor(<Servant.Servant>merlinData, team);
 }
 
+export function moriarty(team: BattleTeam): BattleActor {
+    return makeActor(<Servant.Servant>moriartyData, team);
+}
+
 export function musashi(team: BattleTeam): BattleActor {
     return makeActor(<Servant.Servant>musashiData, team);
+}
+
+export function musashiSummer(team: BattleTeam): BattleActor {
+    return makeActor(<Servant.Servant>musashiSummerData, team);
 }
 
 export function orion(team: BattleTeam): BattleActor {

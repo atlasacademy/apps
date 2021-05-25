@@ -16,7 +16,25 @@ export default class BattleBuffManager {
         this.list.push(buff);
     }
 
-    getBuffs(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[], plus: boolean): BattleBuff[] {
+    /**
+     * `BattleBuffData.getBuffList`: returns the list of buffs matching the buff action.
+     * If `checkTrait` is set to `true`, trait and BuffRate are checked.
+     * @param group Buff Action group
+     * @param traits Self traits
+     * @param targetTraits Target traits
+     * @param plus Get `plusTypes` buffs or `minusTypes` buffs
+     * @param checkTrait Whether to filter for buffs matching `traits` and `targetTraits`.
+     *     Most buffs' trait check runs at `buff.value()` but for some buffs like FUNCTION_COMMANDATTACK,
+     *     FUNCTION_DEADATTACK, FUNCTION_DAMAGE, there's no `value()` call so the check here is needed.
+     * @returns All applicable buffs
+     */
+    getBuffs(
+        group: Buff.BuffAction,
+        traits: Trait.Trait[],
+        targetTraits: Trait.Trait[],
+        plus: boolean,
+        checkTrait: boolean = false
+    ): BattleBuff[] {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
@@ -27,22 +45,39 @@ export default class BattleBuffManager {
         for (let i in applicableTypes) {
             const type = applicableTypes[i];
 
-            buffs.push(...this.getType(type));
+            buffs.push(...this.getType(type, traits, targetTraits, checkTrait));
         }
 
         return buffs;
     }
 
+    /**
+     * `BattleBuffData.confirmationBuff`: returns the value of the first applicable buffs
+     */
     getValue(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number | undefined {
-        let value: number | undefined = undefined;
-
-        this.getBuffs(group, traits, targetTraits, true).forEach(buff => {
+        const buffs = this.getBuffs(group, traits, targetTraits, true);
+        for (let buff of buffs) {
             const buffValue = buff.value(traits, targetTraits);
-            if (value === undefined && buffValue !== 0)
-                value = buffValue;
-        });
+            if (buffValue !== undefined)
+                return buffValue;
+        }
 
-        return value;
+        return undefined;
+    }
+
+    /**
+     * `BattleBuffData.getBuffParamList`: returns the list of values of applicable buffs
+     */
+     getAllValues(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number[] {
+        const buffValues = [];
+        const buffs = this.getBuffs(group, traits, targetTraits, true);
+        for (let buff of buffs) {
+            const buffValue = buff.value(traits, targetTraits);
+            if (buffValue !== undefined)
+                buffValues.push(buffValue);
+        }
+
+        return buffValues;
     }
 
     hasTrait(trait: Trait.Trait | number, activeOnly: boolean) {
@@ -52,6 +87,10 @@ export default class BattleBuffManager {
         return traits.filter(_trait => _trait.id === traitId).length > 0;
     }
 
+
+    /**
+     * `BattleBuffData.getActValue` or `BattleBuffData.getActMag`: returns the net value of all applicable buffs
+     */
     netBuffs(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
         const buffConstant = GameConstantManager.buffConstants(group);
         if (!buffConstant)
@@ -64,22 +103,22 @@ export default class BattleBuffManager {
             if (upperLimit < buff.props.buff.maxRate)
                 upperLimit = buff.props.buff.maxRate;
 
-            value += Math.floor(buff.value(traits, targetTraits));
+            value += Math.floor(buff.value(traits, targetTraits) ?? 0);
         });
 
         this.getBuffs(group, traits, targetTraits, false).forEach(buff => {
             if (upperLimit < buff.props.buff.maxRate)
                 upperLimit = buff.props.buff.maxRate;
 
-            value -= Math.floor(buff.value(traits, targetTraits));
+            value -= Math.floor(buff.value(traits, targetTraits) ?? 0);
         });
 
-        if (buffConstant.limit === Buff.BuffLimit.LOWER)
+        if ([Buff.BuffLimit.LOWER, Buff.BuffLimit.NORMAL].includes(buffConstant.limit))
             value = Math.max(value, 0);
 
         value -= buffConstant.baseValue;
 
-        if (buffConstant.limit === Buff.BuffLimit.UPPER)
+        if ([Buff.BuffLimit.UPPER, Buff.BuffLimit.NORMAL].includes(buffConstant.limit))
             value = Math.min(value, upperLimit);
 
         return value;
@@ -104,7 +143,16 @@ export default class BattleBuffManager {
         return traits;
     }
 
-    private getType(type: Buff.BuffType): BattleBuff[] {
-        return this.list.filter(buff => buff.props.buff.type === type);
+    private getType(
+        type: Buff.BuffType,
+        traits: Trait.Trait[],
+        targetTraits: Trait.Trait[],
+        checkTrait: boolean = false
+    ): BattleBuff[] {
+        return this.list.filter(
+            (buff) =>
+                buff.props.buff.type === type &&
+                (!checkTrait || (buff.checkTrait(traits, targetTraits) && buff.checkSuccessful()))
+        );
     }
 }

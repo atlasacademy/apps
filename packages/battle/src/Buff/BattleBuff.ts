@@ -37,12 +37,12 @@ export class BattleBuff {
         return this.props.buff.name;
     }
 
-    checkBuffTrait(self: Trait.Trait[], target: Trait.Trait[]): boolean {
+    checkBuffTrait <T extends Trait.Trait | Buff.BuffType>(self: T[], target: T[]): boolean {
         switch (this.props.buff.script.checkIndvType) {
             case undefined:
-                return checkTrait(self, target)
+                return checkTrait(self, target);
             case 1:
-                checkAllTrait(self, target);
+                return checkAllTrait(self, target);
             // case 2:
             // case 3:
             default:
@@ -50,8 +50,26 @@ export class BattleBuff {
         }
     }
 
+    checkBuffTraitOrType(self: Trait.Trait[], target: Trait.Trait[]): boolean {
+        // TODO: Muramasa buff https://apps.atlasacademy.io/db/JP/buff/3313
+        // if (this.props.buff.script.CheckOpponentBuffTypes !== undefined) {
+        //     const targetBuffTypes = this.props.buff.script.CheckOpponentBuffTypes as Buff.BuffType[];
+        //     const selfBuffTypes = enemy.getCurrentBuffs().map(buff => buff.type);
+        //     return this.checkBuffTrait(selfBuffTypes, targetBuffTypes);
+        // }
+        return this.checkBuffTrait(self, target);
+    }
+
     checkTrait(self: Trait.Trait[], target: Trait.Trait[]): boolean {
-        return this.checkBuffTrait(self, this.props.buff.ckSelfIndv) && checkTrait(target, this.props.buff.ckOpIndv);
+        return (
+            this.checkBuffTrait(self, this.props.buff.ckSelfIndv) &&
+            this.checkBuffTraitOrType(target, this.props.buff.ckOpIndv)
+        );
+    }
+
+    checkSuccessful(): boolean {
+        // TODO: BuffRate
+        return true;
     }
 
     name(): string {
@@ -62,11 +80,11 @@ export class BattleBuff {
         return this.props.passive;
     }
 
-    value(self: Trait.Trait[], target: Trait.Trait[]): number {
-        if (this.checkTrait(self, target))
-            return this.props.dataVal.Value ?? 0;
+    value(self: Trait.Trait[], target: Trait.Trait[]): number | undefined {
+        if (this.checkTrait(self, target) && this.checkSuccessful())
+            return this.props.dataVal.Value;
 
-        return 0;
+        return undefined;
     }
 
     traits(): Trait.Trait[] {
