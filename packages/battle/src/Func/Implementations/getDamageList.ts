@@ -442,25 +442,32 @@ async function getDamageList(battle: Battle,
 
     damageTotal = Variable.int(damageTotal.value());
 
-    // let damageList: number[] = [],
-    //     remainingDamage = damageTotal.copy();
-    //
-    // for (let i = 0; i < hits.length - 1; i++) {
-    //     let damageInstance = damageTotal.copy();
-    //     damageInstance = damageInstance.multiply(new Variable(VariableType.INT, hits[i]));
-    //     damageInstance = damageInstance.divide(new Variable(VariableType.INT, , hitDistributionTotal));
-    //     if (damageInstance.value() <= 0 && didHit) {
-    //         damageInstance = new Variable(VariableType.INT, 1);
-    //     }
-    //
-    //     damageList.push(damageInstance.value());
-    //     remainingDamage.subtract(damageInstance);
-    // }
-    //
-    // if (remainingDamage.value() <= 0 && didHit)
-    //     remainingDamage = new Variable(VariableType.INT, 1);
-    // damageList.push(remainingDamage.value());
-    //
+    let damageList: number[] = [],
+        remainingDamage = damageTotal.copy(),
+        num17 = remainingDamage.copy(); // not sure what this does in the original code
+
+    for (let i = 0; i < hits.length - 1; i++) {
+        let damageInstance = num17.copy();
+        damageInstance = damageInstance.multiply(Variable.int(hits[i]));
+        damageInstance = damageInstance.divide(Variable.int(hits.length));
+        if (damageInstance.value() <= 0 && didHit) {
+            damageInstance = Variable.int(1);
+            num17 = num17.subtract(Variable.int(1));
+            if (num17.value() <= 0)
+                num17 = Variable.int(0);
+        }
+
+        damageList.push(damageInstance.value());
+        remainingDamage.subtract(damageInstance);
+        if (remainingDamage.value() <= 0)
+            remainingDamage = Variable.int(0);
+    }
+
+    if (remainingDamage.value() <= 0 && didHit)
+        remainingDamage = Variable.int(1);
+
+    damageList.push(remainingDamage.value());
+
     // let attackNpGainRate = attackNpGainRate(battle, attack, actor, target),
     //     defenceNpGainRate = defenceNpGainRate(battle, attack, actor, target),
     //     starRate = starRate(battle, attack, actor, target),
