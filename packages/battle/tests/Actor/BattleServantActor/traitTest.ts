@@ -6,7 +6,7 @@ import { musashi, moriarty } from "../../helpers";
 describe("BattleServantActor traits", () => {
     it("check add trait buff", async () => {
         const servant = moriarty(BattleTeam.PLAYER),
-            target = musashi(BattleTeam.ENEMY),
+            target = musashi(BattleTeam.PLAYER),
             battle = new Battle(null);
 
         battle.addActor(servant);

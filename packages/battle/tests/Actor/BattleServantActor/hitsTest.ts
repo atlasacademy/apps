@@ -71,7 +71,7 @@ describe('BattleServantActor hits', () => {
         await servant.skill(2)?.activate(battle);
 
         actions = new BattleAttackActionList();
-        actions.add(servant, Card.BUSTER, true);
+        actions.add(servant, Card.ARTS, true);
         actions.add(servant, Card.QUICK, false);
         actions.add(servant, Card.ARTS, false);
 
