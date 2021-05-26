@@ -40,11 +40,11 @@ function attackMagnification(attack: BattleAttackAction,
                              actor: BattleActor,
                              target: BattleActor,
                              func?: BattleNoblePhantasmFunc): Variable {
-    const attackUpValue = actor.netBuffsByGroup(Buff.BuffAction.ATK, attack, target, true),
-        defensePierceBuffs = actor.buffsByGroup(Buff.BuffAction.PIERCE_DEFENCE),
+    const attackUpValue = actor.buffs().netBuffs(Buff.BuffAction.ATK, actor.traits(attack), target.traits()),
+        defensePierceBuffs = actor.buffs().getBuffs(Buff.BuffAction.PIERCE_DEFENCE, actor.traits(attack), target.traits(), true, true),
         defensePierce = defensePierceBuffs.length || func?.props.func.funcType === Func.FuncType.DAMAGE_NP_PIERCE,
         defenseGroup = defensePierce ? Buff.BuffAction.DEFENCE_PIERCE : Buff.BuffAction.DEFENCE,
-        defenseUpValue = target.netBuffsByGroup(defenseGroup, attack, actor, false),
+        defenseUpValue = target.buffs().netBuffs(defenseGroup, actor.traits(), target.traits(attack)),
         attackUp = Variable.float(attackUpValue).divide(Variable.float(1000)),
         defenseUp = Variable.float(defenseUpValue).divide(Variable.float(1000));
 
@@ -125,9 +125,21 @@ function classAffinityOverrideRate(affinity: number,
         overrideBuffs: BattleBuff[];
 
     if (attacking) {
-        overrideBuffs = actor.buffsByGroup(Buff.BuffAction.OVERWRITE_CLASS_RELATION, attack, target, true);
+        overrideBuffs = actor.buffs().getBuffs(
+            Buff.BuffAction.OVERWRITE_CLASS_RELATION,
+            actor.traits(attack),
+            target.traits(),
+            true,
+            true
+        );
     } else {
-        overrideBuffs = target.buffsByGroup(Buff.BuffAction.OVERWRITE_CLASS_RELATION, attack, actor, false);
+        overrideBuffs = target.buffs().getBuffs(
+            Buff.BuffAction.OVERWRITE_CLASS_RELATION,
+            actor.traits(),
+            target.traits(attack),
+            true,
+            true
+        );
     }
 
     overrideBuffs.forEach(buff => {
@@ -313,21 +325,21 @@ function powerMagnification(attack: BattleAttackAction, actor: BattleActor, targ
     magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
         Buff.BuffAction.DAMAGE_INDIVIDUALITY,
         actor.traits(attack),
-        target.buffTraits(false)
+        target.buffs().traits(false)
     )));
 
     // target active traits
     magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
         Buff.BuffAction.DAMAGE_INDIVIDUALITY_ACTIVEONLY,
         actor.traits(attack),
-        target.buffTraits(true)
+        target.buffs().traits(true)
     )));
 
     // target active traits
     magnification = magnification.add(Variable.int(actor.buffs().netBuffs(
         Buff.BuffAction.DAMAGE_EVENT_POINT,
         actor.traits(attack),
-        target.buffTraits(true)
+        target.buffs().traits(true)
     )));
 
     return Variable
@@ -352,7 +364,7 @@ function selfDamageMagnification(attack: BattleAttackAction, actor: BattleActor,
 }
 
 function specialDefence(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
-    const value = target.netBuffsByGroup(Buff.BuffAction.SPECIALDEFENCE, attack, actor, false);
+    const value = target.buffs().netBuffs(Buff.BuffAction.SPECIALDEFENCE, actor.traits(), target.traits(attack));
 
     let defence = Variable.float(value).divide(Variable.float(1000));
     defence = Variable.float(1).subtract(defence);

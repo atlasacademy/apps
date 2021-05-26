@@ -118,21 +118,6 @@ export class BattleActor {
         return this.state.buffs;
     }
 
-    buffsByGroup(group: Buff.BuffAction,
-                 attack?: BattleAttackAction,
-                 target?: BattleActor,
-                 actor: boolean = true,
-                 plus: boolean = true): BattleBuff[] {
-        const traits = this.traits(actor ? attack : undefined),
-            targetTraits = target?.traits(actor ? undefined : attack) ?? [];
-
-        return this.state.buffs.getBuffs(group, traits, targetTraits, plus);
-    }
-
-    buffTraits(activeOnly: boolean): Trait.Trait[] {
-        return this.buffs().traits(activeOnly);
-    }
-
     className(attack?: BattleAttackAction, target?: BattleActor, actor: boolean = true): ClassName {
         const traits = this.traits(actor ? attack : undefined),
             targetTraits = target?.traits(actor ? undefined : attack) ?? [],
@@ -182,16 +167,6 @@ export class BattleActor {
         );
 
         return multiHitBuffValue ?? 1;
-    }
-
-    netBuffsByGroup(group: Buff.BuffAction,
-                    attack?: BattleAttackAction,
-                    target?: BattleActor,
-                    actor: boolean = true): number {
-        const traits = this.traits(actor ? attack : undefined),
-            targetTraits = target?.traits(actor ? undefined : attack) ?? [];
-
-        return this.state.buffs.netBuffs(group, traits, targetTraits);
     }
 
     noblePhantasm(): BattleNoblePhantasm {
