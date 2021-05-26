@@ -63,6 +63,47 @@ function attributeAffinityRate(actor: BattleActor, target: BattleActor): Variabl
     return Variable.float(affinity).divide(Variable.float(1000));
 }
 
+function checkAbleToHit(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): boolean {
+    const pierceInvincible = actor.buffs()
+            .getBuffs(
+                Buff.BuffAction.PIERCE_INVINCIBLE,
+                actor.traits(attack),
+                target.traits(),
+                true,
+                true
+            ).length > 0,
+        invincible = target.buffs().getBuffs(
+            Buff.BuffAction.INVINCIBLE,
+            actor.traits(),
+            target.traits(attack),
+            true,
+            true
+        ).length > 0,
+        sureHit = actor.buffs().getBuffs(
+            Buff.BuffAction.BREAK_AVOIDANCE,
+            actor.traits(attack),
+            target.traits(),
+            true,
+            true
+        ).length > 0,
+        evade = target.buffs().getBuffs(
+            Buff.BuffAction.AVOIDANCE,
+            actor.traits(),
+            target.traits(attack),
+            true,
+            true
+        ).length > 0;
+
+    if (pierceInvincible)
+        return true;
+    if (invincible)
+        return false;
+    if (sureHit)
+        return true;
+
+    return !evade;
+}
+
 function classAttackRate(className: ClassName): Variable {
     const attackValue = GameConstantManager.classAttack(className);
     if (attackValue === undefined)
@@ -383,10 +424,12 @@ async function getDamageList(battle: Battle,
     if (damageTotal.value() < 0)
         damageTotal = Variable.float(0);
 
-    // let didHit = damageTotal.value() > 0 ? checkAbleToHit(battle, attack, actor, target) : false;
-    //
-    // damageTotal = damageTotal.cast(VariableType.INT);
-    //
+    const didHit = damageTotal.value() > 0 ? checkAbleToHit(attack, actor, target) : false;
+    if (!didHit)
+        damageTotal = Variable.float(0);
+
+    damageTotal = Variable.int(damageTotal.value());
+
     // let damageList: number[] = [],
     //     remainingDamage = damageTotal.copy();
     //
@@ -461,6 +504,7 @@ export {
     attackBonus,
     attackMagnification,
     attributeAffinityRate,
+    checkAbleToHit,
     classAffinityOverrideRate,
     classAffinityRate,
     classAttackRate,
