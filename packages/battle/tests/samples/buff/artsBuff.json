@@ -1,0 +1,20 @@
+{
+    "id": 101,
+    "name": "Arts Up",
+    "detail": "Increase Arts Card effectiveness",
+    "icon": "https://assets.atlasacademy.io/GameData/NA/BuffIcons/bufficon_313.png",
+    "type": "upCommandall",
+    "buffGroup": 0,
+    "script": {},
+    "vals": [
+        { "id": 3004, "name": "buffPositiveEffect" },
+        { "id": 3006, "name": "buffIncreaseDamage" }
+    ],
+    "tvals": [
+        { "id": 5000, "name": "canBeInBattle" },
+        { "id": 4001, "name": "cardArts" }
+    ],
+    "ckSelfIndv": [{ "id": 4001, "name": "cardArts" }],
+    "ckOpIndv": [],
+    "maxRate": 5000
+}

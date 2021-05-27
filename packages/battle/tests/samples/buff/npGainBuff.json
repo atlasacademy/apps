@@ -1,0 +1,14 @@
+{
+    "id": 140,
+    "name": "NP Gain Up",
+    "detail": "Increase NP amount gained",
+    "icon": "https://assets.atlasacademy.io/GameData/NA/BuffIcons/bufficon_303.png",
+    "type": "upDropnp",
+    "buffGroup": 0,
+    "script": {},
+    "vals": [{ "id": 3004, "name": "buffPositiveEffect" }],
+    "tvals": [],
+    "ckSelfIndv": [],
+    "ckOpIndv": [],
+    "maxRate": 5000
+}
