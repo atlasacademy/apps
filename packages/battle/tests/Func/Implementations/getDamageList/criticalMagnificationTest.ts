@@ -4,25 +4,25 @@ import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction"
 import {Battle} from "../../../../src/Battle";
 import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {criticalMagnification} from "../../../../src/Func/Implementations/getDamageList";
-import {cu, merlin} from "../../../helpers";
+import {servant} from "../../../helpers";
 
 describe('getDamageList criticalMagnification', () => {
     it('check crit buff', async () => {
-        const servant = merlin(BattleTeam.PLAYER),
-            target = cu(BattleTeam.ENEMY),
+        const actor = servant(150, BattleTeam.PLAYER),
+            target = servant(17, BattleTeam.ENEMY),
             battle = new Battle(null);
 
-        battle.addActor(servant);
+        battle.addActor(actor);
         battle.addActor(target);
 
         const actions = new BattleAttackActionList();
-        actions.add(servant, Card.BUSTER, false);
-        actions.add(servant, Card.QUICK, false);
-        actions.add(servant, Card.ARTS, false);
+        actions.add(actor, Card.BUSTER, false);
+        actions.add(actor, Card.QUICK, false);
+        actions.add(actor, Card.ARTS, false);
 
-        expect(criticalMagnification(actions.get(1), servant, target).value()).to.equal(0);
+        expect(criticalMagnification(actions.get(1), actor, target).value()).to.equal(0);
 
-        await servant.skill(3)?.activate(battle);
-        expect(criticalMagnification(actions.get(1), servant, target).value()).to.equal(1);
+        await actor.skill(3)?.activate(battle);
+        expect(criticalMagnification(actions.get(1), actor, target).value()).to.equal(1);
     });
 });

@@ -1,94 +1,62 @@
-import {Servant} from "@atlasacademy/api-connector";
-import {BattleActor} from "../src/Actor/BattleActor";
-import BattleServantActor from "../src/Actor/BattleServantActor";
+import {Buff, DataVal, Servant} from "@atlasacademy/api-connector";
+import * as fs from "fs";
+import {BattleActor, BattleActorState} from "../src/Actor/BattleActor";
+import BattleServantActor, {BattleServantActorProps} from "../src/Actor/BattleServantActor";
+import {BattleBuff, BattleBuffState} from "../src/Buff/BattleBuff";
 import {BattleTeam} from "../src/Enum/BattleTeam";
 
-import abbyData from "./samples/servant/abby.json";
-import artoriaData from "./samples/servant/artoria.json";
-import cuData from "./samples/servant/cu.json";
-import drakeData from "./samples/servant/drake.json";
-import emiyaData from "./samples/servant/emiya.json";
-import gilgameshData from "./samples/servant/gilgamesh.json";
-import hijikataData from "./samples/servant/hijikata.json";
-import meltData from "./samples/servant/melt.json";
-import merlinData from "./samples/servant/merlin.json";
-import moriartyData from "./samples/servant/moriarty.json";
-import musashiData from "./samples/servant/musashi.json";
-import musashiSummerData from "./samples/servant/musashi-summer.json";
-import orionData from "./samples/servant/orion.json";
-import reinesData from "./samples/servant/reines.json";
-import robinHoodData from "./samples/servant/robin-hood.json";
-import waverData from "./samples/servant/waver.json";
+const testDataPath = "./test-data/data",
+    buffCache = new Map<number, Buff.Buff>(),
+    servantCache = new Map<number, Servant.Servant>();
 
-function makeActor(data: Servant.Servant, team: BattleTeam): BattleActor {
+export function buff(id: number,
+                     dataVal: DataVal.DataVal,
+                     passive: boolean,
+                     short: boolean,
+                     state: BattleBuffState | null): BattleBuff {
+    let data = buffCache.get(id);
+
+    if (data === undefined) {
+        const filePath = `${testDataPath}/buffs/${id}.json`;
+        if (!fs.existsSync(filePath))
+            throw new Error('FAILED TO FIND BUFF: ' + id);
+
+        const raw = fs.readFileSync(filePath).toString();
+
+        data = <Buff.Buff>JSON.parse(raw);
+        buffCache.set(id, data);
+    }
+
+    return new BattleBuff({
+        buff: <Buff.Buff>data,
+        dataVal,
+        passive,
+        short,
+    }, state);
+}
+
+export function servant(id: number,
+                        team: BattleTeam,
+                        props?: Partial<BattleServantActorProps>,
+                        state?: BattleActorState | null): BattleActor {
+    let data = servantCache.get(id);
+
+    if (data === undefined) {
+        const filePath = `${testDataPath}/servants/${id}.json`;
+        if (!fs.existsSync(filePath))
+            throw new Error('FAILED TO FIND SERVANT: ' + id);
+
+        const raw = fs.readFileSync(filePath).toString();
+
+        data = <Servant.Servant>JSON.parse(raw);
+        servantCache.set(id, data);
+    }
+
     return new BattleServantActor({
-        id: data.collectionNo,
+        id,
         phase: 1,
-        servant: data,
-        team
-    }, null);
-}
-
-export function abby(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>abbyData, team);
-}
-
-export function artoria(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>artoriaData, team);
-}
-
-export function cu(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>cuData, team);
-}
-
-export function drake(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>drakeData, team);
-}
-
-export function emiya(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>emiyaData, team);
-}
-
-export function gilgamesh(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>gilgameshData, team);
-}
-
-export function hijikata(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>hijikataData, team);
-}
-
-export function melt(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>meltData, team);
-}
-
-export function merlin(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>merlinData, team);
-}
-
-export function moriarty(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>moriartyData, team);
-}
-
-export function musashi(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>musashiData, team);
-}
-
-export function musashiSummer(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>musashiSummerData, team);
-}
-
-export function orion(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>orionData, team);
-}
-
-export function reines(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>reinesData, team);
-}
-
-export function robinHood(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>robinHoodData, team);
-}
-
-export function waver(team: BattleTeam): BattleActor {
-    return makeActor(<Servant.Servant>waverData, team);
+        servant: <Servant.Servant>data,
+        team,
+        ...props
+    }, state ?? null);
 }

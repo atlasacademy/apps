@@ -4,43 +4,43 @@ import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction"
 import {Battle} from "../../../../src/Battle";
 import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {commandCardAttack} from "../../../../src/Func/Implementations/getDamageList";
-import {cu, musashi} from "../../../helpers";
+import {servant} from "../../../helpers";
 
 describe('getDamageList commandCardAttack', () => {
     it('no bonus', () => {
-        const servant = musashi(BattleTeam.PLAYER),
-            target = cu(BattleTeam.ENEMY),
+        const actor = servant(153, BattleTeam.PLAYER),
+            target = servant(17, BattleTeam.ENEMY),
             battle = new Battle(null);
 
-        battle.addActor(servant);
+        battle.addActor(actor);
         battle.addActor(target);
 
         const actions = new BattleAttackActionList();
-        actions.add(servant, Card.BUSTER, false);
-        actions.add(servant, Card.QUICK, false);
-        actions.add(servant, Card.ARTS, false);
+        actions.add(actor, Card.BUSTER, false);
+        actions.add(actor, Card.QUICK, false);
+        actions.add(actor, Card.ARTS, false);
 
-        expect(commandCardAttack(battle, actions.get(1), servant, target).value()).to.equal(2);
-        expect(commandCardAttack(battle, actions.get(2), servant, target).value()).to.be.closeTo(0.96, 0.0001);
-        expect(commandCardAttack(battle, actions.get(3), servant, target).value()).to.be.closeTo(1.4, 0.0001);
-        expect(commandCardAttack(battle, actions.get(4), servant, target).value()).to.equal(1);
+        expect(commandCardAttack(battle, actions.get(1), actor, target).value()).to.equal(2);
+        expect(commandCardAttack(battle, actions.get(2), actor, target).value()).to.be.closeTo(0.96, 0.0001);
+        expect(commandCardAttack(battle, actions.get(3), actor, target).value()).to.be.closeTo(1.4, 0.0001);
+        expect(commandCardAttack(battle, actions.get(4), actor, target).value()).to.equal(1);
     });
 
     it('bonus - musashi mana burst', async () => {
-        const servant = musashi(BattleTeam.PLAYER),
-            target = cu(BattleTeam.ENEMY),
+        const actor = servant(153, BattleTeam.PLAYER),
+            target = servant(17, BattleTeam.ENEMY),
             battle = new Battle(null);
 
-        battle.addActor(servant);
+        battle.addActor(actor);
         battle.addActor(target);
 
         let actions = new BattleAttackActionList();
-        actions.add(servant, Card.BUSTER, false);
-        expect(commandCardAttack(battle, actions.get(1), servant, target).value()).to.equal(2);
+        actions.add(actor, Card.BUSTER, false);
+        expect(commandCardAttack(battle, actions.get(1), actor, target).value()).to.equal(2);
 
-        await servant.skill(2)?.activate(battle);
+        await actor.skill(2)?.activate(battle);
         actions = new BattleAttackActionList();
-        actions.add(servant, Card.BUSTER, false);
-        expect(commandCardAttack(battle, actions.get(1), servant, target).value()).to.equal(2.75);
+        actions.add(actor, Card.BUSTER, false);
+        expect(commandCardAttack(battle, actions.get(1), actor, target).value()).to.equal(2.75);
     });
 });

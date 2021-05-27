@@ -1,13 +1,13 @@
 import {Buff, EnumList} from "@atlasacademy/api-connector";
 import GameConstantManager from "../src/Game/GameConstantManager";
 
-import attributeAffinity from "./samples/game/attributeAffinity.json";
-import buffConstants from "./samples/game/buffs.json";
-import cards from "./samples/game/cards.json";
-import classAffinity from "./samples/game/classAffinity.json";
-import classAttackRates from "./samples/game/classAttackRates.json";
-import constants from "./samples/game/constants.json";
-import enums from "./samples/game/enums.json";
+import attributeAffinity from "./../test-data/data/NiceAttributeRelation.json";
+import buffConstants from "./../test-data/data/NiceBuffList.ActionList.json";
+import cards from "./../test-data/data/NiceCard.json";
+import classAffinity from "./../test-data/data/NiceClassRelation.json";
+import classAttackRates from "./../test-data/data/NiceClassAttackRate.json";
+import constants from "./../test-data/data/NiceConstant.json";
+import enums from "./../test-data/data/nice_enums.json";
 
 before(() => {
     GameConstantManager.initManually(

@@ -1,22 +1,22 @@
-import { expect } from "chai";
-import { Battle } from "../../../src/Battle";
-import { BattleTeam } from "../../../src/Enum/BattleTeam";
-import { musashi, moriarty } from "../../helpers";
+import {expect} from "chai";
+import {Battle} from "../../../src/Battle";
+import {BattleTeam} from "../../../src/Enum/BattleTeam";
+import {servant} from "../../helpers";
 
 describe("BattleServantActor traits", () => {
     it("check add trait buff", async () => {
-        const servant = moriarty(BattleTeam.PLAYER),
-            target = musashi(BattleTeam.PLAYER),
+        const actor = servant(156, BattleTeam.PLAYER),
+            target = servant(153, BattleTeam.PLAYER),
             battle = new Battle(null);
 
-        battle.addActor(servant);
+        battle.addActor(actor);
         battle.addActor(target);
 
         expect(
             target.traits().filter((trait) => trait.id === 304).length === 0
         );
 
-        await servant.skill(4)?.activate(battle);
+        await actor.skill(4)?.activate(battle);
         expect(
             target.traits().filter((trait) => trait.id === 304).length === 1
         );
