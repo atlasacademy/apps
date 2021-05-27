@@ -59,15 +59,7 @@ function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target
     if (actor.team() === BattleTeam.ENEMY)
         return Variable.int(0);
 
-    const doNotGainNpBuffs = actor.buffs().getBuffs(
-        Buff.BuffAction.DONOT_GAINNP,
-        actor.traits(),
-        [],
-        true,
-        true
-    );
-
-    if (doNotGainNpBuffs.length)
+    if (!canGainNp(actor))
         return Variable.int(0);
 
     let npGain = Variable.float(
@@ -137,6 +129,18 @@ function attributeAffinityRate(actor: BattleActor, target: BattleActor): Variabl
         affinity = 1000;
 
     return Variable.float(affinity).divide(Variable.float(1000));
+}
+
+function canGainNp(actor: BattleActor): boolean {
+    const doNotGainNpBuffs = actor.buffs().getBuffs(
+        Buff.BuffAction.DONOT_GAINNP,
+        actor.traits(),
+        [],
+        true,
+        true
+    );
+
+    return doNotGainNpBuffs.length <= 0;
 }
 
 function checkAbleToHit(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): boolean {
@@ -319,6 +323,45 @@ function criticalMagnification(attack: BattleAttackAction, actor: BattleActor, t
     const value = actor.buffs().netBuffs(Buff.BuffAction.CRITICAL_DAMAGE, actor.traits(attack), target.traits());
 
     return Variable.float(value).divide(Variable.float(1000));
+}
+
+function defenseNpGainRate(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    if (target.team() === BattleTeam.ENEMY)
+        return Variable.int(0);
+
+    if (!canGainNp(target))
+        return Variable.int(0);
+
+    let npGain = Variable.float(actor.noblePhantasm().gainForDefense());
+
+    // Server Mod Calcs
+    npGain = npGain.multiply(Variable.float(actor.serverMod().tdAttackRate).divide(Variable.float(1000)));
+
+    // Np Gain Mods calcs
+    npGain = npGain.multiply(Variable.float(target.buffs().netBuffsRate(
+        Buff.BuffAction.DROP_NP,
+        actor.traits(attack),
+        target.traits(attack), // why? original has this. dunno. ref: BattleServantData.getUpDownDropNp
+    )));
+
+    // Np gain on damage Mods calcs
+    npGain = npGain.multiply(Variable.float(target.buffs().netBuffsRate(
+        Buff.BuffAction.DROP_NP_DAMAGE,
+        actor.traits(attack),
+        target.traits(),
+    )));
+
+    // Np given for damage Mods calcs
+    npGain = npGain.multiply(Variable.float(actor.buffs().netBuffsRate(
+        Buff.BuffAction.GIVE_NP,
+        actor.traits(attack),
+        target.traits(),
+    )));
+
+    if (npGain.value() < 0)
+        npGain = Variable.float(0);
+
+    return Variable.int(npGain.value());
 }
 
 function npDamageBonus(actor: BattleActor,
@@ -544,8 +587,8 @@ async function getDamageList(battle: Battle,
 
     damageList.push(remainingDamage.value());
 
-    let attackNpGain = attackNpGainRate(attack, actor, target);
-    //     defenceNpGainRate = defenceNpGainRate(battle, attack, actor, target),
+    let attackNpGain = attackNpGainRate(attack, actor, target),
+        defenseNpGain = defenseNpGainRate(attack, actor, target);
     //     starRate = starRate(battle, attack, actor, target),
     //     overkillNpGainMod = new Variable(VariableType.FLOAT, 1),
     //     overkillStarMod = new Variable(VariableType.FLOAT, 1),
