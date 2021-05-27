@@ -3,6 +3,7 @@ import {BattleActor} from "../src/Actor/BattleActor";
 import BattleServantActor from "../src/Actor/BattleServantActor";
 import {BattleTeam} from "../src/Enum/BattleTeam";
 
+import abbyData from "./samples/servant/abby.json";
 import artoriaData from "./samples/servant/artoria.json";
 import cuData from "./samples/servant/cu.json";
 import drakeData from "./samples/servant/drake.json";
@@ -26,6 +27,10 @@ function makeActor(data: Servant.Servant, team: BattleTeam): BattleActor {
         servant: data,
         team
     }, null);
+}
+
+export function abby(team: BattleTeam): BattleActor {
+    return makeActor(<Servant.Servant>abbyData, team);
 }
 
 export function artoria(team: BattleTeam): BattleActor {

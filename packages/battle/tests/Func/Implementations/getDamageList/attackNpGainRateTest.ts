@@ -5,8 +5,10 @@ import {Battle} from "../../../../src/Battle";
 import {BattleBuff} from "../../../../src/Buff/BattleBuff";
 import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {attackNpGainRate} from "../../../../src/Func/Implementations/getDamageList";
-import {artoria, cu, emiya, gilgamesh, melt} from "../../../helpers";
-import quickBuff from "../../../samples/buff/quickBuff.json";
+import {abby, artoria, cu, emiya, gilgamesh, melt} from "../../../helpers";
+import quickBuffData from "../../../samples/buff/quickBuff.json";
+import artsBuffData from "../../../samples/buff/artsBuff.json";
+import npGainBuffData from "../../../samples/buff/npGainBuff.json";
 
 describe('getDamageList attackNpGainRate', () => {
     it('card types and first card bonus', async () => {
@@ -185,7 +187,7 @@ describe('getDamageList attackNpGainRate', () => {
         expect(attackNpGainRate(actions.get(1), servant, target).value()).to.equal(68);
     });
 
-    it("32-bit test", async () => {
+    it("32-bit number melt", async () => {
         const servant = melt(BattleTeam.PLAYER),
             target = cu(BattleTeam.ENEMY),
             battle = new Battle(null);
@@ -193,9 +195,9 @@ describe('getDamageList attackNpGainRate', () => {
         battle.addActor(servant);
         battle.addActor(target);
 
-        const bigQuickBuff = new BattleBuff(
+        const quickBuff = new BattleBuff(
             {
-                buff: quickBuff as Buff.Buff,
+                buff: quickBuffData as Buff.Buff,
                 dataVal: { Value: 1880 },
                 passive: false,
                 short: false,
@@ -203,7 +205,7 @@ describe('getDamageList attackNpGainRate', () => {
             null
         );
 
-        servant.addBuff(bigQuickBuff);
+        servant.addBuff(quickBuff);
 
         let actions: BattleAttackActionList;
 
@@ -213,5 +215,46 @@ describe('getDamageList attackNpGainRate', () => {
         actions.add(servant, Card.QUICK, false);
         actions.get(3).critical = true;
         expect(attackNpGainRate(actions.get(3), servant, target).value()).to.equal(1243);
+    });
+
+    it("32-bit number abby", async () => {
+        const servant = abby(BattleTeam.PLAYER),
+            target = cu(BattleTeam.ENEMY),
+            battle = new Battle(null);
+
+        battle.addActor(servant);
+        battle.addActor(target);
+
+        const artsBuff = new BattleBuff(
+            {
+                buff: artsBuffData as Buff.Buff,
+                dataVal: { Value: 800 },
+                passive: false,
+                short: false,
+            },
+            null
+        );
+
+        const npGainBuff = new BattleBuff(
+            {
+                buff: npGainBuffData as Buff.Buff,
+                dataVal: { Value: 300 },
+                passive: false,
+                short: false,
+            },
+            null
+        );
+
+        servant.addBuff(artsBuff);
+        servant.addBuff(npGainBuff);
+
+        let actions: BattleAttackActionList;
+
+        actions = new BattleAttackActionList();
+        actions.add(servant, Card.ARTS, false);
+        actions.add(servant, Card.QUICK, false);
+        actions.add(servant, Card.ARTS, false);
+        actions.get(3).critical = true;
+        expect(attackNpGainRate(actions.get(3), servant, target).value()).to.equal(766);
     });
 });
