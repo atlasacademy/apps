@@ -18,7 +18,10 @@ RUN apk add --no-cache curl \
  && mkdir -p /app/ && cp -r ./build/ /app/drop-serializer \
  && cd /src \
  && cd apps-master/packages/db && npm install && npm run build \
- && mkdir -p /app/ && cp -r ./build/ /app/db
+ && mkdir -p /app/ && cp -r ./build/ /app/db \
+ && cd /src \
+ && cd apps-master/packages/paper-moon && npm install && npm run build \
+ && mkdir -p /app/ && cp -r ./build/ /app/paper-moon
 
 # stage 2 : copy & fire things up
 FROM webdevops/nginx
