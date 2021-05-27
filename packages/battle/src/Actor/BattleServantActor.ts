@@ -1,6 +1,7 @@
-import {CommandCode, CraftEssence, Servant, Skill} from "@atlasacademy/api-connector";
+import {CommandCode, Constant, CraftEssence, Servant, Skill} from "@atlasacademy/api-connector";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
+import GameConstantManager from "../Game/GameConstantManager";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 import BattleSkillPassive from "../Skill/BattleSkillPassive";
@@ -32,11 +33,19 @@ export interface BattleServantActorProps {
 function castProps(servantProps: BattleServantActorProps): BattleActorProps {
     const level = servantProps.level ?? servantProps.servant.lvMax,
         form = servantProps.ascensionOrCostumeId ?? 4,
-        traits = servantProps.servant.traits;
+        traits = servantProps.servant.traits,
+        np = getNoblePhantasm(servantProps);
+
+    let gaugeLineCount = 0;
+    if (np.level() >= 5)
+        gaugeLineCount = 3;
+    else if (np.level() > 1)
+        gaugeLineCount = 2;
+    else if (np.level() === 1)
+        gaugeLineCount = 1;
 
     traits.push(...servantProps.servant.ascensionAdd.individuality.ascension[form] ?? []);
     traits.push(...servantProps.servant.ascensionAdd.individuality.costume[form] ?? []);
-
 
     return {
         attribute: servantProps.servant.attribute,
@@ -44,6 +53,8 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
         baseHealth: servantProps.servant.hpGrowth[level - 1] + (servantProps.fouHealth ?? 1000),
         baseStarGen: servantProps.servant.starGen,
         className: servantProps.servant.className,
+        gaugeLineCount,
+        gaugeLineMax: GameConstantManager.getValue(Constant.Constant.FULL_TD_POINT),
         hits: servantProps.servant.hitsDistribution,
         id: servantProps.id,
         level,
@@ -118,6 +129,7 @@ export default class BattleServantActor extends BattleActor {
                 state: BattleActorState | null) {
         super(castProps(servantProps), state ?? {
             buffs: new BattleBuffManager([]),
+            damageDone: 0,
             gauge: 0,
             health: 0,
             maxHealth: 0,

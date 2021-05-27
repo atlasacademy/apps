@@ -19,6 +19,10 @@ export class Variable {
         }
     }
 
+    public static double(value: number): Variable {
+        return Variable.make(VariableType.DOUBLE, value);
+    }
+
     public static float(value: number): Variable {
         return Variable.make(VariableType.FLOAT, value);
     }

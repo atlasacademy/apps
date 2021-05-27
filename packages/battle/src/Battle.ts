@@ -11,6 +11,7 @@ export interface BattleState {
     events: BattleEvent[],
     random: BattleRandom,
     selectExtra: number,
+    stars: number,
     traits: Trait.Trait[],
     turn: number,
 }
@@ -25,6 +26,7 @@ export class Battle {
             events: [],
             random: new BattleRandom(BattleRandomType.AVERAGE),
             selectExtra: 1,
+            stars: 0,
             traits: [],
             turn: 1,
         };
@@ -49,6 +51,12 @@ export class Battle {
 
     addEvent(event: BattleEvent) {
         this.state.events.push(event);
+    }
+
+    addStars(stars: number) {
+        this.state.stars += Math.floor(stars);
+        this.state.stars = Math.min(this.state.stars, 99);
+        this.state.stars = Math.max(this.state.stars, 0);
     }
 
     clearEvents() {

@@ -7,6 +7,7 @@ import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
 import getDamageList from "../Func/Implementations/getDamageList";
 import GameConstantManager from "../Game/GameConstantManager";
+import {Variable} from "../Game/Variable";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 import BattleSkillPassive from "../Skill/BattleSkillPassive";
@@ -24,6 +25,8 @@ export interface BattleActorProps {
     baseHealth: number,
     baseStarGen: number,
     className: ClassName,
+    gaugeLineCount: number,
+    gaugeLineMax: number,
     hits: BattleActorHitDistribution,
     id: number,
     level: number,
@@ -38,6 +41,7 @@ export interface BattleActorProps {
 export interface BattleActorState {
     battle?: Battle,
     buffs: BattleBuffManager,
+    damageDone: number,
     gauge: number,
     health: number,
     maxHealth: number;
@@ -59,6 +63,33 @@ export class BattleActor {
 
     addBuff(buff: BattleBuff) {
         this.state.buffs.add(buff);
+    }
+
+    adjustGauge(value: number) {
+        value = Math.floor(value);
+
+        this.state.gauge += value;
+
+        // 99% round up. ref: BattleServantData.addNp
+        if (this.team() === BattleTeam.PLAYER) {
+            const ninetyNine = Variable.double(this.props.gaugeLineMax).multiply(Variable.double(0.99)).value(),
+                gaugeDouble = Variable.double(this.state.gauge).value();
+            if (value > 0 && ninetyNine <= gaugeDouble && this.state.gauge < this.props.gaugeLineMax) {
+                this.state.gauge = this.props.gaugeLineMax;
+            }
+        }
+
+        const maxGauge = this.props.gaugeLineMax * this.props.gaugeLineCount;
+        if (this.state.gauge > maxGauge)
+            this.state.gauge = maxGauge;
+
+        if (this.state.gauge < 0)
+            this.state.gauge = 0;
+    }
+
+    adjustHealth(value: number) {
+        // TODO
+        this.state.health += value;
     }
 
     attack(target?: BattleActor): number {
@@ -179,8 +210,19 @@ export class BattleActor {
         return this.state.noblePhantasm;
     }
 
+    /**
+     * Returns if damage should overkill target (with consideration for overkill bug)
+     */
+    overkill(damage: number): boolean {
+        return this.state.damageDone + damage >= this.state.health;
+    }
+
     passives(): BattleSkillPassive[] {
         return this.props.passives;
+    }
+
+    recordDamageForOverkill(damage: number) {
+        this.state.damageDone += damage;
     }
 
     serverMod(): QuestEnemy.EnemyServerMod {

@@ -93,4 +93,9 @@ export default class BattleNoblePhantasm {
     gainForNp(): number {
         return this.props.np.npGain.np[this.props.level - 1] ?? 0;
     }
+
+    level(): number {
+        return this.props.level;
+    }
+
 }

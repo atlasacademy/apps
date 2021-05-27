@@ -4,9 +4,10 @@ import {BattleActor} from "../../Actor/BattleActor";
 import {Battle} from "../../Battle";
 import {BattleBuff} from "../../Buff/BattleBuff";
 import {BattleTeam} from "../../Enum/BattleTeam";
+import BattleDamageEvent from "../../Event/BattleDamageEvent";
 import BattleEvent from "../../Event/BattleEvent";
 import GameConstantManager from "../../Game/GameConstantManager";
-import {Variable} from "../../Game/Variable";
+import {Variable, VariableType} from "../../Game/Variable";
 import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
 
 function attackBonus(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
@@ -657,53 +658,54 @@ async function getDamageList(battle: Battle,
 
     let attackNpGain = attackNpGainRate(attack, actor, target),
         defenseNpGain = defenseNpGainRate(attack, actor, target),
-        starGen = starGenRate(attack, actor, target);
-    //     overkillNpGainMod = new Variable(VariableType.FLOAT, 1),
-    //     overkillStarMod = new Variable(VariableType.FLOAT, 1),
-    //     overkillStarBonus = new Variable(VariableType.FLOAT, 0),
-    //     maxStarRate = GameConstantManager.getValue('STAR_RATE_MAX'),
-    //     events = [];
-    //
-    // for (let i = 0; i < damageList.length; i++) {
-    //     let overkill = target.overkill(damageList[i].value());
-    //     target.reduceHpForOverkill(damageList[i].value());
-    //
-    //     if (overkill) {
-    //         overkillNpGainMod = new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('OVER_KILL_NP_RATE'));
-    //         overkillStarMod = new Variable(VariableType.FLOAT, GameConstantManager.getRateValue('OVER_KILL_STAR_RATE'));
-    //         overkillStarBonus = new Variable(VariableType.FLOAT, GameConstantManager.getValue('OVER_KILL_STAR_ADD'));
-    //     }
-    //
-    //     let stars = 0,
-    //         starRange = starRate
-    //             .multiply(overkillStarMod)
-    //             .add(overkillStarBonus)
-    //             .cast(VariableType.INT);
-    //     for (let j = Math.min(starRange.value(), maxStarRate); j > 0; j -= 1000) {
-    //         stars += battle.random(0, 1000) >= j ? 0 : 1;
-    //     }
-    //
-    //     let attackNpGained = calcNpGained(actor, attackNpGainRate.multiply(overkillNpGainMod)),
-    //         defenceNpGained = calcNpGained(target, defenceNpGainRate.multiply(overkillNpGainMod));
-    //
-    //     let event = new BattleDamageEvent(actor, target, true, {
-    //         damage: damageList[i],
-    //         npGainedOnAttack: attackNpGained,
-    //         npGainedOnDefence: defenceNpGained,
-    //         stars,
-    //     });
-    //     battle.addEvent(event);
-    //     events.push(event);
-    // }
-    //
-    // for (let i = 0; i < events.length; i++) {
-    //     target.adjustHealth(events[i].reference.damage * -1);
-    //     actor.adjustGauge(events[i].reference.npGainedOnAttack);
-    //     target.adjustGauge(events[i].reference.npGainedOnDefence);
-    //     battle.adjustStars(events[i].reference.stars);
-    // }
+        starGen = starGenRate(attack, actor, target),
+        overkillNpGainMod = Variable.float(1),
+        overkillStarMod = Variable.float(1),
+        overkillStarBonus = Variable.int(0),
+        maxStarRate = GameConstantManager.getValue(Constant.Constant.STAR_RATE_MAX),
+        events: BattleDamageEvent[] = [];
 
-    return [];
+    for (let i = 0; i < damageList.length; i++) {
+        let overkill = target.overkill(damageList[i]);
+        target.recordDamageForOverkill(damageList[i]);
+
+        if (overkill) {
+            overkillNpGainMod = Variable.float(GameConstantManager.getRateValue(Constant.Constant.OVER_KILL_NP_RATE));
+            overkillStarMod = Variable.float(GameConstantManager.getRateValue(Constant.Constant.OVER_KILL_STAR_RATE));
+            overkillStarBonus = Variable.int(GameConstantManager.getValue(Constant.Constant.OVER_KILL_STAR_ADD));
+        }
+
+        let stars = 0,
+            starRange = starGen.multiply(overkillStarMod).cast(VariableType.INT).add(overkillStarBonus);
+
+        for (let j = Math.min(starRange.value(), maxStarRate); j > 0; j -= 1000) {
+            const rand = await battle.random().generate(0, 1000, "STAR GEN ROLL");
+            stars += rand >= j ? 0 : 1;
+        }
+
+        let attackNpGained = attackNpGain.multiply(overkillNpGainMod).cast(VariableType.INT).value(),
+            defenceNpGained = defenseNpGain.multiply(overkillNpGainMod).cast(VariableType.INT).value();
+
+        let event = new BattleDamageEvent(actor, target, true, {
+            attack,
+            damage: damageList[i],
+            npGainedOnAttack: attackNpGained,
+            npGainedOnDefence: defenceNpGained,
+            stars,
+        });
+
+        battle.addEvent(event);
+        events.push(event);
+    }
+
+    for (let i = 0; i < events.length; i++) {
+        target.adjustHealth(events[i].reference.damage * -1);
+        actor.adjustGauge(events[i].reference.npGainedOnAttack);
+        target.adjustGauge(events[i].reference.npGainedOnDefence);
+        battle.addStars(events[i].reference.stars);
+    }
+
+    return events;
 }
 
 export {
