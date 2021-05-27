@@ -630,14 +630,15 @@ async function getDamageList(battle: Battle,
 
     damageTotal = Variable.int(damageTotal.value());
 
-    let damageList: number[] = [],
+    let hitsTotal = Variable.int(hits.reduce((a, b) => a + b)),
+        damageList: number[] = [],
         remainingDamage = damageTotal.copy(),
         num17 = remainingDamage.copy(); // not sure what this does in the original code
 
     for (let i = 0; i < hits.length - 1; i++) {
         let damageInstance = num17.copy();
         damageInstance = damageInstance.multiply(Variable.int(hits[i]));
-        damageInstance = damageInstance.divide(Variable.int(hits.length));
+        damageInstance = damageInstance.divide(hitsTotal);
         if (damageInstance.value() <= 0 && didHit) {
             damageInstance = Variable.int(1);
             num17 = num17.subtract(Variable.int(1));
@@ -646,7 +647,7 @@ async function getDamageList(battle: Battle,
         }
 
         damageList.push(damageInstance.value());
-        remainingDamage.subtract(damageInstance);
+        remainingDamage = remainingDamage.subtract(damageInstance);
         if (remainingDamage.value() <= 0)
             remainingDamage = Variable.int(0);
     }
