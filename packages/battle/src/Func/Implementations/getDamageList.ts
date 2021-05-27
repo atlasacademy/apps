@@ -340,8 +340,10 @@ function defenseNpGainRate(attack: BattleAttackAction, actor: BattleActor, targe
     // Np Gain Mods calcs
     npGain = npGain.multiply(Variable.float(target.buffs().netBuffsRate(
         Buff.BuffAction.DROP_NP,
-        actor.traits(attack),
-        target.traits(attack), // why? original has this. dunno. ref: BattleServantData.getUpDownDropNp
+        // why? original has this. dunno. ref: BattleServantData.getUpDownDropNp
+        // i think so np gain on arts card doesn't trigger if enemy hits you with an arts card
+        target.traits(),
+        actor.traits(),
     )));
 
     // Np gain on damage Mods calcs
@@ -493,6 +495,72 @@ function specialDefence(attack: BattleAttackAction, actor: BattleActor, target: 
     return defence;
 }
 
+function starGenRate(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    if (actor.team() === BattleTeam.ENEMY)
+        return Variable.int(0);
+
+    let starGen = Variable.float(0);
+
+    // Base Star Gen Rate
+    starGen = starGen.add(Variable.floatRate(actor.baseStarGen()));
+
+    // Card Star Gen calcs
+    const cardConstant = GameConstantManager.cardConstants(attack.card, attack.np ? 1 : attack.num),
+        firstCardConstant = GameConstantManager.cardConstants(attack.firstCard, 1),
+        cardAdjustCritical = cardConstant?.adjustCritical ?? 0,
+        cardAddCritical = firstCardConstant?.addCritical ?? 0,
+        cardActorMag = actor.buffs().netBuffsRate(
+            Buff.BuffAction.COMMAND_STAR_ATK,
+            actor.traits(attack),
+            target.traits()
+        ),
+        cardTargetMag = target.buffs().netBuffsRate(
+            Buff.BuffAction.COMMAND_STAR_DEF,
+            actor.traits(),
+            target.traits(attack)
+        );
+
+    let cardStarGen: Variable = Variable
+        .float(1)
+        .add(Variable.float(cardActorMag))
+        .subtract(Variable.float(cardTargetMag));
+    if (cardStarGen.value() < 0)
+        cardStarGen = Variable.float(0);
+
+    cardStarGen = Variable.floatRate(cardAdjustCritical).multiply(cardStarGen);
+    cardStarGen = cardStarGen.add(Variable.floatRate(cardAddCritical));
+    starGen = starGen.add(cardStarGen);
+    // End Car Star Gen calcs
+
+    // Target Star Server Mod
+    starGen = starGen.add(Variable.floatRate(target.serverMod().starRate));
+
+    // Star Drop Buff Calcs
+    starGen = starGen.add(Variable.float(actor.buffs().netBuffsRate(
+        Buff.BuffAction.CRITICAL_POINT,
+        actor.traits(attack),
+        target.traits(attack)
+    )));
+
+    // Star Drop Buff on Target Calcs
+    starGen = starGen.subtract(Variable.float(target.buffs().netBuffsRate(
+        Buff.BuffAction.CRITICAL_POINT,
+        target.traits(),
+        actor.traits()
+    )));
+
+    // Critical Bonus
+    if (attack.critical)
+        starGen = starGen.add(Variable.float(GameConstantManager.getRateValue(Constant.Constant.CRITICAL_STAR_RATE)));
+
+    if (starGen.value() < 0)
+        starGen = Variable.float(0);
+
+    starGen = starGen.multiply(Variable.float(1000));
+
+    return Variable.int(starGen.value());
+}
+
 async function getDamageList(battle: Battle,
                              attack: BattleAttackAction,
                              actor: BattleActor,
@@ -588,8 +656,8 @@ async function getDamageList(battle: Battle,
     damageList.push(remainingDamage.value());
 
     let attackNpGain = attackNpGainRate(attack, actor, target),
-        defenseNpGain = defenseNpGainRate(attack, actor, target);
-    //     starRate = starRate(battle, attack, actor, target),
+        defenseNpGain = defenseNpGainRate(attack, actor, target),
+        starGen = starGenRate(attack, actor, target);
     //     overkillNpGainMod = new Variable(VariableType.FLOAT, 1),
     //     overkillStarMod = new Variable(VariableType.FLOAT, 1),
     //     overkillStarBonus = new Variable(VariableType.FLOAT, 0),
@@ -656,6 +724,7 @@ export {
     randomAttack,
     selfDamageMagnification,
     specialDefence,
+    starGenRate,
 }
 
 export default getDamageList;

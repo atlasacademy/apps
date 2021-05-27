@@ -42,6 +42,7 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
         attribute: servantProps.servant.attribute,
         baseAttack: servantProps.servant.atkGrowth[level - 1] + (servantProps.fouAttack ?? 1000),
         baseHealth: servantProps.servant.hpGrowth[level - 1] + (servantProps.fouHealth ?? 1000),
+        baseStarGen: servantProps.servant.starGen,
         className: servantProps.servant.className,
         hits: servantProps.servant.hitsDistribution,
         id: servantProps.id,
@@ -59,7 +60,7 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
         serverMod: {
             tdAttackRate: 1000,
             tdRate: 1000,
-            starRate: 1000,
+            starRate: 0,
         },
         team: servantProps.team,
         traits: traits,

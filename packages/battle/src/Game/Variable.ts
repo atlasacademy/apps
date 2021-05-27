@@ -23,6 +23,10 @@ export class Variable {
         return Variable.make(VariableType.FLOAT, value);
     }
 
+    public static floatRate(value: any): Variable {
+        return Variable.make(VariableType.FLOAT, value).divide(Variable.float(1000));
+    }
+
     public static int(value: number): Variable {
         return Variable.make(VariableType.INT, value);
     }
@@ -66,5 +70,4 @@ export class Variable {
     value(): number {
         return this._value;
     }
-
 }

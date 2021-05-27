@@ -22,6 +22,7 @@ export interface BattleActorProps {
     attribute: Attribute.Attribute,
     baseAttack: number,
     baseHealth: number,
+    baseStarGen: number,
     className: ClassName,
     hits: BattleActorHitDistribution,
     id: number,
@@ -106,6 +107,10 @@ export class BattleActor {
         }
 
         return hits;
+    }
+
+    baseStarGen(): number {
+        return this.props.baseStarGen;
     }
 
     battle(): Battle {
