@@ -12,6 +12,7 @@
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
     "test-win": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" }&& mocha -r ts-node/register 'tests/**/*.ts'",
     "build": "tsc",
+    "prepare": "tsc",
     "link": "npm run build && cd dist && npm link",
     "watch": "tsc -w --preserveWatchOutput"
   },

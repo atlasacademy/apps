@@ -1,10 +1,12 @@
-import {Card} from "@atlasacademy/api-connector";
+import {Buff, Card} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
 import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
 import {Battle} from "../../../../src/Battle";
+import {BattleBuff} from "../../../../src/Buff/BattleBuff";
 import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {attackNpGainRate} from "../../../../src/Func/Implementations/getDamageList";
-import {artoria, cu, emiya, gilgamesh} from "../../../helpers";
+import {artoria, cu, emiya, gilgamesh, melt} from "../../../helpers";
+import quickBuff from "../../../samples/servant/quickBuff.json";
 
 describe('getDamageList attackNpGainRate', () => {
     it('card types and first card bonus', async () => {
@@ -181,5 +183,35 @@ describe('getDamageList attackNpGainRate', () => {
         actions.add(servant, Card.QUICK, false);
         actions.get(1).critical = true;
         expect(attackNpGainRate(actions.get(1), servant, target).value()).to.equal(68);
+    });
+
+    it("32-bit test", async () => {
+        const servant = melt(BattleTeam.PLAYER),
+            target = cu(BattleTeam.ENEMY),
+            battle = new Battle(null);
+
+        battle.addActor(servant);
+        battle.addActor(target);
+
+        const bigQuickBuff = new BattleBuff(
+            {
+                buff: quickBuff as Buff.Buff,
+                dataVal: { Value: 1880 },
+                passive: false,
+                short: false,
+            },
+            null
+        );
+
+        servant.addBuff(bigQuickBuff);
+
+        let actions: BattleAttackActionList;
+
+        actions = new BattleAttackActionList();
+        actions.add(servant, Card.ARTS, false);
+        actions.add(servant, Card.QUICK, false);
+        actions.add(servant, Card.QUICK, false);
+        actions.get(3).critical = true;
+        expect(attackNpGainRate(actions.get(3), servant, target).value()).to.equal(1243);
     });
 });

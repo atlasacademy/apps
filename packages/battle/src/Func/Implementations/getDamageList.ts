@@ -70,10 +70,10 @@ function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target
     if (doNotGainNpBuffs.length)
         return Variable.int(0);
 
-    let npGain = (
+    let npGain = Variable.float(
         attack.np
-            ? Variable.int(actor.noblePhantasm().gainForNp())
-            : Variable.int(actor.noblePhantasm().gainForCard(attack.card))
+            ? actor.noblePhantasm().gainForNp()
+            : actor.noblePhantasm().gainForCard(attack.card)
     );
 
     // Card NP Gain calcs

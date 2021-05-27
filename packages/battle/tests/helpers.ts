@@ -9,6 +9,7 @@ import drakeData from "./samples/servant/drake.json";
 import emiyaData from "./samples/servant/emiya.json";
 import gilgameshData from "./samples/servant/gilgamesh.json";
 import hijikataData from "./samples/servant/hijikata.json";
+import meltData from "./samples/servant/melt.json";
 import merlinData from "./samples/servant/merlin.json";
 import moriartyData from "./samples/servant/moriarty.json";
 import musashiData from "./samples/servant/musashi.json";
@@ -49,6 +50,10 @@ export function gilgamesh(team: BattleTeam): BattleActor {
 
 export function hijikata(team: BattleTeam): BattleActor {
     return makeActor(<Servant.Servant>hijikataData, team);
+}
+
+export function melt(team: BattleTeam): BattleActor {
+    return makeActor(<Servant.Servant>meltData, team);
 }
 
 export function merlin(team: BattleTeam): BattleActor {
