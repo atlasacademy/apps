@@ -20,8 +20,8 @@ git clone https://github.com/atlasacademy/apps.git
 # use dev branch
 git checkout dev && git pull
 
-# setup packages
-lerna bootstrap
+# setup packages with local npm link
+lerna bootstrap --force-local
 
 # run typescript watchers
 npm run watch
