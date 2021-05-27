@@ -1,4 +1,4 @@
-import {NoblePhantasm, Trait} from "@atlasacademy/api-connector";
+import {Card, NoblePhantasm, Trait} from "@atlasacademy/api-connector";
 import {Battle} from "../Battle";
 import BattleEvent from "../Event/BattleEvent";
 import BattleNoblePhantasmFunc from "./BattleNoblePhantasmFunc";
@@ -64,5 +64,29 @@ export default class BattleNoblePhantasm {
         for (let i = 0; i < this.state.funcs.length; i++) {
             this.state.funcs[i].setOvercharge(overcharge);
         }
+    }
+
+    gainForCard(card: Card): number {
+        let gains: number[] = [];
+        switch (card) {
+            case Card.BUSTER:
+                gains = this.props.np.npGain.buster;
+                break;
+            case Card.ARTS:
+                gains = this.props.np.npGain.arts;
+                break;
+            case Card.QUICK:
+                gains = this.props.np.npGain.quick;
+                break;
+            case Card.EXTRA:
+                gains = this.props.np.npGain.extra;
+                break;
+        }
+
+        return gains[this.props.level - 1] ?? 0;
+    }
+
+    gainForNp(): number {
+        return this.props.np.npGain.np[this.props.level - 1] ?? 0;
     }
 }

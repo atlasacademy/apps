@@ -1,4 +1,4 @@
-import {Attribute, Buff, Card, ClassName, Trait} from "@atlasacademy/api-connector";
+import {Attribute, Buff, Card, ClassName, QuestEnemy, Trait} from "@atlasacademy/api-connector";
 import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {Battle} from "../Battle";
 import {BattleBuff} from "../Buff/BattleBuff";
@@ -29,6 +29,7 @@ export interface BattleActorProps {
     name: string,
     passives: BattleSkillPassive[],
     phase: number,
+    serverMod: QuestEnemy.EnemyServerMod,
     team: BattleTeam,
     traits: Trait.Trait[],
 }
@@ -177,12 +178,20 @@ export class BattleActor {
         return this.props.passives;
     }
 
+    serverMod(): QuestEnemy.EnemyServerMod {
+        return this.props.serverMod;
+    }
+
     setBattle(battle: Battle) {
         this.state.battle = battle;
     }
 
     skill(num: number): BattleSkill | undefined {
         return this.state.skills.filter(skill => skill.props.id === num).shift();
+    }
+
+    team(): BattleTeam {
+        return this.props.team;
     }
 
     traits(attack?: BattleAttackAction): Trait.Trait[] {

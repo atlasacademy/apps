@@ -36,7 +36,7 @@ export default abstract class BattleFunc {
 
         const events = [];
         if (this.isSpecialSelectFunc()) {
-
+            // TODO
         } else {
             const targets = battle.getTargets(actor, this.props.func.funcTargetType);
             for (let i = 0; i < targets.length; i++) {
@@ -94,6 +94,11 @@ export default abstract class BattleFunc {
     }
 
     private isSpecialSelectFunc(): boolean {
+        switch (this.props.func.funcTargetType) {
+            case Func.FuncTargetType.COMMAND_TYPE_SELF_TREASURE_DEVICE:
+                return true;
+        }
+
         return false;
     }
 

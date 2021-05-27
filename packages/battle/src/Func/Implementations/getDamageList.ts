@@ -55,6 +55,82 @@ function attackMagnification(attack: BattleAttackAction,
     return magnification;
 }
 
+function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
+    if (actor.team() === BattleTeam.ENEMY)
+        return Variable.int(0);
+
+    const doNotGainNpBuffs = actor.buffs().getBuffs(
+        Buff.BuffAction.DONOT_GAINNP,
+        actor.traits(),
+        [],
+        true,
+        true
+    );
+
+    if (doNotGainNpBuffs.length)
+        return Variable.int(0);
+
+    let npGain = (
+        attack.np
+            ? Variable.int(actor.noblePhantasm().gainForNp())
+            : Variable.int(actor.noblePhantasm().gainForCard(attack.card))
+    );
+
+    // Card NP Gain calcs
+    const cardConstant = GameConstantManager.cardConstants(attack.card, attack.np ? 1 : attack.num),
+        firstCardConstant = GameConstantManager.cardConstants(attack.firstCard, 1),
+        cardAdjustTdGauge = cardConstant?.adjustTdGauge ?? 0,
+        cardAddTdGauge = firstCardConstant?.addTdGauge ?? 0,
+        cardActorMag = actor.buffs().netBuffsRate(
+            Buff.BuffAction.COMMAND_NP_ATK,
+            actor.traits(attack),
+            target.traits()
+        ),
+        cardTargetMag = target.buffs().netBuffsRate(
+            Buff.BuffAction.COMMAND_NP_DEF,
+            actor.traits(),
+            target.traits(attack)
+        );
+
+    let cardNpGain: Variable = Variable
+        .float(1)
+        .add(Variable.float(cardActorMag))
+        .subtract(Variable.float(cardTargetMag));
+    if (cardNpGain.value() < 0)
+        cardNpGain = Variable.float(0);
+
+    cardNpGain = Variable
+        .float(cardAdjustTdGauge)
+        .divide(Variable.float(1000))
+        .multiply(cardNpGain);
+
+    cardNpGain = cardNpGain.add(Variable.float(cardAddTdGauge).divide(Variable.float(1000)));
+
+    npGain = npGain.multiply(cardNpGain);
+    // End Card NP Gain calcs
+
+    // Server Mod Calcs
+    npGain = npGain.multiply(Variable.float(target.serverMod().tdRate).divide(Variable.float(1000)));
+
+    // Np Gain Mods calcs
+    const npGainBonusRate = actor.buffs().netBuffsRate(
+        Buff.BuffAction.DROP_NP,
+        actor.traits(attack),
+        target.traits(attack), // why? original has this. dunno. ref: BattleServantData.getUpDownDropNp
+    );
+
+    npGain = npGain.multiply(Variable.float(npGainBonusRate));
+
+    // Critical NP Gain calcs
+    if (attack.critical)
+        npGain = npGain.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.CRITICAL_TD_POINT_RATE)));
+
+    if (npGain.value() < 0)
+        npGain = Variable.float(0);
+
+    return Variable.int(npGain.value());
+}
+
 function attributeAffinityRate(actor: BattleActor, target: BattleActor): Variable {
     let affinity = GameConstantManager.attributeAffinity(actor.attribute(), target.attribute());
     if (affinity === undefined)
@@ -468,7 +544,7 @@ async function getDamageList(battle: Battle,
 
     damageList.push(remainingDamage.value());
 
-    // let attackNpGainRate = attackNpGainRate(battle, attack, actor, target),
+    let attackNpGain = attackNpGainRate(attack, actor, target);
     //     defenceNpGainRate = defenceNpGainRate(battle, attack, actor, target),
     //     starRate = starRate(battle, attack, actor, target),
     //     overkillNpGainMod = new Variable(VariableType.FLOAT, 1),
@@ -522,6 +598,7 @@ async function getDamageList(battle: Battle,
 export {
     attackBonus,
     attackMagnification,
+    attackNpGainRate,
     attributeAffinityRate,
     checkAbleToHit,
     classAffinityOverrideRate,

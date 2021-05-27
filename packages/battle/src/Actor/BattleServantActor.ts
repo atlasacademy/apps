@@ -56,6 +56,11 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
             }, null);
         }),
         phase: servantProps.phase,
+        serverMod: {
+            tdAttackRate: 1000,
+            tdRate: 1000,
+            starRate: 1000,
+        },
         team: servantProps.team,
         traits: traits,
     };
