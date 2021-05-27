@@ -6,7 +6,7 @@ import {BattleBuff} from "../../../../src/Buff/BattleBuff";
 import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {attackNpGainRate} from "../../../../src/Func/Implementations/getDamageList";
 import {artoria, cu, emiya, gilgamesh, melt} from "../../../helpers";
-import quickBuff from "../../../samples/servant/quickBuff.json";
+import quickBuff from "../../../samples/buff/quickBuff.json";
 
 describe('getDamageList attackNpGainRate', () => {
     it('card types and first card bonus', async () => {
