@@ -1,6 +1,7 @@
 {
   "name": "paper-moon",
   "version": "0.0.1",
+  "homepage": "/paper-moon",
   "private": true,
   "dependencies": {
     "@atlasacademy/api-connector": "^3.0.35",
