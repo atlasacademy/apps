@@ -14,6 +14,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
+import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { WarDescriptorId } from "../Descriptor/WarDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
@@ -254,15 +255,13 @@ class QuestPage extends React.Component<IProps, IState> {
                     <Alert variant="success">
                         {quest.messages.length > 1 ? (
                             <ul style={{ marginBottom: 0 }}>
-                                {quest.messages.map((message) => {
-                                    return (
-                                        <li>
-                                            {handleNewLine(
-                                                colorString(message.message)
-                                            )}
-                                        </li>
-                                    );
-                                })}
+                                {quest.messages.map((message) => (
+                                    <li key={message.idx}>
+                                        {handleNewLine(
+                                            colorString(message.message)
+                                        )}
+                                    </li>
+                                ))}
                             </ul>
                         ) : (
                             handleNewLine(
@@ -271,12 +270,38 @@ class QuestPage extends React.Component<IProps, IState> {
                         )}
                     </Alert>
                 ) : null}
+                {quest.scripts.length > 0 ? (
+                    <Alert variant="success">
+                        {quest.scripts.length > 1 ? (
+                            <ul style={{ marginBottom: 0 }}>
+                                {quest.scripts.map((script) => (
+                                    <li key={script.scriptId}>
+                                        <ScriptDescriptor
+                                            region={this.props.region}
+                                            scriptId={script.scriptId}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <ScriptDescriptor
+                                region={this.props.region}
+                                scriptId={quest.scripts[0].scriptId}
+                            />
+                        )}
+                    </Alert>
+                ) : null}
                 {quest.stages.length > 0 ? (
                     <Tabs
-                        defaultActiveKey={this.props.stage !== undefined ? this.props.stage : 1}
+                        defaultActiveKey={
+                            this.props.stage !== undefined
+                                ? this.props.stage
+                                : 1
+                        }
                         onSelect={(key: string | null) => {
                             this.props.history.replace(
-                                `/${this.props.region}/quest/${this.props.id}/${this.state.phase}` + (key ? `/stage-${key}` : "")
+                                `/${this.props.region}/quest/${this.props.id}/${this.state.phase}` +
+                                    (key ? `/stage-${key}` : "")
                             );
                         }}
                     >

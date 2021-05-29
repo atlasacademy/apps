@@ -34,6 +34,7 @@ const MysticCodesPage = React.lazy(() => import("./Page/MysticCodesPage"));
 const NoblePhantasmPage = React.lazy(() => import("./Page/NoblePhantasmPage"));
 const NoblePhantasmsPage = React.lazy(() => import("./Page/NoblePhantasmsPage"));
 const QuestPage = React.lazy(() => import("./Page/QuestPage"));
+const ScriptPage = React.lazy(() => import("./Page/ScriptPage"));
 const ServantPage = React.lazy(() => import("./Page/ServantPage"));
 const ServantsPage = React.lazy(() => import("./Page/ServantsPage"));
 const SkillPage = React.lazy(() => import("./Page/SkillPage"));
@@ -184,6 +185,14 @@ class App extends React.Component<any, IState> {
                                         phase={parseInt(phase)}
                                         stage={stage ? parseInt(stage.replace("stage-", "")) : undefined}
                                     />
+                                </Suspense>
+                            )
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/script/:id" render={props => {
+                            const {region, id} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <ScriptPage region={region as Region} scriptId={id} />
                                 </Suspense>
                             )
                         }}/>

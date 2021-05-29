@@ -197,6 +197,10 @@ async function handleRequest(request: Request) {
             const title = `[${region}] ${aiType} AI ${paths[0]}`;
             return overwrite(page, title);
         }
+        case "script": {
+            const title = `[${region}] Script ${target}`;
+            return overwrite(page, title);
+        }
         default:
             return new Response(page.body, page);
     }

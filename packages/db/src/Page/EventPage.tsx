@@ -34,6 +34,7 @@ import {
     War,
     Gift,
 } from "@atlasacademy/api-connector";
+import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 
 interface TabInfo {
     type: "ladder" | "shop" | "mission" | "tower" | "lottery";
@@ -59,6 +60,22 @@ interface IState {
     enums?: EnumList;
     missionRefs: Map<number, React.Ref<any>>;
 }
+
+const ScriptLink = (props: { region: Region; shop: Shop.Shop }) => {
+    const { region, shop } = props;
+    if (shop.scriptId === undefined) return null;
+    return (
+        <>
+            <br />
+            <ScriptDescriptor
+                region={region}
+                scriptId={shop.scriptId}
+                scriptName={shop.scriptName}
+                scriptType="Valentine Script"
+            />
+        </>
+    );
+};
 
 class EventPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -448,6 +465,10 @@ class EventPage extends React.Component<IProps, IState> {
                                             {handleNewLine(
                                                 colorString(shop.detail)
                                             )}
+                                            <ScriptLink
+                                                region={region}
+                                                shop={shop}
+                                            />
                                         </div>
                                     </td>
                                     <td style={{ textAlign: "center" }}>
