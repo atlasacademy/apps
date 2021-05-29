@@ -44,6 +44,10 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
     else if (np.level() === 1)
         gaugeLineCount = 1;
 
+    let face = (servantProps.servant.extraAssets.faces.ascension ?? {})[form];
+    if (!face)
+        face = (servantProps.servant.extraAssets.faces.costume ?? {})[form]
+
     traits.push(...servantProps.servant.ascensionAdd.individuality.ascension[form] ?? []);
     traits.push(...servantProps.servant.ascensionAdd.individuality.costume[form] ?? []);
 
@@ -53,6 +57,7 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
         baseHealth: servantProps.servant.hpGrowth[level - 1] + (servantProps.fouHealth ?? 1000),
         baseStarGen: servantProps.servant.starGen,
         className: servantProps.servant.className,
+        face,
         gaugeLineCount,
         gaugeLineMax: GameConstantManager.getValue(Constant.Constant.FULL_TD_POINT),
         hits: servantProps.servant.hitsDistribution,

@@ -44,6 +44,10 @@ export class Battle {
         return battle;
     }
 
+    actors(): BattleActorManager {
+        return this.state.actors;
+    }
+
     addActor(actor: BattleActor) {
         this.state.actors.add(actor);
         actor.setBattle(this);

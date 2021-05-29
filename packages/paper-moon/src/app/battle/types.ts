@@ -1,5 +1,7 @@
 export interface BattleStateActor {
     id: number,
+    name: string,
+    face?: string,
 }
 
 export interface BattleState {

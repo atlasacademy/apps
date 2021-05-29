@@ -1,6 +1,5 @@
-import {BattleActor} from "@atlasacademy/battle/dist/Actor/BattleActor";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {BattleState} from "./types";
+import {BattleState, BattleStateActor} from "./types";
 
 const initialState: BattleState = {
     running: false,
@@ -12,15 +11,11 @@ export const battleSlice = createSlice({
     name: 'battle',
     initialState,
     reducers: {
-        addPlayerActor: (state, action: PayloadAction<BattleActor>) => {
-            state.playerActors.push({
-                id: action.payload.props.id
-            });
+        setEnemyActors: (state, action: PayloadAction<BattleStateActor[]>) => {
+            state.enemyActors = action.payload;
         },
-        addEnemyActor: (state, action: PayloadAction<BattleActor>) => {
-            state.enemyActors.push({
-                id: action.payload.props.id
-            });
+        setPlayerActors: (state, action: PayloadAction<BattleStateActor[]>) => {
+            state.playerActors = action.payload;
         },
         startBattle: state => {
             state.running = true;

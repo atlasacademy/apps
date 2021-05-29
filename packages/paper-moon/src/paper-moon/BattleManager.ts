@@ -2,15 +2,16 @@ import {Servant} from "@atlasacademy/api-connector";
 import BattleServantActor from "@atlasacademy/battle/dist/Actor/BattleServantActor";
 import {Battle} from "@atlasacademy/battle/dist/Battle";
 import {BattleTeam} from "@atlasacademy/battle/dist/Enum/BattleTeam";
-import {battleSlice} from "../app/battle/slice";
+import {BattleActor} from "../../../battle/dist/Actor/BattleActor";
+import {battleSyncThunk} from "../app/battle/thunks";
 import {store} from "../app/store";
 
 let battle = new Battle(null),
     nextActorId = 1;
 
-export default {
+const BattleManager = {
     battle: () => battle,
-    addActor: (servant: Servant.Servant, team: BattleTeam) => {
+    addActor: (servant: Servant.Servant, team: BattleTeam): BattleActor => {
         const actor = new BattleServantActor({
             servant,
             id: nextActorId,
@@ -21,13 +22,10 @@ export default {
         battle.addActor(actor);
         nextActorId++;
 
-        switch (team) {
-            case BattleTeam.PLAYER:
-                store.dispatch(battleSlice.actions.addPlayerActor(actor));
-                break;
-            case BattleTeam.ENEMY:
-                store.dispatch(battleSlice.actions.addEnemyActor(actor));
-                break;
-        }
+        store.dispatch(battleSyncThunk());
+
+        return actor;
     }
-}
+};
+
+export default BattleManager;

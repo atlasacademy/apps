@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect, ConnectedProps} from "react-redux";
 import {battleSetupInitThunk} from "./app/battleSetup/thunks";
+import BattleDisplay from "./components/BattleDisplay";
 import BattleSetup from "./components/BattleSetup";
 
 const mapDispatchToProps = {
@@ -20,6 +21,7 @@ class App extends React.Component<AppProps> {
             <div className="App">
                 <h3>Paper Moon</h3>
                 <BattleSetup/>
+                <BattleDisplay/>
             </div>
         );
     }

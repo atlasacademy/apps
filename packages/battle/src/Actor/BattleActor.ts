@@ -25,6 +25,7 @@ export interface BattleActorProps {
     baseHealth: number,
     baseStarGen: number,
     className: ClassName,
+    face?: string,
     gaugeLineCount: number,
     gaugeLineMax: number,
     hits: BattleActorHitDistribution,
@@ -167,6 +168,10 @@ export class BattleActor {
         return className ?? this.baseClassName();
     }
 
+    face(): string | undefined {
+        return this.props.face;
+    }
+
     hasTrait(trait: Trait.Trait | number): boolean {
         const traitId: number = typeof trait === "number" ? trait : trait.id;
 
@@ -192,6 +197,10 @@ export class BattleActor {
         return hits;
     }
 
+    id(): number {
+        return this.props.id;
+    }
+
     isAlive(): boolean {
         return this.state.health > 0;
     }
@@ -204,6 +213,10 @@ export class BattleActor {
         );
 
         return multiHitBuffValue ?? 1;
+    }
+
+    name(): string {
+        return this.props.name;
     }
 
     noblePhantasm(): BattleNoblePhantasm {
