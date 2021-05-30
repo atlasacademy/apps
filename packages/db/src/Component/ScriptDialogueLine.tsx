@@ -1,7 +1,26 @@
 import { Region } from "@atlasacademy/api-connector";
+import { AssetHost } from "../Api";
+import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
+import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import { parseParameter } from "./Script";
+
+export const ScriptSpeakerName = (props: { name: string }) => {
+    const name = props.name;
+    const match = name.match(/\[(.*)\]/);
+    if (match !== null) {
+        const parameter = match[1];
+        if (parameter.startsWith("servantName")) {
+            const servantName = parameter
+                .replace("servantName ", "")
+                .split(":")[2];
+            return <>{colorString(servantName)}</>;
+        }
+    }
+
+    return <>{colorString(name)}</>;
+};
 
 const splitLine = (line: string) => {
     let word = "";
@@ -21,7 +40,7 @@ const splitLine = (line: string) => {
     return wordList;
 };
 
-const ScriptDialogueLine = (props: { line: string }) => {
+const ScriptDialogueLine = (props: { region: Region; line: string }) => {
     const words = splitLine(props.line);
     let parts = [] as Renderable[];
 
@@ -51,6 +70,21 @@ const ScriptDialogueLine = (props: { line: string }) => {
                             display: "inline-block",
                         }}
                     ></div>
+                );
+                break;
+            case "tVoice":
+                const folder = parameters[1];
+                const fileName = parameters[2];
+                const audioUrl = `${AssetHost}/${props.region}/Audio/${folder}/${fileName}.mp3`;
+                parts.push(
+                    <BgmDescriptor
+                        region={props.region}
+                        bgm={{
+                            id: -1,
+                            name: `${folder} ${fileName}`,
+                            audioAsset: audioUrl,
+                        }}
+                    />
                 );
                 break;
             default:

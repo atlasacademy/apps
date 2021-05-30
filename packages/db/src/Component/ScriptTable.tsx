@@ -1,6 +1,6 @@
+import { Region } from "@atlasacademy/api-connector";
 import { Table } from "react-bootstrap";
 import { mergeElements } from "../Helper/OutputHelper";
-import { colorString } from "../Helper/StringHelper";
 import {
     ScriptComponent,
     ScriptComponentType,
@@ -8,16 +8,18 @@ import {
     ScriptInfo,
     ScriptNotChoiceComponent,
 } from "./Script";
-import ScriptDialogueLine from "./ScriptDialogueLine";
+import ScriptDialogueLine, { ScriptSpeakerName } from "./ScriptDialogueLine";
 
-const DialogueRow = (props: { dialogue: ScriptDialogue }) => {
+const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue }) => {
     return (
         <tr>
-            <td>{colorString(props.dialogue.speakerName)}</td>
+            <td>
+                <ScriptSpeakerName name={props.dialogue.speakerName} />
+            </td>
             <td>
                 {mergeElements(
                     props.dialogue.dialogueLines.map((line) => (
-                        <ScriptDialogueLine line={line} />
+                        <ScriptDialogueLine region={props.region} line={line} />
                     )),
                     <br />
                 )}
@@ -27,6 +29,7 @@ const DialogueRow = (props: { dialogue: ScriptDialogue }) => {
 };
 
 const ChoiceComponentsTable = (props: {
+    region: Region;
     choiceComponents: ScriptNotChoiceComponent[];
 }) => {
     if (props.choiceComponents.length === 0) return null;
@@ -36,18 +39,22 @@ const ChoiceComponentsTable = (props: {
                 {props.choiceComponents
                     .filter((c) => c.type === ScriptComponentType.DIALOGUE)
                     .map((dialogue, i) => (
-                        <DialogueRow key={i} dialogue={dialogue} />
+                        <DialogueRow
+                            key={i}
+                            region={props.region}
+                            dialogue={dialogue}
+                        />
                     ))}
             </tbody>
         </Table>
     );
 };
 
-const ScriptRow = (props: { component: ScriptComponent }) => {
+const ScriptRow = (props: { region: Region; component: ScriptComponent }) => {
     const component = props.component;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
-            return <DialogueRow dialogue={component} />;
+            return <DialogueRow region={props.region} dialogue={component} />;
         case ScriptComponentType.CHOICES:
             return (
                 <tr>
@@ -56,8 +63,12 @@ const ScriptRow = (props: { component: ScriptComponent }) => {
                         <ul>
                             {component.choices.map((choice) => (
                                 <li key={choice.id}>
-                                    {choice.text}
+                                    <ScriptDialogueLine
+                                        region={props.region}
+                                        line={choice.text}
+                                    />
                                     <ChoiceComponentsTable
+                                        region={props.region}
                                         choiceComponents={choice.components}
                                     />
                                 </li>
@@ -69,7 +80,7 @@ const ScriptRow = (props: { component: ScriptComponent }) => {
     }
 };
 
-const ScriptTable = (props: { script: ScriptInfo }) => {
+const ScriptTable = (props: { region: Region; script: ScriptInfo }) => {
     return (
         <Table>
             <thead>
@@ -82,7 +93,11 @@ const ScriptTable = (props: { script: ScriptInfo }) => {
             </thead>
             <tbody>
                 {props.script.components.map((component, i) => (
-                    <ScriptRow key={i} component={component} />
+                    <ScriptRow
+                        key={i}
+                        region={props.region}
+                        component={component}
+                    />
                 ))}
             </tbody>
         </Table>

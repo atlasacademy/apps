@@ -55,7 +55,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     return (
         <>
             <h1>Script {scriptId}</h1>
-            <ScriptTable script={parsedScript} />
+            <ScriptTable region={region} script={parsedScript} />
         </>
     );
 };
