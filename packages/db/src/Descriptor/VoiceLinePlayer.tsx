@@ -10,6 +10,8 @@ interface IProps {
     audioAssetUrls: string[];
     delay: number[];
     title: string;
+    showTitle?: boolean;
+    handleNavigateAssetUrl?: (assetUrl: string) => void;
 }
 
 interface IState {
@@ -22,8 +24,10 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
         this.state = { playing: false };
         VoiceLineStorage.set(
             this.getVoiceLineKey(props.audioAssetUrls),
-            new VoiceLine(props.audioAssetUrls.map((url, index) => [url, props.delay[index]]))
-        );
+            new VoiceLine(
+                props.audioAssetUrls.map((url, index) => [url, props.delay[index]]),
+                this.props.handleNavigateAssetUrl
+        ));
     }
 
     componentDidUpdate(prevProps : IProps) {
@@ -33,8 +37,10 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
             VoiceLineStorage.delete(this.getVoiceLineKey(prevProps.audioAssetUrls));
             VoiceLineStorage.set(
                 this.getVoiceLineKey(this.props.audioAssetUrls),
-                new VoiceLine(this.props.audioAssetUrls.map((url, index) => [url, this.props.delay[index]]))
-            );
+                new VoiceLine(
+                    this.props.audioAssetUrls.map((url, index) => [url, this.props.delay[index]],
+                    this.props.handleNavigateAssetUrl
+            )));
         }
 
         if (this.props.audioAssetUrls.length !== prevProps.audioAssetUrls.length) return void reset();
@@ -68,13 +74,16 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
     }
 
     render() {
+        const command = this.state.playing ? "Stop" : "Play";
+        const title = `${command} ${this.props.title}`;
         return (
             <Button
                 variant={this.state.playing ? 'warning' : 'success'}
                 onClick={this.onClick}
                 style={{whiteSpace: "nowrap"}}
-                title={`Play ${this.props.title}`}>
+                title={title}>
                 <FontAwesomeIcon icon={this.state.playing ? faStop : faPlay}/>
+                {this.props.showTitle ? <>&nbsp;{title}</> : null}
             </Button>
         )
     }

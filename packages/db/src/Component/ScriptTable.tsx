@@ -1,6 +1,8 @@
 import { Region } from "@atlasacademy/api-connector";
 import { Table } from "react-bootstrap";
+import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
+import ScriptDialogueLine, { ScriptSpeakerName } from "./ScriptDialogueLine";
 import {
     ScriptComponent,
     ScriptComponentType,
@@ -8,18 +10,36 @@ import {
     ScriptInfo,
     ScriptNotChoiceComponent,
 } from "./Script";
-import ScriptDialogueLine, { ScriptSpeakerName } from "./ScriptDialogueLine";
 
-const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue }) => {
+type RowBgmRefMap = Map<
+    string | undefined,
+    React.RefObject<HTMLTableRowElement>
+>;
+
+const DialogueRow = (props: {
+    region: Region;
+    dialogue: ScriptDialogue;
+    refs: RowBgmRefMap;
+}) => {
+    const dialogueVoice = props.dialogue.dialogueVoice ? (
+        <>
+            <BgmDescriptor
+                region={props.region}
+                bgm={props.dialogue.dialogueVoice}
+            />
+            <br />
+        </>
+    ) : null;
     return (
-        <tr>
+        <tr ref={props.refs.get(props.dialogue.dialogueVoice?.audioAsset)}>
             <td>
                 <ScriptSpeakerName name={props.dialogue.speakerName} />
             </td>
             <td>
+                {dialogueVoice}
                 {mergeElements(
                     props.dialogue.dialogueLines.map((line) => (
-                        <ScriptDialogueLine region={props.region} line={line} />
+                        <ScriptDialogueLine line={line} />
                     )),
                     <br />
                 )}
@@ -31,10 +51,11 @@ const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue }) => {
 const ChoiceComponentsTable = (props: {
     region: Region;
     choiceComponents: ScriptNotChoiceComponent[];
+    refs: RowBgmRefMap;
 }) => {
     if (props.choiceComponents.length === 0) return null;
     return (
-        <Table style={{ marginTop: "1em" }}>
+        <Table hover responsive style={{ marginTop: "1em" }}>
             <tbody>
                 {props.choiceComponents
                     .filter((c) => c.type === ScriptComponentType.DIALOGUE)
@@ -43,6 +64,7 @@ const ChoiceComponentsTable = (props: {
                             key={i}
                             region={props.region}
                             dialogue={dialogue}
+                            refs={props.refs}
                         />
                     ))}
             </tbody>
@@ -50,11 +72,21 @@ const ChoiceComponentsTable = (props: {
     );
 };
 
-const ScriptRow = (props: { region: Region; component: ScriptComponent }) => {
+const ScriptRow = (props: {
+    region: Region;
+    component: ScriptComponent;
+    refs: RowBgmRefMap;
+}) => {
     const component = props.component;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
-            return <DialogueRow region={props.region} dialogue={component} />;
+            return (
+                <DialogueRow
+                    region={props.region}
+                    dialogue={component}
+                    refs={props.refs}
+                />
+            );
         case ScriptComponentType.CHOICES:
             return (
                 <tr>
@@ -63,13 +95,11 @@ const ScriptRow = (props: { region: Region; component: ScriptComponent }) => {
                         <ul>
                             {component.choices.map((choice) => (
                                 <li key={choice.id}>
-                                    <ScriptDialogueLine
-                                        region={props.region}
-                                        line={choice.text}
-                                    />
+                                    <ScriptDialogueLine line={choice.text} />
                                     <ChoiceComponentsTable
                                         region={props.region}
                                         choiceComponents={choice.components}
+                                        refs={props.refs}
                                     />
                                 </li>
                             ))}
@@ -80,9 +110,13 @@ const ScriptRow = (props: { region: Region; component: ScriptComponent }) => {
     }
 };
 
-const ScriptTable = (props: { region: Region; script: ScriptInfo }) => {
+const ScriptTable = (props: {
+    region: Region;
+    script: ScriptInfo;
+    refs: RowBgmRefMap;
+}) => {
     return (
-        <Table>
+        <Table hover responsive>
             <thead>
                 <tr>
                     <th style={{ textAlign: "center", width: "10%" }}>
@@ -97,6 +131,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo }) => {
                         key={i}
                         region={props.region}
                         component={component}
+                        refs={props.refs}
                     />
                 ))}
             </tbody>

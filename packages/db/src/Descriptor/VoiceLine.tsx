@@ -48,12 +48,14 @@ class AudioElement {
 }
 
 export class VoiceLine {
-    private voiceLines: { audio: AudioElement, delay: number }[]
+    private voiceLines: { audio: AudioElement, delay: number, assetUrl: string }[]
     current?: AudioElement;
     stopping?: boolean;
+    handleNavigateAssetUrl?: (assetUrl: string) => void;
 
-    constructor(assets : [string, number][]) {
-        this.voiceLines = assets.map(_ => ({ audio: new AudioElement(_[0]), delay: _[1] }));
+    constructor(assets : [string, number][], handleNavigateAssetUrl?: (assetUrl: string) => void) {
+        this.voiceLines = assets.map(_ => ({ audio: new AudioElement(_[0]), delay: _[1], assetUrl: _[0] }));
+        this.handleNavigateAssetUrl = handleNavigateAssetUrl;
     }
 
     async play() {
@@ -62,6 +64,8 @@ export class VoiceLine {
             if (this.stopping) break;
             await new Promise(resolve => setTimeout(resolve, line.delay * 1000));
             this.current = line.audio;
+            if (this.handleNavigateAssetUrl !== undefined)
+                this.handleNavigateAssetUrl(line.assetUrl);
             await line.audio.play();
         }
 

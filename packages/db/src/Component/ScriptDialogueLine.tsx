@@ -1,6 +1,4 @@
 import { Region } from "@atlasacademy/api-connector";
-import { AssetHost } from "../Api";
-import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
 import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
@@ -40,7 +38,7 @@ const splitLine = (line: string) => {
     return wordList;
 };
 
-const ScriptDialogueLine = (props: { region: Region; line: string }) => {
+const ScriptDialogueLine = (props: { line: string }) => {
     const words = splitLine(props.line);
     let parts = [] as Renderable[];
 
@@ -70,21 +68,6 @@ const ScriptDialogueLine = (props: { region: Region; line: string }) => {
                             display: "inline-block",
                         }}
                     ></div>
-                );
-                break;
-            case "tVoice":
-                const folder = parameters[1];
-                const fileName = parameters[2];
-                const audioUrl = `${AssetHost}/${props.region}/Audio/${folder}/${fileName}.mp3`;
-                parts.push(
-                    <BgmDescriptor
-                        region={props.region}
-                        bgm={{
-                            id: -1,
-                            name: `${folder} ${fileName}`,
-                            audioAsset: audioUrl,
-                        }}
-                    />
                 );
                 break;
             default:

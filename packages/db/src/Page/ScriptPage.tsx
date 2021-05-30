@@ -1,11 +1,16 @@
 import { Region } from "@atlasacademy/api-connector";
 import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import { AssetHost } from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import { parseScript } from "../Component/Script";
+import {
+    parseScript,
+    ScriptComponentType,
+    ScriptDialogue,
+} from "../Component/Script";
 import ScriptTable from "../Component/ScriptTable";
+import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
 import Manager from "../Setting/Manager";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
@@ -50,12 +55,61 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
 
     document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
 
-    const parsedScript = parseScript(script);
+    const parsedScript = parseScript(region, script);
+
+    let dialogueComponents = [] as ScriptDialogue[];
+    for (const component of parsedScript.components) {
+        switch (component.type) {
+            case ScriptComponentType.DIALOGUE:
+                dialogueComponents.push(component);
+                break;
+            case ScriptComponentType.CHOICES:
+                component.choices.forEach((choice) => {
+                    choice.components
+                        .filter((c) => c.type === ScriptComponentType.DIALOGUE)
+                        .map((component) => dialogueComponents.push(component));
+                });
+                break;
+        }
+    }
+    const audioUrls = [] as string[];
+    for (const component of dialogueComponents) {
+        if (
+            component.dialogueVoice !== undefined &&
+            component.dialogueVoice.audioAsset !== undefined
+        ) {
+            audioUrls.push(component.dialogueVoice.audioAsset);
+        }
+    }
+    const bgmRowRefs = new Map(
+        audioUrls.map((url) => [url, createRef<HTMLTableRowElement>()])
+    );
+    const scrollToRow = (assetUrl: string) => {
+        let rowRef = bgmRowRefs.get(assetUrl);
+        if (rowRef !== undefined && rowRef.current !== null) {
+            rowRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
 
     return (
         <>
             <h1>Script {scriptId}</h1>
-            <ScriptTable region={region} script={parsedScript} />
+            {audioUrls.length > 0 ? (
+                <div style={{ margin: "1em 0" }}>
+                    <VoiceLinePlayer
+                        audioAssetUrls={audioUrls}
+                        delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
+                        title="all voice lines"
+                        showTitle
+                        handleNavigateAssetUrl={scrollToRow}
+                    />
+                </div>
+            ) : null}
+            <ScriptTable
+                region={region}
+                script={parsedScript}
+                refs={bgmRowRefs}
+            />
         </>
     );
 };

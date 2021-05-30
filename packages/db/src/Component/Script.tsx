@@ -1,3 +1,6 @@
+import { Bgm, Region } from "@atlasacademy/api-connector";
+import { AssetHost } from "../Api";
+
 export enum ScriptComponentType {
     DIALOGUE,
     CHOICES,
@@ -13,6 +16,7 @@ export type ScriptDialogue = {
     type: ScriptComponentType.DIALOGUE;
     speakerName: string;
     dialogueLines: string[];
+    dialogueVoice?: Bgm.Bgm;
 };
 
 export type ScriptNotChoiceComponent = ScriptDialogue;
@@ -39,11 +43,12 @@ export function parseParameter(line: string): string[] {
     return line.match(/[^\s"]+|"([^"]*)"/g) ?? [];
 }
 
-export function parseScript(script: string): ScriptInfo {
+export function parseScript(region: Region, script: string): ScriptInfo {
     let charaGraphs = [] as ScriptSpeaker[];
     let components = [] as ScriptComponent[];
 
     let speakerName = "";
+    let dialogueVoice: Bgm.Bgm | undefined = undefined;
     let dialogueLines = [] as string[];
     let choices = [] as ScriptChoice[];
     let choice = {
@@ -59,6 +64,7 @@ export function parseScript(script: string): ScriptInfo {
 
     const resetDialogueVariables = () => {
         speakerName = "";
+        dialogueVoice = undefined;
         dialogueLines = [];
     };
     const resetChoiceVariables = () => {
@@ -85,8 +91,9 @@ export function parseScript(script: string): ScriptInfo {
                     case "k":
                         const dialogue: ScriptDialogue = {
                             type: ScriptComponentType.DIALOGUE,
-                            speakerName: speakerName,
-                            dialogueLines: dialogueLines,
+                            speakerName,
+                            dialogueLines,
+                            dialogueVoice,
                         };
 
                         if (parserState.choice) {
@@ -97,6 +104,16 @@ export function parseScript(script: string): ScriptInfo {
 
                         resetDialogueVariables();
                         parserState.dialogue = false;
+                        break;
+                    case "tVoice":
+                        const folder = parameters[1];
+                        const fileName = parameters[2];
+                        const audioUrl = `${AssetHost}/${region}/Audio/${folder}/${fileName}.mp3`;
+                        dialogueVoice = {
+                            id: -1,
+                            name: fileName,
+                            audioAsset: audioUrl,
+                        };
                         break;
                     default:
                         if (parserState.dialogue) {
