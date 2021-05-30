@@ -48,9 +48,10 @@ function overwrite(
     image?: string,
     description?: string
 ) {
-    const defaultDescription =
-        "Atlas Academy DB - FGO Game Data Navigator - without any of the fluff.";
-    const metaDescription = `${description ?? title} - ${defaultDescription}`;
+    const defaultDescription = "Atlas Academy DB - FGO Game Data Navigator";
+    const metaDescription = `${
+        description ?? title
+    } - ${defaultDescription} - without any of the fluffs.`;
     const ogDescription = description ?? defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
