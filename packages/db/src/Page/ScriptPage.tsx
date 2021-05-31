@@ -4,14 +4,14 @@ import { createRef, useEffect, useState } from "react";
 import { AssetHost } from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import {
-    parseScript,
-    ScriptComponentType,
-    ScriptDialogue,
-} from "../Component/Script";
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
 import Manager from "../Setting/Manager";
+import {
+    parseScript,
+    ScriptComponent,
+    ScriptComponentType,
+} from "../Component/Script";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
@@ -57,28 +57,29 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
 
     const parsedScript = parseScript(region, script);
 
-    let dialogueComponents = [] as ScriptDialogue[];
-    for (const component of parsedScript.components) {
+    const audioUrls = [] as string[];
+    const addAudioUrls = (component: ScriptComponent) => {
         switch (component.type) {
             case ScriptComponentType.DIALOGUE:
-                dialogueComponents.push(component);
+                if (component.dialogueVoice !== undefined)
+                    audioUrls.push(component.dialogueVoice.audioAsset);
                 break;
-            case ScriptComponentType.CHOICES:
-                component.choices.forEach((choice) => {
-                    choice.components
-                        .filter((c) => c.type === ScriptComponentType.DIALOGUE)
-                        .map((component) => dialogueComponents.push(component));
-                });
+            case ScriptComponentType.SOUND_EFFECT:
+                audioUrls.push(component.soundEffect.audioAsset);
                 break;
         }
-    }
-    const audioUrls = [] as string[];
-    for (const component of dialogueComponents) {
-        if (
-            component.dialogueVoice !== undefined &&
-            component.dialogueVoice.audioAsset !== undefined
-        ) {
-            audioUrls.push(component.dialogueVoice.audioAsset);
+    };
+    for (const component of parsedScript.components) {
+        switch (component.type) {
+            case ScriptComponentType.CHOICES:
+                for (const choice of component.choices) {
+                    for (const choiceComponent of choice.components) {
+                        addAudioUrls(choiceComponent);
+                    }
+                }
+                break;
+            default:
+                addAudioUrls(component);
         }
     }
     const bgmRowRefs = new Map(

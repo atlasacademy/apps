@@ -1,10 +1,18 @@
-import { Bgm, Region } from "@atlasacademy/api-connector";
+import { Region } from "@atlasacademy/api-connector";
 import { AssetHost } from "../Api";
 
 export enum ScriptComponentType {
     DIALOGUE,
     CHOICES,
+    SOUND_EFFECT,
+    WAIT,
 }
+
+export type ScriptSound = {
+    id: number;
+    name: string;
+    audioAsset: string;
+};
 
 export type ScriptSpeaker = {
     speakerCode: string; // "A", "B", "C", ...
@@ -16,10 +24,18 @@ export type ScriptDialogue = {
     type: ScriptComponentType.DIALOGUE;
     speakerName: string;
     dialogueLines: string[];
-    dialogueVoice?: Bgm.Bgm;
+    dialogueVoice?: ScriptSound;
 };
 
-export type ScriptNotChoiceComponent = ScriptDialogue;
+export type ScriptSoundEffect = {
+    type: ScriptComponentType.SOUND_EFFECT;
+    soundEffect: ScriptSound;
+};
+
+export type ScriptWait = {
+    type: ScriptComponentType.WAIT;
+    durationSec: number;
+};
 
 export type ScriptChoice = {
     id: number;
@@ -32,7 +48,12 @@ export type ScriptChoices = {
     choices: ScriptChoice[];
 };
 
-export type ScriptComponent = ScriptDialogue | ScriptChoices;
+export type ScriptNotChoiceComponent =
+    | ScriptDialogue
+    | ScriptSoundEffect
+    | ScriptWait;
+
+export type ScriptComponent = ScriptNotChoiceComponent | ScriptChoices;
 
 export type ScriptInfo = {
     charaGraphs: ScriptSpeaker[];
@@ -43,12 +64,31 @@ export function parseParameter(line: string): string[] {
     return line.match(/[^\s"]+|"([^"]*)"/g) ?? [];
 }
 
+export function getSoundEffectUrl(region: Region, fileName: string): string {
+    let folder = "SE";
+    switch (fileName.slice(0, 2)) {
+        case "ba":
+            folder = "Battle";
+            break;
+        case "ad":
+            folder = "SE";
+            break;
+        case "ar":
+            folder = "ResidentSE";
+            break;
+        case "21":
+            folder = "SE_21";
+            break;
+    }
+    return `${AssetHost}/${region}/Audio/${folder}/${fileName}.mp3`;
+}
+
 export function parseScript(region: Region, script: string): ScriptInfo {
     let charaGraphs = [] as ScriptSpeaker[];
     let components = [] as ScriptComponent[];
 
     let speakerName = "";
-    let dialogueVoice: Bgm.Bgm | undefined = undefined;
+    let dialogueVoice: ScriptSound | undefined = undefined;
     let dialogueLines = [] as string[];
     let choices = [] as ScriptChoice[];
     let choice = {
@@ -114,6 +154,25 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                             name: fileName,
                             audioAsset: audioUrl,
                         };
+                        break;
+                    case "se":
+                        components.push({
+                            type: ScriptComponentType.SOUND_EFFECT,
+                            soundEffect: {
+                                id: -1,
+                                name: parameters[1],
+                                audioAsset: getSoundEffectUrl(
+                                    region,
+                                    parameters[1]
+                                ),
+                            },
+                        });
+                        break;
+                    case "wt":
+                        components.push({
+                            type: ScriptComponentType.WAIT,
+                            durationSec: parseFloat(parameters[1]),
+                        });
                         break;
                     default:
                         if (parserState.dialogue) {

@@ -57,16 +57,16 @@ const ChoiceComponentsTable = (props: {
     return (
         <Table hover responsive style={{ marginTop: "1em" }}>
             <tbody>
-                {props.choiceComponents
-                    .filter((c) => c.type === ScriptComponentType.DIALOGUE)
-                    .map((dialogue, i) => (
+                {props.choiceComponents.map((c, i) =>
+                    c.type === ScriptComponentType.DIALOGUE ? (
                         <DialogueRow
                             key={i}
                             region={props.region}
-                            dialogue={dialogue}
+                            dialogue={c}
                             refs={props.refs}
                         />
-                    ))}
+                    ) : null
+                )}
             </tbody>
         </Table>
     );
@@ -77,15 +77,11 @@ const ScriptRow = (props: {
     component: ScriptComponent;
     refs: RowBgmRefMap;
 }) => {
-    const component = props.component;
+    const { region, component, refs } = props;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
             return (
-                <DialogueRow
-                    region={props.region}
-                    dialogue={component}
-                    refs={props.refs}
-                />
+                <DialogueRow region={region} dialogue={component} refs={refs} />
             );
         case ScriptComponentType.CHOICES:
             return (
@@ -97,9 +93,9 @@ const ScriptRow = (props: {
                                 <li key={choice.id}>
                                     <ScriptDialogueLine line={choice.text} />
                                     <ChoiceComponentsTable
-                                        region={props.region}
+                                        region={region}
                                         choiceComponents={choice.components}
-                                        refs={props.refs}
+                                        refs={refs}
                                     />
                                 </li>
                             ))}
@@ -107,6 +103,20 @@ const ScriptRow = (props: {
                     </td>
                 </tr>
             );
+        case ScriptComponentType.SOUND_EFFECT:
+            return (
+                <tr ref={refs.get(component.soundEffect.audioAsset)}>
+                    <td>Sound Effect</td>
+                    <td>
+                        <BgmDescriptor
+                            region={region}
+                            bgm={component.soundEffect}
+                        />
+                    </td>
+                </tr>
+            );
+        default:
+            return null;
     }
 };
 
