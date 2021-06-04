@@ -121,8 +121,9 @@ class WarsPage extends React.Component<IProps, IState> {
                         .replace("\n", " ")
                         .toLowerCase()
                 );
+                const searchName = `${war.id} ${normalizedName}`;
 
-                return minimatch(normalizedName, `*${glob}*`);
+                return searchName.match(new RegExp(glob, "g"));
             });
         }
 

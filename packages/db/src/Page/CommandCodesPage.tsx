@@ -68,8 +68,9 @@ class CommandCodesPage extends React.Component<IProps, IState> {
             list = list.filter(
                 entity => {
                     const normalizedName = diacritics.remove(entity.name.toLowerCase());
+                    const searchName = `${entity.id} ${entity.collectionNo} ${normalizedName}`;
 
-                    return minimatch(normalizedName, `*${glob}*`);
+                    return minimatch(searchName, `*${glob}*`);
                 }
             );
         }

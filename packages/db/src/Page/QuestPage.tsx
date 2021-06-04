@@ -50,7 +50,7 @@ const PhaseNavigator = (props: {
     setPhase: (phase: number) => void;
 }) => {
     const currentPhase = props.quest.phase,
-        phases = props.quest.phases;
+        phases = props.quest.phases.sort((a, b) => a - b);
     return (
         <Pagination style={{ marginBottom: 0, float: "right" }}>
             <Pagination.Prev

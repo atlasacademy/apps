@@ -69,9 +69,10 @@ class EventsPage extends React.Component<IProps, IState> {
     private toggleEventTypeFilter(eventType: Event.EventType): void {
         if (this.state.activeEventTypeFilters.includes(eventType)) {
             this.setState({
-                activeEventTypeFilters: this.state.activeEventTypeFilters.filter(
-                    (activeType) => activeType !== eventType
-                ),
+                activeEventTypeFilters:
+                    this.state.activeEventTypeFilters.filter(
+                        (activeType) => activeType !== eventType
+                    ),
             });
         } else {
             this.setState({
@@ -96,16 +97,17 @@ class EventsPage extends React.Component<IProps, IState> {
             const glob = diacritics
                 .remove(this.state.search.toLowerCase())
                 .split(" ")
-                .filter(word => word)
-                .map(word => escape(word))
+                .filter((word) => word)
+                .map((word) => escape(word))
                 .join(".*");
 
             list = list.filter((entity) => {
                 const normalizedName = diacritics.remove(
                     entity.name.toLowerCase()
                 );
+                const searchName = `${entity.id} ${normalizedName}`;
 
-                return normalizedName.match(new RegExp(glob, 'g'));
+                return searchName.match(new RegExp(glob, "g"));
             });
         }
 
@@ -278,10 +280,16 @@ class EventsPage extends React.Component<IProps, IState> {
                         <ButtonGroup style={{ width: "100%" }}>
                             {[
                                 [Event.EventType.EVENT_QUEST, "Event"],
-                                [Event.EventType.COMBINE_CAMPAIGN, "Servant Lvl Up"],
-                                [Event.EventType.SVTEQUIP_COMBINE_CAMPAIGN, "CE Lvl Up"],
+                                [
+                                    Event.EventType.COMBINE_CAMPAIGN,
+                                    "Servant Lvl Up",
+                                ],
+                                [
+                                    Event.EventType.SVTEQUIP_COMBINE_CAMPAIGN,
+                                    "CE Lvl Up",
+                                ],
                                 [Event.EventType.QUEST_CAMPAIGN, "AP Cost"],
-                                [Event.EventType.WAR_BOARD, "Grail Front"]
+                                [Event.EventType.WAR_BOARD, "Grail Front"],
                             ].map(([eventType, buttonText]) => {
                                 return (
                                     <Button
