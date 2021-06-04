@@ -16,6 +16,8 @@ export const ScriptSpeakerName = (props: { name: string }) => {
             return <>{colorString(servantName)}</>;
         }
     }
+    if (name[1] === "：")
+        return <>{colorString(name.split("：")[1].trim())}</>;
 
     return <>{colorString(name)}</>;
 };
