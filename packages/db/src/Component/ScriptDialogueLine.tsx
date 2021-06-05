@@ -16,8 +16,7 @@ export const ScriptSpeakerName = (props: { name: string }) => {
             return <>{colorString(servantName)}</>;
         }
     }
-    if (name[1] === "：")
-        return <>{colorString(name.split("：")[1].trim())}</>;
+    if (name[1] === "：") return <>{colorString(name.split("：")[1].trim())}</>;
 
     return <>{colorString(name)}</>;
 };
@@ -64,9 +63,10 @@ const ScriptDialogueLine = (props: { line: string }) => {
                 parts.push(
                     <div
                         style={{
-                            width: `${25 * parseInt(parameters[1])}px`,
-                            height: "1em",
-                            borderBottom: "1px solid black",
+                            width: `${15 * parseInt(parameters[1])}px`,
+                            height: "0.25em",
+                            borderTop: "1px solid black",
+                            margin: "0 0.125em 0 0.25em",
                             display: "inline-block",
                         }}
                     ></div>

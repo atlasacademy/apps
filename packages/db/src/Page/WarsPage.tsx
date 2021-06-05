@@ -1,7 +1,6 @@
 import { Region, War } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
-import minimatch from "minimatch";
 import React from "react";
 import {
     Col,
