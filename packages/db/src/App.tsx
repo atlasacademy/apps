@@ -16,6 +16,8 @@ import Manager from "./Setting/Manager";
 import {Theme} from "./Setting/Theme";
 
 const AiPage = React.lazy(() => import("./Page/AiPage"));
+const BgmPage = React.lazy(() => import("./Page/BgmPage"));
+const BgmsPage = React.lazy(() => import("./Page/BgmsPage"));
 const BuffPage = React.lazy(() => import("./Page/BuffPage"));
 const BuffsPage = React.lazy(() => import("./Page/BuffsPage"));
 const ChangelogPage = React.lazy(() => import("./Page/ChangelogPage"));
@@ -97,6 +99,22 @@ class App extends React.Component<any, IState> {
                         )}
                     </Helmet>
                     <Switch>
+                        <Route exact={true} path="/:region(JP|NA)/bgm/:id([0-9]+)" render={props => {
+                            const {region, id} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <BgmPage key={`${region}-${id}`} region={region as Region} bgmId={parseInt(id)}/>
+                                </Suspense>
+                            );
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/bgms" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <BgmsPage key={region} region={region as Region}/>
+                                </Suspense>
+                            );
+                        }}/>
                         <Route exact={true} path="/:region(JP|NA)/buff/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params;
                             return (

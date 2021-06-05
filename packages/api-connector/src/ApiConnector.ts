@@ -64,6 +64,7 @@ import {
     FuncTargetType,
     FuncType,
 } from "./Schema/Func";
+import { BgmEntity } from "./Schema/Bgm";
 
 export enum ReverseData {
     BASIC = "basic",
@@ -215,6 +216,8 @@ class ApiConnector {
     private language: Language;
     private cache = {
         attributeAffinityMap: new ResultCache<null, AttributeAffinityMap>(),
+        bgm: new ResultCache<number, BgmEntity>(),
+        bgmList: new ResultCache<null, BgmEntity[]>(),
         buff: new ResultCache<number, Buff>(),
         buffBasic: new ResultCache<number, BasicBuff>(),
         buffConstantMap: new ResultCache<null, BuffConstantMap>(),
@@ -364,6 +367,45 @@ class ApiConnector {
                 .split("\n")
                 .filter(Boolean)
                 .map((change) => JSON.parse(change))
+        );
+    }
+
+    bgm(id: number, cacheDuration?: number): Promise<BgmEntity> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<BgmEntity>(
+                `${this.host}/nice/${this.region}/bgm/${id}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.bgm.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    bgmList(cacheDuration?: number): Promise<BgmEntity[]> {
+        let source: string;
+
+        if (this.showJPdataWithEnglishText()) {
+            source = `${this.host}/export/JP/nice_bgm_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/nice_bgm.json`;
+        }
+
+        const fetch = () => {
+            return ApiConnector.fetch<BgmEntity[]>(source);
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.bgmList.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
         );
     }
 

@@ -3,6 +3,7 @@ import {
     Ai,
     ApiConnector,
     Attribute,
+    Bgm,
     Buff,
     Card,
     Change,
@@ -44,6 +45,14 @@ let apiConnector: ApiConnector = new ApiConnector({
 class Api {
     static init(region: Region, language: Language) {
         apiConnector = new ApiConnector({ host: Host, region, language });
+    }
+
+    static bgm(id: number): Promise<Bgm.BgmEntity> {
+        return apiConnector.bgm(id, cacheDuration);
+    }
+
+    static bgmList(): Promise<Bgm.BgmEntity[]> {
+        return apiConnector.bgmList(cacheDuration);
     }
 
     static buff(id: number): Promise<Buff.Buff> {

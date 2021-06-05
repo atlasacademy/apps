@@ -4,13 +4,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonGroup, Button } from "react-bootstrap";
 import VoiceLinePlayer from "./VoiceLinePlayer";
 
-export default function BgmDescriptor(props: { region: Region; bgm: Bgm.Bgm }) {
+export default function BgmDescriptor(props: {
+    region: Region;
+    bgm: Bgm.Bgm;
+    showName?: string;
+}) {
     const bgm = props.bgm;
     if (bgm.id === 0) {
         return null;
     } else if (bgm.audioAsset !== undefined) {
         let showName = "";
-        if (bgm.name !== "") {
+        if (bgm.name !== "" && bgm.name !== "0") {
             showName = bgm.name;
         } else {
             const urlParts = bgm.audioAsset.split("/");
@@ -29,7 +33,7 @@ export default function BgmDescriptor(props: { region: Region; bgm: Bgm.Bgm }) {
                     target="_blank"
                     title={`Download ${showName}`}
                 >
-                    {showName}&nbsp;
+                    {props.showName ?? showName}&nbsp;
                     <FontAwesomeIcon icon={faFileAudio} />
                 </Button>
             </ButtonGroup>
