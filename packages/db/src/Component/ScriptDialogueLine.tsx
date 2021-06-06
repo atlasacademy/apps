@@ -24,13 +24,24 @@ export const ScriptSpeakerName = (props: { name: string }) => {
 const splitLine = (line: string) => {
     let word = "";
     let wordList = [] as string[];
+    let openBracket = 0;
     for (const char of line) {
         if (char === "[") {
-            if (word !== "") wordList.push(word);
-            word = "[";
+            if (openBracket === 0) {
+                if (word !== "") wordList.push(word);
+                word = "[";
+            } else {
+                word += "[";
+            }
+            openBracket += 1;
         } else if (char === "]") {
-            wordList.push(`${word}]`);
-            word = "";
+            openBracket -= 1;
+            if (openBracket === 0) {
+                wordList.push(`${word}]`);
+                word = "";
+            } else {
+                word += "]";
+            }
         } else {
             word = word.concat(char);
         }
@@ -39,48 +50,61 @@ const splitLine = (line: string) => {
     return wordList;
 };
 
-const ScriptDialogueLine = (props: { line: string }) => {
-    const words = splitLine(props.line);
-    let parts = [] as Renderable[];
+const renderScriptParameter = (word: string): Renderable => {
+    const parameters = parseParameter(word.slice(1, word.length - 1));
+    switch (parameters[0]) {
+        case "sr":
+            return <br />;
+        case "%1":
+            return Manager.region() === Region.JP ? "ぐだ子" : "Gudako";
+        case "line":
+            return (
+                <div
+                    style={{
+                        width: `${15 * parseInt(parameters[1])}px`,
+                        height: "0.25em",
+                        borderTop: "1px solid black",
+                        margin: "0 0.125em 0 0.25em",
+                        display: "inline-block",
+                    }}
+                ></div>
+            );
+        default:
+            if (word[1] === "&") {
+                const genderChoices = word.slice(2, word.length - 1).split(":");
+                return genderChoices[1];
+            }
+    }
+};
 
+const renderScriptString = (words: Renderable[]): Renderable[] => {
+    let outRender = [] as Renderable[];
     for (const word of words) {
-        if (word[0] !== "[") {
-            parts.push(word);
-            continue;
-        }
-
-        const parameters = parseParameter(word.slice(1, word.length - 1));
-        switch (parameters[0]) {
-            case "sr":
-                parts.push(<br />);
-                break;
-            case "%1":
-                parts.push(
-                    Manager.region() === Region.JP ? "ぐだ子" : "Gudako"
+        if (typeof word === "string") {
+            if (word[0] === "[") {
+                outRender = outRender.concat(
+                    renderScriptString([renderScriptParameter(word)])
                 );
-                break;
-            case "line":
-                parts.push(
-                    <div
-                        style={{
-                            width: `${15 * parseInt(parameters[1])}px`,
-                            height: "0.25em",
-                            borderTop: "1px solid black",
-                            margin: "0 0.125em 0 0.25em",
-                            display: "inline-block",
-                        }}
-                    ></div>
+            } else if (word.includes("[")) {
+                outRender = outRender.concat(
+                    renderScriptString(splitLine(word))
                 );
-                break;
-            default:
-                if (word[1] === "&") {
-                    const genderChoices = word
-                        .slice(2, word.length - 1)
-                        .split(":");
-                    parts.push(genderChoices[1]);
-                }
+            } else {
+                outRender.push(word);
+            }
+        } else {
+            outRender.push(word);
         }
     }
+    return outRender;
+};
+
+const ScriptDialogueLine = (props: { line: string }) => {
+    const words = splitLine(props.line);
+    const parts = renderScriptString(words);
+
+    if (props.line.startsWith("Bah, the only"))
+        console.log(props.line, words, parts);
 
     return <>{mergeElements(parts, "")}</>;
 };
