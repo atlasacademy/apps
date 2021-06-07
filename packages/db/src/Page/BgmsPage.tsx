@@ -7,7 +7,10 @@ import { Link } from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import BgmDescriptor from "../Descriptor/BgmDescriptor";
+import BgmDescriptor, {
+    getBgmFileName,
+    getBgmName,
+} from "../Descriptor/BgmDescriptor";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import Manager from "../Setting/Manager";
 
@@ -68,7 +71,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             list = list.filter((bgm) => !bgm.notReleased);
         }
 
-        if (this.state.search) {
+        if (this.state.search !== undefined && this.state.search !== "") {
             const glob = diacritics
                 .remove(this.state.search.toLowerCase())
                 .split(" ")
@@ -76,11 +79,14 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                 .map((word) => escape(word))
                 .join(".*");
 
-            list = list.filter((entity) => {
+            list = list.filter((bgm) => {
                 const normalizedName = diacritics.remove(
-                    entity.name.toLowerCase()
+                    getBgmName(bgm).toLowerCase()
                 );
-                const searchName = `${entity.id} ${normalizedName}`;
+                const fileName = diacritics.remove(
+                    getBgmFileName(bgm.audioAsset).toLowerCase()
+                );
+                const searchName = `${bgm.id} ${normalizedName} ${fileName}`;
 
                 return searchName.match(new RegExp(glob, "g"));
             });
@@ -312,14 +318,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     <tbody>
                         {results.map((bgm) => {
                             const route = `/${this.props.region}/bgm/${bgm.id}`;
-                            const urlParts = (bgm.audioAsset ?? "").split("/");
-                            const fileName = urlParts[
-                                urlParts.length - 1
-                            ].replace(".mp3", "");
-                            const showName =
-                                bgm.name !== "" && bgm.name !== "0"
-                                    ? bgm.name
-                                    : fileName;
+                            const showName = getBgmName(bgm);
 
                             const shopDetail = bgm.shop ? (
                                 <>

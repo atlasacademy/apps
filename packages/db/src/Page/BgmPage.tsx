@@ -7,7 +7,7 @@ import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 import { BgmEntity } from "@atlasacademy/api-connector/dist/Schema/Bgm";
 import DataTable from "../Component/DataTable";
-import BgmDescriptor from "../Descriptor/BgmDescriptor";
+import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import RawDataViewer from "../Component/RawDataViewer";
@@ -39,9 +39,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
 
     if (bgm === undefined) return null;
 
-    const urlParts = (bgm.audioAsset ?? "").split("/");
-    const fileName = urlParts[urlParts.length - 1].replace(".mp3", "");
-    const showName = bgm.name !== "" && bgm.name !== "0" ? bgm.name : fileName;
+    const showName = getBgmName(bgm);
 
     document.title = `[${region}] BGM ${showName} - Atlas Academy DB`;
 
