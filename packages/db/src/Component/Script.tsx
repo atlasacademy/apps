@@ -2,10 +2,17 @@ import { Region } from "@atlasacademy/api-connector";
 import { AssetHost } from "../Api";
 
 export enum ScriptComponentType {
+    UN_PARSED,
     DIALOGUE,
     CHOICES,
     SOUND_EFFECT,
     WAIT,
+    DIALOGUE_TEXT,
+    DIALOGUE_NEW_LINE,
+    DIALOGUE_PLAYER_NAME,
+    DIALOGUE_LINE,
+    DIALOGUE_GENDER,
+    DIALOGUE_RUBY,
 }
 
 export type ScriptSound = {
@@ -20,11 +27,54 @@ export type ScriptSpeaker = {
     baseName: string; // "Mash", `"Dr. Roman"`, "Fou"
 };
 
+export type DialogueText = {
+    type: ScriptComponentType.DIALOGUE_TEXT;
+    text: string;
+};
+
+export type DialogueNewLine = {
+    type: ScriptComponentType.DIALOGUE_NEW_LINE;
+};
+
+export type DialoguePlayerName = {
+    type: ScriptComponentType.DIALOGUE_PLAYER_NAME;
+};
+
+export type DialogueLine = {
+    type: ScriptComponentType.DIALOGUE_LINE;
+    length: number;
+};
+
+export type DialogueRuby = {
+    type: ScriptComponentType.DIALOGUE_RUBY;
+    text: string;
+    ruby?: string;
+};
+
+export type DialogueBasicComponent =
+    | DialogueText
+    | DialogueNewLine
+    | DialoguePlayerName
+    | DialogueLine
+    | DialogueRuby;
+
+export type DialogueGender = {
+    type: ScriptComponentType.DIALOGUE_GENDER;
+    male: DialogueBasicComponent[];
+    female: DialogueBasicComponent[];
+};
+
+export type DialogueChildComponent =
+    | DialogueBasicComponent
+    | DialogueGender
+    | ScriptBracketComponent;
+
 export type ScriptDialogue = {
     type: ScriptComponentType.DIALOGUE;
     speakerName: string;
-    dialogueLines: string[];
-    dialogueVoice?: ScriptSound;
+    lines: string[];
+    components: DialogueChildComponent[];
+    voice?: ScriptSound;
 };
 
 export type ScriptSoundEffect = {
@@ -37,10 +87,25 @@ export type ScriptWait = {
     durationSec: number;
 };
 
+export type ScriptUnParsed = {
+    type: ScriptComponentType.UN_PARSED;
+    parameters: string[];
+};
+
+// In contrast with components that span multiple lines like Dialogue or Choices
+export type ScriptBracketComponent =
+    | ScriptUnParsed
+    | ScriptSoundEffect
+    | ScriptWait;
+
+export type ScriptChoiceChildComponent =
+    | ScriptBracketComponent
+    | ScriptDialogue;
+
 export type ScriptChoice = {
     id: number;
-    text: string;
-    components: ScriptNotChoiceComponent[];
+    option: DialogueChildComponent[];
+    results: ScriptChoiceChildComponent[];
 };
 
 export type ScriptChoices = {
@@ -48,12 +113,10 @@ export type ScriptChoices = {
     choices: ScriptChoice[];
 };
 
-export type ScriptNotChoiceComponent =
+export type ScriptComponent =
+    | ScriptBracketComponent
     | ScriptDialogue
-    | ScriptSoundEffect
-    | ScriptWait;
-
-export type ScriptComponent = ScriptNotChoiceComponent | ScriptChoices;
+    | ScriptChoices;
 
 export type ScriptInfo = {
     charaGraphs: ScriptSpeaker[];
@@ -61,7 +124,112 @@ export type ScriptInfo = {
 };
 
 export function parseParameter(line: string): string[] {
-    return line.match(/[^\s"]+|"([^"]*)"/g) ?? [];
+    const noNewLine = line.replace("\n", " ").replace("\r", " ").trim();
+    return (
+        noNewLine.slice(1, noNewLine.length - 1).match(/[^\s"]+|"([^"]*)"/g) ??
+        []
+    );
+}
+
+function splitLine(line: string): string[] {
+    let word = "";
+    let wordList = [] as string[];
+    let openBracket = 0;
+    for (const char of line) {
+        if (char === "[") {
+            if (openBracket === 0) {
+                if (word !== "") wordList.push(word);
+                word = "[";
+            } else {
+                word += "[";
+            }
+            openBracket += 1;
+        } else if (char === "]") {
+            openBracket -= 1;
+            if (openBracket === 0) {
+                wordList.push(`${word}]`);
+                word = "";
+            } else {
+                word += "]";
+            }
+        } else {
+            word = word.concat(char);
+        }
+    }
+    if (word !== "") wordList.push(word);
+    return wordList;
+}
+
+function isDialogueBasic(word: string): boolean {
+    const BASIC_SIGNATURES = ["r", "sr", "%1", "line", "#"];
+    for (const signature of BASIC_SIGNATURES) {
+        if (word.startsWith("[" + signature)) return true;
+    }
+    return false;
+}
+
+function parseDialogueBasic(word: string): DialogueBasicComponent {
+    const parameters = parseParameter(word);
+    switch (parameters[0]) {
+        case "r":
+        case "sr":
+            return { type: ScriptComponentType.DIALOGUE_NEW_LINE };
+        case "%1":
+            // Player's name
+            return { type: ScriptComponentType.DIALOGUE_PLAYER_NAME };
+        case "line":
+            return {
+                type: ScriptComponentType.DIALOGUE_LINE,
+                length: parseInt(parameters[1]),
+            };
+    }
+    switch (word[1]) {
+        case "#":
+            // Ruby Text `[#string:ruby]`
+            const [text, ruby] = word.slice(2, word.length - 1).split(":");
+            return {
+                type: ScriptComponentType.DIALOGUE_RUBY,
+                text: text,
+                ruby: ruby,
+            };
+    }
+    return {
+        type: ScriptComponentType.DIALOGUE_TEXT,
+        text: word,
+    };
+}
+
+function parseDialogueGender(word: string): DialogueGender {
+    // Gender ternary `[&male:female]`
+    const [male, female] = word
+        .slice(2, word.length - 1)
+        .split(/:(?=[^\]]*(?:\[|$))/); // To split nested components
+    return {
+        type: ScriptComponentType.DIALOGUE_GENDER,
+        male: splitLine(male).map((word) => parseDialogueBasic(word)),
+        female: splitLine(female).map((word) => parseDialogueBasic(word)),
+    };
+}
+
+function parseDialogueWord(
+    region: Region,
+    word: string
+): DialogueChildComponent {
+    if (word[0] === "[") {
+        if (word[1] === "&") {
+            return parseDialogueGender(word);
+        } else if (!isDialogueBasic(word)) {
+            return parseBracketComponent(region, parseParameter(word));
+        }
+    }
+    return parseDialogueBasic(word);
+}
+
+function parseDialogueLine(
+    region: Region,
+    line: string
+): DialogueChildComponent[] {
+    return splitLine(line).map((word) => parseDialogueWord(region, word));
 }
 
 export function getSoundEffectUrl(region: Region, fileName: string): string {
@@ -83,18 +251,49 @@ export function getSoundEffectUrl(region: Region, fileName: string): string {
     return `${AssetHost}/${region}/Audio/${folder}/${fileName}.mp3`;
 }
 
+function parseBracketComponent(
+    region: Region,
+    parameters: string[]
+): ScriptBracketComponent {
+    switch (parameters[0]) {
+        case "se":
+            return {
+                type: ScriptComponentType.SOUND_EFFECT,
+                soundEffect: {
+                    id: -1,
+                    name: parameters[1],
+                    audioAsset: getSoundEffectUrl(region, parameters[1]),
+                },
+            };
+        case "wt":
+            return {
+                type: ScriptComponentType.WAIT,
+                durationSec: parseFloat(parameters[1]),
+            };
+        default:
+            return {
+                type: ScriptComponentType.UN_PARSED,
+                parameters,
+            };
+    }
+}
+
 export function parseScript(region: Region, script: string): ScriptInfo {
     let charaGraphs = [] as ScriptSpeaker[];
     let components = [] as ScriptComponent[];
 
-    let speakerName = "";
-    let dialogueVoice: ScriptSound | undefined = undefined;
-    let dialogueLines = [] as string[];
+    let dialogue: ScriptDialogue = {
+        type: ScriptComponentType.DIALOGUE,
+        speakerName: "",
+        lines: [],
+        components: [],
+        voice: undefined,
+    };
     let choices = [] as ScriptChoice[];
-    let choice = {
+    let choice: ScriptChoice = {
         id: -1,
-        text: "",
-        components: [] as ScriptDialogue[],
+        option: [],
+        results: [],
     };
 
     let parserState = {
@@ -103,14 +302,15 @@ export function parseScript(region: Region, script: string): ScriptInfo {
     };
 
     const resetDialogueVariables = () => {
-        speakerName = "";
-        dialogueVoice = undefined;
-        dialogueLines = [];
+        dialogue.speakerName = "";
+        dialogue.voice = undefined;
+        dialogue.lines = [];
+        dialogue.components = [];
     };
     const resetChoiceVariables = () => {
         choice.id = -1;
-        choice.text = "";
-        choice.components = [];
+        choice.option = [];
+        choice.results = [];
     };
 
     const lineEnding = script.includes("\r\n") ? "\r\n" : "\n";
@@ -121,8 +321,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 // First line script info: ＄01-00-08-19-2-2
                 break;
             case "[":
-                const lineContent = line.slice(1, line.length - 1);
-                const parameters = parseParameter(lineContent);
+                const parameters = parseParameter(line);
                 switch (parameters[0]) {
                     case "charaSet":
                         charaGraphs.push({
@@ -132,17 +331,13 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         });
                         break;
                     case "k":
-                        const dialogue: ScriptDialogue = {
-                            type: ScriptComponentType.DIALOGUE,
-                            speakerName,
-                            dialogueLines,
-                            dialogueVoice,
-                        };
-
+                        dialogue.components = dialogue.lines
+                            .map((line) => parseDialogueLine(region, line))
+                            .flat();
                         if (parserState.choice) {
-                            choice.components.push(dialogue);
+                            choice.results.push({ ...dialogue });
                         } else {
-                            components.push(dialogue);
+                            components.push({ ...dialogue });
                         }
 
                         resetDialogueVariables();
@@ -152,40 +347,25 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         const folder = parameters[1];
                         const fileName = parameters[2];
                         const audioUrl = `${AssetHost}/${region}/Audio/${folder}/${fileName}.mp3`;
-                        dialogueVoice = {
+                        dialogue.voice = {
                             id: -1,
                             name: fileName,
                             audioAsset: audioUrl,
                         };
                         break;
-                    case "se":
-                        components.push({
-                            type: ScriptComponentType.SOUND_EFFECT,
-                            soundEffect: {
-                                id: -1,
-                                name: parameters[1],
-                                audioAsset: getSoundEffectUrl(
-                                    region,
-                                    parameters[1]
-                                ),
-                            },
-                        });
-                        break;
-                    case "wt":
-                        components.push({
-                            type: ScriptComponentType.WAIT,
-                            durationSec: parseFloat(parameters[1]),
-                        });
-                        break;
                     default:
                         if (parserState.dialogue) {
-                            dialogueLines.push(line);
+                            dialogue.lines.push(line);
                             break;
+                        } else {
+                            components.push(
+                                parseBracketComponent(region, parameters)
+                            );
                         }
                 }
                 break;
             case "＠":
-                speakerName = line.slice(1);
+                dialogue.speakerName = line.slice(1);
                 parserState.dialogue = true;
                 break;
             case "？":
@@ -207,8 +387,8 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 }
 
                 choice.id = lineChoiceNumber;
-                choice.text = line.slice(3);
-                choice.components = [];
+                choice.option = parseDialogueLine(region, line.slice(3));
+                choice.results = [];
 
                 parserState.choice = true;
                 break;
@@ -216,7 +396,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 break;
             default:
                 if (parserState.dialogue) {
-                    dialogueLines.push(line);
+                    dialogue.lines.push(line);
                     break;
                 }
         }

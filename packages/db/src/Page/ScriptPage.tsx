@@ -61,8 +61,8 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const addAudioUrls = (component: ScriptComponent) => {
         switch (component.type) {
             case ScriptComponentType.DIALOGUE:
-                if (component.dialogueVoice !== undefined)
-                    audioUrls.push(component.dialogueVoice.audioAsset);
+                if (component.voice !== undefined)
+                    audioUrls.push(component.voice.audioAsset);
                 break;
             case ScriptComponentType.SOUND_EFFECT:
                 audioUrls.push(component.soundEffect.audioAsset);
@@ -73,7 +73,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         switch (component.type) {
             case ScriptComponentType.CHOICES:
                 for (const choice of component.choices) {
-                    for (const choiceComponent of choice.components) {
+                    for (const choiceComponent of choice.results) {
                         addAudioUrls(choiceComponent);
                     }
                 }

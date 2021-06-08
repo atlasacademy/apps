@@ -1,14 +1,13 @@
 import { Region } from "@atlasacademy/api-connector";
 import { Table } from "react-bootstrap";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
-import { mergeElements } from "../Helper/OutputHelper";
 import ScriptDialogueLine, { ScriptSpeakerName } from "./ScriptDialogueLine";
 import {
+    ScriptBracketComponent,
     ScriptComponent,
     ScriptComponentType,
     ScriptDialogue,
     ScriptInfo,
-    ScriptNotChoiceComponent,
 } from "./Script";
 
 type RowBgmRefMap = Map<
@@ -21,28 +20,20 @@ const DialogueRow = (props: {
     dialogue: ScriptDialogue;
     refs: RowBgmRefMap;
 }) => {
-    const dialogueVoice = props.dialogue.dialogueVoice ? (
+    const dialogueVoice = props.dialogue.voice ? (
         <>
-            <BgmDescriptor
-                region={props.region}
-                bgm={props.dialogue.dialogueVoice}
-            />
+            <BgmDescriptor region={props.region} bgm={props.dialogue.voice} />
             <br />
         </>
     ) : null;
     return (
-        <tr ref={props.refs.get(props.dialogue.dialogueVoice?.audioAsset)}>
+        <tr ref={props.refs.get(props.dialogue.voice?.audioAsset)}>
             <td>
                 <ScriptSpeakerName name={props.dialogue.speakerName} />
             </td>
             <td>
                 {dialogueVoice}
-                {mergeElements(
-                    props.dialogue.dialogueLines.map((line) => (
-                        <ScriptDialogueLine line={line} />
-                    )),
-                    <br />
-                )}
+                <ScriptDialogueLine components={props.dialogue.components} />
             </td>
         </tr>
     );
@@ -50,7 +41,7 @@ const DialogueRow = (props: {
 
 const ChoiceComponentsTable = (props: {
     region: Region;
-    choiceComponents: ScriptNotChoiceComponent[];
+    choiceComponents: (ScriptBracketComponent | ScriptDialogue)[];
     refs: RowBgmRefMap;
 }) => {
     if (props.choiceComponents.length === 0) return null;
@@ -91,10 +82,12 @@ const ScriptRow = (props: {
                         <ul>
                             {component.choices.map((choice) => (
                                 <li key={choice.id}>
-                                    <ScriptDialogueLine line={choice.text} />
+                                    <ScriptDialogueLine
+                                        components={choice.option}
+                                    />
                                     <ChoiceComponentsTable
                                         region={region}
-                                        choiceComponents={choice.components}
+                                        choiceComponents={choice.results}
                                         refs={refs}
                                     />
                                 </li>
