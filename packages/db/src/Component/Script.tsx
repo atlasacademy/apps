@@ -117,6 +117,9 @@ export function parseScript(region: Region, script: string): ScriptInfo {
 
     for (const line of script.split(lineEnding)) {
         switch (line[0]) {
+            case "＄":
+                // First line script info: ＄01-00-08-19-2-2
+                break;
             case "[":
                 const lineContent = line.slice(1, line.length - 1);
                 const parameters = parseParameter(lineContent);

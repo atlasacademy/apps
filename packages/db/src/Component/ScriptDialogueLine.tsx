@@ -53,9 +53,11 @@ const splitLine = (line: string) => {
 const renderScriptParameter = (word: string): Renderable => {
     const parameters = parseParameter(word.slice(1, word.length - 1));
     switch (parameters[0]) {
+        case "r":
         case "sr":
             return <br />;
         case "%1":
+            // Player's name
             return Manager.region() === Region.JP ? "ぐだ子" : "Gudako";
         case "line":
             return (
@@ -69,12 +71,33 @@ const renderScriptParameter = (word: string): Renderable => {
                     }}
                 ></div>
             );
-        default:
-            if (word[1] === "&") {
-                const genderChoices = word.slice(2, word.length - 1).split(":");
-                return genderChoices[1];
-            }
     }
+    switch (word[1]) {
+        case "&":
+            // Gender ternary `[&male:female]`
+            const genderChoices = word
+                .slice(2, word.length - 1)
+                .split(/:(?=[^\]]*(?:\[|$))/);
+            return mergeElements(
+                renderScriptString(splitLine(genderChoices[1])),
+                ""
+            );
+        case "#":
+            // Ruby Text `[#string:ruby]`
+            const [text, ruby] = word.slice(2, word.length - 1).split(":");
+            if (word !== undefined && ruby !== undefined) {
+                return (
+                    <ruby>
+                        {text}
+                        <rp>(</rp>
+                        <rt>{ruby}</rt>
+                        <rp>)</rp>
+                    </ruby>
+                );
+            }
+            return text;
+    }
+    return "";
 };
 
 const renderScriptString = (words: Renderable[]): Renderable[] => {
@@ -102,9 +125,6 @@ const renderScriptString = (words: Renderable[]): Renderable[] => {
 const ScriptDialogueLine = (props: { line: string }) => {
     const words = splitLine(props.line);
     const parts = renderScriptString(words);
-
-    if (props.line.startsWith("Bah, the only"))
-        console.log(props.line, words, parts);
 
     return <>{mergeElements(parts, "")}</>;
 };

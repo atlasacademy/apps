@@ -9,7 +9,7 @@ export default function getRubyText(region: Region, text: string, ruby: string, 
     }
 }
 
-function makeRubyText(text: string, ruby: string, splitRank = false): Renderable {
+export function makeRubyText(text: string, ruby: string, splitRank = false): Renderable {
     let textSplitted = text.split(" ");
     let rank = textSplitted[textSplitted.length - 1];
     let skillName = textSplitted.slice(0, -1).join(" ");
