@@ -18,6 +18,8 @@ export enum ScriptComponentType {
 export type ScriptSound = {
     id: number;
     name: string;
+    fileName: string;
+    notReleased: boolean;
     audioAsset: string;
 };
 
@@ -123,7 +125,7 @@ export type ScriptInfo = {
     components: ScriptComponent[];
 };
 
-export function parseParameter(line: string): string[] {
+function parseParameter(line: string): string[] {
     const noNewLine = line.replace("\n", " ").replace("\r", " ").trim();
     return (
         noNewLine.slice(1, noNewLine.length - 1).match(/[^\s"]+|"([^"]*)"/g) ??
@@ -232,7 +234,7 @@ function parseDialogueLine(
     return splitLine(line).map((word) => parseDialogueWord(region, word));
 }
 
-export function getSoundEffectUrl(region: Region, fileName: string): string {
+function getSoundEffectUrl(region: Region, fileName: string): string {
     let folder = "SE";
     switch (fileName.slice(0, 2)) {
         case "ba":
@@ -262,6 +264,8 @@ function parseBracketComponent(
                 soundEffect: {
                     id: -1,
                     name: parameters[1],
+                    fileName: parameters[1],
+                    notReleased: false,
                     audioAsset: getSoundEffectUrl(region, parameters[1]),
                 },
             };
@@ -350,6 +354,8 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         dialogue.voice = {
                             id: -1,
                             name: fileName,
+                            fileName,
+                            notReleased: false,
                             audioAsset: audioUrl,
                         };
                         break;

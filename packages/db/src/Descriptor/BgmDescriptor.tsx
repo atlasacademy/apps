@@ -6,16 +6,11 @@ import VoiceLinePlayer from "./VoiceLinePlayer";
 import { Link } from "react-router-dom";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 
-export const getBgmFileName = (audioUrl?: string) => {
-    const urlParts = (audioUrl ?? "").split("/");
-    return urlParts[urlParts.length - 1].replace(".mp3", "");
-};
-
 export const getBgmName = (bgm: Bgm.Bgm) => {
     if (bgm.name !== "" && bgm.name !== "0") {
         return bgm.name;
     } else {
-        return getBgmFileName(bgm.audioAsset);
+        return bgm.fileName;
     }
 };
 
@@ -44,6 +39,17 @@ export default function BgmDescriptor(props: {
                 </Button>
             </>
         ) : null;
+        const downloadButton = bgm.notReleased ? null : (
+            <Button
+                variant={"info"}
+                href={bgm.audioAsset}
+                target="_blank"
+                title={`Download ${showName}`}
+            >
+                {props.showName ?? showName}&nbsp;
+                <FontAwesomeIcon icon={faFileAudio} />
+            </Button>
+        );
         return (
             <>
                 <ButtonGroup size="sm">
@@ -52,15 +58,7 @@ export default function BgmDescriptor(props: {
                         delay={[0]}
                         title={bgm.name}
                     />
-                    <Button
-                        variant={"info"}
-                        href={bgm.audioAsset}
-                        target="_blank"
-                        title={`Download ${showName}`}
-                    >
-                        {props.showName ?? showName}&nbsp;
-                        <FontAwesomeIcon icon={faFileAudio} />
-                    </Button>
+                    {downloadButton}
                     {toLink}
                 </ButtonGroup>
             </>

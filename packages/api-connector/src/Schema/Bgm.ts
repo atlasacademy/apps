@@ -4,6 +4,7 @@ import { Shop } from "./Shop";
 export interface Bgm {
     id: number;
     name: string;
+    fileName: string;
     audioAsset?: string;
 }
 
@@ -20,6 +21,7 @@ export interface BgmRelease {
 export interface BgmEntity {
     id: number;
     name: string;
+    fileName: string;
     audioAsset?: string;
     priority: number;
     detail: string;

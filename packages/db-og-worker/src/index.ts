@@ -37,7 +37,9 @@ async function fetchApi(
     target: string,
     language: "jp" | "en" = "en"
 ) {
-    const dataType = ["item", "function"].includes(endpoint) ? "nice" : "basic";
+    const dataType = ["item", "function", "bgm"].includes(endpoint)
+        ? "nice"
+        : "basic";
     const url = `https://api.atlasacademy.io/${dataType}/${region}/${endpoint}/${target}?lang=${language}`;
     return fetch(url).then((res) => res.json());
 }
@@ -75,6 +77,7 @@ const listingPageTitles = new Map([
     ["items", "Materials"],
     ["events", "Events"],
     ["wars", "Wars"],
+    ["bgms", "BGMs"],
     ["entities", "Entities Search"],
     ["skills", "Skills Search"],
     ["noble-phantasms", "Noble Phantasms Search"],
@@ -182,6 +185,22 @@ async function handleRequest(request: Request) {
                     : `Function ${funcId}: ${funcPopupText}`;
             const title = `[${region}] ${funcTitle}`;
             return overwrite(page, title);
+        }
+        case "bgm": {
+            const { name, fileName, logo } = await fetchApi(
+                region,
+                "bgm",
+                target,
+                language
+            );
+            let bgmName = target;
+            if (name !== "" && name !== "0") {
+                bgmName = name;
+            } else if (fileName !== "") {
+                bgmName = fileName;
+            }
+            const title = `[${region}] BGM: ${bgmName}`;
+            return overwrite(page, title, logo);
         }
         case "buff": {
             const { id, name, icon } = await fetchApi(

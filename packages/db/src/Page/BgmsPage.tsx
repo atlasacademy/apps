@@ -7,10 +7,7 @@ import { Link } from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import BgmDescriptor, {
-    getBgmFileName,
-    getBgmName,
-} from "../Descriptor/BgmDescriptor";
+import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import Manager from "../Setting/Manager";
 
@@ -37,7 +34,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         this.state = {
             loading: true,
             bgms: [],
-            releaseOnlyFilter: true,
+            releaseOnlyFilter: false,
             perPage: 50,
             page: 0,
         };
@@ -62,9 +59,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
     private bgms(): Bgm.BgmEntity[] {
         let list = this.state.bgms
-            .filter(
-                (bgm) => bgm.audioAsset && !bgm.audioAsset.endsWith("//.mp3")
-            )
+            .filter((bgm) => bgm.audioAsset && bgm.fileName !== "")
             .sort((a, b) => a.priority - b.priority);
 
         if (this.state.releaseOnlyFilter) {
@@ -80,13 +75,14 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                 .join(".*");
 
             list = list.filter((bgm) => {
-                const normalizedName = diacritics.remove(
-                    getBgmName(bgm).toLowerCase()
-                );
-                const fileName = diacritics.remove(
-                    getBgmFileName(bgm.audioAsset).toLowerCase()
-                );
-                const searchName = `${bgm.id} ${normalizedName} ${fileName}`;
+                const normalizedName = diacritics
+                    .remove(
+                        bgm.name !== "" && bgm.name !== "0"
+                            ? `${bgm.name} ${bgm.fileName}`
+                            : bgm.fileName
+                    )
+                    .toLowerCase();
+                const searchName = `${bgm.id} ${normalizedName}`;
 
                 return searchName.match(new RegExp(glob, "g"));
             });
