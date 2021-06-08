@@ -5,6 +5,7 @@ export interface Bgm {
     id: number;
     name: string;
     fileName: string;
+    notReleased: boolean;
     audioAsset?: string;
 }
 
