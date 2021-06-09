@@ -1,6 +1,5 @@
 import { Region } from "@atlasacademy/api-connector";
-import { mergeElements, Renderable } from "../Helper/OutputHelper";
-import { colorString } from "../Helper/StringHelper";
+import { mergeElements } from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 import {
     DialogueBasicComponent,
@@ -8,29 +7,13 @@ import {
     ScriptComponentType,
 } from "./Script";
 
-export const ScriptSpeakerName = (props: { name: string }) => {
-    const name = props.name;
-    const match = name.match(/\[(.*)\]/);
-    if (match !== null) {
-        const parameter = match[1];
-        if (parameter.startsWith("servantName")) {
-            const servantName = parameter
-                .replace("servantName ", "")
-                .split(":")[2];
-            return <>{colorString(servantName)}</>;
-        }
-    }
-    if (name[1] === "：") return <>{colorString(name.split("：")[1].trim())}</>;
-
-    return <>{colorString(name)}</>;
-};
-
-const renderDialogueBasic = (component: DialogueBasicComponent): Renderable => {
+const DialogueBasic = (props: { component: DialogueBasicComponent }) => {
+    const component = props.component;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_NEW_LINE:
             return <br />;
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
-            return Manager.region() === Region.JP ? "ぐだ子" : "Gudako";
+            return <>{Manager.region() === Region.JP ? "ぐだ子" : "Gudako"}</>;
         case ScriptComponentType.DIALOGUE_LINE:
             return (
                 <div
@@ -54,49 +37,42 @@ const renderDialogueBasic = (component: DialogueBasicComponent): Renderable => {
                     </ruby>
                 );
             }
-            return component.text;
+            return <>{component.text}</>;
+        case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
+            return <>{component.trueName}</>;
         case ScriptComponentType.DIALOGUE_TEXT:
-            return component.text;
+            return <>{component.text}</>;
         default:
-            return "";
+            return null;
     }
 };
 
-const renderDialogueComponent = (
-    component: DialogueChildComponent
-): Renderable => {
+const DialogueChild = (props: { component: DialogueChildComponent }) => {
+    const component = props.component;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
-            return mergeElements(
-                component.female.map((component) =>
-                    renderDialogueBasic(component)
-                ),
-                ""
-            );
+            const femaleComponents = component.female.map((component) => (
+                <DialogueBasic component={component} />
+            ));
+            return <>{mergeElements(femaleComponents, "")}</>;
         case ScriptComponentType.DIALOGUE_NEW_LINE:
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
         case ScriptComponentType.DIALOGUE_LINE:
         case ScriptComponentType.DIALOGUE_RUBY:
         case ScriptComponentType.DIALOGUE_TEXT:
-            return renderDialogueBasic(component);
+            return <DialogueBasic component={component} />;
         default:
-            return "";
+            return null;
     }
 };
 
 const ScriptDialogueLine = (props: {
     components: DialogueChildComponent[];
 }) => {
-    return (
-        <>
-            {mergeElements(
-                props.components.map((component) =>
-                    renderDialogueComponent(component)
-                ),
-                ""
-            )}
-        </>
-    );
+    const childDialogue = props.components.map((component) => (
+        <DialogueChild component={component} />
+    ));
+    return <>{mergeElements(childDialogue, "")}</>;
 };
 
 export default ScriptDialogueLine;

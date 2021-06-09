@@ -1,7 +1,9 @@
 import { Region } from "@atlasacademy/api-connector";
-import { Table } from "react-bootstrap";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Table } from "react-bootstrap";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
-import ScriptDialogueLine, { ScriptSpeakerName } from "./ScriptDialogueLine";
+import ScriptDialogueLine from "./ScriptDialogueLine";
 import {
     ScriptBracketComponent,
     ScriptComponent,
@@ -29,7 +31,9 @@ const DialogueRow = (props: {
     return (
         <tr ref={props.refs.get(props.dialogue.voice?.audioAsset)}>
             <td>
-                <ScriptSpeakerName name={props.dialogue.speakerName} />
+                <ScriptDialogueLine
+                    components={props.dialogue.speaker.components}
+                />
             </td>
             <td>
                 {dialogueVoice}
@@ -48,19 +52,119 @@ const ChoiceComponentsTable = (props: {
     return (
         <Table hover responsive style={{ marginTop: "1em" }}>
             <tbody>
-                {props.choiceComponents.map((c, i) =>
-                    c.type === ScriptComponentType.DIALOGUE ? (
-                        <DialogueRow
-                            key={i}
-                            region={props.region}
-                            dialogue={c}
-                            refs={props.refs}
-                        />
-                    ) : null
-                )}
+                {props.choiceComponents.map((c, i) => {
+                    switch (c.type) {
+                        case ScriptComponentType.DIALOGUE:
+                            return (
+                                <DialogueRow
+                                    key={i}
+                                    region={props.region}
+                                    dialogue={c}
+                                    refs={props.refs}
+                                />
+                            );
+                        default:
+                            return (
+                                <ScriptBracketRow
+                                    key={i}
+                                    region={props.region}
+                                    component={c}
+                                    refs={props.refs}
+                                />
+                            );
+                    }
+                })}
             </tbody>
         </Table>
     );
+};
+
+const ScriptBracketRow = (props: {
+    region: Region;
+    component: ScriptBracketComponent;
+    refs: RowBgmRefMap;
+}) => {
+    const { region, component, refs } = props;
+    switch (component.type) {
+        case ScriptComponentType.BGM:
+            return (
+                <tr ref={refs.get(component.bgm.audioAsset)}>
+                    <td>BGM</td>
+                    <td>
+                        <BgmDescriptor region={region} bgm={component.bgm} />
+                    </td>
+                </tr>
+            );
+        case ScriptComponentType.SOUND_EFFECT:
+            return (
+                <tr ref={refs.get(component.soundEffect.audioAsset)}>
+                    <td>Sound Effect</td>
+                    <td>
+                        <BgmDescriptor
+                            region={region}
+                            bgm={component.soundEffect}
+                        />
+                    </td>
+                </tr>
+            );
+        case ScriptComponentType.FLAG:
+            return (
+                <tr>
+                    <td>Flag</td>
+                    <td>
+                        Set flag <code>{component.name}</code> to{" "}
+                        <code>{component.value}</code>
+                    </td>
+                </tr>
+            );
+        case ScriptComponentType.BRANCH:
+            const condition =
+                component.flag === undefined ? null : (
+                    <>
+                        {" "}
+                        if <code>{component.flag.name}</code> is{" "}
+                        <code>{component.flag.value}</code>
+                    </>
+                );
+            const goToLabel = (
+                <Button
+                    variant="link"
+                    onClick={() => {
+                        const rowRef = refs.get(component.labelName);
+                        if (rowRef !== undefined && rowRef.current !== null) {
+                            rowRef.current.scrollIntoView({
+                                behavior: "smooth",
+                            });
+                        }
+                    }}
+                >
+                    <FontAwesomeIcon
+                        icon={faShare}
+                        title={`Go to label ${component.labelName}`}
+                    />
+                </Button>
+            );
+            return (
+                <tr>
+                    <td>Branch</td>
+                    <td>
+                        Go to label <code>{component.labelName}</code>
+                        {condition} {goToLabel}
+                    </td>
+                </tr>
+            );
+        case ScriptComponentType.LABEL:
+            return (
+                <tr ref={refs.get(component.name)}>
+                    <td>Label</td>
+                    <td>
+                        <code>{component.name}</code>
+                    </td>
+                </tr>
+            );
+        default:
+            return null;
+    }
 };
 
 const ScriptRow = (props: {
@@ -96,20 +200,14 @@ const ScriptRow = (props: {
                     </td>
                 </tr>
             );
-        case ScriptComponentType.SOUND_EFFECT:
-            return (
-                <tr ref={refs.get(component.soundEffect.audioAsset)}>
-                    <td>Sound Effect</td>
-                    <td>
-                        <BgmDescriptor
-                            region={region}
-                            bgm={component.soundEffect}
-                        />
-                    </td>
-                </tr>
-            );
         default:
-            return null;
+            return (
+                <ScriptBracketRow
+                    region={region}
+                    component={component}
+                    refs={refs}
+                />
+            );
     }
 };
 

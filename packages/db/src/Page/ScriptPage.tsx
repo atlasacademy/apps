@@ -67,6 +67,9 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
             case ScriptComponentType.SOUND_EFFECT:
                 audioUrls.push(component.soundEffect.audioAsset);
                 break;
+            case ScriptComponentType.BGM:
+                audioUrls.push(component.bgm.audioAsset);
+                break;
         }
     };
     for (const component of parsedScript.components) {
@@ -82,11 +85,17 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                 addAudioUrls(component);
         }
     }
-    const bgmRowRefs = new Map(
+    const scrollRefs = new Map(
         audioUrls.map((url) => [url, createRef<HTMLTableRowElement>()])
     );
+    for (const component of parsedScript.components) {
+        if (component.type === ScriptComponentType.LABEL) {
+            scrollRefs.set(component.name, createRef<HTMLTableRowElement>());
+        }
+    }
+
     const scrollToRow = (assetUrl: string) => {
-        let rowRef = bgmRowRefs.get(assetUrl);
+        let rowRef = scrollRefs.get(assetUrl);
         if (rowRef !== undefined && rowRef.current !== null) {
             rowRef.current.scrollIntoView({ behavior: "smooth" });
         }
@@ -100,7 +109,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                     <VoiceLinePlayer
                         audioAssetUrls={audioUrls}
                         delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
-                        title="all voice lines"
+                        title="all audio files"
                         showTitle
                         handleNavigateAssetUrl={scrollToRow}
                     />
@@ -109,7 +118,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
             <ScriptTable
                 region={region}
                 script={parsedScript}
-                refs={bgmRowRefs}
+                refs={scrollRefs}
             />
         </>
     );
