@@ -84,6 +84,7 @@ export default abstract class BattleFunc {
                 // TODO
                 return [];
             case Func.FuncType.EVENT_DROP_UP:
+            case Func.FuncType.EVENT_POINT_UP:
             case Func.FuncType.SERVANT_FRIENDSHIP_UP:
             case Func.FuncType.NONE:
                 // DO NOTHING

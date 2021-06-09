@@ -1,4 +1,14 @@
-import {ApiConnector, Attribute, Buff, Card, ClassName, Constant, EnumList, Region,} from "@atlasacademy/api-connector";
+import {
+    ApiConnector,
+    Attribute,
+    Buff,
+    Card,
+    ClassName,
+    Constant,
+    EnumList,
+    Language,
+    Region,
+} from "@atlasacademy/api-connector";
 import {CardConstant, CardConstantMap} from "@atlasacademy/api-connector/dist/Enum/Card";
 import {ClassAffinityMap, ClassAttackRateMap} from "@atlasacademy/api-connector/dist/Enum/ClassName";
 
@@ -49,16 +59,17 @@ class GameConstantManager {
         const api = new ApiConnector({
             host: this.host,
             region: this.region,
+            language: Language.ENGLISH,
         });
 
         await Promise.all([
-            async () => this.attributeAffinityMap = await api.attributeConstant(),
-            async () => this.buffConstantMap = await api.buffConstant(),
-            async () => this.cardConstantMap = await api.cardConstant(),
-            async () => this.classAffinityMap = await api.classAffinityConstant(),
-            async () => this.classAttackRates = await api.classAttackConstant(),
-            async () => this.constants = await api.constant(),
-            async () => this.enumMap = await api.enumList(),
+            (async () => this.attributeAffinityMap = await api.attributeConstant())(),
+            (async () => this.buffConstantMap = await api.buffConstant())(),
+            (async () => this.cardConstantMap = await api.cardConstant())(),
+            (async () => this.classAffinityMap = await api.classAffinityConstant())(),
+            (async () => this.classAttackRates = await api.classAttackConstant())(),
+            (async () => this.constants = await api.constant())(),
+            (async () => this.enumMap = await api.enumList())(),
         ]);
 
         this.loaded = true;

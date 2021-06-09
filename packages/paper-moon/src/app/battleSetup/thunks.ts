@@ -1,5 +1,6 @@
 import apiConnector from "../../paper-moon/api";
 import BattleManager from "../../paper-moon/BattleManager";
+import {battleSyncThunk} from "../battle/thunks";
 import {AppThunk} from "../store";
 import {battleSetupSlice} from "./slice";
 
@@ -44,5 +45,6 @@ export const battleSetupAddActorThunk = (): AppThunk => {
             return;
 
         BattleManager.addActor(servant, team);
+        await dispatch(battleSyncThunk())
     }
 }

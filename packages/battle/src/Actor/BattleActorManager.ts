@@ -34,7 +34,7 @@ export default class BattleActorManager {
     }
 
     activeActorsByTeam(team: BattleTeam): BattleActor[] {
-        return this.actorsByTeam(team).filter(actor => actor.state.position > 0 && actor.state.position <= 3);
+        return this.aliveActorsByTeam(team).filter(actor => actor.state.position > 0 && actor.state.position <= 3);
     }
 
     actorById(id: number): BattleActor | undefined {
@@ -42,13 +42,12 @@ export default class BattleActorManager {
     }
 
     actorByPosition(team: BattleTeam, position: number): BattleActor | undefined {
-        return this.actorsByTeam(team).filter(actor => actor.state.position === position).shift();
+        return this.aliveActorsByTeam(team).filter(actor => actor.state.position === position).shift();
     }
 
     actorsByTeam(team: BattleTeam): BattleActor[] {
         return this.state.actors
             .filter(actor => actor.props.team === team)
-            .filter(actor => actor.isAlive())
             .sort((a, b) => a.state.position - b.state.position);
     }
 
@@ -62,6 +61,10 @@ export default class BattleActorManager {
 
     all(): BattleActor[] {
         return this.state.actors;
+    }
+
+    aliveActorsByTeam(team: BattleTeam): BattleActor[] {
+        return this.actorsByTeam(team).filter(actor => actor.isAlive());
     }
 
     getTargets(actor: BattleActor, targetType: Func.FuncTargetType): BattleActor[] {
@@ -93,10 +96,10 @@ export default class BattleActorManager {
                 targets.push(...this.activeActorsByTeam(opponentTeam));
                 break;
             case Func.FuncTargetType.PT_FULL:
-                targets.push(...this.actorsByTeam(team));
+                targets.push(...this.aliveActorsByTeam(team));
                 break;
             case Func.FuncTargetType.ENEMY_FULL:
-                targets.push(...this.actorsByTeam(opponentTeam));
+                targets.push(...this.aliveActorsByTeam(opponentTeam));
                 break;
             case Func.FuncTargetType.PT_OTHER:
                 targets.push(
@@ -122,14 +125,14 @@ export default class BattleActorManager {
             case Func.FuncTargetType.PT_OTHER_FULL:
                 targets.push(
                     ...this
-                        .actorsByTeam(team)
+                        .aliveActorsByTeam(team)
                         .filter(_actor => _actor.props.id !== actor.props.id)
                 );
                 break;
             case Func.FuncTargetType.ENEMY_OTHER_FULL:
                 targets.push(
                     ...this
-                        .actorsByTeam(opponentTeam)
+                        .aliveActorsByTeam(opponentTeam)
                         .filter(_actor => _actor.props.id !== targetOpponentActor?.props.id)
                 );
                 break;
@@ -183,7 +186,7 @@ export default class BattleActorManager {
     }
 
     reserveActorsByTeam(team: BattleTeam, phase: number): BattleActor[] {
-        return this.actorsByTeam(team)
+        return this.aliveActorsByTeam(team)
             .filter(actor => actor.props.phase === phase)
             .filter(actor => actor.state.position > 3);
     }

@@ -91,6 +91,8 @@ export class BattleActor {
     adjustHealth(value: number) {
         // TODO
         this.state.health += value;
+        if (this.state.health < 0)
+            this.state.health = 0;
     }
 
     attack(target?: BattleActor): number {

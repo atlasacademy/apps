@@ -1,7 +1,7 @@
 import {BattleTeam} from "@atlasacademy/battle/dist/Enum/BattleTeam";
 import React from "react";
 import {connect, ConnectedProps} from "react-redux";
-import {battleSlice} from "../app/battle/slice";
+import {battleStartThunk} from "../app/battle/thunks";
 import {battleSetupSlice} from "../app/battleSetup/slice";
 import {battleSetupAddActorThunk, battleSetupSelectServantThunk} from "../app/battleSetup/thunks";
 import {RootState} from "../app/store";
@@ -16,7 +16,7 @@ const mapStateToProps = (state: RootState) => ({
         selectServant: battleSetupSelectServantThunk,
         selectTeam: battleSetupSlice.actions.selectTeam,
         add: battleSetupAddActorThunk,
-        start: battleSlice.actions.startBattle,
+        start: battleStartThunk,
     },
     connector = connect(mapStateToProps, mapDispatchToProps);
 

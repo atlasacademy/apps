@@ -12,8 +12,8 @@ export interface BattleDamageEventData {
 
 export default class BattleDamageEvent extends BattleEvent {
 
-    constructor(public actor: BattleActor | null,
-                public target: BattleActor | null,
+    constructor(public actor: BattleActor,
+                public target: BattleActor,
                 public success: boolean,
                 public reference: BattleDamageEventData) {
         super(actor, target, success, reference);

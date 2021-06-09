@@ -1,9 +1,10 @@
-import {Func, Trait} from "@atlasacademy/api-connector";
+import {Func, Region, Trait} from "@atlasacademy/api-connector";
 import {BattleActor} from "./Actor/BattleActor";
 import BattleActorManager from "./Actor/BattleActorManager";
 import {BattleRandom, BattleRandomType} from "./BattleRandom";
 import {BattleTeam} from "./Enum/BattleTeam";
 import BattleEvent from "./Event/BattleEvent";
+import GameConstantManager from "./Game/GameConstantManager";
 
 export interface BattleState {
     actors: BattleActorManager,
@@ -32,6 +33,10 @@ export class Battle {
         };
     }
 
+    static async loadConstants(region: Region) {
+        await GameConstantManager.initRegion(region);
+    }
+
     clone(): Battle {
         const battle = new Battle({
             ...this.state,
@@ -54,7 +59,7 @@ export class Battle {
     }
 
     addEvent(event: BattleEvent) {
-        this.state.events.push(event);
+        this.state.events = [...this.state.events, event];
     }
 
     addStars(stars: number) {
@@ -69,6 +74,10 @@ export class Battle {
 
     getActor(id: number): BattleActor | undefined {
         return this.state.actors.actorById(id);
+    }
+
+    getEvents(): BattleEvent[] {
+        return this.state.events;
     }
 
     getTargets(actor: BattleActor, targetType: Func.FuncTargetType): BattleActor[] {
