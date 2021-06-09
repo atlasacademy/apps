@@ -199,7 +199,7 @@ async function handleRequest(request: Request) {
             } else if (fileName !== "") {
                 bgmName = fileName;
             }
-            const title = `[${region}] BGM: ${bgmName}`;
+            const title = `[${region}] BGM: ${bgmName.replace("\n", " ")}`;
             return overwrite(page, title, logo);
         }
         case "buff": {
