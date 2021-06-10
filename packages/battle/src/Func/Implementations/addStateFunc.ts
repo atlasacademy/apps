@@ -7,7 +7,7 @@ import BattleEvent from "../../Event/BattleEvent";
 import {Variable, VariableType} from "../../Game/Variable";
 import BattleFunc from "../BattleFunc";
 
-function checkBuffAvoid(battle: Battle, actor: BattleActor, target: BattleActor): boolean {
+function checkBuffAvoided(battle: Battle, actor: BattleActor, target: BattleActor): boolean {
     const avoidBuffs = actor.buffs().getBuffs(
         Buff.BuffAction.AVOID_STATE,
         actor.traits(),
@@ -66,19 +66,16 @@ export default async function addStateFunc(battle: Battle,
     for (let i = 0; i < func.props.func.buffs.length; i++) {
         const buff = createBuffFromFunc(func, i, passive, short);
 
-        let success = true;
+        let success = func.applicableToTarget(target);
 
-        if (checkBuffAvoid(battle, actor, target)) {
+        if (success && checkBuffAvoided(battle, actor, target))
             success = false;
-        }
 
-        if (!await checkBuffSuccess(battle, func, buff, actor, target)) {
+        if (success && !await checkBuffSuccess(battle, func, buff, actor, target))
             success = false;
-        }
 
-        if (success) {
+        if (success)
             target.state.buffs.add(buff);
-        }
 
         const event = new BattleBuffEvent(actor, target, success, buff);
         battle.addEvent(event);
@@ -89,7 +86,7 @@ export default async function addStateFunc(battle: Battle,
 }
 
 export {
-    checkBuffAvoid,
+    checkBuffAvoided,
     checkBuffSuccess,
     createBuffFromFunc,
 }

@@ -1,8 +1,9 @@
-import {DataVal, Func} from "@atlasacademy/api-connector";
+import {DataVal, Func, Trait} from "@atlasacademy/api-connector";
 import {BattleActor} from "../Actor/BattleActor";
 import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
+import {checkTrait} from "../Trait/checkTrait";
 import addStateFunc from "./Implementations/addStateFunc";
 
 export interface BattleFuncProps {
@@ -103,4 +104,12 @@ export default abstract class BattleFunc {
         return false;
     }
 
+    applicableToTarget(target: BattleActor): boolean {
+        if (!this.props.func.functvals || !this.props.func.functvals.length)
+            return true;
+
+        const traits = target.traits(target.buffs().traits(true));
+
+        return checkTrait(this.props.func.functvals, traits)
+    }
 }

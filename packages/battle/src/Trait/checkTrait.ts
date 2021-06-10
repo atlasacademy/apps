@@ -1,6 +1,11 @@
 import { Trait } from "@atlasacademy/api-connector";
 import { getNum } from "./getTraitNums";
 
+/**
+ * Individuality::CheckIndividualities
+ * @param self
+ * @param target
+ */
 export const checkTrait = <T extends Trait.Trait | number | string>(
     self?: T[],
     target?: T[]
