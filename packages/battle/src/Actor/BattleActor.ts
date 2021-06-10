@@ -159,8 +159,8 @@ export class BattleActor {
     }
 
     className(attack?: BattleAttackAction, target?: BattleActor, actor: boolean = true): ClassName {
-        const traits = this.traits(actor ? attack : undefined),
-            targetTraits = target?.traits(actor ? undefined : attack) ?? [],
+        const traits = this.traits(actor ? attack?.traits() : undefined),
+            targetTraits = target?.traits(actor ? undefined : attack?.traits()) ?? [],
             classId = this.state.buffs.getValue(Buff.BuffAction.OVERWRITE_BATTLECLASS, traits, targetTraits);
 
         let className;
@@ -210,7 +210,7 @@ export class BattleActor {
     multihit(attack: BattleAttackAction, target?: BattleActor): number {
         const multiHitBuffValue = this.state.buffs.getValue(
             Buff.BuffAction.MULTIATTACK,
-            this.traits(attack),
+            this.traits(attack.traits()),
             target?.traits() ?? [],
         );
 
@@ -256,13 +256,13 @@ export class BattleActor {
         return this.props.team;
     }
 
-    traits(attack?: BattleAttackAction): Trait.Trait[] {
+    traits(additional?: Trait.Trait[]): Trait.Trait[] {
         const traits: Trait.Trait[] = [];
 
         traits.push(...this.props.traits);
         traits.push(...this.battle().state.traits);
-        if (attack)
-            traits.push(...attack.traits());
+        if (additional && additional.length)
+            traits.push(...additional);
 
         const addTraitIds = this.state.buffs.getAllValues(Buff.BuffAction.INDIVIDUALITY_ADD, [], []);
         for (let traitId of addTraitIds)

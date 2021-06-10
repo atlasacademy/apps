@@ -16,7 +16,7 @@ describe('BattleRandom', () => {
         expect(await random.generate(-1000, 1000)).to.equal(0);
         expect(await random.generate(0, 3)).to.equal(1);
 
-        random.setType(BattleRandomType.MANUAL, [0, 0.9999, 0.5]);
+        random.setManualType([0, 0.9999, 0.5]);
         expect(await random.generate(0, 1000)).to.equal(0);
         expect(await random.generate(0, 1000)).to.equal(999);
         expect(await random.generate(0, 1000)).to.equal(500);

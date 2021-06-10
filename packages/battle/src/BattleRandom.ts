@@ -32,12 +32,19 @@ export class BattleRandom {
     setCallbackType(callback: (message: string) => Promise<number>) {
         this.type = BattleRandomType.CALLBACK;
         this.callback = callback;
+        this.values = [];
     }
 
-    setType(type: BattleRandomType, values: number[] = []) {
-        this.type = type;
+    setManualType(values: number[]) {
+        this.type = BattleRandomType.MANUAL;
         this.callback = undefined;
         this.values = values;
+    }
+
+    setType(type: BattleRandomType) {
+        this.type = type;
+        this.callback = undefined;
+        this.values = [];
     }
 
     private async next(message: string): Promise<number> {

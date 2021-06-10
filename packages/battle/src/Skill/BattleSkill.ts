@@ -50,4 +50,8 @@ export default class BattleSkill {
         });
     }
 
+    func(num: number): BattleSkillFunc | undefined {
+        return this.state.funcs[num - 1];
+    }
+
 }
