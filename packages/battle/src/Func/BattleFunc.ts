@@ -1,10 +1,12 @@
-import {DataVal, Func, Trait} from "@atlasacademy/api-connector";
+import {DataVal, Func} from "@atlasacademy/api-connector";
 import {BattleActor} from "../Actor/BattleActor";
 import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
+import BattleUnhandledEffectEvent from "../Event/BattleUnhandledEffectEvent";
 import {checkTrait} from "../Trait/checkTrait";
 import addStateFunc from "./Implementations/addStateFunc";
+import subStateFunc from "./Implementations/subStateFunc";
 
 export interface BattleFuncProps {
     actorId: number,
@@ -77,13 +79,8 @@ export default abstract class BattleFunc {
                 return addStateFunc(battle, this, actor, target, false, this.props.passive);
             case Func.FuncType.ADD_STATE_SHORT:
                 return addStateFunc(battle, this, actor, target, true, this.props.passive);
-            case Func.FuncType.DAMAGE_NP:
-            case Func.FuncType.GAIN_NP:
-            case Func.FuncType.GAIN_STAR:
-            case Func.FuncType.INSTANT_DEATH:
             case Func.FuncType.SUB_STATE:
-                // TODO
-                return [];
+                return subStateFunc(battle, this, actor, target);
             case Func.FuncType.EVENT_DROP_UP:
             case Func.FuncType.EVENT_POINT_UP:
             case Func.FuncType.SERVANT_FRIENDSHIP_UP:
@@ -91,7 +88,10 @@ export default abstract class BattleFunc {
                 // DO NOTHING
                 return [];
             default:
-                throw new Error('UNSUPPORTED FUNC TYPE: ' + this.props.func.funcType);
+                const event = new BattleUnhandledEffectEvent(actor, target, false, this.props.func.funcType);
+                battle.addEvent(event);
+
+                return [event];
         }
     }
 

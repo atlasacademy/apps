@@ -33,10 +33,6 @@ export class BattleBuff {
         return new BattleBuff(this.props, {...this.state});
     }
 
-    description(): string {
-        return this.props.buff.name;
-    }
-
     checkBuffTrait <T extends Trait.Trait | Buff.BuffType>(self: T[], target: T[]): boolean {
         switch (this.props.buff.script.checkIndvType) {
             case undefined:
@@ -70,6 +66,10 @@ export class BattleBuff {
     checkSuccessful(): boolean {
         // TODO: BuffRate
         return true;
+    }
+
+    description(): string {
+        return this.props.buff.name;
     }
 
     name(): string {

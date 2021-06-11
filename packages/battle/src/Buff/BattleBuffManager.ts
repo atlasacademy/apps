@@ -16,6 +16,10 @@ export default class BattleBuffManager {
         this.list.push(buff);
     }
 
+    all(activeOnly: boolean): BattleBuff[] {
+        return this.list.filter(buff => !activeOnly || !buff.props.passive);
+    }
+
     /**
      * `BattleBuffData.getBuffList`: returns the list of buffs matching the buff action.
      * If `checkTrait` is set to `true`, trait and BuffRate are checked.
@@ -80,13 +84,13 @@ export default class BattleBuffManager {
         return buffValues;
     }
 
+
     hasTrait(trait: Trait.Trait | number, activeOnly: boolean) {
         const traitId: number = typeof trait === "number" ? trait : trait.id,
             traits = this.traits(activeOnly);
 
         return traits.filter(_trait => _trait.id === traitId).length > 0;
     }
-
 
     /**
      * `BattleBuffData.getActValue` or `BattleBuffData.getActMag`: returns the net value of all applicable buffs
@@ -141,6 +145,18 @@ export default class BattleBuffManager {
             });
 
         return traits;
+    }
+
+    updateList(callback: (buff: BattleBuff) => boolean, reverse: boolean = false) {
+        let list = this.list;
+        if (reverse)
+            list = list.reverse();
+
+        list = list.filter(callback);
+        if (reverse)
+            list = list.reverse();
+
+        this.list = list;
     }
 
     private getType(
