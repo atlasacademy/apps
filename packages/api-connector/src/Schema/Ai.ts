@@ -152,6 +152,9 @@ export enum AiCond {
     CHECK_PRECEDING_ENEMY = "checkPrecedingEnemy",
     COUNT_HIGHER_REMAIN_TURN = "countHigherRemainTurn",
     COUNT_LOWER_REMAIN_TURN = "countLowerRemainTurn",
+    COUNT_HIGHER_AI_171 = "countHigherAi171",
+    COUNT_LOWER_AI_172 = "countLowerAi172",
+    COUNT_EQUAL_AI_173 = "countEqualAi173",
 }
 
 export enum AiTiming {

@@ -52,6 +52,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.SHORTEN_SKILL, 'Reduce Cooldowns'],
     [Func.FuncType.SUB_STATE, 'Remove Effects'],
     [Func.FuncType.USER_EQUIP_EXP_UP, 'Increase Mystic Code Exp'],
+    [Func.FuncType.FUNC_126, "Remove Command Spell"]
 ]);
 
 function handleBuffActionSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
@@ -86,7 +87,24 @@ function handleCleanseActionSection(region: Region, sections: FuncDescriptorSect
     const section = sections.action,
         parts = section.parts;
 
-    parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
+    parts.push("Remove");
+
+    let removeCount = 0,
+        headTail = "";
+    if (dataVal.Value !== undefined && dataVal.Value > 0){
+        removeCount = dataVal.Value;
+        headTail = " starting from the earliest one";
+    }
+    if (dataVal.Value2 !== undefined && dataVal.Value2 > 0) {
+        removeCount = dataVal.Value2;
+        headTail = " starting from the latest one";
+    }
+
+    if (removeCount > 0) {
+        parts.push(`${removeCount} effect${removeCount > 1 ? "s" : ""}`);
+    } else {
+        parts.push("effects");
+    }
 
     if (func.traitVals?.length) {
         parts.push('with');
@@ -98,6 +116,8 @@ function handleCleanseActionSection(region: Region, sections: FuncDescriptorSect
             parts.push(<TraitDescription region={region} trait={trait} owner="buffs" ownerParameter="vals"/>);
         });
     }
+
+    if (headTail !== "") parts.push(headTail);
 
     sections.target.preposition = 'on';
 }

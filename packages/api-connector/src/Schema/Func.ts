@@ -1,8 +1,8 @@
-import {Buff} from "./Buff";
-import {DataVal} from "./DataVal";
-import {NoblePhantasmBasic, NoblePhantasm} from "./NoblePhantasm";
-import {SkillBasic, Skill} from "./Skill";
-import {Trait} from "./Trait";
+import { Buff } from "./Buff";
+import { DataVal } from "./DataVal";
+import { NoblePhantasmBasic, NoblePhantasm } from "./NoblePhantasm";
+import { SkillBasic, Skill } from "./Skill";
+import { Trait } from "./Trait";
 
 export enum FuncTargetTeam {
     PLAYER = "player",
@@ -129,6 +129,8 @@ export enum FuncType {
     FRIEND_POINT_UP_DUPLICATE = "friendPointUpDuplicate",
     MOVE_STATE = "moveState",
     CHANGE_BGM_COSTUME = "changeBgmCostume",
+    FUNC_126 = "func126",
+    FUNC_127 = "func127",
 }
 
 export interface BasicFunc {
@@ -145,7 +147,7 @@ export interface BasicFunc {
             NP?: NoblePhantasmBasic[];
             skill?: SkillBasic[];
         };
-    }
+    };
 }
 
 export interface Func extends BasicFunc {
@@ -166,5 +168,5 @@ export interface Func extends BasicFunc {
             NP?: NoblePhantasm[];
             skill?: Skill[];
         };
-    }
+    };
 }

@@ -102,6 +102,7 @@ export enum BuffAction {
     PREVENT_DEATH_BY_DAMAGE = "preventDeathByDamage",
     FUNCTION_COMMANDCODEATTACK_AFTER = "functionCommandcodeattackAfter",
     FUNCTION_ATTACK_BEFORE = "functionAttackBefore",
+    DONOT_SKILL_SELECT = "donotSkillSelect"
 }
 
 export enum BuffLimit {
@@ -258,6 +259,7 @@ export enum BuffType {
     PREVENT_DEATH_BY_DAMAGE = "preventDeathByDamage",
     COMMANDCODEATTACK_AFTER_FUNCTION = "commandcodeattackAfterFunction",
     ATTACK_BEFORE_FUNCTION = "attackBeforeFunction",
+    DONOT_SKILL_SELECT = "donotSkillSelect",
 }
 
 export enum ClassRelationOverwriteType {
