@@ -37,7 +37,17 @@ const DialogueBasic = (props: { component: DialogueBasicComponent }) => {
                     </ruby>
                 );
             }
-            return <>{component.text}</>;
+            return (
+                <em
+                    style={{
+                        textEmphasis: "filled dot",
+                        WebkitTextEmphasis: "filled dot",
+                        fontStyle: "normal",
+                    }}
+                >
+                    {component.text}
+                </em>
+            );
         case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
             return <>{component.trueName}</>;
         case ScriptComponentType.DIALOGUE_TEXT:
