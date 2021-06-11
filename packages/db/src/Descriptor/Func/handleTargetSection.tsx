@@ -50,6 +50,9 @@ export default function handleTargetSection(region: Region, sections: FuncDescri
         }
     } else if (func.funcType === Func.FuncType.GAIN_HP_FROM_TARGETS) {
         switch (dataVal.DependFuncId) {
+            case 710:
+                targetType = Func.FuncTargetType.ENEMY;
+                break;
             case 711:
                 targetType = Func.FuncTargetType.ENEMY_ALL;
                 break;

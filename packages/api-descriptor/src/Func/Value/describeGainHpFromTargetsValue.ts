@@ -8,6 +8,7 @@ export default function (staticDataVal: DataVal.DataVal,
         to: BasePartial[] = [];
 
     switch (funcId) {
+        case 710:
         case 711:
             if (mutatingDataVal.DependFuncVals?.Value !== undefined) {
                 to.push(
