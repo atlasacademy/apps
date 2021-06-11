@@ -86,6 +86,21 @@ const ScriptBracketRow = (props: {
 }) => {
     const { region, component, refs } = props;
     switch (component.type) {
+        case ScriptComponentType.BACKGROUND:
+            return (
+                <tr>
+                    <td>Background</td>
+                    <td>
+                        <a href={component.backgroundAsset}>
+                            <img
+                                src={component.backgroundAsset}
+                                style={{ maxWidth: "30em" }}
+                                alt="Script background"
+                            />
+                        </a>
+                    </td>
+                </tr>
+            );
         case ScriptComponentType.BGM:
             return (
                 <tr ref={refs.get(component.bgm.audioAsset)}>
