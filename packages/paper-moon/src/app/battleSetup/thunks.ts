@@ -1,3 +1,4 @@
+import {BattleTeam} from "@atlasacademy/battle";
 import apiConnector from "../../paper-moon/api";
 import BattleManager from "../../paper-moon/BattleManager";
 import {battleSyncThunk} from "../battle/thunks";
@@ -42,6 +43,12 @@ export const battleSetupAddActorThunk = (): AppThunk => {
             team = state.battleSetup.selectedTeam;
 
         if (!servant)
+            return;
+
+        if (team === BattleTeam.PLAYER && state.battle.playerActors.length >= 3)
+            return;
+
+        if (team === BattleTeam.ENEMY && state.battle.enemyActors.length >= 1)
             return;
 
         BattleManager.addActor(servant, team);

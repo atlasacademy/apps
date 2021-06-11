@@ -1,8 +1,10 @@
 import React from 'react';
+import {Container} from "react-bootstrap";
 import {connect, ConnectedProps} from "react-redux";
 import {battleSetupInitThunk} from "./app/battleSetup/thunks";
 import BattleDisplay from "./components/BattleDisplay";
 import BattleSetup from "./components/BattleSetup";
+import Navigation from "./components/Navigation";
 
 const mapDispatchToProps = {
         init: battleSetupInitThunk,
@@ -18,10 +20,12 @@ class App extends React.Component<AppProps> {
 
     render() {
         return (
-            <div className="App">
-                <h3>Paper Moon</h3>
-                <BattleSetup/>
-                <BattleDisplay/>
+            <div>
+                <Navigation/>
+                <Container fluid>
+                    <BattleSetup/>
+                    <BattleDisplay/>
+                </Container>
             </div>
         );
     }

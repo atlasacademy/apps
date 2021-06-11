@@ -1,9 +1,12 @@
 import {Card} from "@atlasacademy/api-connector";
 import React from "react";
+import {Button, ButtonGroup} from "react-bootstrap";
 import {connect, ConnectedProps} from "react-redux";
 import {battleQueueAttack} from "../../app/battle/thunks";
 import {BattleStateActor} from "../../app/battle/types";
 import {RootState} from "../../app/store";
+
+import "./BattleActorActionDisplay.css";
 
 interface ExternalProps {
     actor: BattleStateActor,
@@ -27,20 +30,22 @@ class BattleActorActionDisplay extends React.Component<Props> {
 
     render() {
         return (
-            <ul>
-                <li>
-                    <button onClick={e => this.queueAction(Card.BUSTER)}>Buster</button>
-                </li>
-                <li>
-                    <button onClick={e => this.queueAction(Card.QUICK)}>Quick</button>
-                </li>
-                <li>
-                    <button onClick={e => this.queueAction(Card.ARTS)}>Arts</button>
-                </li>
-                <li>
-                    <button onClick={e => this.queueAction(Card.EXTRA)}>Extra</button>
-                </li>
-            </ul>
+            <div>
+                <ButtonGroup className='battle-actor-action-display'>
+                    <Button className='action' variant='danger'
+                            onClick={e => this.queueAction(Card.BUSTER)}>
+                        B
+                    </Button>
+                    <Button className='action' variant='success'
+                            onClick={e => this.queueAction(Card.QUICK)}>
+                        Q
+                    </Button>
+                    <Button className='action' variant='primary'
+                            onClick={e => this.queueAction(Card.ARTS)}>
+                        A
+                    </Button>
+                </ButtonGroup>
+            </div>
         );
     }
 

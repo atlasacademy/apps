@@ -14,16 +14,9 @@ export interface BattleQueuedAttack {
 }
 
 export type BattleEvent = {
-    type: 'damage',
-    actorId: number,
-    targetId: number,
-    np: boolean,
-    card: Card,
-    num: number,
-    damage: number,
-    npGainedOnAttack: number,
-    npGainedOnDefence: number,
-    stars: number,
+    actorId?: number,
+    targetId?: number,
+    description: string,
 }
 
 export interface BattleState {

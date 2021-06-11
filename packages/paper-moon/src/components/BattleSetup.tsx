@@ -1,5 +1,6 @@
 import {BattleTeam} from "@atlasacademy/battle/dist/Enum/BattleTeam";
 import React from "react";
+import {Button, Col, Form, Row} from "react-bootstrap";
 import {connect, ConnectedProps} from "react-redux";
 import {battleStartThunk} from "../app/battle/thunks";
 import {battleSetupSlice} from "../app/battleSetup/slice";
@@ -24,10 +25,8 @@ type BattleSetupProps = ConnectedProps<typeof connector>;
 
 class BattleSetup extends React.Component<BattleSetupProps> {
 
-    private static extractTeam(event: React.ChangeEvent<HTMLSelectElement>): BattleTeam {
-        const value: number = +event.target.value;
-
-        return value as BattleTeam;
+    private static castTeam(value: string): BattleTeam {
+        return +value as BattleTeam;
     }
 
     render() {
@@ -36,26 +35,39 @@ class BattleSetup extends React.Component<BattleSetupProps> {
 
         return (
             <div>
-                <select value={this.props.selected}
-                        onChange={event => this.props.selectServant(+event.target.value)}>
-                    <option disabled={true}>Select One</option>
-                    {this.props.servants.map(servant => (
-                        <option key={servant.id} value={servant.id}>
-                            {servant.collectionNo}: {servant.name}
-                        </option>
-                    ))}
-                </select>
-                <select value={this.props.team}
-                        onChange={event => this.props.selectTeam(BattleSetup.extractTeam(event))}>
-                    <option value={BattleTeam.PLAYER}>Player</option>
-                    <option value={BattleTeam.ENEMY}>Enemy</option>
-                </select>
-                <button onClick={this.props.add}>
-                    Add
-                </button>
-                <button onClick={this.props.start}>
-                    Start
-                </button>
+                <br/>
+                <h3>Battle Setup</h3>
+                <Form>
+                    <Row>
+                        <Col>
+                            <Form.Control as='select' value={this.props.selected}
+                                          onChange={event => this.props.selectServant(+event.target.value)}>
+                                <option disabled={true}>Select One</option>
+                                {this.props.servants.map(servant => (
+                                    <option key={servant.id} value={servant.id}>
+                                        {servant.collectionNo}: {servant.name}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Col>
+                        <Col>
+                            <Form.Control as='select' value={this.props.team}
+                                          onChange={event => this.props.selectTeam(BattleSetup.castTeam(event.target.value))}>
+                                <option value={BattleTeam.PLAYER}>Player</option>
+                                <option value={BattleTeam.ENEMY}>Enemy</option>
+                            </Form.Control>
+                        </Col>
+                        <Col>
+                            <Button variant='success' onClick={this.props.add}>
+                                Add Servant
+                            </Button>
+                            &nbsp;
+                            <Button variant='primary' onClick={this.props.start}>
+                                Start Battle
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
             </div>
         );
     }

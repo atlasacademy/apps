@@ -1,5 +1,6 @@
 import {BattleTeam} from "@atlasacademy/battle";
 import {Card} from "@atlasacademy/api-connector";
+import BattleBuffEvent from "@atlasacademy/battle/dist/Event/BattleBuffEvent";
 import BattleDamageEvent from "@atlasacademy/battle/dist/Event/BattleDamageEvent";
 import BattleManager from "../../paper-moon/BattleManager";
 import {AppThunk} from "../store";
@@ -34,6 +35,7 @@ export const battleStartThunk = (): AppThunk => {
         await dispatch(battleSlice.actions.startBattle());
         await BattleManager.setup();
         await BattleManager.start();
+        await dispatch(battleSyncThunk());
         await dispatch(battleSlice.actions.startPlayerTurn());
     };
 }
@@ -64,21 +66,56 @@ export const battleSyncThunk = (): AppThunk => {
 
         await dispatch(battleSlice.actions.setEvents(
             battle.getEvents().map(event => {
-                if (event instanceof BattleDamageEvent) {
+                if (event instanceof BattleBuffEvent) {
+                    let descriptionParts = [];
+
+                    descriptionParts.push(`(${event.actor.id()}) ${event.actor.name()}`);
+                    if (!event.success) descriptionParts.push('failed to');
+                    descriptionParts.push(`applied buff ${event.reference.name()}`);
+                    if (event.actor.id() !== event.target.id()) {
+                        descriptionParts.push(`to (${event.target.id()}) ${event.target.name()}`);
+                    }
+
                     return {
-                        type: "damage",
                         actorId: event.actor.id(),
                         targetId: event.target.id(),
-                        np: event.reference.attack.np,
-                        card: event.reference.attack.card,
-                        num: event.reference.attack.num,
-                        damage: event.reference.damage,
-                        npGainedOnAttack: event.reference.npGainedOnAttack,
-                        npGainedOnDefence: event.reference.npGainedOnDefence,
-                        stars: event.reference.stars,
+                        description: descriptionParts.join(' '),
+                    };
+                } else if (event instanceof BattleDamageEvent) {
+                    let descriptionParts = [];
+
+                    descriptionParts.push(`(${event.actor.id()}) ${event.actor.name()}`);
+                    descriptionParts.push(`dealt ${event.reference.damage}`);
+                    descriptionParts.push(`to (${event.target.id()}) ${event.target.name()}`);
+
+                    if (event.reference.attack.np)
+                        descriptionParts.push('with NP');
+                    else
+                        descriptionParts.push(`with ${event.reference.attack.card.toUpperCase()} Card #${event.reference.attack.num}`);
+
+                    let gained = [];
+                    if (event.reference.npGainedOnAttack > 0)
+                        gained.push(`${event.reference.npGainedOnAttack/100}% NP`);
+                    if (event.reference.stars > 0)
+                        gained.push(`${event.reference.stars} star(s)`);
+
+                    if (gained.length)
+                        descriptionParts.push(`and gained ${gained.join(' and ')}`);
+
+                    if (event.reference.npGainedOnDefence > 0)
+                        descriptionParts.push(`and target gained ${event.reference.npGainedOnDefence/100}% NP`);
+
+                    return {
+                        actorId: event.actor.id(),
+                        targetId: event.target.id(),
+                        description: descriptionParts.join(' '),
                     };
                 } else {
-                    throw Error('Unhandled event type');
+                    return {
+                        actorId: event.actor?.id(),
+                        targetId: event.target?.id(),
+                        description: `${event.constructor.name}`,
+                    }
                 }
             })
         ));

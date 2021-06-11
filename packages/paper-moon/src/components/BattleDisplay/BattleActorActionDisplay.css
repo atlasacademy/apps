@@ -1,0 +1,8 @@
+.battle-actor-action-display {
+    display: flex !important;
+    justify-content: center;
+}
+
+.battle-actor-action-display>.action {
+    flex: 0 1 auto !important;
+}

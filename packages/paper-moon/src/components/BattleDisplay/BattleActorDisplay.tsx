@@ -5,6 +5,8 @@ import {BattleStateActor} from "../../app/battle/types";
 import {RootState} from "../../app/store";
 import BattleActorActionDisplay from "./BattleActorActionDisplay";
 
+import './BattleActorDisplay.css';
+
 interface ExternalProps {
     actor: BattleStateActor,
     team: BattleTeam,
@@ -34,11 +36,10 @@ class BattleActorDisplay extends React.Component<BattleActorDisplayProps> {
 
     render() {
         return (
-            <div>
-                <img src={this.props.actor.face} alt={this.props.actor.name}/>
-                <br/>
-                {this.props.actor.name}<br/>
-                {this.props.actor.currentHealth} / {this.props.actor.maxHealth}<br/>
+            <div className='battle-actor-display'>
+                <img className='face' src={this.props.actor.face} alt={this.props.actor.name}/>
+                <div className='name'>({this.props.actor.id}) {this.props.actor.name}</div>
+                <div className='health'>{this.props.actor.currentHealth} / {this.props.actor.maxHealth}</div>
                 {this.shouldDisplayActions() ? (
                     <BattleActorActionDisplay actor={this.props.actor}/>
                 ) : null}

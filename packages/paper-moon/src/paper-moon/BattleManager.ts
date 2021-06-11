@@ -12,7 +12,7 @@ let battle = new Battle(null),
 const BattleManager = {
     battle: () => battle,
     setup: async () => {
-        await Battle.loadConstants(Region.JP);
+        await Battle.loadConstants(Region.NA);
     },
     start: async () => {
         await battle.init();
