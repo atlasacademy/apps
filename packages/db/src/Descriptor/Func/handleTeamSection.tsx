@@ -15,14 +15,14 @@ export default function handleTeamSection(
     if (func.funcTargetTeam === Func.FuncTargetTeam.PLAYER)
         parts.push(
             <FontAwesomeIcon
-                icon={faDragon}
+                icon={faUser}
                 title="Can be applied to player-controlled servants"
             />
         );
     else if (func.funcTargetTeam === Func.FuncTargetTeam.ENEMY)
         parts.push(
             <FontAwesomeIcon
-                icon={faUser}
+                icon={faDragon}
                 title="Can be applied to computer-controlled opponents"
             />
         );
