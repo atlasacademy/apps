@@ -94,7 +94,7 @@ const ScriptBracketRow = (props: {
                         <a href={component.backgroundAsset}>
                             <img
                                 src={component.backgroundAsset}
-                                style={{ maxWidth: "30em" }}
+                                style={{ maxWidth: "30em", width: "100%" }}
                                 alt="Script background"
                             />
                         </a>
