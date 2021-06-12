@@ -1,6 +1,6 @@
 addEventListener("fetch", (event) => {
-    const response = handleRequest(event.request).catch(
-        () => new Response("error", { status: 500 })
+    const response = handleRequest(event.request).catch(() =>
+        fetch(event.request)
     );
     event.respondWith(response);
 });
