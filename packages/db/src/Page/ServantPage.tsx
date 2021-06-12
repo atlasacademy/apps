@@ -136,7 +136,7 @@ class ServantPage extends React.Component<IProps, IState> {
             return <Loading/>;
 
         const servant = this.state.servant;
-        document.title = `[${this.props.region}] Servant - ${servant.name} - Atlas Academy DB`;
+        document.title = `[${this.props.region}] Servant - ${this.getOverwriteName()} - Atlas Academy DB`;
 
         let remappedCostumeMaterials: Entity.EntityLevelUpMaterialProgression = {};
         if (servant.profile) {

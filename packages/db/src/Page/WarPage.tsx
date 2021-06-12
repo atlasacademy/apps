@@ -370,7 +370,11 @@ class WarPage extends React.Component<IProps, IState> {
                             index === bgmDeduped.length - 1 ? 0 : "0.75em",
                     }}
                 >
-                    <BgmDescriptor region={this.props.region} bgm={bgm} />
+                    <BgmDescriptor
+                        region={this.props.region}
+                        bgm={bgm}
+                        showLink={true}
+                    />
                 </div>
             );
         });

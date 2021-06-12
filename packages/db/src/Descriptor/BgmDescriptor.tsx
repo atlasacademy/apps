@@ -39,7 +39,16 @@ export default function BgmDescriptor(props: {
                 </Button>
             </>
         ) : null;
-        const downloadButton = bgm.notReleased ? null : (
+        const downloadButton = bgm.notReleased ? (
+            <Button
+                disabled
+                variant="secondary"
+                target="_blank"
+                title={showName}
+            >
+                {showName}
+            </Button>
+        ) : (
             <Button
                 variant={"info"}
                 href={bgm.audioAsset}

@@ -17,7 +17,7 @@ function VoicePlayGroup(props: {
                         target={playCond.targetId}
                         value={playCond.condValues[0]}
                         servants={props.servants}
-                        forceFalseDescription={"Unplayable in my room"}
+                        forceFalseDescription={"Can't be played in my room"}
                     />
                 )),
                 " and "

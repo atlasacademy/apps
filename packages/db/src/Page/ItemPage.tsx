@@ -130,7 +130,7 @@ class ItemPage extends React.Component<IProps, IState> {
     private servantProcessMaterials(servant: Servant.Servant):MaterialUsageData {
         let servantProcessed = {
             "collectionNo": servant.collectionNo,
-            "name": servant.name,
+            "name": servant.ascensionAdd.overWriteServantName.ascension[0] ?? servant.name,
             "face": servant.extraAssets?.faces.ascension ? servant.extraAssets?.faces.ascension[1] : "",
             "ascensions": 0,
             "skills": 0,
