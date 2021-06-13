@@ -103,14 +103,14 @@ export default class BattleBuffManager {
         let value = buffConstant.baseParam,
             upperLimit = buffConstant.baseParam;
 
-        this.getBuffs(group, traits, targetTraits, true).forEach(buff => {
+        this.getBuffs(group, traits, targetTraits, true, true).forEach(buff => {
             if (upperLimit < buff.props.buff.maxRate)
                 upperLimit = buff.props.buff.maxRate;
 
             value += Math.floor(buff.value(traits, targetTraits) ?? 0);
         });
 
-        this.getBuffs(group, traits, targetTraits, false).forEach(buff => {
+        this.getBuffs(group, traits, targetTraits, false, true).forEach(buff => {
             if (upperLimit < buff.props.buff.maxRate)
                 upperLimit = buff.props.buff.maxRate;
 

@@ -260,7 +260,7 @@ export class BattleActor {
         const traits: Trait.Trait[] = [];
 
         traits.push(...this.props.traits);
-        traits.push(...this.battle().state.traits);
+        traits.push(...this.battle().traits());
         if (additional && additional.length)
             traits.push(...additional);
 

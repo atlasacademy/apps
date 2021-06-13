@@ -31,6 +31,15 @@ describe('BattleServantActor', () => {
         expect(actor.attack()).to.equal(14421);
     });
 
+    it('mash default', () => {
+        const actor = servant(1, BattleTeam.PLAYER), // mash
+            battle = new Battle(null);
+
+        battle.addActor(actor);
+
+        expect(actor.baseAttack()).to.equal(8587);
+    });
+
     it('autoAttack', () => {
         const battle = new Battle(null),
             actor = servant(2, BattleTeam.PLAYER), // artoria

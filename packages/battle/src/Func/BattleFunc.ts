@@ -105,11 +105,29 @@ export default abstract class BattleFunc {
     }
 
     applicableToTarget(target: BattleActor): boolean {
-        if (!this.props.func.functvals || !this.props.func.functvals.length)
-            return true;
+        const functvals = this.props.func.functvals ?? [];
+        if (functvals.length) {
+            const traits = target.traits(target.buffs().traits(true)),
+                isApplicable = checkTrait(functvals, traits)
 
-        const traits = target.traits(target.buffs().traits(true));
+            if (!isApplicable)
+                return false;
+        }
 
-        return checkTrait(this.props.func.functvals, traits)
+        const funcquestTvals = this.props.func.funcquestTvals ?? [];
+        if (funcquestTvals.length) {
+            // checkTrait will return true if target trait list (ie: Battle Traits) is empty
+            // in the actual game, you can't enter a quest with no quest traits
+            // however in our sandbox, this is possible because the user might not set the battle traits explicitly
+            // therefore, if the user does not set traits, isApplicable should be false
+            const isApplicable = target.battle().traits().length > 0
+                ? checkTrait(funcquestTvals, target.battle().traits().map(trait => trait.id))
+                : false;
+
+            if (!isApplicable)
+                return false;
+        }
+
+        return true;
     }
 }

@@ -20,8 +20,8 @@ export interface BattleState {
 export class Battle {
     public state: BattleState;
 
-    constructor(state: BattleState | null) {
-        this.state = state ?? {
+    constructor(state?: Partial<BattleState> | null) {
+        this.state = {
             actors: new BattleActorManager(null),
             control: BattleTeam.PLAYER,
             events: [],
@@ -30,6 +30,7 @@ export class Battle {
             stars: 0,
             traits: [],
             turn: 1,
+            ...state,
         };
     }
 
@@ -106,4 +107,9 @@ export class Battle {
     random(): BattleRandom {
         return this.state.random;
     }
+
+    traits(): Trait.Trait[] {
+        return this.state.traits;
+    }
+
 }
