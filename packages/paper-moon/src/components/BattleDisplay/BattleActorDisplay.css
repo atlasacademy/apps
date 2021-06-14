@@ -2,11 +2,15 @@
 
 }
 
-.battle-actor-display>.face {
+.battle-actor-face {
     display: block;
-    margin: 0 auto 5px auto;
-    width: 150px;
+    margin-bottom: 5px;
+    width: 100%;
 }
-.battle-actor-display>.name, .battle-actor-display>.health {
-    text-align: center;
+.battle-actor-name {
+    font-weight: bold;
+    text-align: right;
+}
+.battle-actor-health, .battle-actor-gauge {
+    text-align: right;
 }

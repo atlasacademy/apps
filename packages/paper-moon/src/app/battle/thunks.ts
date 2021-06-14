@@ -48,9 +48,13 @@ export const battleSyncThunk = (): AppThunk => {
             battle.actors().actorsByTeam(BattleTeam.PLAYER).map(actor => ({
                 id: actor.id(),
                 face: actor.face(),
+                team: actor.team(),
                 name: actor.name(),
                 currentHealth: actor.state.health,
                 maxHealth: actor.state.maxHealth,
+                currentGauge: actor.state.gauge,
+                gaugeLineCount: actor.props.gaugeLineCount,
+                gaugeLineMax: actor.props.gaugeLineMax,
             }))
         ));
 
@@ -58,9 +62,13 @@ export const battleSyncThunk = (): AppThunk => {
             battle.actors().actorsByTeam(BattleTeam.ENEMY).map(actor => ({
                 id: actor.id(),
                 face: actor.face(),
+                team: actor.team(),
                 name: actor.name(),
                 currentHealth: actor.state.health,
                 maxHealth: actor.state.maxHealth,
+                currentGauge: actor.state.gauge,
+                gaugeLineCount: actor.props.gaugeLineCount,
+                gaugeLineMax: actor.props.gaugeLineMax,
             }))
         ));
 

@@ -17,6 +17,8 @@ describe('BattleServantActor', () => {
         expect(actor.props.level).to.equal(90);
         expect(actor.props.baseAttack).to.equal(12221);
         expect(actor.props.baseHealth).to.equal(16150);
+        expect(actor.props.gaugeLineCount).to.equal(1);
+        expect(actor.props.gaugeLineMax).to.equal(10000);
         expect(actor.hasTrait(1)).to.equal(false);
         expect(actor.hasTrait(2)).to.equal(true);
         expect(actor.hasTrait(2009)).to.equal(true);
