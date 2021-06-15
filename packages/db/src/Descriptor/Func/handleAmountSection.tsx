@@ -48,6 +48,9 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
     } else if (func.funcType === Func.FuncType.CARD_RESET && dataVal.Value) {
         section.preposition = undefined;
         parts.push(`${dataVal.Value} time${dataVal.Value > 1 ? 's' : ''}`);
+    } else if (func.funcType === Func.FuncType.HASTEN_NPTURN && dataVal.Value) {
+        section.preposition = undefined;
+        parts.push(`by ${dataVal.Value}`);
     } else if (func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
         if (dataVal.Value)
             parts.push(' of ')

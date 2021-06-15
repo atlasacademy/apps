@@ -2,7 +2,7 @@ import {Region} from "@atlasacademy/api-connector";
 import {Renderable} from "./OutputHelper";
 
 export default function getRubyText(region: Region, text: string, ruby: string, splitRank = false): Renderable {
-    if (region === Region.JP && !text.slice(0, 5).match(/[a-zA-Z]/g)) {
+    if (region === Region.JP && !text.split(" ")[0].match(/[a-zA-Z]/g)) {
         return makeRubyText(text, ruby, splitRank);
     } else {
         return text;

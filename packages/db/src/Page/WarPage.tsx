@@ -163,7 +163,7 @@ const MainQuests = (props: {
 
     if (mainQuests.length === 0) return null;
 
-    mainQuests = mainQuests.sort((a, b) => a.quest.id - b.quest.id);
+    mainQuests.sort((a, b) => a.quest.id - b.quest.id);
 
     const questTable = (
         <QuestTable

@@ -37,7 +37,9 @@ const DialogueRow = (props: {
             </td>
             <td>
                 {dialogueVoice}
-                <ScriptDialogueLine components={props.dialogue.components} />
+                <ScriptDialogueLine
+                    components={props.dialogue.components.flat()}
+                />
             </td>
         </tr>
     );

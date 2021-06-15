@@ -100,7 +100,7 @@ export type ScriptDialogue = {
     type: ScriptComponentType.DIALOGUE;
     speaker: DialogueSpeaker;
     lines: string[];
-    components: DialogueChildComponent[];
+    components: DialogueChildComponent[][];
     voice?: ScriptSound;
 };
 
@@ -574,8 +574,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 switch (parameters[0]) {
                     case "k":
                         dialogue.components = dialogue.lines
-                            .map((line) => parseDialogueLine(region, line))
-                            .flat();
+                            .map((line) => parseDialogueLine(region, line));
                         if (parserState.choice) {
                             choice.results.push({ ...dialogue });
                         } else {
