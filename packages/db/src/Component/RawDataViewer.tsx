@@ -85,6 +85,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                     <Modal.Body>
                         {this.state.data ? (
                             <ReactJson
+                                style={{ wordBreak: "break-all" }}
                                 src={this.state.data}
                                 collapsed={1}
                                 theme={
