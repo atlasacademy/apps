@@ -19,25 +19,46 @@ export default function CondMissionDetailDescriptor(props: {
     detail: Mission.MissionConditionDetail;
     num: number;
     servants?: Map<number, Servant.ServantBasic>;
-    quests?: Map<number, Quest.Quest>;
+    quests?: Map<number, Quest.QuestBasic>;
     items?: Map<number, Item.Item>;
     enums?: EnumList;
 }) {
     const region = props.region,
         detail = props.detail,
         num = props.num,
-        targetIds = props.detail.targetIds;
+        targetIds = props.detail.targetIds,
+        pluralS = num > 1 ? "s" : "";
     switch (detail.missionCondType) {
         case Mission.DetailCondType.QUEST_CLEAR_NUM_1:
         case Mission.DetailCondType.QUEST_CLEAR_NUM_2:
+            if (targetIds.length === 1 && targetIds[0] === 0)
+                return (
+                    <>
+                        Complete any quest {num} time{pluralS}
+                    </>
+                );
             return (
                 <>
-                    {num} runs of{" "}
+                    {num} run{pluralS} of{" "}
                     <MultipleQuests
                         region={region}
                         questIds={targetIds}
                         quests={props.quests}
                     />
+                </>
+            );
+        case Mission.DetailCondType.QUEST_CLEAR_NUM_INCLUDING_GRAILFRONT:
+            return (
+                <>
+                    Clear any quest including grail front quest {num} time
+                    {pluralS}
+                </>
+            );
+        case Mission.DetailCondType.MAIN_QUEST_DONE:
+            return (
+                <>
+                    Clear any main quest in Arc 1 and Arc 2 {num} time
+                    {pluralS}
                 </>
             );
         case Mission.DetailCondType.ENEMY_KILL_NUM:
@@ -59,10 +80,20 @@ export default function CondMissionDetailDescriptor(props: {
                     <MultipleTraits region={region} traitIds={targetIds} />
                 </>
             );
-        case Mission.DetailCondType.DEFEAT_SERVANT_CLASS:
+        case Mission.DetailCondType.DEFEAT_ENEMY_CLASS:
             return (
                 <>
                     Defeat {num} enemies with{" "}
+                    <MultipleClasses
+                        classIds={targetIds}
+                        classes={props.enums?.SvtClass}
+                    />
+                </>
+            );
+        case Mission.DetailCondType.DEFEAT_SERVANT_CLASS:
+            return (
+                <>
+                    Defeat {num} servants with{" "}
                     <MultipleClasses
                         classIds={targetIds}
                         classes={props.enums?.SvtClass}
@@ -103,6 +134,8 @@ export default function CondMissionDetailDescriptor(props: {
                     in your Party and complete Quests {num} times
                 </>
             );
+        case Mission.DetailCondType.FRIEND_POINT_SUMMON:
+            return <>Perform {num} Friend Point Summons</>;
         default:
             return (
                 <>

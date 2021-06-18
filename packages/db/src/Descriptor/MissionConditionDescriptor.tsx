@@ -6,7 +6,7 @@ export default function MissionConditionDescriptor(props: {
     region: Region;
     cond: Mission.MissionCondition;
     servants?: Map<number, Servant.ServantBasic>;
-    quests?: Map<number, Quest.Quest>;
+    quests?: Map<number, Quest.QuestBasic>;
     missions?: Map<number, Mission.Mission>;
     items?: Map<number, Item.Item>;
     enums?: EnumList;

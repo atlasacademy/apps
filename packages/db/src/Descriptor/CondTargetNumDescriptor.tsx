@@ -26,7 +26,7 @@ export default function CondTargetNumDescriptor(props: {
     num: number;
     detail?: Mission.MissionConditionDetail;
     servants?: Map<number, Servant.ServantBasic>;
-    quests?: Map<number, Quest.Quest>;
+    quests?: Map<number, Quest.QuestBasic>;
     missions?: Map<number, Mission.Mission>;
     items?: Map<number, Item.Item>;
     enums?: EnumList;

@@ -22,6 +22,7 @@ import * as Gift from "./Schema/Gift";
 import * as Item from "./Schema/Item";
 import { Illustrator } from "./Schema/Illustrator";
 import * as Master from "./Schema/Master";
+import * as MasterMission from "./Schema/MasterMission";
 import * as Mission from "./Schema/Mission";
 import * as MysticCode from "./Schema/MysticCode";
 import * as NoblePhantasm from "./Schema/NoblePhantasm";
@@ -67,6 +68,7 @@ export {
     Illustrator,
     Mission,
     Master,
+    MasterMission,
     MysticCode,
     NoblePhantasm,
     Profile,

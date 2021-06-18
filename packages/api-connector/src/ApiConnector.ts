@@ -7,6 +7,7 @@ import Language from "./Enum/Language";
 import Region from "./Enum/Region";
 import ResultCache from "./ResultCache";
 import { Attribute, AttributeAffinityMap } from "./Schema/Attribute";
+import { BgmEntity } from "./Schema/Bgm";
 import { Change } from "./Schema/Change";
 import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode";
 import { Constants } from "./Schema/Constant";
@@ -19,6 +20,7 @@ import { GiftType } from "./Schema/Gift";
 import { Illustrator } from "./Schema/Illustrator";
 import { Item, ItemBackgroundType, ItemType, ItemUse } from "./Schema/Item";
 import { MasterLevelInfoMap } from "./Schema/Master";
+import { MasterMission } from "./Schema/MasterMission";
 import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode";
 import { NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm";
 import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile";
@@ -52,7 +54,6 @@ import {
 } from "./Schema/Buff";
 import {
     DetailCondLinkType,
-    DetailCondType,
     MissionType,
     ProgressType,
     RewardType,
@@ -64,7 +65,6 @@ import {
     FuncTargetType,
     FuncType,
 } from "./Schema/Func";
-import { BgmEntity } from "./Schema/Bgm";
 
 export enum ReverseData {
     BASIC = "basic",
@@ -243,6 +243,8 @@ class ApiConnector {
         illustratorList: new ResultCache<null, Illustrator[]>(),
         cvList: new ResultCache<null, Cv[]>(),
         searchItem: new ResultCache<string, Item[]>(),
+        masterMission: new ResultCache<number, MasterMission>(),
+        masterMissionList: new ResultCache<null, MasterMission[]>(),
         masterLevelInfoMap: new ResultCache<null, MasterLevelInfoMap>(),
         mysticCode: new ResultCache<number, MysticCode>(),
         mysticCodeBasic: new ResultCache<number, MysticCodeBasic>(),
@@ -545,6 +547,35 @@ class ApiConnector {
 
         return this.cache.enemy.get(
             id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    masterMission(id: number, cacheDuration?: number): Promise<MasterMission> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<MasterMission>(
+                `${this.host}/nice/${this.region}/mm/${id}${query}`
+            );
+        };
+        if (cacheDuration === undefined) return fetch();
+        return this.cache.masterMission.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    masterMissionList(cacheDuration?: number): Promise<MasterMission[]> {
+        let source = `${this.host}/export/${this.region}/nice_master_mission.json`;
+
+        const fetch = () => ApiConnector.fetch<MasterMission[]>(source);
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.masterMissionList.get(
+            null,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
         );

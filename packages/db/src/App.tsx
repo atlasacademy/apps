@@ -31,6 +31,8 @@ const FuncPage = React.lazy(() => import('./Page/FuncPage'));
 const FuncsPage = React.lazy(() => import('./Page/FuncsPage'));
 const ItemPage = React.lazy(() => import('./Page/ItemPage'));
 const ItemsPage = React.lazy(() => import('./Page/ItemsPage'));
+const MasterMissionPage = React.lazy(() => import("./Page/MasterMissionPage"));
+const MasterMissionsPage = React.lazy(() => import("./Page/MasterMissionsPage"));
 const MysticCodePage = React.lazy(() => import("./Page/MysticCodePage"));
 const MysticCodesPage = React.lazy(() => import("./Page/MysticCodesPage"));
 const NoblePhantasmPage = React.lazy(() => import("./Page/NoblePhantasmPage"));
@@ -166,6 +168,24 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
+                        <Route exact={true} path="/:region(JP|NA)/master-missions"
+                               render={props => {
+                                   const {region} = props.match.params;
+                                   return (
+                                       <Suspense fallback={<Loading/>}>
+                                           <MasterMissionsPage key={region} region={region as Region}/>
+                                       </Suspense>
+                                   );
+                               }}/>
+                        <Route exact={true} path="/:region(JP|NA)/master-mission/:id([0-9]+)"
+                               render={props => {
+                                   const {region, id} = props.match.params;
+                                   return (
+                                       <Suspense fallback={<Loading/>}>
+                                           <MasterMissionPage key={`${region}-${id}`} region={region as Region} masterMissionId={parseInt(id)}/>
+                                       </Suspense>
+                                   );
+                               }}/>
                         <Route exact={true} path="/:region(JP|NA)/mystic-code/:id([0-9]+)/:tab?"
                                render={props => {
                                    const {region, id, tab} = props.match.params;

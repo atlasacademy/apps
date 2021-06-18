@@ -91,7 +91,7 @@ export function ServantLink (props : {
             <Link
                 to={`/${props.region}/enemy/${props.id}`}
                 style={{textDecoration: "none", whiteSpace: "nowrap"}}
-            >{props.id}</Link>
+            >[{props.id}]</Link>
         );
     }
 }

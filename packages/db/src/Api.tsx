@@ -29,6 +29,7 @@ import {
     War,
     Illustrator,
     Cv,
+    MasterMission,
 } from "@atlasacademy/api-connector";
 
 export const Host = "https://api.atlasacademy.io";
@@ -112,6 +113,16 @@ class Api {
 
     static async eventList(): Promise<Event.EventBasic[]> {
         return apiConnector.eventList();
+    }
+
+    static async masterMission(
+        id: number
+    ): Promise<MasterMission.MasterMission> {
+        return apiConnector.masterMission(id, cacheDuration);
+    }
+
+    static async masterMissionList(): Promise<MasterMission.MasterMission[]> {
+        return apiConnector.masterMissionList();
     }
 
     static func(id: number): Promise<Func.Func> {

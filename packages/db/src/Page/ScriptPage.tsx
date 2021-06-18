@@ -37,14 +37,11 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
 
     useEffect(() => {
         Manager.setRegion(region);
-        try {
-            axios.get(scriptURL, { timeout: 10000 }).then((r) => {
-                setScript(r.data);
-                setLoading(false);
-            });
-        } catch (e) {
-            setError(e);
-        }
+        axios
+            .get(scriptURL, { timeout: 10000 })
+            .then((r) => setScript(r.data))
+            .catch((e) => setError(e));
+        setLoading(false);
     }, [region, scriptURL]);
 
     if (loading) return <Loading />;
