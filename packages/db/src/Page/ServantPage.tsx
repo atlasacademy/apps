@@ -269,12 +269,14 @@ class ServantPage extends React.Component<IProps, IState> {
                             <Col xs={12} lg={6}>
                                 <ServantMaterialBreakdown region={this.props.region}
                                                           materials={servant.ascensionMaterials}
-                                                          title={'Ascension Materials'}/>
+                                                          title={'Ascension Materials'}
+                                                          showNextLevelInDescription={true}/>
                             </Col>
                             <Col xs={12} lg={6}>
                                 <ServantMaterialBreakdown region={this.props.region}
                                                           materials={servant.skillMaterials}
-                                                          title={'Skill Materials'}/>
+                                                          title={'Skill Materials'}
+                                                          showNextLevelInDescription={true}/>
                             </Col>
                         </Row>
                         {

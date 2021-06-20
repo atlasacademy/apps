@@ -25,6 +25,7 @@ interface IProps {
     materials: Entity.EntityLevelUpMaterialProgression;
     title: string;
     idMinWidth?: string;
+    showNextLevelInDescription?: boolean;
 }
 
 class ServantMaterialBreakdown extends React.Component<IProps> {
@@ -56,16 +57,25 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                 <Table responsive>
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>QP</th>
+                        <th style={this.props.showNextLevelInDescription
+                                        ? { textAlign: "center" }
+                                        : {}}>#</th>
+                        <th style={{ textAlign: "center" }}>QP</th>
                         {this.populateRemainingCells(count, 0)}
                     </tr>
                     </thead>
                     <tbody>
                     {Object.keys(this.props.materials).map(key => {
                         return <tr key={key}>
-                            <td style={{verticalAlign: 'middle', minWidth: this.props.idMinWidth}}>{key}</td>
-                            <td>
+                            <td
+                                style={{verticalAlign: 'middle', minWidth: this.props.idMinWidth}}
+                                align={this.props.showNextLevelInDescription ? "center" : "left"}
+                            >
+                                {this.props.showNextLevelInDescription
+                                    ? <>{parseInt(key)}→{parseInt(key) + 1}</>
+                                    : key}
+                            </td>
+                            <td align="center">
                                 <ItemIcon region={this.props.region}
                                           item={qpItem}
                                           quantity={this.props.materials[key].qp}
@@ -74,7 +84,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                             </td>
                             {this.props.materials[key].items.map(
                                 (itemAndQuantity) => {
-                                    return <td key={itemAndQuantity.item.id}>
+                                    return <td key={itemAndQuantity.item.id} align="center">
                                         <Link to={`/${this.props.region}/item/${itemAndQuantity.item.id}`}>
                                             <ItemIcon region={this.props.region}
                                                       item={itemAndQuantity.item}

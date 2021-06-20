@@ -35,6 +35,7 @@ import {
     Gift,
 } from "@atlasacademy/api-connector";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
+import { getEventStatus } from "../Helper/TimeHelper";
 
 interface TabInfo {
     type: "ladder" | "shop" | "mission" | "tower" | "lottery";
@@ -792,6 +793,10 @@ class EventPage extends React.Component<IProps, IState> {
                             ID: event.id,
                             Name: event.name,
                             Wars: wars,
+                            Status: getEventStatus(
+                                event.startedAt,
+                                event.endedAt
+                            ),
                             Start: new Date(
                                 event.startedAt * 1000
                             ).toLocaleString(),

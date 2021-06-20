@@ -19,7 +19,7 @@ import Manager from "../Setting/Manager";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
-import { getTimeString } from "../Helper/TimeHelper";
+import { getEventStatus, getTimeString } from "../Helper/TimeHelper";
 
 const MasterMissionCond = (props: {
     region: Region;
@@ -75,17 +75,25 @@ const MasterMissionPage = (props: {
 
     useEffect(() => {
         Manager.setRegion(region);
-        Api.masterMission(masterMissionId)
-            .then((r) => setMasterMission(r))
-            .catch((e) => setError(e));
-        Api.enumList().then((r) => setEnumList(r));
-        Api.servantList().then((r) =>
-            setServantCache(new Map(r.map((servant) => [servant.id, servant])))
-        );
-        Api.itemList().then((r) =>
-            setItemCache(new Map(r.map((item) => [item.id, item])))
-        );
-        setLoading(false);
+        Promise.all([
+            Api.masterMission(masterMissionId),
+            Api.enumList(),
+            Api.servantList(),
+            Api.itemList(),
+        ])
+            .then(([mmData, enums, servants, items]) => {
+                setMasterMission(mmData);
+                setEnumList(enums);
+                setServantCache(
+                    new Map(servants.map((servant) => [servant.id, servant]))
+                );
+                setItemCache(new Map(items.map((item) => [item.id, item])));
+                setLoading(false);
+            })
+            .catch((e) => {
+                setError(e);
+                setLoading(false);
+            });
     }, [region, masterMissionId]);
 
     if (loading) return <Loading />;
@@ -112,6 +120,10 @@ const MasterMissionPage = (props: {
                 <DataTable
                     data={{
                         ID: masterMissionId,
+                        Status: getEventStatus(
+                            masterMission.startedAt,
+                            masterMission.endedAt
+                        ),
                         Start: getTimeString(masterMission.startedAt),
                         End: getTimeString(masterMission.endedAt),
                         Close: getTimeString(masterMission.closedAt),

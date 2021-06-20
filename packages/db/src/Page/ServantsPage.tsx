@@ -350,7 +350,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                             }
                                             key={rarity}
                                             onClick={(ev: MouseEvent) => this.toggleRarityFilter(rarity)}>
-                                            {rarity} ☆
+                                            {rarity} ★
                                         </Button>
                                     ))
                             }

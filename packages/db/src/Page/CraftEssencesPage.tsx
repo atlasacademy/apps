@@ -292,7 +292,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                             }
                                             key={rarity}
                                             onClick={(_) => this.toggleRarityFilter(rarity)}>
-                                            {rarity} ☆
+                                            {rarity} ★
                                         </Button>
                                     ))
                             }

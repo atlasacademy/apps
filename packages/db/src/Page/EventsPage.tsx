@@ -1,4 +1,6 @@
 import { Event, Region } from "@atlasacademy/api-connector";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
 import escape from "escape-string-regexp";
@@ -16,6 +18,7 @@ import { Link } from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import { getCurrentTimestamp } from "../Helper/TimeHelper";
 import Manager from "../Setting/Manager";
 
 import "./CraftEssencesPage.css";
@@ -269,6 +272,8 @@ class EventsPage extends React.Component<IProps, IState> {
 
         const pageNavigator = this.paginator(events.length);
 
+        const currentTimestamp = getCurrentTimestamp();
+
         return (
             <div id={"craft-essences"}>
                 <Row>
@@ -346,17 +351,31 @@ class EventsPage extends React.Component<IProps, IState> {
                             <th style={{ textAlign: "center", width: "1px" }}>
                                 #
                             </th>
+                            <th style={{ textAlign: "center", width: "1px" }}>
+                                Ongoing
+                            </th>
                             <th>Name</th>
                         </tr>
                     </thead>
                     <tbody>
                         {results.map((event) => {
                             const route = `/${this.props.region}/event/${event.id}`;
+                            const isOngoing =
+                                currentTimestamp >= event.startedAt &&
+                                currentTimestamp <= event.endedAt;
 
                             return (
                                 <tr key={event.id}>
                                     <td align={"center"}>
                                         <Link to={route}>{event.id}</Link>
+                                    </td>
+                                    <td align={"center"}>
+                                        {isOngoing ? (
+                                            <FontAwesomeIcon
+                                                icon={faCheckCircle}
+                                                title="Master mission is ongoing right now"
+                                            />
+                                        ) : null}
                                     </td>
                                     <td>
                                         <Link to={route}>{event.name}</Link>
