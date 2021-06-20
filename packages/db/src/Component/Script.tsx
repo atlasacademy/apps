@@ -13,6 +13,7 @@ export enum ScriptComponentType {
     WAIT,
     LABEL,
     BRANCH,
+    BRANCH_QUEST_NOT_CLEAR,
     BGM,
     BGM_STOP,
     BACKGROUND,
@@ -98,7 +99,7 @@ export type DialogueSpeaker = {
 
 export type ScriptDialogue = {
     type: ScriptComponentType.DIALOGUE;
-    speaker: DialogueSpeaker;
+    speaker?: DialogueSpeaker;
     lines: string[];
     components: DialogueChildComponent[][];
     voice?: ScriptSound;
@@ -155,6 +156,12 @@ export type ScriptBranch = {
     };
 };
 
+export type ScriptBranchQuestNotClear = {
+    type: ScriptComponentType.BRANCH_QUEST_NOT_CLEAR;
+    labelName: string;
+    questId: number;
+};
+
 export type ScriptBgm = {
     type: ScriptComponentType.BGM;
     bgm: ScriptSound;
@@ -196,6 +203,7 @@ export type ScriptBracketComponent =
     | ScriptWait
     | ScriptLabel
     | ScriptBranch
+    | ScriptBranchQuestNotClear
     | ScriptBgm
     | ScriptBgmStop
     | ScriptBackground
@@ -480,6 +488,12 @@ function parseBracketComponent(
                     labelName: parameters[1],
                 };
             }
+        case "branchQuestNotClear":
+            return {
+                type: ScriptComponentType.BRANCH_QUEST_NOT_CLEAR,
+                labelName: parameters[1],
+                questId: parseInt(parameters[2]),
+            };
         case "bgm":
             return {
                 type: ScriptComponentType.BGM,
@@ -533,7 +547,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
 
     let dialogue: ScriptDialogue = {
         type: ScriptComponentType.DIALOGUE,
-        speaker: { name: "", components: [] },
+        speaker: undefined,
         lines: [],
         components: [],
         voice: undefined,
@@ -547,11 +561,10 @@ export function parseScript(region: Region, script: string): ScriptInfo {
 
     let parserState = {
         choice: false,
-        dialogue: false,
     };
 
     const resetDialogueVariables = () => {
-        dialogue.speaker = { name: "", components: [] };
+        dialogue.speaker = undefined;
         dialogue.voice = undefined;
         dialogue.lines = [];
         dialogue.components = [];
@@ -573,8 +586,9 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 const parameters = parseParameter(line);
                 switch (parameters[0]) {
                     case "k":
-                        dialogue.components = dialogue.lines
-                            .map((line) => parseDialogueLine(region, line));
+                        dialogue.components = dialogue.lines.map((line) =>
+                            parseDialogueLine(region, line)
+                        );
                         if (parserState.choice) {
                             choice.results.push({ ...dialogue });
                         } else {
@@ -582,7 +596,6 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         }
 
                         resetDialogueVariables();
-                        parserState.dialogue = false;
                         break;
                     case "tVoice":
                         const folder = parameters[1];
@@ -591,7 +604,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         dialogue.voice = getBgmObject(fileName, audioUrl);
                         break;
                     default:
-                        if (parserState.dialogue) {
+                        if (line[0] !== "[") {
                             dialogue.lines.push(line);
                             break;
                         } else {
@@ -609,7 +622,6 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 break;
             case "＠":
                 dialogue.speaker = parseDialogueSpeaker(region, line);
-                parserState.dialogue = true;
                 break;
             case "？":
                 if (line[1] === "！") {
@@ -638,10 +650,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
             case undefined:
                 break;
             default:
-                if (parserState.dialogue) {
-                    dialogue.lines.push(line);
-                    break;
-                }
+                dialogue.lines.push(line);
         }
     }
 

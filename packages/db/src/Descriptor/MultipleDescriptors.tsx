@@ -70,10 +70,8 @@ export const MultipleQuests = (props: {
     if (props.questIds.length === 1) {
         return (
             <QuestDescriptorId
-                text=""
                 region={props.region}
                 questId={props.questIds[0]}
-                questPhase={1}
                 quests={props.quests}
                 showType={false}
             />
@@ -85,10 +83,8 @@ export const MultipleQuests = (props: {
                     return (
                         <li key={questId}>
                             <QuestDescriptorId
-                                text=""
                                 region={props.region}
                                 questId={questId}
-                                questPhase={1}
                                 quests={props.quests}
                                 showType={false}
                             />

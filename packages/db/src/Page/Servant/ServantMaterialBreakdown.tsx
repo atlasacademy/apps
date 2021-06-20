@@ -44,7 +44,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
 
         return [
             ...Array(max - count)
-        ].map((_, index) => <td key={index}></td>);
+        ].map((_, index) => <th key={index}></th>);
     }
 
     render() {

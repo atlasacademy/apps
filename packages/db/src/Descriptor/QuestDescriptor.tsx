@@ -67,10 +67,10 @@ export function QuestDescriptionNoApi(props: {
 }
 
 interface IProps {
-    text: string;
+    text?: string;
     region: Region;
     questId: number;
-    questPhase: number;
+    questPhase?: number;
     questStage?: number;
     showType?: boolean;
 }
@@ -85,10 +85,10 @@ export default function QuestDescriptor(props: IProps) {
     if (quest !== null) {
         return (
             <QuestDescriptionNoApi
-                text={props.text}
+                text={props.text ?? ""}
                 region={props.region}
                 quest={quest}
-                questPhase={props.questPhase}
+                questPhase={props.questPhase ?? 1}
                 questStage={props.questStage}
                 showType={props.showType}
             />
@@ -105,10 +105,10 @@ export default function QuestDescriptor(props: IProps) {
 }
 
 export function QuestDescriptorId(props: {
-    text: string;
+    text?: string;
     region: Region;
     questId: number;
-    questPhase: number;
+    questPhase?: number;
     questStage?: number;
     showType?: boolean;
     quests?: Map<number, Quest.QuestBasic>;
@@ -140,10 +140,10 @@ export function QuestDescriptorId(props: {
 }
 
 export function QuestDescriptorMap(props: {
-    text: string;
+    text?: string;
     region: Region;
     questId: number;
-    questPhase: number;
+    questPhase?: number;
     questStage?: number;
     quests: Map<number, Quest.QuestBasic>;
     showType?: boolean;
@@ -152,10 +152,10 @@ export function QuestDescriptorMap(props: {
     if (quest !== undefined && quest !== null) {
         return (
             <QuestDescriptionNoApi
-                text={props.text}
+                text={props.text ?? ""}
                 region={props.region}
                 quest={quest}
-                questPhase={props.questPhase}
+                questPhase={props.questPhase ?? 1}
                 questStage={props.questStage}
                 showType={props.showType}
             />

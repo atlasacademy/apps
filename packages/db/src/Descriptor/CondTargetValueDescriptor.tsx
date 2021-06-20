@@ -25,12 +25,7 @@ export default function CondTargetValueDescriptor(props: {
             return (
                 <>
                     Has cleared{" "}
-                    <QuestDescriptor
-                        text=""
-                        region={region}
-                        questId={target}
-                        questPhase={1}
-                    />
+                    <QuestDescriptor region={region} questId={target} />
                 </>
             );
         case CondType.SVT_LIMIT:
@@ -99,12 +94,7 @@ export default function CondTargetValueDescriptor(props: {
             return (
                 <>
                     Has not cleared{" "}
-                    <QuestDescriptor
-                        text=""
-                        region={region}
-                        questId={target}
-                        questPhase={1}
-                    />
+                    <QuestDescriptor region={region} questId={target} />
                 </>
             );
         case CondType.SVT_HAVING:
@@ -122,12 +112,7 @@ export default function CondTargetValueDescriptor(props: {
             return (
                 <>
                     Has cleared arrow {value} of{" "}
-                    <QuestDescriptor
-                        text=""
-                        region={region}
-                        questId={target}
-                        questPhase={value}
-                    />
+                    <QuestDescriptor region={region} questId={target} />
                 </>
             );
         case CondType.NOT_QUEST_CLEAR_PHASE:
@@ -135,7 +120,6 @@ export default function CondTargetValueDescriptor(props: {
                 <>
                     Has not cleared arrow {value} of{" "}
                     <QuestDescriptor
-                        text=""
                         region={region}
                         questId={target}
                         questPhase={value}
@@ -205,7 +189,8 @@ export default function CondTargetValueDescriptor(props: {
         case CondType.NOT_ITEM_GET:
             return (
                 <>
-                    Doesn't have <ItemDescriptorId region={region} itemId={target} /> x
+                    Doesn't have{" "}
+                    <ItemDescriptorId region={region} itemId={target} /> x
                     {value}
                 </>
             );

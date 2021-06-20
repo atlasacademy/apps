@@ -11,6 +11,7 @@ import {
     ScriptDialogue,
     ScriptInfo,
 } from "./Script";
+import QuestDescriptor from "../Descriptor/QuestDescriptor";
 
 type RowBgmRefMap = Map<
     string | undefined,
@@ -32,7 +33,7 @@ const DialogueRow = (props: {
         <tr ref={props.refs.get(props.dialogue.voice?.audioAsset)}>
             <td>
                 <ScriptDialogueLine
-                    components={props.dialogue.speaker.components}
+                    components={props.dialogue.speaker?.components ?? []}
                 />
             </td>
             <td>
@@ -87,6 +88,27 @@ const ScriptBracketRow = (props: {
     refs: RowBgmRefMap;
 }) => {
     const { region, component, refs } = props;
+    const getGoToLabel = (labelName: string) => {
+        return (
+            <Button
+                variant="link"
+                onClick={() => {
+                    const rowRef = refs.get(labelName);
+                    if (rowRef !== undefined && rowRef.current !== null) {
+                        rowRef.current.scrollIntoView({
+                            behavior: "smooth",
+                        });
+                    }
+                }}
+            >
+                <FontAwesomeIcon
+                    icon={faShare}
+                    title={`Go to label ${labelName}`}
+                />
+            </Button>
+        );
+    };
+
     switch (component.type) {
         case ScriptComponentType.BACKGROUND:
             return (
@@ -143,30 +165,26 @@ const ScriptBracketRow = (props: {
                         <code>{component.flag.value}</code>
                     </>
                 );
-            const goToLabel = (
-                <Button
-                    variant="link"
-                    onClick={() => {
-                        const rowRef = refs.get(component.labelName);
-                        if (rowRef !== undefined && rowRef.current !== null) {
-                            rowRef.current.scrollIntoView({
-                                behavior: "smooth",
-                            });
-                        }
-                    }}
-                >
-                    <FontAwesomeIcon
-                        icon={faShare}
-                        title={`Go to label ${component.labelName}`}
-                    />
-                </Button>
-            );
             return (
                 <tr>
                     <td>Branch</td>
                     <td>
                         Go to label <code>{component.labelName}</code>
-                        {condition} {goToLabel}
+                        {condition} {getGoToLabel(component.labelName)}
+                    </td>
+                </tr>
+            );
+        case ScriptComponentType.BRANCH_QUEST_NOT_CLEAR:
+            return (
+                <tr>
+                    <td>Branch</td>
+                    <td>
+                        Go to label <code>{component.labelName}</code> if quest{" "}
+                        <QuestDescriptor
+                            region={region}
+                            questId={component.questId}
+                        />{" "}
+                        hasn't been cleared {getGoToLabel(component.labelName)}
                     </td>
                 </tr>
             );

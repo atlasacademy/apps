@@ -35,8 +35,8 @@ let VoiceCondTypeDescriptor = (props : IProps) => {
         case VoiceCondType.LIMIT_COUNT_ABOVE: return <>Ascension {value}</>;
         case VoiceCondType.COSTUME: return <>Unlock costume <b>{costumes[value].name}</b></>;
         case VoiceCondType.IS_NEW_WAR: return <>New war {value}</>;
-        case VoiceCondType.QUEST_CLEAR: return <>Cleared <QuestDescriptor region={region} text="" questId={value} questPhase={1}/></>;
-        case VoiceCondType.NOT_QUEST_CLEAR: return <>Hasn't cleared <QuestDescriptor region={region} text="" questId={value} questPhase={1}/></>;
+        case VoiceCondType.QUEST_CLEAR: return <>Cleared <QuestDescriptor region={region} questId={value}/></>;
+        case VoiceCondType.NOT_QUEST_CLEAR: return <>Hasn't cleared <QuestDescriptor region={region} questId={value}/></>;
         case VoiceCondType.SVT_GET: return <>Presence of <ServantLink region={region} id={value} servants={props.servants}/></>;
         case VoiceCondType.SVT_GROUP: return (
             <>

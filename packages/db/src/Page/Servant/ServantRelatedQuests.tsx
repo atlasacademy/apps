@@ -13,10 +13,8 @@ const ServantRelatedQuests = (props: {
                     {props.questIds.map((questId) => (
                         <li key={questId}>
                             <QuestDescriptor
-                                text=""
                                 region={props.region}
                                 questId={questId}
-                                questPhase={1}
                             />
                         </li>
                     ))}

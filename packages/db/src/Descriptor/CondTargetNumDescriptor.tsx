@@ -63,7 +63,6 @@ export default function CondTargetNumDescriptor(props: {
                 <>
                     Has cleared arrow {num} of{" "}
                     <QuestDescriptorId
-                        text=""
                         region={region}
                         questId={targets[0]}
                         questPhase={num}
