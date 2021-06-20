@@ -6,6 +6,7 @@ import {
     Servant,
 } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
+import { areIdenticalArrays } from "../Helper/ArrayHelper";
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";
@@ -199,13 +200,158 @@ export const MultipleClasses = (props: {
 }) => {
     const classNames = props.classIds.map((classId) => {
         const className = props.classes
-            ? toTitleCase(props.classes[classId.toString()]?.toString())
+            ? props.classes[classId.toString()]?.toString()
             : undefined;
-        return className ?? classId.toString();
+        return toTitleCase(className ?? classId.toString());
     });
     return (
         <>
             <MergeElemetsOr elements={classNames} lastJoinWord="or" /> Class
+        </>
+    );
+};
+
+const PLAYABLE_CLASS_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 23, 25];
+
+export const MultipleClassLevels = (props: {
+    targetIds: number[];
+    classes?: { [key: string]: ClassName };
+    plural?: boolean;
+}) => {
+    const { targetIds, classes, plural } = props;
+    const pluralSuffix = plural ? "s" : "";
+
+    const classIds = targetIds.filter((_, i) => i % 2 === 0),
+        levels = new Set(targetIds.filter((_, i) => i % 2 === 1));
+
+    classIds.sort((a, b) => a - b);
+
+    if (areIdenticalArrays(classIds, PLAYABLE_CLASS_IDS) && levels.size === 1) {
+        return (
+            <>
+                servant{pluralSuffix} to level {targetIds[1]}
+            </>
+        );
+    }
+
+    const classLevels: string[] = [];
+    for (let i = 0; i < targetIds.length; i += 2) {
+        const classId = targetIds[i],
+            level = targetIds[i + 1],
+            className = classes
+                ? classes[classId.toString()]?.toString()
+                : undefined,
+            classString = toTitleCase(className ?? classId.toString());
+        classLevels.push(`Lv. ${level} ${classString}${pluralSuffix}`);
+    }
+    return <MergeElemetsOr elements={classLevels} lastJoinWord="or" />;
+};
+
+const splitTargetId = (targetId: number) => {
+    const targetString = targetId.toString();
+    return {
+        first: parseInt(targetString.slice(0, targetString.length - 2)),
+        second: parseInt(targetString.slice(targetString.length - 2)),
+    };
+};
+
+export const MultipleClassLimits = (props: {
+    targetIds: number[];
+    classes?: { [key: string]: ClassName };
+    plural?: boolean;
+}) => {
+    const { targetIds, classes, plural } = props;
+    const pluralSuffix = plural ? "s" : "";
+
+    const parsedTargets = targetIds.map((targetId) => {
+            const splitted = splitTargetId(targetId);
+            return { classId: splitted.first, limit: splitted.second };
+        }),
+        firstClassLimit = parsedTargets[0].limit,
+        classIds = parsedTargets.map((target) => target.classId),
+        limits = new Set(parsedTargets.map((target) => target.limit));
+
+    classIds.sort((a, b) => a - b);
+
+    if (areIdenticalArrays(classIds, PLAYABLE_CLASS_IDS) && limits.size === 1) {
+        return (
+            <>
+                servant{pluralSuffix} to ascension {firstClassLimit}
+            </>
+        );
+    }
+
+    if (limits.size === 1) {
+        const classNames = classIds.map((classId) => {
+            const className = classes
+                ? classes[classId.toString()]?.toString()
+                : undefined;
+            return toTitleCase(className ?? classId.toString()) + pluralSuffix;
+        });
+
+        return (
+            <>
+                <MergeElemetsOr elements={classNames} lastJoinWord="or" /> to
+                ascension {firstClassLimit}
+            </>
+        );
+    }
+
+    const classLimits = parsedTargets.map((target) => {
+        const className = classes
+                ? classes[target.classId.toString()]?.toString()
+                : undefined,
+            classString = toTitleCase(className ?? target.classId.toString());
+        return `Ascension ${target.limit} ${classString}${pluralSuffix}`;
+    });
+
+    return <MergeElemetsOr elements={classLimits} lastJoinWord="or" />;
+};
+
+export const MultipleEquipRarityLevel = (props: {
+    targetIds: number[];
+    plural?: boolean;
+}) => {
+    const { targetIds, plural } = props;
+    const pluralSuffix = plural ? "s" : "";
+
+    const parsedTargets = targetIds.map((targetId) => {
+            const splitted = splitTargetId(targetId);
+            return { level: splitted.first, rarity: splitted.second };
+        }),
+        firstLevel = parsedTargets[0].level,
+        rarities = parsedTargets.map((target) => target.rarity),
+        levels = new Set(parsedTargets.map((target) => target.level));
+
+    rarities.sort((a, b) => a - b);
+
+    if (areIdenticalArrays(rarities, [1, 2, 3, 4, 5]) && levels.size === 1) {
+        return (
+            <>
+                CE{pluralSuffix} to level {firstLevel}
+            </>
+        );
+    }
+
+    if (levels.size === 1) {
+        const rarityStrings = rarities.map((rarity) => `${rarity}★`);
+
+        return (
+            <>
+                <MergeElemetsOr elements={rarityStrings} lastJoinWord="or" /> CE
+                {pluralSuffix} to level {firstLevel}
+            </>
+        );
+    }
+
+    const classLimits = parsedTargets.map(
+        (target) => `Lv. ${target.level} ${target.rarity}★`
+    );
+
+    return (
+        <>
+            <MergeElemetsOr elements={classLimits} lastJoinWord="or" /> CE
+            {pluralSuffix}
         </>
     );
 };

@@ -16,6 +16,9 @@ import {
     missionRange,
     MultipleQuests,
     MultipleServants,
+    MultipleClassLevels,
+    MultipleClassLimits,
+    MultipleEquipRarityLevel,
 } from "./MultipleDescriptors";
 import "../Component/MoveButton.css";
 
@@ -154,6 +157,38 @@ export default function CondTargetNumDescriptor(props: {
                         servants={props.servants}
                     />{" "}
                     at ascension &le; {num}
+                </>
+            );
+        case CondType.SVT_LEVEL_CLASS_NUM:
+            return (
+                <>
+                    Raise {num}{" "}
+                    <MultipleClassLevels
+                        targetIds={targets}
+                        classes={props.enums?.SvtClass}
+                        plural={num > 1}
+                    />
+                </>
+            );
+        case CondType.SVT_LIMIT_CLASS_NUM:
+            return (
+                <>
+                    Raise {num}{" "}
+                    <MultipleClassLimits
+                        targetIds={targets}
+                        classes={props.enums?.SvtClass}
+                        plural={num > 1}
+                    />
+                </>
+            );
+        case CondType.SVT_EQUIP_RARITY_LEVEL_NUM:
+            return (
+                <>
+                    Raise {num}{" "}
+                    <MultipleEquipRarityLevel
+                        targetIds={targets}
+                        plural={num > 1}
+                    />
                 </>
             );
         case CondType.EVENT_MISSION_ACHIEVE:

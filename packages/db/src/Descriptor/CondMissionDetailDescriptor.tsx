@@ -80,20 +80,16 @@ export default function CondMissionDetailDescriptor(props: {
                     <MultipleTraits region={region} traitIds={targetIds} />
                 </>
             );
-        case Mission.DetailCondType.DEFEAT_ENEMY_CLASS:
-            return (
-                <>
-                    Defeat {num} enemies with{" "}
-                    <MultipleClasses
-                        classIds={targetIds}
-                        classes={props.enums?.SvtClass}
-                    />
-                </>
-            );
         case Mission.DetailCondType.DEFEAT_SERVANT_CLASS:
+        case Mission.DetailCondType.DEFEAT_ENEMY_CLASS:
+            const opponent =
+                detail.missionCondType ===
+                Mission.DetailCondType.DEFEAT_SERVANT_CLASS
+                    ? "servants"
+                    : "enemies";
             return (
                 <>
-                    Defeat {num} servants with{" "}
+                    Defeat {num} {opponent} with{" "}
                     <MultipleClasses
                         classIds={targetIds}
                         classes={props.enums?.SvtClass}

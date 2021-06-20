@@ -37,7 +37,7 @@ async function fetchApi(
     target: string,
     language: "jp" | "en" = "en"
 ) {
-    const dataType = ["item", "function", "bgm"].includes(endpoint)
+    const dataType = ["item", "function", "bgm", "mm"].includes(endpoint)
         ? "nice"
         : "basic";
     const url = `https://api.atlasacademy.io/${dataType}/${region}/${endpoint}/${target}?lang=${language}`;
@@ -78,6 +78,7 @@ const listingPageTitles = new Map([
     ["events", "Events"],
     ["wars", "Wars"],
     ["bgms", "BGMs"],
+    ["master-missions", "Master Mission"],
     ["entities", "Entities Search"],
     ["skills", "Skills Search"],
     ["noble-phantasms", "Noble Phantasms Search"],
@@ -219,6 +220,10 @@ async function handleRequest(request: Request) {
         }
         case "script": {
             const title = `[${region}] Script ${target}`;
+            return overwrite(page, title);
+        }
+        case "master-mission": {
+            const title = `[${region}] Master Mission ${target}`;
             return overwrite(page, title);
         }
         default:
