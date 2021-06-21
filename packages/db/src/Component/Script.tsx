@@ -16,6 +16,7 @@ export enum ScriptComponentType {
     BRANCH_QUEST_NOT_CLEAR,
     BGM,
     BGM_STOP,
+    VOICE,
     BACKGROUND,
     FLAG,
     DIALOGUE_TEXT,
@@ -175,6 +176,11 @@ export type ScriptBgmStop = {
     fadeoutTime: number;
 };
 
+export type ScriptVoice = {
+    type: ScriptComponentType.VOICE;
+    voice: ScriptSound;
+};
+
 export type ScriptBackground = {
     type: ScriptComponentType.BACKGROUND;
     backgroundAsset: string;
@@ -206,6 +212,7 @@ export type ScriptBracketComponent =
     | ScriptBranchQuestNotClear
     | ScriptBgm
     | ScriptBgmStop
+    | ScriptVoice
     | ScriptBackground
     | ScriptFlag;
 
@@ -518,6 +525,15 @@ function parseBracketComponent(
                     `${AssetHost}/${region}/Audio/${parameters[1]}/${parameters[1]}.mp3`
                 ),
                 fadeoutTime: parseFloat(parameters[2]),
+            };
+        case "voice":
+            const splitted = parameters[1].split("_"),
+                folder = `Servants_${splitted[0]}`,
+                fileName = splitted.slice(1).join("_"),
+                audioUrl = `${AssetHost}/${region}/Audio/${folder}/${fileName}.mp3`;
+            return {
+                type: ScriptComponentType.VOICE,
+                voice: getBgmObject(fileName, audioUrl),
             };
         case "scene":
             return {

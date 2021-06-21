@@ -6,7 +6,7 @@ import {
     Servant,
 } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
-import { areIdenticalArrays } from "../Helper/ArrayHelper";
+import { areIdenticalArrays, isSubset } from "../Helper/ArrayHelper";
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";
@@ -129,15 +129,6 @@ const shortItemNames = [
     },
 ];
 
-const checkSubset = (bigger: number[], smaller: number[]) => {
-    for (const s of smaller) {
-        if (!bigger.includes(s)) {
-            return false;
-        }
-    }
-    return true;
-};
-
 export const MultipleItems = (props: {
     region: Region;
     itemIds: number[];
@@ -146,7 +137,7 @@ export const MultipleItems = (props: {
     let toRenderItemIds = props.itemIds;
     const shortNames: Renderable[] = [];
     for (const shortItemName of shortItemNames) {
-        if (checkSubset(props.itemIds, shortItemName.ids)) {
+        if (isSubset(props.itemIds, shortItemName.ids)) {
             shortNames.push(shortItemName.name);
             toRenderItemIds = toRenderItemIds.filter(
                 (itemId) => !shortItemName.ids.includes(itemId)
@@ -190,6 +181,50 @@ export const MultipleServants = (props: {
     return <MergeElemetsOr elements={renderedServants} lastJoinWord="or" />;
 };
 
+const EMBER_IDS = [
+    { svtIds: [9701400, 9701300, 9701200, 9701100], class: ClassName.SABER },
+    { svtIds: [9702400, 9702300, 9702200, 9702100], class: ClassName.LANCER },
+    { svtIds: [9703400, 9703300, 9703200, 9703100], class: ClassName.ARCHER },
+    { svtIds: [9704400, 9704300, 9704200, 9704100], class: ClassName.RIDER },
+    { svtIds: [9705400, 9705300, 9705200, 9705100], class: ClassName.CASTER },
+    { svtIds: [9706400, 9706300, 9706200, 9706100], class: ClassName.ASSASSIN },
+    {
+        svtIds: [9707400, 9707300, 9707200, 9707100],
+        class: ClassName.BERSERKER,
+    },
+    { svtIds: [9770400, 9770300, 9770200, 9770100], class: ClassName.ALL },
+];
+
+const ALL_EMBERS_STRING =
+    "Blaze of Wisdom, Fire of Wisdom, Light of Wisdom, or Ember of Wisdom";
+
+export const MultipleEmbers = (props: { region: Region; svtIds: number[] }) => {
+    const { region, svtIds } = props;
+    const emberClasses: ClassName[] = [];
+    for (const emberId of EMBER_IDS) {
+        if (isSubset(svtIds, emberId.svtIds)) {
+            emberClasses.push(emberId.class);
+        }
+    }
+    if (emberClasses.length === EMBER_IDS.length) {
+        return <>{ALL_EMBERS_STRING}</>;
+    }
+    if (svtIds.length === 4 * emberClasses.length) {
+        const classNames = emberClasses.map((className) =>
+            className === ClassName.ALL
+                ? "All"
+                : toTitleCase(className.toString()) + "s"
+        );
+        return (
+            <>
+                {ALL_EMBERS_STRING} of{" "}
+                <MergeElemetsOr elements={classNames} lastJoinWord="or" />
+            </>
+        );
+    }
+    return <MultipleServants region={region} servantIds={svtIds} />;
+};
+
 export const MultipleClasses = (props: {
     classIds: number[];
     classes?: { [key: string]: ClassName };
@@ -202,7 +237,7 @@ export const MultipleClasses = (props: {
     });
     return (
         <>
-            <MergeElemetsOr elements={classNames} lastJoinWord="or" /> Class
+            <MergeElemetsOr elements={classNames} lastJoinWord="or" /> class
         </>
     );
 };

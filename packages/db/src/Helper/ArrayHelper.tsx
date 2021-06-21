@@ -7,3 +7,13 @@ export const areIdenticalArrays = (arrayA: number[], arrayB: number[]) => {
 
     return true;
 };
+
+export const isSubset = (bigger: number[], smaller: number[]) => {
+    const biggerSet = new Set(bigger);
+    for (const s of smaller) {
+        if (!biggerSet.has(s)) {
+            return false;
+        }
+    }
+    return true;
+};

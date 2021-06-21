@@ -12,6 +12,7 @@ import {
     MultipleServants,
     MultipleQuests,
     MultipleClasses,
+    MultipleEmbers,
 } from "./MultipleDescriptors";
 
 export default function CondMissionDetailDescriptor(props: {
@@ -73,11 +74,18 @@ export default function CondMissionDetailDescriptor(props: {
                 </>
             );
         case Mission.DetailCondType.ENEMY_INDIVIDUALITY_KILL_NUM:
-        case Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY:
             return (
                 <>
                     Defeat {num} enemies with{" "}
                     <MultipleTraits region={region} traitIds={targetIds} />
+                </>
+            );
+        case Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY:
+            return (
+                <>
+                    Defeat {num} enemies with{" "}
+                    <MultipleTraits region={region} traitIds={targetIds} />{" "}
+                    (excluding Servants and certain bosses)
                 </>
             );
         case Mission.DetailCondType.DEFEAT_SERVANT_CLASS:
@@ -94,6 +102,28 @@ export default function CondMissionDetailDescriptor(props: {
                         classIds={targetIds}
                         classes={props.enums?.SvtClass}
                     />
+                </>
+            );
+        case Mission.DetailCondType.DEFEAT_ENEMY_NOT_SERVANT_CLASS:
+            return (
+                <>
+                    Defeat {num}{" "}
+                    <MultipleClasses
+                        classIds={targetIds}
+                        classes={props.enums?.SvtClass}
+                    />{" "}
+                    enemies (excluding Servants and certain bosses)
+                </>
+            );
+        case Mission.DetailCondType.BATTLE_SVT_CLASS_IN_DECK:
+            return (
+                <>
+                    Put one or more{" "}
+                    <MultipleClasses
+                        classIds={targetIds}
+                        classes={props.enums?.SvtClass}
+                    />{" "}
+                    Servants in your Party and complete any quest {num} times
                 </>
             );
         case Mission.DetailCondType.ITEM_GET_BATTLE:
@@ -128,6 +158,14 @@ export default function CondMissionDetailDescriptor(props: {
                         servants={props.servants}
                     />{" "}
                     in your Party and complete Quests {num} times
+                </>
+            );
+        case Mission.DetailCondType.SVT_GET_BATTLE:
+            return (
+                <>
+                    Acquire {num}{" "}
+                    <MultipleEmbers region={region} svtIds={targetIds} />{" "}
+                    through battles
                 </>
             );
         case Mission.DetailCondType.FRIEND_POINT_SUMMON:
