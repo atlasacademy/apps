@@ -19,6 +19,7 @@ export default function BgmDescriptor(props: {
     bgm: Bgm.Bgm;
     showName?: string;
     showLink?: boolean;
+    style?: React.CSSProperties;
 }) {
     const bgm = props.bgm;
     if (bgm.id === 0) {
@@ -61,7 +62,7 @@ export default function BgmDescriptor(props: {
         );
         return (
             <>
-                <ButtonGroup size="sm">
+                <ButtonGroup size="sm" style={props.style}>
                     <VoiceLinePlayer
                         audioAssetUrls={[bgm.audioAsset]}
                         delay={[0]}
@@ -74,7 +75,7 @@ export default function BgmDescriptor(props: {
         );
     } else {
         return (
-            <Button variant={"info"} disabled>
+            <Button variant={"info"} disabled style={props.style}>
                 {bgm.name}
             </Button>
         );

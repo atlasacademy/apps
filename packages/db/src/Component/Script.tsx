@@ -577,6 +577,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
 
     let parserState = {
         choice: false,
+        dialogue: false,
     };
 
     const resetDialogueVariables = () => {
@@ -611,6 +612,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                             components.push({ ...dialogue });
                         }
 
+                        parserState.dialogue = false;
                         resetDialogueVariables();
                         break;
                     case "tVoice":
@@ -620,7 +622,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         dialogue.voice = getBgmObject(fileName, audioUrl);
                         break;
                     default:
-                        if (line[0] !== "[") {
+                        if (parserState.dialogue || line[0] !== "[") {
                             dialogue.lines.push(line);
                             break;
                         } else {
@@ -637,6 +639,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 }
                 break;
             case "＠":
+                parserState.dialogue = true;
                 dialogue.speaker = parseDialogueSpeaker(region, line);
                 break;
             case "？":

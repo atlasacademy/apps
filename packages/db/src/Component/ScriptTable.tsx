@@ -24,10 +24,11 @@ const DialogueRow = (props: {
     refs: RowBgmRefMap;
 }) => {
     const dialogueVoice = props.dialogue.voice ? (
-        <>
-            <BgmDescriptor region={props.region} bgm={props.dialogue.voice} />
-            <br />
-        </>
+        <BgmDescriptor
+            region={props.region}
+            bgm={props.dialogue.voice}
+            style={{ display: "block" }}
+        />
     ) : null;
     return (
         <tr ref={props.refs.get(props.dialogue.voice?.audioAsset)}>

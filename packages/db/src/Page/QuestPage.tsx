@@ -14,7 +14,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
-import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
+import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { WarDescriptorId } from "../Descriptor/WarDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
@@ -274,11 +274,15 @@ class QuestPage extends React.Component<IProps, IState> {
                     <Alert variant="success">
                         {quest.scripts.length > 1 ? (
                             <ul style={{ marginBottom: 0 }}>
-                                {quest.scripts.map((script) => (
-                                    <li key={script.scriptId}>
+                                {sortScript(
+                                    quest.scripts.map(
+                                        (script) => script.scriptId
+                                    )
+                                ).map((scriptId) => (
+                                    <li key={scriptId}>
                                         <ScriptDescriptor
                                             region={this.props.region}
-                                            scriptId={script.scriptId}
+                                            scriptId={scriptId}
                                         />
                                     </li>
                                 ))}
