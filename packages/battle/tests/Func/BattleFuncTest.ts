@@ -1,14 +1,14 @@
 import {expect} from "chai";
-import {Battle, BattleTeam} from "../../src";
+import {BattleTeam} from "../../src";
 import BattleSkillFunc from "../../src/Skill/BattleSkillFunc";
-import {servant} from "../helpers";
+import {createBattle, servant} from "../helpers";
 
 describe('BattleFunc', () => {
     it('applicableToTarget vs no required trait', async () => {
         const actor = servant(15, BattleTeam.PLAYER),
             emiya = servant(11, BattleTeam.ENEMY),
             artoria = servant(2, BattleTeam.ENEMY),
-            battle = new Battle(null),
+            battle = createBattle(),
             drain = <BattleSkillFunc>actor.skill(1)?.func(1);
 
         battle.addActor(actor);
@@ -24,7 +24,7 @@ describe('BattleFunc', () => {
         const actor = servant(15, BattleTeam.PLAYER),
             emiya = servant(11, BattleTeam.ENEMY),
             artoria = servant(2, BattleTeam.ENEMY),
-            battle = new Battle(null),
+            battle = createBattle(),
             charm = <BattleSkillFunc>actor.skill(2)?.func(1);
 
         battle.addActor(actor);
@@ -39,7 +39,7 @@ describe('BattleFunc', () => {
     it('applicableToTarget vs dynamic trait', async () => {
         const actor = servant(156, BattleTeam.PLAYER),
             artoria = servant(2, BattleTeam.PLAYER),
-            battle = new Battle(null),
+            battle = createBattle(),
             evilCharisma = <BattleSkillFunc>actor.skill(3)?.func(2);
 
         battle.addActor(actor);

@@ -1,13 +1,12 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
+import {BattleTeam} from "../../../src";
 import {BattleAttackActionList} from "../../../src/Action/BattleAttackAction";
-import {Battle} from "../../../src/Battle";
-import {BattleTeam} from "../../../src/Enum/BattleTeam";
-import {buff, servant} from "../../helpers";
+import {buff, createBattle, servant} from "../../helpers";
 
 describe('BattleServantActor className', () => {
     it('normal', () => {
-        let battle = new Battle(null),
+        let battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             actions: BattleAttackActionList;
@@ -25,7 +24,7 @@ describe('BattleServantActor className', () => {
     });
 
     it('override', () => {
-        let battle = new Battle(null),
+        let battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             actions: BattleAttackActionList,

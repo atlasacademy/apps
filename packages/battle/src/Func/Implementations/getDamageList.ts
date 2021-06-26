@@ -28,7 +28,7 @@ function attackBonus(attack: BattleAttackAction, actor: BattleActor, target: Bat
     if (!attack.np && attack.firstCard === Card.BUSTER && attack.grand) {
         let busterBraveBonus = Variable.float(actor.baseAttack());
         busterBraveBonus = busterBraveBonus.multiply(
-            Variable.float(GameConstantManager.getRateValue(Constant.Constant.CHAINBONUS_BUSTER_RATE))
+            Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CHAINBONUS_BUSTER_RATE))
         );
 
         bonus = bonus.add(busterBraveBonus);
@@ -70,8 +70,8 @@ function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target
     );
 
     // Card NP Gain calcs
-    const cardConstant = GameConstantManager.cardConstants(attack.card, attack.np ? 1 : attack.num),
-        firstCardConstant = GameConstantManager.cardConstants(attack.firstCard, 1),
+    const cardConstant = actor.battle().constants().cardConstants(attack.card, attack.np ? 1 : attack.num),
+        firstCardConstant = actor.battle().constants().cardConstants(attack.firstCard, 1),
         cardAdjustTdGauge = cardConstant?.adjustTdGauge ?? 0,
         cardAddTdGauge = firstCardConstant?.addTdGauge ?? 0,
         cardActorMag = actor.buffs().netBuffsRate(
@@ -116,7 +116,7 @@ function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target
 
     // Critical NP Gain calcs
     if (attack.critical)
-        npGain = npGain.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.CRITICAL_TD_POINT_RATE)));
+        npGain = npGain.multiply(Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CRITICAL_TD_POINT_RATE)));
 
     if (npGain.value() < 0)
         npGain = Variable.float(0);
@@ -125,7 +125,7 @@ function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target
 }
 
 function attributeAffinityRate(actor: BattleActor, target: BattleActor): Variable {
-    let affinity = GameConstantManager.attributeAffinity(actor.attribute(), target.attribute());
+    let affinity = actor.battle().constants().attributeAffinity(actor.attribute(), target.attribute());
     if (affinity === undefined)
         affinity = 1000;
 
@@ -185,8 +185,8 @@ function checkAbleToHit(attack: BattleAttackAction, actor: BattleActor, target: 
     return !evade;
 }
 
-function classAttackRate(className: ClassName): Variable {
-    const attackValue = GameConstantManager.classAttack(className);
+function classAttackRate(battle: Battle, className: ClassName): Variable {
+    const attackValue = battle.constants().classAttack(className);
     if (attackValue === undefined)
         throw Error('FAILED TO GET CLASS ATTACK RATE.');
 
@@ -254,7 +254,7 @@ function classAffinityOverrideRate(affinity: number,
 function classAffinityRate(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
     let attackerClass = actor.className(attack, target, true),
         defenderClass = target.className(attack, actor, false),
-        affinity = GameConstantManager.classAffinity(attackerClass, defenderClass);
+        affinity = actor.battle().constants().classAffinity(attackerClass, defenderClass);
 
     if (affinity === undefined)
         affinity = 1000;
@@ -272,7 +272,7 @@ function commandCardAttack(battle: Battle,
                            attack: BattleAttackAction,
                            actor: BattleActor,
                            target: BattleActor): Variable {
-    const cardConstant = GameConstantManager.cardConstants(attack.card, attack.np ? 1 : attack.num);
+    const cardConstant = battle.constants().cardConstants(attack.card, attack.np ? 1 : attack.num);
     if (!cardConstant) {
         throw new Error('FAILED TO FIND CARD CONSTANT');
     }
@@ -281,13 +281,13 @@ function commandCardAttack(battle: Battle,
     if (actor.props.team === BattleTeam.ENEMY) {
         switch (attack.card) {
             case Card.ARTS:
-                cardBaseValue = GameConstantManager.getValue(Constant.Constant.ENEMY_ATTACK_RATE_ARTS);
+                cardBaseValue = battle.constants().getValue(Constant.Constant.ENEMY_ATTACK_RATE_ARTS);
                 break;
             case Card.QUICK:
-                cardBaseValue = GameConstantManager.getValue(Constant.Constant.ENEMY_ATTACK_RATE_QUICK);
+                cardBaseValue = battle.constants().getValue(Constant.Constant.ENEMY_ATTACK_RATE_QUICK);
                 break;
             case Card.BUSTER:
-                cardBaseValue = GameConstantManager.getValue(Constant.Constant.ENEMY_ATTACK_RATE_BUSTER);
+                cardBaseValue = battle.constants().getValue(Constant.Constant.ENEMY_ATTACK_RATE_BUSTER);
                 break;
             default:
                 cardBaseValue = cardConstant.adjustAtk;
@@ -471,8 +471,8 @@ function powerMagnification(attack: BattleAttackAction, actor: BattleActor, targ
 
 async function randomAttack(battle: Battle): Promise<Variable> {
     const random = await battle.random().generate(
-        GameConstantManager.getValue(Constant.Constant.ATTACK_RATE_RANDOM_MIN),
-        GameConstantManager.getValue(Constant.Constant.ATTACK_RATE_RANDOM_MAX),
+        battle.constants().getValue(Constant.Constant.ATTACK_RATE_RANDOM_MIN),
+        battle.constants().getValue(Constant.Constant.ATTACK_RATE_RANDOM_MAX),
         'ATTACK RANDOM RANGE'
     );
 
@@ -506,8 +506,8 @@ function starGenRate(attack: BattleAttackAction, actor: BattleActor, target: Bat
     starGen = starGen.add(Variable.floatRate(actor.baseStarGen()));
 
     // Card Star Gen calcs
-    const cardConstant = GameConstantManager.cardConstants(attack.card, attack.np ? 1 : attack.num),
-        firstCardConstant = GameConstantManager.cardConstants(attack.firstCard, 1),
+    const cardConstant = actor.battle().constants().cardConstants(attack.card, attack.np ? 1 : attack.num),
+        firstCardConstant = actor.battle().constants().cardConstants(attack.firstCard, 1),
         cardAdjustCritical = cardConstant?.adjustCritical ?? 0,
         cardAddCritical = firstCardConstant?.addCritical ?? 0,
         cardActorMag = actor.buffs().netBuffsRate(
@@ -552,7 +552,7 @@ function starGenRate(attack: BattleAttackAction, actor: BattleActor, target: Bat
 
     // Critical Bonus
     if (attack.critical)
-        starGen = starGen.add(Variable.float(GameConstantManager.getRateValue(Constant.Constant.CRITICAL_STAR_RATE)));
+        starGen = starGen.add(Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CRITICAL_STAR_RATE)));
 
     if (starGen.value() < 0)
         starGen = Variable.float(0);
@@ -581,20 +581,20 @@ async function getDamageList(battle: Battle,
 
     damageTotal = damageTotal.multiply(percentMod);
     damageTotal = damageTotal.multiply(commandCardAttack(battle, attack, actor, target));
-    damageTotal = damageTotal.multiply(classAttackRate(actor.baseClassName()));
+    damageTotal = damageTotal.multiply(classAttackRate(battle, actor.baseClassName()));
     damageTotal = damageTotal.multiply(classAffinityRate(attack, actor, target));
     damageTotal = damageTotal.multiply(attributeAffinityRate(actor, target));
     damageTotal = damageTotal.multiply(await randomAttack(battle));
-    damageTotal = damageTotal.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.ATTACK_RATE)));
+    damageTotal = damageTotal.multiply(Variable.float(battle.constants().getRateValue(Constant.Constant.ATTACK_RATE)));
     damageTotal = damageTotal.multiply(attackMagnification(attack, actor, target, func));
 
     if (attack.critical)
-        damageTotal = damageTotal.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.CRITICAL_ATTACK_RATE)));
+        damageTotal = damageTotal.multiply(Variable.float(battle.constants().getRateValue(Constant.Constant.CRITICAL_ATTACK_RATE)));
 
     if (attack.card === Card.EXTRA && attack.grand)
-        damageTotal = damageTotal.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_GRAND)));
+        damageTotal = damageTotal.multiply(Variable.float(battle.constants().getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_GRAND)));
     else if (attack.card === Card.EXTRA)
-        damageTotal = damageTotal.multiply(Variable.float(GameConstantManager.getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE)));
+        damageTotal = damageTotal.multiply(Variable.float(battle.constants().getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE)));
 
     damageTotal = damageTotal.multiply(specialDefence(attack, actor, target));
 
@@ -663,7 +663,7 @@ async function getDamageList(battle: Battle,
         overkillNpGainMod = Variable.float(1),
         overkillStarMod = Variable.float(1),
         overkillStarBonus = Variable.int(0),
-        maxStarRate = GameConstantManager.getValue(Constant.Constant.STAR_RATE_MAX),
+        maxStarRate = battle.constants().getValue(Constant.Constant.STAR_RATE_MAX),
         events: BattleDamageEvent[] = [];
 
     for (let i = 0; i < damageList.length; i++) {
@@ -671,9 +671,9 @@ async function getDamageList(battle: Battle,
         target.recordDamageForOverkill(damageList[i]);
 
         if (overkill) {
-            overkillNpGainMod = Variable.float(GameConstantManager.getRateValue(Constant.Constant.OVER_KILL_NP_RATE));
-            overkillStarMod = Variable.float(GameConstantManager.getRateValue(Constant.Constant.OVER_KILL_STAR_RATE));
-            overkillStarBonus = Variable.int(GameConstantManager.getValue(Constant.Constant.OVER_KILL_STAR_ADD));
+            overkillNpGainMod = Variable.float(battle.constants().getRateValue(Constant.Constant.OVER_KILL_NP_RATE));
+            overkillStarMod = Variable.float(battle.constants().getRateValue(Constant.Constant.OVER_KILL_STAR_RATE));
+            overkillStarBonus = Variable.int(battle.constants().getValue(Constant.Constant.OVER_KILL_STAR_ADD));
         }
 
         let stars = 0,

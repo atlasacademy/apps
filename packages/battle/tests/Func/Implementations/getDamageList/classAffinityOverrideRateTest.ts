@@ -1,16 +1,15 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
+import {BattleTeam} from "../../../../src";
 import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {Battle} from "../../../../src/Battle";
-import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {classAffinityOverrideRate} from "../../../../src/Func/Implementations/getDamageList";
-import {servant} from "../../../helpers";
+import {createBattle, servant} from "../../../helpers";
 
 describe('getDamageList classAffinityOverrideRate', () => {
     it('no override', () => {
         const actor = servant(161, BattleTeam.PLAYER),
             target = servant(241, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -27,7 +26,7 @@ describe('getDamageList classAffinityOverrideRate', () => {
     it('with override', async () => {
         const actor = servant(161, BattleTeam.PLAYER),
             target = servant(241, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -46,7 +45,7 @@ describe('getDamageList classAffinityOverrideRate', () => {
     it('supports overwrite more than target', async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(241, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);

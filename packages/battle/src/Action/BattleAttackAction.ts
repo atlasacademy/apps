@@ -16,7 +16,7 @@ export class BattleAttackAction {
     traits(): Trait.Trait[] {
         if (this.np) return this.actor.noblePhantasm().traits();
 
-        const cardConstant = GameConstantManager.cardConstants(this.card, this.num);
+        const cardConstant = this.actor.battle().constants().cardConstants(this.card, this.num);
         if (!cardConstant) {
             throw new Error('FAILED TO FIND CARD CONSTANT');
         }

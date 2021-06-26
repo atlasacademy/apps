@@ -1,16 +1,15 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
+import {BattleTeam} from "../../../../src";
 import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {Battle} from "../../../../src/Battle";
-import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {classAffinityRate} from "../../../../src/Func/Implementations/getDamageList";
-import {servant} from "../../../helpers";
+import {createBattle, servant} from "../../../helpers";
 
 describe('getDamageList classAffinityRate', () => {
     it('defined', () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -27,7 +26,7 @@ describe('getDamageList classAffinityRate', () => {
     it('not defined', () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -45,7 +44,7 @@ describe('getDamageList classAffinityRate', () => {
     it('handles overrides', async () => {
         const actor = servant(161, BattleTeam.PLAYER),
             target = servant(241, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);

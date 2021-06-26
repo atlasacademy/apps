@@ -1,16 +1,15 @@
 import {Card} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
+import {BattleTeam} from "../../../../src";
 import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {Battle} from "../../../../src/Battle";
-import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {attackBonus} from "../../../../src/Func/Implementations/getDamageList";
-import {servant} from "../../../helpers";
+import {createBattle, servant} from "../../../helpers";
 
 describe('getDamageList attackBonus', () => {
     it('no bonus', async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -26,7 +25,7 @@ describe('getDamageList attackBonus', () => {
     it('divinity', async () => {
         const actor = servant(12, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -43,7 +42,7 @@ describe('getDamageList attackBonus', () => {
     it('damage up', async () => {
         const actor = servant(37, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -61,7 +60,7 @@ describe('getDamageList attackBonus', () => {
     it('buster brave', async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);

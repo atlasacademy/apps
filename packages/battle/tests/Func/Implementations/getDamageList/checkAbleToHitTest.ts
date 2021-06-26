@@ -1,16 +1,15 @@
 import {Card} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
+import {BattleTeam} from "../../../../src";
 import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {Battle} from "../../../../src/Battle";
-import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {checkAbleToHit} from "../../../../src/Func/Implementations/getDamageList";
-import {servant} from "../../../helpers";
+import {createBattle, servant} from "../../../helpers";
 
 describe('getDamageList checkAbleToHit', () => {
     it('no buffs', async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -26,7 +25,7 @@ describe('getDamageList checkAbleToHit', () => {
     it('evade', async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -45,7 +44,7 @@ describe('getDamageList checkAbleToHit', () => {
     it('sure hit', async () => {
         const actor = servant(17, BattleTeam.PLAYER),
             target = servant(11, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -70,7 +69,7 @@ describe('getDamageList checkAbleToHit', () => {
     it('invincibility', async () => {
         const actor = servant(17, BattleTeam.PLAYER),
             target = servant(150, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -96,7 +95,7 @@ describe('getDamageList checkAbleToHit', () => {
         const actor = servant(65, BattleTeam.PLAYER),
             cuTarget = servant(17, BattleTeam.ENEMY),
             merlinTarget = servant(150, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(cuTarget);

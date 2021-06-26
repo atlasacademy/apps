@@ -1,4 +1,4 @@
-import {Func, Region, Trait} from "@atlasacademy/api-connector";
+import {Func, Trait} from "@atlasacademy/api-connector";
 import {BattleActor} from "./Actor/BattleActor";
 import BattleActorManager from "./Actor/BattleActorManager";
 import {BattleRandom, BattleRandomType} from "./BattleRandom";
@@ -8,6 +8,7 @@ import GameConstantManager from "./Game/GameConstantManager";
 
 export interface BattleState {
     actors: BattleActorManager,
+    constants: GameConstantManager,
     control: BattleTeam,
     events: BattleEvent[],
     random: BattleRandom,
@@ -23,6 +24,7 @@ export class Battle {
     constructor(state?: Partial<BattleState> | null) {
         this.state = {
             actors: new BattleActorManager(null),
+            constants: new GameConstantManager(),
             control: BattleTeam.PLAYER,
             events: [],
             random: new BattleRandom(BattleRandomType.AVERAGE),
@@ -32,10 +34,6 @@ export class Battle {
             turn: 1,
             ...state,
         };
-    }
-
-    static async loadConstants(region: Region) {
-        await GameConstantManager.initRegion(region);
     }
 
     clone(): Battle {
@@ -71,6 +69,10 @@ export class Battle {
 
     clearEvents() {
         this.state.events = [];
+    }
+
+    constants(): GameConstantManager {
+        return this.state.constants;
     }
 
     getActor(id: number): BattleActor | undefined {

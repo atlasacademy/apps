@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {BattleTeam} from "../../../../src/Enum/BattleTeam";
+import {BattleTeam} from "../../../../src";
 import {npDamageBonus} from "../../../../src/Func/Implementations/getDamageList";
 import {Variable} from "../../../../src/Game/Variable";
 import BattleNoblePhantasmFunc from "../../../../src/NoblePhantasm/BattleNoblePhantasmFunc";

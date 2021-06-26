@@ -1,16 +1,15 @@
 import {Card} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
+import {BattleTeam} from "../../../../src";
 import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {Battle} from "../../../../src/Battle";
-import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {attackNpGainRate} from "../../../../src/Func/Implementations/getDamageList";
-import {buff, servant} from "../../../helpers";
+import {buff, createBattle, servant} from "../../../helpers";
 
 describe('getDamageList attackNpGainRate', () => {
     it('card types and first card bonus', async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -51,7 +50,7 @@ describe('getDamageList attackNpGainRate', () => {
     it('card up bonus', async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -82,7 +81,7 @@ describe('getDamageList attackNpGainRate', () => {
     it('server mod check', async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -124,7 +123,7 @@ describe('getDamageList attackNpGainRate', () => {
     it('np gain bonus', async () => {
         const actor = servant(12, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -155,7 +154,7 @@ describe('getDamageList attackNpGainRate', () => {
     it('np gain critical bonus', async () => {
         const actor = servant(12, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -186,7 +185,7 @@ describe('getDamageList attackNpGainRate', () => {
     it("32-bit number melt", async () => {
         const actor = servant(163, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -214,7 +213,7 @@ describe('getDamageList attackNpGainRate', () => {
     it("32-bit number abby", async () => {
         const actor = servant(195, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);

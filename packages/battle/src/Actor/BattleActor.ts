@@ -165,7 +165,7 @@ export class BattleActor {
 
         let className;
         if (classId !== undefined)
-            className = GameConstantManager.className(classId);
+            className = this.battle().constants().className(classId);
 
         return className ?? this.baseClassName();
     }
@@ -246,6 +246,7 @@ export class BattleActor {
 
     setBattle(battle: Battle) {
         this.state.battle = battle;
+        this.state.buffs.setBattle(battle);
     }
 
     skill(num: number): BattleSkill | undefined {

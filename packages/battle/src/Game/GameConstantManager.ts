@@ -12,7 +12,7 @@ import {
 import {CardConstant, CardConstantMap} from "@atlasacademy/api-connector/dist/Enum/Card";
 import {ClassAffinityMap, ClassAttackRateMap} from "@atlasacademy/api-connector/dist/Enum/ClassName";
 
-class GameConstantManager {
+export default class GameConstantManager {
     private host: string = "https://api.atlasacademy.io";
     private loaded: boolean = false;
     private region: Region = Region.JP;
@@ -135,7 +135,3 @@ class GameConstantManager {
         return this.constants[key] ?? -1;
     }
 }
-
-const manager = new GameConstantManager();
-
-export default manager;

@@ -1,13 +1,12 @@
 import {expect} from "chai";
-import {Battle} from "../../../src/Battle";
-import {BattleTeam} from "../../../src/Enum/BattleTeam";
-import {servant} from "../../helpers";
+import {BattleTeam} from "../../../src";
+import {createBattle, servant} from "../../helpers";
 
 describe("BattleServantActor traits", () => {
     it("check add trait buff", async () => {
         const actor = servant(156, BattleTeam.PLAYER),
             target = servant(153, BattleTeam.PLAYER),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);

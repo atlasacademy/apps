@@ -1,14 +1,13 @@
 import {expect} from 'chai';
-import {Battle} from "../../../../src/Battle";
-import {BattleTeam} from "../../../../src/Enum/BattleTeam";
+import {BattleTeam} from "../../../../src";
 import {npTraitBonusMagnification} from "../../../../src/Func/Implementations/getDamageList";
-import {servant} from "../../../helpers";
+import {createBattle, servant} from "../../../helpers";
 
 describe('getDamageList npTraitBonusMagnification', () => {
     it('check np with no bonus', async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -19,7 +18,7 @@ describe('getDamageList npTraitBonusMagnification', () => {
     it('check np with trait bonus', async () => {
         const actor = servant(12, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);
@@ -42,7 +41,7 @@ describe('getDamageList npTraitBonusMagnification', () => {
     it('check np with buff bonus', async () => {
         const actor = servant(13, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);

@@ -1,7 +1,6 @@
-import {CommandCode, Constant, CraftEssence, Servant, Skill} from "@atlasacademy/api-connector";
+import {CommandCode, CraftEssence, Servant, Skill} from "@atlasacademy/api-connector";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
-import GameConstantManager from "../Game/GameConstantManager";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 import BattleSkillPassive from "../Skill/BattleSkillPassive";
@@ -59,7 +58,7 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
         className: servantProps.servant.className,
         face,
         gaugeLineCount,
-        gaugeLineMax: GameConstantManager.getValue(Constant.Constant.FULL_TD_POINT),
+        gaugeLineMax: 10000,
         hits: servantProps.servant.hitsDistribution,
         id: servantProps.id,
         level,

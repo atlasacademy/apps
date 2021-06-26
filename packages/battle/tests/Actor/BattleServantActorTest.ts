@@ -1,15 +1,14 @@
 import {Card, ClassName} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
+import {BattleTeam} from "../../src";
 import {BattleAttackActionList} from "../../src/Action/BattleAttackAction";
 import BattleServantActor from "../../src/Actor/BattleServantActor";
-import {Battle} from "../../src/Battle";
-import {BattleTeam} from "../../src/Enum/BattleTeam";
-import {servant} from "../helpers";
+import {createBattle, servant} from "../helpers";
 
 describe('BattleServantActor', () => {
     it('defaults', async () => {
         const actor = servant(2, BattleTeam.PLAYER), // artoria
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
 
@@ -35,7 +34,7 @@ describe('BattleServantActor', () => {
 
     it('mash default', () => {
         const actor = servant(1, BattleTeam.PLAYER), // mash
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
 
@@ -43,7 +42,7 @@ describe('BattleServantActor', () => {
     });
 
     it('autoAttack', () => {
-        const battle = new Battle(null),
+        const battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER), // artoria
             target = servant(17, BattleTeam.ENEMY); // cu
 

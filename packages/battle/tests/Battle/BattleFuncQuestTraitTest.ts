@@ -1,12 +1,11 @@
 import {expect} from 'chai';
-import {Battle} from "../../src";
 import {BattleTeam} from "../../src";
-import {servant} from "../helpers";
+import {createBattle, servant} from "../helpers";
 
 describe('BattleFuncQuestTraitTest', () => {
     it('event bonus will not trigger if battle does not have trait', async () => {
         const actor = servant(1, BattleTeam.PLAYER), // mash
-            battle = new Battle();
+            battle = createBattle();
 
         battle.addActor(actor);
         await battle.init();
@@ -18,7 +17,7 @@ describe('BattleFuncQuestTraitTest', () => {
 
     it('event bonus will trigger if battle has trait', async () => {
         const actor = servant(1, BattleTeam.PLAYER), // mash
-            battle = new Battle({
+            battle = createBattle({
                 traits: [{id: 94000104, name: 'Event'}]
             });
 

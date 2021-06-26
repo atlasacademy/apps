@@ -3,12 +3,12 @@ import {Battle, BattleTeam} from "../../../../src";
 import {BattleRandomType} from "../../../../src/BattleRandom";
 import {checkBuffSuccess, createBuffFromFunc} from "../../../../src/Func/Implementations/addStateFunc";
 import BattleSkillFunc from "../../../../src/Skill/BattleSkillFunc";
-import {servant} from "../../../helpers";
+import {createBattle, servant} from "../../../helpers";
 
 describe('addStateFunc checkBuffSuccess', () => {
     it('ozy imperial privilege', async () => {
         const actor = servant(118, BattleTeam.PLAYER),
-            battle = new Battle(null),
+            battle = createBattle(),
             func = <BattleSkillFunc>actor.skill(2)?.func(1),
             buff = createBuffFromFunc(func, 0, false, true);
 
@@ -31,7 +31,7 @@ describe('addStateFunc checkBuffSuccess', () => {
 
     it('oxy imperial privilege after buff chance', async () => {
         const actor = servant(118, BattleTeam.PLAYER),
-            battle = new Battle(null),
+            battle = createBattle(),
             func = <BattleSkillFunc>actor.skill(2)?.func(1),
             buff = createBuffFromFunc(func, 0, false, true);
 
@@ -49,7 +49,7 @@ describe('addStateFunc checkBuffSuccess', () => {
     it('robin poison interacts with buff resist', async () => {
         const actor = servant(13, BattleTeam.PLAYER),
             target = servant(2, BattleTeam.ENEMY),
-            battle = new Battle(null),
+            battle = createBattle(),
             func = <BattleSkillFunc>actor.skill(1)?.func(2),
             buff = createBuffFromFunc(func, 0, false, true);
 
@@ -74,7 +74,7 @@ describe('addStateFunc checkBuffSuccess', () => {
 
     it('debuff resist should not affect buffs', async () => {
         const actor = servant(2, BattleTeam.PLAYER),
-            battle = new Battle(null),
+            battle = createBattle(),
             func = <BattleSkillFunc>actor.skill(1)?.func(1),
             buff = createBuffFromFunc(func, 0, false, true);
 

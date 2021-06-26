@@ -1,16 +1,15 @@
 import {Card} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
+import {BattleTeam} from "../../../../src";
 import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {Battle} from "../../../../src/Battle";
-import {BattleTeam} from "../../../../src/Enum/BattleTeam";
 import {attackMagnification} from "../../../../src/Func/Implementations/getDamageList";
-import {buff, servant} from "../../../helpers";
+import {buff, createBattle, servant} from "../../../helpers";
 
 describe('getDamageList attackMagnification', () => {
     it('attack and defense up', async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            battle = new Battle(null);
+            battle = createBattle();
 
         battle.addActor(actor);
         battle.addActor(target);

@@ -1,11 +1,11 @@
 import {expect} from 'chai';
-import {Battle} from "../../../../src/Battle";
 import {BattleRandomType} from "../../../../src/BattleRandom";
 import {randomAttack} from "../../../../src/Func/Implementations/getDamageList";
+import {createBattle} from "../../../helpers";
 
 describe('getDamageList randomAttack', () => {
     it('test range', async () => {
-        const battle = new Battle(null);
+        const battle = createBattle();
 
         battle.random().setType(BattleRandomType.LOW);
         expect((await randomAttack(battle)).value()).to.be.closeTo(0.9, 0.0001);

@@ -1,8 +1,10 @@
 import {Buff, Trait} from "@atlasacademy/api-connector";
+import {Battle} from "../Battle";
 import GameConstantManager from "../Game/GameConstantManager";
 import {BattleBuff} from "./BattleBuff";
 
 export default class BattleBuffManager {
+    private _battle?: Battle;
 
     constructor(public list: BattleBuff[]) {
         //
@@ -18,6 +20,13 @@ export default class BattleBuffManager {
 
     all(activeOnly: boolean): BattleBuff[] {
         return this.list.filter(buff => !activeOnly || !buff.props.passive);
+    }
+
+    battle(): Battle {
+        if (this._battle === undefined)
+            throw new Error('BATTLE NOT SET');
+
+        return this._battle;
     }
 
     /**
@@ -39,7 +48,7 @@ export default class BattleBuffManager {
         plus: boolean,
         checkTrait: boolean = false
     ): BattleBuff[] {
-        const buffConstant = GameConstantManager.buffConstants(group);
+        const buffConstant = this.battle().constants().buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
 
@@ -96,7 +105,7 @@ export default class BattleBuffManager {
      * `BattleBuffData.getActValue` or `BattleBuffData.getActMag`: returns the net value of all applicable buffs
      */
     netBuffs(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
-        const buffConstant = GameConstantManager.buffConstants(group);
+        const buffConstant = this.battle().constants().buffConstants(group);
         if (!buffConstant)
             throw new Error(`UNKNOWN BUFF GROUP ${group}`);
 
@@ -133,6 +142,10 @@ export default class BattleBuffManager {
         value = Math.fround(value);
 
         return value;
+    }
+
+    setBattle(battle: Battle) {
+        this._battle = battle;
     }
 
     traits(activeOnly: boolean) {
