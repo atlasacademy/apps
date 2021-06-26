@@ -24,9 +24,6 @@ export interface BattleServantActorProps {
     noblePhantasmLevel?: number,
     questIds?: number[],
     skillLevels?: number[],
-    skill1Level?: number,
-    skill2Level?: number,
-    skill3Level?: number,
 }
 
 function castProps(servantProps: BattleServantActorProps): BattleActorProps {

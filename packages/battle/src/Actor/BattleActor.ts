@@ -236,6 +236,10 @@ export class BattleActor {
         return this.props.passives;
     }
 
+    position(): number {
+        return this.state.position;
+    }
+
     recordDamageForOverkill(damage: number) {
         this.state.damageDone += damage;
     }

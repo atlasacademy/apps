@@ -1,6 +1,5 @@
 import {Card, Trait} from "@atlasacademy/api-connector";
 import {BattleActor} from "../Actor/BattleActor";
-import GameConstantManager from "../Game/GameConstantManager";
 
 export class BattleAttackAction {
     constructor(public actor: BattleActor,

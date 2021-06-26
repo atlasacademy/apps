@@ -33,6 +33,8 @@ export default class BattleSkill {
     }
 
     async activate(battle: Battle): Promise<BattleEvent[]> {
+        this.state.cooldown = this.props.skill.coolDown[this.props.level - 1] ?? 0;
+
         const events = [];
         for (let i = 0; i < this.state.funcs.length; i++) {
             const func = this.state.funcs[i];
@@ -43,11 +45,19 @@ export default class BattleSkill {
         return events;
     }
 
+    available(): boolean {
+        return this.state.cooldown <= 0;
+    }
+
     clone(): BattleSkill {
         return new BattleSkill(this.props, {
             ...this.state,
             funcs: this.state.funcs.map(func => func.clone()),
         });
+    }
+
+    cooldown(): number {
+        return this.state.cooldown;
     }
 
     func(num: number): BattleSkillFunc | undefined {
@@ -56,6 +66,10 @@ export default class BattleSkill {
 
     icon(): string | undefined {
         return this.props.skill.icon;
+    }
+
+    level(): number {
+        return this.props.level;
     }
 
     name(): string {

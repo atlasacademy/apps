@@ -1,4 +1,6 @@
 import {Func, Trait} from "@atlasacademy/api-connector";
+import {BattleCommandAction} from "./Action/BattleCommandAction";
+import inspectAvailable from "./Action/inspectAvailable";
 import {BattleActor} from "./Actor/BattleActor";
 import BattleActorManager from "./Actor/BattleActorManager";
 import {BattleRandom, BattleRandomType} from "./BattleRandom";
@@ -65,6 +67,10 @@ export class Battle {
         this.state.stars += Math.floor(stars);
         this.state.stars = Math.min(this.state.stars, 99);
         this.state.stars = Math.max(this.state.stars, 0);
+    }
+
+    availableActions(): BattleCommandAction[] {
+        return inspectAvailable(this);
     }
 
     clearEvents() {
