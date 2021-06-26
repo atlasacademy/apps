@@ -221,17 +221,8 @@ const SpotQuestList = (props: {
     spots: War.Spot[];
     filterQuest: (quest: Quest.Quest) => boolean;
     itemMap: Map<number, Item.Item>;
+    last?: boolean
 }) => {
-    let hasFilteredQuest = false;
-    for (let spot of props.spots) {
-        if (spot.quests.filter(props.filterQuest).length > 0) {
-            hasFilteredQuest = true;
-            break;
-        }
-    }
-
-    if (!hasFilteredQuest) return null;
-
     const spots = (
         <div>
             {props.spots.map((spot) => (
@@ -250,7 +241,7 @@ const SpotQuestList = (props: {
         title: props.title,
         content: spots,
         subheader: false,
-    });
+    }, !props.last);
 };
 
 interface IProps extends RouteComponentProps {
@@ -420,20 +411,29 @@ class WarPage extends React.Component<IProps, IState> {
                     Quest.QuestType.FRIENDSHIP,
                     Quest.QuestType.WAR_BOARD,
                     Quest.QuestType.HERO_BALLAD,
-                ].map((questType) => {
+                ]
+                .filter(questType => {
+                    for (let { quests } of war.spots)
+                        if (quests.filter(q => q.type === questType).length)
+                            return true;
+
+                    return false;
+                })
+                .map((questType, index, array) => {
                     const questTypeDescription =
                         QuestTypeDescription.get(questType) ??
                         questType.toString();
+                    let questFilter = (quest: Quest.Quest) => quest.type === questType;
+
                     return (
                         <SpotQuestList
                             key={questType}
                             title={`${questTypeDescription} Quests`}
                             region={this.props.region}
                             spots={war.spots}
-                            filterQuest={(quest: Quest.Quest) =>
-                                quest.type === questType
-                            }
+                            filterQuest={questFilter}
                             itemMap={this.state.itemCache}
+                            last={index === array.length - 1}
                         />
                     );
                 })}

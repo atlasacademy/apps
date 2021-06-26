@@ -12,7 +12,8 @@ function ArrowToggle({ eventKey } : { eventKey: string }) {
 
 function renderCollapsibleContent(
     { title, content, subheader, separator, initialOpen } :
-    { title: Renderable, content: Renderable, subheader: boolean, separator?: boolean, initialOpen?: boolean }
+    { title: Renderable, content: Renderable, subheader: boolean, separator?: boolean, initialOpen?: boolean },
+    enableBottomMargin = true
 ) {
     if (initialOpen === undefined) initialOpen = true;
     if (separator === undefined) separator = true;
@@ -26,7 +27,7 @@ function renderCollapsibleContent(
                 </Accordion.Toggle>
                 {/* 2 px to align the hr line with the start of content */}
                 <Accordion.Collapse eventKey={`${title}`}>
-                    <div style={{ marginTop: '2px', marginBottom: '1em' }}>{content}</div>
+                    <div style={{ marginTop: '2px', marginBottom: enableBottomMargin ? '1em' : 'unset' }}>{content}</div>
                 </Accordion.Collapse>
             </Card>
         </Accordion>
