@@ -18,6 +18,8 @@ export const battleSetupInitThunk = (): AppThunk => {
 
         if (servantList.length > 0)
             await dispatch(battleSetupSelectServantThunk(servantList[0].id));
+
+        await dispatch(battleSetupSlice.actions.setPending(false));
     };
 };
 
@@ -31,27 +33,54 @@ export const battleSetupSelectServantThunk = (id: number): AppThunk => {
     };
 }
 
+export const battleSetupSelectTeamThunk = (team: BattleTeam): AppThunk => {
+    return async dispatch => {
+        await dispatch(battleSetupSlice.actions.selectTeam(team));
+        await dispatch(battleSetupUpdateCanAddActor());
+    };
+}
+
 export const battleSetupAddActorThunk = (): AppThunk => {
     return async (dispatch, getState) => {
         const state = getState(),
-            id = state.battleSetup.selectedServant;
-
-        if (!id)
-            return;
-
-        const servant = await apiConnector.servant(id),
+            id = state.battleSetup.selectedServant,
             team = state.battleSetup.selectedTeam;
+
+        if (!id
+            || state.battleSetup.pending
+            || (team === BattleTeam.PLAYER && state.battle.playerActors.length >= 3)
+            || (team === BattleTeam.ENEMY && state.battle.enemyActors.length >= 1)
+        ) {
+            return;
+        }
+
+        await dispatch(battleSetupSlice.actions.setPending(true));
+
+        const servant = await apiConnector.servant(id);
 
         if (!servant)
             return;
 
-        if (team === BattleTeam.PLAYER && state.battle.playerActors.length >= 3)
-            return;
-
-        if (team === BattleTeam.ENEMY && state.battle.enemyActors.length >= 1)
-            return;
-
         BattleManager.addActor(servant, team);
-        await dispatch(battleSyncThunk())
+        await dispatch(battleSyncThunk());
+        await dispatch(battleSetupUpdateCanAddActor());
+        await dispatch(battleSetupSlice.actions.setPending(false));
     }
+}
+
+export const battleSetupUpdateCanAddActor = (): AppThunk => {
+    return async (dispatch, getState) => {
+        const state = getState(),
+            team = state.battleSetup.selectedTeam;
+
+        if (team === BattleTeam.PLAYER) {
+            const canAddActor = state.battle.playerActors.length < 3;
+
+            await dispatch(battleSetupSlice.actions.setCanAddActor(canAddActor));
+        } else {
+            const canAddActor = state.battle.enemyActors.length < 1;
+
+            await dispatch(battleSetupSlice.actions.setCanAddActor(canAddActor));
+        }
+    };
 }

@@ -13,6 +13,13 @@ export interface BattleStateActor {
     gaugeLineMax: number,
 }
 
+export interface BattleStateActorSkill {
+    actorId: number,
+    position: number,
+    name: string,
+    icon?: string,
+}
+
 export interface BattleQueuedAttack {
     actorId: number,
     card: Card
@@ -26,6 +33,7 @@ export type BattleEvent = {
 
 export interface BattleState {
     running: boolean,
+    actorSkills: BattleStateActorSkill[],
     playerActing: boolean,
     playerAttacking: boolean,
     playerTurn: boolean,

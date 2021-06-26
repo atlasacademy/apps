@@ -10,6 +10,8 @@ export interface BattleSetupActorOptions {
 }
 
 export interface BattleSetupState {
+    pending: boolean,
+    canAddActor: boolean,
     servantList: BattleSetupServantItem[],
     selectedServant?: number,
     selectedTeam: BattleTeam,

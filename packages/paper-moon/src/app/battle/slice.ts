@@ -1,8 +1,9 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {BattleEvent, BattleQueuedAttack, BattleState, BattleStateActor} from "./types";
+import {BattleEvent, BattleQueuedAttack, BattleState, BattleStateActor, BattleStateActorSkill} from "./types";
 
 const initialState: BattleState = {
     running: false,
+    actorSkills: [],
     playerActing: true,
     playerAttacking: false,
     playerTurn: true,
@@ -18,6 +19,9 @@ export const battleSlice = createSlice({
     reducers: {
         queueAction: (state, action: PayloadAction<BattleQueuedAttack>) => {
             state.queuedAttacks.push(action.payload);
+        },
+        setActorSkills: (state, action: PayloadAction<BattleStateActorSkill[]>) => {
+            state.actorSkills = action.payload;
         },
         setEvents: (state, action: PayloadAction<BattleEvent[]>) => {
             state.events = action.payload;

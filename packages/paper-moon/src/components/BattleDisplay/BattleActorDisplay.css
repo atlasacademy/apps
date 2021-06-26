@@ -1,11 +1,14 @@
 .battle-actor-display {
-
+    padding-left: 85px;
+    position: relative;
 }
 
 .battle-actor-face {
     display: block;
-    margin-bottom: 5px;
-    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 75px;
 }
 .battle-actor-name {
     font-weight: bold;

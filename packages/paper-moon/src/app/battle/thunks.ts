@@ -5,6 +5,7 @@ import BattleDamageEvent from "@atlasacademy/battle/dist/Event/BattleDamageEvent
 import BattleManager from "../../paper-moon/BattleManager";
 import {AppThunk} from "../store";
 import {battleSlice} from "./slice";
+import {BattleStateActorSkill} from "./types";
 
 export const battleQueueAttack = (actorId: number, card: Card): AppThunk => {
     return async (dispatch, getState) => {
@@ -71,6 +72,24 @@ export const battleSyncThunk = (): AppThunk => {
                 gaugeLineMax: actor.props.gaugeLineMax,
             }))
         ));
+
+        const skills: BattleStateActorSkill[] = [];
+        battle.actors().all().forEach(actor => {
+            for (let i = 1; i <= 3; i++) {
+                const skill = actor.skill(i);
+                if (!skill)
+                    continue;
+
+                skills.push({
+                    actorId: actor.id(),
+                    position: i,
+                    name: skill.name(),
+                    icon: skill.icon()
+                });
+            }
+        });
+
+        await dispatch(battleSlice.actions.setActorSkills(skills));
 
         await dispatch(battleSlice.actions.setEvents(
             battle.getEvents().map(event => {

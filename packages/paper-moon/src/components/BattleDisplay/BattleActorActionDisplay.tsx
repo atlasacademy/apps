@@ -44,6 +44,9 @@ class BattleActorActionDisplay extends React.Component<Props> {
                             onClick={e => this.queueAction(Card.ARTS)}>
                         A
                     </Button>
+                    <Button className='action' variant='secondary'>
+                        NP
+                    </Button>
                 </ButtonGroup>
             </div>
         );

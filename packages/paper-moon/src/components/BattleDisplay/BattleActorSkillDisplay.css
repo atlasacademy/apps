@@ -1,0 +1,9 @@
+.battle-actor-skill-display {
+    margin-top: 10px;
+}
+
+.battle-actor-skill-display .skill-icon {
+    display: block;
+    margin: 0 auto;
+    width: 40px;
+}

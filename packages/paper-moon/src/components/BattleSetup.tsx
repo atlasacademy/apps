@@ -3,19 +3,24 @@ import React from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import {connect, ConnectedProps} from "react-redux";
 import {battleStartThunk} from "../app/battle/thunks";
-import {battleSetupSlice} from "../app/battleSetup/slice";
-import {battleSetupAddActorThunk, battleSetupSelectServantThunk} from "../app/battleSetup/thunks";
+import {
+    battleSetupAddActorThunk,
+    battleSetupSelectServantThunk,
+    battleSetupSelectTeamThunk
+} from "../app/battleSetup/thunks";
 import {RootState} from "../app/store";
 
 const mapStateToProps = (state: RootState) => ({
+        canAddActor: state.battleSetup.canAddActor,
         display: !state.battle.running,
+        pending: state.battleSetup.pending,
         servants: state.battleSetup.servantList,
         selected: state.battleSetup.selectedServant,
         team: state.battleSetup.selectedTeam,
     }),
     mapDispatchToProps = {
         selectServant: battleSetupSelectServantThunk,
-        selectTeam: battleSetupSlice.actions.selectTeam,
+        selectTeam: battleSetupSelectTeamThunk,
         add: battleSetupAddActorThunk,
         start: battleStartThunk,
     },
@@ -58,11 +63,12 @@ class BattleSetup extends React.Component<BattleSetupProps> {
                             </Form.Control>
                         </Col>
                         <Col>
-                            <Button variant='success' onClick={this.props.add}>
+                            <Button variant='success' onClick={this.props.add}
+                                    disabled={this.props.pending || !this.props.canAddActor}>
                                 Add Servant
                             </Button>
                             &nbsp;
-                            <Button variant='primary' onClick={this.props.start}>
+                            <Button variant='primary' onClick={this.props.start} disabled={this.props.pending}>
                                 Start Battle
                             </Button>
                         </Col>

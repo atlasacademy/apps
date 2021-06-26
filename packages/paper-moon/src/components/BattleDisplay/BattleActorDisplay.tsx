@@ -1,12 +1,13 @@
 import {BattleTeam} from "@atlasacademy/battle";
 import React from "react";
-import {Button, Col, ProgressBar, Row} from "react-bootstrap";
+import {ProgressBar} from "react-bootstrap";
 import {connect, ConnectedProps} from "react-redux";
 import {BattleStateActor} from "../../app/battle/types";
 import {RootState} from "../../app/store";
 import BattleActorActionDisplay from "./BattleActorActionDisplay";
 
 import './BattleActorDisplay.css';
+import BattleActorSkillDisplay from "./BattleActorSkillDisplay";
 
 interface ExternalProps {
     actor: BattleStateActor,
@@ -43,19 +44,20 @@ class BattleActorDisplay extends React.Component<BattleActorDisplayProps> {
             current = this.props.actor.currentGauge,
             level = Math.min(Math.floor(current / max), 2),
             mod = current % max,
-            remaining = level > 0 ? max - mod : 0,
             styles = [
                 'info',
                 'warning',
                 'danger',
-            ];
+            ],
+            percent = Math.floor(mod / max * 1000) / 10,
+            remaining = 100 - percent;
 
         return <div>
-            <div className='battle-actor-gauge'>{this.props.actor.currentGauge}%</div>
-            <ProgressBar now={this.props.actor.currentGauge / 1000}>
-                <ProgressBar variant={styles[level]} now={mod / max}/>
+            <div className='battle-actor-gauge'>{percent}%</div>
+            <ProgressBar now={percent}>
+                <ProgressBar variant={styles[level]} now={percent}/>
                 {remaining > 0 && level > 0 ? (
-                    <ProgressBar variant={styles[level - 1]} now={remaining / max}/>
+                    <ProgressBar variant={styles[level - 1]} now={remaining}/>
                 ) : null}
             </ProgressBar>
         </div>
@@ -64,24 +66,18 @@ class BattleActorDisplay extends React.Component<BattleActorDisplayProps> {
     render() {
         return (
             <div className='battle-actor-display'>
-                <Row>
-                    <Col xs={3}>
-                        <img className='battle-actor-face' src={this.props.actor.face} alt={this.props.actor.name}/>
-                        <div className='text-center'>
-                            <Button variant='outline-secondary'>Buffs</Button>
-                        </div>
-                    </Col>
-                    <Col>
-                        <div className='battle-actor-name'>({this.props.actor.id}) {this.props.actor.name}</div>
-                        <div
-                            className='battle-actor-health'>{this.props.actor.currentHealth} / {this.props.actor.maxHealth}</div>
-                        <ProgressBar variant='success'
-                                     now={this.props.actor.currentHealth / this.props.actor.maxHealth}/>
-                        {this.displayGauge()}
-                    </Col>
-                </Row>
+                <img className='battle-actor-face' src={this.props.actor.face} alt={this.props.actor.name}/>
+                <div className='battle-actor-name'>({this.props.actor.id}) {this.props.actor.name}</div>
+                <div
+                    className='battle-actor-health'>{this.props.actor.currentHealth} / {this.props.actor.maxHealth}</div>
+                <ProgressBar variant='success'
+                             now={this.props.actor.currentHealth / this.props.actor.maxHealth}/>
+                {this.displayGauge()}
                 {this.shouldDisplayActions() ? (
-                    <BattleActorActionDisplay actor={this.props.actor}/>
+                    <div>
+                        <BattleActorSkillDisplay actor={this.props.actor}/>
+                        <BattleActorActionDisplay actor={this.props.actor}/>
+                    </div>
                 ) : null}
             </div>
         );

@@ -54,4 +54,12 @@ export default class BattleSkill {
         return this.state.funcs[num - 1];
     }
 
+    icon(): string | undefined {
+        return this.props.skill.icon;
+    }
+
+    name(): string {
+        return this.props.skill.name;
+    }
+
 }
