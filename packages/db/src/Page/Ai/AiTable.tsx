@@ -300,10 +300,10 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td style={{ fontWeight: "bold" }}>Priority/Probability</td>
+                    <td style={{ fontWeight: "bold" }}>Priority|Probability</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
-                            {ai.priority}/{ai.probability}
+                            {ai.priority}|{ai.probability}
                         </td>
                     ))}
                 </tr>

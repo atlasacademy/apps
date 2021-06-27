@@ -64,9 +64,6 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
             case ScriptComponentType.SOUND_EFFECT:
                 audioUrls.push(component.soundEffect.audioAsset);
                 break;
-            case ScriptComponentType.BGM:
-                audioUrls.push(component.bgm.audioAsset);
-                break;
         }
     };
     for (const component of parsedScript.components) {

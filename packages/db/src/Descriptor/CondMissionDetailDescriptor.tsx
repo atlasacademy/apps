@@ -73,19 +73,12 @@ export default function CondMissionDetailDescriptor(props: {
                     />
                 </>
             );
+        case Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY:
         case Mission.DetailCondType.ENEMY_INDIVIDUALITY_KILL_NUM:
             return (
                 <>
                     Defeat {num} enemies with{" "}
                     <MultipleTraits region={region} traitIds={targetIds} />
-                </>
-            );
-        case Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY:
-            return (
-                <>
-                    Defeat {num} enemies with{" "}
-                    <MultipleTraits region={region} traitIds={targetIds} />{" "}
-                    (excluding Servants and certain bosses)
                 </>
             );
         case Mission.DetailCondType.DEFEAT_SERVANT_CLASS:

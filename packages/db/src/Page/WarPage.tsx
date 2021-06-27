@@ -414,7 +414,7 @@ class WarPage extends React.Component<IProps, IState> {
                 ]
                 .filter(questType => {
                     for (let { quests } of war.spots)
-                        if (quests.filter(q => q.type === questType).length)
+                        if (quests.find(q => q.type === questType))
                             return true;
 
                     return false;
