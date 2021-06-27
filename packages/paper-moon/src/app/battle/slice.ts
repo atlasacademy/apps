@@ -36,7 +36,7 @@ export const battleSlice = createSlice({
             state.running = true;
         },
         startPlayerAttacking: state => {
-            state.playerActing = true;
+            state.playerActing = false;
             state.playerAttacking = true;
             state.playerTurn = true;
         },

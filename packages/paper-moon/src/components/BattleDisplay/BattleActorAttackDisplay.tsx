@@ -6,7 +6,7 @@ import {battleQueueAttack} from "../../app/battle/thunks";
 import {BattleStateActor} from "../../app/battle/types";
 import {RootState} from "../../app/store";
 
-import "./BattleActorActionDisplay.css";
+import "./BattleActorAttackDisplay.css";
 
 interface ExternalProps {
     actor: BattleStateActor,
@@ -22,7 +22,7 @@ const mapStateToProps = (state: RootState, props: ExternalProps) => ({
 
 type Props = ConnectedProps<typeof connector>;
 
-class BattleActorActionDisplay extends React.Component<Props> {
+class BattleActorAttackDisplay extends React.Component<Props> {
 
     private queueAction(card: Card) {
         this.props.queueAction(this.props.actor.id, card);
@@ -54,4 +54,4 @@ class BattleActorActionDisplay extends React.Component<Props> {
 
 }
 
-export default connector(BattleActorActionDisplay);
+export default connector(BattleActorAttackDisplay);

@@ -1,10 +1,12 @@
 import React from "react";
 import {Col, Row} from "react-bootstrap";
 import {connect, ConnectedProps} from "react-redux";
-import {BattleStateActor} from "../../app/battle/types";
-import {RootState} from "../../app/store";
+import {battleTriggerSkillThunk} from "../../../app/battle/thunks";
+import {BattleStateActor} from "../../../app/battle/types";
+import {RootState} from "../../../app/store";
 
 import "./BattleActorSkillDisplay.css";
+import BattleActorSkillIcon from "./BattleActorSkillIcon";
 
 interface ExternalProps {
     actor: BattleStateActor,
@@ -17,7 +19,7 @@ const mapStateToProps = (state: RootState, props: ExternalProps) => ({
             .sort((a, b) => a.position - b.position),
     }),
     mapDispatchToProps = {
-        //
+        battleTriggerSkillThunk
     },
     connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -29,7 +31,7 @@ class BattleActorSkillDisplay extends React.Component<Props> {
             <Row className='battle-actor-skill-display'>
                 {this.props.skills.map((skill, i) => (
                     <Col xs={4} key={i}>
-                        <img className='skill-icon' src={skill.icon} alt={skill.name}/>
+                        <BattleActorSkillIcon actor={this.props.actor} skill={skill}/>
                     </Col>
                 ))}
             </Row>

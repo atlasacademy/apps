@@ -18,6 +18,8 @@ export interface BattleStateActorSkill {
     position: number,
     name: string,
     icon?: string,
+    available: boolean,
+    cooldown: number,
 }
 
 export interface BattleQueuedAttack {

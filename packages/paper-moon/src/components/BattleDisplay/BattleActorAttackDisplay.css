@@ -1,6 +1,7 @@
 .battle-actor-action-display {
     display: flex !important;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .battle-actor-action-display>.action {

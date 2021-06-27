@@ -4,10 +4,10 @@ import {ProgressBar} from "react-bootstrap";
 import {connect, ConnectedProps} from "react-redux";
 import {BattleStateActor} from "../../app/battle/types";
 import {RootState} from "../../app/store";
-import BattleActorActionDisplay from "./BattleActorActionDisplay";
+import BattleActorAttackDisplay from "./BattleActorAttackDisplay";
 
 import './BattleActorDisplay.css';
-import BattleActorSkillDisplay from "./BattleActorSkillDisplay";
+import BattleActorSkillDisplay from "./Skill/BattleActorSkillDisplay";
 
 interface ExternalProps {
     actor: BattleStateActor,
@@ -18,7 +18,8 @@ const mapStateToProps = (state: RootState, props: ExternalProps) => ({
         ...props,
         running: state.battle.running,
         playerTurn: state.battle.playerTurn,
-        queuedAttackCount: state.battle.queuedAttacks.length,
+        playerActing: state.battle.playerActing,
+        playerAttacking: state.battle.playerAttacking,
     }),
     mapDispatchToProps = {
         //
@@ -29,11 +30,18 @@ type BattleActorDisplayProps = ConnectedProps<typeof connector>;
 
 class BattleActorDisplay extends React.Component<BattleActorDisplayProps> {
 
-    private shouldDisplayActions() {
+    private shouldDisplayAttacks() {
         return this.props.running
             && this.props.team === BattleTeam.PLAYER
             && this.props.playerTurn
-            && this.props.queuedAttackCount < 3;
+            && this.props.playerAttacking;
+    }
+
+    private shouldDisplaySkills() {
+        return this.props.running
+            && this.props.team === BattleTeam.PLAYER
+            && this.props.playerTurn
+            && this.props.playerActing;
     }
 
     private displayGauge() {
@@ -73,11 +81,11 @@ class BattleActorDisplay extends React.Component<BattleActorDisplayProps> {
                 <ProgressBar variant='success'
                              now={this.props.actor.currentHealth / this.props.actor.maxHealth}/>
                 {this.displayGauge()}
-                {this.shouldDisplayActions() ? (
-                    <div>
-                        <BattleActorSkillDisplay actor={this.props.actor}/>
-                        <BattleActorActionDisplay actor={this.props.actor}/>
-                    </div>
+                {this.shouldDisplaySkills() ? (
+                    <BattleActorSkillDisplay actor={this.props.actor}/>
+                ) : null}
+                {this.shouldDisplayAttacks() ? (
+                    <BattleActorAttackDisplay actor={this.props.actor}/>
                 ) : null}
             </div>
         );

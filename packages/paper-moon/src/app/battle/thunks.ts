@@ -31,6 +31,24 @@ export const battleQueueAttack = (actorId: number, card: Card): AppThunk => {
     };
 };
 
+export const battleTriggerSkillThunk = (actorId: number, skillPosition: number): AppThunk => {
+    return async (dispatch, getState) => {
+        const battle = BattleManager.battle(),
+            actor = battle.getActor(actorId);
+
+        if (!actor || !actor.isAlive())
+            return;
+
+        const skill = actor.skill(skillPosition);
+        if (!skill || !skill.available())
+            return;
+
+        battle.clearEvents();
+        await skill.activate(battle);
+        await dispatch(battleSyncThunk());
+    };
+}
+
 export const battleStartThunk = (): AppThunk => {
     return async dispatch => {
         await dispatch(battleSlice.actions.startBattle());
@@ -84,7 +102,9 @@ export const battleSyncThunk = (): AppThunk => {
                     actorId: actor.id(),
                     position: i,
                     name: skill.name(),
-                    icon: skill.icon()
+                    icon: skill.icon(),
+                    available: skill.available(),
+                    cooldown: skill.cooldown(),
                 });
             }
         });
