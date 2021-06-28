@@ -266,7 +266,11 @@ async function handleEvent(event: FetchEvent) {
         if (pathname.startsWith("/db/")) {
             return handleDBEvent(event);
         }
-        for (const basePath of ["drop-lookup", "paper-moon"]) {
+        for (const basePath of [
+            "drop-lookup",
+            "paper-moon",
+            "drop-serializer",
+        ]) {
             if (pathname === `/${basePath}`) {
                 return Response.redirect(
                     `${protocol}//${host}/${basePath}/`,
