@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'packages/db-og-worker/**'
   workflow_dispatch:
 
 jobs:
@@ -14,8 +12,16 @@ jobs:
     name: Deploy
     steps:
       - uses: actions/checkout@v2
-      - name: Publish
-        uses: cloudflare/wrangler-action@1.2.0
+      - uses: actions/setup-node@v2
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          workingDirectory: 'packages/db-og-worker'
+          node-version: '14'
+      - name: Build sites
+        run: bash netlify_build.sh
+      - name: Install worker dependencies
+        working-directory: 'packages/db-og-worker'
+        run: npm install
+      - name: Publish to Cloudflare Worker
+        working-directory: 'packages/db-og-worker'
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: npx wrangler publish

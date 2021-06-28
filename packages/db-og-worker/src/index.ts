@@ -1,7 +1,12 @@
+import {
+    getAssetFromKV,
+    mapRequestToAsset,
+} from "@cloudflare/kv-asset-handler";
+
+const DEBUG = false;
+
 addEventListener("fetch", (event) => {
-    const response = handleRequest(event.request).catch(() =>
-        fetch(event.request)
-    );
+    const response = handleEvent(event).catch(() => fetch(event.request));
     event.respondWith(response);
 });
 
@@ -17,6 +22,24 @@ class Handler {
         );
     }
 }
+
+const serveSinglePageApp = (request: Request, basePath: string) => {
+    const url = new URL(request.url);
+    let pathname = url.pathname,
+        spaUrl = request.url;
+
+    if (pathname.endsWith("/")) {
+        pathname = pathname.slice(0, pathname.length - 1);
+    }
+
+    const splittedPath = pathname.split("/"),
+        lastPath = splittedPath[splittedPath.length - 1];
+
+    if (!lastPath.includes(".")) {
+        spaUrl = `${url.protocol}//${url.host}/${basePath}/index.html`;
+    }
+    return mapRequestToAsset(new Request(spaUrl, request));
+};
 
 function toTitleCase(value: string): string {
     const matches = value.match(/[A-Z]*[a-z0-9]*/g);
@@ -45,7 +68,7 @@ async function fetchApi(
 }
 
 function overwrite(
-    response: Response,
+    response: { response: Response; pageUrl: string },
     title: string,
     image?: string,
     description?: string
@@ -58,15 +81,16 @@ function overwrite(
 
     const titleRewriter = new HTMLRewriter()
         .on('[name="description"]', new Handler(metaDescription))
+        .on('[property="og:url"]', new Handler(response.pageUrl))
         .on('[property="og:title"]', new Handler(title))
         .on('[property="og:description"]', new Handler(ogDescription));
 
-    if (image === undefined) return titleRewriter.transform(response);
+    if (image === undefined) return titleRewriter.transform(response.response);
 
     return titleRewriter
         .on('[property="og:image"]', new Handler(image))
         .on('[property="og:image:alt"]', new Handler(`${title} icon`))
-        .transform(response);
+        .transform(response.response);
 }
 
 const listingPageTitles = new Map([
@@ -78,7 +102,7 @@ const listingPageTitles = new Map([
     ["events", "Events"],
     ["wars", "Wars"],
     ["bgms", "BGMs"],
-    ["master-missions", "Master Mission"],
+    ["master-missions", "Master Missions"],
     ["entities", "Entities Search"],
     ["skills", "Skills Search"],
     ["noble-phantasms", "Noble Phantasms Search"],
@@ -112,28 +136,32 @@ const tabTitles = new Map([
     ["voices", "Voice Lines"],
 ]);
 
-async function handleRequest(request: Request) {
-    const language = ["JP", "TW", "CN"].includes(request.cf.country)
-        ? "jp"
-        : "en";
+async function handleDBEvent(event: FetchEvent) {
+    const { pathname } = new URL(event.request.url),
+        [region, subpage, target, ...paths] = pathname
+            .replace("/db/", "")
+            .split("/")
+            .filter(Boolean);
 
-    let url = new URL(request.url);
-    let { pathname } = url;
+    const page = await getAssetFromKV(event, {
+        mapRequestToAsset: (request) => serveSinglePageApp(request, "db"),
+        cacheControl: { bypassCache: DEBUG },
+    });
 
-    if (pathname.startsWith("/db/")) pathname = pathname.replace("/db/", "");
-
-    let [region, subpage, target, ...paths] = pathname
-        .split("/")
-        .filter(Boolean);
-
-    url.hostname = "apps.atlasacademy.io";
-    let page = await fetch(url.href, request);
+    const responseDetail = {
+        response: page,
+        pageUrl: event.request.url,
+    };
 
     const listingPageTitle = listingPageTitles.get(subpage);
     if (listingPageTitle !== undefined) {
         const title = `[${region}] ${listingPageTitle} - Atlas Academy DB`;
-        return overwrite(page, title);
+        return overwrite(responseDetail, title);
     }
+
+    const language = ["JP", "TW", "CN"].includes(event.request.cf.country)
+        ? "jp"
+        : "en";
 
     const itemPage = itemPageTitles.get(subpage);
     if (itemPage !== undefined) {
@@ -169,7 +197,7 @@ async function handleRequest(request: Request) {
             title = `${title} - ${tabTitle}`;
         }
 
-        return overwrite(page, title, face ?? icon);
+        return overwrite(responseDetail, title, face ?? icon);
     }
 
     switch (subpage) {
@@ -185,7 +213,7 @@ async function handleRequest(request: Request) {
                     ? `Function: ${funcId}`
                     : `Function ${funcId}: ${funcPopupText}`;
             const title = `[${region}] ${funcTitle}`;
-            return overwrite(page, title);
+            return overwrite(responseDetail, title);
         }
         case "bgm": {
             const { name, fileName, logo } = await fetchApi(
@@ -201,7 +229,7 @@ async function handleRequest(request: Request) {
                 bgmName = fileName;
             }
             const title = `[${region}] BGM: ${bgmName.replace("\n", " ")}`;
-            return overwrite(page, title, logo);
+            return overwrite(responseDetail, title, logo);
         }
         case "buff": {
             const { id, name, icon } = await fetchApi(
@@ -211,22 +239,51 @@ async function handleRequest(request: Request) {
                 language
             );
             const title = `[${region}] Buff ${id}: ${name}`;
-            return overwrite(page, title, icon);
+            return overwrite(responseDetail, title, icon);
         }
         case "ai": {
             const aiType = target === "svt" ? "Servant" : "Field";
             const title = `[${region}] ${aiType} AI ${paths[0]}`;
-            return overwrite(page, title);
+            return overwrite(responseDetail, title);
         }
         case "script": {
             const title = `[${region}] Script ${target}`;
-            return overwrite(page, title);
+            return overwrite(responseDetail, title);
         }
         case "master-mission": {
             const title = `[${region}] Master Mission ${target}`;
-            return overwrite(page, title);
+            return overwrite(responseDetail, title);
         }
         default:
             return new Response(page.body, page);
+    }
+}
+
+async function handleEvent(event: FetchEvent) {
+    const { protocol, host, pathname } = new URL(event.request.url);
+
+    try {
+        if (pathname.startsWith("/db/")) {
+            return handleDBEvent(event);
+        }
+        for (const basePath of ["drop-lookup", "paper-moon"]) {
+            if (pathname === `/${basePath}`) {
+                return Response.redirect(
+                    `${protocol}//${host}/${basePath}/`,
+                    301
+                );
+            }
+        }
+        return await getAssetFromKV(event, {
+            cacheControl: { bypassCache: DEBUG },
+        });
+    } catch (e) {
+        if (DEBUG)
+            return new Response(e.message || e.toString(), { status: 500 });
+
+        return new Response(`"${pathname}" not found`, {
+            status: 404,
+            statusText: "not found",
+        });
     }
 }

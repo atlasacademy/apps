@@ -221,7 +221,7 @@ const SpotQuestList = (props: {
     spots: War.Spot[];
     filterQuest: (quest: Quest.Quest) => boolean;
     itemMap: Map<number, Item.Item>;
-    last?: boolean
+    last?: boolean;
 }) => {
     const spots = (
         <div>
@@ -237,11 +237,14 @@ const SpotQuestList = (props: {
         </div>
     );
 
-    return renderCollapsibleContent({
-        title: props.title,
-        content: spots,
-        subheader: false,
-    }, !props.last);
+    return renderCollapsibleContent(
+        {
+            title: props.title,
+            content: spots,
+            subheader: false,
+        },
+        !props.last
+    );
 };
 
 interface IProps extends RouteComponentProps {
@@ -382,6 +385,13 @@ class WarPage extends React.Component<IProps, IState> {
                             Name: handleNewLine(war.longName),
                             Age: war.age,
                             Event: event,
+                            "Opening script": (
+                                <Link
+                                    to={`/${this.props.region}/script/${war.scriptId}`}
+                                >
+                                    {war.scriptId}
+                                </Link>
+                            ),
                             Banner: bannerImages,
                             BGM: <>{bgmPlayers}</>,
                             Raw: (
@@ -412,31 +422,32 @@ class WarPage extends React.Component<IProps, IState> {
                     Quest.QuestType.WAR_BOARD,
                     Quest.QuestType.HERO_BALLAD,
                 ]
-                .filter(questType => {
-                    for (let { quests } of war.spots)
-                        if (quests.find(q => q.type === questType))
-                            return true;
+                    .filter((questType) => {
+                        for (let { quests } of war.spots)
+                            if (quests.find((q) => q.type === questType))
+                                return true;
 
-                    return false;
-                })
-                .map((questType, index, array) => {
-                    const questTypeDescription =
-                        QuestTypeDescription.get(questType) ??
-                        questType.toString();
-                    let questFilter = (quest: Quest.Quest) => quest.type === questType;
+                        return false;
+                    })
+                    .map((questType, index, array) => {
+                        const questTypeDescription =
+                            QuestTypeDescription.get(questType) ??
+                            questType.toString();
+                        let questFilter = (quest: Quest.Quest) =>
+                            quest.type === questType;
 
-                    return (
-                        <SpotQuestList
-                            key={questType}
-                            title={`${questTypeDescription} Quests`}
-                            region={this.props.region}
-                            spots={war.spots}
-                            filterQuest={questFilter}
-                            itemMap={this.state.itemCache}
-                            last={index === array.length - 1}
-                        />
-                    );
-                })}
+                        return (
+                            <SpotQuestList
+                                key={questType}
+                                title={`${questTypeDescription} Quests`}
+                                region={this.props.region}
+                                spots={war.spots}
+                                filterQuest={questFilter}
+                                itemMap={this.state.itemCache}
+                                last={index === array.length - 1}
+                            />
+                        );
+                    })}
             </div>
         );
     }
