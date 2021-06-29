@@ -1,4 +1,4 @@
-import {Func, Trait} from "@atlasacademy/api-connector";
+import {ApiConnector, Func, Trait} from "@atlasacademy/api-connector";
 import {BattleCommandAction} from "./Action/BattleCommandAction";
 import inspectAvailable from "./Action/inspectAvailable";
 import {BattleActor} from "./Actor/BattleActor";
@@ -10,6 +10,7 @@ import GameConstantManager from "./Game/GameConstantManager";
 
 export interface BattleState {
     actors: BattleActorManager,
+    api: ApiConnector,
     constants: GameConstantManager,
     control: BattleTeam,
     events: BattleEvent[],
@@ -26,6 +27,7 @@ export class Battle {
     constructor(state?: Partial<BattleState> | null) {
         this.state = {
             actors: new BattleActorManager(null),
+            api: new ApiConnector(),
             constants: new GameConstantManager(),
             control: BattleTeam.PLAYER,
             events: [],
@@ -67,6 +69,10 @@ export class Battle {
         this.state.stars += Math.floor(stars);
         this.state.stars = Math.min(this.state.stars, 99);
         this.state.stars = Math.max(this.state.stars, 0);
+    }
+
+    api(): ApiConnector {
+        return this.state.api;
     }
 
     availableActions(): BattleCommandAction[] {

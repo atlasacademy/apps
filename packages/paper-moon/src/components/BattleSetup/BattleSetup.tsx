@@ -1,14 +1,14 @@
-import {BattleTeam} from "@atlasacademy/battle/dist/Enum/BattleTeam";
+import {BattleTeam} from "@atlasacademy/battle";
 import React from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import {connect, ConnectedProps} from "react-redux";
-import {battleStartThunk} from "../app/battle/thunks";
+import {battleStartThunk} from "../../app/battle/thunks";
 import {
     battleSetupAddActorThunk,
     battleSetupSelectServantThunk,
     battleSetupSelectTeamThunk
-} from "../app/battleSetup/thunks";
-import {RootState} from "../app/store";
+} from "../../app/battleSetup/thunks";
+import {RootState} from "../../app/store";
 
 const mapStateToProps = (state: RootState) => ({
         canAddActor: state.battleSetup.canAddActor,

@@ -1,19 +1,17 @@
 import {Buff, DataVal, EnumList, Servant} from "@atlasacademy/api-connector";
 import * as fs from "fs";
-import {Battle} from "../src";
+import {Battle, BattleTeam} from "../src";
 import {BattleActor, BattleActorState} from "../src/Actor/BattleActor";
-import BattleServantActor, {BattleServantActorProps} from "../src/Actor/BattleServantActor";
 import {BattleState} from "../src/Battle";
 import {BattleBuff, BattleBuffState} from "../src/Buff/BattleBuff";
-import {BattleTeam} from "../src/Enum/BattleTeam";
-
+import createServantActor, {BattleServantActorProps} from "../src/Factory/createServantActor";
+import enums from "./../test-data/data/nice_enums.json";
 import attributeAffinity from "./../test-data/data/NiceAttributeRelation.json";
 import buffConstants from "./../test-data/data/NiceBuffList.ActionList.json";
 import cards from "./../test-data/data/NiceCard.json";
-import classAffinity from "./../test-data/data/NiceClassRelation.json";
 import classAttackRates from "./../test-data/data/NiceClassAttackRate.json";
+import classAffinity from "./../test-data/data/NiceClassRelation.json";
 import constants from "./../test-data/data/NiceConstant.json";
-import enums from "./../test-data/data/nice_enums.json";
 
 const testDataPath = "./test-data/data",
     buffCache = new Map<number, Buff.Buff>(),
@@ -69,13 +67,15 @@ export function servant(id: number,
         servantCache.set(id, data);
     }
 
-    return new BattleServantActor({
-        id,
-        phase: 1,
+    const actor = createServantActor(id, 1, {
         servant: <Servant.Servant>data,
         team,
         ...props
-    }, state ?? null);
+    });
+
+    actor.state = state ?? actor.state;
+
+    return actor;
 }
 
 export function setupTestData(battle: Battle) {

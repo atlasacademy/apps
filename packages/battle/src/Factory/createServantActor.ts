@@ -1,15 +1,13 @@
 import {CommandCode, CraftEssence, Servant, Skill} from "@atlasacademy/api-connector";
+import {BattleActor, BattleActorProps} from "../Actor/BattleActor";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 import BattleSkillPassive from "../Skill/BattleSkillPassive";
-import {BattleActor, BattleActorProps, BattleActorState} from "./BattleActor";
 
 export interface BattleServantActorProps {
     servant: Servant.Servant,
-    id: number,
-    phase: number,
     team: BattleTeam,
 
     ascensionOrCostumeId?: number,
@@ -26,11 +24,11 @@ export interface BattleServantActorProps {
     skillLevels?: number[],
 }
 
-function castProps(servantProps: BattleServantActorProps): BattleActorProps {
+function castProps(id: number, phase: number, servantProps: BattleServantActorProps): BattleActorProps {
     const level = servantProps.level ?? servantProps.servant.lvMax,
         form = servantProps.ascensionOrCostumeId ?? 4,
         traits = servantProps.servant.traits,
-        np = getNoblePhantasm(servantProps);
+        np = getNoblePhantasm(id, servantProps);
 
     let gaugeLineCount = 0;
     if (np.level() >= 5)
@@ -57,18 +55,18 @@ function castProps(servantProps: BattleServantActorProps): BattleActorProps {
         gaugeLineCount,
         gaugeLineMax: 10000,
         hits: servantProps.servant.hitsDistribution,
-        id: servantProps.id,
+        id,
         level,
         name: servantProps.servant.ruby,
         passives: [servantProps.servant.classPassive, servantProps.servant.extraPassive].flat().map(skill => {
             return new BattleSkillPassive({
-                actorId: servantProps.id,
+                actorId: id,
                 id: 0,
                 skill: skill,
                 level: 1,
             }, null);
         }),
-        phase: servantProps.phase,
+        phase: phase,
         serverMod: {
             tdAttackRate: 1000,
             tdRate: 1000,
@@ -92,7 +90,7 @@ function castSkill(skills: Skill.Skill[], actorId: number, position: number, lev
     return new BattleSkill({actorId, id: position, skill, level}, null);
 }
 
-function getNoblePhantasm(servantProps: BattleServantActorProps): BattleNoblePhantasm {
+function getNoblePhantasm(id: number, servantProps: BattleServantActorProps): BattleNoblePhantasm {
     const questIds = servantProps.questIds ?? servantProps.servant.relateQuestIds,
         noblePhantasm = servantProps.servant.noblePhantasms
             .filter(noblePhantasm => !noblePhantasm.condQuestId || questIds.includes(noblePhantasm.condQuestId))
@@ -103,19 +101,19 @@ function getNoblePhantasm(servantProps: BattleServantActorProps): BattleNoblePha
         throw new Error('FAILED TO FIND NOBLE PHANTASM');
 
     return new BattleNoblePhantasm({
-        actorId: servantProps.id,
+        actorId: id,
         level: servantProps.noblePhantasmLevel ?? 1,
         np: noblePhantasm,
     }, null);
 }
 
-function getSkills(servantProps: BattleServantActorProps): BattleSkill[] {
+function getSkills(id: number, servantProps: BattleServantActorProps): BattleSkill[] {
     const questIds = servantProps.questIds ?? servantProps.servant.relateQuestIds,
         skills: BattleSkill[] = [];
 
     for (let i = 1; i <= 3; i++) {
         const level: number = (servantProps.skillLevels ?? [])[i - 1] ?? 10,
-            skill = castSkill(servantProps.servant.skills, servantProps.id, i, level, questIds);
+            skill = castSkill(servantProps.servant.skills, id, i, level, questIds);
 
         if (skill)
             skills.push(skill);
@@ -124,26 +122,20 @@ function getSkills(servantProps: BattleServantActorProps): BattleSkill[] {
     return skills;
 }
 
-export default class BattleServantActor extends BattleActor {
+export default function createServantActor(id: number, phase: number, props: BattleServantActorProps): BattleActor {
+    const actor = new BattleActor(castProps(id, phase, props), {
+        buffs: new BattleBuffManager([]),
+        damageDone: 0,
+        gauge: 0,
+        health: 0,
+        maxHealth: 0,
+        noblePhantasm: getNoblePhantasm(id, props),
+        position: 0,
+        skills: getSkills(id, props),
+    });
 
-    constructor(public servantProps: BattleServantActorProps,
-                state: BattleActorState | null) {
-        super(castProps(servantProps), state ?? {
-            buffs: new BattleBuffManager([]),
-            damageDone: 0,
-            gauge: 0,
-            health: 0,
-            maxHealth: 0,
-            noblePhantasm: getNoblePhantasm(servantProps),
-            position: 0,
-            skills: getSkills(servantProps),
-        });
+    actor.state.health = actor.props.baseHealth;
+    actor.state.maxHealth = actor.props.baseHealth;
 
-        this.state.health = this.props.baseHealth;
-        this.state.maxHealth = this.props.baseHealth;
-    }
-
-    clone(): BattleServantActor {
-        return new BattleServantActor(this.servantProps, this.cloneState());
-    }
-}
+    return actor;
+};

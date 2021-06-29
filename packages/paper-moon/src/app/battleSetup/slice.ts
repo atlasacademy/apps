@@ -1,11 +1,12 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {BattleTeam} from "@atlasacademy/battle";
-import {BattleSetupActorOptions, BattleSetupServantItem, BattleSetupState} from "./types";
+import {BattleSetupOptionList, BattleSetupState} from "./types";
 
 const initialState: BattleSetupState = {
     pending: true,
     canAddActor: true,
     servantList: [],
+    craftEssenceList: [],
     selectedTeam: BattleTeam.PLAYER,
 };
 
@@ -13,16 +14,16 @@ export const battleSetupSlice = createSlice({
     name: 'battleSetup',
     initialState,
     reducers: {
-        setActorOptions: (state, action: PayloadAction<BattleSetupActorOptions | undefined>) => {
-            state.actorOptions = action.payload;
-        },
         setCanAddActor: (state, action: PayloadAction<boolean>) => {
             state.canAddActor = action.payload;
+        },
+        setCraftEssenceList: (state, action: PayloadAction<BattleSetupOptionList[]>) => {
+            state.craftEssenceList = action.payload;
         },
         setPending: (state, action: PayloadAction<boolean>) => {
             state.pending = action.payload;
         },
-        setServantList: (state, action: PayloadAction<BattleSetupServantItem[]>) => {
+        setServantList: (state, action: PayloadAction<BattleSetupOptionList[]>) => {
             state.servantList = action.payload;
         },
         selectServant: (state, action: PayloadAction<number>) => {

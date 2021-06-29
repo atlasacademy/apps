@@ -2,7 +2,6 @@ import {Card, ClassName} from "@atlasacademy/api-connector";
 import {expect} from 'chai';
 import {BattleTeam} from "../../src";
 import {BattleAttackActionList} from "../../src/Action/BattleAttackAction";
-import BattleServantActor from "../../src/Actor/BattleServantActor";
 import {createBattle, servant} from "../helpers";
 
 describe('BattleServantActor', () => {

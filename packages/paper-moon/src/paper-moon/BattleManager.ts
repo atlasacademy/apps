@@ -1,35 +1,26 @@
-import {Region, Servant} from "@atlasacademy/api-connector";
+import {Language, Region} from "@atlasacademy/api-connector";
+import {BattleFactory} from "@atlasacademy/battle";
 import {BattleAttackActionList} from "@atlasacademy/battle/dist/Action/BattleAttackAction";
 import {BattleActor} from "@atlasacademy/battle/dist/Actor/BattleActor";
-import BattleServantActor from "@atlasacademy/battle/dist/Actor/BattleServantActor";
-import {Battle} from "@atlasacademy/battle/dist/Battle";
 import {BattleTeam} from "@atlasacademy/battle/dist/Enum/BattleTeam";
+import {BattleServantActorProps} from "@atlasacademy/battle/dist/Factory/createServantActor";
 import {BattleQueuedAttack} from "../app/battle/types";
 
-let battle = new Battle(null),
-    nextActorId = 1;
+let factory = new BattleFactory(),
+    battle = factory.battle;
 
 const BattleManager = {
     battle: () => battle,
+    factory: () => factory,
     setup: async () => {
-        await battle.constants().initRegion(Region.NA);
+        await factory.setRegion(Region.JP, Language.ENGLISH);
     },
     start: async () => {
+        await factory.load();
         await battle.init();
     },
-
-    addActor: (servant: Servant.Servant, team: BattleTeam): BattleActor => {
-        const actor = new BattleServantActor({
-            servant,
-            id: nextActorId,
-            phase: 1,
-            team,
-        }, null);
-
-        battle.addActor(actor);
-        nextActorId++;
-
-        return actor;
+    addServant: (props: BattleServantActorProps): BattleActor => {
+        return factory.addServant(props);
     },
     attack: async (attacks: BattleQueuedAttack[]) => {
         const actions = new BattleAttackActionList();

@@ -1,19 +1,16 @@
 import {BattleTeam} from "@atlasacademy/battle";
 
-export interface BattleSetupServantItem {
+export interface BattleSetupOptionList {
     id: number,
     collectionNo: number,
     name: string,
 }
 
-export interface BattleSetupActorOptions {
-}
-
 export interface BattleSetupState {
     pending: boolean,
     canAddActor: boolean,
-    servantList: BattleSetupServantItem[],
+    servantList: BattleSetupOptionList[],
+    craftEssenceList: BattleSetupOptionList[],
     selectedServant?: number,
     selectedTeam: BattleTeam,
-    actorOptions?: BattleSetupActorOptions,
 }

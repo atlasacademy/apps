@@ -1,9 +1,28 @@
 import {BattleTeam} from "@atlasacademy/battle";
 import apiConnector from "../../paper-moon/api";
-import BattleManager from "../../paper-moon/BattleManager";
-import {battleSyncThunk} from "../battle/thunks";
+import {enemyActorConfigOpenServantThunk} from "../enemyActorConfig/thunks";
+import {playerActorConfigOpenServantThunk} from "../playerActorConfig/thunks";
 import {AppThunk} from "../store";
 import {battleSetupSlice} from "./slice";
+
+export const battleSetupAddActorThunk = (): AppThunk => {
+    return async (dispatch, getState) => {
+        const state = getState(),
+            id = state.battleSetup.selectedServant,
+            team = state.battleSetup.selectedTeam;
+
+        if (!id || state.battleSetup.pending || !state.battleSetup.canAddActor) {
+            return;
+        }
+
+        await dispatch(battleSetupSlice.actions.setPending(true));
+        if (team === BattleTeam.PLAYER) {
+            await dispatch(playerActorConfigOpenServantThunk(id));
+        } else {
+            await dispatch(enemyActorConfigOpenServantThunk(id));
+        }
+    }
+}
 
 export const battleSetupInitThunk = (): AppThunk => {
     return async dispatch => {
@@ -19,17 +38,29 @@ export const battleSetupInitThunk = (): AppThunk => {
         if (servantList.length > 0)
             await dispatch(battleSetupSelectServantThunk(servantList[0].id));
 
+        const craftEssenceList = await apiConnector.craftEssenceList();
+        await dispatch(battleSetupSlice.actions.setCraftEssenceList(
+            craftEssenceList.map(craftEssence => ({
+                id: craftEssence.id,
+                collectionNo: craftEssence.collectionNo,
+                name: craftEssence.name
+            }))
+        ));
+
         await dispatch(battleSetupSlice.actions.setPending(false));
     };
 };
 
+export const battleSetupReady = (): AppThunk => {
+    return async (dispatch, getState) => {
+        await dispatch(battleSetupUpdateCanAddActor());
+        await dispatch(battleSetupSlice.actions.setPending(false));
+    }
+}
+
 export const battleSetupSelectServantThunk = (id: number): AppThunk => {
     return async dispatch => {
         await dispatch(battleSetupSlice.actions.selectServant(id));
-        const servant = await apiConnector.servant(id);
-        await dispatch(battleSetupSlice.actions.setActorOptions({
-            servant
-        }));
     };
 }
 
@@ -38,34 +69,6 @@ export const battleSetupSelectTeamThunk = (team: BattleTeam): AppThunk => {
         await dispatch(battleSetupSlice.actions.selectTeam(team));
         await dispatch(battleSetupUpdateCanAddActor());
     };
-}
-
-export const battleSetupAddActorThunk = (): AppThunk => {
-    return async (dispatch, getState) => {
-        const state = getState(),
-            id = state.battleSetup.selectedServant,
-            team = state.battleSetup.selectedTeam;
-
-        if (!id
-            || state.battleSetup.pending
-            || (team === BattleTeam.PLAYER && state.battle.playerActors.length >= 3)
-            || (team === BattleTeam.ENEMY && state.battle.enemyActors.length >= 1)
-        ) {
-            return;
-        }
-
-        await dispatch(battleSetupSlice.actions.setPending(true));
-
-        const servant = await apiConnector.servant(id);
-
-        if (!servant)
-            return;
-
-        BattleManager.addActor(servant, team);
-        await dispatch(battleSyncThunk());
-        await dispatch(battleSetupUpdateCanAddActor());
-        await dispatch(battleSetupSlice.actions.setPending(false));
-    }
 }
 
 export const battleSetupUpdateCanAddActor = (): AppThunk => {
