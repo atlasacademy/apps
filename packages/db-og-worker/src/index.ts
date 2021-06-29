@@ -145,7 +145,7 @@ async function handleDBEvent(event: FetchEvent) {
 
     const page = await getAssetFromKV(event, {
         mapRequestToAsset: (request) => serveSinglePageApp(request, "db"),
-        cacheControl: { bypassCache: DEBUG },
+        cacheControl: { edgeTTL: 60 * 60, bypassCache: DEBUG },
     });
 
     const responseDetail = {
@@ -279,7 +279,7 @@ async function handleEvent(event: FetchEvent) {
             }
         }
         return await getAssetFromKV(event, {
-            cacheControl: { bypassCache: DEBUG },
+            cacheControl: { edgeTTL: 60 * 60, bypassCache: DEBUG },
         });
     } catch (e) {
         if (DEBUG)
