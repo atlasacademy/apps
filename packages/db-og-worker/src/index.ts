@@ -106,7 +106,7 @@ const listingPageTitles = new Map([
     ["entities", "Entities Search"],
     ["skills", "Skills Search"],
     ["noble-phantasms", "Noble Phantasms Search"],
-    ["functions", "Functions Search"],
+    ["funcs", "Functions Search"],
     ["buffs", "Buffs Search"],
     ["changes", "Changelog"],
 ]);

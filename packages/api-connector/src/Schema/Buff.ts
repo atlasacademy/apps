@@ -102,7 +102,7 @@ export enum BuffAction {
     PREVENT_DEATH_BY_DAMAGE = "preventDeathByDamage",
     FUNCTION_COMMANDCODEATTACK_AFTER = "functionCommandcodeattackAfter",
     FUNCTION_ATTACK_BEFORE = "functionAttackBefore",
-    DONOT_SKILL_SELECT = "donotSkillSelect"
+    DONOT_SKILL_SELECT = "donotSkillSelect",
 }
 
 export enum BuffLimit {
@@ -285,6 +285,7 @@ interface BuffScript {
     ReleaseText?: string;
     DamageRelease?: number;
     INDIVIDUALITIE?: Trait;
+    HP_LOWER?: number;
 }
 
 export interface BasicBuff {

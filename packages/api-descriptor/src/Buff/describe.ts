@@ -1,5 +1,5 @@
 import {Buff, Trait} from "@atlasacademy/api-connector";
-import {BasePartial, Descriptor, ParticlePartial, TextPartial} from "../Descriptor";
+import {BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType} from "../Descriptor";
 import {insertParticles, toTitleCase} from "../Helpers";
 import TraitReferencePartial from "../Trait/TraitReferencePartial";
 import {getTraitDescription, getUpDownBuffType} from "./BuffHelpers";
@@ -86,9 +86,14 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         partials.push(new TextPartial(toTitleCase(buff.type)));
     }
 
-    if (buff.script.INDIVIDUALITIE) {
+    if (buff.script.INDIVIDUALITIE !== undefined) {
         partials.push(new TextPartial(' if self has '));
         partials.push(...traitReferences([buff.script.INDIVIDUALITIE]));
+    }
+
+    if (buff.script.HP_LOWER !== undefined) {
+        partials.push(new TextPartial(' if HP is below '));
+        partials.push(new ValuePartial(ValueType.PERCENT, buff.script.HP_LOWER / 10));
     }
 
     return new Descriptor(partials);
