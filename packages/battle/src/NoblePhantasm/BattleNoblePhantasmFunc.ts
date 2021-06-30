@@ -1,17 +1,19 @@
 import BattleFunc, {BattleFuncProps, BattleFuncState} from "../Func/BattleFunc";
+import BattleNoblePhantasm from "./BattleNoblePhantasm";
 
 export default class BattleNoblePhantasmFunc extends BattleFunc {
 
     constructor(public props: BattleFuncProps,
-                state: BattleFuncState | null) {
+                state: BattleFuncState | null,
+                parent: BattleNoblePhantasm) {
         super(props, {
             dataVal: BattleFunc.dataVal(props.func, props.level, 1),
             overcharge: 1,
-        });
+        }, parent);
     }
 
-    clone(): BattleNoblePhantasmFunc {
-        return new BattleNoblePhantasmFunc(this.props, this.cloneState());
+    clone(np: BattleNoblePhantasm): BattleNoblePhantasmFunc {
+        return new BattleNoblePhantasmFunc(this.props, this.cloneState(), np);
     }
 
     setOvercharge(overcharge: number) {

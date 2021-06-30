@@ -4,6 +4,7 @@ import BattleEvent from "../../Event/BattleEvent";
 import BattleRemoveBuffEvent from "../../Event/BattleRemoveBuffEvent";
 import {checkTrait} from "../../Trait/checkTrait";
 import BattleFunc from "../BattleFunc";
+import checkFuncAction from "../checkFuncAction";
 
 export default async function subStateFunc(battle: Battle,
                                            func: BattleFunc,
@@ -11,12 +12,12 @@ export default async function subStateFunc(battle: Battle,
                                            target: BattleActor): Promise<BattleEvent[]> {
     const events: BattleEvent[] = [];
 
-    let success = func.applicableToTarget(target);
+    if (!func.applicableToTarget(target)
+        || !(await checkFuncAction(battle, func, actor, target))) {
+        const event = new BattleRemoveBuffEvent(actor, target, false);
+        battle.addEvent(event);
 
-    if (!success) {
-        events.push(new BattleRemoveBuffEvent(actor, target, false));
-
-        return events;
+        return [event];
     }
 
     let fromHead = func.state.dataVal.Value ?? 0,
@@ -45,6 +46,8 @@ export default async function subStateFunc(battle: Battle,
 
     if (!events.length)
         events.push(new BattleRemoveBuffEvent(actor, target, false));
+
+    events.forEach(event => battle.addEvent(event));
 
     return events;
 }

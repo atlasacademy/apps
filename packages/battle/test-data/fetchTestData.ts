@@ -4,7 +4,7 @@ import glob from "glob";
 import tar from "tar";
 
 const repo = 'https://github.com/atlasacademy/battle-test-data',
-    hash = 'b053c1dd2ef8787e05b57df664f5180bbae5bd1b',
+    hash = 'd24d124f6cb0a4c2975b17b6d5e854ef3d8170b6',
     path = './test-data/data',
     tarPath = `${path}/${hash}.tar.gz`;
 

@@ -42,7 +42,7 @@ class PlayerActorConfigModal extends React.Component<Props> {
 
     render() {
         return (
-            <Modal show={this.props.open} size='xl' onHide={this.props.close}>
+            <Modal animation={false} show={this.props.open} size='xl' onHide={this.props.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>Servant Configuration</Modal.Title>
                 </Modal.Header>

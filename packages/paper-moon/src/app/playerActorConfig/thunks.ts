@@ -24,7 +24,7 @@ export const playerActorConfigAddThunk = (): AppThunk => {
             BattleManager.addServant({
                 servant,
                 team: BattleTeam.PLAYER,
-                level: <number>state.playerActorConfig.servantOptions.level,
+                level: state.playerActorConfig.servantOptions.level as number,
             });
             await dispatch(battleSyncThunk());
         }

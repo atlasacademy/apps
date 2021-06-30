@@ -11,7 +11,7 @@ export default class BattleSkillPassive extends BattleSkill {
                     func,
                     level: props.level,
                     passive: true,
-                }, null);
+                }, null, this);
             })
         });
     }
@@ -19,7 +19,7 @@ export default class BattleSkillPassive extends BattleSkill {
     clone(): BattleSkillPassive {
         return new BattleSkillPassive(this.props, {
             ...this.state,
-            funcs: this.state.funcs.map(func => func.clone()),
+            funcs: this.state.funcs.map(func => func.clone(this)),
         });
     }
 }

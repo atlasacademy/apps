@@ -26,7 +26,7 @@ export default class BattleNoblePhantasm {
                     func,
                     level: this.props.level,
                     passive: false,
-                }, null);
+                }, null, this);
             }),
         };
     }
@@ -54,6 +54,10 @@ export default class BattleNoblePhantasm {
 
     hits(): number[] {
         return this.props.np.npDistribution;
+    }
+
+    name(): string {
+        return this.props.np.name;
     }
 
     traits(): Trait.Trait[] {

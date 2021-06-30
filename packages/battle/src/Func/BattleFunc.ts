@@ -4,9 +4,15 @@ import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
 import BattleUnhandledEffectEvent from "../Event/BattleUnhandledEffectEvent";
+import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
+import BattleSkill from "../Skill/BattleSkill";
+import BattleSkillPassive from "../Skill/BattleSkillPassive";
 import {checkTrait} from "../Trait/checkTrait";
 import addStateFunc from "./Implementations/addStateFunc";
+import adjustNpFunc from "./Implementations/adjustNpFunc";
 import subStateFunc from "./Implementations/subStateFunc";
+
+export type BattleFuncParent = BattleSkill | BattleSkillPassive | BattleNoblePhantasm;
 
 export interface BattleFuncProps {
     actorId: number,
@@ -23,9 +29,12 @@ export interface BattleFuncState {
 export default abstract class BattleFunc {
 
     constructor(public props: BattleFuncProps,
-                public state: BattleFuncState) {
+                public state: BattleFuncState,
+                public parent: BattleFuncParent) {
         //
     }
+
+    abstract clone(parent: BattleFuncParent): BattleFunc;
 
     async execute(battle: Battle): Promise<BattleEvent[]> {
         const actor = battle.getActor(this.props.actorId);
@@ -79,6 +88,9 @@ export default abstract class BattleFunc {
                 return addStateFunc(battle, this, actor, target, false, this.props.passive);
             case Func.FuncType.ADD_STATE_SHORT:
                 return addStateFunc(battle, this, actor, target, true, this.props.passive);
+            case Func.FuncType.GAIN_NP:
+            case Func.FuncType.LOSS_NP:
+                return adjustNpFunc(battle, this, actor, target);
             case Func.FuncType.SUB_STATE:
                 return subStateFunc(battle, this, actor, target);
             case Func.FuncType.EVENT_DROP_UP:
@@ -130,4 +142,5 @@ export default abstract class BattleFunc {
 
         return true;
     }
+
 }

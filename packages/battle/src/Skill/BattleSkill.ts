@@ -27,7 +27,7 @@ export default class BattleSkill {
                     func,
                     level: props.level,
                     passive: false,
-                }, null);
+                }, null, this);
             })
         };
     }
@@ -50,10 +50,10 @@ export default class BattleSkill {
     }
 
     clone(): BattleSkill {
-        return new BattleSkill(this.props, {
-            ...this.state,
-            funcs: this.state.funcs.map(func => func.clone()),
-        });
+        const skill = new BattleSkill(this.props, {...this.state});
+        skill.state.funcs = skill.state.funcs.map(func => func.clone(skill));
+
+        return skill;
     }
 
     cooldown(): number {

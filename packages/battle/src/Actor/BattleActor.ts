@@ -174,6 +174,22 @@ export class BattleActor {
         return this.props.face;
     }
 
+    gauge(): number {
+        return this.state.gauge % this.props.gaugeLineMax;
+    }
+
+    gaugeLevel(): number {
+        return Math.floor(this.state.gauge / this.props.gaugeLineMax);
+    }
+
+    gaugeMax(): number {
+        return this.props.gaugeLineMax;
+    }
+
+    gaugePercent(): number {
+        return this.gauge() / this.gaugeMax();
+    }
+
     hasTrait(trait: Trait.Trait | number): boolean {
         const traitId: number = typeof trait === "number" ? trait : trait.id;
 
