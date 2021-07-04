@@ -19,7 +19,7 @@ jobs:
         run: bash netlify_build.sh
       - name: Install worker dependencies
         working-directory: 'packages/db-og-worker'
-        run: npm install
+        run: npm ci
       - name: Publish to Cloudflare Worker
         working-directory: 'packages/db-og-worker'
         env:

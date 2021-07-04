@@ -39,14 +39,14 @@ class ErrorStatus extends React.Component<IProps> {
         document.title = 'Error - Atlas Academy DB'
         let message: string;
 
-        if (this.props.error === undefined) {
+        if (this.props.error === undefined || this.props.error.response === undefined) {
             message = 'Not Found';
-        } else if (this.props.error.response?.status === 500) {
+        } else if (this.props.error.response.status === 500) {
             message = 'Server Error';
-        } else if (this.props.error.response?.status === 404) {
+        } else if (this.props.error.response.status === 404) {
             message = 'Not Found';
         } else {
-            message = 'Code: ' + this.props.error.response?.status;
+            message = 'Code: ' + this.props.error.response.status;
         }
 
         if (

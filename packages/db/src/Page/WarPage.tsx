@@ -373,6 +373,13 @@ class WarPage extends React.Component<IProps, IState> {
             );
         });
 
+        const openingScript =
+            war.scriptId === "NONE" ? "" : (
+                <Link to={`/${this.props.region}/script/${war.scriptId}`}>
+                    {war.scriptId}
+                </Link>
+            );
+
         return (
             <div>
                 <h1 style={{ marginBottom: "1em" }}>
@@ -385,13 +392,7 @@ class WarPage extends React.Component<IProps, IState> {
                             Name: handleNewLine(war.longName),
                             Age: war.age,
                             Event: event,
-                            "Opening script": (
-                                <Link
-                                    to={`/${this.props.region}/script/${war.scriptId}`}
-                                >
-                                    {war.scriptId}
-                                </Link>
-                            ),
+                            "Opening Script": openingScript,
                             Banner: bannerImages,
                             BGM: <>{bgmPlayers}</>,
                             Raw: (

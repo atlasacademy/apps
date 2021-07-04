@@ -153,6 +153,8 @@ export enum CondType {
     LIMIT_COUNT_IMAGE_ABOVE = "limitCountImageAbove",
     LIMIT_COUNT_IMAGE_BELOW = "limitCountImageBelow",
     EVENT_TYPE_START_TIME_TO_END_DATE = "eventTypeStartTimeToEndDate",
+    EXIST_BOX_GACHA_SCRIPT_REPLACE_GIFT_ID = "existBoxGachaScriptReplaceGiftId",
+    NOT_EXIST_BOX_GACHA_SCRIPT_REPLACE_GIFT_ID = "notExistBoxGachaScriptReplaceGiftId",
 }
 
 export default CondType;

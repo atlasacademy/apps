@@ -198,6 +198,11 @@ export default function handleActionSection(region: Region, sections: FuncDescri
         sections.target.showing = true;
         sections.target.preposition = 'from';
         return
+    } else if (func.funcType === Func.FuncType.TRANSFORM_SERVANT) {
+        parts.push('transform into');
+        sections.target.showing = false;
+        sections.amount.preposition = "";
+        return
     }
 
     switch (func.funcType) {

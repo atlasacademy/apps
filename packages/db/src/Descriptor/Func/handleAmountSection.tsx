@@ -1,6 +1,7 @@
 import {Buff, DataVal, Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
 import BuffValueDescription from "../BuffValueDescription";
+import EntityReferenceDescriptor from "../EntityReferenceDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
 import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
 import TraitDescription from "../TraitDescription";
@@ -83,6 +84,8 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         || func.funcType === Func.FuncType.USER_EQUIP_EXP_UP
     )) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
+    } else if (func.funcType === Func.FuncType.TRANSFORM_SERVANT && dataVal.Value !== undefined) {
+        parts.push(<EntityReferenceDescriptor region={region} svtId={dataVal.Value} />);
     } else if (func.buffs[0]?.type === Buff.BuffType.NPATTACK_PREV_BUFF) {
         if (typeof dataVal.SkillID !== "number") {
             section.showing = false;
