@@ -86,6 +86,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 gender: searchParams.getAll('gender') as Entity.Gender[],
                 attribute: searchParams.getAll('attribute') as Attribute.Attribute[],
                 trait: searchParams.getAll('trait').map(num => parseInt(num)),
+                notTrait: searchParams.getAll('notTrait').map(num => parseInt(num)),
             }
         } else if (props.traitSelected) {
             this.state = {
