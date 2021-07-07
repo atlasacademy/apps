@@ -54,6 +54,13 @@ const ScriptDescriptor = (props: {
         default:
             defaultScriptType = "Script";
     }
+    if (props.scriptType === "") {
+        return (
+            <Link to={`/${props.region}/script/${props.scriptId}`}>
+                {props.scriptName ?? props.scriptId}
+            </Link>
+        );
+    }
     return (
         <>
             {props.scriptType ?? defaultScriptType}:&nbsp;

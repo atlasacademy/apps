@@ -7,7 +7,7 @@ const ServantRelatedQuests = (props: {
 }) => {
     if (props.questIds.length > 0) {
         return (
-            <div style={{ marginBottom: "2em" }}>
+            <>
                 <h3>Servant Quest</h3>
                 <ul>
                     {props.questIds.map((questId) => (
@@ -19,7 +19,7 @@ const ServantRelatedQuests = (props: {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </>
         );
     } else {
         return null;

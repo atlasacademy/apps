@@ -267,7 +267,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                             }
                             onClick={(_) => this.toggleReleaseOnlyFilter()}
                         >
-                            Can buy in my room
+                            Can be bought in my room
                         </Button>
                     </Col>
                     <Col
@@ -308,7 +308,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                             </th>
                             <th>Name</th>
                             <th>Unlock Cost</th>
-                            <th style={{ textAlign: "center" }}>Player</th>
+                            <th>Player</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -351,7 +351,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                         <Link to={route}>{showName}</Link>
                                     </td>
                                     <td>{shopDetail}</td>
-                                    <td style={{ textAlign: "center" }}>
+                                    <td>
                                         <BgmDescriptor
                                             region={this.props.region}
                                             bgm={bgm}

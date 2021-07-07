@@ -25,6 +25,7 @@ import ServantRelatedQuests from "./Servant/ServantRelatedQuests";
 import ServantCostumeDetails from "./Servant/ServantCostumeDetails";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
 import ServantTraits from "./Servant/ServantTraits";
+import ServantValentine from "./Servant/ServantValentine";
 import ServantVoiceLines from "./Servant/ServantVoiceLines";
 import VoiceActorDescriptor from "../Descriptor/VoiceActorDescriptor";
 import IllustratorDescriptor from "../Descriptor/IllustratorDescriptor";
@@ -150,7 +151,7 @@ class ServantPage extends React.Component<IProps, IState> {
             <div id={'servant'}>
                 <ServantPicker region={this.props.region}
                                servants={this.state.servants}
-                               id={this.state.servant.collectionNo}/>
+                               id={servant.collectionNo}/>
                 <hr style={{ marginBottom: "1rem" }}/>
 
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 3 }}>
@@ -219,7 +220,7 @@ class ServantPage extends React.Component<IProps, IState> {
                     ))}
                     <Tab eventKey={'noble-phantasms'} title={'NPs'}>
                         <br/>
-                        {this.state.servant.noblePhantasms
+                        {servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
                             // Card change NPs have 0 priority.
                             // Card change NPs are sorted by ascending ID number so the main NP is on top.
@@ -293,17 +294,17 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantStatGrowth region={this.props.region} servant={servant}/>
                     </Tab>
                     <Tab eventKey={'lore'} title={'Profile'}>
-                        <br/>
-                        <Alert variant="success" style={{ lineHeight: "2em" }}>
+                        <Alert variant="success" style={{ lineHeight: "2em", margin: "1em 0" }}>
                             <IllustratorDescriptor
                                 region={this.props.region}
-                                illustrator={this.state.servant.profile?.illustrator}/>
+                                illustrator={servant.profile?.illustrator}/>
                             <br/>
-                            <VoiceActorDescriptor region={this.props.region} cv={this.state.servant.profile?.cv}/>
+                            <VoiceActorDescriptor region={this.props.region} cv={servant.profile?.cv}/>
                         </Alert>
                         <ServantBondGrowth bondGrowth={servant.bondGrowth} />
                         <ServantProfileStats region={this.props.region} profile={servant.profile}/>
                         <ServantRelatedQuests region={this.props.region} questIds={servant.relateQuestIds}/>
+                        <ServantValentine region={this.props.region} servant={servant}/>
                         <ServantCostumeDetails costumes={servant.profile?.costume}/>
                         <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []}/>
                     </Tab>

@@ -1,10 +1,11 @@
 import { CraftEssence, Region } from "@atlasacademy/api-connector";
 import React from "react";
-import {Host} from "../../Api";
+import { Host } from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import EntityReferenceDescriptor from "../../Descriptor/EntityReferenceDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
+import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 
 interface IProps {
     region: Region;
@@ -43,6 +44,18 @@ class CraftEssenceMainData extends React.Component<IProps> {
                     svtId={craftEssence.valentineEquipOwner}
                 />
             );
+
+        if (craftEssence.valentineScript.length > 0) {
+            const valentineScript = craftEssence.valentineScript[0];
+            craftEssenceData["Valentine Script"] = (
+                <ScriptDescriptor
+                    region={this.props.region}
+                    scriptId={valentineScript.scriptId}
+                    scriptName={valentineScript.scriptName}
+                    scriptType=""
+                />
+            );
+        }
 
         return (
             <div>

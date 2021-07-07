@@ -1,10 +1,10 @@
 # Atlas Academy DB
 
-![Docker](https://github.com/atlasacademy/apps/workflows/Docker/badge.svg)
+![Docker](https://github.com/atlasacademy/apps/workflows/Docker/badge.svg) ![Cloudflare Worker Publish](https://github.com/atlasacademy/apps/workflows/Cloudflare%20Worker%20Publish/badge.svg)
 
 Source code for the Atlas Academy DB at https://apps.atlasacademy.io/db
 
-You can join our Discod to discuss the development. Feel free to make a Pull request or open an issue but we are usually more responsive on Discord.
+You can join our Discod to discuss the development. Feel free to make pull request or open an issue but we are usually more responsive on Discord.
 
 [![Discord server invite](https://discordapp.com/api/guilds/502554574423457812/embed.png)](https://discord.gg/TKJmuCR)
 

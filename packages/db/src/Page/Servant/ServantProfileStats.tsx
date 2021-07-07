@@ -12,7 +12,7 @@ class ServantProfileStats extends React.Component<IProps> {
         const stats = this.props.profile?.stats;
 
         return (
-            <div style={{ marginBottom: "1em" }}>
+            <>
                 <h3>Stats</h3>
 
                 <Table responsive>
@@ -37,7 +37,7 @@ class ServantProfileStats extends React.Component<IProps> {
                     </tr>
                     </tbody>
                 </Table>
-            </div>
+            </>
         );
     }
 }

@@ -11,7 +11,7 @@ const ServantCostumeDetails = (props: {
         Object.values(props.costumes).length > 0
     ) {
         return (
-            <div style={{ marginBottom: "1em" }}>
+            <>
                 <h3>Costumes</h3>
                 <Table responsive>
                     <thead>
@@ -33,7 +33,7 @@ const ServantCostumeDetails = (props: {
                         ))}
                     </tbody>
                 </Table>
-            </div>
+            </>
         );
     } else {
         return null;

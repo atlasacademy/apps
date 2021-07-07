@@ -90,7 +90,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                 data={{
                     ID: bgm.id,
                     Name: showName,
-                    "Released in shop": toTitleCase(
+                    "Can be bought in my room": toTitleCase(
                         (!bgm.notReleased).toString()
                     ),
                     Player: (

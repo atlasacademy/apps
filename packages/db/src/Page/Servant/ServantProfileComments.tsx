@@ -13,7 +13,7 @@ interface IProps {
 class ServantProfileComments extends React.Component<IProps> {
     render() {
         return (
-            <div>
+            <>
                 <h3>Profile</h3>
 
                 <Table>
@@ -36,7 +36,7 @@ class ServantProfileComments extends React.Component<IProps> {
                     })}
                     </tbody>
                 </Table>
-            </div>
+            </>
         );
     }
 }

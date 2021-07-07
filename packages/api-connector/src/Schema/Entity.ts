@@ -79,6 +79,12 @@ export interface EntityLevelUpMaterialProgression {
     [key: string]: EntityLevelUpMaterials;
 }
 
+export interface ValentineScript {
+    scriptId: string;
+    script: string;
+    scriptName: string;
+}
+
 export interface Entity {
     id: number;
     collectionNo: number;
@@ -129,6 +135,7 @@ export interface Entity {
     bondGrowth: number[];
     bondEquip: number;
     valentineEquip: number[];
+    valentineScript: ValentineScript[];
     ascensionMaterials: EntityLevelUpMaterialProgression;
     skillMaterials: EntityLevelUpMaterialProgression;
     costumeMaterials: EntityLevelUpMaterialProgression;
