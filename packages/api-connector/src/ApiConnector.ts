@@ -146,6 +146,7 @@ type EntitySearchOptions = {
     gender?: Gender[];
     attribute?: Attribute[];
     trait?: number[];
+    notTrait?: number[];
     voiceCondSvt?: number[];
     illustrator?: string;
     cv?: string;

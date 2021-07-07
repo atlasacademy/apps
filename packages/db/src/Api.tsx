@@ -276,6 +276,7 @@ class Api {
         gender?: Entity.Gender[],
         attribute?: Attribute.Attribute[],
         trait?: number[],
+        notTrait?: number[],
         voiceCondSvt?: number[],
         illustrator?: string,
         cv?: string
@@ -287,6 +288,7 @@ class Api {
             gender,
             attribute,
             trait,
+            notTrait,
             voiceCondSvt,
             illustrator,
             cv,

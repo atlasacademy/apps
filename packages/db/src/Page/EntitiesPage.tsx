@@ -54,6 +54,7 @@ interface IState {
     gender?: Entity.Gender[];
     attribute?: Attribute.Attribute[];
     trait: number[];
+    notTrait: number[];
     illustrator?: string;
     cv?: string;
 }
@@ -69,7 +70,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
             cvList: [],
             searching: false,
             entities: [],
-            trait: []
+            trait: [],
+            notTrait: []
         };
 
         if (props.location.search !== "") {
@@ -154,6 +156,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             gender: this.state.gender,
             attribute: this.state.attribute,
             trait: this.state.trait,
+            notTrait: this.state.notTrait,
             illustrator: this.state.illustrator,
             cv: this.state.cv
         }).toString();
@@ -171,6 +174,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             && (this.state.gender === undefined || this.state.gender.length === 0)
             && (this.state.attribute === undefined || this.state.attribute.length === 0)
             && this.state.trait.length === 0
+            && this.state.notTrait.length === 0
         ) {
             this.setState({entities: []});
             this.props.history.replace(`/${this.props.region}/entities`);
@@ -187,6 +191,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 this.state.gender,
                 this.state.attribute,
                 this.state.trait,
+                this.state.notTrait,
                 undefined,
                 this.state.illustrator,
                 this.state.cv
@@ -292,7 +297,16 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                        traitList={this.state.traitList}
                                        initialTraits={this.state.trait}
                                        onUpdate={(trait => {
-                                           this.setState({trait: trait});
+                                           this.setState({trait});
+                                       })}/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Doesn't have traits</Form.Label>
+                        <TraitsSelector region={this.props.region}
+                                       traitList={this.state.traitList}
+                                       initialTraits={this.state.notTrait}
+                                       onUpdate={(notTrait => {
+                                           this.setState({notTrait});
                                        })}/>
                     </Form.Group>
                     <Form.Group>
