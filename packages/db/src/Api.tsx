@@ -295,6 +295,10 @@ class Api {
         });
     }
 
+    static searchEntityVoiceCondSvt(voiceCondSvt: number[]) {
+        return apiConnector.searchEntity({ voiceCondSvt });
+    }
+
     static searchFunc(
         popupText?: string,
         type?: Func.FuncType[],

@@ -26,15 +26,7 @@ export default function ServantVoiceLines(
 ){
     let [relatedVoiceSvts, setRelatedVoiceSvts] = useState<Entity.EntityBasic[]>(null as any);
     useEffect(() => {
-        Api.searchEntity(
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            [props.servant.collectionNo]
-        ).then(s => setRelatedVoiceSvts(s));
+        Api.searchEntityVoiceCondSvt([props.servant.collectionNo]).then(s => setRelatedVoiceSvts(s));
     }, [props.servant])
 
     let { profile, ascensionAdd } = props.servant;
