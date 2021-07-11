@@ -1,12 +1,11 @@
 name: Docker
 
 on:
-  push:
-    # Publish `master` as Docker `latest` image.
-    branches:
-      - master
-    paths-ignore:
-      - 'packages/db-og-worker/**'
+  # push:
+  #   branches:
+  #     - master
+  #   paths-ignore:
+  #     - 'packages/db-og-worker/**'
   workflow_dispatch:
 
 env:
