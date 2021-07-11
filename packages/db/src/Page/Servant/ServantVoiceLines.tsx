@@ -178,12 +178,12 @@ export default function ServantVoiceLines(
                 <VoiceActorDescriptor region={props.region} cv={props.servant.profile?.cv}/>
             </Alert>
             <Alert variant="success">
-                {relatedVoiceSvts
+                {relatedVoiceSvts !== null
                     ? relatedVoiceSvts.length > 0
                     ? `Servants with voice lines about ${props.servant.name}: `
                     : `There is no voice line about ${props.servant.name} from other servants.`
                     : 'Fetching related voice line data ...'}
-                {(relatedVoiceSvts && relatedVoiceSvts.length > 0)
+                {(relatedVoiceSvts !== null && relatedVoiceSvts.length > 0)
                     ? mergeElements(relatedVoiceSvts.map(
                         svt => <EntityDescriptor key={svt.id} region={props.region} entity={svt} tab={"voices"} />
                     ), ', ')

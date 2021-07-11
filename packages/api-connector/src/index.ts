@@ -31,6 +31,7 @@ import * as Profile from "./Schema/Profile";
 import * as Quest from "./Schema/Quest";
 import * as QuestEnemy from "./Schema/QuestEnemy";
 import * as Servant from "./Schema/Servant";
+import * as SupportServant from "./Schema/SupportServant";
 import * as Shop from "./Schema/Shop";
 import * as Skill from "./Schema/Skill";
 import * as Trait from "./Schema/Trait";
@@ -75,6 +76,7 @@ export {
     Quest,
     QuestEnemy,
     Servant,
+    SupportServant,
     Shop,
     Skill,
     Trait,

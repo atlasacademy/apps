@@ -4,6 +4,7 @@ import { Bgm } from "./Bgm";
 import { Gift } from "./Gift";
 import { Item } from "./Item";
 import { QuestEnemy } from "./QuestEnemy";
+import { SupportServant } from "./SupportServant";
 import { Trait } from "./Trait";
 
 export enum QuestConsumeType {
@@ -86,5 +87,6 @@ export interface QuestPhase extends Quest {
     bond: number;
     scripts: { scriptId: string; script: string }[];
     messages: QuestMessage[];
+    supportServants: SupportServant[];
     stages: Stage[];
 }

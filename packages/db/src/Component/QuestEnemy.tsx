@@ -29,7 +29,9 @@ type EnemyLookUp = Map<string, QuestEnemy.QuestEnemy>;
 export const hashEnemy = (enemy: QuestEnemy.QuestEnemy) =>
     `${enemy.deck}-${enemy.npcId}`;
 
-function renderDoubleRow(content: [RenderableRow, RenderableRow]): Renderable {
+export function renderDoubleRow(
+    content: [RenderableRow, RenderableRow]
+): Renderable {
     return (
         <tr>
             <th>{content[0].title}</th>
@@ -40,7 +42,7 @@ function renderDoubleRow(content: [RenderableRow, RenderableRow]): Renderable {
     );
 }
 
-function renderSpanningRow(content: RenderableRow): Renderable {
+export function renderSpanningRow(content: RenderableRow): Renderable {
     return (
         <tr>
             <th>{content.title}</th>
@@ -49,7 +51,7 @@ function renderSpanningRow(content: RenderableRow): Renderable {
     );
 }
 
-function describeEnemySkill(
+export function describeEnemySkill(
     region: Region,
     skillId: number,
     skillLv: number,
@@ -70,7 +72,7 @@ function describeEnemySkill(
     }
 }
 
-function describeEnemyNoblePhantasm(
+export function describeEnemyNoblePhantasm(
     region: Region,
     noblePhantasmId: number,
     noblePhantasmLv: number,

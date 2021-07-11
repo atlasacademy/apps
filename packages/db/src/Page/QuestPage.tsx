@@ -6,10 +6,12 @@ import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import Api, { Host } from "../Api";
 import ClassIcon from "../Component/ClassIcon";
+import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import QuestStage from "../Component/QuestStage";
+import SupportServantTables from "../Component/SupportServant";
 import RawDataViewer from "../Component/RawDataViewer";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
@@ -294,6 +296,23 @@ class QuestPage extends React.Component<IProps, IState> {
                             />
                         )}
                     </Alert>
+                ) : null}
+                {quest.supportServants.length > 0 ? (
+                    <>
+                        {renderCollapsibleContent({
+                            title: `Support Servant${
+                                quest.supportServants.length > 1 ? "s" : ""
+                            }`,
+                            content: (
+                                <SupportServantTables
+                                    region={this.props.region}
+                                    supportServants={quest.supportServants}
+                                />
+                            ),
+                            subheader: false,
+                            initialOpen: false,
+                        })}
+                    </>
                 ) : null}
                 {quest.stages.length > 0 ? (
                     <Tabs

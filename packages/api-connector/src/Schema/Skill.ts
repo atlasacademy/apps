@@ -1,13 +1,13 @@
-import {CommandCodeBasic, CommandCode} from "./CommandCode";
-import {EntityBasic, Entity} from "./Entity";
-import {Func} from "./Func";
-import {MysticCodeBasic, MysticCode} from "./MysticCode";
-import {Trait} from "./Trait";
-import {AiType} from "./Ai";
+import { CommandCodeBasic, CommandCode } from "./CommandCode";
+import { EntityBasic, Entity } from "./Entity";
+import { Func } from "./Func";
+import { MysticCodeBasic, MysticCode } from "./MysticCode";
+import { Trait } from "./Trait";
+import { AiType } from "./Ai";
 
 export enum SkillType {
-    ACTIVE = 'active',
-    PASSIVE = 'passive'
+    ACTIVE = "active",
+    PASSIVE = "passive",
 }
 
 export interface SkillScript {
@@ -42,11 +42,11 @@ export interface SkillBasic {
     icon?: string;
     reverse?: {
         basic?: {
-            servant?: EntityBasic[],
-            MC?: MysticCodeBasic[],
-            CC?: CommandCodeBasic[],
-        }
-    }
+            servant?: EntityBasic[];
+            MC?: MysticCodeBasic[];
+            CC?: CommandCodeBasic[];
+        };
+    };
 }
 
 export interface Skill extends SkillBasic {
@@ -60,6 +60,8 @@ export interface Skill extends SkillBasic {
     priority?: number;
     condQuestId?: number;
     condQuestPhase?: number;
+    condLv: number;
+    condLimitCount: number;
     icon?: string;
     coolDown: number[];
     actIndividuality: Trait[];
@@ -69,14 +71,14 @@ export interface Skill extends SkillBasic {
     functions: Func[];
     reverse?: {
         basic?: {
-            servant?: EntityBasic[],
-            MC?: MysticCodeBasic[],
-            CC?: CommandCodeBasic[],
-        }
+            servant?: EntityBasic[];
+            MC?: MysticCodeBasic[];
+            CC?: CommandCodeBasic[];
+        };
         nice?: {
-            servant?: Entity[],
-            MC?: MysticCode[],
-            CC?: CommandCode[],
-        }
-    }
+            servant?: Entity[];
+            MC?: MysticCode[];
+            CC?: CommandCode[];
+        };
+    };
 }
