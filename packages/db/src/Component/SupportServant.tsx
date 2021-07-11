@@ -62,11 +62,14 @@ const SupportServantMainData = (props: {
 }) => {
     const { region, supportServant } = props;
     const craftEssense = supportServant.equips[0];
-    const craftEsseseSkills = craftEssense.equip.skills.filter(
-        (skill) =>
-            craftEssense.lv >= skill.condLv &&
-            craftEssense.limitCount >= skill.condLimitCount
-    );
+    const craftEsseseSkills =
+        craftEssense === undefined
+            ? []
+            : craftEssense.equip.skills.filter(
+                  (skill) =>
+                      craftEssense.lv >= skill.condLv &&
+                      craftEssense.limitCount >= skill.condLimitCount
+              );
     return (
         <Table bordered responsive className="quest-supportServant-data-table">
             <tbody>
@@ -139,7 +142,7 @@ const SupportServantMainData = (props: {
                           ),
                       })
                     : null}
-                {supportServant.skills.skillId3 !== 0
+                {craftEsseseSkills.length > 0
                     ? renderSpanningRow({
                           title: "Craft Essense Skills",
                           content: mergeElements(
@@ -170,24 +173,28 @@ const SupportServantSubData = (props: {
     return (
         <Table bordered responsive className="quest-supportServant-data-table">
             <tbody>
-                {renderSpanningRow({
-                    title: "Traits",
-                    content: mergeElements(traitDescriptions, <br />),
-                })}
-                {renderSpanningRow({
-                    title: "Release Conditions",
-                    content: mergeElements(
-                        supportServant.releaseConditions.map((cond) => (
-                            <CondTargetValueDescriptor
-                                region={region}
-                                cond={cond.type}
-                                target={cond.targetId}
-                                value={cond.value}
-                            />
-                        )),
-                        <br />
-                    ),
-                })}
+                {traitDescriptions.length > 0
+                    ? renderSpanningRow({
+                          title: "Traits",
+                          content: mergeElements(traitDescriptions, ", "),
+                      })
+                    : null}
+                {supportServant.releaseConditions.length > 0
+                    ? renderSpanningRow({
+                          title: "Release Conditions",
+                          content: mergeElements(
+                              supportServant.releaseConditions.map((cond) => (
+                                  <CondTargetValueDescriptor
+                                      region={region}
+                                      cond={cond.type}
+                                      target={cond.targetId}
+                                      value={cond.value}
+                                  />
+                              )),
+                              <br />
+                          ),
+                      })
+                    : null}
             </tbody>
         </Table>
     );
