@@ -62,7 +62,8 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                 {shopEnabled
                     ? (amounts.size ? 'Total amount for chosen items :' : 'No item was chosen. Choose at least one to get calculations.')
                     : 'Total currency amount needed to clear the shop :'}&nbsp;
-                {[...amounts].map(
+                {[...amounts]
+                    .map(
                     ([itemId, amount]) => (
                         <>
                             {amount} <IconLink region={region} item={items.get(itemId)!} />
@@ -144,7 +145,11 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                                                         min={0}
                                                         max={shop.limitNum || undefined}
                                                         onChange={event => {
-                                                            filters.set(shop.id, +event.target.value);
+                                                            let value = +event.target.value;
+                                                            if (value)
+                                                                filters.set(shop.id, value);
+                                                            else
+                                                                filters.delete(shop.id);
                                                             onChange?.(filters);
                                                         }}/>
                                                 </InputGroup>
