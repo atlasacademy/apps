@@ -1,6 +1,6 @@
 import {Language} from "@atlasacademy/api-connector";
 import React from "react";
-import {Form} from "react-bootstrap";
+import {Button, ButtonGroup, Form} from "react-bootstrap";
 import Manager from "./Manager";
 import {Theme} from "./Theme";
 
@@ -22,8 +22,8 @@ class SettingForm extends React.Component<IProps> {
         Manager.setTheme(value);
     }
 
-    updateChangelogVisibleOnly(value : number) {
-        Manager.setChangelogVisibleOnly(!!+value);
+    updateShopPlannerEnabled(value : boolean) {
+        Manager.setShopPlannerEnabled(value);
     }
 
     render() {
@@ -49,6 +49,13 @@ class SettingForm extends React.Component<IProps> {
                         </Form.Control>
                     </Form.Group>
                 </Form>
+                <ButtonGroup style={{ width: '100%' }}>
+                    <Button
+                        variant={Manager.shopPlannerEnabled() ? 'success' : 'secondary'}
+                        onClick={() => this.updateShopPlannerEnabled(!Manager.shopPlannerEnabled())}>
+                        Shop planner : {Manager.shopPlannerEnabled() ? 'Enabled' : 'Disabled'}
+                    </Button>
+                </ButtonGroup>
             </div>
         );
     }

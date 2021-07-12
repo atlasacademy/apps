@@ -5,7 +5,8 @@ import {Theme} from "./Theme";
 const languageKey = 'language',
     themeKey = 'aa-db.theme',
     changelogVisibleOnly = 'changelog.visibleOnly',
-    changelogLocalTime = 'changelog.localTime';
+    changelogLocalTime = 'changelog.localTime',
+    shopPlannerEnabled = 'shop.planner.enabled'
 
 const callbacks: Function[] = [];
 
@@ -72,6 +73,15 @@ class Manager {
             return;
 
         window.localStorage.setItem(themeKey, theme);
+        Manager.triggerCallbacks();
+    }
+
+    static shopPlannerEnabled() : boolean {
+        return !!+(window.localStorage.getItem(shopPlannerEnabled) ?? 0);
+    }
+
+    static setShopPlannerEnabled(plannerEnabled : boolean) {
+        window.localStorage.setItem(shopPlannerEnabled, `${+!!plannerEnabled}`);
         Manager.triggerCallbacks();
     }
 

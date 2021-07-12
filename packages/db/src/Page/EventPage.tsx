@@ -16,9 +16,8 @@ import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
 import PointBuffDescriptor from "../Descriptor/PointBuffDescriptor";
-import ShopPurchaseDescriptor from "../Descriptor/ShopPurchaseDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
-import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
+import { mergeElements } from "../Helper/OutputHelper";
 import { colorString, interpolateString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import "./EventPage.css";
@@ -26,7 +25,6 @@ import {
     Event,
     Item,
     Region,
-    Shop,
     Mission,
     Quest,
     Servant,
@@ -34,8 +32,8 @@ import {
     War,
     Gift,
 } from "@atlasacademy/api-connector";
-import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { getEventStatus } from "../Helper/TimeHelper";
+import ShopTab from "./Event/Shop";
 
 interface TabInfo {
     type: "ladder" | "shop" | "mission" | "tower" | "lottery";
@@ -60,23 +58,10 @@ interface IState {
     questCache: Map<number, Quest.Quest>;
     enums?: EnumList;
     missionRefs: Map<number, React.Ref<any>>;
-}
 
-const ScriptLink = (props: { region: Region; shop: Shop.Shop }) => {
-    const { region, shop } = props;
-    if (shop.scriptId === undefined) return null;
-    return (
-        <>
-            <br />
-            <ScriptDescriptor
-                region={region}
-                scriptId={shop.scriptId}
-                scriptName={shop.scriptName}
-                scriptType="Valentine Script"
-            />
-        </>
-    );
-};
+    // shop slot => (item ID, set count)
+    shopFilters: Map<number, Map<number, number>>;
+}
 
 class EventPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -89,6 +74,7 @@ class EventPage extends React.Component<IProps, IState> {
             itemCache: new Map(),
             questCache: new Map(),
             missionRefs: new Map(),
+            shopFilters: new Map()
         };
     }
 
@@ -437,82 +423,6 @@ class EventPage extends React.Component<IProps, IState> {
         );
     }
 
-    renderShopTab(
-        region: Region,
-        shops: Shop.Shop[],
-        itemMap: Map<number, Item.Item>
-    ) {
-        return (
-            <Table hover responsive className="shopTable">
-                <thead>
-                    <tr>
-                        <th style={{ textAlign: "left" }}>Detail</th>
-                        <th>Currency</th>
-                        <th>Cost</th>
-                        <th>Item</th>
-                        <th>Set</th>
-                        <th>Limit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {shops
-                        .sort((a, b) => a.priority - b.priority)
-                        .map((shop) => {
-                            return (
-                                <tr key={shop.id}>
-                                    <td style={{ minWidth: "10em" }}>
-                                        <b>{shop.name}</b>
-                                        <div style={{ fontSize: "0.75rem" }}>
-                                            {handleNewLine(
-                                                colorString(shop.detail)
-                                            )}
-                                            <ScriptLink
-                                                region={region}
-                                                shop={shop}
-                                            />
-                                        </div>
-                                    </td>
-                                    <td style={{ textAlign: "center" }}>
-                                        {shop.payType !== Shop.PayType.FREE ? (
-                                            <Link
-                                                to={`/${region}/item/${shop.cost.item.id}`}
-                                            >
-                                                <ItemIcon
-                                                    region={region}
-                                                    item={shop.cost.item}
-                                                    height={40}
-                                                />
-                                            </Link>
-                                        ) : null}
-                                    </td>
-                                    <td style={{ textAlign: "center" }}>
-                                        {shop.payType !== Shop.PayType.FREE
-                                            ? shop.cost.amount.toLocaleString()
-                                            : null}
-                                    </td>
-                                    <td>
-                                        <ShopPurchaseDescriptor
-                                            region={region}
-                                            shop={shop}
-                                            itemMap={itemMap}
-                                        />
-                                    </td>
-                                    <td style={{ textAlign: "center" }}>
-                                        {shop.setNum.toLocaleString()}
-                                    </td>
-                                    <td style={{ textAlign: "center" }}>
-                                        {shop.limitNum === 0
-                                            ? "Unlimited"
-                                            : shop.limitNum.toLocaleString()}
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                </tbody>
-            </Table>
-        );
-    }
-
     renderLotteryBox(
         region: Region,
         boxes: Event.EventLotteryBox[],
@@ -645,11 +555,17 @@ class EventPage extends React.Component<IProps, IState> {
                     itemMap
                 );
             case "shop":
-                return this.renderShopTab(
-                    region,
-                    event.shop.filter((shop) => shop.slot === tab.id),
-                    itemMap
-                );
+                let { shopFilters } = this.state;
+                return <ShopTab
+                    region={region}
+                    shops={event.shop.filter((shop) => shop.slot === tab.id)}
+                    itemMap={itemMap}
+                    filters={shopFilters.get(tab.id) ?? new Map()}
+                    onChange={records => {
+                        shopFilters.set(tab.id, records);
+                        this.setState({ shopFilters });
+                    }}
+                    />;
             case "mission":
                 return this.renderMissionTab(
                     region,
