@@ -173,6 +173,7 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                     )),
                     " "
                 ),
+                "Battle BG ID": quest.battleBgId,
                 Raw: (
                     <Row>
                         <Col>

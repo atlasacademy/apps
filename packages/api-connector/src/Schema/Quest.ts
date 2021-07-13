@@ -85,6 +85,7 @@ export interface QuestPhase extends Quest {
     qp: number;
     exp: number;
     bond: number;
+    battleBgId: number;
     scripts: { scriptId: string; script: string }[];
     messages: QuestMessage[];
     supportServants: SupportServant[];
