@@ -60,14 +60,15 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
             <br />
             <Alert variant="success">
                 {shopEnabled
-                    ? (amounts.size ? 'Total amount for chosen items :' : 'No item was chosen. Choose at least one to get calculations.')
-                    : 'Total currency amount needed to clear the shop :'}&nbsp;
+                    ? (amounts.size ? 'Total amount for chosen items: ' : 'No item was chosen. Choose at least one to get calculations.')
+                    : 'Total currency amount needed to clear the shop: '}
                 {[...amounts]
+                    .filter(([_, amount]) => amount)
                     .map(
                     ([itemId, amount]) => (
-                        <>
-                            {amount} <IconLink region={region} item={items.get(itemId)!} />
-                        </>
+                        <span style={{ whiteSpace: 'nowrap' }}>
+                            <b>{amount.toLocaleString()}</b> <IconLink region={region} item={items.get(itemId)!} />&nbsp;
+                        </span>
                     )
                 )}
             </Alert>
