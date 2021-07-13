@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Alert, Button, Form, InputGroup, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ItemIcon from "../../Component/ItemIcon";
@@ -39,7 +40,9 @@ interface IProps {
 }
 
 const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
-    let shopEnabled = Manager.shopPlannerEnabled();
+    let [forceEnablePlanner, setForceEnablePlanner] = useState<boolean | undefined>(undefined);
+
+    let shopEnabled = forceEnablePlanner === undefined ? Manager.shopPlannerEnabled() : forceEnablePlanner;
     let counted = shops
         .filter(shop => shopEnabled ? filters.has(shop.id) : true)
         .map(shop => [
@@ -71,6 +74,11 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                         </span>
                     )
                 )}
+                <div style={{ display: 'inline' }}>
+                    <Button variant={shopEnabled ? 'dark' : 'success'} onClick={() => setForceEnablePlanner(!forceEnablePlanner)}>
+                        {shopEnabled ? 'Disable planner' : 'Enable planner'}
+                    </Button>
+                </div>
             </Alert>
             <Table hover responsive className="shopTable">
                 <thead>
