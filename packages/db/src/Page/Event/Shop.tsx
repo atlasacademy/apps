@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Alert, Button, ButtonGroup, Form, InputGroup, Table } from "react-bootstrap";
+import { Alert, Button, ButtonGroup, Dropdown, Form, InputGroup, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { faEdit, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ItemIcon from "../../Component/ItemIcon";
 import ShopPurchaseDescriptor from "../../Descriptor/ShopPurchaseDescriptor";
 import { handleNewLine } from "../../Helper/OutputHelper";
@@ -8,6 +10,7 @@ import { colorString } from "../../Helper/StringHelper";
 import Manager from "../../Setting/Manager";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import { Item, Region, Shop } from "@atlasacademy/api-connector";
+import "./Shop.css";
 
 const ScriptLink = (props: { region: Region; shop: Shop.Shop }) => {
     const { region, shop } = props;
@@ -43,6 +46,8 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
     let [forceEnablePlanner, setForceEnablePlanner] = useState<boolean | undefined>(undefined);
     let [itemFilters, setItemFilters] = useState(new Set<number>());
 
+    const allItems = new Map(shops.map(shop => [shop.cost.item.id, shop.cost.item]));
+
     let shopEnabled = forceEnablePlanner === undefined ? Manager.shopPlannerEnabled() : forceEnablePlanner;
     let counted = shops
         .filter(shop => shopEnabled ? filters.has(shop.id) : true)
@@ -65,45 +70,26 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
 
     return (
         <>
-            <br />
-            <Alert variant="success">
-                {shopEnabled
-                    ? (amounts.size ? 'Total amount for chosen items: ' : 'No item was chosen. Choose at least one to get calculations.')
-                    : 'Total currency amount needed to clear the shop: '}
-                <ButtonGroup>
+            <Alert variant="success" style={{ margin: "1em 0", display: "flex" }}>
+                <div style={{ flexGrow: 1 }}>
+                    {shopEnabled
+                        ? (amounts.size > 0 ? 'Total amount for chosen items: ' : 'No item was chosen. Choose at least one to get calculations.')
+                        : 'Total currency amount needed to clear the shop: '}
                     {[...amounts]
-                        .filter(([_, amount]) => amount)
-                        .map(
-                        ([itemId, amount]) => {
-                            let content = (
-                                <span style={{ whiteSpace: 'nowrap' }}>
-                                    <b>{amount.toLocaleString()}</b> <IconLink region={region} item={items.get(itemId)!} />
-                                </span>
-                            )
-                            if (shopEnabled)
-                                return (
-                                    <Button
-                                        className="shadow-none"
-                                        variant={itemFilters.has(itemId) ? 'outline-dark' : 'light'}
-                                        style={{ backgroundColor: 'transparent', color: 'unset', outline: 'none' }} size="sm"
-                                        onClick={() => {
-                                            let _new = new Set(itemFilters);
-                                            if (_new.has(itemId))
-                                                _new.delete(itemId);
-                                            else
-                                                _new.add(itemId);
-                                            setItemFilters(_new);
-                                        }}>
-                                        {content}
-                                    </Button>
-                                )
-                            return content;
-                        }
-                    )}
-                </ButtonGroup>
-                <div style={{ display: 'inline' }}>
+                        .filter(([_, amount]) => amount > 0)
+                        .map(([itemId, amount]) => (
+                            <span style={{ whiteSpace: 'nowrap', paddingRight: '1ch' }} key={itemId}>
+                                <IconLink region={region} item={items.get(itemId)!} />
+                                <b>x{amount.toLocaleString()}</b>
+                            </span>
+                    ))}
+                </div>
+                <div style={{ flexBasis: "auto", paddingLeft: "10px" }}>
                     <Button variant={shopEnabled ? 'dark' : 'success'} onClick={() => setForceEnablePlanner(!forceEnablePlanner)}>
-                        {shopEnabled ? 'Disable planner' : 'Enable planner'}
+                        <FontAwesomeIcon
+                            icon={faEdit}
+                            title={shopEnabled ? 'Disable planner' : 'Enable planner'}
+                        />
                     </Button>
                 </div>
             </Alert>
@@ -111,12 +97,60 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                 <thead>
                     <tr>
                         <th style={{ textAlign: "left" }}>Detail</th>
-                        <th>Currency</th>
+                        <th style={{ whiteSpace: "nowrap" }}>
+                            Currency&nbsp;
+                            <Dropdown as={ButtonGroup}>
+                            <Dropdown.Toggle size="sm">
+                                <FontAwesomeIcon
+                                    style={{ display: "inline" }}
+                                    icon={faFilter}
+                                />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                {/* Actually a checkbox is the best here */}
+                                <Dropdown.Item
+                                    as={Button}
+                                    onClick={() => {setItemFilters(new Set())}}
+                                >
+                                    Reset
+                                </Dropdown.Item>
+                                {[...allItems].map(([itemId, item]) => (
+                                    <Dropdown.Item
+                                        key={item.id}
+                                        as={Button}
+                                        onClick={() => {
+                                            setItemFilters(new Set([itemId]));
+                                        }}
+                                    >
+                                        <ItemIcon region={region} item={item} height={40} />
+                                        {item.name}
+                                    </Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                            </Dropdown>
+                        </th>
                         <th>Cost</th>
                         <th>Item</th>
                         <th>Set</th>
                         <th>Limit</th>
-                        {shopEnabled && <th>Target</th>}
+                        {shopEnabled &&
+                            <th style={{ whiteSpace: "nowrap" }}>
+                                Target&nbsp;
+                                <Dropdown as={ButtonGroup}>
+                                <Dropdown.Toggle size="sm">
+                                    <FontAwesomeIcon
+                                        style={{ display: "inline" }}
+                                        icon={faFilter}
+                                    />
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item>All</Dropdown.Item>
+                                    <Dropdown.Item>No Monument</Dropdown.Item>
+                                    <Dropdown.Item>No Monument & Gem</Dropdown.Item>
+                                </Dropdown.Menu>
+                                </Dropdown>
+                            </th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
