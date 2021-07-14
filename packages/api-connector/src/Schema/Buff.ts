@@ -260,6 +260,7 @@ export enum BuffType {
     COMMANDCODEATTACK_AFTER_FUNCTION = "commandcodeattackAfterFunction",
     ATTACK_BEFORE_FUNCTION = "attackBeforeFunction",
     DONOT_SKILL_SELECT = "donotSkillSelect",
+    INVISIBLE_BATTLE_CHARA = "invisibleBattleChara",
 }
 
 export enum ClassRelationOverwriteType {

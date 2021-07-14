@@ -86,6 +86,8 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
     } else if (func.funcType === Func.FuncType.TRANSFORM_SERVANT && dataVal.Value !== undefined) {
         parts.push(<EntityReferenceDescriptor region={region} svtId={dataVal.Value} />);
+        if (dataVal.SetLimitCount !== undefined)
+            parts.push(`at ascension ${dataVal.SetLimitCount}`)
     } else if (func.buffs[0]?.type === Buff.BuffType.NPATTACK_PREV_BUFF) {
         if (typeof dataVal.SkillID !== "number") {
             section.showing = false;

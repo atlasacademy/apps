@@ -74,6 +74,8 @@ interface BaseDataVal {
     MultipleGainStar?: number;
     NoCheckIndividualityIfNotUnit?: number;
     ForcedEffectSpeedOne?: number;
+    SetLimitCount?: number;
+    CheckEnemyFieldSpace?: number;
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -160,6 +162,8 @@ export enum DataValField {
     MULTIPLE_GAIN_STAR = "MultipleGainStar",
     NO_CHECK_INDIVIDUALITY_IF_NOT_UNIT = "NoCheckIndividualityIfNotUnit",
     FORCE_EFFECT_SPEED_ONE = "ForcedEffectSpeedOne",
+    SET_LIMIT_COUNT = "SetLimitCount",
+    CHECK_ENEMY_FIELD_SPACE = "CheckEnemyFieldSpace",
     PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",

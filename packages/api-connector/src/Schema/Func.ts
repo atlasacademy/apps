@@ -39,6 +39,8 @@ export enum FuncTargetType {
     COMMAND_TYPE_SELF_TREASURE_DEVICE = "commandTypeSelfTreasureDevice",
     FIELD_OTHER = "fieldOther",
     ENEMY_ONE_NO_TARGET_NO_ACTION = "enemyOneNoTargetNoAction",
+    PT_ONE_HP_LOWEST_VALUE = "ptOneHpLowestValue",
+    PT_ONE_HP_LOWEST_RATE = "ptOneHpLowestRate",
 }
 
 export enum FuncType {

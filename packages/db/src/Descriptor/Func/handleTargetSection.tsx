@@ -25,6 +25,8 @@ export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     [Func.FuncTargetType.PT_SELF_ANOTHER_RANDOM, 'other random party member (except self)'],
     [Func.FuncTargetType.ENEMY_ONE_ANOTHER_RANDOM, 'other random enemy'],
     [Func.FuncTargetType.PT_SELF_ANOTHER_FIRST, 'first other party member (except self)'],
+    [Func.FuncTargetType.PT_ONE_HP_LOWEST_VALUE, 'party member with the lowest HP'],
+    [Func.FuncTargetType.PT_ONE_HP_LOWEST_RATE, 'party member with the lowest HP relative to their max HP'],
     // PT_SELF_BEFORE
     // PT_SELF_AFTER
     // PT_SELF_ANOTHER_LAST
