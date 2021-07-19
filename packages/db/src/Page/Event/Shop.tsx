@@ -10,6 +10,7 @@ import { colorString } from "../../Helper/StringHelper";
 import Manager from "../../Setting/Manager";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import { Item, Region, Shop } from "@atlasacademy/api-connector";
+import { gemIds, magicGemIds, secretGemIds, monumentIds, pieceIds } from '../../Descriptor/MultipleDescriptors'
 import "./Shop.css";
 
 const ScriptLink = (props: { region: Region; shop: Shop.Shop }) => {
@@ -93,6 +94,62 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                     </Button>
                 </div>
             </Alert>
+            {shopEnabled && (
+                <>
+                    <ButtonGroup>
+                        <Button disabled variant="outline-dark">Quick toggle</Button>
+                        <Button
+                            variant="outline-success"
+                            onClick={() => onChange?.(new Map(
+                                shops
+                                    .filter(shop => shop.payType !== Shop.PayType.FREE)
+                                    .filter(shop => shop.limitNum !== 0)
+                                    .map(shop => [shop.id, shop.limitNum])
+                            ))}>
+                            All
+                        </Button>
+                        <Button
+                            variant="outline-success"
+                            onClick={() => onChange?.(new Map())}>
+                            None
+                        </Button>
+                        <Button
+                            variant="outline-success"
+                            onClick={() => onChange?.(new Map(
+                                shops
+                                    .filter(shop => shop.payType !== Shop.PayType.FREE)
+                                    .filter(shop => !monumentIds.includes(shop.targetIds[0]))
+                                    .filter(shop => shop.limitNum !== 0)
+                                    .map(shop => [shop.id, shop.limitNum])
+                            ))}>
+                            All but monuments
+                        </Button>
+                        <Button
+                            variant="outline-success"
+                            onClick={() => onChange?.(new Map(
+                                shops
+                                    .filter(shop => shop.payType !== Shop.PayType.FREE)
+                                    .filter(shop => ![...gemIds, ...magicGemIds, ...secretGemIds].includes(shop.targetIds[0]))
+                                    .filter(shop => shop.limitNum !== 0)
+                                    .map(shop => [shop.id, shop.limitNum])
+                            ))}>
+                            All but gems
+                        </Button>
+                        <Button
+                            variant="outline-success"
+                            onClick={() => onChange?.(new Map(
+                                shops
+                                    .filter(shop => shop.payType !== Shop.PayType.FREE)
+                                    .filter(shop => !pieceIds.includes(shop.targetIds[0]))
+                                    .filter(shop => shop.limitNum !== 0)
+                                    .map(shop => [shop.id, shop.limitNum])
+                            ))}>
+                            All but pieces
+                        </Button>
+                    </ButtonGroup>
+                    <div>&nbsp;</div>
+                </>
+            )}
             <Table hover responsive className="shopTable">
                 <thead>
                     <tr>
@@ -133,24 +190,7 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                         <th>Item</th>
                         <th>Set</th>
                         <th>Limit</th>
-                        {shopEnabled &&
-                            <th style={{ whiteSpace: "nowrap" }}>
-                                Target&nbsp;
-                                <Dropdown as={ButtonGroup}>
-                                <Dropdown.Toggle size="sm">
-                                    <FontAwesomeIcon
-                                        style={{ display: "inline" }}
-                                        icon={faFilter}
-                                    />
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item>All</Dropdown.Item>
-                                    <Dropdown.Item>No Monument</Dropdown.Item>
-                                    <Dropdown.Item>No Monument & Gem</Dropdown.Item>
-                                </Dropdown.Menu>
-                                </Dropdown>
-                            </th>
-                        }
+                        <th>Target</th>
                     </tr>
                 </thead>
                 <tbody>
