@@ -47,7 +47,7 @@ export const missionRange = (missions: number[]) => {
         .join(", ");
 };
 
-export const MergeElemetsOr = (props: {
+export const MergeElementsOr = (props: {
     elements: Renderable[];
     lastJoinWord: string;
 }) => {
@@ -103,7 +103,7 @@ export const MultipleTraits = (props: {
     const renderedTraits = props.traitIds.map((traitId) => (
         <TraitDescription key={traitId} region={props.region} trait={traitId} />
     ));
-    return <MergeElemetsOr elements={renderedTraits} lastJoinWord="and" />;
+    return <MergeElementsOr elements={renderedTraits} lastJoinWord="and" />;
 };
 
 const shortItemNames = [
@@ -158,7 +158,7 @@ export const MultipleItems = (props: {
         }
     });
     return (
-        <MergeElemetsOr
+        <MergeElementsOr
             elements={shortNames.concat(renderedItems)}
             lastJoinWord="or"
         />
@@ -178,7 +178,7 @@ export const MultipleServants = (props: {
             servants={props.servants}
         />
     ));
-    return <MergeElemetsOr elements={renderedServants} lastJoinWord="or" />;
+    return <MergeElementsOr elements={renderedServants} lastJoinWord="or" />;
 };
 
 const EMBER_IDS = [
@@ -218,7 +218,7 @@ export const MultipleEmbers = (props: { region: Region; svtIds: number[] }) => {
         return (
             <>
                 {ALL_EMBERS_STRING} of{" "}
-                <MergeElemetsOr elements={classNames} lastJoinWord="or" />
+                <MergeElementsOr elements={classNames} lastJoinWord="or" />
             </>
         );
     }
@@ -237,7 +237,7 @@ export const MultipleClasses = (props: {
     });
     return (
         <>
-            <MergeElemetsOr elements={classNames} lastJoinWord="or" /> class
+            <MergeElementsOr elements={classNames} lastJoinWord="or" /> class
         </>
     );
 };
@@ -275,7 +275,7 @@ export const MultipleClassLevels = (props: {
             classString = toTitleCase(className ?? classId.toString());
         classLevels.push(`Lv. ${level} ${classString}${pluralSuffix}`);
     }
-    return <MergeElemetsOr elements={classLevels} lastJoinWord="or" />;
+    return <MergeElementsOr elements={classLevels} lastJoinWord="or" />;
 };
 
 const splitTargetId = (targetId: number) => {
@@ -322,7 +322,7 @@ export const MultipleClassLimits = (props: {
 
         return (
             <>
-                <MergeElemetsOr elements={classNames} lastJoinWord="or" /> to
+                <MergeElementsOr elements={classNames} lastJoinWord="or" /> to
                 ascension {firstClassLimit}
             </>
         );
@@ -336,7 +336,7 @@ export const MultipleClassLimits = (props: {
         return `Ascension ${target.limit} ${classString}${pluralSuffix}`;
     });
 
-    return <MergeElemetsOr elements={classLimits} lastJoinWord="or" />;
+    return <MergeElementsOr elements={classLimits} lastJoinWord="or" />;
 };
 
 export const MultipleEquipRarityLevel = (props: {
@@ -369,7 +369,7 @@ export const MultipleEquipRarityLevel = (props: {
 
         return (
             <>
-                <MergeElemetsOr elements={rarityStrings} lastJoinWord="or" /> CE
+                <MergeElementsOr elements={rarityStrings} lastJoinWord="or" /> CE
                 {pluralSuffix} to level {firstLevel}
             </>
         );
@@ -381,7 +381,7 @@ export const MultipleEquipRarityLevel = (props: {
 
     return (
         <>
-            <MergeElemetsOr elements={classLimits} lastJoinWord="or" /> CE
+            <MergeElementsOr elements={classLimits} lastJoinWord="or" /> CE
             {pluralSuffix}
         </>
     );
