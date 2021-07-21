@@ -148,6 +148,12 @@ function AiCondition(props: {
                     {vals[0] / 100}%
                 </>
             );
+        case Ai.AiCond.CHECK_SELF_NPTURN:
+            return (
+                <>
+                    Self needs {vals[0]} turn{vals[0] > 1 ? "s" : ""} to NP
+                </>
+            );
         default:
             return (
                 <>

@@ -43,7 +43,7 @@ class FuncMainData extends React.Component<IProps> {
                             })}
                         </div>
                     ),
-                    "Buffs": (
+                    "Buff": (
                         <div>
                             {func.buffs.map((buff) => {
                                 return <BuffDescription key={buff.id} region={this.props.region} buff={buff}/>;

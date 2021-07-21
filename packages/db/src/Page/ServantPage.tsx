@@ -318,6 +318,7 @@ class ServantPage extends React.Component<IProps, IState> {
                             region={this.props.region}
                             servants={new Map(this.state.servants.map((servant) => [servant.id, servant]))}
                             servant={servant}
+                            servantName={this.getOverwriteName()}
                         />
                     </Tab>
                 </Tabs>

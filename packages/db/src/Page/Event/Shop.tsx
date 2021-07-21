@@ -69,6 +69,16 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
     // reset filter if nothing is chosen
     if (!amounts.size && itemFilters.size) setItemFilters(new Set());
 
+    const excludeItemIds = (itemIds: number[]) => {
+        return new Map(
+            shops
+                .filter(shop => shop.payType !== Shop.PayType.FREE)
+                .filter(shop => shop.limitNum !== 0)
+                .filter(shop => !itemIds.includes(shop.targetIds[0]) || shop.purchaseType !== Shop.PurchaseType.ITEM)
+                .map(shop => [shop.id, shop.limitNum])
+        )
+    }
+
     return (
         <>
             <Alert variant="success" style={{ margin: "1em 0", display: "flex" }}>
@@ -100,12 +110,7 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                         <Button disabled variant="outline-dark">Quick toggle</Button>
                         <Button
                             variant="outline-success"
-                            onClick={() => onChange?.(new Map(
-                                shops
-                                    .filter(shop => shop.payType !== Shop.PayType.FREE)
-                                    .filter(shop => shop.limitNum !== 0)
-                                    .map(shop => [shop.id, shop.limitNum])
-                            ))}>
+                            onClick={() => onChange?.(excludeItemIds([]))}>
                             All
                         </Button>
                         <Button
@@ -113,39 +118,37 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                             onClick={() => onChange?.(new Map())}>
                             None
                         </Button>
-                        <Button
-                            variant="outline-success"
-                            onClick={() => onChange?.(new Map(
-                                shops
-                                    .filter(shop => shop.payType !== Shop.PayType.FREE)
-                                    .filter(shop => !monumentIds.includes(shop.targetIds[0]))
-                                    .filter(shop => shop.limitNum !== 0)
-                                    .map(shop => [shop.id, shop.limitNum])
-                            ))}>
-                            All but monuments
-                        </Button>
-                        <Button
-                            variant="outline-success"
-                            onClick={() => onChange?.(new Map(
-                                shops
-                                    .filter(shop => shop.payType !== Shop.PayType.FREE)
-                                    .filter(shop => ![...gemIds, ...magicGemIds, ...secretGemIds].includes(shop.targetIds[0]))
-                                    .filter(shop => shop.limitNum !== 0)
-                                    .map(shop => [shop.id, shop.limitNum])
-                            ))}>
-                            All but gems
-                        </Button>
-                        <Button
-                            variant="outline-success"
-                            onClick={() => onChange?.(new Map(
-                                shops
-                                    .filter(shop => shop.payType !== Shop.PayType.FREE)
-                                    .filter(shop => !pieceIds.includes(shop.targetIds[0]))
-                                    .filter(shop => shop.limitNum !== 0)
-                                    .map(shop => [shop.id, shop.limitNum])
-                            ))}>
-                            All but pieces
-                        </Button>
+                        <Dropdown as={ButtonGroup}>
+                        <Dropdown.Toggle variant="outline-success">
+                            Exclude
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item
+                                as={Button}
+                                onClick={() => onChange?.(excludeItemIds([...gemIds, ...magicGemIds, ...secretGemIds]))}
+                            >
+                                Gems
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                                as={Button}
+                                onClick={() => onChange?.(excludeItemIds([...monumentIds, ...pieceIds]))}
+                            >
+                                Monuments & Pieces
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                                as={Button}
+                                onClick={() => onChange?.(excludeItemIds(monumentIds))}
+                            >
+                                Monuments
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                                as={Button}
+                                onClick={() => onChange?.(excludeItemIds(pieceIds))}
+                            >
+                                Pieces
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                        </Dropdown>
                     </ButtonGroup>
                     <div>&nbsp;</div>
                 </>
@@ -190,7 +193,7 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                         <th>Item</th>
                         <th>Set</th>
                         <th>Limit</th>
-                        <th>Target</th>
+                        {shopEnabled && <th>Target</th>}
                     </tr>
                 </thead>
                 <tbody>

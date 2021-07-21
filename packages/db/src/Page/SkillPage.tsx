@@ -16,6 +16,7 @@ import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 import getRubyText from "../Helper/StringHelper";
 import CommandCodeDescriptor from "../Descriptor/CommandCodeDescriptor";
+import { handleNewLine } from "../Helper/OutputHelper";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
@@ -98,7 +99,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     "ID": skill.id,
                     "Name": skill.name,
                     "Ruby": skill.ruby,
-                    "Detail": skill.detail,
+                    "Detail": handleNewLine(skill.detail),
                     "Type": skill.type,
                     "Related AIs": AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),
                     "Owner": (

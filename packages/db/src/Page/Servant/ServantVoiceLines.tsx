@@ -22,6 +22,7 @@ export default function ServantVoiceLines(
         region: Region;
         servants: Map<number, Servant.ServantBasic>;
         servant: Servant.Servant;
+        servantName?: string;
     }
 ){
     let [relatedVoiceSvts, setRelatedVoiceSvts] = useState<Entity.EntityBasic[]>(null as any);
@@ -180,8 +181,8 @@ export default function ServantVoiceLines(
             <Alert variant="success">
                 {relatedVoiceSvts !== null
                     ? relatedVoiceSvts.length > 0
-                    ? `Servants with voice lines about ${props.servant.name}: `
-                    : `There is no voice line about ${props.servant.name} from other servants.`
+                    ? `Servants with voice lines about ${props.servantName ?? props.servant.name}: `
+                    : `There is no voice line about ${props.servantName ?? props.servant.name} from other servants.`
                     : 'Fetching related voice line data ...'}
                 {(relatedVoiceSvts !== null && relatedVoiceSvts.length > 0)
                     ? mergeElements(relatedVoiceSvts.map(

@@ -107,7 +107,7 @@ export const MultipleTraits = (props: {
 };
 
 export const gemIds = [6001, 6002, 6003, 6004, 6005, 6006, 6007];
-export const magicGemIds = [6001, 6002, 6003, 6004, 6005, 6006, 6007];
+export const magicGemIds = [6101, 6102, 6103, 6104, 6105, 6106, 6107];
 export const secretGemIds = [6201, 6202, 6203, 6204, 6205, 6206, 6207];
 export const pieceIds = [7001, 7002, 7003, 7004, 7005, 7006, 7007];
 export const monumentIds = [7101, 7102, 7103, 7104, 7105, 7106, 7107];
