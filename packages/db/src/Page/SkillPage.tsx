@@ -58,7 +58,7 @@ class SkillPage extends React.Component<IProps, IState> {
             this.setState({
                 loading: false,
                 skill: skill,
-                levels: skill.functions[0].svals?.length ?? 1,
+                levels: skill.functions[0]?.svals?.length ?? 1,
             });
             document.title = `[${this.props.region}] Skill - ${skill.name} - Atlas Academy DB`
         } catch (e) {
@@ -142,7 +142,7 @@ class SkillPage extends React.Component<IProps, IState> {
                 <EffectBreakdown region={this.props.region}
                                  cooldowns={skill.coolDown.length > 0 ? skill.coolDown : undefined}
                                  funcs={skill.functions}
-                                 levels={skill.functions[0]?.svals.length ?? 1}
+                                 levels={skill.functions[0]?.svals?.length ?? 1}
                                  scripts={skill.script}/>
 
                 <br/>
