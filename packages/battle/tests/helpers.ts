@@ -1,4 +1,4 @@
-import {Buff, DataVal, EnumList, Servant} from "@atlasacademy/api-connector";
+import {Buff, CraftEssence, DataVal, EnumList, Servant} from "@atlasacademy/api-connector";
 import * as fs from "fs";
 import {Battle, BattleTeam} from "../src";
 import {BattleActor, BattleActorState} from "../src/Actor/BattleActor";
@@ -15,6 +15,7 @@ import constants from "./../test-data/data/NiceConstant.json";
 
 const testDataPath = "./test-data/data",
     buffCache = new Map<number, Buff.Buff>(),
+    craftEssenceCache = new Map<number, CraftEssence.CraftEssence>(),
     servantCache = new Map<number, Servant.Servant>();
 
 export function buff(id: number,
@@ -41,6 +42,23 @@ export function buff(id: number,
         passive,
         short,
     }, state);
+}
+
+export function craftEssence(id: number): CraftEssence.CraftEssence {
+    let data = craftEssenceCache.get(id);
+
+    if (data === undefined) {
+        const filePath = `${testDataPath}/craft_essences/${id}.json`;
+        if (!fs.existsSync(filePath))
+            throw new Error('FAILED TO FIND CRAFT ESSENCE: ' + id);
+
+        const raw = fs.readFileSync(filePath).toString();
+
+        data = <CraftEssence.CraftEssence>JSON.parse(raw);
+        craftEssenceCache.set(id, data);
+    }
+
+    return data;
 }
 
 export function createBattle(state?: Partial<BattleState>): Battle {

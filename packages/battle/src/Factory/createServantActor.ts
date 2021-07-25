@@ -15,7 +15,7 @@ export interface BattleServantActorProps {
     commandCodes?: Array<CommandCode.CommandCode | null>,
     craftEssence?: CraftEssence.CraftEssence,
     craftEssenceLevel?: number,
-    craftEssenceLimitBreak?: boolean,
+    craftEssenceLimitBreak?: number,
     fouAttack?: number,
     fouHealth?: number,
     level?: number,
@@ -45,10 +45,39 @@ function castProps(id: number, phase: number, servantProps: BattleServantActorPr
     traits.push(...servantProps.servant.ascensionAdd.individuality.ascension[form] ?? []);
     traits.push(...servantProps.servant.ascensionAdd.individuality.costume[form] ?? []);
 
+    const passives = [servantProps.servant.classPassive, servantProps.servant.extraPassive]
+        .flat()
+        .map(skill => {
+            return new BattleSkillPassive({
+                actorId: id,
+                id: 0,
+                skill: skill,
+                level: 1,
+            }, null);
+        });
+
+    let baseAttack = servantProps.servant.atkGrowth[level - 1] + (servantProps.fouAttack ?? 1000),
+        baseHealth = servantProps.servant.hpGrowth[level - 1] + (servantProps.fouHealth ?? 1000);
+
+    if (servantProps.craftEssence) {
+        const craftEssenceLevel = servantProps.craftEssenceLevel ?? 1,
+            craftEssenceLimit = servantProps.craftEssenceLimitBreak ?? 0,
+            craftEssenceEffects = extractCraftEssenceEffects(
+                id,
+                servantProps.craftEssence,
+                craftEssenceLevel,
+                craftEssenceLimit
+            );
+
+        baseAttack += servantProps.craftEssence.atkGrowth[craftEssenceLevel - 1] ?? 0;
+        baseHealth += servantProps.craftEssence.hpGrowth[craftEssenceLevel - 1] ?? 0;
+        passives.push(...craftEssenceEffects);
+    }
+
     return {
         attribute: servantProps.servant.attribute,
-        baseAttack: servantProps.servant.atkGrowth[level - 1] + (servantProps.fouAttack ?? 1000),
-        baseHealth: servantProps.servant.hpGrowth[level - 1] + (servantProps.fouHealth ?? 1000),
+        baseAttack: baseAttack,
+        baseHealth: baseHealth,
         baseStarGen: servantProps.servant.starGen,
         className: servantProps.servant.className,
         face,
@@ -58,14 +87,7 @@ function castProps(id: number, phase: number, servantProps: BattleServantActorPr
         id,
         level,
         name: servantProps.servant.ruby,
-        passives: [servantProps.servant.classPassive, servantProps.servant.extraPassive].flat().map(skill => {
-            return new BattleSkillPassive({
-                actorId: id,
-                id: 0,
-                skill: skill,
-                level: 1,
-            }, null);
-        }),
+        passives: passives,
         phase: phase,
         serverMod: {
             tdAttackRate: 1000,
@@ -88,6 +110,34 @@ function castSkill(skills: Skill.Skill[], actorId: number, position: number, lev
         return undefined;
 
     return new BattleSkill({actorId, id: position, skill, level}, null);
+}
+
+function extractCraftEssenceEffects(actorId: number,
+                                    craftEssence: CraftEssence.CraftEssence,
+                                    level: number,
+                                    limitBreak: number): BattleSkillPassive[] {
+    const skillNums = craftEssence.skills.map(skill => Number(skill.num)),
+        minSkillNum = Math.min(...skillNums),
+        maxSkillNum = Math.max(...skillNums),
+        passives: BattleSkillPassive[] = [];
+
+    for (let num = minSkillNum; num <= maxSkillNum; num++) {
+        const skill = craftEssence.skills
+            .filter(skill => skill.num === num)
+            .sort((a, b) => Number(b.priority) - Number(a.priority))
+            .find(skill => level >= skill.condLv && limitBreak >= skill.condLimitCount);
+
+        if (skill) {
+            passives.push(new BattleSkillPassive({
+                actorId,
+                id: 0,
+                skill,
+                level: 1
+            }, null));
+        }
+    }
+
+    return passives;
 }
 
 function getNoblePhantasm(id: number, servantProps: BattleServantActorProps): BattleNoblePhantasm {

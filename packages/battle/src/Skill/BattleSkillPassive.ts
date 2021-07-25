@@ -14,6 +14,8 @@ export default class BattleSkillPassive extends BattleSkill {
                 }, null, this);
             })
         });
+
+        this.state.funcs.forEach(func => func.parent = this);
     }
 
     clone(): BattleSkillPassive {

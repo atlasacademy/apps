@@ -30,6 +30,8 @@ export default class BattleSkill {
                 }, null, this);
             })
         };
+
+        this.state.funcs.forEach(func => func.parent = this);
     }
 
     async activate(battle: Battle): Promise<BattleEvent[]> {
