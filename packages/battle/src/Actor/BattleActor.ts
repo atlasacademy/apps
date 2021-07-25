@@ -109,7 +109,12 @@ export class BattleActor {
         return this.props.attribute;
     }
 
-    async autoAttack(attack: BattleAttackAction, target: BattleActor): Promise<BattleEvent[]> {
+    async autoAttack(attack: BattleAttackAction): Promise<BattleEvent[]> {
+        const target = this.battle().actors().getActiveTarget(this);
+        if (!target) {
+            throw new Error('No valid attack target');
+        }
+
         return getDamageList(this.battle(), attack, this, target);
     }
 

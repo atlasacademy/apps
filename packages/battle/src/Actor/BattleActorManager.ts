@@ -3,6 +3,12 @@ import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
 import {BattleActor} from "./BattleActor";
 
+export enum BattleSelectType {
+    ACTIVE,
+    SELECT,
+    RESERVE,
+}
+
 export interface BattleActorManagerState {
     actors: BattleActor[],
     enemySelect: number,
@@ -65,6 +71,23 @@ export default class BattleActorManager {
 
     aliveActorsByTeam(team: BattleTeam): BattleActor[] {
         return this.actorsByTeam(team).filter(actor => actor.isAlive());
+    }
+
+    getActiveTarget(actor: BattleActor): BattleActor | undefined {
+        const team = actor.props.team,
+            opponentTeam = team === BattleTeam.PLAYER ? BattleTeam.ENEMY : BattleTeam.PLAYER;
+
+        let position: number;
+        switch (team) {
+            case BattleTeam.PLAYER:
+                position = this.state.enemyTarget;
+                break;
+            case BattleTeam.ENEMY:
+                position = this.state.playerTarget;
+                break;
+        }
+
+        return this.actorByPosition(opponentTeam, position);
     }
 
     getTargets(actor: BattleActor, targetType: Func.FuncTargetType): BattleActor[] {
@@ -195,6 +218,35 @@ export default class BattleActorManager {
         this.state.actors.forEach(actor => actor.setBattle(battle));
     }
 
+    targetEnemy(position: number, type: BattleSelectType) {
+        switch (type) {
+            case BattleSelectType.ACTIVE:
+                this.state.enemyTarget = position;
+                break;
+            case BattleSelectType.SELECT:
+                this.state.enemySelect = position;
+                break;
+        }
+
+        this.resetSelection();
+    }
+
+    targetAlly(position: number, type: BattleSelectType) {
+        switch (type) {
+            case BattleSelectType.ACTIVE:
+                this.state.playerTarget = position;
+                break;
+            case BattleSelectType.SELECT:
+                this.state.playerSelect = position;
+                break;
+            case BattleSelectType.RESERVE:
+                this.state.playerSelectReserve = position;
+                break;
+        }
+
+        this.resetSelection();
+    }
+
     private resetPositions() {
         const teams = [BattleTeam.PLAYER, BattleTeam.ENEMY];
 
@@ -237,8 +289,8 @@ export default class BattleActorManager {
 
         if (!this.state.enemySelect || !enemyPositions.includes(this.state.enemySelect))
             this.state.enemySelect = newEnemyPosition;
-        if (!this.state.enemySelect || !enemyPositions.includes(this.state.enemySelect))
-            this.state.enemySelect = newEnemyPosition;
+        if (!this.state.enemyTarget || !enemyPositions.includes(this.state.enemyTarget))
+            this.state.enemyTarget = newEnemyPosition;
         if (!this.state.playerSelect || !playerPositions.includes(this.state.playerSelect))
             this.state.playerSelect = newPlayerPosition;
         if (!this.state.playerTarget || !playerPositions.includes(this.state.playerTarget))

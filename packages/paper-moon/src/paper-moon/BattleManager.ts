@@ -36,15 +36,15 @@ const BattleManager = {
             actions.add(actor, attack.card, false);
         }
 
-        const target = battle.actors().actorByPosition(BattleTeam.ENEMY, 1);
-        if (!target) {
-            throw new Error('FAILED TO FIND TARGET');
+        const enemyCount = battle.actors().aliveActorsByTeam(BattleTeam.ENEMY).length;
+        if (!enemyCount) {
+            throw new Error('NO ENEMIES AVAILABLE');
         }
 
         for (let i in actions.actions) {
             const action = actions.actions[i];
 
-            await action.actor.autoAttack(action, target);
+            await action.actor.autoAttack(action);
         }
     }
 };
