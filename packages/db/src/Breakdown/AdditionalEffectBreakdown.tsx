@@ -6,6 +6,7 @@ import EffectBreakdownLines from "./EffectBreakdownLines";
 interface IProps {
     region: Region;
     skillId: number;
+    triggerSkillIdStack: number[];
     level?: number;
     levels?: number[];
     popOver?: boolean;
@@ -40,6 +41,7 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
         return (
             <EffectBreakdownLines region={this.props.region}
                                   funcs={this.state.skill.functions}
+                                  triggerSkillIdStack={this.props.triggerSkillIdStack}
                                   level={this.props.level}
                                   levels={this.props.levels}
                                   relatedSkillId={this.state.skill.id}

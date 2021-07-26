@@ -85,6 +85,25 @@ export interface ValentineScript {
     scriptName: string;
 }
 
+interface ServantAscensionAdditionDetails<T> {
+    ascension: {
+        [key: number]: T;
+    };
+    costume: {
+        [key: number]: T;
+    };
+}
+
+export interface ServantAscensionAdditions {
+    individuality: ServantAscensionAdditionDetails<Trait[]>;
+    voicePrefix: ServantAscensionAdditionDetails<number>;
+    overWriteServantName: ServantAscensionAdditionDetails<string>;
+    overWriteServantBattleName: ServantAscensionAdditionDetails<string>;
+    overWriteTDName: ServantAscensionAdditionDetails<string>;
+    overWriteTDRuby: ServantAscensionAdditionDetails<string>;
+    overWriteTDFileName: ServantAscensionAdditionDetails<string>;
+}
+
 export interface Entity {
     id: number;
     collectionNo: number;
@@ -136,6 +155,7 @@ export interface Entity {
     bondEquip: number;
     valentineEquip: number[];
     valentineScript: ValentineScript[];
+    ascensionAdd: ServantAscensionAdditions;
     ascensionMaterials: EntityLevelUpMaterialProgression;
     skillMaterials: EntityLevelUpMaterialProgression;
     costumeMaterials: EntityLevelUpMaterialProgression;

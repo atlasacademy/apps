@@ -13,6 +13,7 @@ interface IProps {
     region: Region;
     cooldowns?: number[];
     funcs: Func.Func[];
+    triggerSkillIdStack: number[];
     gain?: NoblePhantasm.NoblePhantasmGain;
     level?: number;
     levels?: number[];
@@ -54,7 +55,9 @@ class EffectBreakdownLines extends React.Component<IProps> {
                 ) : null}
                 {this.props.funcs.map((func, index) => {
                     let mutatingDescriptions = describeMutators(this.props.region, func),
-                        relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func);
+                        relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func).filter(
+                            skill => !this.props.triggerSkillIdStack.includes(skill.skillId)
+                        );
 
                     for (let i = 0; i < (this.props.level ?? 0); i++) {
                         if (!mutatingDescriptions[i])
@@ -92,6 +95,9 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                 return <AdditionalEffectBreakdown key={relatedSkill.skillId}
                                                                   region={this.props.region}
                                                                   skillId={relatedSkill.skillId}
+                                                                  triggerSkillIdStack={
+                                                                      this.props.triggerSkillIdStack.concat([relatedSkill.skillId])
+                                                                  }
                                                                   levels={relatedSkill.skillLvs}
                                                                   level={this.props.level}
                                                                   popOver={this.props.popOver}/>

@@ -143,7 +143,8 @@ class SkillPage extends React.Component<IProps, IState> {
                                  cooldowns={skill.coolDown.length > 0 ? skill.coolDown : undefined}
                                  funcs={skill.functions}
                                  levels={skill.functions[0]?.svals?.length ?? 1}
-                                 scripts={skill.script}/>
+                                 scripts={skill.script}
+                                 triggerSkillIdStack={[skill.id]}/>
 
                 <br/>
                 <br/>

@@ -8,6 +8,7 @@ interface IProps {
     region: Region;
     cooldowns?: number[];
     funcs: Func.Func[];
+    triggerSkillIdStack?: number[];
     gain?: NoblePhantasm.NoblePhantasmGain;
     levels?: number;
     scripts?: Skill.SkillScript;
@@ -30,6 +31,7 @@ class EffectBreakdown extends React.Component<IProps> {
                 <EffectBreakdownLines region={this.props.region}
                                       cooldowns={this.props.cooldowns}
                                       funcs={this.props.funcs}
+                                      triggerSkillIdStack={this.props.triggerSkillIdStack ?? []}
                                       gain={this.props.gain}
                                       level={this.props.levels}
                                       scripts={this.props.scripts}
