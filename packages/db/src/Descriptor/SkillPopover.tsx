@@ -24,6 +24,7 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
                         skill.coolDown.length > 0 ? skill.coolDown : undefined
                     }
                     funcs={skill.functions}
+                    triggerSkillIdStack={[skill.id]}
                     levels={skill.functions[0]?.svals.length ?? 1}
                     scripts={skill.script}
                     popOver={true}
