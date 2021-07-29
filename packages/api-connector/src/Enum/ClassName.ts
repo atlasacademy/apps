@@ -20,7 +20,9 @@ enum ClassName {
     BEAST_IIIL = "beastIIIL",
     BEAST_UNKNOWN = "beastUnknown",
     UNKNOWN = "unknown",
+    AGARTHA_PENTH = "agarthaPenth",
     CCC_FINALE_EMIYA_ALTER = "cccFinaleEmiyaAlter",
+    SALEM_ABBY = "salemAbby",
     ALL = "ALL",
     EXTRA = "EXTRA",
 }

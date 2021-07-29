@@ -15,6 +15,7 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import EventDescriptor from "../Descriptor/EventDescriptor";
+import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
@@ -83,7 +84,10 @@ const QuestTable = (props: {
     itemMap: Map<number, Item.Item>;
     spots?: War.Spot[];
 }) => {
-    const region = props.region;
+    const region = props.region,
+        hasScript =
+            props.quests.find((quest) => quest.phaseScripts.length > 0) !==
+            undefined;
     return (
         <Table hover responsive>
             <thead>
@@ -93,6 +97,7 @@ const QuestTable = (props: {
                     {props.spots !== undefined ? <th>Spot</th> : null}
                     <th>Phases</th>
                     <th>Reward</th>
+                    {hasScript ? <th>Script</th> : null}
                 </tr>
             </thead>
             <tbody>
@@ -125,7 +130,7 @@ const QuestTable = (props: {
                                 quest.phases.map((phase) =>
                                     phaseLink(region, quest, phase)
                                 ),
-                                ", "
+                                <br />
                             )}
                         </td>
                         <td>
@@ -140,6 +145,35 @@ const QuestTable = (props: {
                                 </div>
                             ))}
                         </td>
+                        {hasScript ? (
+                            <td>
+                                {mergeElements(
+                                    quest.phaseScripts.map((scripts) => (
+                                        <span style={{ whiteSpace: "nowrap" }}>
+                                            {scripts.phase}:{" "}
+                                            {mergeElements(
+                                                scripts.scripts.map(
+                                                    (script) => (
+                                                        <ScriptDescriptor
+                                                            region={region}
+                                                            scriptId={
+                                                                script.scriptId
+                                                            }
+                                                            scriptName={script.scriptId.slice(
+                                                                -2
+                                                            )}
+                                                            scriptType=""
+                                                        />
+                                                    )
+                                                ),
+                                                ", "
+                                            )}
+                                        </span>
+                                    )),
+                                    <br />
+                                )}
+                            </td>
+                        ) : null}
                     </tr>
                 ))}
             </tbody>
@@ -374,7 +408,9 @@ class WarPage extends React.Component<IProps, IState> {
         });
 
         const openingScript =
-            war.scriptId === "NONE" ? "" : (
+            war.scriptId === "NONE" ? (
+                ""
+            ) : (
                 <Link to={`/${this.props.region}/script/${war.scriptId}`}>
                     {war.scriptId}
                 </Link>

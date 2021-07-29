@@ -59,6 +59,16 @@ export interface QuestBasic {
     closedAt: number;
 }
 
+export interface PhaseScript {
+    scriptId: string;
+    script: string;
+}
+
+export interface QuestPhaseScript {
+    phase: number;
+    scripts: PhaseScript[];
+}
+
 export interface Quest {
     id: number;
     name: string;
@@ -73,6 +83,7 @@ export interface Quest {
     phases: number[];
     phasesWithEnemies: number[];
     phasesNoBattle: number[];
+    phaseScripts: QuestPhaseScript[];
     noticeAt: number;
     openedAt: number;
     closedAt: number;
@@ -86,7 +97,7 @@ export interface QuestPhase extends Quest {
     exp: number;
     bond: number;
     battleBgId: number;
-    scripts: { scriptId: string; script: string }[];
+    scripts: PhaseScript[];
     messages: QuestMessage[];
     supportServants: SupportServant[];
     stages: Stage[];
