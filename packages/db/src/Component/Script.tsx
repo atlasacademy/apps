@@ -241,10 +241,18 @@ export type ScriptInfo = {
 };
 
 function parseParameter(line: string): string[] {
-    const noNewLine = line.replace("\n", " ").replace("\r", " ").trim();
+    /*
+    Split the bracketed parameter into its components.
+    "[a b [c d]]" => ["a", "b", "[c d]"]
+    */
+    const noNewLine = line.replace("\n", " ").replace("\r", " ").trim(),
+        sliceStart = noNewLine[0] === "[" ? 1 : 0,
+        sliceEnd =
+            noNewLine[noNewLine.length - 1] === "]"
+                ? noNewLine.length - 1
+                : noNewLine.length;
     return (
-        noNewLine.slice(1, noNewLine.length - 1).match(/[^\s"]+|"([^"]*)"/g) ??
-        []
+        noNewLine.slice(sliceStart, sliceEnd).match(/[^\s"]+|"([^"]*)"/g) ?? []
     );
 }
 
@@ -289,35 +297,8 @@ function parseDialogueBasic(
     word: string,
     colorHex?: string
 ): DialogueBasicComponent {
-    const parameters = parseParameter(word);
-    switch (parameters[0]) {
-        case "r":
-        case "sr":
-            return { type: ScriptComponentType.DIALOGUE_NEW_LINE };
-        case "%1":
-            // Player's name
-            return { type: ScriptComponentType.DIALOGUE_PLAYER_NAME, colorHex };
-        case "line":
-            return {
-                type: ScriptComponentType.DIALOGUE_LINE,
-                length: parseInt(parameters[1]),
-                colorHex,
-            };
-        case "servantName":
-            const [svtId, hiddenName, trueName] = word
-                .slice(1, word.length - 1) // Remove surrounding brackets
-                .replace("servantName ", "")
-                .split(":");
-            return {
-                type: ScriptComponentType.DIALOGUE_HIDDEN_NAME,
-                svtId: parseInt(svtId),
-                hiddenName,
-                trueName,
-                colorHex,
-            };
-    }
-    switch (word[1]) {
-        case "#":
+    if (word[0] === "[") {
+        if (word[1] === "#") {
             // Ruby Text `[#string:ruby]`
             const [text, ruby] = word.slice(2, word.length - 1).split(":");
             return {
@@ -326,6 +307,38 @@ function parseDialogueBasic(
                 ruby: ruby,
                 colorHex,
             };
+        }
+
+        const parameters = parseParameter(word);
+        switch (parameters[0]) {
+            case "r":
+            case "sr":
+                return { type: ScriptComponentType.DIALOGUE_NEW_LINE };
+            case "%1":
+                // Player's name
+                return {
+                    type: ScriptComponentType.DIALOGUE_PLAYER_NAME,
+                    colorHex,
+                };
+            case "line":
+                return {
+                    type: ScriptComponentType.DIALOGUE_LINE,
+                    length: parseInt(parameters[1]),
+                    colorHex,
+                };
+            case "servantName":
+                const [svtId, hiddenName, trueName] = word
+                    .slice(1, word.length - 1) // Remove surrounding brackets
+                    .replace("servantName ", "")
+                    .split(":");
+                return {
+                    type: ScriptComponentType.DIALOGUE_HIDDEN_NAME,
+                    svtId: parseInt(svtId),
+                    hiddenName,
+                    trueName,
+                    colorHex,
+                };
+        }
     }
     return {
         type: ScriptComponentType.DIALOGUE_TEXT,
