@@ -46,7 +46,7 @@ class ItemIcon extends React.Component<IProps> {
                 <img alt={''} className={'item-icon-ratio'}
                      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
                 <img alt={'Item icon background'} className={'item-icon-bg'} src={bg}/>
-                <img alt={'Item icon'} className={'item-icon-image'} src={this.props.item.icon}/>
+                <img alt={this.props.item.name} className={'item-icon-image'} src={this.props.item.icon}/>
                 {this.getQuantity()}
             </span>
         );
