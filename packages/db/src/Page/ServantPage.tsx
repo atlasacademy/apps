@@ -247,18 +247,37 @@ class ServantPage extends React.Component<IProps, IState> {
                                 );
                             })}
                         </Row>
-                        {servant.extraPassive.length > 0 ? <h3 style={{ margin: "1em 0 "}}>Event Bonus</h3> : null}
-                        <Row>
-                            {servant.extraPassive.map((skill) => {
-                                return (
-                                    <Col xs={12}
-                                         lg={(servant.extraPassive.length ?? 1) > 1 ? 6 : 12}
-                                         key={skill.id}>
-                                        <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
-                                    </Col>
-                                );
-                            })}
-                        </Row>
+                        {servant.appendPassive.length > 0 ? <>
+                            <h3 style={{ margin: "1em 0 "}}>Append Skills</h3>
+                            <Row>
+                                {servant.appendPassive.sort((a, b) => (a.num - b.num)).map((skill) => {
+                                    return (
+                                        <Col lg={12} key={skill.skill.id}>
+                                            <SkillBreakdown
+                                                region={this.props.region}
+                                                skill={skill.skill}
+                                                cooldowns={true}
+                                                levels={skill.skill.coolDown.length}
+                                            />
+                                        </Col>
+                                    );
+                                })}
+                            </Row>
+                        </> : null}
+                        {servant.extraPassive.length > 0 ? <>
+                            <h3 style={{ margin: "1em 0 "}}>Event Bonus</h3>
+                            <Row>
+                                {servant.extraPassive.map((skill) => {
+                                    return (
+                                        <Col xs={12}
+                                            lg={(servant.extraPassive.length ?? 1) > 1 ? 6 : 12}
+                                            key={skill.id}>
+                                            <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
+                                        </Col>
+                                    );
+                                })}
+                            </Row>
+                        </> : null}
                     </Tab>
                     <Tab eventKey={'traits'} title={'Traits'}>
                         <br/>
@@ -280,6 +299,31 @@ class ServantPage extends React.Component<IProps, IState> {
                                                           showNextLevelInDescription={true}/>
                             </Col>
                         </Row>
+                        {servant.appendPassive.length > 0 && servant.coin !== undefined ? <Row>
+                            <Col xs={12} lg={6}>
+                                <ServantMaterialBreakdown region={this.props.region}
+                                                          materials={{
+                                                              "Summon Get": {
+                                                                  items: [{
+                                                                      item: servant.coin.item,
+                                                                      amount: servant.coin.summonNum
+                                                                  }],
+                                                                  qp: 0
+                                                              },
+                                                              "Append Skill Unlock Cost": {
+                                                                items: servant.appendPassive[0].unlockMaterials,
+                                                                qp: 0
+                                                              },
+                                                          }}
+                                                          title='Servant Coin'/>
+                            </Col>
+                            <Col xs={12} lg={6}>
+                                <ServantMaterialBreakdown region={this.props.region}
+                                                          materials={servant.appendSkillMaterials}
+                                                          title='Append Skill Level Up Materials'
+                                                          showNextLevelInDescription={true}/>
+                            </Col>
+                        </Row> : null}
                         {
                             Object.keys(servant.costumeMaterials).length
                             ? <ServantMaterialBreakdown region={this.props.region}

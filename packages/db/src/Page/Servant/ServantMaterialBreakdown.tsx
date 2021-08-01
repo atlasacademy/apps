@@ -47,6 +47,15 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
         ].map((_, index) => <th key={index}></th>);
     }
 
+    private doesntCostQP() {
+        for (const material of Object.values(this.props.materials)) {
+            if (material.qp > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     render() {
         const count = this.getMaxMaterialCount();
 
@@ -60,7 +69,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                         <th style={this.props.showNextLevelInDescription
                                         ? { textAlign: "center" }
                                         : {}}>#</th>
-                        <th style={{ textAlign: "center" }}>QP</th>
+                        {this.doesntCostQP() ? null : <th style={{ textAlign: "center" }}>QP</th>}
                         {this.populateRemainingCells(count, 0)}
                     </tr>
                     </thead>
@@ -75,13 +84,13 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                                     ? <>{parseInt(key)}→{parseInt(key) + 1}</>
                                     : key}
                             </td>
-                            <td align="center">
+                            {this.doesntCostQP() ? null : <td align="center">
                                 <ItemIcon region={this.props.region}
                                           item={qpItem}
                                           quantity={this.props.materials[key].qp}
                                           height={iconHeight}
                                           quantityHeight={11}/>
-                            </td>
+                            </td>}
                             {this.props.materials[key].items.map(
                                 (itemAndQuantity) => {
                                     return <td key={itemAndQuantity.item.id} align="center">

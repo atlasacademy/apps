@@ -94,6 +94,11 @@ interface ServantAscensionAdditionDetails<T> {
     };
 }
 
+export interface EntityCoin {
+    summonNum: number;
+    item: Item;
+}
+
 export interface ServantAscensionAdditions {
     individuality: ServantAscensionAdditionDetails<Trait[]>;
     voicePrefix: ServantAscensionAdditionDetails<number>;
@@ -102,6 +107,13 @@ export interface ServantAscensionAdditions {
     overWriteTDName: ServantAscensionAdditionDetails<string>;
     overWriteTDRuby: ServantAscensionAdditionDetails<string>;
     overWriteTDFileName: ServantAscensionAdditionDetails<string>;
+}
+
+export interface AppendPassive {
+    num: number;
+    priority: number;
+    skill: Skill;
+    unlockMaterials: { item: Item; amount: number }[];
 }
 
 export interface Entity {
@@ -158,10 +170,13 @@ export interface Entity {
     ascensionAdd: ServantAscensionAdditions;
     ascensionMaterials: EntityLevelUpMaterialProgression;
     skillMaterials: EntityLevelUpMaterialProgression;
+    appendSkillMaterials: EntityLevelUpMaterialProgression;
     costumeMaterials: EntityLevelUpMaterialProgression;
+    coin?: EntityCoin;
     skills: Skill[];
     classPassive: Skill[];
     extraPassive: Skill[];
+    appendPassive: AppendPassive[];
     noblePhantasms: NoblePhantasm[];
 }
 
