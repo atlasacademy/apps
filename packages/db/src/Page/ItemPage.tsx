@@ -256,7 +256,7 @@ class ItemPage extends React.Component<IProps, IState> {
             totalUsage.appendSkills += usage.appendSkills;
             totalUsage.costumes += usage.costumes;
         }
-        totalUsage.total = totalUsage.ascensions + totalUsage.skills * 3 + totalUsage.costumes;
+        totalUsage.total = totalUsage.ascensions + totalUsage.skills * 3 + totalUsage.appendSkills * 3 + totalUsage.costumes;
 
         return (
             <>
