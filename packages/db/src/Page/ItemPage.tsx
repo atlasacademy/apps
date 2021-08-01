@@ -37,6 +37,7 @@ interface IState {
 let MATERIAL_USAGE_HEADER = <>
     <th>Total Ascension</th>
     <th>Per&nbsp;Skill (Total)</th>
+    <th>Per&nbsp;Append Skill (Total)</th>
     <th>Costume</th>
     <th>Total</th>
 </>
@@ -44,6 +45,7 @@ let MATERIAL_USAGE_HEADER = <>
 interface MaterialUsageColumn {
     ascensions: number;
     skills: number;
+    appendSkills: number;
     costumes: number;
     total: number;
 }
@@ -134,6 +136,7 @@ class ItemPage extends React.Component<IProps, IState> {
             "face": servant.extraAssets?.faces.ascension ? servant.extraAssets?.faces.ascension[1] : "",
             "ascensions": 0,
             "skills": 0,
+            "appendSkills": 0,
             "costumes": 0,
             "total": 0
         }
@@ -144,10 +147,11 @@ class ItemPage extends React.Component<IProps, IState> {
         }
 
         servantProcessed.skills = this.reduceMaterials(servant.skillMaterials);
+        servantProcessed.appendSkills = this.reduceMaterials(servant.appendSkillMaterials);
         servantProcessed.costumes = this.reduceMaterials(servant.costumeMaterials);
 
         // add up total
-        servantProcessed.total = servantProcessed.ascensions + (servantProcessed.skills * 3) + servantProcessed.costumes;
+        servantProcessed.total = servantProcessed.ascensions + (servantProcessed.skills * 3) + (servantProcessed.appendSkills * 3) + servantProcessed.costumes;
 
         return servantProcessed;
     }
@@ -178,6 +182,7 @@ class ItemPage extends React.Component<IProps, IState> {
             <>
                 <td>{usage.ascensions}</td>
                 <td>{`${usage.skills} (${usage.skills * 3})`}</td>
+                <td>{`${usage.appendSkills} (${usage.appendSkills * 3})`}</td>
                 <td>{usage.costumes}</td>
                 <td>{usage.total}</td>
             </>
@@ -244,10 +249,11 @@ class ItemPage extends React.Component<IProps, IState> {
             usageData: allUsageData,
         })
 
-        let totalUsage = {ascensions: 0, skills: 0, costumes: 0, total: 0}
+        let totalUsage = {ascensions: 0, skills: 0, appendSkills: 0, costumes: 0, total: 0}
         for (let usage of allUsageData) {
             totalUsage.ascensions += usage.ascensions;
             totalUsage.skills += usage.skills;
+            totalUsage.appendSkills += usage.appendSkills;
             totalUsage.costumes += usage.costumes;
         }
         totalUsage.total = totalUsage.ascensions + totalUsage.skills * 3 + totalUsage.costumes;
