@@ -18,7 +18,7 @@ export const upDownBuffs: UpDownBuffType[] = [
     {
         up: Buff.BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN,
         down: Buff.BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN,
-        description: "Critical Rate Resistance"
+        description: "Chance of Receiving Critical Attack"
     },
     {
         up: Buff.BuffType.UP_CRITICAL_STAR_DAMAGE_TAKEN,

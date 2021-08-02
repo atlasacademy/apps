@@ -1,5 +1,6 @@
 import {Buff, DataVal, Func, Region} from "@atlasacademy/api-connector";
 import React from "react";
+import { asPercent } from "../../Helper/OutputHelper";
 import BuffValueDescription from "../BuffValueDescription";
 import EntityReferenceDescriptor from "../EntityReferenceDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
@@ -57,6 +58,12 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
             parts.push(' of ')
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}
                                         hideRate={true}/>);
+    } else if (func.funcType === Func.FuncType.DAMAGE_VALUE) {
+        parts.push(`${dataVal.Value}–${dataVal.Value2} randomly`);
+        if (dataVal.DamageRates !== undefined)
+            parts.push(
+                `in ${dataVal.DamageRates.length} hits [${dataVal.DamageRates.map(rate => asPercent(rate, 0)).join(", ")}]`
+            );
     } else if (
         (
             func.funcType === Func.FuncType.ABSORB_NPTURN

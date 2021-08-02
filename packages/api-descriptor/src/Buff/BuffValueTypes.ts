@@ -22,6 +22,8 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.DOWN_CRITICALRATE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_CRITICAL_RATE_DAMAGE_TAKEN, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_CRITICAL_RATE_DAMAGE_TAKEN, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.UP_CRITICAL_STAR_DAMAGE_TAKEN, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.DOWN_CRITICAL_STAR_DAMAGE_TAKEN, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_DAMAGE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_DAMAGE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_DAMAGE_INDIVIDUALITY_ACTIVEONLY, {value: DataValField.VALUE, power: 1}],

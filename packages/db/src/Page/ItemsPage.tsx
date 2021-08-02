@@ -173,6 +173,10 @@ class ItemsPage extends React.Component<IProps, IState> {
         return itemList.filter(item => this.isEventItem(item.type, item.uses)).sort((a, b) => b.priority - a.priority);
     }
 
+    private getServantCoins(itemList: Item.Item[]): Item.Item[] {
+        return itemList.filter(item => item.type === Item.ItemType.SVT_COIN).sort((a, b) => b.priority - a.priority);
+    }
+
     private getOtherItems(itemList: Item.Item[]): Item.Item[] {
         return itemList.filter(item => (
             !this.isServantMaterial(item.type, item.uses) && !this.isEventItem(item.type, item.uses)
@@ -210,6 +214,10 @@ class ItemsPage extends React.Component<IProps, IState> {
                 key: "event-items",
                 title: "Event Items",
                 items: this.getEventItems(items)
+            },{
+                key: "servant-coins",
+                title: "Servant Coins",
+                items: this.getServantCoins(items)
             },{
                 key: "items",
                 title: "Other Items",

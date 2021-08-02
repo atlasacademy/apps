@@ -16,6 +16,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.DAMAGE_NP_PIERCE, 'Deal Damage that pierces defense'],
     [Func.FuncType.DAMAGE_NP_RARE, 'Deal Damage with Bonus to Rarity'],
     [Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX, 'Deal Damage with Bonus to Trait'],
+    [Func.FuncType.DAMAGE_VALUE, "Deal Damage"],
     [Func.FuncType.DELAY_NPTURN, 'Drain Charge'],
     [Func.FuncType.EVENT_DROP_UP, 'Increase Drop Amount'],
     [Func.FuncType.EVENT_POINT_UP, 'Increase Drop Amount'],

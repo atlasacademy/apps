@@ -76,6 +76,9 @@ interface BaseDataVal {
     ForcedEffectSpeedOne?: number;
     SetLimitCount?: number;
     CheckEnemyFieldSpace?: number;
+    TriggeredFuncPosition?: number;
+    DamageCount?: number;
+    DamageRates?: number[];
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -164,6 +167,9 @@ export enum DataValField {
     FORCE_EFFECT_SPEED_ONE = "ForcedEffectSpeedOne",
     SET_LIMIT_COUNT = "SetLimitCount",
     CHECK_ENEMY_FIELD_SPACE = "CheckEnemyFieldSpace",
+    TRIGGERED_FUNC_POSITION = "TriggeredFuncPosition",
+    DAMAGE_COUNT = "DamageCount",
+    DAMAGE_RATES = "DamageRates",
     PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",
