@@ -92,6 +92,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.PIERCE_INVINCIBLE, 'Ignore Invincible'],
     [Buff.BuffType.PIERCE_DEFENCE, 'Ignore DEF'],
     [Buff.BuffType.PREVENT_DEATH_BY_DAMAGE, 'Prevent death by damage'],
+    [Buff.BuffType.REFLECTION_FUNCTION, "Trigger Skill on end of enemy's turn"],
     [Buff.BuffType.REGAIN_HP, 'HP Per Turn'],
     [Buff.BuffType.REGAIN_NP, 'NP Per Turn'],
     [Buff.BuffType.REGAIN_STAR, 'Stars Per Turn'],
@@ -121,4 +122,5 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.ENTRY_FUNCTION, {after: true, event: 'entry'}],
     [Buff.BuffType.NPATTACK_PREV_BUFF, {after: true, event: 'NP'}],
     [Buff.BuffType.WAVESTART_FUNCTION, {after: true, event: 'wave start'}],
+    [Buff.BuffType.REFLECTION_FUNCTION, {after: true, event: "end of enemy's turn"}],
 ]);

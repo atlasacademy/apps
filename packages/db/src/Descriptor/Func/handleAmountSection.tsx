@@ -35,6 +35,7 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
             || func.buffs[0]?.type === Buff.BuffType.GUTS_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.SELFTURNEND_FUNCTION
             || func.buffs[0]?.type === Buff.BuffType.WAVESTART_FUNCTION
+            || func.buffs[0]?.type === Buff.BuffType.REFLECTION_FUNCTION
         )
         && typeof dataVal.Value === "number"
     ) {

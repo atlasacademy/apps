@@ -66,6 +66,7 @@ export default function (func: Func.BasicFunc,
                 case Func.FuncType.DAMAGE_NP_PIERCE:
                 case Func.FuncType.DAMAGE_NP_RARE:
                 case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+                case Func.FuncType.DAMAGE_NP_COUNTER:
                 case Func.FuncType.GAIN_HP_PER:
                 case Func.FuncType.QP_DROP_UP:
                     addPartials([
