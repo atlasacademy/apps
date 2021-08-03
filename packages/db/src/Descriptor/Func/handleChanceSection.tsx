@@ -10,6 +10,10 @@ export default function handleChanceSection(region: Region, sections: FuncDescri
         parts.push(`[Weight: ${dataVal.ActSetWeight}]`);
     }
 
+    if (dataVal.TriggeredFuncPosition !== undefined) {
+        parts.push(`If function ${dataVal.TriggeredFuncPosition} succeeds, `);
+    }
+
     if (dataVal.Rate && dataVal.Rate < 0) {
         parts.push(`If previous function succeeds, ${-dataVal.Rate / 10}% Chance to`);
     } else if (typeof dataVal.Rate === "number" && dataVal.Rate !== 1000) {
