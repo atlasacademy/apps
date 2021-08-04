@@ -103,6 +103,7 @@ export enum BuffAction {
     FUNCTION_COMMANDCODEATTACK_AFTER = "functionCommandcodeattackAfter",
     FUNCTION_ATTACK_BEFORE = "functionAttackBefore",
     DONOT_SKILL_SELECT = "donotSkillSelect",
+    BUFF_RATE = "buffRate",
 }
 
 export enum BuffLimit {
@@ -260,6 +261,7 @@ export enum BuffType {
     COMMANDCODEATTACK_AFTER_FUNCTION = "commandcodeattackAfterFunction",
     ATTACK_BEFORE_FUNCTION = "attackBeforeFunction",
     DONOT_SKILL_SELECT = "donotSkillSelect",
+    BUFF_RATE = "buffRate",
     INVISIBLE_BATTLE_CHARA = "invisibleBattleChara",
 }
 

@@ -1,6 +1,7 @@
 import { Region } from "@atlasacademy/api-connector";
 import axios, { AxiosError } from "axios";
 import { createRef, useEffect, useState } from "react";
+import { ButtonGroup } from "react-bootstrap";
 import { AssetHost } from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -12,6 +13,7 @@ import {
     ScriptComponent,
     ScriptComponentType,
 } from "../Component/Script";
+import RawDataViewer from "../Component/RawDataViewer";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
@@ -98,8 +100,8 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     return (
         <>
             <h1>Script {scriptId}</h1>
-            {audioUrls.length > 0 ? (
-                <div style={{ margin: "1em 0" }}>
+            <ButtonGroup style={{ margin: "1em 0" }}>
+                {audioUrls.length > 0 ? (
                     <VoiceLinePlayer
                         audioAssetUrls={audioUrls}
                         delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
@@ -107,8 +109,9 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                         showTitle
                         handleNavigateAssetUrl={scrollToRow}
                     />
-                </div>
-            ) : null}
+                ) : null}
+                <RawDataViewer text="Parsed Script" data={parsedScript} />
+            </ButtonGroup>
             <ScriptTable
                 region={region}
                 script={parsedScript}

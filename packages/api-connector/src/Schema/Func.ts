@@ -133,6 +133,7 @@ export enum FuncType {
     CHANGE_BGM_COSTUME = "changeBgmCostume",
     FUNC_126 = "func126",
     FUNC_127 = "func127",
+    UPDATE_ENTRY_POSITIONS = "updateEntryPositions",
 }
 
 export interface BasicFunc {

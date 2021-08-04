@@ -11,7 +11,7 @@ export default function handleChanceSection(region: Region, sections: FuncDescri
     }
 
     if (dataVal.TriggeredFuncPosition !== undefined) {
-        parts.push(`If function ${dataVal.TriggeredFuncPosition} succeeds, `);
+        parts.push(`If function #${dataVal.TriggeredFuncPosition} succeeds, `);
     }
 
     if (dataVal.Rate && dataVal.Rate < 0) {

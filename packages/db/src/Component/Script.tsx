@@ -3,6 +3,7 @@ import { AssetHost } from "../Api";
 
 export enum ScriptComponentType {
     UN_PARSED,
+    ENABLE_FULL_SCREEN,
     CHARA_SET,
     CHARA_FACE,
     CHARA_FADE_IN,
@@ -14,6 +15,7 @@ export enum ScriptComponentType {
     LABEL,
     BRANCH,
     BRANCH_QUEST_NOT_CLEAR,
+    BRANCH_MASTER_GENDER,
     BGM,
     BGM_STOP,
     VOICE,
@@ -36,10 +38,13 @@ export type ScriptSound = {
     audioAsset: string;
 };
 
+export type DialogueTextSize = "small" | "medium" | "large" | "x-large";
+
 export type DialogueText = {
     type: ScriptComponentType.DIALOGUE_TEXT;
     text: string;
     colorHex?: string;
+    size?: DialogueTextSize;
 };
 
 export type DialogueNewLine = {
@@ -106,6 +111,10 @@ export type ScriptDialogue = {
     voice?: ScriptSound;
 };
 
+export type ScriptEnableFullScreen = {
+    type: ScriptComponentType.ENABLE_FULL_SCREEN;
+};
+
 export type ScriptSoundEffect = {
     type: ScriptComponentType.SOUND_EFFECT;
     soundEffect: ScriptSound;
@@ -163,6 +172,12 @@ export type ScriptBranchQuestNotClear = {
     questId: number;
 };
 
+export type ScriptBranchMasterGender = {
+    type: ScriptComponentType.BRANCH_MASTER_GENDER;
+    maleLabelName: string;
+    femaleLabelName: string;
+};
+
 export type ScriptBgm = {
     type: ScriptComponentType.BGM;
     bgm: ScriptSound;
@@ -200,6 +215,7 @@ export type ScriptUnParsed = {
 
 // In contrast with components that span multiple lines like Dialogue or Choices
 export type ScriptBracketComponent =
+    | ScriptEnableFullScreen
     | ScriptUnParsed
     | ScriptSoundEffect
     | ScriptCharaSet
@@ -210,6 +226,7 @@ export type ScriptBracketComponent =
     | ScriptLabel
     | ScriptBranch
     | ScriptBranchQuestNotClear
+    | ScriptBranchMasterGender
     | ScriptBgm
     | ScriptBgmStop
     | ScriptVoice
@@ -239,6 +256,14 @@ export type ScriptComponent =
 export type ScriptInfo = {
     components: ScriptComponent[];
 };
+
+type ParserState = {
+    choice: boolean;
+    dialogue: boolean;
+    enableFullScreen?: boolean;
+};
+
+type ParserDialogueState = { colorHex?: string; size?: DialogueTextSize };
 
 function parseParameter(line: string): string[] {
     /*
@@ -295,7 +320,7 @@ function isDialogueBasic(word: string): boolean {
 
 function parseDialogueBasic(
     word: string,
-    colorHex?: string
+    parserDialogueState: ParserDialogueState
 ): DialogueBasicComponent {
     if (word[0] === "[") {
         if (word[1] === "#") {
@@ -305,7 +330,7 @@ function parseDialogueBasic(
                 type: ScriptComponentType.DIALOGUE_RUBY,
                 text: text,
                 ruby: ruby,
-                colorHex,
+                colorHex: parserDialogueState.colorHex,
             };
         }
 
@@ -318,13 +343,13 @@ function parseDialogueBasic(
                 // Player's name
                 return {
                     type: ScriptComponentType.DIALOGUE_PLAYER_NAME,
-                    colorHex,
+                    colorHex: parserDialogueState.colorHex,
                 };
             case "line":
                 return {
                     type: ScriptComponentType.DIALOGUE_LINE,
                     length: parseInt(parameters[1]),
-                    colorHex,
+                    colorHex: parserDialogueState.colorHex,
                 };
             case "servantName":
                 const [svtId, hiddenName, trueName] = word
@@ -336,68 +361,116 @@ function parseDialogueBasic(
                     svtId: parseInt(svtId),
                     hiddenName,
                     trueName,
-                    colorHex,
+                    colorHex: parserDialogueState.colorHex,
                 };
         }
     }
     return {
         type: ScriptComponentType.DIALOGUE_TEXT,
         text: word,
-        colorHex,
+        colorHex: parserDialogueState.colorHex,
+        size: parserDialogueState.size,
     };
 }
 
-function parseDialogueGender(word: string, colorHex?: string): DialogueGender {
+function parseDialogueGender(
+    word: string,
+    parserDialogueState: ParserDialogueState
+): DialogueGender {
     // Gender ternary `[&male:female]`
     const [male, female] = word
         .slice(2, word.length - 1)
         .split(/:(?=[^\]]*(?:\[|$))/); // To split nested components
     return {
         type: ScriptComponentType.DIALOGUE_GENDER,
-        male: splitLine(male).map((word) => parseDialogueBasic(word)),
-        female: splitLine(female).map((word) => parseDialogueBasic(word)),
-        colorHex,
+        male: splitLine(male).map((word) =>
+            parseDialogueBasic(word, parserDialogueState)
+        ),
+        female: splitLine(female).map((word) =>
+            parseDialogueBasic(word, parserDialogueState)
+        ),
+        colorHex: parserDialogueState.colorHex,
     };
 }
 
 function parseDialogueWord(
     region: Region,
     word: string,
-    colorHex?: string
+    parserState: ParserState,
+    parserDialogueState: ParserDialogueState
 ): DialogueChildComponent {
     if (word[0] === "[") {
         if (word[1] === "&") {
-            return parseDialogueGender(word, colorHex);
+            return parseDialogueGender(word, parserDialogueState);
         } else if (!isDialogueBasic(word)) {
-            return parseBracketComponent(region, parseParameter(word));
+            return parseBracketComponent(
+                region,
+                parseParameter(word),
+                parserState
+            );
         }
     }
-    return parseDialogueBasic(word, colorHex);
+    return parseDialogueBasic(word, parserDialogueState);
 }
 
 function parseDialogueLine(
     region: Region,
-    line: string
+    line: string,
+    parserState: ParserState
 ): DialogueChildComponent[] {
     let outComponents: DialogueChildComponent[] = [],
-        colorHex = undefined;
+        parserDialogueState: ParserDialogueState = {};
     for (const word of splitLine(line)) {
+        let parsed = false;
         if (word[0] === "[") {
-            const colorReg = word.match(/\[([0-9a-f]{6})\]/);
+            const parameters = parseParameter(word);
+
+            const colorReg = parameters[0].match(/([0-9a-fA-F]{6})/);
             if (colorReg !== null) {
-                colorHex = colorReg[1];
-                continue;
-            } else if (word[1] === "-") {
-                colorHex = undefined;
-                continue;
+                parserDialogueState.colorHex = colorReg[1];
+                parsed = true;
+            }
+
+            switch (parameters[0]) {
+                case "-":
+                    parserDialogueState.colorHex = undefined;
+                    parserDialogueState.size = undefined;
+                    parsed = true;
+                    break;
+                case "f":
+                    if (parameters[1] === "-") {
+                        parserDialogueState.size = undefined;
+                        parsed = true;
+                        break;
+                    }
+
+                    if (parameters[1]) {
+                        parserDialogueState.size =
+                            parameters[1] as DialogueTextSize;
+                        parsed = true;
+                        break;
+                    }
             }
         }
-        outComponents.push(parseDialogueWord(region, word, colorHex));
+        if (!parsed) {
+            outComponents.push(
+                parseDialogueWord(
+                    region,
+                    word,
+                    parserState,
+                    parserDialogueState
+                )
+            );
+        }
     }
     return outComponents;
 }
 
-function parseDialogueSpeaker(region: Region, line: string): DialogueSpeaker {
+function parseDialogueSpeaker(
+    region: Region,
+    line: string,
+    parserState: ParserState
+): DialogueSpeaker {
     const noMarker = line.slice(1);
     let name = noMarker,
         speakerCode = undefined;
@@ -409,7 +482,7 @@ function parseDialogueSpeaker(region: Region, line: string): DialogueSpeaker {
     return {
         name,
         speakerCode,
-        components: parseDialogueLine(region, name),
+        components: parseDialogueLine(region, name, parserState),
     };
 }
 
@@ -444,7 +517,8 @@ function getBgmObject(fileName: string, audioUrl: string): ScriptSound {
 
 function parseBracketComponent(
     region: Region,
-    parameters: string[]
+    parameters: string[],
+    parserState: ParserState
 ): ScriptBracketComponent {
     switch (parameters[0]) {
         case "charaSet":
@@ -551,7 +625,9 @@ function parseBracketComponent(
         case "scene":
             return {
                 type: ScriptComponentType.BACKGROUND,
-                backgroundAsset: `${AssetHost}/${region}/Back/back${parameters[1]}.png`,
+                backgroundAsset: parserState.enableFullScreen
+                    ? `${AssetHost}/${region}/Back/back${parameters[1]}_1344_626.png`
+                    : `${AssetHost}/${region}/Back/back${parameters[1]}.png`,
                 crossFadeDurationSec:
                     parameters[3] === undefined
                         ? undefined
@@ -563,6 +639,15 @@ function parseBracketComponent(
                 name: parameters[1],
                 value: parameters[2],
             };
+        case "masterBranch":
+            return {
+                type: ScriptComponentType.BRANCH_MASTER_GENDER,
+                maleLabelName: parameters[1],
+                femaleLabelName: parameters[2],
+            };
+        case "enableFullScreen":
+            parserState.enableFullScreen = true;
+            return { type: ScriptComponentType.ENABLE_FULL_SCREEN };
         default:
             return {
                 type: ScriptComponentType.UN_PARSED,
@@ -588,7 +673,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
         results: [],
     };
 
-    let parserState = {
+    let parserState: ParserState = {
         choice: false,
         dialogue: false,
     };
@@ -616,9 +701,17 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 const parameters = parseParameter(line);
                 switch (parameters[0]) {
                     case "k":
-                        dialogue.components = dialogue.lines.map((line) =>
-                            parseDialogueLine(region, line)
-                        );
+                    case "page":
+                        dialogue.components = [
+                            parseDialogueLine(
+                                region,
+                                dialogue.lines.join(""),
+                                parserState
+                            ),
+                        ];
+                        // dialogue.components = dialogue.lines.map((line) =>
+                        //     parseDialogueLine(region, line, parserState)
+                        // );
                         if (parserState.choice) {
                             choice.results.push({ ...dialogue });
                         } else {
@@ -641,7 +734,8 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         } else {
                             const parsedComponent = parseBracketComponent(
                                 region,
-                                parameters
+                                parameters,
+                                parserState
                             );
                             if (parserState.choice) {
                                 choice.results.push(parsedComponent);
@@ -653,7 +747,11 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 break;
             case "＠":
                 parserState.dialogue = true;
-                dialogue.speaker = parseDialogueSpeaker(region, line);
+                dialogue.speaker = parseDialogueSpeaker(
+                    region,
+                    line,
+                    parserState
+                );
                 break;
             case "？":
                 if (line[1] === "！") {
@@ -674,7 +772,11 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 }
 
                 choice.id = lineChoiceNumber;
-                choice.option = parseDialogueLine(region, line.slice(3));
+                choice.option = parseDialogueLine(
+                    region,
+                    line.slice(3),
+                    parserState
+                );
                 choice.results = [];
 
                 parserState.choice = true;

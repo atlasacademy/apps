@@ -24,10 +24,21 @@ export interface ServantBasic extends EntityBasic {
         | EntityType.ENEMY_COLLECTION_DETAIL;
 }
 
+export enum ServantFrameType {
+    BLACK = "black",
+    BRONZE = "bronze",
+    SILVER = "silver",
+    GOLD = "gold",
+    FRAME_0801 = "frame0801",
+    FRAME_0802 = "frame0802",
+    FRAME_0803 = "frame0803",
+    FRAME_0804 = "frame0804",
+}
+
 export interface GrailCostInfo {
     qp: number;
     addLvMax: number;
-    frameType: ItemBackgroundType;
+    frameType: ServantFrameType;
 }
 
 export type GrailCostInfoMap = {

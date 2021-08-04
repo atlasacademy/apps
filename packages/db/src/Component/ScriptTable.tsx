@@ -189,6 +189,18 @@ const ScriptBracketRow = (props: {
                     </td>
                 </tr>
             );
+        case ScriptComponentType.BRANCH_MASTER_GENDER:
+            return (
+                <tr>
+                    <td>Branch</td>
+                    <td>
+                        Go to label <code>{component.maleLabelName}</code>{" "}
+                        {getGoToLabel(component.maleLabelName)} if chosen gender{" "}
+                        is male or <code>{component.femaleLabelName}</code>{" "}
+                        {getGoToLabel(component.femaleLabelName)} if female
+                    </td>
+                </tr>
+            );
         case ScriptComponentType.LABEL:
             return (
                 <tr ref={refs.get(component.name)}>

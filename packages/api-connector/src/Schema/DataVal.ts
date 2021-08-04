@@ -79,6 +79,8 @@ interface BaseDataVal {
     TriggeredFuncPosition?: number;
     DamageCount?: number;
     DamageRates?: number[];
+    OnPositions?: number[];
+    OffPositions?: number[];
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -170,6 +172,8 @@ export enum DataValField {
     TRIGGERED_FUNC_POSITION = "TriggeredFuncPosition",
     DAMAGE_COUNT = "DamageCount",
     DAMAGE_RATES = "DamageRates",
+    ON_POSITIONS = "OnPositions",
+    OFF_POSITIONS = "OffPositions",
     PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",

@@ -51,7 +51,48 @@ const DialogueBasic = (props: { component: DialogueBasicComponent }) => {
         case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
             return <>{component.trueName}</>;
         case ScriptComponentType.DIALOGUE_TEXT:
-            return <>{component.text}</>;
+            let innerContent = <>{component.text}</>;
+            if (component.size !== undefined) {
+                switch (component.size) {
+                    case "small":
+                        innerContent = (
+                            <span
+                                style={{
+                                    position: "relative",
+                                    top: "-0.125em",
+                                    fontSize: "0.75em",
+                                }}
+                            >
+                                {component.text}
+                            </span>
+                        );
+                        break;
+                    case "medium":
+                        innerContent = (
+                            <span style={{ fontSize: "0.75em" }}>
+                                {component.text}
+                            </span>
+                        );
+                        break;
+                    case "large":
+                        innerContent = (
+                            <sub style={{ fontSize: "1.5em" }}>
+                                {component.text}
+                            </sub>
+                        );
+                        break;
+                    case "x-large":
+                        innerContent = (
+                            <span style={{ fontSize: "2em" }}>
+                                {component.text}
+                            </span>
+                        );
+                        break;
+                }
+            }
+            return (
+                <span style={{ whiteSpace: "pre-wrap" }}>{innerContent}</span>
+            );
         default:
             return null;
     }
