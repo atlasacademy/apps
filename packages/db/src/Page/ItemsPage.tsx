@@ -179,7 +179,9 @@ class ItemsPage extends React.Component<IProps, IState> {
 
     private getOtherItems(itemList: Item.Item[]): Item.Item[] {
         return itemList.filter(item => (
-            !this.isServantMaterial(item.type, item.uses) && !this.isEventItem(item.type, item.uses)
+            !this.isServantMaterial(item.type, item.uses)
+            && !this.isEventItem(item.type, item.uses)
+            && item.type !== Item.ItemType.SVT_COIN
         ));
     }
 

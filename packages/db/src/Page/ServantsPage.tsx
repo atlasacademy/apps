@@ -29,6 +29,7 @@ const classFilters: ClassName[] = [
         ClassName.AVENGER,
         ClassName.MOON_CANCER,
         ClassName.FOREIGNER,
+        ClassName.PRETENDER,
         ClassName.UNKNOWN
     ],
     normalClasses: ClassName[] = [
@@ -46,6 +47,7 @@ const classFilters: ClassName[] = [
         ClassName.AVENGER,
         ClassName.MOON_CANCER,
         ClassName.FOREIGNER,
+        ClassName.PRETENDER,
         ClassName.UNKNOWN
     ];
 

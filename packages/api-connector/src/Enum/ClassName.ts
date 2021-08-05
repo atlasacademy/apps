@@ -15,6 +15,7 @@ enum ClassName {
     USHI_CHAOS_TIDE = "ushiChaosTide",
     BEAST_I = "beastI",
     MOON_CANCER = "moonCancer",
+    PRETENDER = "pretender",
     BEAST_IIIR = "beastIIIR",
     FOREIGNER = "foreigner",
     BEAST_IIIL = "beastIIIL",
