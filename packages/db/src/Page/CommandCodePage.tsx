@@ -103,7 +103,7 @@ class CommandCodePage extends React.Component<IProps, IState> {
                                     <SkillBreakdown key={skill.id}
                                                     region={this.props.region}
                                                     skill={skill}
-                                                    cooldowns={false}/>
+                                                    cooldowns={true}/>
                                 );
                             })}
                     </Tab>

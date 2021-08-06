@@ -27,12 +27,17 @@ class EffectBreakdownLines extends React.Component<IProps> {
         const effectStyle = this.props.popOver ? { maxWidth: "400px" } : { width: "45%", minWidth: "300px" };
         return (
             <React.Fragment>
-                {this.props.cooldowns ? (
+                {this.props.cooldowns && (this.props.level || this.props.levels) ? (
                     <tr>
                         <td style={effectStyle}>Cooldown</td>
                         {this.props.cooldowns.map((cooldown, index) => {
                             return <td key={index}>{cooldown}</td>;
                         })}
+                    </tr>
+                ) : null}
+                {this.props.cooldowns && (!this.props.level && !this.props.levels) ? (
+                    <tr>
+                        <td style={effectStyle}>Cooldown {this.props.cooldowns.join(', ')} turn(s)</td>
                     </tr>
                 ) : null}
                 {this.props.scripts
