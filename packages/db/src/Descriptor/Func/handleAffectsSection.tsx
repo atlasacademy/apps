@@ -25,7 +25,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
             <span>against <TraitDescription region={region} trait={dataVal.Target}/></span>
         );
     } else if (
-        dataVal.TargetList
+        dataVal.TargetList !== undefined
         && dataVal.TargetList.length > 0
         && func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM
     ) {
@@ -40,7 +40,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
             <span>{preposition} {traitDescription} {whoseTrait} {limitDescription}</span>
         );
     } else if (
-        dataVal.TargetRarityList
+        dataVal.TargetRarityList !== undefined
         && dataVal.TargetRarityList.length > 0
         && func.funcType === Func.FuncType.DAMAGE_NP_RARE
     ) {
@@ -52,41 +52,37 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         )
     } else if (func.funcType === Func.FuncType.DAMAGE_NP_PIERCE) {
         parts.push('(that pierces defense)');
-    }
-
-    if (func.funcType === Func.FuncType.SERVANT_FRIENDSHIP_UP) {
+    } else if (func.funcType === Func.FuncType.SERVANT_FRIENDSHIP_UP) {
         if (dataVal.Individuality)
             parts.push(<span>of <TraitDescription region={region} trait={dataVal.Individuality}/></span>)
         if (dataVal.EventId)
             parts.push(<span>during event <EventDescriptor region={region} eventId={dataVal.EventId}/></span>)
         if (dataVal.ApplySupportSvt === 0)
             parts.push(<span>(No effect when equipped as Support)</span>)
-    }
-
-    if (
+    } else if (
         func.funcType === Func.FuncType.EVENT_DROP_UP
         || func.funcType === Func.FuncType.EVENT_POINT_UP
         || func.funcType === Func.FuncType.EVENT_DROP_RATE_UP
         || func.funcType === Func.FuncType.EVENT_POINT_RATE_UP
     ) {
-        if (dataVal.Individuality)
+        if (dataVal.Individuality !== undefined)
             parts.push(<span>of <ItemDescriptorIndividuality region={region} individuality={dataVal.Individuality}/></span>)
 
         if (
             func.funcType === Func.FuncType.EVENT_DROP_RATE_UP
             || func.funcType === Func.FuncType.EVENT_POINT_RATE_UP
         ) {
-            if (dataVal.AddCount)
+            if (dataVal.AddCount !== undefined)
                 parts.push(<span>by {dataVal.AddCount / 10}%</span>)
         } else {
-            if (dataVal.AddCount)
+            if (dataVal.AddCount !== undefined)
                 parts.push(<span>by {dataVal.AddCount}</span>)
 
-            if (dataVal.RateCount)
+            if (dataVal.RateCount !== undefined)
                 parts.push(<span>by {dataVal.RateCount / 10}%</span>)
         }
 
-        if (dataVal.EventId)
+        if (dataVal.EventId !== undefined)
             parts.push(<span>during event <EventDescriptor region={region} eventId={dataVal.EventId}/></span>)
     }
 
@@ -94,20 +90,20 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         func.funcType === Func.FuncType.ENEMY_ENCOUNT_COPY_RATE_UP
         || func.funcType === Func.FuncType.ENEMY_ENCOUNT_RATE_UP
     ) {
-        if (dataVal.Individuality) {
+        if (dataVal.Individuality !== undefined) {
             parts.push(
                 <span>with <TraitDescription region={region} trait={Number(dataVal.Individuality)}/></span>
             )
         }
 
-        if (dataVal.EventId) {
+        if (dataVal.EventId !== undefined) {
             parts.push(
                 <span>during event <EventDescriptor region={region} eventId={dataVal.EventId}/></span>
             )
         }
     }
 
-    if (func.funcquestTvals.length) {
+    if (func.funcquestTvals.length > 0) {
         parts.push('if on field');
         parts.push(
             mergeElements(
@@ -117,7 +113,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         );
     }
 
-    if (func.functvals.length) {
+    if (func.functvals.length > 0) {
         if (func.funcTargetType === Func.FuncTargetType.SELF) {
             parts.push('if self has');
         } else if (func.funcType === Func.FuncType.GAIN_STAR && dataVal.MultipleGainStar === 1) {

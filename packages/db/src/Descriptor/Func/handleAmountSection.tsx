@@ -1,6 +1,5 @@
 import {Buff, DataVal, Func, Region} from "@atlasacademy/api-connector";
-import React from "react";
-import { asPercent } from "../../Helper/OutputHelper";
+import { asPercent, mergeElements } from "../../Helper/OutputHelper";
 import BuffValueDescription from "../BuffValueDescription";
 import EntityReferenceDescriptor from "../EntityReferenceDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
@@ -78,7 +77,7 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         } else {
             section.showing = false;
         }
-    } else if (dataVal.AddCount && (
+    } else if (dataVal.AddCount !== undefined && (
         func.funcType === Func.FuncType.EXP_UP
         || func.funcType === Func.FuncType.QP_UP
         || func.funcType === Func.FuncType.USER_EQUIP_EXP_UP
@@ -86,7 +85,7 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         || func.funcType === Func.FuncType.FRIEND_POINT_UP_DUPLICATE
     )) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
-    } else if (dataVal.RateCount && (
+    } else if (dataVal.RateCount !== undefined && (
         func.funcType === Func.FuncType.QP_DROP_UP
         || func.funcType === Func.FuncType.SERVANT_FRIENDSHIP_UP
         || func.funcType === Func.FuncType.USER_EQUIP_EXP_UP
@@ -107,8 +106,42 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         parts.push(
             <SkillReferenceDescriptor region={region} id={dataVal.SkillID}/>
         );
-    } else if (func.buffs[0] && dataVal.Value) {
+    } else if (func.buffs[0] !== undefined && dataVal.Value !== undefined) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
+
+        if (dataVal.ParamAddValue !== undefined) {
+            let traitIds: number[] = [], whoseTrait: string = "";
+            if (dataVal.ParamAddSelfIndividuality !== undefined) {
+                traitIds = dataVal.ParamAddSelfIndividuality;
+                whoseTrait = "on self";
+            } else if (dataVal.ParamAddOpIndividuality !== undefined) {
+                traitIds = dataVal.ParamAddOpIndividuality;
+                whoseTrait = "on enemy";
+            } else if (dataVal.ParamAddFieldIndividuality !== undefined) {
+                traitIds = dataVal.ParamAddFieldIndividuality;
+                whoseTrait = "on field";
+            }
+            const traitDescription = mergeElements(
+                    traitIds.map(id => <TraitDescription region={region} trait={id}/>), ' or '
+                ),
+                maxStack = dataVal.ParamAddMaxCount ? `${dataVal.ParamAddMaxCount} stacks` : undefined,
+                maxValue = dataVal.ParamAddMaxValue
+                    ? <BuffValueDescription
+                        region={region}
+                        buff={func.buffs[0]}
+                        dataVal={{Value: dataVal.ParamAddMaxValue}}/>
+                    : undefined,
+                limitDescription = maxStack !== undefined || maxValue !== undefined
+                    ? <>[Max {mergeElements([maxStack, maxValue]," or ")}]</>
+                    : <></>,
+                stackValue = <BuffValueDescription region={region} buff={func.buffs[0]} dataVal={{Value: dataVal.ParamAddValue}}/>;
+
+            parts.push(
+                <span>
+                    + {stackValue} per stack of {traitDescription} {whoseTrait} {limitDescription}
+                </span>
+            );
+        }
         if (dataVal.UseRate !== undefined) {
             parts.push(`with ${dataVal.UseRate / 10}% chance to work`);
         }
@@ -139,6 +172,12 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         parts.push(`scaled with remaining HP ${dataVal.RatioHPRangeHigh/10}–${dataVal.RatioHPRangeLow/10}%`);
     } else {
         section.showing = false;
+    }
+
+    if (dataVal.SameBuffLimitNum !== undefined) {
+        section.preposition = undefined;
+        parts.push(`[Max ${dataVal.SameBuffLimitNum} stacks]`);
+        section.showing = true;
     }
 
     if (support) {
