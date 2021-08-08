@@ -366,6 +366,36 @@ class Api {
             reverseDepth: ReverseDepth.SERVANT,
         });
     }
+
+    static searchQuestPhase(
+        name?: string,
+        spotName?: string,
+        warId?: number,
+        type?: Quest.QuestType[],
+        fieldIndividuality?: number[],
+        battleBgId?: number,
+        bgmId?: number,
+        fieldAiId?: number,
+        enemySvtId?: number,
+        enemySvtAiId?: number,
+        enemyTrait?: number[],
+        enemyClassName?: ClassName[]
+    ): Promise<Quest.QuestPhaseBasic[]> {
+        return apiConnector.searchQuestPhase({
+            name,
+            spotName,
+            warId,
+            type,
+            fieldIndividuality,
+            battleBgId,
+            bgmId,
+            fieldAiId,
+            enemySvtId,
+            enemySvtAiId,
+            enemyTrait,
+            enemyClassName,
+        });
+    }
 }
 
 export default Api;

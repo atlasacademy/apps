@@ -54,9 +54,19 @@ export interface QuestBasic {
     consume: number;
     spotId: number;
     warId: number;
+    warLongName: string;
     noticeAt: number;
     openedAt: number;
     closedAt: number;
+}
+
+export interface QuestPhaseBasic extends QuestBasic {
+    phase: number;
+    individuality: Trait[];
+    qp: number;
+    exp: number;
+    bond: number;
+    battleBgId: number;
 }
 
 export interface PhaseScript {
@@ -78,6 +88,7 @@ export interface Quest {
     consumeItem: { item: Item; amount: number }[];
     spotId: number;
     warId: number;
+    warLongName: string;
     gifts: Gift[];
     releaseConditions: QuestRelease[];
     phases: number[];

@@ -108,6 +108,7 @@ const listingPageTitles = new Map([
     ["noble-phantasms", "Noble Phantasms Search"],
     ["funcs", "Functions Search"],
     ["buffs", "Buffs Search"],
+    ["quests", "Quests Search"],
     ["changes", "Changelog"],
 ]);
 

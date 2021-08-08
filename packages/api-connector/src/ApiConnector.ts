@@ -34,6 +34,7 @@ import {
     QuestBasic,
     QuestConsumeType,
     QuestPhase,
+    QuestPhaseBasic,
     QuestType,
 } from "./Schema/Quest";
 import {
@@ -160,6 +161,21 @@ type ItemSearchOptions = {
     use?: ItemUse[];
 };
 
+type QuestPhaseSearchOptions = {
+    name?: string;
+    spotName?: string;
+    warId?: number;
+    type?: QuestType[];
+    fieldIndividuality?: number[];
+    battleBgId?: number;
+    bgmId?: number;
+    fieldAiId?: number;
+    enemySvtId?: number;
+    enemySvtAiId?: number;
+    enemyTrait?: number[];
+    enemyClassName?: ClassName[];
+};
+
 export interface EnumList {
     NiceSvtType: { [key: string]: EntityType };
     NiceSvtFlag: { [key: string]: EntityFlag };
@@ -257,6 +273,8 @@ class ApiConnector {
             QuestPhase
         >(),
         questBasic: new ResultCache<number, QuestBasic>(),
+        questPhaseBasic: new ResultCache<number, QuestPhaseBasic>(),
+        searchQuestPhase: new ResultCache<string, QuestPhaseBasic[]>(),
         entityBasic: new ResultCache<number, EntityBasic>(),
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
@@ -924,6 +942,27 @@ class ApiConnector {
         );
     }
 
+    questPhaseBasic(
+        id: number,
+        phase: number,
+        cacheDuration?: number
+    ): Promise<QuestPhaseBasic> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<QuestPhaseBasic>(
+                `${this.host}/basic/${this.region}/quest/${id}/${phase}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.questPhaseBasic.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
     ai(
         type: AiType,
         id: number,
@@ -1163,6 +1202,27 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.searchItem.get(
+            query,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    searchQuestPhase(
+        options: QuestPhaseSearchOptions,
+        cacheDuration?: number
+    ): Promise<QuestPhaseBasic[]> {
+        const query = this.getQueryString(this.getURLSearchParams(options));
+
+        const fetch = () => {
+            return ApiConnector.fetch<QuestPhaseBasic[]>(
+                `${this.host}/basic/${this.region}/quest/phase/search${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.searchQuestPhase.get(
             query,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration

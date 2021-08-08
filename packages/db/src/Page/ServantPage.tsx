@@ -256,7 +256,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                             <SkillBreakdown
                                                 region={this.props.region}
                                                 skill={skill.skill}
-                                                cooldowns={true}
+                                                cooldowns={false}
                                                 levels={skill.skill.coolDown.length}
                                             />
                                         </Col>
