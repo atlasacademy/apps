@@ -14,13 +14,13 @@ RUN apk add --no-cache curl \
  && cd /src \
  && curl -L -o drop-serializer.tar.gz https://github.com/atlasacademy/drop-serializer-react/archive/master.tar.gz \
  && tar -zxvf drop-serializer.tar.gz \
- && cd drop-serializer-react-master && npm install && npm run build \
+ && cd drop-serializer-react-master && npm ci && npm run build \
  && mkdir -p /app/ && cp -r ./build/ /app/drop-serializer \
  && cd /src \
- && cd apps-master/packages/db && npm install && npm run build \
+ && cd apps-master/packages/db && npm ci && npm run build \
  && mkdir -p /app/ && cp -r ./build/ /app/db \
  && cd /src \
- && cd apps-master/packages/paper-moon && npm install && npm run build \
+ && cd apps-master/packages/paper-moon && npm ci && npm run build \
  && mkdir -p /app/ && cp -r ./build/ /app/paper-moon
 
 # stage 2 : copy & fire things up
