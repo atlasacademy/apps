@@ -2,7 +2,7 @@ import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
 import { faBook, faDragon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
-import React from "react";
+import React, {useState} from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
@@ -21,17 +21,34 @@ import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
 
-const imgOnError = (e: React.SyntheticEvent<HTMLImageElement, ErrorEvent>) => {
-    const el = e.target as HTMLImageElement;
-    if (el.src !== "") {
-        el.onerror = null;
-        el.src = "";
-        el.alt = "";
-    }
+const BannerImage = (props: { src?: string, index: number }) => {
+    const [src, setSrc] = useState(props.src);
+
+    if (!src) return null;
+
+    return (
+        <div>
+            <img
+                style={{
+                    maxWidth: "100%",
+                    maxHeight: "5em",
+                }}
+                src={src}
+                onError={() => {
+                    setSrc(undefined);
+                }}
+                alt={`War's banner #${props.index} ${src}`}
+            />
+            <br />
+        </div>
+    );
 };
 
 const SpotImage = (props: { src?: string; name: string; height: string }) => {
-    if (props.src === undefined) return null;
+    const [src, setSrc] = useState(props.src);
+
+    if (src === undefined) return null;
+
     return (
         <img
             style={{
@@ -40,8 +57,10 @@ const SpotImage = (props: { src?: string; name: string; height: string }) => {
                 position: "relative",
                 top: "-10px",
             }}
-            src={props.src}
-            onError={imgOnError}
+            src={src}
+            onError={() => {
+                setSrc(undefined);
+            }}
             alt={`Spot ${props.name}`}
         />
     );
@@ -364,18 +383,7 @@ class WarPage extends React.Component<IProps, IState> {
         const bannerImages = (
             <>
                 {banners.map((banner, index) => (
-                    <div key={index}>
-                        <img
-                            style={{
-                                maxWidth: "100%",
-                                maxHeight: "5em",
-                            }}
-                            src={banner}
-                            onError={imgOnError}
-                            alt={`War's banner #${index} ${banner}`}
-                        />
-                        <br />
-                    </div>
+                    <BannerImage key={index} index={index} src={banner}/>
                 ))}
             </>
         );
