@@ -11,6 +11,7 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
+import QuestSearchDescriptor from "../Descriptor/QuestSearchDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 import AiGraph from "./Ai/AiGraph";
@@ -94,17 +95,25 @@ class AiPage extends React.Component<IProps, IState> {
             )?.current?.scrollIntoView({ behavior: "smooth" });
         };
 
-        const relatedQuests = mergeElements(
-            this.state.aiCollection.relatedQuests.map((quest) => (
-                <QuestDescriptor
+        const relatedQuests =
+            this.state.aiCollection.relatedQuests.length > 0 ? (
+                mergeElements(
+                    this.state.aiCollection.relatedQuests.map((quest) => (
+                        <QuestDescriptor
+                            region={this.props.region}
+                            questId={quest.questId}
+                            questPhase={quest.phase}
+                            questStage={quest.stage}
+                        />
+                    )),
+                    <br />
+                )
+            ) : (
+                <QuestSearchDescriptor
                     region={this.props.region}
-                    questId={quest.questId}
-                    questPhase={quest.phase}
-                    questStage={quest.stage}
+                    enemySvtAiId={this.props.id}
                 />
-            )),
-            <br />
-        );
+            );
 
         return (
             <div>

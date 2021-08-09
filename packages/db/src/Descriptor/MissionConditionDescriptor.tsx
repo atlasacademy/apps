@@ -1,10 +1,20 @@
-import { Mission, Quest, Region, Servant, Item, EnumList } from "@atlasacademy/api-connector";
+import {
+    Mission,
+    Quest,
+    Region,
+    Servant,
+    Item,
+    EnumList,
+    CondType,
+} from "@atlasacademy/api-connector";
 import { handleNewLine } from "../Helper/OutputHelper";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
+import QuestSearchDescriptor from "./QuestSearchDescriptor";
 
 export default function MissionConditionDescriptor(props: {
     region: Region;
     cond: Mission.MissionCondition;
+    warIds?: number[];
     servants?: Map<number, Servant.ServantBasic>;
     quests?: Map<number, Quest.QuestBasic>;
     missions?: Map<number, Mission.Mission>;
@@ -44,6 +54,20 @@ export default function MissionConditionDescriptor(props: {
                         handleNavigateMissionId={props.handleNavigateMissionId}
                     />
                 </li>
+                {cond.condType === CondType.MISSION_CONDITION_DETAIL &&
+                (cond.detail?.missionCondType ===
+                    Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY ||
+                    cond.detail?.missionCondType ===
+                        Mission.DetailCondType.ENEMY_INDIVIDUALITY_KILL_NUM) ? (
+                    <>
+                        <QuestSearchDescriptor
+                            region={props.region}
+                            warId={props.warIds ? props.warIds[0] : undefined}
+                            enemyTrait={cond.detail.targetIds}
+                            hideSearchLink={true}
+                        />
+                    </>
+                ) : null}
             </ul>
         </>
     );

@@ -163,7 +163,9 @@ export function QuestDescriptorMap(props: {
     } else {
         return (
             <Link
-                to={`/${props.region}/quest/${props.questId}/${props.questPhase}`}
+                to={`/${props.region}/quest/${props.questId}/${
+                    props.questPhase ?? 1
+                }`}
             >
                 Quest {props.questId} <FontAwesomeIcon icon={faShare} />
             </Link>

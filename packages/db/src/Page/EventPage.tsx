@@ -74,7 +74,7 @@ class EventPage extends React.Component<IProps, IState> {
             itemCache: new Map(),
             questCache: new Map(),
             missionRefs: new Map(),
-            shopFilters: new Map()
+            shopFilters: new Map(),
         };
     }
 
@@ -170,6 +170,7 @@ class EventPage extends React.Component<IProps, IState> {
         servantCache: Map<number, Servant.ServantBasic>,
         itemCache: Map<number, Item.Item>,
         questCache: Map<number, Quest.Quest>,
+        warIds?: number[],
         enums?: EnumList
     ) {
         const scrollToMissions = (id: number) => {
@@ -197,6 +198,7 @@ class EventPage extends React.Component<IProps, IState> {
                         missions={missionMap}
                         items={itemCache}
                         enums={enums}
+                        warIds={warIds}
                         handleNavigateMissionId={scrollToMissions}
                     />
                 );
@@ -214,6 +216,7 @@ class EventPage extends React.Component<IProps, IState> {
         servantCache: Map<number, Servant.ServantBasic>,
         itemCache: Map<number, Item.Item>,
         questCache: Map<number, Quest.Quest>,
+        warIds?: number[],
         enums?: EnumList
     ) {
         return (
@@ -235,6 +238,7 @@ class EventPage extends React.Component<IProps, IState> {
                         servantCache,
                         itemCache,
                         questCache,
+                        warIds,
                         enums
                     )}
                 </td>
@@ -261,6 +265,7 @@ class EventPage extends React.Component<IProps, IState> {
         servantCache: Map<number, Servant.ServantBasic>,
         itemCache: Map<number, Item.Item>,
         questCache: Map<number, Quest.Quest>,
+        warIds?: number[],
         enums?: EnumList
     ) {
         const missionMap = new Map(
@@ -289,6 +294,7 @@ class EventPage extends React.Component<IProps, IState> {
                                         servantCache,
                                         itemCache,
                                         questCache,
+                                        warIds,
                                         enums
                                     )}
                                 </tr>
@@ -556,16 +562,20 @@ class EventPage extends React.Component<IProps, IState> {
                 );
             case "shop":
                 let { shopFilters } = this.state;
-                return <ShopTab
-                    region={region}
-                    shops={event.shop.filter((shop) => shop.slot === tab.id)}
-                    itemMap={itemMap}
-                    filters={shopFilters.get(tab.id) ?? new Map()}
-                    onChange={records => {
-                        shopFilters.set(tab.id, records);
-                        this.setState({ shopFilters });
-                    }}
-                    />;
+                return (
+                    <ShopTab
+                        region={region}
+                        shops={event.shop.filter(
+                            (shop) => shop.slot === tab.id
+                        )}
+                        itemMap={itemMap}
+                        filters={shopFilters.get(tab.id) ?? new Map()}
+                        onChange={(records) => {
+                            shopFilters.set(tab.id, records);
+                            this.setState({ shopFilters });
+                        }}
+                    />
+                );
             case "mission":
                 return this.renderMissionTab(
                     region,
@@ -574,6 +584,7 @@ class EventPage extends React.Component<IProps, IState> {
                     servantCache,
                     itemCache,
                     questCache,
+                    event.warIds,
                     enums
                 );
             case "lottery":

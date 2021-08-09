@@ -227,6 +227,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             <Form.Group>
                 <Form.Label>{label}</Form.Label>
                 <Form.Control
+                    type="number"
                     value={this.state[stateVar]?.toString() ?? ""}
                     onChange={(ev: ChangeEvent) => {
                         if (

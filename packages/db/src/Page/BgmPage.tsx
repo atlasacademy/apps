@@ -14,6 +14,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import { Col, Row } from "react-bootstrap";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
+import QuestSearchDescriptor from "../Descriptor/QuestSearchDescriptor";
 
 const BgmPage = (props: { region: Region; bgmId: number }) => {
     const { region, bgmId } = props;
@@ -90,7 +91,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                 data={{
                     ID: bgm.id,
                     Name: showName,
-                    "Can be bought in my room": toTitleCase(
+                    "Available to Buy": toTitleCase(
                         (!bgm.notReleased).toString()
                     ),
                     Player: (
@@ -102,6 +103,9 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                     ),
                     "Unlock Condition": bgmRelease,
                     "Unlock Cost": shopDetail,
+                    Quests: (
+                        <QuestSearchDescriptor region={region} bgmId={bgm.id} />
+                    ),
                     Raw: (
                         <Row>
                             <Col>

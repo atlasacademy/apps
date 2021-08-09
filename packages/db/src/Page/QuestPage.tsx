@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import Api, { Host } from "../Api";
 import ClassIcon from "../Component/ClassIcon";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
@@ -173,7 +173,13 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                     )),
                     " "
                 ),
-                "Battle BG ID": quest.battleBgId,
+                "Battle BG ID": (
+                    <Link
+                        to={`/${props.region}/quests?battleBgId=${quest.battleBgId}`}
+                    >
+                        {quest.battleBgId}
+                    </Link>
+                ),
                 Raw: (
                     <Row>
                         <Col>
