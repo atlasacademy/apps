@@ -53,28 +53,31 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
         ""
     );
     const bgmRelease = (
-        <ul>
-            {bgm.releaseConditions.map((release) => (
-                <li key={release.id}>
-                    {release.closedMessage !== ""
-                        ? `${release.closedMessage} — `
-                        : ""}
-                    Cleared{" "}
-                    {mergeElements(
-                        release.targetIds.map((questId) => (
-                            <QuestDescriptorId
-                                key={questId}
-                                text=""
-                                region={region}
-                                questId={questId}
-                                questPhase={1}
-                            />
-                        )),
-                        " or "
-                    )}
-                </li>
-            ))}
-        </ul>
+        <>
+            {mergeElements(
+                bgm.releaseConditions.map((release) => (
+                    <div key={release.id}>
+                        {release.closedMessage !== ""
+                            ? `${release.closedMessage} — `
+                            : ""}
+                        Cleared{" "}
+                        {mergeElements(
+                            release.targetIds.map((questId) => (
+                                <QuestDescriptorId
+                                    key={questId}
+                                    text=""
+                                    region={region}
+                                    questId={questId}
+                                    questPhase={1}
+                                />
+                            )),
+                            " or "
+                        )}
+                    </div>
+                )),
+                <br />
+            )}
+        </>
     );
 
     return (

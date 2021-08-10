@@ -43,6 +43,7 @@ const MasterMissionCond = (props: {
                 <MissionConditionDescriptor
                     key={conds[0].id}
                     region={props.region}
+                    goToQuestSearchOnly={true}
                     cond={conds[0]}
                     missions={props.missionMap}
                     servants={props.servants}

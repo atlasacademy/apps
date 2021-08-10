@@ -7,14 +7,20 @@ import {
     EnumList,
     CondType,
 } from "@atlasacademy/api-connector";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import { handleNewLine } from "../Helper/OutputHelper";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
 import QuestSearchDescriptor from "./QuestSearchDescriptor";
+import { CollapsibleQuests } from "./MultipleDescriptors";
+import { getURLSearchParams } from "../Helper/StringHelper";
 
 export default function MissionConditionDescriptor(props: {
     region: Region;
     cond: Mission.MissionCondition;
     warIds?: number[];
+    goToQuestSearchOnly?: boolean;
     servants?: Map<number, Servant.ServantBasic>;
     quests?: Map<number, Quest.QuestBasic>;
     missions?: Map<number, Mission.Mission>;
@@ -55,18 +61,35 @@ export default function MissionConditionDescriptor(props: {
                     />
                 </li>
                 {cond.condType === CondType.MISSION_CONDITION_DETAIL &&
-                (cond.detail?.missionCondType ===
-                    Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY ||
-                    cond.detail?.missionCondType ===
-                        Mission.DetailCondType.ENEMY_INDIVIDUALITY_KILL_NUM) ? (
-                    <>
-                        <QuestSearchDescriptor
-                            region={props.region}
-                            warId={props.warIds ? props.warIds[0] : undefined}
-                            enemyTrait={cond.detail.targetIds}
-                            hideSearchLink={true}
+                cond.detail !== undefined &&
+                [
+                    Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY,
+                    Mission.DetailCondType.ENEMY_INDIVIDUALITY_KILL_NUM,
+                ].includes(cond.detail?.missionCondType) ? (
+                    props.goToQuestSearchOnly ? (
+                        <Link
+                            to={`/${props.region}/quests?${getURLSearchParams({
+                                type: Quest.QuestType.FREE,
+                                enemyTrait: cond.detail.targetIds,
+                            }).toString()}`}
+                        >
+                            Search applicable quests{" "}
+                            <FontAwesomeIcon icon={faShare} />
+                        </Link>
+                    ) : (
+                        <CollapsibleQuests
+                            title="Applicable Quests"
+                            content={
+                                <QuestSearchDescriptor
+                                    region={props.region}
+                                    warId={props.warIds}
+                                    enemyTrait={cond.detail.targetIds}
+                                    hideSearchLink={true}
+                                    returnList={true}
+                                />
+                            }
                         />
-                    </>
+                    )
                 ) : null}
             </ul>
         </>

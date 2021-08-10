@@ -9,11 +9,12 @@ import { QuestDescriptionNoApi } from "./QuestDescriptor";
 
 interface IProps {
     region: Region;
-    maxShowResults?: number;
+    maxNumQuestsShown?: number;
     hideSearchLink?: boolean;
+    returnList?: boolean;
     name?: string;
     spotName?: string;
-    warId?: number;
+    warId?: number[];
     type?: Quest.QuestType[];
     fieldIndividuality?: number[];
     battleBgId?: number;
@@ -64,7 +65,7 @@ export default function QuestSearchDescriptor(props: IProps) {
 
     const maxShowResults = props.hideSearchLink
             ? quests.length
-            : props.maxShowResults ?? 10,
+            : props.maxNumQuestsShown ?? 10,
         remainingCount = quests.length - maxShowResults,
         queryString = getURLSearchParams({
             name: props.name,
@@ -81,19 +82,35 @@ export default function QuestSearchDescriptor(props: IProps) {
             enemyClassName: props.enemyClassName,
         }).toString();
 
+    const questDescriptions = quests
+        .slice(0, maxShowResults)
+        .map((quest) => (
+            <QuestDescriptionNoApi
+                text=""
+                region={props.region}
+                quest={quest}
+                questPhase={quest.phase}
+            />
+        ));
+
     return (
         <>
-            {quests.slice(0, maxShowResults).map((quest) => (
-                <div key={`${quest.id}-${quest.phase}`}>
-                    <QuestDescriptionNoApi
-                        text=""
-                        region={props.region}
-                        quest={quest}
-                        questPhase={quest.phase}
-                    />
-                    <br />
-                </div>
-            ))}
+            {props.returnList ? (
+                <ul style={{ marginBottom: 0 }}>
+                    {questDescriptions.map((quest, i) => (
+                        <li key={i}>{quest}</li>
+                    ))}
+                </ul>
+            ) : (
+                <>
+                    {questDescriptions.map((quest, i) => (
+                        <div key={i}>
+                            {quest}
+                            <br />
+                        </div>
+                    ))}
+                </>
+            )}
             {remainingCount > 0 ? `and ${remainingCount} other quests. ` : ""}
             {props.hideSearchLink ? null : (
                 <Link to={`/${props.region}/quests?${queryString}`}>

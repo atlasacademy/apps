@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import {useContext} from "react";
 import {Accordion, AccordionContext, Card} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";

@@ -184,8 +184,8 @@ class QuestsPage extends React.Component<IProps, IState> {
             const funcs = await Api.searchQuestPhase(
                 this.state.name,
                 this.state.spotName,
-                this.state.warId,
-                this.state.type ? [this.state.type] : [],
+                this.state.warId ? [this.state.warId] : undefined,
+                this.state.type ? [this.state.type] : undefined,
                 this.state.fieldIndividuality,
                 this.state.battleBgId,
                 this.state.bgmId,

@@ -164,7 +164,7 @@ type ItemSearchOptions = {
 type QuestPhaseSearchOptions = {
     name?: string;
     spotName?: string;
-    warId?: number;
+    warId?: number[];
     type?: QuestType[];
     fieldIndividuality?: number[];
     battleBgId?: number;

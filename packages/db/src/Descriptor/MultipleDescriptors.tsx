@@ -6,6 +6,10 @@ import {
     Servant,
 } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react";
+import { Accordion, AccordionContext, Card } from "react-bootstrap";
 import { areIdenticalArrays, isSubset } from "../Helper/ArrayHelper";
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
@@ -62,12 +66,63 @@ export const MergeElementsOr = (props: {
     );
 };
 
+const ArrowToggle = ({ eventKey }: { eventKey: string }) => {
+    const currentKey = useContext(AccordionContext);
+    return (
+        <FontAwesomeIcon
+            icon={currentKey === eventKey ? faChevronUp : faChevronDown}
+        />
+    );
+};
+
+export const CollapsibleQuests = ({
+    title,
+    content,
+}: {
+    title: Renderable;
+    content: Renderable;
+}) => {
+    return (
+        <Accordion defaultActiveKey={""}>
+            <Card className="collapsible-card">
+                <Accordion.Toggle
+                    as="div"
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        cursor: "pointer",
+                        margin: "0.5em 0",
+                    }}
+                    eventKey={`${title}`}
+                >
+                    <span style={{ marginBottom: 0 }}>{title}</span>
+                    <span
+                        style={{
+                            textAlign: "right",
+                            alignSelf: "center",
+                            marginRight: "1em",
+                        }}
+                    >
+                        <ArrowToggle eventKey={`${title}`} />
+                    </span>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey={`${title}`}>
+                    <>{content}</>
+                </Accordion.Collapse>
+            </Card>
+        </Accordion>
+    );
+};
+
 export const MultipleQuests = (props: {
     region: Region;
     questIds: number[];
     quests?: Map<number, Quest.QuestBasic>;
+    maxNumQuestsShown?: number;
 }) => {
-    if (props.questIds.length === 1) {
+    const numQuest = props.questIds.length,
+        maxNumQuestsShown = props.maxNumQuestsShown ?? 10;
+    if (numQuest === 1) {
         return (
             <QuestDescriptorId
                 region={props.region}
@@ -77,7 +132,7 @@ export const MultipleQuests = (props: {
             />
         );
     } else {
-        return (
+        const questList = (
             <ul style={{ marginBottom: 0 }}>
                 {props.questIds.map((questId) => {
                     return (
@@ -93,6 +148,16 @@ export const MultipleQuests = (props: {
                 })}
             </ul>
         );
+        if (numQuest < maxNumQuestsShown) {
+            return questList;
+        } else {
+            return (
+                <CollapsibleQuests
+                    title={`These ${numQuest} quests`}
+                    content={questList}
+                />
+            );
+        }
     }
 };
 
@@ -375,7 +440,8 @@ export const MultipleEquipRarityLevel = (props: {
 
         return (
             <>
-                <MergeElementsOr elements={rarityStrings} lastJoinWord="or" /> CE
+                <MergeElementsOr elements={rarityStrings} lastJoinWord="or" />{" "}
+                CE
                 {pluralSuffix} to level {firstLevel}
             </>
         );

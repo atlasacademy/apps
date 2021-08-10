@@ -370,7 +370,7 @@ class Api {
     static searchQuestPhase(
         name?: string,
         spotName?: string,
-        warId?: number,
+        warId?: number[],
         type?: Quest.QuestType[],
         fieldIndividuality?: number[],
         battleBgId?: number,
