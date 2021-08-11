@@ -288,6 +288,7 @@ interface BuffScript {
     ReleaseText?: string;
     DamageRelease?: number;
     INDIVIDUALITIE?: Trait;
+    UpBuffRateBuffIndiv?: Trait[];
     HP_LOWER?: number;
 }
 

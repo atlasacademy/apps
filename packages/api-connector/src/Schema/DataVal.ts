@@ -81,6 +81,8 @@ interface BaseDataVal {
     DamageRates?: number[];
     OnPositions?: number[];
     OffPositions?: number[];
+    TargetIndiv?: number;
+    IncludeIgnoreIndividuality?: number;
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -174,6 +176,8 @@ export enum DataValField {
     DAMAGE_RATES = "DamageRates",
     ON_POSITIONS = "OnPositions",
     OFF_POSITIONS = "OffPositions",
+    TARGET_INDIV = "TargetIndiv",
+    INCLUDE_IGNORE_INDIVIDUALITY = "IncludeIgnoreIndividuality",
     PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",

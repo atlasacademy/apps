@@ -87,8 +87,13 @@ export default function (buff: Buff.BasicBuff): Descriptor {
     }
 
     if (buff.script.INDIVIDUALITIE !== undefined) {
-        partials.push(new TextPartial(' if self has '));
+        partials.push(new TextPartial(' if owner has '));
         partials.push(...traitReferences([buff.script.INDIVIDUALITIE]));
+    }
+
+    if (buff.type === Buff.BuffType.BUFF_RATE && buff.script.UpBuffRateBuffIndiv !== undefined) {
+        partials.push(new TextPartial(' for '));
+        partials.push(...traitReferences(buff.script.UpBuffRateBuffIndiv, 0));
     }
 
     if (buff.script.HP_LOWER !== undefined) {

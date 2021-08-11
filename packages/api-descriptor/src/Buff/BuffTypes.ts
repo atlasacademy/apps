@@ -52,6 +52,7 @@ export const upDownBuffs: UpDownBuffType[] = [
         down: Buff.BuffType.DOWN_TOLERANCE_SUBSTATE,
         description: "Buff Removal Resistance"
     },
+    {up: Buff.BuffType.BUFF_RATE, description: "Buff Effectiveness"},
 ];
 
 export const buffTraitDescriptions = new Map<number, string>([
