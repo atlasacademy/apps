@@ -1,5 +1,5 @@
 import {Language, Region} from "@atlasacademy/api-connector";
-import {faDiscord, faGithub} from "@fortawesome/free-brands-svg-icons";
+import {faDiscord, faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons";
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -158,6 +158,12 @@ class Navigation extends React.Component<IProps, IState> {
                                         <Nav.Link style={{justifyContent: "center", display: "flex"}}
                                         href={'https://discord.gg/TKJmuCR'} target={'_blank'} rel="noopener">
                                             <FontAwesomeIcon icon={faDiscord} title="Atlas Academy Discord"/>
+                                        </Nav.Link>
+                                    </Col>
+                                    <Col style={{padding: 0}}>
+                                        <Nav.Link style={{justifyContent: "center", display: "flex"}}
+                                        href={'https://twitter.com/aacademy_fgo'} target={'_blank'} rel="noopener">
+                                            <FontAwesomeIcon icon={faTwitter} title="Atlas Academy Twitter"/>
                                         </Nav.Link>
                                     </Col>
                                     <Col style={{padding: 0}}>

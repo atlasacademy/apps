@@ -26,7 +26,7 @@ class ServantProfileComments extends React.Component<IProps> {
                     <tbody>
                     {this.props.comments.map((comment) => {
                         return (
-                            <tr key={comment.id}>
+                            <tr key={`${comment.id}-${comment.priority}`}>
                                 <td>
                                     <ProfileConditionDescriptor region={this.props.region} comment={comment}/>
                                 </td>

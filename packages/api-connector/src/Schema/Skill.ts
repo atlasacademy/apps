@@ -4,6 +4,7 @@ import { Func } from "./Func";
 import { MysticCodeBasic, MysticCode } from "./MysticCode";
 import { Trait } from "./Trait";
 import { AiType } from "./Ai";
+import { CommonRelease } from "./CommonRelease";
 
 export enum SkillType {
     ACTIVE = "active",
@@ -33,6 +34,13 @@ export interface ExtraPassive {
     flag: number;
     startedAt: number;
     endedAt: number;
+}
+
+export interface SkillAdd {
+    priority: number;
+    releaseConditions: CommonRelease[];
+    name: string;
+    ruby: string;
 }
 
 export interface SkillBasic {
@@ -67,6 +75,7 @@ export interface Skill extends SkillBasic {
     actIndividuality: Trait[];
     script: SkillScript;
     extraPassive: ExtraPassive[];
+    skillAdd: SkillAdd[];
     aiIds?: Record<AiType, number[]>;
     functions: Func[];
     reverse?: {

@@ -66,8 +66,16 @@ class ServantAssets extends React.Component<IProps> {
                 }
             </>
         )
+
+        const portraits = (
+            <>
+                {this.displayAssets(this.props.servant.extraAssets.charaGraph)}
+                {this.displayAssets(this.props.servant.extraAssets.charaGraphEx)}
+            </>
+        );
+
         const content = [
-            { title: "Portraits", content: this.displayAssets(this.props.servant.extraAssets.charaGraph) },
+            { title: "Portraits", content: portraits },
             { title: "Status", content: this.displayAssets(this.props.servant.extraAssets.status) },
             { title: "Command", content: this.displayAssets(this.props.servant.extraAssets.commands) },
             { title: "Formation", content: this.displayAssets(this.props.servant.extraAssets.narrowFigure) },

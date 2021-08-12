@@ -59,7 +59,12 @@ export default function (buff: Buff.BasicBuff): Descriptor {
 
         partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, buff.script.checkIndvType));
     } else if (traitDescription) {
-        partials.push(new TextPartial(traitDescription));
+        if (buff.type === Buff.BuffType.DONOT_ACT && buff.script.DamageRelease !== undefined && traitDescription === "Sleep") {
+            if (buff.script.DamageRelease === -1)
+                partials.push(new TextPartial("Permanent Sleep"));
+        } else {
+            partials.push(new TextPartial(traitDescription));
+        }
         partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, buff.script.checkIndvType));
     } else if (typeDescription) {
         partials.push(new TextPartial(typeDescription));

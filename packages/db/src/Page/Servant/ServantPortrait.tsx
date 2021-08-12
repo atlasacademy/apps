@@ -4,16 +4,24 @@ import img_arrow_load from "../../Assets/img_arrow_load.png";
 
 import "./ServantPortrait.css";
 
+type PortraitAssetType = "ascension" | "costume";
+
 interface AssetReference {
-    assetType: "ascension" | "costume";
+    assetType: PortraitAssetType;
     assetId: number;
+    assetExpand: boolean;
 }
 
 interface IProps {
     servant: Servant.Servant;
-    assetType?: "ascension" | "costume";
+    assetType?: PortraitAssetType;
     assetId?: number;
-    updatePortraitCallback: Function;
+    assetExpand?: boolean;
+    updatePortraitCallback: (
+        assetType?: PortraitAssetType,
+        assetId?: number,
+        expand?: boolean
+    ) => void;
 }
 
 class ServantPortrait extends React.Component<IProps> {
@@ -41,6 +49,7 @@ class ServantPortrait extends React.Component<IProps> {
                 assetArray.push({
                     assetType: 'ascension',
                     assetId: parseInt(key),
+                    assetExpand: false,
                 });
             })
         }
@@ -50,6 +59,29 @@ class ServantPortrait extends React.Component<IProps> {
                 assetArray.push({
                     assetType: 'costume',
                     assetId: parseInt(key),
+                    assetExpand: false,
+                });
+            })
+        }
+
+        const assetMapExpand = this.props.servant.extraAssets.charaGraphEx;
+
+        if (assetMapExpand.ascension) {
+            Object.keys(assetMapExpand.ascension).forEach(key => {
+                assetArray.push({
+                    assetType: 'ascension',
+                    assetId: parseInt(key),
+                    assetExpand: true,
+                });
+            })
+        }
+
+        if (assetMapExpand.costume) {
+            Object.keys(assetMapExpand.costume).forEach(key => {
+                assetArray.push({
+                    assetType: 'costume',
+                    assetId: parseInt(key),
+                    assetExpand: true,
                 });
             })
         }
@@ -66,13 +98,17 @@ class ServantPortrait extends React.Component<IProps> {
             return undefined;
 
         if (this.props.assetType === 'ascension') {
-            const assets = this.props.servant.extraAssets.charaGraph.ascension;
+            const assets = this.props.assetExpand
+                ? this.props.servant.extraAssets.charaGraphEx.ascension
+                : this.props.servant.extraAssets.charaGraph.ascension;
 
             return assets ? assets[this.props.assetId] : undefined;
         }
 
         if (this.props.assetType === 'costume') {
-            const assets = this.props.servant.extraAssets.charaGraph.costume;
+            const assets = this.props.assetExpand
+                ? this.props.servant.extraAssets.charaGraphEx.costume
+                : this.props.servant.extraAssets.charaGraph.costume;
 
             return assets ? assets[this.props.assetId] : undefined;
         }
@@ -85,7 +121,8 @@ class ServantPortrait extends React.Component<IProps> {
 
         assetArray.find((assetReference, i) => {
             if (assetReference.assetType === this.props.assetType
-                && assetReference.assetId === this.props.assetId) {
+                && assetReference.assetId === this.props.assetId
+                && assetReference.assetExpand === this.props.assetExpand) {
                 index = i;
 
                 return true;
@@ -110,10 +147,10 @@ class ServantPortrait extends React.Component<IProps> {
                     className={`arrow ${next ? '' : 'back'}`}
                     src={img_arrow_load}
                     onClick={() => {
-                        this.props.updatePortraitCallback.call(
-                            null,
+                        this.props.updatePortraitCallback(
                             targetReference?.assetType,
-                            targetReference?.assetId
+                            targetReference?.assetId,
+                            targetReference?.assetExpand,
                         );
                     }}/>;
     }

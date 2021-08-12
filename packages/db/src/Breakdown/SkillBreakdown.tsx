@@ -1,9 +1,12 @@
 import {Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
-import {Alert} from "react-bootstrap";
+import {Alert, OverlayTrigger, Tooltip} from "react-bootstrap";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import {handleNewLine} from "../Helper/OutputHelper";
+import getRubyText from "../Helper/StringHelper";
 import EffectBreakdown from "./EffectBreakdown";
 
 interface IProps {
@@ -17,10 +20,31 @@ interface IProps {
 class SkillBreakdown extends React.Component<IProps> {
     render() {
         const skill = this.props.skill;
+        const skillAdd = this.props.skill.skillAdd.length > 0
+            ? (
+                <Tooltip id="skillAdd-tooltip" style={{fontSize: "1em"}}>
+                    {getRubyText(
+                        this.props.region,
+                        this.props.skill.skillAdd[0].name,
+                        this.props.skill.skillAdd[0].ruby,
+                        true
+                    )}
+                </Tooltip>
+            )
+            : null;
+
         return (
             <div>
                 <h3>
                     <SkillDescriptor region={this.props.region} skill={skill} iconHeight={33}/>
+                    {skillAdd !== null
+                        ? (
+                            <>{" "}<OverlayTrigger overlay={skillAdd}>
+                                <FontAwesomeIcon icon={faInfoCircle} style={{fontSize: "0.75em"}} />
+                            </OverlayTrigger></>
+                        )
+                        : null
+                    }
                 </h3>
 
                 {this.props.rankUp !== undefined ? (

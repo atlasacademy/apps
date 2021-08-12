@@ -1,4 +1,5 @@
 import {Region, Skill} from "@atlasacademy/api-connector";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
 import {AxiosError} from "axios";
 import React from "react";
 import {Form} from "react-bootstrap";
@@ -16,7 +17,8 @@ import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 import getRubyText from "../Helper/StringHelper";
 import CommandCodeDescriptor from "../Descriptor/CommandCodeDescriptor";
-import { handleNewLine } from "../Helper/OutputHelper";
+import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
+import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
@@ -83,6 +85,27 @@ class SkillPage extends React.Component<IProps, IState> {
 
         const skill = this.state.skill;
 
+        const skillAdd = mergeElements(
+            this.state.skill.skillAdd.map((skillAdd) => (
+                <>
+                    {getRubyText(this.props.region, skillAdd.name, skillAdd.ruby, true)}
+                    {skillAdd.releaseConditions.map((cond) => (
+                            <div
+                                key={`${cond.condType}-${cond.condId}-${cond.condNum}`}
+                            >
+                                <CondTargetValueDescriptor
+                                    region={this.props.region}
+                                    cond={cond.condType}
+                                    target={cond.condId}
+                                    value={cond.condNum}
+                                />
+                            </div>
+                    ))}
+                </>
+            )),
+            <br />
+        );
+
         return (
             <div>
                 <h1>
@@ -100,10 +123,11 @@ class SkillPage extends React.Component<IProps, IState> {
                     "Name": skill.name,
                     "Ruby": skill.ruby,
                     "Detail": handleNewLine(skill.detail),
-                    "Type": skill.type,
+                    "Skill Add": skillAdd,
+                    "Type": toTitleCase(skill.type),
                     "Related AIs": AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),
                     "Owner": (
-                        <div>
+                        <>
                             {(skill.reverse?.basic?.servant ?? [])
                                 .map((servant) => {
                                     return <div key={servant.id}>
@@ -114,6 +138,7 @@ class SkillPage extends React.Component<IProps, IState> {
                             {(skill.reverse?.basic?.CC ?? [])
                                 .map((commandCode) => (
                                         <CommandCodeDescriptor
+                                            key={commandCode.id}
                                             region={this.props.region}
                                             commandCode={commandCode}
                                         />
@@ -127,7 +152,7 @@ class SkillPage extends React.Component<IProps, IState> {
                                     );
                                 })
                             }
-                        </div>
+                        </>
                     )
                 }}/>
                 <span>

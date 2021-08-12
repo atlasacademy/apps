@@ -46,6 +46,7 @@ interface IState {
     servant?: Servant.Servant;
     assetType?: AssetType;
     assetId?: number;
+    assetExpand?: boolean;
 }
 
 class ServantPage extends React.Component<IProps, IState> {
@@ -72,11 +73,13 @@ class ServantPage extends React.Component<IProps, IState> {
             ]);
 
             let assetType: AssetType | undefined,
-                assetId;
+                assetId,
+                assetExpand;
 
             if (servant.extraAssets.charaGraph.ascension) {
                 assetType = 'ascension';
                 assetId = Object.keys(servant.extraAssets.charaGraph.ascension).shift();
+                assetExpand = false;
                 if (assetId !== undefined)
                     assetId = parseInt(assetId);
             }
@@ -84,6 +87,23 @@ class ServantPage extends React.Component<IProps, IState> {
             if (assetId === undefined && servant.extraAssets.charaGraph.costume) {
                 assetType = 'costume';
                 assetId = Object.keys(servant.extraAssets.charaGraph.costume).shift();
+                assetExpand = false;
+                if (assetId !== undefined)
+                    assetId = parseInt(assetId);
+            }
+
+            if (assetId === undefined && servant.extraAssets.charaGraphEx.ascension) {
+                assetType = 'ascension';
+                assetId = Object.keys(servant.extraAssets.charaGraphEx.ascension).shift();
+                assetExpand = true;
+                if (assetId !== undefined)
+                    assetId = parseInt(assetId);
+            }
+
+            if (assetId === undefined && servant.extraAssets.charaGraphEx.costume) {
+                assetType = 'costume';
+                assetId = Object.keys(servant.extraAssets.charaGraphEx.costume).shift();
+                assetExpand = true;
                 if (assetId !== undefined)
                     assetId = parseInt(assetId);
             }
@@ -94,6 +114,7 @@ class ServantPage extends React.Component<IProps, IState> {
                 servant,
                 assetType,
                 assetId,
+                assetExpand,
             });
         } catch (e) {
             this.setState({
@@ -112,8 +133,8 @@ class ServantPage extends React.Component<IProps, IState> {
         return Array.from(new Set(ids));
     }
 
-    private updatePortrait(assetType: AssetType, assetId: number) {
-        this.setState({assetType, assetId});
+    private updatePortrait(assetType?: AssetType, assetId?: number, assetExpand?: boolean) {
+        this.setState({assetType, assetId, assetExpand});
     }
 
     private getOverwriteName() {
@@ -179,9 +200,10 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantPortrait servant={this.state.servant}
                                          assetType={this.state.assetType}
                                          assetId={this.state.assetId}
+                                         assetExpand={this.state.assetExpand}
                                          updatePortraitCallback={
-                                             (assetType: AssetType, assetId: number) => {
-                                                 this.updatePortrait(assetType, assetId)
+                                             (assetType, assetId, assetExpand) => {
+                                                 this.updatePortrait(assetType, assetId, assetExpand)
                                              }
                                          }/>
                     </Col>
