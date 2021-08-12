@@ -60,6 +60,7 @@ export const buffTraitDescriptions = new Map<number, string>([
     [3012, 'Charm'],
     [3015, 'Burn'],
     [3026, 'Curse'],
+    [3047, 'Pigify'],
     [3066, 'Sleep'],
 ]);
 
