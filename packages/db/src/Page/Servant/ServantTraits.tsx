@@ -1,6 +1,7 @@
-import {Region, Servant, Trait} from "@atlasacademy/api-connector";
+import {Region, Servant, Trait, CondType} from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 import React from "react";
+import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import {mergeElements} from "../../Helper/OutputHelper";
 
@@ -99,6 +100,34 @@ class ServantTraits extends React.Component<IProps> {
                         ) : undefined}
                     </div>
                 ))}
+
+                {this.props.servant.traitAdd.length > 0 ? <>
+                    <h3>Extra Traits</h3>
+                    <ul>
+                        {this.props.servant.traitAdd.map(traitAdd => (
+                            <li key={traitAdd.idx}>
+                                {traitAdd.idx}: {mergeElements(traitAdd.trait.map(trait => <TraitDescription
+                                    region={this.props.region}
+                                    trait={trait}/>), ', '
+                                )}
+                                {traitAdd.condType !== CondType.NONE
+                                && traitAdd.condType !== undefined
+                                && traitAdd.condId !== undefined
+                                && traitAdd.condNum !== undefined
+                                    ? <>
+                                        <br/>
+                                        Condition: <CondTargetValueDescriptor
+                                                        region={this.props.region}
+                                                        cond={traitAdd.condType}
+                                                        target={traitAdd.condId}
+                                                        value={traitAdd.condNum}/>
+                                    </>
+                                    : null
+                                }
+                            </li>
+                        ))}
+                    </ul>
+                </> : null}
 
                 <h3>Attack Traits</h3>
                 <ul>

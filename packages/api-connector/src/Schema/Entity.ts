@@ -1,5 +1,6 @@
 import Card from "../Enum/Card";
 import ClassName from "../Enum/ClassName";
+import CondType from "../Enum/Cond";
 import { Attribute } from "./Attribute";
 import { Item } from "./Item";
 import { NoblePhantasm } from "./NoblePhantasm";
@@ -117,6 +118,15 @@ export interface AppendPassive {
     unlockMaterials: { item: Item; amount: number }[];
 }
 
+export interface EntityTraitAdd {
+    idx: number;
+    trait: Trait[];
+    limitCount: number;
+    condType?: CondType;
+    condId?: number;
+    condNum?: number;
+}
+
 export interface Entity {
     id: number;
     collectionNo: number;
@@ -169,6 +179,7 @@ export interface Entity {
     valentineEquip: number[];
     valentineScript: ValentineScript[];
     ascensionAdd: ServantAscensionAdditions;
+    traitAdd: EntityTraitAdd[];
     ascensionMaterials: EntityLevelUpMaterialProgression;
     skillMaterials: EntityLevelUpMaterialProgression;
     appendSkillMaterials: EntityLevelUpMaterialProgression;
