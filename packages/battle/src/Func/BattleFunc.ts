@@ -1,5 +1,5 @@
 import {DataVal, Func} from "@atlasacademy/api-connector";
-import {BattleActor} from "../Actor/BattleActor";
+import {BattleActor, BattleActorLogic} from "../Actor/BattleActor";
 import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
@@ -117,6 +117,11 @@ export default abstract class BattleFunc {
     }
 
     applicableToTarget(target: BattleActor): boolean {
+        switch (target.logic()) {
+            case BattleActorLogic.PERFECT: return true;
+            case BattleActorLogic.NEUTRAL: return false;
+        }
+
         const functvals = this.props.func.functvals ?? [];
         if (functvals.length) {
             const traits = target.traits(target.buffs().traits(true)),

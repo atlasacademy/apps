@@ -12,6 +12,12 @@ import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 import BattleSkillPassive from "../Skill/BattleSkillPassive";
 
+export enum BattleActorLogic {
+    NORMAL,
+    NEUTRAL,
+    PERFECT,
+}
+
 export interface BattleActorHitDistribution {
     buster?: number[],
     arts?: number[];
@@ -31,6 +37,7 @@ export interface BattleActorProps {
     hits: BattleActorHitDistribution,
     id: number,
     level: number,
+    logic: BattleActorLogic,
     name: string,
     passives: BattleSkillPassive[],
     phase: number,
@@ -55,7 +62,7 @@ export class BattleActor {
 
     constructor(public props: BattleActorProps,
                 public state: BattleActorState) {
-        //
+        this.buffs().logic = this.props.logic;
     }
 
     clone(): BattleActor {
@@ -195,10 +202,16 @@ export class BattleActor {
         return this.gauge() / this.gaugeMax();
     }
 
-    hasTrait(trait: Trait.Trait | number): boolean {
-        const traitId: number = typeof trait === "number" ? trait : trait.id;
+    hasTrait(trait: Trait.Trait | number, additional?: Trait.Trait[]): boolean {
+        switch (this.props.logic) {
+            case BattleActorLogic.PERFECT: return true;
+            case BattleActorLogic.NEUTRAL: return false;
+        }
 
-        return this.props.traits.filter(_trait => _trait.id === traitId).length > 0;
+        const traitId: number = typeof trait === "number" ? trait : trait.id,
+            traits = this.traits(additional);
+
+        return traits.filter(_trait => _trait.id === traitId).length > 0;
     }
 
     health(): number {
@@ -226,6 +239,10 @@ export class BattleActor {
 
     isAlive(): boolean {
         return this.state.health > 0;
+    }
+
+    logic(): BattleActorLogic {
+        return this.props.logic;
     }
 
     multihit(attack: BattleAttackAction, target?: BattleActor): number {

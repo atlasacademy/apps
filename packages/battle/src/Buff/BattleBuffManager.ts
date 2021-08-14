@@ -1,9 +1,10 @@
 import {Buff, Trait} from "@atlasacademy/api-connector";
+import {BattleActorLogic} from "../Actor/BattleActor";
 import {Battle} from "../Battle";
-import GameConstantManager from "../Game/GameConstantManager";
 import {BattleBuff} from "./BattleBuff";
 
 export default class BattleBuffManager {
+    public logic: BattleActorLogic = BattleActorLogic.NORMAL;
     private _battle?: Battle;
 
     constructor(public list: BattleBuff[]) {
@@ -81,7 +82,7 @@ export default class BattleBuffManager {
     /**
      * `BattleBuffData.getBuffParamList`: returns the list of values of applicable buffs
      */
-     getAllValues(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number[] {
+    getAllValues(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number[] {
         const buffValues = [];
         const buffs = this.getBuffs(group, traits, targetTraits, true);
         for (let buff of buffs) {
@@ -178,10 +179,19 @@ export default class BattleBuffManager {
         targetTraits: Trait.Trait[],
         checkTrait: boolean = false
     ): BattleBuff[] {
-        return this.list.filter(
-            (buff) =>
-                buff.props.buff.type === type &&
-                (!checkTrait || (buff.checkTrait(traits, targetTraits) && buff.checkSuccessful()))
-        );
+        return this.list.filter(buff => {
+            if (buff.props.buff.type !== type)
+                return false;
+
+            if (!checkTrait)
+                return true;
+
+            switch (this.logic) {
+                case BattleActorLogic.PERFECT: return true;
+                case BattleActorLogic.NEUTRAL: return false;
+            }
+
+            return buff.checkTrait(traits, targetTraits) && buff.checkSuccessful();
+        });
     }
 }

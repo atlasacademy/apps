@@ -1,5 +1,5 @@
 import {CommandCode, CraftEssence, Servant, Skill} from "@atlasacademy/api-connector";
-import {BattleActor, BattleActorProps} from "../Actor/BattleActor";
+import {BattleActor, BattleActorLogic, BattleActorProps} from "../Actor/BattleActor";
 import BattleBuffManager from "../Buff/BattleBuffManager";
 import {BattleTeam} from "../Enum/BattleTeam";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
@@ -19,6 +19,7 @@ export interface BattleServantActorProps {
     fouAttack?: number,
     fouHealth?: number,
     level?: number,
+    logic?: BattleActorLogic,
     noblePhantasmLevel?: number,
     questIds?: number[],
     skillLevels?: number[],
@@ -86,6 +87,7 @@ function castProps(id: number, phase: number, servantProps: BattleServantActorPr
         hits: servantProps.servant.hitsDistribution,
         id,
         level,
+        logic:servantProps.logic ?? BattleActorLogic.NORMAL,
         name: servantProps.servant.ruby,
         passives: passives,
         phase: phase,
