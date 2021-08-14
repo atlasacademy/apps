@@ -224,7 +224,7 @@ export type ScriptCharaFadeIn = {
     type: ScriptComponentType.CHARA_FADE_IN;
     speakerCode: string;
     durationSec: number;
-    position: { x: number; y: number };
+    position?: { x: number; y: number };
     assetSet?: ScriptAssetSet;
 };
 
@@ -709,12 +709,15 @@ function parseBracketComponent(
                 type: ScriptComponentType.CHARA_FADE_IN,
                 speakerCode: parameters[1],
                 durationSec: parseFloat(parameters[2]),
-                position: parameters[3].includes(",")
-                    ? {
-                          x: parseFloat(parameters[3].split(",")[0]),
-                          y: parseFloat(parameters[3].split(",")[1]),
-                      }
-                    : positionList[parseInt(parameters[3])],
+                position:
+                    parameters[3] !== undefined
+                        ? parameters[3].includes(",")
+                            ? {
+                                  x: parseFloat(parameters[3].split(",")[0]),
+                                  y: parseFloat(parameters[3].split(",")[1]),
+                              }
+                            : positionList[parseInt(parameters[3])]
+                        : undefined,
                 assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "charaFadeout":
