@@ -22,6 +22,7 @@ const TraitOverrideNames = new Map<number, string>([
     [117, "Class:Foreigner"],
     [118, "Beast IIIL"],
     [119, "Beast Unknown"],
+    [120, "Class:Pretender"],
     [200, "Attribute:Sky"],
     [201, "Attribute:Earth"],
     [202, "Attribute:Human"],

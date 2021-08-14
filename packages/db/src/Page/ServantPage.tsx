@@ -29,6 +29,7 @@ import ServantValentine from "./Servant/ServantValentine";
 import ServantVoiceLines from "./Servant/ServantVoiceLines";
 import VoiceActorDescriptor from "../Descriptor/VoiceActorDescriptor";
 import IllustratorDescriptor from "../Descriptor/IllustratorDescriptor";
+import ExtraPassive from "./Servant/ExtraPassive";
 
 type AssetType = "ascension" | "costume";
 
@@ -287,18 +288,8 @@ class ServantPage extends React.Component<IProps, IState> {
                             </Row>
                         </> : null}
                         {servant.extraPassive.length > 0 ? <>
-                            <h3 style={{ margin: "1em 0 "}}>Event Bonus</h3>
-                            <Row>
-                                {servant.extraPassive.map((skill) => {
-                                    return (
-                                        <Col xs={12}
-                                            lg={(servant.extraPassive.length ?? 1) > 1 ? 6 : 12}
-                                            key={skill.id}>
-                                            <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
-                                        </Col>
-                                    );
-                                })}
-                            </Row>
+                            <h3 style={{ margin: "1em 0 "}}>Extra Passive</h3>
+                            <ExtraPassive region={this.props.region} skills={servant.extraPassive}/>
                         </> : null}
                     </Tab>
                     <Tab eventKey={'traits'} title={'Traits'}>

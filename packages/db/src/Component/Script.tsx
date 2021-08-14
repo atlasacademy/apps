@@ -6,6 +6,8 @@ export enum ScriptComponentType {
     ENABLE_FULL_SCREEN,
     CHARA_SET,
     CHARA_TALK,
+    CHARA_TALK_TOGGLE,
+    CHARA_FILTER,
     CHARA_SCALE,
     CHARA_DEPTH,
     CHARA_FACE,
@@ -141,48 +143,6 @@ export type ScriptCharaSet = {
     baseName: string; // "Mash", `"Dr. Roman"`, "Fou"
 };
 
-export type ScriptCharaTalk = {
-    type: ScriptComponentType.CHARA_TALK;
-    speakerCode: string;
-    assetSet?: ScriptAssetSet;
-};
-
-export type ScriptCharaFace = {
-    type: ScriptComponentType.CHARA_FACE;
-    speakerCode: string;
-    face: number;
-    assetSet?: ScriptAssetSet;
-};
-
-export type ScriptCharaFadeIn = {
-    type: ScriptComponentType.CHARA_FADE_IN;
-    speakerCode: string;
-    durationSec: number;
-    face: number;
-    assetSet?: ScriptAssetSet;
-};
-
-export type ScriptCharaFadeOut = {
-    type: ScriptComponentType.CHARA_FADE_OUT;
-    speakerCode: string;
-    durationSec: number;
-    assetSet?: ScriptAssetSet;
-};
-
-export type ScriptCharaScale = {
-    type: ScriptComponentType.CHARA_SCALE;
-    speakerCode: string;
-    scale: number;
-    assetSet?: ScriptAssetSet;
-};
-
-export type ScriptCharaDepth = {
-    type: ScriptComponentType.CHARA_DEPTH;
-    speakerCode: string;
-    depth: number;
-    assetSet?: ScriptAssetSet;
-};
-
 export type ScriptImageSet = {
     type: ScriptComponentType.IMAGE_SET;
     speakerCode: string;
@@ -219,6 +179,75 @@ export type ScriptAssetSet =
     | ScriptVerticalImageSet
     | ScriptHorizontalImageSet
     | ScriptEquipSet;
+
+export type ScriptCharaTalk = {
+    type: ScriptComponentType.CHARA_TALK;
+    speakerCode: string;
+    assetSet?: ScriptAssetSet;
+};
+
+export type CharaTalkToggleOption = "on" | "off" | "depthOn" | "depthOff";
+
+export type ScriptCharaTalkToggle = {
+    type: ScriptComponentType.CHARA_TALK_TOGGLE;
+    toggle: CharaTalkToggleOption;
+};
+
+export type ScriptCharaFace = {
+    type: ScriptComponentType.CHARA_FACE;
+    speakerCode: string;
+    face: number;
+    assetSet?: ScriptAssetSet;
+};
+
+export type CharaFilterType = "silhouette" | "normal";
+
+export type ScriptCharaFilter = {
+    type: ScriptComponentType.CHARA_FILTER;
+    speakerCode: string;
+    filter: CharaFilterType;
+    colorHex: string;
+    assetSet?: ScriptAssetSet;
+};
+
+const positionList = [
+    { x: 256, y: 0 },
+    { x: 0, y: 0 },
+    { x: 256, y: 0 },
+    { x: -438, y: 0 },
+    { x: -512, y: 0 },
+    { x: 438, y: 0 },
+    { x: 512, y: 0 },
+];
+
+export type ScriptCharaFadeIn = {
+    type: ScriptComponentType.CHARA_FADE_IN;
+    speakerCode: string;
+    durationSec: number;
+    position: { x: number; y: number };
+    assetSet?: ScriptAssetSet;
+};
+
+export type ScriptCharaFadeOut = {
+    type: ScriptComponentType.CHARA_FADE_OUT;
+    speakerCode: string;
+    durationSec: number;
+    assetSet?: ScriptAssetSet;
+};
+
+export type ScriptCharaScale = {
+    type: ScriptComponentType.CHARA_SCALE;
+    speakerCode: string;
+    scale: number;
+    assetSet?: ScriptAssetSet;
+};
+
+export type ScriptCharaDepth = {
+    type: ScriptComponentType.CHARA_DEPTH;
+    speakerCode: string;
+    depth: number;
+    assetSet?: ScriptAssetSet;
+};
 
 export type ScriptLabel = {
     type: ScriptComponentType.LABEL;
@@ -292,7 +321,9 @@ export type ScriptBracketComponent =
     | ScriptHorizontalImageSet
     | ScriptEquipSet
     | ScriptCharaTalk
+    | ScriptCharaTalkToggle
     | ScriptCharaFace
+    | ScriptCharaFilter
     | ScriptCharaFadeIn
     | ScriptCharaFadeOut
     | ScriptCharaScale
@@ -647,6 +678,12 @@ function parseBracketComponent(
             parserState.assetSetMap.set(parameters[1], equipSet);
             return equipSet;
         case "charaTalk":
+            if (["on", "off", "depthOn", "depthOff"].includes(parameters[1])) {
+                return {
+                    type: ScriptComponentType.CHARA_TALK_TOGGLE,
+                    toggle: parameters[1] as CharaTalkToggleOption,
+                };
+            }
             return {
                 type: ScriptComponentType.CHARA_TALK,
                 speakerCode: parameters[1],
@@ -659,12 +696,25 @@ function parseBracketComponent(
                 face: parseInt(parameters[2]),
                 assetSet: parserState.assetSetMap.get(parameters[1]),
             };
+        case "charaFilter":
+            return {
+                type: ScriptComponentType.CHARA_FILTER,
+                speakerCode: parameters[1],
+                filter: parameters[2] as CharaFilterType,
+                colorHex: parameters[3],
+                assetSet: parserState.assetSetMap.get(parameters[1]),
+            };
         case "charaFadein":
             return {
                 type: ScriptComponentType.CHARA_FADE_IN,
                 speakerCode: parameters[1],
                 durationSec: parseFloat(parameters[2]),
-                face: parseInt(parameters[3]),
+                position: parameters[3].includes(",")
+                    ? {
+                          x: parseFloat(parameters[3].split(",")[0]),
+                          y: parseFloat(parameters[3].split(",")[1]),
+                      }
+                    : positionList[parseInt(parameters[3])],
                 assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "charaFadeout":
