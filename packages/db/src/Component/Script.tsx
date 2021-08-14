@@ -2,9 +2,12 @@ import { Region } from "@atlasacademy/api-connector";
 import { AssetHost } from "../Api";
 
 export enum ScriptComponentType {
-    UN_PARSED,
+    UNPARSED,
     ENABLE_FULL_SCREEN,
     CHARA_SET,
+    CHARA_TALK,
+    CHARA_SCALE,
+    CHARA_DEPTH,
     CHARA_FACE,
     CHARA_FADE_IN,
     CHARA_FADE_OUT,
@@ -138,10 +141,17 @@ export type ScriptCharaSet = {
     baseName: string; // "Mash", `"Dr. Roman"`, "Fou"
 };
 
+export type ScriptCharaTalk = {
+    type: ScriptComponentType.CHARA_TALK;
+    speakerCode: string;
+    assetSet?: ScriptAssetSet;
+};
+
 export type ScriptCharaFace = {
     type: ScriptComponentType.CHARA_FACE;
     speakerCode: string;
     face: number;
+    assetSet?: ScriptAssetSet;
 };
 
 export type ScriptCharaFadeIn = {
@@ -149,12 +159,28 @@ export type ScriptCharaFadeIn = {
     speakerCode: string;
     durationSec: number;
     face: number;
+    assetSet?: ScriptAssetSet;
 };
 
 export type ScriptCharaFadeOut = {
     type: ScriptComponentType.CHARA_FADE_OUT;
     speakerCode: string;
     durationSec: number;
+    assetSet?: ScriptAssetSet;
+};
+
+export type ScriptCharaScale = {
+    type: ScriptComponentType.CHARA_SCALE;
+    speakerCode: string;
+    scale: number;
+    assetSet?: ScriptAssetSet;
+};
+
+export type ScriptCharaDepth = {
+    type: ScriptComponentType.CHARA_DEPTH;
+    speakerCode: string;
+    depth: number;
+    assetSet?: ScriptAssetSet;
 };
 
 export type ScriptImageSet = {
@@ -185,7 +211,14 @@ export type ScriptEquipSet = {
     equipAsset: string;
     baseFace: number;
     baseName: string;
-}
+};
+
+export type ScriptAssetSet =
+    | ScriptCharaSet
+    | ScriptImageSet
+    | ScriptVerticalImageSet
+    | ScriptHorizontalImageSet
+    | ScriptEquipSet;
 
 export type ScriptLabel = {
     type: ScriptComponentType.LABEL;
@@ -244,7 +277,7 @@ export type ScriptFlag = {
 };
 
 export type ScriptUnParsed = {
-    type: ScriptComponentType.UN_PARSED;
+    type: ScriptComponentType.UNPARSED;
     parameters: string[];
 };
 
@@ -258,9 +291,12 @@ export type ScriptBracketComponent =
     | ScriptVerticalImageSet
     | ScriptHorizontalImageSet
     | ScriptEquipSet
+    | ScriptCharaTalk
     | ScriptCharaFace
     | ScriptCharaFadeIn
     | ScriptCharaFadeOut
+    | ScriptCharaScale
+    | ScriptCharaDepth
     | ScriptWait
     | ScriptLabel
     | ScriptBranch
@@ -299,6 +335,7 @@ export type ScriptInfo = {
 type ParserState = {
     choice: boolean;
     dialogue: boolean;
+    assetSetMap: Map<string, ScriptAssetSet>;
     enableFullScreen?: boolean;
 };
 
@@ -387,7 +424,7 @@ function parseDialogueBasic(
             case "line":
                 return {
                     type: ScriptComponentType.DIALOGUE_LINE,
-                    length: parseInt(parameters[1]),
+                    length: parseFloat(parameters[1]),
                     colorHex: parserDialogueState.colorHex,
                 };
             case "servantName":
@@ -562,14 +599,16 @@ function parseBracketComponent(
 ): ScriptBracketComponent {
     switch (parameters[0]) {
         case "charaSet":
-            return {
+            const charaSet = {
                 type: ScriptComponentType.CHARA_SET,
                 speakerCode: parameters[1],
                 charaGraphId: parameters[2],
                 charaGraphAsset: `${AssetHost}/${region}/CharaFigure/${parameters[2]}/${parameters[2]}_merged.png`,
                 baseFace: parseInt(parameters[3]),
                 baseName: parameters[4],
-            };
+            } as ScriptCharaSet;
+            parserState.assetSetMap.set(parameters[1], charaSet);
+            return charaSet;
         case "imageSet":
         case "verticalImageSet":
         case "horizontalImageSet":
@@ -585,26 +624,40 @@ function parseBracketComponent(
                     setType = ScriptComponentType.HORIZONTAL_IMAGE_SET;
                     break;
             }
-            return {
+            const imageSet = {
                 type: setType,
                 speakerCode: parameters[1],
                 imageName: parameters[2],
                 imageAsset: `${AssetHost}/${region}/Image/${parameters[2]}/${parameters[2]}.png`,
-            };
+            } as
+                | ScriptImageSet
+                | ScriptVerticalImageSet
+                | ScriptHorizontalImageSet;
+            parserState.assetSetMap.set(parameters[1], imageSet);
+            return imageSet;
         case "equipSet":
-            return {
+            const equipSet = {
                 type: ScriptComponentType.EQUIP_SET,
                 speakerCode: parameters[1],
                 equipId: parameters[2],
                 equipAsset: `${AssetHost}/${region}/CharaGraph/${parameters[2]}/${parameters[2]}a.png`,
                 baseFace: parseInt(parameters[3]),
                 baseName: parameters[4],
+            } as ScriptEquipSet;
+            parserState.assetSetMap.set(parameters[1], equipSet);
+            return equipSet;
+        case "charaTalk":
+            return {
+                type: ScriptComponentType.CHARA_TALK,
+                speakerCode: parameters[1],
+                assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "charaFace":
             return {
                 type: ScriptComponentType.CHARA_FACE,
                 speakerCode: parameters[1],
                 face: parseInt(parameters[2]),
+                assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "charaFadein":
             return {
@@ -612,12 +665,28 @@ function parseBracketComponent(
                 speakerCode: parameters[1],
                 durationSec: parseFloat(parameters[2]),
                 face: parseInt(parameters[3]),
+                assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "charaFadeout":
             return {
                 type: ScriptComponentType.CHARA_FADE_OUT,
                 speakerCode: parameters[1],
                 durationSec: parseFloat(parameters[2]),
+                assetSet: parserState.assetSetMap.get(parameters[1]),
+            };
+        case "charaScale":
+            return {
+                type: ScriptComponentType.CHARA_SCALE,
+                speakerCode: parameters[1],
+                scale: parseFloat(parameters[2]),
+                assetSet: parserState.assetSetMap.get(parameters[1]),
+            };
+        case "charaDepth":
+            return {
+                type: ScriptComponentType.CHARA_DEPTH,
+                speakerCode: parameters[1],
+                depth: parseFloat(parameters[2]),
+                assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "se":
             return {
@@ -721,7 +790,7 @@ function parseBracketComponent(
             return { type: ScriptComponentType.ENABLE_FULL_SCREEN };
         default:
             return {
-                type: ScriptComponentType.UN_PARSED,
+                type: ScriptComponentType.UNPARSED,
                 parameters,
             };
     }
@@ -747,6 +816,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
     let parserState: ParserState = {
         choice: false,
         dialogue: false,
+        assetSetMap: new Map(),
     };
 
     const resetDialogueVariables = () => {
