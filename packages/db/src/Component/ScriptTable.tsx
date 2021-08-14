@@ -53,7 +53,9 @@ const CharaFaceRow = (props: {
 }) => {
     let asset = null,
         name = '',
-        [script, setScript] = useState<Script.SvtScript | undefined>(undefined);
+        [script, setScript] = useState<Script.SvtScript | undefined>(undefined),
+        [showFull, setShowFull] = useState<boolean>(false);
+
     switch (props.component.assetSet?.type) {
         case ScriptComponentType.CHARA_SET:
             asset = props.component.assetSet?.charaGraphAsset;
@@ -64,7 +66,7 @@ const CharaFaceRow = (props: {
             break;
     }
 
-    let expression = null;
+    let expression = null, imageSizeChecker = null;
     if (asset && script) {
         let size = 256,
             face = props.component.face - 1,
@@ -76,17 +78,33 @@ const CharaFaceRow = (props: {
             col = face % perRow,
             row = Math.floor(face / perRow),
             scale = (size / faceSize),
-            backgroundPositionX : number | string = ((col * faceSize * (-1)) - offsetX) * scale,
-            backgroundPositionY : number | string = ((row * faceSize * (-1)) - offsetY) * scale,
-            backgroundSize : number | string = scale * figureWidth;
+            backgroundPositionX: number | string = ((col * faceSize * (-1)) - offsetX) * scale,
+            backgroundPositionY: number | string = ((row * faceSize * (-1)) - offsetY) * scale,
+            backgroundSize: number | string = scale * figureWidth;
 
-        if (!script.faceX && !script.faceY) {
+        if (showFull || (!script.faceX && !script.faceY)) {
             backgroundPositionX = '50%';
             backgroundPositionY = '50%';
             backgroundSize = 'contain';
         } else if (props.component.face === 0) {
             backgroundPositionX = script.faceX * scale * (-1);
             backgroundPositionY = script.faceY * scale * (-1);
+
+            imageSizeChecker = (
+                <img src={asset}
+                     alt=''
+                     style={{opacity: 0, height: 1, width: 1}}
+                     onLoad={(event) => {
+                         // @ts-ignore
+                         const height : number = event.target.naturalHeight;
+
+                         if (height <= 1024) {
+                             setShowFull(true);
+                         }
+                     }}
+                />
+            );
+
         }
 
         expression = <a href={asset}>
@@ -106,7 +124,10 @@ const CharaFaceRow = (props: {
     return (
         <tr>
             <td>{name}</td>
-            <td>{expression}</td>
+            <td>
+                {expression}
+                {imageSizeChecker}
+            </td>
         </tr>
     );
 }
