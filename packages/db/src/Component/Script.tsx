@@ -8,6 +8,10 @@ export enum ScriptComponentType {
     CHARA_FACE,
     CHARA_FADE_IN,
     CHARA_FADE_OUT,
+    IMAGE_SET,
+    VERTICAL_IMAGE_SET,
+    HORIZONTAL_IMAGE_SET,
+    EQUIP_SET,
     DIALOGUE,
     CHOICES,
     SOUND_EFFECT,
@@ -129,6 +133,7 @@ export type ScriptCharaSet = {
     type: ScriptComponentType.CHARA_SET;
     speakerCode: string; // "A", "B", "C", ...
     charaGraphId: string; // "8001000", "98003003", "98002000"
+    charaGraphAsset: string;
     baseFace: number; // 1
     baseName: string; // "Mash", `"Dr. Roman"`, "Fou"
 };
@@ -151,6 +156,36 @@ export type ScriptCharaFadeOut = {
     speakerCode: string;
     durationSec: number;
 };
+
+export type ScriptImageSet = {
+    type: ScriptComponentType.IMAGE_SET;
+    speakerCode: string;
+    imageName: string;
+    imageAsset: string;
+};
+
+export type ScriptVerticalImageSet = {
+    type: ScriptComponentType.VERTICAL_IMAGE_SET;
+    speakerCode: string;
+    imageName: string;
+    imageAsset: string;
+};
+
+export type ScriptHorizontalImageSet = {
+    type: ScriptComponentType.HORIZONTAL_IMAGE_SET;
+    speakerCode: string;
+    imageName: string;
+    imageAsset: string;
+};
+
+export type ScriptEquipSet = {
+    type: ScriptComponentType.EQUIP_SET;
+    speakerCode: string;
+    equipId: string;
+    equipAsset: string;
+    baseFace: number;
+    baseName: string;
+}
 
 export type ScriptLabel = {
     type: ScriptComponentType.LABEL;
@@ -219,6 +254,10 @@ export type ScriptBracketComponent =
     | ScriptUnParsed
     | ScriptSoundEffect
     | ScriptCharaSet
+    | ScriptImageSet
+    | ScriptVerticalImageSet
+    | ScriptHorizontalImageSet
+    | ScriptEquipSet
     | ScriptCharaFace
     | ScriptCharaFadeIn
     | ScriptCharaFadeOut
@@ -527,6 +566,37 @@ function parseBracketComponent(
                 type: ScriptComponentType.CHARA_SET,
                 speakerCode: parameters[1],
                 charaGraphId: parameters[2],
+                charaGraphAsset: `${AssetHost}/${region}/CharaFigure/${parameters[2]}/${parameters[2]}_merged.png`,
+                baseFace: parseInt(parameters[3]),
+                baseName: parameters[4],
+            };
+        case "imageSet":
+        case "verticalImageSet":
+        case "horizontalImageSet":
+            let setType = ScriptComponentType.IMAGE_SET;
+            switch (parameters[0]) {
+                case "imageSet":
+                    setType = ScriptComponentType.IMAGE_SET;
+                    break;
+                case "verticalImageSet":
+                    setType = ScriptComponentType.VERTICAL_IMAGE_SET;
+                    break;
+                case "horizontalImageSet":
+                    setType = ScriptComponentType.HORIZONTAL_IMAGE_SET;
+                    break;
+            }
+            return {
+                type: setType,
+                speakerCode: parameters[1],
+                imageName: parameters[2],
+                imageAsset: `${AssetHost}/${region}/Image/${parameters[2]}/${parameters[2]}.png`,
+            };
+        case "equipSet":
+            return {
+                type: ScriptComponentType.EQUIP_SET,
+                speakerCode: parameters[1],
+                equipId: parameters[2],
+                equipAsset: `${AssetHost}/${region}/CharaGraph/${parameters[2]}/${parameters[2]}a.png`,
                 baseFace: parseInt(parameters[3]),
                 baseName: parameters[4],
             };
