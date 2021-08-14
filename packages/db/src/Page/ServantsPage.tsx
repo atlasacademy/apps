@@ -43,9 +43,9 @@ const classFilters: ClassName[] = [
     ],
     extraClasses: ClassName[] = [
         ClassName.RULER,
-        ClassName.ALTER_EGO,
         ClassName.AVENGER,
         ClassName.MOON_CANCER,
+        ClassName.ALTER_EGO,
         ClassName.FOREIGNER,
         ClassName.PRETENDER,
         ClassName.UNKNOWN

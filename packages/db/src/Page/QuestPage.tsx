@@ -18,7 +18,6 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
-import { WarDescriptorId } from "../Descriptor/WarDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
 import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
@@ -122,10 +121,9 @@ const QuestMainData = (props: {
                     </>
                 ),
                 War: (
-                    <WarDescriptorId
-                        region={props.region}
-                        warId={quest.warId}
-                    />
+                    <Link to={`/${props.region}/war/${quest.warId}`}>
+                        {quest.warLongName}
+                    </Link>
                 ),
                 Open: new Date(quest.openedAt * 1000).toLocaleString(),
                 Close: new Date(quest.closedAt * 1000).toLocaleString(),

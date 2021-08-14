@@ -31,6 +31,7 @@ import { ProfileVoiceType } from "./Schema/Profile";
 import * as Profile from "./Schema/Profile";
 import * as Quest from "./Schema/Quest";
 import * as QuestEnemy from "./Schema/QuestEnemy";
+import * as Script from "./Schema/Script";
 import * as Servant from "./Schema/Servant";
 import * as SupportServant from "./Schema/SupportServant";
 import * as Shop from "./Schema/Shop";
@@ -77,6 +78,7 @@ export {
     Profile,
     Quest,
     QuestEnemy,
+    Script,
     Servant,
     SupportServant,
     Shop,
