@@ -1,22 +1,23 @@
-import { Region } from "@atlasacademy/api-connector";
-import { faShare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Table } from "react-bootstrap";
+import {Region, Script} from "@atlasacademy/api-connector";
+import {faShare} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useState} from "react";
+import {Button, Table} from "react-bootstrap";
+import Api from "../Api";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
-import ScriptDialogueLine from "./ScriptDialogueLine";
+import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import {
     ScriptBracketComponent,
+    ScriptCharaFace,
     ScriptComponent,
     ScriptComponentType,
     ScriptDialogue,
     ScriptInfo,
 } from "./Script";
-import QuestDescriptor from "../Descriptor/QuestDescriptor";
+import ScriptDialogueLine from "./ScriptDialogueLine";
 
-type RowBgmRefMap = Map<
-    string | undefined,
-    React.RefObject<HTMLTableRowElement>
->;
+type RowBgmRefMap = Map<string | undefined,
+    React.RefObject<HTMLTableRowElement>>;
 
 const DialogueRow = (props: {
     region: Region;
@@ -27,7 +28,7 @@ const DialogueRow = (props: {
         <BgmDescriptor
             region={props.region}
             bgm={props.dialogue.voice}
-            style={{ display: "block" }}
+            style={{display: "block"}}
         />
     ) : null;
     return (
@@ -47,6 +48,69 @@ const DialogueRow = (props: {
     );
 };
 
+const CharaFaceRow = (props: {
+    component: ScriptCharaFace,
+}) => {
+    let asset = null,
+        name = '',
+        [script, setScript] = useState<Script.SvtScript | undefined>(undefined);
+    switch (props.component.assetSet?.type) {
+        case ScriptComponentType.CHARA_SET:
+            asset = props.component.assetSet?.charaGraphAsset;
+            name = props.component.assetSet?.baseName;
+            Api.svtScript(parseInt(props.component.assetSet?.charaGraphId)).then(script => {
+                setScript(script[0]);
+            });
+            break;
+    }
+
+    let expression = null;
+    if (asset && script) {
+        let size = 256,
+            face = props.component.face - 1,
+            faceSize = script.extendData.faceSize ?? 256,
+            figureWidth = 1024,
+            offsetX = 0,
+            offsetY = faceSize === 256 ? 768 : 1024,
+            perRow = Math.floor(figureWidth / faceSize),
+            col = face % perRow,
+            row = Math.floor(face / perRow),
+            scale = (size / faceSize),
+            backgroundPositionX : number | string = ((col * faceSize * (-1)) - offsetX) * scale,
+            backgroundPositionY : number | string = ((row * faceSize * (-1)) - offsetY) * scale,
+            backgroundSize : number | string = scale * figureWidth;
+
+        if (!script.faceX && !script.faceY) {
+            backgroundPositionX = '50%';
+            backgroundPositionY = '50%';
+            backgroundSize = 'contain';
+        } else if (props.component.face === 0) {
+            backgroundPositionX = script.faceX * scale * (-1);
+            backgroundPositionY = script.faceY * scale * (-1);
+        }
+
+        expression = <a href={asset}>
+            <span style={{
+                backgroundImage: `url("${asset}")`,
+                backgroundPositionX,
+                backgroundPositionY,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize,
+                display: 'inline-block',
+                height: size,
+                width: size,
+            }}></span>
+        </a>;
+    }
+
+    return (
+        <tr>
+            <td>{name}</td>
+            <td>{expression}</td>
+        </tr>
+    );
+}
+
 const ChoiceComponentsTable = (props: {
     region: Region;
     choiceComponents: (ScriptBracketComponent | ScriptDialogue)[];
@@ -54,30 +118,30 @@ const ChoiceComponentsTable = (props: {
 }) => {
     if (props.choiceComponents.length === 0) return null;
     return (
-        <Table hover responsive style={{ marginTop: "1em" }}>
+        <Table hover responsive style={{marginTop: "1em"}}>
             <tbody>
-                {props.choiceComponents.map((c, i) => {
-                    switch (c.type) {
-                        case ScriptComponentType.DIALOGUE:
-                            return (
-                                <DialogueRow
-                                    key={i}
-                                    region={props.region}
-                                    dialogue={c}
-                                    refs={props.refs}
-                                />
-                            );
-                        default:
-                            return (
-                                <ScriptBracketRow
-                                    key={i}
-                                    region={props.region}
-                                    component={c}
-                                    refs={props.refs}
-                                />
-                            );
-                    }
-                })}
+            {props.choiceComponents.map((c, i) => {
+                switch (c.type) {
+                    case ScriptComponentType.DIALOGUE:
+                        return (
+                            <DialogueRow
+                                key={i}
+                                region={props.region}
+                                dialogue={c}
+                                refs={props.refs}
+                            />
+                        );
+                    default:
+                        return (
+                            <ScriptBracketRow
+                                key={i}
+                                region={props.region}
+                                component={c}
+                                refs={props.refs}
+                            />
+                        );
+                }
+            })}
             </tbody>
         </Table>
     );
@@ -88,7 +152,7 @@ const ScriptBracketRow = (props: {
     component: ScriptBracketComponent;
     refs: RowBgmRefMap;
 }) => {
-    const { region, component, refs } = props;
+    const {region, component, refs} = props;
     const getGoToLabel = (labelName: string) => {
         return (
             <Button
@@ -119,7 +183,7 @@ const ScriptBracketRow = (props: {
                         <a href={component.backgroundAsset}>
                             <img
                                 src={component.backgroundAsset}
-                                style={{ maxWidth: "30em", width: "100%" }}
+                                style={{maxWidth: "30em", width: "100%"}}
                                 alt="Script background"
                             />
                         </a>
@@ -131,7 +195,7 @@ const ScriptBracketRow = (props: {
                 <tr ref={refs.get(component.bgm.audioAsset)}>
                     <td>BGM</td>
                     <td>
-                        <BgmDescriptor region={region} bgm={component.bgm} />
+                        <BgmDescriptor region={region} bgm={component.bgm}/>
                     </td>
                 </tr>
             );
@@ -220,12 +284,14 @@ const ScriptRow = (props: {
     component: ScriptComponent;
     refs: RowBgmRefMap;
 }) => {
-    const { region, component, refs } = props;
+    const {region, component, refs} = props;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
             return (
-                <DialogueRow region={region} dialogue={component} refs={refs} />
+                <DialogueRow region={region} dialogue={component} refs={refs}/>
             );
+        case ScriptComponentType.CHARA_FACE:
+            return <CharaFaceRow component={component}/>;
         case ScriptComponentType.CHOICES:
             return (
                 <tr>
@@ -267,22 +333,22 @@ const ScriptTable = (props: {
     return (
         <Table hover responsive>
             <thead>
-                <tr>
-                    <th style={{ textAlign: "center", width: "10%" }}>
-                        Speaker
-                    </th>
-                    <th style={{ textAlign: "center" }}>Text</th>
-                </tr>
+            <tr>
+                <th style={{textAlign: "center", width: "10%"}}>
+                    Speaker
+                </th>
+                <th style={{textAlign: "center"}}>Text</th>
+            </tr>
             </thead>
             <tbody>
-                {props.script.components.map((component, i) => (
-                    <ScriptRow
-                        key={i}
-                        region={props.region}
-                        component={component}
-                        refs={props.refs}
-                    />
-                ))}
+            {props.script.components.map((component, i) => (
+                <ScriptRow
+                    key={i}
+                    region={props.region}
+                    component={component}
+                    refs={props.refs}
+                />
+            ))}
             </tbody>
         </Table>
     );

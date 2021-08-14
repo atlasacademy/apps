@@ -29,7 +29,7 @@ import {
     War,
     Illustrator,
     Cv,
-    MasterMission,
+    MasterMission, Script,
 } from "@atlasacademy/api-connector";
 
 export const Host = "https://api.atlasacademy.io";
@@ -212,6 +212,10 @@ class Api {
 
     static skillBasic(id: number): Promise<Skill.SkillBasic> {
         return apiConnector.skillBasic(id, undefined, cacheDuration);
+    }
+
+    static svtScript(id: number): Promise<Script.SvtScript[]> {
+        return apiConnector.svtScript([id], cacheDuration);
     }
 
     static war(id: number): Promise<War.War> {
