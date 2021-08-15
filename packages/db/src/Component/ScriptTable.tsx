@@ -54,7 +54,8 @@ const CharaFaceRow = (props: {
     let asset = null,
         name = '',
         [script, setScript] = useState<Script.SvtScript | undefined>(undefined),
-        [showFull, setShowFull] = useState<boolean>(false);
+        [showFull, setShowFull] = useState<boolean>(false),
+        [faceOverride, setFaceOverride] = useState<number | undefined>(undefined);
 
     switch (props.component.assetSet?.type) {
         case ScriptComponentType.CHARA_SET:
@@ -69,7 +70,7 @@ const CharaFaceRow = (props: {
     let expression = null, imageSizeChecker = null;
     if (asset && script) {
         let size = 256,
-            face = props.component.face - 1,
+            face = faceOverride ?? (props.component.face - 1),
             faceSize = script.extendData.faceSize ?? 256,
             figureWidth = 1024,
             offsetX = 0,
@@ -88,7 +89,7 @@ const CharaFaceRow = (props: {
             let scale = size / offsetY,
                 width = figureWidth * scale;
             backgroundSize = `${width}px auto`;
-        } else if (props.component.face === 0) {
+        } else if (face === -1) {
             backgroundPositionX = script.faceX * scale * (-1);
             backgroundPositionY = script.faceY * scale * (-1);
 
@@ -106,7 +107,22 @@ const CharaFaceRow = (props: {
                      }}
                 />
             );
+        } else {
+            imageSizeChecker = (
+                <img src={asset}
+                     alt=''
+                     style={{opacity: 0, height: 1, width: 1}}
+                     onLoad={(event) => {
+                         // @ts-ignore
+                         const height : number = event.target.naturalHeight,
+                             expectedHeight = offsetY + ((row+1) * faceSize);
 
+                         if (height < expectedHeight) {
+                             setFaceOverride(0);
+                         }
+                     }}
+                />
+            );
         }
 
         expression = <a href={asset}>
