@@ -84,8 +84,10 @@ const CharaFaceRow = (props: {
 
         if (showFull || (!script.faceX && !script.faceY)) {
             backgroundPositionX = '50%';
-            backgroundPositionY = '50%';
-            backgroundSize = 'contain';
+            backgroundPositionY = 0;
+            let scale = size / offsetY,
+                width = figureWidth * scale;
+            backgroundSize = `${width}px auto`;
         } else if (props.component.face === 0) {
             backgroundPositionX = script.faceX * scale * (-1);
             backgroundPositionY = script.faceY * scale * (-1);
@@ -98,7 +100,7 @@ const CharaFaceRow = (props: {
                          // @ts-ignore
                          const height : number = event.target.naturalHeight;
 
-                         if (height <= 1024) {
+                         if (height < 1024) {
                              setShowFull(true);
                          }
                      }}
