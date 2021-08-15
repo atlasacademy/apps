@@ -70,7 +70,7 @@ const CharaFaceRow = (props: {
     let expression = null, imageSizeChecker = null;
     if (asset && script) {
         let size = 256,
-            face = faceOverride ?? (props.component.face - 1),
+            face = (faceOverride ?? props.component.face) - 1,
             faceSize = script.extendData.faceSize ?? 256,
             figureWidth = 1024,
             offsetX = 0,

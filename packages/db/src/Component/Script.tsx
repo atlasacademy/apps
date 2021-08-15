@@ -10,9 +10,12 @@ export enum ScriptComponentType {
     CHARA_FILTER,
     CHARA_SCALE,
     CHARA_DEPTH,
+    CHARA_CUT_IN,
     CHARA_FACE,
+    CHARA_FADE_TIME,
     CHARA_FADE_IN,
     CHARA_FADE_OUT,
+    CHARA_PUT,
     IMAGE_SET,
     VERTICAL_IMAGE_SET,
     HORIZONTAL_IMAGE_SET,
@@ -220,6 +223,15 @@ const positionList = [
     { x: 512, y: 0 },
 ];
 
+const getPosition = (positionString: string) => {
+    return positionString.includes(",")
+        ? {
+              x: parseFloat(positionString.split(",")[0]),
+              y: parseFloat(positionString.split(",")[1]),
+          }
+        : positionList[parseInt(positionString)];
+};
+
 export type ScriptCharaFadeIn = {
     type: ScriptComponentType.CHARA_FADE_IN;
     speakerCode: string;
@@ -235,6 +247,21 @@ export type ScriptCharaFadeOut = {
     assetSet?: ScriptAssetSet;
 };
 
+export type ScriptCharaFadeTime = {
+    type: ScriptComponentType.CHARA_FADE_TIME;
+    speakerCode: string;
+    duration: number;
+    alpha: number;
+    assetSet?: ScriptAssetSet;
+};
+
+export type ScriptCharaPut = {
+    type: ScriptComponentType.CHARA_PUT;
+    speakerCode: string;
+    position: { x: number; y: number };
+    assetSet?: ScriptAssetSet;
+};
+
 export type ScriptCharaScale = {
     type: ScriptComponentType.CHARA_SCALE;
     speakerCode: string;
@@ -246,6 +273,24 @@ export type ScriptCharaDepth = {
     type: ScriptComponentType.CHARA_DEPTH;
     speakerCode: string;
     depth: number;
+    assetSet?: ScriptAssetSet;
+};
+
+export type CharaCutInEffect =
+    | "leftToRight"
+    | "upToDown"
+    | "circleIn"
+    | "leftDownToRightUp"
+    | "rightUpToLeftDown"
+    | "wormEaten";
+
+export type ScriptCharaCutIn = {
+    type: ScriptComponentType.CHARA_CUT_IN;
+    speakerCode: string;
+    effect: CharaCutInEffect;
+    durationSec: number;
+    mgd: number;
+    pause: boolean;
     assetSet?: ScriptAssetSet;
 };
 
@@ -326,8 +371,11 @@ export type ScriptBracketComponent =
     | ScriptCharaFilter
     | ScriptCharaFadeIn
     | ScriptCharaFadeOut
+    | ScriptCharaFadeTime
+    | ScriptCharaPut
     | ScriptCharaScale
     | ScriptCharaDepth
+    | ScriptCharaCutIn
     | ScriptWait
     | ScriptLabel
     | ScriptBranch
@@ -711,12 +759,7 @@ function parseBracketComponent(
                 durationSec: parseFloat(parameters[2]),
                 position:
                     parameters[3] !== undefined
-                        ? parameters[3].includes(",")
-                            ? {
-                                  x: parseFloat(parameters[3].split(",")[0]),
-                                  y: parseFloat(parameters[3].split(",")[1]),
-                              }
-                            : positionList[parseInt(parameters[3])]
+                        ? getPosition(parameters[3])
                         : undefined,
                 assetSet: parserState.assetSetMap.get(parameters[1]),
             };
@@ -725,6 +768,21 @@ function parseBracketComponent(
                 type: ScriptComponentType.CHARA_FADE_OUT,
                 speakerCode: parameters[1],
                 durationSec: parseFloat(parameters[2]),
+                assetSet: parserState.assetSetMap.get(parameters[1]),
+            };
+        case "charaFadeTime":
+            return {
+                type: ScriptComponentType.CHARA_FADE_TIME,
+                speakerCode: parameters[1],
+                duration: parseFloat(parameters[2]),
+                alpha: parseFloat(parameters[3]),
+                assetSet: parserState.assetSetMap.get(parameters[1]),
+            };
+        case "charaPut":
+            return {
+                type: ScriptComponentType.CHARA_PUT,
+                speakerCode: parameters[1],
+                position: getPosition(parameters[2]),
                 assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "charaScale":
@@ -739,6 +797,18 @@ function parseBracketComponent(
                 type: ScriptComponentType.CHARA_DEPTH,
                 speakerCode: parameters[1],
                 depth: parseFloat(parameters[2]),
+                assetSet: parserState.assetSetMap.get(parameters[1]),
+            };
+        case "charaCutin":
+        case "charaCutinPause":
+            return {
+                type: ScriptComponentType.CHARA_CUT_IN,
+                speakerCode: parameters[1],
+                effect: parameters[2] as CharaCutInEffect,
+                durationSec: parseFloat(parameters[3]),
+                mgd:
+                    parameters[4] !== undefined ? parseFloat(parameters[4]) : 0,
+                pause: parameters[0] === "charaCutinPause",
                 assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "se":

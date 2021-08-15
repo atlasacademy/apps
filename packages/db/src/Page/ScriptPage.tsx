@@ -97,6 +97,18 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         }
     };
 
+    const showRawData = new Map<string, ScriptComponent[]>();
+    for (const component of parsedScript.components) {
+        const typeName = ScriptComponentType[component.type],
+            mapEntry = showRawData.get(typeName);
+        if (mapEntry !== undefined) {
+            mapEntry.push(component);
+        } else {
+            showRawData.set(typeName, [component]);
+        }
+    }
+    showRawData.set("ALL_COMPONENTS", parsedScript.components);
+
     return (
         <>
             <h1>Script {scriptId}</h1>
@@ -110,7 +122,10 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                         handleNavigateAssetUrl={scrollToRow}
                     />
                 ) : null}
-                <RawDataViewer text="Parsed Script" data={parsedScript} />
+                <RawDataViewer
+                    text="Parsed Script"
+                    data={Object.fromEntries(showRawData)}
+                />
             </ButtonGroup>
             <ScriptTable
                 region={region}
