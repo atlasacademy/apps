@@ -1,0 +1,35 @@
+.scene-wrapper {
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+
+.scene-background {
+    display: block;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.scene-figure-wrapper {
+    bottom: 0;
+    display: block;
+    position: absolute;
+    right: 0;
+}
+
+.scene-figure {
+    background-size: 100%;
+    bottom: 0;
+    display: block;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.scene-figure-face {
+    display: block;
+    position: absolute;
+}

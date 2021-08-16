@@ -1,12 +1,14 @@
 import {Region, Script} from "@atlasacademy/api-connector";
 import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Button, Table} from "react-bootstrap";
 import Api from "../Api";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
+import Scene from "./Scene";
 import {
+    ScriptBackground,
     ScriptBracketComponent,
     ScriptCharaFace,
     ScriptComponent,
@@ -99,7 +101,7 @@ const CharaFaceRow = (props: {
                      style={{opacity: 0, height: 1, width: 1}}
                      onLoad={(event) => {
                          // @ts-ignore
-                         const height : number = event.target.naturalHeight;
+                         const height: number = event.target.naturalHeight;
 
                          if (height < 1024) {
                              setShowFull(true);
@@ -114,8 +116,8 @@ const CharaFaceRow = (props: {
                      style={{opacity: 0, height: 1, width: 1}}
                      onLoad={(event) => {
                          // @ts-ignore
-                         const height : number = event.target.naturalHeight,
-                             expectedHeight = offsetY + ((row+1) * faceSize);
+                         const height: number = event.target.naturalHeight,
+                             expectedHeight = offsetY + ((row + 1) * faceSize);
 
                          if (height < expectedHeight) {
                              setFaceOverride(0);
@@ -186,6 +188,37 @@ const ChoiceComponentsTable = (props: {
     );
 };
 
+const SceneRow = (props: {
+    background?: ScriptBackground,
+    figure?: ScriptCharaFace,
+    wideScreen: boolean
+}) => {
+    const resolution = props.wideScreen
+            ? {height: 626, width: 1344}
+            : {height: 626, width: 1024},
+        height = props.wideScreen ? 313 : 313,
+        width = props.wideScreen ? 672 : 512,
+        background = props.background ? {asset: props.background.backgroundAsset} : undefined,
+        figure = props.figure && props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ? {
+            asset: props.figure.assetSet?.charaGraphAsset,
+            face: props.figure.face,
+            charaGraphId: props.figure.assetSet?.charaGraphId,
+        } : undefined;
+
+    return (
+        <tr>
+            <td></td>
+            <td>
+                <Scene background={background}
+                       figure={figure}
+                       resolution={resolution}
+                       height={height}
+                       width={width}/>
+            </td>
+        </tr>
+    );
+}
+
 const ScriptBracketRow = (props: {
     region: Region;
     component: ScriptBracketComponent;
@@ -214,21 +247,6 @@ const ScriptBracketRow = (props: {
     };
 
     switch (component.type) {
-        case ScriptComponentType.BACKGROUND:
-            return (
-                <tr>
-                    <td>Background</td>
-                    <td>
-                        <a href={component.backgroundAsset}>
-                            <img
-                                src={component.backgroundAsset}
-                                style={{maxWidth: "30em", width: "100%"}}
-                                alt="Script background"
-                            />
-                        </a>
-                    </td>
-                </tr>
-            );
         case ScriptComponentType.BGM:
             return (
                 <tr ref={refs.get(component.bgm.audioAsset)}>
@@ -329,8 +347,6 @@ const ScriptRow = (props: {
             return (
                 <DialogueRow region={region} dialogue={component} refs={refs}/>
             );
-        case ScriptComponentType.CHARA_FACE:
-            return <CharaFaceRow component={component}/>;
         case ScriptComponentType.CHOICES:
             return (
                 <tr>
@@ -369,6 +385,11 @@ const ScriptTable = (props: {
     script: ScriptInfo;
     refs: RowBgmRefMap;
 }) => {
+    let backgroundComponent: ScriptBackground | undefined,
+        figureComponent: ScriptCharaFace | undefined,
+        wideScreen = false,
+        sceneDisplayed = false;
+
     return (
         <Table hover responsive>
             <thead>
@@ -380,14 +401,52 @@ const ScriptTable = (props: {
             </tr>
             </thead>
             <tbody>
-            {props.script.components.map((component, i) => (
-                <ScriptRow
-                    key={i}
-                    region={props.region}
-                    component={component}
-                    refs={props.refs}
-                />
-            ))}
+            {props.script.components.map((component, i) => {
+                let sceneRow,
+                    renderScene = () => (
+                        <SceneRow key={`scene-${i}`}
+                                  background={backgroundComponent}
+                                  figure={figureComponent}
+                                  wideScreen={wideScreen}
+                        />
+                    );
+
+                if (component.type === ScriptComponentType.ENABLE_FULL_SCREEN) {
+                    wideScreen = true;
+                } else if (component.type === ScriptComponentType.BACKGROUND) {
+                    if (backgroundComponent && !sceneDisplayed)
+                        sceneRow = renderScene();
+
+                    backgroundComponent = component;
+                    figureComponent = undefined;
+                    sceneDisplayed = false;
+                } else if (component.type === ScriptComponentType.CHARA_FACE) {
+                    if (figureComponent && !sceneDisplayed)
+                        sceneRow = renderScene();
+
+                    figureComponent = component;
+                    sceneDisplayed = false;
+                } else if (!sceneDisplayed) {
+                    switch (component.type) {
+                        case ScriptComponentType.DIALOGUE:
+                        case ScriptComponentType.CHOICES:
+                            sceneRow = renderScene();
+                            sceneDisplayed = true;
+                    }
+                }
+
+                return (
+                    <>
+                        {sceneRow}
+                        <ScriptRow
+                            key={i}
+                            region={props.region}
+                            component={component}
+                            refs={props.refs}
+                        />
+                    </>
+                );
+            })}
             </tbody>
         </Table>
     );
