@@ -214,7 +214,7 @@ export type ScriptCharaFilter = {
 };
 
 const positionList = [
-    { x: 256, y: 0 },
+    { x: -256, y: 0 },
     { x: 0, y: 0 },
     { x: 256, y: 0 },
     { x: -438, y: 0 },
