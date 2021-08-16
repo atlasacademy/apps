@@ -23,6 +23,7 @@ import handleScalingSection from "./Func/handleScalingSection";
 import handleTargetSection from "./Func/handleTargetSection";
 import handleTeamSection from "./Func/handleTeamSection";
 import handleOnFieldSection from "./Func/handleOnFieldSection";
+import handleConditionSection from "./Func/handleConditionSection";
 
 interface IProps {
     region: Region;
@@ -73,6 +74,7 @@ class FuncDescriptor extends React.Component<IProps> {
         const sections = new FuncDescriptorSections();
 
         handleTeamSection(region, sections, func, dataVal);
+        handleConditionSection(region, sections, func, dataVal);
         handleChanceSection(region, sections, func, dataVal);
         handleActionSection(region, sections, func, dataVal);
         handleAmountSection(region, sections, func, dataVal);
