@@ -22,6 +22,7 @@
 }
 
 .scene-figure {
+    background-repeat: no-repeat;
     background-size: 100%;
     bottom: 0;
     display: block;
@@ -32,6 +33,7 @@
 }
 
 .scene-figure-face {
+    background-repeat: no-repeat;
     display: block;
     position: absolute;
 }
