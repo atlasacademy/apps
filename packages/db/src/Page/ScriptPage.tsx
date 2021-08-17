@@ -1,7 +1,7 @@
 import { Region } from "@atlasacademy/api-connector";
 import axios, { AxiosError } from "axios";
 import { createRef, useEffect, useState } from "react";
-import { ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 import { AssetHost } from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -34,6 +34,9 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | undefined>(undefined);
     const [script, setScript] = useState<string>("");
+    const [enableScene, setEnableScene] = useState<boolean>(
+        Manager.scriptSceneEnabled()
+    );
 
     const scriptURL = getScriptAssetURL(region, scriptId);
 
@@ -122,6 +125,13 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                         handleNavigateAssetUrl={scrollToRow}
                     />
                 ) : null}
+                <Button
+                    variant={enableScene ? "success" : "secondary"}
+                    onClick={() => setEnableScene(!enableScene)}
+                    style={{ whiteSpace: "nowrap" }}
+                >
+                    Scene {enableScene ? "Enabled" : "Disabled"}
+                </Button>
                 <RawDataViewer
                     text="Parsed Script"
                     data={Object.fromEntries(showRawData)}
@@ -130,6 +140,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
             <ScriptTable
                 region={region}
                 script={parsedScript}
+                showScene={enableScene}
                 refs={scrollRefs}
             />
         </>

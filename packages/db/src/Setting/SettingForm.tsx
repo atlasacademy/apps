@@ -26,6 +26,10 @@ class SettingForm extends React.Component<IProps> {
         Manager.setShopPlannerEnabled(value);
     }
 
+    updateScriptSceneEnabled(value : boolean) {
+        Manager.setScriptSceneEnabled(value);
+    }
+
     render() {
         return (
             <div>
@@ -49,11 +53,18 @@ class SettingForm extends React.Component<IProps> {
                         </Form.Control>
                     </Form.Group>
                 </Form>
-                <ButtonGroup style={{ width: '100%' }}>
+                <ButtonGroup style={{ width: '100%', marginBottom: '1em' }}>
                     <Button
                         variant={Manager.shopPlannerEnabled() ? 'success' : 'secondary'}
                         onClick={() => this.updateShopPlannerEnabled(!Manager.shopPlannerEnabled())}>
-                        Shop planner : {Manager.shopPlannerEnabled() ? 'Enabled' : 'Disabled'}
+                        Shop planner: {Manager.shopPlannerEnabled() ? 'Enabled' : 'Disabled'}
+                    </Button>
+                </ButtonGroup>
+                <ButtonGroup style={{ width: '100%' }}>
+                    <Button
+                        variant={Manager.scriptSceneEnabled() ? 'success' : 'secondary'}
+                        onClick={() => this.updateScriptSceneEnabled(!Manager.scriptSceneEnabled())}>
+                        Script Scene: {Manager.scriptSceneEnabled() ? 'Enabled' : 'Disabled'}
                     </Button>
                 </ButtonGroup>
             </div>

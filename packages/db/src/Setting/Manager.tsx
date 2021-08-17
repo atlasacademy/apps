@@ -6,7 +6,8 @@ const languageKey = 'language',
     themeKey = 'aa-db.theme',
     changelogVisibleOnly = 'changelog.visibleOnly',
     changelogLocalTime = 'changelog.localTime',
-    shopPlannerEnabled = 'shop.planner.enabled'
+    shopPlannerEnabled = 'shop.planner.enabled',
+    scriptSceneEnabled = 'script.scene.enabled';
 
 const callbacks: Function[] = [];
 
@@ -82,6 +83,15 @@ class Manager {
 
     static setShopPlannerEnabled(plannerEnabled : boolean) {
         window.localStorage.setItem(shopPlannerEnabled, `${+!!plannerEnabled}`);
+        Manager.triggerCallbacks();
+    }
+
+    static scriptSceneEnabled() : boolean {
+        return !!+(window.localStorage.getItem(scriptSceneEnabled) ?? 1);
+    }
+
+    static setScriptSceneEnabled(sceneEnabled : boolean) {
+        window.localStorage.setItem(scriptSceneEnabled, `${+!!sceneEnabled}`);
         Manager.triggerCallbacks();
     }
 

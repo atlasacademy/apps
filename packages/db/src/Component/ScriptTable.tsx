@@ -402,6 +402,7 @@ const ScriptRow = (props: {
 const ScriptTable = (props: {
     region: Region;
     script: ScriptInfo;
+    showScene?: boolean;
     refs: RowBgmRefMap;
 }) => {
     let backgroundComponent: ScriptBackground | undefined,
@@ -423,8 +424,7 @@ const ScriptTable = (props: {
             {props.script.components.map((component, i) => {
                 let sceneRow,
                     renderScene = () => (
-                        <SceneRow key={`scene-${i}`}
-                                  background={backgroundComponent}
+                        <SceneRow background={backgroundComponent}
                                   figure={figureComponent}
                                   wideScreen={wideScreen}
                         />
@@ -455,15 +455,14 @@ const ScriptTable = (props: {
                 }
 
                 return (
-                    <>
-                        {sceneRow}
+                    <React.Fragment key={i}>
+                        {props.showScene === false ? null : sceneRow}
                         <ScriptRow
-                            key={i}
                             region={props.region}
                             component={component}
                             refs={props.refs}
                         />
-                    </>
+                    </React.Fragment>
                 );
             })}
             </tbody>
