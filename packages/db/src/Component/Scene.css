@@ -5,11 +5,13 @@
 }
 
 .scene-background {
+    background-repeat: no-repeat;
+    bottom: 0;
     display: block;
     left: 0;
     position: absolute;
+    right: 0;
     top: 0;
-    width: 100%;
 }
 
 .scene-figure-wrapper {

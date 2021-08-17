@@ -194,9 +194,9 @@ const SceneRow = (props: {
     wideScreen: boolean
 }) => {
     const resolution = props.wideScreen
-            ? {height: 626, width: 1344}
-            : {height: 626, width: 1024},
-        height = props.wideScreen ? 313 : 313,
+            ? {height: 576, width: 1344}
+            : {height: 576, width: 1024},
+        height = props.wideScreen ? 288 : 288,
         width = props.wideScreen ? 672 : 512,
         background = props.background ? {asset: props.background.backgroundAsset} : undefined,
         figure = props.figure && props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ? {
@@ -207,13 +207,22 @@ const SceneRow = (props: {
 
     return (
         <tr>
-            <td></td>
+            <td/>
             <td>
                 <Scene background={background}
                        figure={figure}
                        resolution={resolution}
                        height={height}
                        width={width}/>
+                <div>
+                    {props.background ? (
+                        <a href={props.background.backgroundAsset} target='_blank' rel="noreferrer">[Background]</a>
+                    ) : null}
+                    &nbsp;
+                    {props.figure && props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ? (
+                        <a href={props.figure.assetSet?.charaGraphAsset} target='_blank' rel="noreferrer">[Figure]</a>
+                    ) : null}
+                </div>
             </td>
         </tr>
     );
