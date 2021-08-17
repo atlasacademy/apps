@@ -1,6 +1,6 @@
 import './Scene.css';
 import {useState} from "react";
-import {Script} from "../../../api-connector";
+import {Script} from "@atlasacademy/api-connector";
 import Api from "../Api";
 
 const Scene = (props: {
