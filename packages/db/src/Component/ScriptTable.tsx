@@ -6,6 +6,7 @@ import {Button, Table} from "react-bootstrap";
 import Api from "../Api";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
+import useWindowDimensions from "../Helper/WindowHelper";
 import Scene from "./Scene";
 import {
     ScriptBackground,
@@ -188,6 +189,13 @@ const ChoiceComponentsTable = (props: {
     );
 };
 
+const getSceneScale = (windowWidth: number, windowHeight: number) => {
+    if (windowWidth < 768) {
+        return 3;
+    }
+    return 2;
+}
+
 const SceneRow = (props: {
     background?: ScriptBackground,
     figure?: ScriptCharaFace,
@@ -196,8 +204,10 @@ const SceneRow = (props: {
     const resolution = props.wideScreen
             ? {height: 576, width: 1344}
             : {height: 576, width: 1024},
-        height = props.wideScreen ? 288 : 288,
-        width = props.wideScreen ? 672 : 512,
+        { windowWidth, windowHeight } = useWindowDimensions(),
+        sceneScale = getSceneScale(windowWidth, windowHeight),
+        height = (props.wideScreen ? 576 : 576) / sceneScale,
+        width = (props.wideScreen ? 1344 : 1024) / sceneScale,
         background = props.background ? {asset: props.background.backgroundAsset} : undefined,
         figure = props.figure && props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ? {
             asset: props.figure.assetSet?.charaGraphAsset,
