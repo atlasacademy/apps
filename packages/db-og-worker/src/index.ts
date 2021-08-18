@@ -271,6 +271,7 @@ async function handleEvent(event: FetchEvent) {
             "drop-lookup",
             "paper-moon",
             "drop-serializer",
+            "bingo"
         ]) {
             if (pathname === `/${basePath}`) {
                 return Response.redirect(
