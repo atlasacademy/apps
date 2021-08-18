@@ -1,7 +1,7 @@
 import {Region, Servant, ClassName, Entity, Item} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
-import {Table, Tab, Tabs} from "react-bootstrap";
+import {Button, DropdownButton, Table, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Api, {Host} from "../Api";
@@ -54,6 +54,84 @@ interface MaterialUsageData extends MaterialUsageColumn{
     collectionNo: number;
     name: string;
     face: string;
+}
+
+let usageDataSortingInformation : { extractor: (usage: MaterialUsageData) => number, title: string, colspan?: number }[] = [
+    { extractor: (usage: MaterialUsageData) => usage.collectionNo, title: "Servant", colspan: 2 },
+    { extractor: (usage: MaterialUsageData) => usage.ascensions, title: "Total Ascension" },
+    { extractor: (usage: MaterialUsageData) => usage.skills * 3, title: "Per Skill (Total)" },
+    { extractor: (usage: MaterialUsageData) => usage.appendSkills * 3, title: "Per Append Skill (Total)" },
+    { extractor: (usage: MaterialUsageData) => usage.costumes, title: "Costume" },
+    { extractor: (usage: MaterialUsageData) => usage.total, title: "Total" }
+]
+
+function MaterialListingTable(props : { region : Region, usageData: MaterialUsageData[] }) {
+    let { region, usageData } = props;
+
+    const NO_SORT = -1; enum SortingOrder { ASC = 1, DESC = -1 };
+
+    let [currentSortingKey, setSortingKey] = React.useState<number>(NO_SORT);
+    let [currentSortingOrder, setSortingOrder] = React.useState<SortingOrder>(SortingOrder.DESC);
+
+    let header = usageDataSortingInformation
+        .map((field, index) => {
+            if (index === currentSortingKey)
+                return <DropdownButton
+                    variant=""
+                    title={field.title}
+                    style={{ outline: 'none' }}
+                    drop={currentSortingOrder === SortingOrder.ASC ? "up" : "down"}
+                    onClick={() => setSortingOrder(currentSortingOrder === SortingOrder.ASC ? SortingOrder.DESC : SortingOrder.ASC)}
+                />;
+            return (
+                <Button
+                    variant=""
+                    style={{ outline: 'none' }}
+                    onClick={() => {
+                        setSortingOrder(SortingOrder.DESC);
+                        setSortingKey(index);
+                    }}>
+                    {field.title}
+                </Button>
+            );
+        })
+        .map((element, index) => <th colSpan={usageDataSortingInformation[index].colspan}>{element}</th>);
+
+    if (currentSortingKey !== NO_SORT)
+        usageData = usageData.slice().sort((a, b) => {
+            let sortingInformation = usageDataSortingInformation[currentSortingKey];
+            let [value1, value2] = [sortingInformation.extractor(a), sortingInformation.extractor(b)];
+            return (value1 - value2) * currentSortingOrder;
+        })
+
+    return (
+        <Table hover responsive className={'materialUsage'}>
+            <thead>
+            <tr>
+                {header}
+            </tr>
+            {usageData.map(servantUsage => {
+                const route = `/${region}/servant/${servantUsage.collectionNo}/materials`;
+
+                return (
+                    <tr key={servantUsage.collectionNo}>
+                        <td align={"center"} style={{width: '1px'}}>
+                            <Link to={route}>
+                                <FaceIcon location={servantUsage.face} height={50}/>
+                            </Link>
+                        </td>
+                        <td style={{textAlign: "left"}}>
+                            <Link to={route}>
+                                {servantUsage.name}
+                            </Link>
+                        </td>
+                        {ItemPage.renderUsageNumberRow(servantUsage)}
+                    </tr>
+                );
+            })}
+            </thead>
+        </Table>
+    )
 }
 
 class ItemPage extends React.Component<IProps, IState> {
@@ -177,7 +255,7 @@ class ItemPage extends React.Component<IProps, IState> {
         return usageData
     }
 
-    private renderUsageNumberRow(usage: MaterialUsageColumn) {
+    public static renderUsageNumberRow(usage: MaterialUsageColumn) {
         return (
             <>
                 <td>{usage.ascensions}</td>
@@ -195,33 +273,7 @@ class ItemPage extends React.Component<IProps, IState> {
             <Tab key={className.toLowerCase()} eventKey={className.toLowerCase()}
                  title={className.toLowerCase().replace(/^\w/, c => c.toUpperCase())}>
                 <br/>
-                <Table hover responsive className={'materialUsage'}>
-                    <thead>
-                    <tr>
-                        <th colSpan={2}>Servant</th>
-                        {MATERIAL_USAGE_HEADER}
-                    </tr>
-                    {usageData.map(servantUsage => {
-                        const route = `/${region}/servant/${servantUsage.collectionNo}/materials`;
-
-                        return (
-                            <tr key={servantUsage.collectionNo}>
-                                <td align={"center"} style={{width: '1px'}}>
-                                    <Link to={route}>
-                                        <FaceIcon location={servantUsage.face} height={50}/>
-                                    </Link>
-                                </td>
-                                <td style={{textAlign: "left"}}>
-                                    <Link to={route}>
-                                        {servantUsage.name}
-                                    </Link>
-                                </td>
-                                {this.renderUsageNumberRow(servantUsage)}
-                            </tr>
-                        );
-                    })}
-                    </thead>
-                </Table>
+                <MaterialListingTable region={region} usageData={usageData} />
             </Tab>
         );
     }
@@ -269,7 +321,7 @@ class ItemPage extends React.Component<IProps, IState> {
                     </tr>
                     <tr key="total">
                         <td style={{textAlign: "left"}}>Total</td>
-                        {this.renderUsageNumberRow(totalUsage)}
+                        {ItemPage.renderUsageNumberRow(totalUsage)}
                     </tr>
                     </thead>
                 </Table>
