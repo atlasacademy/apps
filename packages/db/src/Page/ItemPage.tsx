@@ -32,15 +32,8 @@ interface IState {
     servants: Servant.Servant[];
     item?: Item.Item;
     isMaterial?: boolean;
+    blacklistedColumnIndexes: number[];
 }
-
-let MATERIAL_USAGE_HEADER = <>
-    <th>Total Ascension</th>
-    <th>Per&nbsp;Skill (Total)</th>
-    <th>Per&nbsp;Append Skill (Total)</th>
-    <th>Costume</th>
-    <th>Total</th>
-</>
 
 interface MaterialUsageColumn {
     ascensions: number;
@@ -56,24 +49,42 @@ interface MaterialUsageData extends MaterialUsageColumn{
     face: string;
 }
 
-let usageDataSortingInformation : { extractor: (usage: MaterialUsageData) => number, title: string, colspan?: number }[] = [
-    { extractor: (usage: MaterialUsageData) => usage.collectionNo, title: "Servant", colspan: 2 },
-    { extractor: (usage: MaterialUsageData) => usage.ascensions, title: "Total Ascension" },
-    { extractor: (usage: MaterialUsageData) => usage.skills * 3, title: "Per Skill (Total)" },
-    { extractor: (usage: MaterialUsageData) => usage.appendSkills * 3, title: "Per Append Skill (Total)" },
-    { extractor: (usage: MaterialUsageData) => usage.costumes, title: "Costume" },
-    { extractor: (usage: MaterialUsageData) => usage.total, title: "Total" }
+let usageDataColumns : {
+    extractor: (usage: MaterialUsageColumn) => number,
+    title: string,
+    colspan?: number,
+    displayExtractor?: (usage: MaterialUsageColumn) => string
+}[] = [
+    { extractor: (usage: MaterialUsageColumn) => usage.ascensions, title: "Total Ascension" },
+    {
+        extractor: (usage: MaterialUsageColumn) => usage.skills * 3,
+        displayExtractor: (usage: MaterialUsageColumn) => `${usage.skills} (${usage.skills * 3})`,
+        title: "Per Skill (Total)"
+    },
+    {
+        extractor: (usage: MaterialUsageColumn) => usage.appendSkills * 3,
+        displayExtractor: (usage: MaterialUsageColumn) => `${usage.appendSkills} (${usage.appendSkills * 3})`,
+        title: "Per Append Skill (Total)"
+    },
+    { extractor: (usage: MaterialUsageColumn) => usage.costumes, title: "Costume" },
+    { extractor: (usage: MaterialUsageColumn) => usage.total, title: "Total" }
 ]
 
-function MaterialListingTable(props : { region : Region, usageData: MaterialUsageData[] }) {
-    let { region, usageData } = props;
+function MaterialListingTable(props : { region : Region, usageData: MaterialUsageData[], blacklistedColumnIndexes?: number[] }) {
+    let { region, usageData, blacklistedColumnIndexes } = props;
+    blacklistedColumnIndexes = blacklistedColumnIndexes ?? [];
 
     const NO_SORT = -1; enum SortingOrder { ASC = 1, DESC = -1 };
 
     let [currentSortingKey, setSortingKey] = React.useState<number>(NO_SORT);
     let [currentSortingOrder, setSortingOrder] = React.useState<SortingOrder>(SortingOrder.DESC);
 
-    let header = usageDataSortingInformation
+    let usageDataColumnsWithServantColumn = [
+        { extractor: (usage: MaterialUsageColumn) => (usage as MaterialUsageData).collectionNo, title: "Servant", colspan: 2 },
+        ...usageDataColumns
+    ];
+
+    let header = usageDataColumnsWithServantColumn
         .map((field, index) => {
             if (index === currentSortingKey)
                 return <DropdownButton
@@ -95,11 +106,13 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
                 </Button>
             );
         })
-        .map((element, index) => <th colSpan={usageDataSortingInformation[index].colspan}>{element}</th>);
+        .map((element, index) => <th colSpan={usageDataColumnsWithServantColumn[index].colspan}>{element}</th>)
+        // we concated above, shift everything by one
+        .filter((_, index) => !blacklistedColumnIndexes!.includes(index - 1));
 
     if (currentSortingKey !== NO_SORT)
         usageData = usageData.slice().sort((a, b) => {
-            let sortingInformation = usageDataSortingInformation[currentSortingKey];
+            let sortingInformation = usageDataColumnsWithServantColumn[currentSortingKey];
             let [value1, value2] = [sortingInformation.extractor(a), sortingInformation.extractor(b)];
             return (value1 - value2) * currentSortingOrder;
         })
@@ -125,7 +138,12 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
                                 {servantUsage.name}
                             </Link>
                         </td>
-                        {ItemPage.renderUsageNumberRow(servantUsage)}
+                        {usageDataColumns
+                            .map(
+                                field => <td>{field?.displayExtractor?.(servantUsage) ?? field?.extractor(servantUsage)}</td>
+                            )
+                            .filter((_, index) => !blacklistedColumnIndexes!.includes(index))
+                        }
                     </tr>
                 );
             })}
@@ -143,6 +161,7 @@ class ItemPage extends React.Component<IProps, IState> {
             id: this.props.id,
             isMaterial: false,
             servants: [],
+            blacklistedColumnIndexes: []
         };
     }
 
@@ -255,25 +274,13 @@ class ItemPage extends React.Component<IProps, IState> {
         return usageData
     }
 
-    public static renderUsageNumberRow(usage: MaterialUsageColumn) {
-        return (
-            <>
-                <td>{usage.ascensions}</td>
-                <td>{`${usage.skills} (${usage.skills * 3})`}</td>
-                <td>{`${usage.appendSkills} (${usage.appendSkills * 3})`}</td>
-                <td>{usage.costumes}</td>
-                <td>{usage.total}</td>
-            </>
-        )
-    }
-
     private renderBreakdownTab(className: ClassName, usageData: MaterialUsageData[]) {
         const region = this.props.region;
         return (
             <Tab key={className.toLowerCase()} eventKey={className.toLowerCase()}
                  title={className.toLowerCase().replace(/^\w/, c => c.toUpperCase())}>
                 <br/>
-                <MaterialListingTable region={region} usageData={usageData} />
+                <MaterialListingTable region={region} usageData={usageData} blacklistedColumnIndexes={this.state.blacklistedColumnIndexes} />
             </Tab>
         );
     }
@@ -317,11 +324,34 @@ class ItemPage extends React.Component<IProps, IState> {
                     <thead>
                     <tr>
                         <th></th>
-                        {MATERIAL_USAGE_HEADER}
+                        {usageDataColumns.map(field => <th>{field.title}</th>)}
                     </tr>
                     <tr key="total">
                         <td style={{textAlign: "left"}}>Total</td>
-                        {ItemPage.renderUsageNumberRow(totalUsage)}
+                        {usageDataColumns.map(
+                            field => <td>{field?.displayExtractor?.(totalUsage) ?? field?.extractor(totalUsage as MaterialUsageData)}</td>
+                        )}
+                    </tr>
+                    <tr key="switches">
+                        <td style={{textAlign: "left"}}>Show below?</td>
+                        {usageDataColumns.map(
+                            (_, index) => {
+                                let blacklisted = this.state.blacklistedColumnIndexes.includes(index);
+                                return (
+                                    <td>
+                                        <Button
+                                            variant={blacklisted ? 'danger' : 'success'}
+                                            onClick={() => {
+                                                let out = new Set(this.state.blacklistedColumnIndexes);
+                                                out[blacklisted ? 'delete' : 'add'](index);
+                                                this.setState({ blacklistedColumnIndexes: [...out] });
+                                            }}>
+                                            {blacklisted ? "No" : "Yes"}
+                                        </Button>
+                                    </td>
+                                )
+                            }
+                        )}
                     </tr>
                     </thead>
                 </Table>
