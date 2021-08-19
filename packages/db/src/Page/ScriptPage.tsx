@@ -17,7 +17,9 @@ import RawDataViewer from "../Component/RawDataViewer";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
-    if (scriptId[0] === "0" || scriptId[0] === "9") {
+    if (scriptId === "WarEpilogue108") {
+        scriptPath = "01/WarEpilogue108";
+    } else if (scriptId[0] === "0" || scriptId[0] === "9") {
         if (scriptId.slice(0, 2) === "94") {
             scriptPath = `94/${scriptId.slice(0, 4)}/${scriptId}`;
         } else {

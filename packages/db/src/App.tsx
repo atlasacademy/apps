@@ -40,6 +40,7 @@ const NoblePhantasmsPage = React.lazy(() => import("./Page/NoblePhantasmsPage"))
 const QuestPage = React.lazy(() => import("./Page/QuestPage"));
 const QuestsPage = React.lazy(() => import("./Page/QuestsPage"));
 const ScriptPage = React.lazy(() => import("./Page/ScriptPage"));
+const ScriptsPage = React.lazy(() => import("./Page/ScriptsPage"));
 const ServantPage = React.lazy(() => import("./Page/ServantPage"));
 const ServantsPage = React.lazy(() => import("./Page/ServantsPage"));
 const SkillPage = React.lazy(() => import("./Page/SkillPage"));
@@ -242,6 +243,14 @@ class App extends React.Component<any, IState> {
                                     <ScriptPage region={region as Region} scriptId={id} />
                                 </Suspense>
                             )
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA)/scripts" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <ScriptsPage key={region} region={region as Region} path="scripts" />
+                                </Suspense>
+                            );
                         }}/>
                         <Route exact={true} path="/:region(JP|NA)/ai/:aiType(svt|field)/:id([0-9]+)" render={props => {
                             const {region, aiType, id} = props.match.params;

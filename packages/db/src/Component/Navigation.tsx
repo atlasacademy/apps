@@ -120,6 +120,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     <Dropdown.Item as={Link} to={`/${Manager.region()}/funcs`}>Functions</Dropdown.Item>
                                     <Dropdown.Item as={Link} to={`/${Manager.region()}/buffs`}>Buffs</Dropdown.Item>
                                     <Dropdown.Item as={Link} to={`/${Manager.region()}/quests`}>Quests</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/scripts`}>Scripts</Dropdown.Item>
                                 </Dropdown.Menu>
                                 </Dropdown>
                             </Nav>

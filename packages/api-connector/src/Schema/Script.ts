@@ -18,3 +18,10 @@ export interface SvtScript {
     offsetXMyroom: number;
     offsetYMyroom: number;
 }
+
+export interface ScriptSearchResult {
+    scriptId: string;
+    script: string;
+    score: number;
+    snippets: string[];
+}

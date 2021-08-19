@@ -29,7 +29,8 @@ import {
     War,
     Illustrator,
     Cv,
-    MasterMission, Script,
+    MasterMission,
+    Script,
 } from "@atlasacademy/api-connector";
 
 export const Host = "https://api.atlasacademy.io";
@@ -399,6 +400,10 @@ class Api {
             enemyTrait,
             enemyClassName,
         });
+    }
+
+    static searchScript(query: string): Promise<Script.ScriptSearchResult[]> {
+        return apiConnector.searchScript({ query });
     }
 }
 

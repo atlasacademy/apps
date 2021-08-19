@@ -66,7 +66,7 @@ import {
     FuncTargetType,
     FuncType,
 } from "./Schema/Func";
-import { SvtScript } from "./Schema/Script";
+import { ScriptSearchResult, SvtScript } from "./Schema/Script";
 
 export enum ReverseData {
     BASIC = "basic",
@@ -177,6 +177,10 @@ type QuestPhaseSearchOptions = {
     enemyClassName?: ClassName[];
 };
 
+type ScriptSearchOptions = {
+    query: string;
+};
+
 export interface EnumList {
     NiceSvtType: { [key: string]: EntityType };
     NiceSvtFlag: { [key: string]: EntityFlag };
@@ -283,6 +287,7 @@ class ApiConnector {
         skill: new ResultCache<number, Skill>(),
         skillBasic: new ResultCache<number, SkillBasic>(),
         svtScript: new ResultCache<string, SvtScript[]>(),
+        searchScript: new ResultCache<string, ScriptSearchResult[]>(),
         war: new ResultCache<number, War>(),
         warBasic: new ResultCache<number, WarBasic>(),
         warList: new ResultCache<null, WarBasic[]>(),
@@ -1244,6 +1249,27 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.searchQuestPhase.get(
+            query,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    searchScript(
+        options: ScriptSearchOptions,
+        cacheDuration?: number
+    ): Promise<ScriptSearchResult[]> {
+        const query = this.getQueryString(this.getURLSearchParams(options));
+
+        const fetch = () => {
+            return ApiConnector.fetch<ScriptSearchResult[]>(
+                `${this.host}/nice/${this.region}/script/search${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.searchScript.get(
             query,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration

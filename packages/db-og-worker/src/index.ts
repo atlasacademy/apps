@@ -109,6 +109,7 @@ const listingPageTitles = new Map([
     ["funcs", "Functions Search"],
     ["buffs", "Buffs Search"],
     ["quests", "Quests Search"],
+    ["scripts", "Scripts Search"],
     ["changes", "Changelog"],
 ]);
 
@@ -271,7 +272,7 @@ async function handleEvent(event: FetchEvent) {
             "drop-lookup",
             "paper-moon",
             "drop-serializer",
-            "bingo"
+            "bingo",
         ]) {
             if (pathname === `/${basePath}`) {
                 return Response.redirect(
