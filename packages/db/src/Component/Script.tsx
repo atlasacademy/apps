@@ -5,6 +5,7 @@ export enum ScriptComponentType {
     UNPARSED,
     ENABLE_FULL_SCREEN,
     CHARA_SET,
+    CHARA_CHANGE,
     CHARA_TALK,
     CHARA_TALK_TOGGLE,
     CHARA_FILTER,
@@ -176,8 +177,21 @@ export type ScriptEquipSet = {
     baseName: string;
 };
 
+export type CharaChangeKind = "fade" | "normal";
+
+export type ScriptCharaChange = {
+    type: ScriptComponentType.CHARA_CHANGE;
+    speakerCode: string;
+    charaGraphId: string;
+    charaGraphAsset: string;
+    baseFace: number;
+    kind: CharaChangeKind;
+    speed: number;
+};
+
 export type ScriptAssetSet =
     | ScriptCharaSet
+    | ScriptCharaChange
     | ScriptImageSet
     | ScriptVerticalImageSet
     | ScriptHorizontalImageSet
@@ -365,6 +379,7 @@ export type ScriptBracketComponent =
     | ScriptVerticalImageSet
     | ScriptHorizontalImageSet
     | ScriptEquipSet
+    | ScriptCharaChange
     | ScriptCharaTalk
     | ScriptCharaTalkToggle
     | ScriptCharaFace
@@ -725,6 +740,18 @@ function parseBracketComponent(
             } as ScriptEquipSet;
             parserState.assetSetMap.set(parameters[1], equipSet);
             return equipSet;
+        case "charaChange":
+            const charaChange = {
+                type: ScriptComponentType.CHARA_CHANGE,
+                speakerCode: parameters[1],
+                charaGraphId: parameters[2],
+                charaGraphAsset: `${AssetHost}/${region}/CharaFigure/${parameters[2]}/${parameters[2]}_merged.png`,
+                baseFace: parseInt(parameters[3]),
+                kind: parameters[4],
+                speed: parseFloat(parameters[5]),
+            } as ScriptCharaChange;
+            parserState.assetSetMap.set(parameters[1], charaChange);
+            return charaChange;
         case "charaTalk":
             if (["on", "off", "depthOn", "depthOff"].includes(parameters[1])) {
                 return {

@@ -209,7 +209,10 @@ const SceneRow = (props: {
         height = (props.wideScreen ? 576 : 576) / sceneScale,
         width = (props.wideScreen ? 1344 : 1024) / sceneScale,
         background = props.background ? {asset: props.background.backgroundAsset} : undefined,
-        figure = props.figure && props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ? {
+        figure = props.figure
+        && (props.figure.assetSet?.type === ScriptComponentType.CHARA_SET
+            || props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE)
+        ? {
             asset: props.figure.assetSet?.charaGraphAsset,
             face: props.figure.face,
             charaGraphId: props.figure.assetSet?.charaGraphId,
@@ -229,9 +232,11 @@ const SceneRow = (props: {
                         <a href={props.background.backgroundAsset} target='_blank' rel="noreferrer">[Background]</a>
                     ) : null}
                     &nbsp;
-                    {props.figure && props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ? (
-                        <a href={props.figure.assetSet?.charaGraphAsset} target='_blank' rel="noreferrer">[Figure]</a>
-                    ) : null}
+                    {props.figure
+                    && (props.figure.assetSet?.type === ScriptComponentType.CHARA_SET
+                        || props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE)
+                    ? <a href={props.figure.assetSet?.charaGraphAsset} target='_blank' rel="noreferrer">[Figure]</a>
+                    : null}
                 </div>
             </td>
         </tr>
