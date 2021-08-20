@@ -68,7 +68,9 @@ class SkillBreakdown extends React.Component<IProps> {
                         <QuestDescriptor
                             region={this.props.region}
                             questId={skill.condQuestId}
-                            questPhase={skill.condQuestPhase}
+                            questPhase={["91", "94"].includes(skill.condQuestId.toString().slice(0, 2))
+                                            ? 1
+                                            : skill.condQuestPhase}
                         />
                     </Alert>
                 ) : null}

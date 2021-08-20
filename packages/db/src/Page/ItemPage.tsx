@@ -1,9 +1,11 @@
 import {Region, Servant, ClassName, Entity, Item} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
-import {Button, DropdownButton, Table, Tab, Tabs} from "react-bootstrap";
+import {Button, Table, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
+import {faSortNumericDown, faSortNumericDownAlt} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Api, {Host} from "../Api";
 import ItemIcon from "../Component/ItemIcon";
 import FaceIcon from "../Component/FaceIcon";
@@ -87,13 +89,26 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
     let header = usageDataColumnsWithServantColumn
         .map((field, index) => {
             if (index === currentSortingKey)
-                return <DropdownButton
-                    variant=""
-                    title={field.title}
-                    style={{ outline: 'none' }}
-                    drop={currentSortingOrder === SortingOrder.ASC ? "up" : "down"}
-                    onClick={() => setSortingOrder(currentSortingOrder === SortingOrder.ASC ? SortingOrder.DESC : SortingOrder.ASC)}
-                />;
+                return (
+                    <Button
+                        variant=""
+                        style={{ outline: 'none' }}
+                        onClick={
+                            () => setSortingOrder(
+                                currentSortingOrder === SortingOrder.ASC
+                                    ? SortingOrder.DESC
+                                    : SortingOrder.ASC
+                        )}
+                    >
+                        {field.title}
+                        {currentSortingKey !== NO_SORT
+                            ? currentSortingOrder === SortingOrder.ASC
+                                ? <>&nbsp;<FontAwesomeIcon icon={faSortNumericDown} /></>
+                                : <>&nbsp;<FontAwesomeIcon icon={faSortNumericDownAlt} /></>
+                            : null
+                        }
+                    </Button>
+                )
             return (
                 <Button
                     variant=""
