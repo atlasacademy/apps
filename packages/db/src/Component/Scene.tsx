@@ -28,7 +28,7 @@ const Scene = (props: {
             ((props.resolution.width - 1024) / 2)
             + (script ? script.offsetX : 0)
         ) * scale,
-        figureWrapperTop = backgroundTop + (script ? script.offsetX : 0) * scale,
+        figureWrapperTop = (script ? -script.offsetY : 0) * scale,
         faceElement = null;
 
     if (props.figure) {
