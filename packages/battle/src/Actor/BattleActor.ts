@@ -225,6 +225,9 @@ export class BattleActor {
     }
 
     hits(attack: BattleAttackAction, target?: BattleActor): number[] {
+        if (attack.np)
+            return this.noblePhantasm().hits();
+
         const hits = this.baseHits(attack);
         const multiHit = this.multihit(attack, target);
         if (multiHit > 1) {

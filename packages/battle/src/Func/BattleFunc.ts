@@ -1,4 +1,5 @@
 import {DataVal, Func} from "@atlasacademy/api-connector";
+import {BattleAttackAction} from "../Action/BattleAttackAction";
 import {BattleActor, BattleActorLogic} from "../Actor/BattleActor";
 import {Battle} from "../Battle";
 import {BattleTeam} from "../Enum/BattleTeam";
@@ -10,6 +11,7 @@ import BattleSkillPassive from "../Skill/BattleSkillPassive";
 import {checkTrait} from "../Trait/checkTrait";
 import addStateFunc from "./Implementations/addStateFunc";
 import adjustNpFunc from "./Implementations/adjustNpFunc";
+import getDamageList from "./Implementations/getDamageList";
 import subStateFunc from "./Implementations/subStateFunc";
 
 export type BattleFuncParent = BattleSkill | BattleSkillPassive | BattleNoblePhantasm;
@@ -88,6 +90,17 @@ export default abstract class BattleFunc {
                 return addStateFunc(battle, this, actor, target, false, this.props.passive);
             case Func.FuncType.ADD_STATE_SHORT:
                 return addStateFunc(battle, this, actor, target, true, this.props.passive);
+            case Func.FuncType.DAMAGE_NP:
+            case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
+            case Func.FuncType.DAMAGE_NP_COUNTER:
+            case Func.FuncType.DAMAGE_NP_HPRATIO_HIGH:
+            case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
+            case Func.FuncType.DAMAGE_NP_PIERCE:
+            case Func.FuncType.DAMAGE_NP_RARE:
+            case Func.FuncType.DAMAGE_NP_SAFE:
+            case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL:
+            case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+                return getDamageList(battle, actor.noblePhantasm().action(actor), actor, target, this);
             case Func.FuncType.GAIN_NP:
             case Func.FuncType.LOSS_NP:
                 return adjustNpFunc(battle, this, actor, target);

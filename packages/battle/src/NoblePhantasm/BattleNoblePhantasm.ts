@@ -1,4 +1,6 @@
 import {Card, NoblePhantasm, Trait} from "@atlasacademy/api-connector";
+import {BattleAttackAction} from "../Action/BattleAttackAction";
+import {BattleActor} from "../Actor/BattleActor";
 import {Battle} from "../Battle";
 import BattleEvent from "../Event/BattleEvent";
 import BattleNoblePhantasmFunc from "./BattleNoblePhantasmFunc";
@@ -102,4 +104,15 @@ export default class BattleNoblePhantasm {
         return this.props.level;
     }
 
+    action(actor: BattleActor): BattleAttackAction {
+        return new BattleAttackAction(
+            actor,
+            this.props.np.card,
+            false,
+            Card.NONE,
+            false,
+            true,
+            1
+        );
+    }
 }

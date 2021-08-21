@@ -6,9 +6,8 @@ import {BattleBuff} from "../../Buff/BattleBuff";
 import {BattleTeam} from "../../Enum/BattleTeam";
 import BattleDamageEvent from "../../Event/BattleDamageEvent";
 import BattleEvent from "../../Event/BattleEvent";
-import GameConstantManager from "../../Game/GameConstantManager";
 import {Variable, VariableType} from "../../Game/Variable";
-import BattleNoblePhantasmFunc from "../../NoblePhantasm/BattleNoblePhantasmFunc";
+import BattleFunc from "../BattleFunc";
 
 function attackBonus(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
     let bonus = Variable.float(0);
@@ -40,7 +39,7 @@ function attackBonus(attack: BattleAttackAction, actor: BattleActor, target: Bat
 function attackMagnification(attack: BattleAttackAction,
                              actor: BattleActor,
                              target: BattleActor,
-                             func?: BattleNoblePhantasmFunc): Variable {
+                             func?: BattleFunc): Variable {
     const attackUpValue = actor.buffs().netBuffs(Buff.BuffAction.ATK, actor.traits(attack.traits()), target.traits()),
         defensePierceBuffs = actor.buffs().getBuffs(Buff.BuffAction.PIERCE_DEFENCE, actor.traits(attack.traits()), target.traits(), true, true),
         defensePierce = defensePierceBuffs.length || func?.props.func.funcType === Func.FuncType.DAMAGE_NP_PIERCE,
@@ -368,7 +367,7 @@ function defenseNpGainRate(attack: BattleAttackAction, actor: BattleActor, targe
 }
 
 function npDamageBonus(actor: BattleActor,
-                       func: BattleNoblePhantasmFunc): Variable {
+                       func: BattleFunc): Variable {
     let bonus = Variable.float(0);
 
     if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_HPRATIO_HIGH) {
@@ -397,7 +396,7 @@ function npMagnification(attack: BattleAttackAction, actor: BattleActor, target:
     return Variable.float(value).divide(Variable.float(1000));
 }
 
-function npTraitBonusMagnification(func: BattleNoblePhantasmFunc, actor: BattleActor, target: BattleActor): Variable {
+function npTraitBonusMagnification(func: BattleFunc, actor: BattleActor, target: BattleActor): Variable {
     let magnification = Variable.float(1);
 
     if (func.props.func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL) {
@@ -566,7 +565,7 @@ async function getDamageList(battle: Battle,
                              attack: BattleAttackAction,
                              actor: BattleActor,
                              target: BattleActor,
-                             func?: BattleNoblePhantasmFunc): Promise<BattleEvent[]> {
+                             func?: BattleFunc): Promise<BattleEvent[]> {
     const hits = actor.hits(attack, target);
 
     const baseHitDistributionTotal = actor.baseHits(attack).reduce((a, b) => a + b);
