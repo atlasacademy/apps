@@ -10,7 +10,7 @@ const Scene = (props: {
     figure?: {
         asset: string,
         face: number,
-        charaGraphId: string,
+        charaGraphId: number,
     },
     resolution: {
         height: number,
@@ -32,7 +32,7 @@ const Scene = (props: {
         faceElement = null;
 
     if (props.figure) {
-        Api.svtScript(parseInt(props.figure.charaGraphId)).then(script => {
+        Api.svtScript(props.figure.charaGraphId).then(script => {
             setScript(script[0]);
         });
     }

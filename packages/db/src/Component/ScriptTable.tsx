@@ -1,9 +1,8 @@
-import {Region, Script} from "@atlasacademy/api-connector";
+import {Region} from "@atlasacademy/api-connector";
 import {faShare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import React, {useState} from "react";
+import React from "react";
 import {Button, Table} from "react-bootstrap";
-import Api from "../Api";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import useWindowDimensions from "../Helper/WindowHelper";
@@ -50,108 +49,6 @@ const DialogueRow = (props: {
         </tr>
     );
 };
-
-const CharaFaceRow = (props: {
-    component: ScriptCharaFace,
-}) => {
-    let asset = null,
-        name = '',
-        [script, setScript] = useState<Script.SvtScript | undefined>(undefined),
-        [showFull, setShowFull] = useState<boolean>(false),
-        [faceOverride, setFaceOverride] = useState<number | undefined>(undefined);
-
-    switch (props.component.assetSet?.type) {
-        case ScriptComponentType.CHARA_SET:
-            asset = props.component.assetSet?.charaGraphAsset;
-            name = props.component.assetSet?.baseName;
-            Api.svtScript(parseInt(props.component.assetSet?.charaGraphId)).then(script => {
-                setScript(script[0]);
-            });
-            break;
-    }
-
-    let expression = null, imageSizeChecker = null;
-    if (asset && script) {
-        let size = 256,
-            face = (faceOverride ?? props.component.face) - 1,
-            faceSize = script.extendData.faceSize ?? 256,
-            figureWidth = 1024,
-            offsetX = 0,
-            offsetY = faceSize === 256 ? 768 : 1024,
-            perRow = Math.floor(figureWidth / faceSize),
-            col = face % perRow,
-            row = Math.floor(face / perRow),
-            scale = (size / faceSize),
-            backgroundPositionX: number | string = ((col * faceSize * (-1)) - offsetX) * scale,
-            backgroundPositionY: number | string = ((row * faceSize * (-1)) - offsetY) * scale,
-            backgroundSize: number | string = scale * figureWidth;
-
-        if (showFull || (!script.faceX && !script.faceY)) {
-            backgroundPositionX = '50%';
-            backgroundPositionY = 0;
-            let scale = size / offsetY,
-                width = figureWidth * scale;
-            backgroundSize = `${width}px auto`;
-        } else if (face === -1) {
-            backgroundPositionX = script.faceX * scale * (-1);
-            backgroundPositionY = script.faceY * scale * (-1);
-
-            imageSizeChecker = (
-                <img src={asset}
-                     alt=''
-                     style={{opacity: 0, height: 1, width: 1}}
-                     onLoad={(event) => {
-                         // @ts-ignore
-                         const height: number = event.target.naturalHeight;
-
-                         if (height < 1024) {
-                             setShowFull(true);
-                         }
-                     }}
-                />
-            );
-        } else {
-            imageSizeChecker = (
-                <img src={asset}
-                     alt=''
-                     style={{opacity: 0, height: 1, width: 1}}
-                     onLoad={(event) => {
-                         // @ts-ignore
-                         const height: number = event.target.naturalHeight,
-                             expectedHeight = offsetY + ((row + 1) * faceSize);
-
-                         if (height < expectedHeight) {
-                             setFaceOverride(0);
-                         }
-                     }}
-                />
-            );
-        }
-
-        expression = <a href={asset}>
-            <span style={{
-                backgroundImage: `url("${asset}")`,
-                backgroundPositionX,
-                backgroundPositionY,
-                backgroundRepeat: 'no-repeat',
-                backgroundSize,
-                display: 'inline-block',
-                height: size,
-                width: size,
-            }}></span>
-        </a>;
-    }
-
-    return (
-        <tr>
-            <td>{name}</td>
-            <td>
-                {expression}
-                {imageSizeChecker}
-            </td>
-        </tr>
-    );
-}
 
 const ChoiceComponentsTable = (props: {
     region: Region;

@@ -17,6 +17,7 @@ CI=false \
 && curl -L -o bingo.tar.gz https://github.com/atlasacademy/bingo/archive/master.tar.gz \
 && tar -zxvf bingo.tar.gz \
 && cd ../ && cp -r ./src/bingo-master app/bingo \
+&& npm install -g npm@7 \
 && cd packages/db && npm install && npm run build \
 && cd ../../ && cp -r packages/db/build/ app/db \
 && cd packages/paper-moon && npm install && npm run build \
@@ -24,4 +25,3 @@ CI=false \
 && cp build/index.html app/index.html \
 && cp build/_redirects app/_redirects \
 && cp build/robots.txt app/robots.txt
-

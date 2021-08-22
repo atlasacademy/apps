@@ -63,13 +63,23 @@ class HomePage extends React.Component<IProps> {
                         solution (solution#0286)
                     </li>
                     <li>
-                        Cereal (Cereal#5579)
+                        Cereal
                     </li>
                     <li>
                         Cipher (<a href="https://github.com/minhducsun2002">minhducsun2002</a>)
                     </li>
                     <li>
                         <a href="https://github.com/Mitsunee">Mitsunee</a>
+                    </li>
+                    <li>
+                        <a href='https://rayshift.io/' target='_blank' rel="noopener noreferrer">
+                            Neo
+                        </a>
+                    </li>
+                    <li>
+                        <a href='https://github.com/MaxAkito' target='_blank' rel="noopener noreferrer">
+                            Max
+                        </a> (MaxAkito#0096)
                     </li>
                 </ul>
             </div>

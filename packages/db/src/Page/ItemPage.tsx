@@ -42,7 +42,6 @@ interface MaterialUsageColumn {
     skills: number;
     appendSkills: number;
     costumes: number;
-    total: number;
 }
 
 interface MaterialUsageData extends MaterialUsageColumn{
@@ -51,8 +50,19 @@ interface MaterialUsageData extends MaterialUsageColumn{
     face: string;
 }
 
+const getTotalUsage = (material: MaterialUsageColumn, blacklistedColumnIndexes?: number[]) => {
+    if (blacklistedColumnIndexes !== undefined) {
+        return (blacklistedColumnIndexes.includes(0) ? 0 : material.ascensions)
+                + (blacklistedColumnIndexes.includes(1) ? 0 : 3 * material.skills)
+                + (blacklistedColumnIndexes.includes(2) ? 0 : 3 * material.appendSkills)
+                + (blacklistedColumnIndexes.includes(3) ? 0 : material.costumes);
+    }
+
+    return material.ascensions + 3 * (material.skills + material.appendSkills) + material.costumes;
+}
+
 let usageDataColumns : {
-    extractor: (usage: MaterialUsageColumn) => number,
+    extractor: (material: MaterialUsageColumn, blacklistedColumnIndexes?: number[]) => number,
     title: string,
     colspan?: number,
     displayExtractor?: (usage: MaterialUsageColumn) => string
@@ -69,7 +79,7 @@ let usageDataColumns : {
         title: "Per Append Skill (Total)"
     },
     { extractor: (usage: MaterialUsageColumn) => usage.costumes, title: "Costume" },
-    { extractor: (usage: MaterialUsageColumn) => usage.total, title: "Total" }
+    { extractor: (usage: MaterialUsageColumn, blacklistedColumnIndexes?: number[]) => getTotalUsage(usage, blacklistedColumnIndexes), title: "Total" }
 ]
 
 function MaterialListingTable(props : { region : Region, usageData: MaterialUsageData[], blacklistedColumnIndexes?: number[] }) {
@@ -138,7 +148,9 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
             <tr>
                 {header}
             </tr>
-            {usageData.map(servantUsage => {
+            {usageData
+            .filter(servantUsage => getTotalUsage(servantUsage, blacklistedColumnIndexes) > 0)
+            .map(servantUsage => {
                 const route = `/${region}/servant/${servantUsage.collectionNo}/materials`;
 
                 return (
@@ -155,7 +167,7 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
                         </td>
                         {usageDataColumns
                             .map(
-                                field => <td>{field?.displayExtractor?.(servantUsage) ?? field?.extractor(servantUsage)}</td>
+                                field => <td>{field?.displayExtractor?.(servantUsage) ?? field?.extractor(servantUsage, blacklistedColumnIndexes)}</td>
                             )
                             .filter((_, index) => !blacklistedColumnIndexes!.includes(index))
                         }
@@ -284,7 +296,7 @@ class ItemPage extends React.Component<IProps, IState> {
         const usageData = servants
             .map(servant => (this.servantProcessMaterials(servant)))
             // filter servants that don't use the material
-            .filter(servant => servant.total > 1);
+            .filter(usage => getTotalUsage(usage) > 0);
 
         return usageData
     }
@@ -344,7 +356,7 @@ class ItemPage extends React.Component<IProps, IState> {
                     <tr key="total">
                         <td style={{textAlign: "left"}}>Total</td>
                         {usageDataColumns.map(
-                            field => <td>{field?.displayExtractor?.(totalUsage) ?? field?.extractor(totalUsage as MaterialUsageData)}</td>
+                            field => <td>{field?.displayExtractor?.(totalUsage) ?? field?.extractor(totalUsage as MaterialUsageColumn)}</td>
                         )}
                     </tr>
                     <tr key="switches">

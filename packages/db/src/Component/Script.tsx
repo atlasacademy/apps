@@ -41,6 +41,7 @@ export enum ScriptComponentType {
     DIALOGUE_GENDER,
     DIALOGUE_RUBY,
     DIALOGUE_HIDDEN_NAME,
+    DIALOGUE_SPEED,
 }
 
 export type ScriptSound = {
@@ -90,9 +91,15 @@ export type DialogueSpeakerHiddenName = {
     colorHex?: string;
 };
 
+export type DialogueSpeed = {
+    type: ScriptComponentType.DIALOGUE_SPEED;
+    speed: number;
+};
+
 export type DialogueBasicComponent =
     | DialogueText
     | DialogueNewLine
+    | DialogueSpeed
     | DialoguePlayerName
     | DialogueLine
     | DialogueRuby
@@ -141,7 +148,7 @@ export type ScriptWait = {
 export type ScriptCharaSet = {
     type: ScriptComponentType.CHARA_SET;
     speakerCode: string; // "A", "B", "C", ...
-    charaGraphId: string; // "8001000", "98003003", "98002000"
+    charaGraphId: number; // "8001000", "98003003", "98002000"
     charaGraphAsset: string;
     baseFace: number; // 1
     baseName: string; // "Mash", `"Dr. Roman"`, "Fou"
@@ -182,7 +189,7 @@ export type CharaChangeKind = "fade" | "normal";
 export type ScriptCharaChange = {
     type: ScriptComponentType.CHARA_CHANGE;
     speakerCode: string;
-    charaGraphId: string;
+    charaGraphId: number;
     charaGraphAsset: string;
     baseFace: number;
     kind: CharaChangeKind;
@@ -481,7 +488,7 @@ function splitLine(line: string): string[] {
 }
 
 function isDialogueBasic(word: string): boolean {
-    const BASIC_SIGNATURES = ["r", "sr", "%1", "line", "#", "servantName"];
+    const BASIC_SIGNATURES = ["r", "sr", "s", "%1", "line", "#", "servantName"];
     for (const signature of BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return true;
     }
@@ -509,6 +516,12 @@ function parseDialogueBasic(
             case "r":
             case "sr":
                 return { type: ScriptComponentType.DIALOGUE_NEW_LINE };
+            case "s":
+                return {
+                    type: ScriptComponentType.DIALOGUE_SPEED,
+                    speed:
+                        parameters[1] === "-" ? -1 : parseFloat(parameters[1]),
+                };
             case "%1":
                 // Player's name
                 return {
@@ -696,7 +709,7 @@ function parseBracketComponent(
             const charaSet = {
                 type: ScriptComponentType.CHARA_SET,
                 speakerCode: parameters[1],
-                charaGraphId: parameters[2],
+                charaGraphId: parseInt(parameters[2]),
                 charaGraphAsset: `${AssetHost}/${region}/CharaFigure/${parameters[2]}/${parameters[2]}_merged.png`,
                 baseFace: parseInt(parameters[3]),
                 baseName: parameters[4],
@@ -744,7 +757,7 @@ function parseBracketComponent(
             const charaChange = {
                 type: ScriptComponentType.CHARA_CHANGE,
                 speakerCode: parameters[1],
-                charaGraphId: parameters[2],
+                charaGraphId: parseInt(parameters[2]),
                 charaGraphAsset: `${AssetHost}/${region}/CharaFigure/${parameters[2]}/${parameters[2]}_merged.png`,
                 baseFace: parseInt(parameters[3]),
                 kind: parameters[4],
