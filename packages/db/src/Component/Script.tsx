@@ -488,6 +488,10 @@ function splitLine(line: string): string[] {
 }
 
 function isDialogueBasic(word: string): boolean {
+    const NOT_BASIC_SIGNATURES = ["se", "scene"];
+    for (const signature of NOT_BASIC_SIGNATURES) {
+        if (word.startsWith("[" + signature)) return false;
+    }
     const BASIC_SIGNATURES = ["r", "sr", "s", "%1", "line", "#", "servantName"];
     for (const signature of BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return true;
