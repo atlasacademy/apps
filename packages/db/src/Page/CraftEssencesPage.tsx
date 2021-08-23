@@ -11,7 +11,7 @@ import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import Manager from "../Setting/Manager";
 
-import "./CraftEssencesPage.css";
+import './ListingPage.css';
 
 enum CEType {
     VALENTINE = "valentine",
@@ -212,7 +212,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
         items.push(this.pageItem('>', this.state.page + 1, 'next', false, this.state.page >= maxPage));
 
-        return <div>
+        return <div className="page-navigator">
             <Pagination>{items}</Pagination>
         </div>;
     }
@@ -237,10 +237,10 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         const pageNavigator = this.paginator(craftEssences.length);
 
         return (
-            <div id={'craft-essences'}>
+            <div id='craft-essences' className="listing-page">
                 <Row>
-                    <Col md={12} lg={6} xl={5} style={{justifyContent: 'left', marginBottom: "1rem"}}>
-                        <ButtonGroup style={{width: "100%"}}>
+                    <Col md={12} lg={6} xl={5} id="item-type">
+                        <ButtonGroup>
                             {[
                                 [CEType.OTHER, "Regular CE"],
                                 [CEType.VALENTINE, "Valentine CE"],
@@ -264,10 +264,9 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                             )}
                         </ButtonGroup>
                     </Col>
-                    <Col md={12} lg={3} style={{marginLeft: "auto", marginBottom: "1rem"}}>
-                        <Form inline style={{width: "100%"}}>
-                            <Form.Control style={{marginLeft: 'auto', width: "100%"}}
-                                          placeholder={'Search'}
+                    <Col md={12} lg={3} id="item-search">
+                        <Form inline>
+                            <Form.Control placeholder={'Search'}
                                           value={this.state.search ?? ''}
                                           onChange={(ev: ChangeEvent) => {
                                               this.setState({search: ev.target.value, page: 0});
@@ -276,8 +275,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={12} md={5} style={{marginBottom: "1rem"}}>
-                        <ButtonGroup style={{width: "100%"}}>
+                    <Col sm={12} md={5} id="item-rarity">
+                        <ButtonGroup>
                             {
                                 [...new Set(this.state.craftEssences.map(s => s.rarity))]
                                     // deduplicate star counts
@@ -299,18 +298,16 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                         </ButtonGroup>
                     </Col>
                     <Col sm={12} md={7}>
-                        <div style={{ float: 'right' }}>
-                            {pageNavigator}
-                        </div>
+                        {pageNavigator}
                     </Col>
                 </Row>
-                <hr style={{marginTop: 0}}/>
+                <hr/>
 
                 <Table striped bordered hover responsive>
                     <thead>
                     <tr>
-                        <th style={{textAlign: "center", width: '1px'}}>#</th>
-                        <th style={{textAlign: "center", width: '1px'}}>Thumbnail</th>
+                        <th className="col-center">#</th>
+                        <th className="col-center">Thumbnail</th>
                         <th>Name</th>
                         <th>Rarity</th>
                     </tr>
@@ -322,7 +319,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                         return <tr key={craftEssence.id}>
                             <td align={"center"}>
                                 <Link to={route}>
-                                    {craftEssence.collectionNo} (<span style={{fontFamily: 'monospace', fontSize: '0.9rem'}}>{craftEssence.id}</span>)
+                                    {craftEssence.collectionNo} (<span className="listing-svtId">{craftEssence.id}</span>)
                                 </Link>
                             </td>
                             <td align={"center"}>
@@ -347,9 +344,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     </tbody>
                 </Table>
 
-                <div style={{ float: 'right' }}>
-                    {pageNavigator}
-                </div>
+                {pageNavigator}
             </div>
         );
     }

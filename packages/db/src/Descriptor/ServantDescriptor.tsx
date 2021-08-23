@@ -3,6 +3,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
+
 import './Descriptor.css';
 
 interface IPropsCommon {
@@ -17,7 +18,7 @@ function CommonServantDescriptor (props : IPropsCommon & { face?: string, tab?: 
     return (
         <Link
             to={`/${props.region}/servant/${props.servant.collectionNo}` + (props.tab ? `/${props.tab}` : '')}
-            style={{textDecoration: "none", whiteSpace: "nowrap"}}
+            className="descriptor-link"
         >
             <ClassIcon className={props.servant.className}
                        rarity={props.servant.rarity}
@@ -28,7 +29,7 @@ function CommonServantDescriptor (props : IPropsCommon & { face?: string, tab?: 
                                     type={props.servant.type}
                                     height={props.iconHeight}/>}
             {' '}
-            <span className="hoverText" style={{whiteSpace: "normal"}}>
+            <span className="hover-text">
                 {props.overwriteName ?? props.servant.name}
             </span>
         </Link>
@@ -88,10 +89,9 @@ export function ServantLink (props : {
         return <BasicServantDescriptor region={props.region} servant={servant} iconHeight={props.iconHeight} tab={props.tab}/>;
     } else {
         return (
-            <Link
-                to={`/${props.region}/enemy/${props.id}`}
-                style={{textDecoration: "none", whiteSpace: "nowrap"}}
-            >[{props.id}]</Link>
+            <Link to={`/${props.region}/enemy/${props.id}`} className="descriptor-link">
+                [{props.id}]
+            </Link>
         );
     }
 }

@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 import {Link} from "react-router-dom";
 import FaceIcon from "../Component/FaceIcon";
+
 import './Descriptor.css';
 
 interface IPropsCommon {
@@ -18,7 +19,7 @@ function CommonCraftEssenceDescriptor (props : IPropsCommon & { face?: string, t
     return (
         <Link
             to={`/${props.region}/craft-essence/${props.craftEssence.collectionNo}` + (props.tab ? `/${props.tab}` : '')}
-            style={{textDecoration: "none", whiteSpace: "nowrap"}}
+            className="descriptor-link"
         >
             {props.face ? (
                 <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
@@ -27,7 +28,7 @@ function CommonCraftEssenceDescriptor (props : IPropsCommon & { face?: string, t
                           height={props.iconHeight ?? '2em'}/>
             ) : undefined}
             {props.face ? ' ' : undefined}
-            <span className="hoverText" style={{whiteSpace: "normal"}}>
+            <span className="hover-text">
                 {props.overwriteName ?? props.craftEssence.name}
             </span>
             {' '}

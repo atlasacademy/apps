@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import FaceIcon from "../Component/FaceIcon";
 import Api from "../Api";
 
+import "./Descriptor.css";
+
 export default function CommandCodeDescriptor(props: {
     region: Region;
     commandCode: CommandCode.CommandCodeBasic;
@@ -12,7 +14,7 @@ export default function CommandCodeDescriptor(props: {
     return (
         <Link
             to={`/${props.region}/command-code/${props.commandCode.collectionNo}`}
-            style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+            className="descriptor-link"
         >
             {" "}
             <FaceIcon
@@ -20,9 +22,7 @@ export default function CommandCodeDescriptor(props: {
                 location={props.commandCode.face}
                 height={props.iconHeight}
             />{" "}
-            <span className="hoverText" style={{ whiteSpace: "normal" }}>
-                {props.commandCode.name}
-            </span>
+            <span className="hover-text">{props.commandCode.name}</span>
         </Link>
     );
 }

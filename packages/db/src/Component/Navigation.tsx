@@ -57,7 +57,7 @@ class Navigation extends React.Component<IProps, IState> {
     render() {
         return (
             <div>
-                <Navbar id={'navigation'} bg={"dark"} variant={'dark'} expand={"lg"} style={{zIndex: 10}}>
+                <Navbar id={'navigation'} bg={"dark"} variant={'dark'} expand={"lg"}>
                     <Container fluid>
                         <Link to="/" className={'navbar-brand'}>AA-DB</Link>
                         <Navbar.Toggle/>
@@ -130,46 +130,35 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Link>
                             </Nav>
                             <Nav className={'ml-auto icons'}>
-                                <Row style={{flexFlow: "nowrap", margin: "0 1px"}}>
-                                    <Col style={{padding: 0}}>
+                                <Row>
+                                    <Col>
                                         <Link
-                                            style={{justifyContent: "center", display: "flex", width: "100%"}}
                                             to={this.regionLink(Region.JP)}
                                             className={`nav-link ${this.regionClass(Region.JP)}`}>
-                                            <JPFlag
-                                                title={'View data from the JP version'}
-                                                style={{ width: "1.25em", height: "1em"}}
-                                            />
+                                            <JPFlag title='View data from the JP version'/>
                                         </Link>
                                     </Col>
-                                    <Col style={{padding: 0}}>
+                                    <Col>
                                         <Link
-                                            style={{justifyContent: "center", display: "flex", width: "100%"}}
                                             to={this.regionLink(Region.NA)}
                                             className={`nav-link ${this.regionClass(Region.NA)}`}>
-                                            <USFlag
-                                                title={'View data from the NA version'}
-                                                style={{ width: "1.25em", height: "1em"}}
-                                            />
+                                            <USFlag title='View data from the NA version'/>
                                         </Link>
                                     </Col>
                                 </Row>
-                                <Row style={{flexFlow: "nowrap", margin: "0 1px"}}>
-                                    <Col style={{padding: 0}}>
-                                        <Nav.Link style={{justifyContent: "center", display: "flex"}}
-                                        href={'https://discord.gg/TKJmuCR'} target={'_blank'} rel="noopener">
+                                <Row>
+                                    <Col>
+                                        <Nav.Link href='https://discord.gg/TKJmuCR' target='_blank' rel="noopener">
                                             <FontAwesomeIcon icon={faDiscord} title="Atlas Academy Discord"/>
                                         </Nav.Link>
                                     </Col>
-                                    <Col style={{padding: 0}}>
-                                        <Nav.Link style={{justifyContent: "center", display: "flex"}}
-                                        href={'https://twitter.com/aacademy_fgo'} target={'_blank'} rel="noopener">
+                                    <Col>
+                                        <Nav.Link href='https://twitter.com/aacademy_fgo' target='_blank' rel="noopener">
                                             <FontAwesomeIcon icon={faTwitter} title="Atlas Academy Twitter"/>
                                         </Nav.Link>
                                     </Col>
-                                    <Col style={{padding: 0}}>
-                                        <Nav.Link style={{justifyContent: "center", display: "flex"}}
-                                        href={'https://github.com/atlasacademy/apps'} target={'_blank'} rel="noopener">
+                                    <Col>
+                                        <Nav.Link href='https://github.com/atlasacademy/apps' target='_blank' rel="noopener">
                                             <FontAwesomeIcon icon={faGithub} title="Atlas Academy DB Github"/>
                                         </Nav.Link>
                                     </Col>

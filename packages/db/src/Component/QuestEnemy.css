@@ -1,3 +1,11 @@
-.quest-enemy-data-table > tbody > tr > td {
+.quest-svt-tables {
+    margin-bottom: 1em;
+}
+
+.quest-svt-lv {
+    font-size: 0.75em;
+}
+
+.quest-svt-data-table > tbody > tr > td {
     text-align: right;
 }

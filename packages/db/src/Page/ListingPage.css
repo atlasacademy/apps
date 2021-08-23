@@ -1,0 +1,48 @@
+.listing-page > hr {
+    margin-top: 0;
+}
+
+.listing-page .page-navigator {
+    float: right;
+}
+
+.listing-page .col-center {
+    text-align: center;
+    width: 1px;
+}
+
+.listing-page .listing-svtId {
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.listing-page table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.listing-page #item-type {
+    justify-content: left;
+    margin-bottom: 1rem;
+}
+
+.listing-page > .row .btn-group {
+    width: 100%;
+}
+
+.listing-page #item-search {
+    margin-left: auto;
+    margin-bottom: 1rem;
+}
+
+.listing-page #item-search > form {
+    width: 100%;
+}
+
+.listing-page #item-search > form > input {
+    margin-left: auto;
+    width: 100%;
+}
+
+.listing-page #item-rarity {
+    margin-bottom: 1rem;
+}

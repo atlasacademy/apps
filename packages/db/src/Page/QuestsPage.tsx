@@ -15,6 +15,8 @@ import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
 
+import "./ListingPage.css";
+
 let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
@@ -269,14 +271,14 @@ class QuestsPage extends React.Component<IProps, IState> {
         }
 
         let table = (
-            <Table responsive>
+            <Table responsive className="listing-page">
                 <thead>
                     <tr>
                         <th>Quest ID</th>
-                        <th style={{ textAlign: "center" }}>Phase</th>
+                        <th className="col-center">Phase</th>
                         <th>Quest Name</th>
-                        <th style={{ textAlign: "center" }}>Quest Type</th>
-                        <th style={{ textAlign: "center" }}>War ID</th>
+                        <th className="col-center">Quest Type</th>
+                        <th className="col-center">War ID</th>
                         <th>War Long Name</th>
                     </tr>
                 </thead>
@@ -289,16 +291,16 @@ class QuestsPage extends React.Component<IProps, IState> {
                                 <td>
                                     <Link to={questLink}>{quest.id}</Link>
                                 </td>
-                                <td style={{ textAlign: "center" }}>
+                                <td className="col-center">
                                     <Link to={questLink}>{quest.phase}</Link>
                                 </td>
                                 <td>
                                     <Link to={questLink}>{quest.name}</Link>
                                 </td>
-                                <td style={{ textAlign: "center" }}>
+                                <td className="col-center">
                                     {QuestTypeDescription.get(quest.type)}
                                 </td>
-                                <td style={{ textAlign: "center" }}>
+                                <td className="col-center">
                                     <Link to={warLink}>{quest.warId}</Link>
                                 </td>
                                 <td>

@@ -12,7 +12,7 @@ import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import Manager from "../Setting/Manager";
 
-import "./CommandCodesPage.css";
+import "./ListingPage.css";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
@@ -86,21 +86,23 @@ class CommandCodesPage extends React.Component<IProps, IState> {
             return <Loading/>;
 
         return (
-            <div id={'command-codes'}>
-                <Form inline style={{justifyContent: 'center'}}>
-                    <Form.Control style={{marginLeft: 'auto'}} placeholder={'Search'} value={this.state.search ?? ''}
-                                  onChange={(ev: ChangeEvent) => {
-                                      this.setState({search: ev.target.value});
-                                  }}/>
-                </Form>
+            <div id='command-codes' className='listing-page'>
+                <div id="item-search">
+                    <Form inline>
+                        <Form.Control placeholder={'Search'} value={this.state.search ?? ''}
+                                    onChange={(ev: ChangeEvent) => {
+                                        this.setState({search: ev.target.value});
+                                    }}/>
+                    </Form>
+                </div>
 
                 <hr/>
 
                 <Table striped bordered hover responsive>
                     <thead>
                     <tr>
-                        <th style={{textAlign: "center", width: '1px'}}>#</th>
-                        <th style={{textAlign: "center", width: '1px'}}>Thumbnail</th>
+                        <th className='col-center'>#</th>
+                        <th className='col-center'>Thumbnail</th>
                         <th>Name</th>
                         <th>Rarity</th>
                     </tr>

@@ -21,7 +21,7 @@ import Loading from "../Component/Loading";
 import { getCurrentTimestamp } from "../Helper/TimeHelper";
 import Manager from "../Setting/Manager";
 
-import "./CraftEssencesPage.css";
+import "./ListingPage.css";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
@@ -249,7 +249,7 @@ class EventsPage extends React.Component<IProps, IState> {
         );
 
         return (
-            <div>
+            <div className="page-navigator">
                 <Pagination>{items}</Pagination>
             </div>
         );
@@ -275,14 +275,10 @@ class EventsPage extends React.Component<IProps, IState> {
         const currentTimestamp = getCurrentTimestamp();
 
         return (
-            <div id={"craft-essences"}>
+            <div id="events" className="listing-page">
                 <Row>
-                    <Col
-                        md={12}
-                        lg={6}
-                        style={{ justifyContent: "left", marginBottom: "1rem" }}
-                    >
-                        <ButtonGroup style={{ width: "100%" }}>
+                    <Col md={12} lg={6} id="item-type">
+                        <ButtonGroup>
                             {[
                                 [Event.EventType.EVENT_QUEST, "Event"],
                                 [
@@ -318,14 +314,9 @@ class EventsPage extends React.Component<IProps, IState> {
                             })}
                         </ButtonGroup>
                     </Col>
-                    <Col
-                        md={12}
-                        lg={3}
-                        style={{ marginLeft: "auto", marginBottom: "1rem" }}
-                    >
-                        <Form inline style={{ width: "100%" }}>
+                    <Col md={12} lg={3} id="item-search">
+                        <Form inline>
                             <Form.Control
-                                style={{ marginLeft: "auto", width: "100%" }}
                                 placeholder={"Search"}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
@@ -339,21 +330,15 @@ class EventsPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={12}>
-                        <div style={{ float: "right" }}>{pageNavigator}</div>
-                    </Col>
+                    <Col sm={12}>{pageNavigator}</Col>
                 </Row>
-                <hr style={{ marginTop: 0 }} />
+                <hr />
 
                 <Table striped bordered hover responsive>
                     <thead>
                         <tr>
-                            <th style={{ textAlign: "center", width: "1px" }}>
-                                #
-                            </th>
-                            <th style={{ textAlign: "center", width: "1px" }}>
-                                Ongoing
-                            </th>
+                            <th className="col-center">#</th>
+                            <th className="col-center">Ongoing</th>
                             <th>Name</th>
                         </tr>
                     </thead>
@@ -386,7 +371,7 @@ class EventsPage extends React.Component<IProps, IState> {
                     </tbody>
                 </Table>
 
-                <div style={{ float: "right" }}>{pageNavigator}</div>
+                {pageNavigator}
             </div>
         );
     }

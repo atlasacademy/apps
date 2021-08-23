@@ -1,3 +1,16 @@
-a:hover .hoverText {
+.descriptor-link {
+    white-space: nowrap;
+}
+
+.descriptor-link:hover {
+    text-decoration: none;
+}
+
+.descriptor-link .hover-text {
+    white-space: normal;
+}
+
+.descriptor-link:hover .hover-text {
     text-decoration: underline;
+    white-space: normal;
 }

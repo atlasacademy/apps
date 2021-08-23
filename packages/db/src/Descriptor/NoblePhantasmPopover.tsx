@@ -1,7 +1,9 @@
 import { Region, NoblePhantasm } from "@atlasacademy/api-connector";
 import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
+
 import "../Component/MoveButton.css";
+import "./PopOver.css";
 
 const NoblePhantasmPopover = (props: {
     region: Region;
@@ -10,10 +12,7 @@ const NoblePhantasmPopover = (props: {
     const { region, noblePhantasm } = props;
 
     const popOverContent = (
-        <Popover
-            id="skill-popover"
-            style={{ maxWidth: "100em", width: "auto" }}
-        >
+        <Popover id={`np-${noblePhantasm.id}`} className="skill-popover">
             <Popover.Title>[{noblePhantasm.name}]</Popover.Title>
             <Popover.Content>
                 <EffectBreakdown

@@ -13,6 +13,7 @@ import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import Manager from "../Setting/Manager";
 
+import './ListingPage.css';
 import './ServantsPage.css';
 
 const classFilters: ClassName[] = [
@@ -194,7 +195,7 @@ class ServantsPage extends React.Component<IProps, IState> {
 
         items.push(this.pageItem('>', this.state.page + 1, 'next', false, this.state.page >= maxPage));
 
-        return <div>
+        return <div className="page-navigator">
             <Pagination>{items}</Pagination>
         </div>;
     }
@@ -292,9 +293,9 @@ class ServantsPage extends React.Component<IProps, IState> {
             );
 
         return (
-            <div id="servants">
+            <div id="servants" className="listing-page">
                 <Row>
-                    <Col md={12} lg="auto" style={{justifyContent: 'center', display: 'flex', flexFlow: 'row wrap', marginBottom: "1rem"}}>
+                    <Col md={12} lg="auto" id="class-name">
                         {normalClasses.map(className => {
                             const active = this.isClassFilterActive(className);
                             return (
@@ -323,10 +324,9 @@ class ServantsPage extends React.Component<IProps, IState> {
                             );
                         })}
                     </Col>
-                    <Col sm={12} lg={3} style={{marginLeft: "auto", marginBottom: "1rem"}}>
+                    <Col sm={12} lg={3} id="servant-search">
                         <Form>
                             <Form.Control
-                                style={{width: "100%", height: 37, textAlign: 'center'}}
                                 placeholder={'Search'}
                                 value={this.state.search ?? ''}
                                 onChange={(ev: ChangeEvent) => {
@@ -336,8 +336,8 @@ class ServantsPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={12} md={6} lg={5} style={{marginBottom: "1rem"}}>
-                        <ButtonGroup style={{width: "100%"}}>
+                    <Col sm={12} md={6} lg={5} id="servant-rarity">
+                        <ButtonGroup>
                             {
                                 [...new Set(this.state.servants.map(s => s.rarity))]
                                     // deduplicate star counts
@@ -359,19 +359,17 @@ class ServantsPage extends React.Component<IProps, IState> {
                         </ButtonGroup>
                     </Col>
                     <Col sm={12} md={6} lg={7}>
-                        <div style={{ float: 'right' }}>
-                            {this.paginator(servants.length)}
-                        </div>
+                        {this.paginator(servants.length)}
                     </Col>
                 </Row>
-                <hr style={{marginTop: 0}}/>
+                <hr/>
 
                 <Table striped bordered hover responsive>
                     <thead>
                     <tr>
-                        <th style={{textAlign: "center", width: '1px'}}>#</th>
-                        <th style={{textAlign: "center", width: '1px'}}>Class</th>
-                        <th style={{textAlign: "center", width: '1px'}}>Thumbnail</th>
+                        <th className="col-center">#</th>
+                        <th className="col-center">Class</th>
+                        <th className="col-center">Thumbnail</th>
                         <th>Name</th>
                         <th>Rarity</th>
                     </tr>
@@ -383,7 +381,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                         return <tr key={servant.id}>
                             <td align={"center"}>
                                 <Link to={route}>
-                                    {servant.collectionNo} (<span style={{fontFamily: 'monospace', fontSize: '0.9rem'}}>{servant.id}</span>)
+                                    {servant.collectionNo} (<span className="listing-svtId">{servant.id}</span>)
                                 </Link>
                             </td>
                             <td align={"center"}>
@@ -411,9 +409,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                     </tbody>
                 </Table>
 
-                <div style={{ float: 'right' }}>
-                    {hasPaginator ? this.paginator(servants.length) : undefined}
-                </div>
+                {hasPaginator ? this.paginator(servants.length) : undefined}
             </div>
         );
     }

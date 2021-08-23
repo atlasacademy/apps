@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import getRubyText from "../Helper/StringHelper";
+
 import "./Descriptor.css";
 
 interface IProps {
@@ -27,7 +28,7 @@ class SkillDescriptor extends React.Component<IProps> {
         return (
             <Link
                 to={`/${this.props.region}/skill/${this.props.skill.id}`}
-                style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+                className="descriptor-link"
             >
                 {this.props.skill.icon ? (
                     <BuffIcon
@@ -37,7 +38,7 @@ class SkillDescriptor extends React.Component<IProps> {
                 ) : undefined}
                 {this.props.skill.icon ? " " : undefined}
                 <span
-                    className="hoverText"
+                    className="hover-text"
                     style={{ whiteSpace: textWhiteSpace }}
                 >
                     [

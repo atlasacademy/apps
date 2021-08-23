@@ -165,7 +165,7 @@ const QuestEnemyMainData = (props: {
     const region = props.region,
         enemy = props.enemy;
     return (
-        <Table bordered responsive className="quest-enemy-data-table">
+        <Table bordered responsive className="quest-svt-data-table">
             <tbody>
                 {renderDoubleRow([
                     { title: "ATK", content: enemy.atk.toLocaleString() },
@@ -286,7 +286,7 @@ const QuestEnemySubData = (props: {
         />
     ));
     return (
-        <Table bordered responsive className="quest-enemy-data-table">
+        <Table bordered responsive className="quest-svt-data-table">
             <tbody>
                 {renderSpanningRow({
                     title: "Class",
@@ -465,7 +465,7 @@ const QuestEnemyTable = (props: {
                     overwriteName={enemy.name}
                     iconHeight={40}
                 />{" "}
-                <span style={{ fontSize: "0.75em" }}>Lv. {enemy.lv}</span>
+                <span className="quest-svt-lv">Lv. {enemy.lv}</span>
             </h3>
             <ul>
                 {callerDescription}
@@ -473,7 +473,7 @@ const QuestEnemyTable = (props: {
                 {changeOriginDescription}
             </ul>
 
-            <Row style={{ marginBottom: "3%" }}>
+            <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>
                     <QuestEnemyMainData region={region} enemy={enemy} />
                 </Col>

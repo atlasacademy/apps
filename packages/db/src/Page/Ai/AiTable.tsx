@@ -8,6 +8,7 @@ import SkillPopover, { SkillPopOverId } from "../../Descriptor/SkillPopover";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
 import "../../Component/MoveButton.css";
+import "./AiTable.css";
 
 enum SUBJECT {
     SELF = "Self",
@@ -283,7 +284,7 @@ export default function AiTable(props: {
             style={{ whiteSpace: "nowrap" }}
             key={props.ais[0].id}
         >
-            <thead style={{ fontWeight: "bold" }}>
+            <thead>
                 <tr>
                     <th>AI Sub ID</th>
                     {ais.map((ai) => (
@@ -296,7 +297,7 @@ export default function AiTable(props: {
             </thead>
             <tbody>
                 <tr>
-                    <td style={{ fontWeight: "bold" }}>Act Num</td>
+                    <td>Act Num</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             {ai.actNum === Ai.AiActNum.UNKNOWN
@@ -306,7 +307,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td style={{ fontWeight: "bold" }}>Priority|Probability</td>
+                    <td>Priority|Probability</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             {ai.priority}|{ai.probability}
@@ -314,7 +315,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td style={{ fontWeight: "bold" }}>Condition</td>
+                    <td>Condition</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <AiCondition
@@ -327,7 +328,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td style={{ fontWeight: "bold" }}>Act Type</td>
+                    <td>Act Type</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <AiActType
@@ -341,7 +342,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td style={{ fontWeight: "bold" }}>Act Target</td>
+                    <td>Act Target</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <ActTarget
@@ -355,7 +356,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td style={{ fontWeight: "bold" }}>Act Skill</td>
+                    <td>Act Skill</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <ActSkill
@@ -367,7 +368,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td style={{ fontWeight: "bold" }}>Next AI</td>
+                    <td>Next AI</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <NextAi

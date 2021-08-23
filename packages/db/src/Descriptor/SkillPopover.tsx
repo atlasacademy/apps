@@ -4,16 +4,15 @@ import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 import Api from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import SkillDescriptor from "./SkillDescriptor";
+
 import "../Component/MoveButton.css";
+import "./PopOver.css";
 
 const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
     const { region, skill } = props;
 
     const popOverContent = (
-        <Popover
-            id="skill-popover"
-            style={{ maxWidth: "100em", width: "auto" }}
-        >
+        <Popover id={`skill-${skill.id}`} className="skill-popover">
             <Popover.Title>
                 <SkillDescriptor region={region} skill={skill} />
             </Popover.Title>

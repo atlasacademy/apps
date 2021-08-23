@@ -9,7 +9,7 @@ import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 
-import "./MysticCodesPage.css";
+import "./ListingPage.css";
 
 interface IProps {
     region: Region;
@@ -56,11 +56,11 @@ class MysticCodesPage extends React.Component<IProps, IState> {
             return <Loading/>;
 
         return (
-            <div id={'mystic-codes'}>
+            <div id='mystic-codes' className='listing-page'>
                 <Table striped bordered hover responsive>
                     <thead>
                     <tr>
-                        <th style={{textAlign: "center", width: '1px'}}>#</th>
+                        <th className='col-center'>#</th>
                         <th style={{textAlign: "center", width: '140px'}}>Thumbnail</th>
                         <th>Name</th>
                     </tr>

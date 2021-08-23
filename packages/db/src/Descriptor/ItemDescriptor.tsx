@@ -6,6 +6,8 @@ import ItemIcon from "../Component/ItemIcon";
 import { mergeElements } from "../Helper/OutputHelper";
 import TraitDescription from "./TraitDescription";
 
+import "./Descriptor.css";
+
 export default function ItemDescriptor(props: {
     region: Region;
     item: Item.Item;
@@ -16,8 +18,8 @@ export default function ItemDescriptor(props: {
     return (
         <>
             <Link
-                style={{ textDecoration: "none", whiteSpace: "nowrap" }}
                 to={`/${props.region}/item/${props.item.id}`}
+                className="descriptor-link"
             >
                 <ItemIcon
                     region={props.region}
@@ -26,9 +28,7 @@ export default function ItemDescriptor(props: {
                     height={props.height}
                     quantityHeight={props.quantityHeight}
                 />
-                <span className="hoverText" style={{ whiteSpace: "normal" }}>
-                    {props.item.name}
-                </span>
+                <span className="hover-text">{props.item.name}</span>
             </Link>
         </>
     );

@@ -1,0 +1,7 @@
+.ai-info > thead {
+    font-weight: bold;
+}
+
+.ai-info > tbody > tr > td:first-child {
+    font-weight: bold;
+}

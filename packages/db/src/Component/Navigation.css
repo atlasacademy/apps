@@ -1,5 +1,5 @@
 #navigation {
-    z-index: 2;
+    z-index: 10;
 }
 
 #navigation .icons {
@@ -18,9 +18,23 @@
     opacity: 0.5;
 }
 
-#navigation .icons .flag > img {
-    height: 20px;
-    vertical-align: baseline;
+#navigation .icons .flag > svg {
+    width: 1.25em;
+    height: 1em;
+}
+
+#navigation .icons > .row {
+    flex-flow: nowrap;
+    margin: 0 1px;
+}
+
+#navigation .icons > .row > .col {
+    padding: 0;
+}
+
+#navigation .icons > .row > .col > * {
+    justify-content: center;
+    display: flex;
 }
 
 #dropdown-search .dropdown-toggle,

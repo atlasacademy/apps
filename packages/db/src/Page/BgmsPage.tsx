@@ -2,7 +2,15 @@ import { Bgm, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
 import React from "react";
-import { Col, Form, Pagination, Row, Table, Button } from "react-bootstrap";
+import {
+    Col,
+    Form,
+    Pagination,
+    Row,
+    Table,
+    Button,
+    ButtonGroup,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -10,6 +18,8 @@ import Loading from "../Component/Loading";
 import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import Manager from "../Setting/Manager";
+
+import "./ListingPage.css";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
@@ -227,7 +237,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         );
 
         return (
-            <div>
+            <div className="page-navigator">
                 <Pagination>{items}</Pagination>
             </div>
         );
@@ -251,33 +261,25 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         const pageNavigator = this.paginator(bgms.length);
 
         return (
-            <div id={"bgms"}>
+            <div id="bgms" className="listing-page">
                 <Row>
-                    <Col
-                        md={12}
-                        lg={3}
-                        style={{ justifyContent: "left", marginBottom: "1rem" }}
-                    >
-                        <Button
-                            style={{ width: "100%" }}
-                            variant={
-                                this.state.releaseOnlyFilter
-                                    ? "success"
-                                    : "outline-dark"
-                            }
-                            onClick={(_) => this.toggleReleaseOnlyFilter()}
-                        >
-                            Can be bought in my room
-                        </Button>
+                    <Col md={12} lg={3} id="item-type">
+                        <ButtonGroup>
+                            <Button
+                                variant={
+                                    this.state.releaseOnlyFilter
+                                        ? "success"
+                                        : "outline-dark"
+                                }
+                                onClick={(_) => this.toggleReleaseOnlyFilter()}
+                            >
+                                Can be bought in my room
+                            </Button>
+                        </ButtonGroup>
                     </Col>
-                    <Col
-                        md={12}
-                        lg={3}
-                        style={{ marginLeft: "auto", marginBottom: "1rem" }}
-                    >
-                        <Form inline style={{ width: "100%" }}>
+                    <Col md={12} lg={3} id="item-search">
+                        <Form inline>
                             <Form.Control
-                                style={{ marginLeft: "auto", width: "100%" }}
                                 placeholder={"Search"}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
@@ -291,21 +293,15 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
-                        <div style={{ float: "right" }}>{pageNavigator}</div>
-                    </Col>
+                    <Col>{pageNavigator}</Col>
                 </Row>
-                <hr style={{ marginTop: 0 }} />
+                <hr />
 
                 <Table striped bordered hover responsive>
                     <thead>
                         <tr>
-                            <th style={{ textAlign: "center", width: "1px" }}>
-                                #
-                            </th>
-                            <th style={{ textAlign: "center", width: "1px" }}>
-                                Logo
-                            </th>
+                            <th className="col-center">#</th>
+                            <th className="col-center">Logo</th>
                             <th>Name</th>
                             <th>Unlock Cost</th>
                             <th>Player</th>
@@ -364,7 +360,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     </tbody>
                 </Table>
 
-                <div style={{ float: "right" }}>{pageNavigator}</div>
+                {pageNavigator}
             </div>
         );
     }

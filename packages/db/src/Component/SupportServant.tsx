@@ -21,6 +21,9 @@ import {
     renderSpanningRow,
 } from "./QuestEnemy";
 
+import "./QuestEnemy.css";
+import "../Descriptor/Descriptor.css";
+
 const SupportCraftEssenseLink = (props: {
     region: Region;
     craftEssence: CraftEssence.CraftEssence;
@@ -34,7 +37,7 @@ const SupportCraftEssenseLink = (props: {
         return (
             <Link
                 to={`/${region}/enemy/${craftEssence.id}`}
-                style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+                className="descriptor-link"
             >
                 {faceUrl !== undefined ? (
                     <>
@@ -45,7 +48,7 @@ const SupportCraftEssenseLink = (props: {
                         />{" "}
                     </>
                 ) : null}
-                <span className="hoverText" style={{ whiteSpace: "normal" }}>
+                <span className="hover-text">
                     {title} <FontAwesomeIcon icon={faShare} />
                 </span>
             </Link>
@@ -71,7 +74,7 @@ const SupportServantMainData = (props: {
                       craftEssense.limitCount >= skill.condLimitCount
               );
     return (
-        <Table bordered responsive className="quest-supportServant-data-table">
+        <Table bordered responsive className="quest-svt-data-table">
             <tbody>
                 {renderDoubleRow([
                     {
@@ -171,7 +174,7 @@ const SupportServantSubData = (props: {
         />
     ));
     return (
-        <Table bordered responsive className="quest-supportServant-data-table">
+        <Table bordered responsive className="quest-svt-data-table">
             <tbody>
                 {traitDescriptions.length > 0
                     ? renderSpanningRow({
@@ -219,11 +222,9 @@ const SupportServantTable = (props: {
                     }
                     iconHeight={40}
                 />{" "}
-                <span style={{ fontSize: "0.75em" }}>
-                    Lv. {supportServant.lv}
-                </span>
+                <span className="quest-svt-lv">Lv. {supportServant.lv}</span>
             </h4>
-            <Row style={{ marginBottom: "3%" }}>
+            <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>
                     <SupportServantMainData
                         region={region}
