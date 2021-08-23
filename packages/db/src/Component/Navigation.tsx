@@ -3,7 +3,7 @@ import {faDiscord, faGithub, faTwitter} from "@fortawesome/free-brands-svg-icons
 import {faCog} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Button, Container, Modal, Nav, Navbar, NavItem, Row, Col, Dropdown} from "react-bootstrap";
+import {Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Manager from "../Setting/Manager";
@@ -21,6 +21,24 @@ interface IProps extends RouteComponentProps {
 
 interface IState {
     showSettings: boolean;
+}
+
+const NavPage = ({path, description} : {path: string, description: string}) => {
+    const route = `/${Manager.region()}/${path}`;
+    return (
+        <Nav.Link as={Link} to={route} eventKey={route}>
+            {description}
+        </Nav.Link>
+    )
+}
+
+const NavDropdownPage = ({path, description} : {path: string, description: string}) => {
+    const route = `/${Manager.region()}/${path}`;
+    return (
+        <NavDropdown.Item as={Link} to={route} eventKey={route}>
+            {description}
+        </NavDropdown.Item>
+    )
 }
 
 class Navigation extends React.Component<IProps, IState> {
@@ -63,73 +81,28 @@ class Navigation extends React.Component<IProps, IState> {
                         <Navbar.Toggle/>
 
                         <Navbar.Collapse>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/servants`} className={'nav-link'}>
-                                    <NavItem>Servants</NavItem>
-                                </Link>
+                            <Nav activeKey={this.props.location.pathname}>
+                                <NavPage path="servants" description="Servants"/>
+                                <NavPage path="craft-essences" description="Craft Essences"/>
+                                <NavPage path="command-codes" description="Command Codes"/>
+                                <NavPage path="mystic-codes" description="Mystic Codes"/>
+                                <NavPage path="items" description="Materials"/>
+                                <NavPage path="events" description="Events"/>
+                                <NavPage path="wars" description="Wars"/>
+                                <NavPage path="bgms" description="BGMs"/>
+                                <NavPage path="master-missions" description="Master Missions"/>
+                                <NavDropdown title="Search" id="dropdown-search">
+                                    <NavDropdownPage path="entities" description="Entities"/>
+                                    <NavDropdownPage path="skills" description="Skills"/>
+                                    <NavDropdownPage path="noble-phantasms" description="Noble Phantasms"/>
+                                    <NavDropdownPage path="funcs" description="Functions"/>
+                                    <NavDropdownPage path="buffs" description="Buffs"/>
+                                    <NavDropdownPage path="quests" description="Quests"/>
+                                    <NavDropdownPage path="scripts" description="Scripts"/>
+                                </NavDropdown>
+                                <NavPage path="changes" description="Changelog"/>
                             </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/craft-essences`} className={'nav-link'}>
-                                    <NavItem>Craft Essences</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/command-codes`} className={'nav-link'}>
-                                    <NavItem>Command Codes</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/mystic-codes`} className={'nav-link'}>
-                                    <NavItem>Mystic Codes</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/items`} className={'nav-link'}>
-                                    <NavItem>Materials</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/events`} className={'nav-link'}>
-                                    <NavItem>Events</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/wars`} className={'nav-link'}>
-                                    <NavItem>Wars</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/bgms`} className={'nav-link'}>
-                                    <NavItem>BGMs</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/master-missions`} className={'nav-link'}>
-                                    <NavItem>Master Missions</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav>
-                                <Dropdown id="dropdown-search">
-                                <Dropdown.Toggle>
-                                    Search
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu align="left">
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/entities`}>Entities</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/skills`}>Skills</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/noble-phantasms`}>Noble Phantasms</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/funcs`}>Functions</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/buffs`}>Buffs</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/quests`}>Quests</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to={`/${Manager.region()}/scripts`}>Scripts</Dropdown.Item>
-                                </Dropdown.Menu>
-                                </Dropdown>
-                            </Nav>
-                            <Nav>
-                                <Link to={`/${Manager.region()}/changes`} className={'nav-link'}>
-                                    <NavItem>Changelog</NavItem>
-                                </Link>
-                            </Nav>
-                            <Nav className={'ml-auto icons'}>
+                            <Nav className={'ml-auto icons'} activeKey="">
                                 <Row>
                                     <Col>
                                         <Link

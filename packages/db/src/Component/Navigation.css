@@ -36,21 +36,3 @@
     justify-content: center;
     display: flex;
 }
-
-#dropdown-search .dropdown-toggle,
-#dropdown-search .dropdown-toggle:hover,
-#dropdown-search .dropdown-toggle:focus {
-    box-shadow: none;
-    background-color: transparent;
-    border-color: transparent;
-    background-image: none;
-}
-
-#dropdown-search .dropdown-toggle {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-#dropdown-search .dropdown-toggle:hover,
-#dropdown-search .dropdown-toggle:focus {
-    color: rgba(255, 255, 255, 0.75);
-}
