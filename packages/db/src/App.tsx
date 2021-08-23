@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {Suspense} from 'react';
 import {Container} from "react-bootstrap";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import {Helmet} from "react-helmet";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Api from "./Api";
 
@@ -88,6 +88,7 @@ class App extends React.Component<any, IState> {
 
     render() {
         return (
+            <HelmetProvider>
             <Router basename="/db">
                 <Navigation
                     language={this.state.language}
@@ -416,6 +417,7 @@ class App extends React.Component<any, IState> {
                     </Switch>
                 </Container>
             </Router>
+            </HelmetProvider>
         );
     }
 }
