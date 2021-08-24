@@ -107,6 +107,31 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         <>
             {searching ? <Loading /> : null}
             <h1>Scripts Search</h1>
+            <p>
+                Supports
+                <ul>
+                    <li>
+                        <code>this OR that</code>
+                    </li>
+                    <li>
+                        <code>this -but -not -that</code>
+                    </li>
+                    <li>
+                        <code>"this exact phrase"</code>
+                    </li>
+                    <li>
+                        <code>prefix*</code>
+                    </li>
+                </ul>
+                <a
+                    href="https://groonga.org/docs/reference/grn_expr/query_syntax.html"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Syntax Reference
+                </a>{" "}
+                (Queries starting with <code>column:</code> are not supported).
+            </p>
             <form
                 onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
