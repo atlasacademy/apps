@@ -351,10 +351,10 @@ class EventsPage extends React.Component<IProps, IState> {
 
                             return (
                                 <tr key={event.id}>
-                                    <td align={"center"}>
+                                    <td className="col-center">
                                         <Link to={route}>{event.id}</Link>
                                     </td>
-                                    <td align={"center"}>
+                                    <td className="col-center">
                                         {isOngoing ? (
                                             <FontAwesomeIcon
                                                 icon={faCheckCircle}

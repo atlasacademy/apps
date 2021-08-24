@@ -5,6 +5,8 @@ import {Link} from "react-router-dom";
 import {AssetHost} from "../../Api";
 import ItemIcon from "../../Component/ItemIcon";
 
+import "./ServantMaterialBreakdown.css";
+
 const qpItem: Item.Item = {
     id: 1,
     name: "QP",
@@ -63,7 +65,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
             <div>
                 <h3>{this.props.title}</h3>
 
-                <Table responsive>
+                <Table responsive className="material-breakdown">
                     <thead>
                     <tr>
                         <th style={this.props.showNextLevelInDescription
@@ -77,14 +79,16 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                     {Object.keys(this.props.materials).map(key => {
                         return <tr key={key}>
                             <td
-                                style={{verticalAlign: 'middle', minWidth: this.props.idMinWidth}}
-                                align={this.props.showNextLevelInDescription ? "center" : "left"}
+                                style={{
+                                    minWidth: this.props.idMinWidth,
+                                    textAlign: this.props.showNextLevelInDescription ? "center" : "left",
+                                }}
                             >
                                 {this.props.showNextLevelInDescription
                                     ? <>{parseInt(key)}→{parseInt(key) + 1}</>
                                     : key}
                             </td>
-                            {this.doesntCostQP() ? null : <td align="center">
+                            {this.doesntCostQP() ? null : <td>
                                 <ItemIcon region={this.props.region}
                                           item={qpItem}
                                           quantity={this.props.materials[key].qp}
@@ -93,7 +97,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                             </td>}
                             {this.props.materials[key].items.map(
                                 (itemAndQuantity) => {
-                                    return <td key={itemAndQuantity.item.id} align="center">
+                                    return <td key={itemAndQuantity.item.id}>
                                         <Link to={`/${this.props.region}/item/${itemAndQuantity.item.id}`}>
                                             <ItemIcon region={this.props.region}
                                                       item={itemAndQuantity.item}

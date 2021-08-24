@@ -71,12 +71,12 @@ class MysticCodesPage extends React.Component<IProps, IState> {
 
                         return (
                             <tr key={mysticCode.id}>
-                                <td align={"center"}>
+                                <td className="col-center">
                                     <Link to={route}>
                                         {mysticCode.id}
                                     </Link>
                                 </td>
-                                <td align={"center"}>
+                                <td className="col-center">
                                     <Link to={route}>
                                         <FaceIcon location={mysticCode.item.male} height={50}/>
                                         <FaceIcon location={mysticCode.item.female} height={50}/>

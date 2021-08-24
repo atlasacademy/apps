@@ -347,7 +347,7 @@ class WarsPage extends React.Component<IProps, IState> {
 
                             return (
                                 <tr key={war.id}>
-                                    <td align={"center"}>
+                                    <td className="col-center">
                                         <Link to={route}>{war.id}</Link>
                                     </td>
                                     <td>

@@ -317,12 +317,12 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                         const route = `/${this.props.region}/craft-essence/${craftEssence.collectionNo}`;
 
                         return <tr key={craftEssence.id}>
-                            <td align={"center"}>
+                            <td className="col-center">
                                 <Link to={route}>
                                     {craftEssence.collectionNo} (<span className="listing-svtId">{craftEssence.id}</span>)
                                 </Link>
                             </td>
-                            <td align={"center"}>
+                            <td className="col-center">
                                 <Link to={route}>
                                     <FaceIcon type={Entity.EntityType.SERVANT_EQUIP}
                                               rarity={craftEssence.rarity}

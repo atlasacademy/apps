@@ -252,12 +252,12 @@ class ItemsPage extends React.Component<IProps, IState> {
                         const route = `/${this.props.region}/item/${item.id}`;
 
                         return <tr key={i}>
-                            <td align={"center"}>
+                            <td className="col-center">
                                 <Link to={route}>
                                     {item.id}
                                 </Link>
                             </td>
-                            <td align={"center"}>
+                            <td className="col-center">
                                 <Link to={route}>
                                     <ItemIcon region={this.props.region}
                                               item={item}

@@ -62,10 +62,10 @@ const MasterMissionsPage = (props: { region: Region }) => {
 
                         return (
                             <tr key={masterMission.id}>
-                                <td align={"center"}>
+                                <td className="col-center">
                                     <Link to={route}>{masterMission.id} </Link>
                                 </td>
-                                <td align={"center"}>
+                                <td className="col-center">
                                     {isOngoing ? (
                                         <FontAwesomeIcon
                                             icon={faCheckCircle}

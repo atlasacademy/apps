@@ -113,12 +113,12 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                             const route = `/${this.props.region}/command-code/${commandCode.collectionNo}`;
 
                             return <tr key={commandCode.id}>
-                                <td align={"center"}>
+                                <td className="col-center">
                                     <Link to={route}>
                                         {commandCode.collectionNo}
                                     </Link>
                                 </td>
-                                <td align={"center"}>
+                                <td className="col-center">
                                     <Link to={route}>
                                         <FaceIcon rarity={commandCode.rarity}
                                                   location={commandCode.face}

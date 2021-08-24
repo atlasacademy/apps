@@ -324,10 +324,10 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
                             return (
                                 <tr key={bgm.id}>
-                                    <td align={"center"}>
+                                    <td className="col-center">
                                         <Link to={route}>{bgm.id}</Link>
                                     </td>
-                                    <td align={"center"}>
+                                    <td className="col-center">
                                         <Link to={route}>
                                             <img
                                                 src={bgm.logo}

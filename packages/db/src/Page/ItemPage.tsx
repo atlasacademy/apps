@@ -155,12 +155,12 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
 
                 return (
                     <tr key={servantUsage.collectionNo}>
-                        <td align={"center"} style={{width: '1px'}}>
+                        <td className="faceIcon">
                             <Link to={route}>
                                 <FaceIcon location={servantUsage.face} height={50}/>
                             </Link>
                         </td>
-                        <td style={{textAlign: "left"}}>
+                        <td className="materialOwner">
                             <Link to={route}>
                                 {servantUsage.name}
                             </Link>
@@ -354,13 +354,13 @@ class ItemPage extends React.Component<IProps, IState> {
                         {usageDataColumns.map(field => <th>{field.title}</th>)}
                     </tr>
                     <tr key="total">
-                        <td style={{textAlign: "left"}}>Total</td>
+                        <td className="materialOwner">Total</td>
                         {usageDataColumns.map(
                             field => <td>{field?.displayExtractor?.(totalUsage) ?? field?.extractor(totalUsage as MaterialUsageColumn)}</td>
                         )}
                     </tr>
                     <tr key="switches">
-                        <td style={{textAlign: "left"}}>Show below?</td>
+                        <td className="materialOwner">Show below?</td>
                         {usageDataColumns.map(
                             (_, index) => {
                                 let blacklisted = this.state.blacklistedColumnIndexes.includes(index);
