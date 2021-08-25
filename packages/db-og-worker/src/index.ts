@@ -265,6 +265,9 @@ async function handleEvent(event: FetchEvent) {
     const { protocol, host, pathname } = new URL(event.request.url);
 
     try {
+        if (pathname === "/sitemap.xml") {
+            return fetch("https://apps.atlasacademy.io/sitemap.xml");
+        }
         if (pathname.startsWith("/db/")) {
             return handleDBEvent(event);
         }
