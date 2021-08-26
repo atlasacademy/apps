@@ -3,14 +3,15 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
+import QuestPhaseTable from "../Component/QuestPhaseTable";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
@@ -270,53 +271,8 @@ class QuestsPage extends React.Component<IProps, IState> {
             );
         }
 
-        let table = (
-            <Table responsive className="listing-page">
-                <thead>
-                    <tr>
-                        <th>Quest ID</th>
-                        <th className="col-center">Phase</th>
-                        <th>Quest Name</th>
-                        <th className="col-center">Quest Type</th>
-                        <th className="col-center">War ID</th>
-                        <th>War Long Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.quests.map((quest) => {
-                        const questLink = `/${this.props.region}/quest/${quest.id}/${quest.phase}`,
-                            warLink = `/${this.props.region}/war/${quest.warId}`;
-                        return (
-                            <tr key={`${quest.id}-${quest.phase}`}>
-                                <td>
-                                    <Link to={questLink}>{quest.id}</Link>
-                                </td>
-                                <td className="col-center">
-                                    <Link to={questLink}>{quest.phase}</Link>
-                                </td>
-                                <td>
-                                    <Link to={questLink}>{quest.name}</Link>
-                                </td>
-                                <td className="col-center">
-                                    {QuestTypeDescription.get(quest.type)}
-                                </td>
-                                <td className="col-center">
-                                    <Link to={warLink}>{quest.warId}</Link>
-                                </td>
-                                <td>
-                                    <Link to={warLink}>
-                                        {quest.warLongName}
-                                    </Link>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </Table>
-        );
-
         return (
-            <div>
+            <div className="listing-page">
                 {this.state.searching ? <Loading /> : null}
 
                 <h1>Quests Search</h1>
@@ -424,7 +380,11 @@ class QuestsPage extends React.Component<IProps, IState> {
                         {this.state.quests.length > 1 ? "s" : ""}.
                     </h5>
                 )}
-                {this.state.quests.length ? table : null}
+                {this.state.quests.length
+                    ? <QuestPhaseTable
+                        region={this.props.region}
+                        quests={this.state.quests}/>
+                    : null}
             </div>
         );
     }

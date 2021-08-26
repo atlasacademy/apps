@@ -126,7 +126,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                 <a
                     href="https://groonga.org/docs/reference/grn_expr/query_syntax.html"
                     target="_blank"
-                    rel="noopener"
+                    rel="noreferrer"
                 >
                     Syntax Reference
                 </a>{" "}

@@ -26,6 +26,7 @@ const CommandCodesPage = React.lazy(() => import("./Page/CommandCodesPage"));
 const CraftEssencePage = React.lazy(() => import("./Page/CraftEssencePage"));
 const CraftEssencesPage = React.lazy(() => import("./Page/CraftEssencesPage"));
 const EnemyPage = React.lazy(() => import('./Page/EnemyPage'));
+const EnemyChangelogPage = React.lazy(() => import('./Page/EnemyChangelogPage'));
 const EntitiesPage = React.lazy(() => import('./Page/EntitiesPage'));
 const FuncPage = React.lazy(() => import('./Page/FuncPage'));
 const FuncsPage = React.lazy(() => import('./Page/FuncsPage'));
@@ -399,6 +400,16 @@ class App extends React.Component<any, IState> {
                                         region={region as Region}
                                         localTime={this.state.localTime}
                                         visibleOnly={this.state.changelogVisibleOnly}/>
+                                </Suspense>
+                            )
+                        }} />
+                        <Route exact path="/:region(JP|NA)/enemy-changes" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <EnemyChangelogPage
+                                        key={region}
+                                        region={region as Region}/>
                                 </Suspense>
                             )
                         }} />

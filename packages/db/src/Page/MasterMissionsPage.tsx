@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import Manager from "../Setting/Manager";
 import { getCurrentTimestamp, getTimeString } from "../Helper/TimeHelper";
 
+import "./ListingPage.css";
+
 const MasterMissionsPage = (props: { region: Region }) => {
     const { region } = props;
     const [loading, setLoading] = useState<boolean>(true);
@@ -22,14 +24,9 @@ const MasterMissionsPage = (props: { region: Region }) => {
     useEffect(() => {
         Manager.setRegion(region);
         Api.masterMissionList()
-            .then((r) => {
-                setMasterMissions(r);
-                setLoading(false);
-            })
-            .catch((e) => {
-                setError(e);
-                setLoading(false);
-            });
+            .then((r) => setMasterMissions(r))
+            .catch((e) => setError(e))
+            .finally(() => setLoading(false));
     }, [region]);
 
     if (loading) return <Loading />;
@@ -41,14 +38,12 @@ const MasterMissionsPage = (props: { region: Region }) => {
     const currentTimestamp = getCurrentTimestamp();
 
     return (
-        <>
+        <div id="master-missions" className="listing-page">
             <Table striped bordered hover responsive>
                 <thead>
                     <tr>
-                        <th style={{ textAlign: "center", width: "1px" }}>#</th>
-                        <th style={{ textAlign: "center", width: "1px" }}>
-                            Ongoing
-                        </th>
+                        <th className="col-center">#</th>
+                        <th className="col-center">Ongoing</th>
                         <th>Start</th>
                         <th>End</th>
                     </tr>
@@ -82,7 +77,7 @@ const MasterMissionsPage = (props: { region: Region }) => {
                     })}
                 </tbody>
             </Table>
-        </>
+        </div>
     );
 };
 

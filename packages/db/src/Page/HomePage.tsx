@@ -72,12 +72,12 @@ class HomePage extends React.Component<IProps> {
                         <a href="https://github.com/Mitsunee">Mitsunee</a>
                     </li>
                     <li>
-                        <a href='https://rayshift.io/' target='_blank' rel="noopener noreferrer">
+                        <a href='https://rayshift.io/' target='_blank' rel="noreferrer">
                             Neo
                         </a>
                     </li>
                     <li>
-                        <a href='https://github.com/MaxAkito' target='_blank' rel="noopener noreferrer">
+                        <a href='https://github.com/MaxAkito' target='_blank' rel="noreferrer">
                             Max
                         </a> (MaxAkito#0096)
                     </li>

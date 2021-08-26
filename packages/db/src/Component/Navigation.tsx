@@ -100,7 +100,10 @@ class Navigation extends React.Component<IProps, IState> {
                                     <NavDropdownPage path="quests" description="Quests"/>
                                     <NavDropdownPage path="scripts" description="Scripts"/>
                                 </NavDropdown>
-                                <NavPage path="changes" description="Changelog"/>
+                                <NavDropdown title="Changelog" id="dropdown-search">
+                                    <NavDropdownPage path="changes" description="Master Data"/>
+                                    <NavDropdownPage path="enemy-changes" description="Enemy Data"/>
+                                </NavDropdown>
                             </Nav>
                             <Nav className={'ml-auto icons'} activeKey="">
                                 <Row>
@@ -121,17 +124,17 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Nav.Link href='https://discord.gg/TKJmuCR' target='_blank' rel="noopener">
+                                        <Nav.Link href='https://discord.gg/TKJmuCR' target='_blank' rel="noreferrer">
                                             <FontAwesomeIcon icon={faDiscord} title="Atlas Academy Discord"/>
                                         </Nav.Link>
                                     </Col>
                                     <Col>
-                                        <Nav.Link href='https://twitter.com/aacademy_fgo' target='_blank' rel="noopener">
+                                        <Nav.Link href='https://twitter.com/aacademy_fgo' target='_blank' rel="noreferrer">
                                             <FontAwesomeIcon icon={faTwitter} title="Atlas Academy Twitter"/>
                                         </Nav.Link>
                                     </Col>
                                     <Col>
-                                        <Nav.Link href='https://github.com/atlasacademy/apps' target='_blank' rel="noopener">
+                                        <Nav.Link href='https://github.com/atlasacademy/apps' target='_blank' rel="noreferrer">
                                             <FontAwesomeIcon icon={faGithub} title="Atlas Academy DB Github"/>
                                         </Nav.Link>
                                     </Col>

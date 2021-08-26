@@ -131,7 +131,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                             }
                         </ButtonGroup>
                     </Col>
-                    <Col sm={6} md={5} id="item-search">
+                    <Col sm={6} md={3} id="item-search">
                         <Form inline>
                             <Form.Control placeholder={'Search'} value={this.state.search ?? ''}
                                         onChange={(ev: ChangeEvent) => {

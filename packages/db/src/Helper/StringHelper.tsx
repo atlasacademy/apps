@@ -91,3 +91,10 @@ export const interpolateString = (inputString: string, variables: any[]) => {
     }
     return inputString;
 }
+
+export const removeSuffix = (inputString: string, suffix: string) => {
+    if (inputString.endsWith(suffix)) {
+        return inputString.slice(0, -suffix.length);
+    }
+    return inputString;
+}

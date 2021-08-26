@@ -3,7 +3,7 @@ import {AxiosError} from "axios";
 import diacritics from 'diacritics';
 import escape from 'escape-string-regexp';
 import React from "react";
-import {Form, Pagination, Table, Tab, Tabs} from "react-bootstrap";
+import {Form, Pagination, Table, Tab, Tabs, Row, Col} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {Link, RouteComponentProps} from "react-router-dom";
 import Api from "../Api";
@@ -12,6 +12,7 @@ import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
 
+import './ListingPage.css';
 import './ItemsPage.css';
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {
@@ -294,15 +295,20 @@ class ItemsPage extends React.Component<IProps, IState> {
             hasPaginator = items.length > this.state.perPage;
 
         return (
-            <div id="items">
-                <Form inline style={{justifyContent: 'center'}}>
-                    {hasPaginator && <div>{this.paginator(items.length)}</div>}
-
-                    <Form.Control style={{marginLeft: 'auto'}} placeholder={'Search'} value={this.state.search ?? ''}
-                                  onChange={(ev: ChangeEvent) => {
-                                      this.setState({search: ev.target.value});
-                                  }}/>
-                </Form>
+            <div id="items" className="listing-page">
+                <Row>
+                    <Col xs={12} sm={6} md={9}>
+                        {hasPaginator && <div>{this.paginator(items.length)}</div>}
+                    </Col>
+                    <Col xs={12} sm={6} md={3} id="item-search">
+                    <Form inline>
+                        <Form.Control placeholder={'Search'} value={this.state.search ?? ''}
+                                    onChange={(ev: ChangeEvent) => {
+                                        this.setState({search: ev.target.value});
+                                    }}/>
+                    </Form>
+                    </Col>
+                </Row>
 
                 <hr/>
 

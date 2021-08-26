@@ -74,6 +74,10 @@ class Api {
         return apiConnector.changelog();
     }
 
+    static questEnemyChangelog(): Promise<Quest.QuestPhaseBasic[]> {
+        return apiConnector.questEnemyChangelog();
+    }
+
     static commandCode(id: number): Promise<CommandCode.CommandCode> {
         return apiConnector.commandCode(id, cacheDuration);
     }

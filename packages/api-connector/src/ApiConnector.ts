@@ -398,6 +398,13 @@ class ApiConnector {
         );
     }
 
+    async questEnemyChangelog(): Promise<QuestPhaseBasic[]> {
+        const query = this.getQueryString(new URLSearchParams());
+        return ApiConnector.fetch<QuestPhaseBasic[]>(
+            `${this.host}/basic/${this.region}/quest/phase/latestEnemyData${query}`
+        );
+    }
+
     bgm(id: number, cacheDuration?: number): Promise<BgmEntity> {
         const query = this.getQueryString(new URLSearchParams());
         const fetch = () => {
