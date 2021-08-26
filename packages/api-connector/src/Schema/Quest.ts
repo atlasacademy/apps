@@ -89,6 +89,9 @@ export interface Quest {
     spotId: number;
     warId: number;
     warLongName: string;
+    chapterId: number;
+    chapterSubId: number;
+    chapterSubStr: string;
     gifts: Gift[];
     releaseConditions: QuestRelease[];
     phases: number[];

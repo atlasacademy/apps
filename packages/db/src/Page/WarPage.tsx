@@ -2,7 +2,7 @@ import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
 import { faBook, faDragon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
@@ -20,8 +20,9 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
+import { removeSuffix } from "../Helper/StringHelper";
 
-const BannerImage = (props: { src?: string, index: number }) => {
+const BannerImage = (props: { src?: string; index: number }) => {
     const [src, setSrc] = useState(props.src);
 
     if (!src) return null;
@@ -97,20 +98,36 @@ const phaseLink = (region: Region, quest: Quest.Quest, phase: number) => {
     );
 };
 
+const getQuestSection = (quest: Quest.Quest) => {
+    if (quest.chapterSubStr !== "") {
+        return removeSuffix(quest.chapterSubStr, ":");
+    }
+    if (quest.chapterSubId !== 0) {
+        return quest.chapterSubId.toString();
+    }
+    return "";
+};
+
 const QuestTable = (props: {
     region: Region;
     quests: Quest.Quest[];
     itemMap: Map<number, Item.Item>;
     spots?: War.Spot[];
+    showSection?: boolean;
 }) => {
-    const region = props.region,
+    const { region, quests } = props,
         hasScript =
             props.quests.find((quest) => quest.phaseScripts.length > 0) !==
-            undefined;
+            undefined,
+        hasSection =
+            props.showSection &&
+            (quests.find((quest) => quest.chapterSubId !== 0) ||
+                quests.find((quest) => quest.chapterSubStr !== ""));
     return (
         <Table hover responsive>
             <thead>
                 <tr>
+                    {hasSection ? <th>Section</th> : null}
                     <th>ID</th>
                     <th>Name</th>
                     {props.spots !== undefined ? <th>Spot</th> : null}
@@ -122,6 +139,7 @@ const QuestTable = (props: {
             <tbody>
                 {props.quests.map((quest, i) => (
                     <tr key={quest.id}>
+                        {hasSection ? <td>{getQuestSection(quest)}</td> : null}
                         <td>
                             <Link to={`/${region}/quest/${quest.id}/1`}>
                                 {quest.id}
@@ -224,6 +242,7 @@ const MainQuests = (props: {
             quests={mainQuests.map((quest) => quest.quest)}
             itemMap={props.itemMap}
             spots={mainQuests.map((quest) => quest.spot)}
+            showSection={true}
         />
     );
 
@@ -383,7 +402,7 @@ class WarPage extends React.Component<IProps, IState> {
         const bannerImages = (
             <>
                 {banners.map((banner, index) => (
-                    <BannerImage key={index} index={index} src={banner}/>
+                    <BannerImage key={index} index={index} src={banner} />
                 ))}
             </>
         );
