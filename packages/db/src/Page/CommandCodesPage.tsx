@@ -3,7 +3,7 @@ import {AxiosError} from "axios";
 import diacritics from 'diacritics';
 import minimatch from "minimatch";
 import React from "react";
-import {Form, Table} from "react-bootstrap";
+import {Form, Table, Row, Col, ButtonGroup, Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -26,6 +26,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     commandCodes: CommandCode.CommandCodeBasic[];
+    activeRarityFilters: number[];
     search?: string;
 }
 
@@ -36,6 +37,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
         this.state = {
             loading: true,
             commandCodes: [],
+            activeRarityFilters: [],
         };
     }
 
@@ -56,8 +58,26 @@ class CommandCodesPage extends React.Component<IProps, IState> {
         }
     }
 
+    private toggleRarityFilter(rarity: number): void {
+        if (this.state.activeRarityFilters.includes(rarity)) {
+            this.setState({
+                activeRarityFilters: this.state.activeRarityFilters.filter(activeRarity => activeRarity !== rarity)
+            });
+        } else {
+            this.setState({
+                activeRarityFilters: [...this.state.activeRarityFilters, rarity]
+            });
+        }
+    }
+
     private commandCodes(): CommandCode.CommandCodeBasic[] {
         let list = this.state.commandCodes.slice().reverse();
+
+        if (this.state.activeRarityFilters.length > 0) {
+            list = list.filter(entity => {
+                return this.state.activeRarityFilters.includes(entity.rarity);
+            });
+        }
 
         if (this.state.search) {
             const glob = diacritics.remove(this.state.search.toLowerCase())
@@ -87,14 +107,39 @@ class CommandCodesPage extends React.Component<IProps, IState> {
 
         return (
             <div id='command-codes' className='listing-page'>
-                <div id="item-search">
-                    <Form inline>
-                        <Form.Control placeholder={'Search'} value={this.state.search ?? ''}
-                                    onChange={(ev: ChangeEvent) => {
-                                        this.setState({search: ev.target.value});
-                                    }}/>
-                    </Form>
-                </div>
+
+                <Row>
+                    <Col sm={6} md={5} id="item-rarity">
+                        <ButtonGroup>
+                            {
+                                [...new Set(this.state.commandCodes.map(s => s.rarity))]
+                                    // deduplicate star counts
+                                    .sort((a, b) => a - b)
+                                    // sort
+                                    .map(rarity => (
+                                        <Button
+                                            variant={
+                                                this.state.activeRarityFilters.includes(rarity)
+                                                ? "success"
+                                                : "outline-dark"
+                                            }
+                                            key={rarity}
+                                            onClick={(_) => this.toggleRarityFilter(rarity)}>
+                                            {rarity} ★
+                                        </Button>
+                                    ))
+                            }
+                        </ButtonGroup>
+                    </Col>
+                    <Col sm={6} md={5} id="item-search">
+                        <Form inline>
+                            <Form.Control placeholder={'Search'} value={this.state.search ?? ''}
+                                        onChange={(ev: ChangeEvent) => {
+                                            this.setState({search: ev.target.value});
+                                        }}/>
+                        </Form>
+                    </Col>
+                </Row>
 
                 <hr/>
 
