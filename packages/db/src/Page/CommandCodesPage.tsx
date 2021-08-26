@@ -107,17 +107,9 @@ class CommandCodesPage extends React.Component<IProps, IState> {
 
         return (
             <div id='command-codes' className='listing-page'>
-                <div id="item-search">
-                    <Form inline>
-                        <Form.Control placeholder={'Search'} value={this.state.search ?? ''}
-                                    onChange={(ev: ChangeEvent) => {
-                                        this.setState({search: ev.target.value});
-                                    }}/>
-                    </Form>
-                </div>
 
                 <Row>
-                    <Col sm={12} md={5} id="item-rarity">
+                    <Col sm={6} md={5} id="item-rarity">
                         <ButtonGroup>
                             {
                                 [...new Set(this.state.commandCodes.map(s => s.rarity))]
@@ -138,6 +130,14 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                                     ))
                             }
                         </ButtonGroup>
+                    </Col>
+                    <Col sm={6} md={5} id="item-search">
+                        <Form inline>
+                            <Form.Control placeholder={'Search'} value={this.state.search ?? ''}
+                                        onChange={(ev: ChangeEvent) => {
+                                            this.setState({search: ev.target.value});
+                                        }}/>
+                        </Form>
                     </Col>
                 </Row>
 
