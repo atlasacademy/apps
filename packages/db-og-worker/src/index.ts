@@ -111,6 +111,7 @@ const listingPageTitles = new Map([
     ["quests", "Quests Search"],
     ["scripts", "Scripts Search"],
     ["changes", "Changelog"],
+    ["enemy-changes", "Enemy data Changelog"],
 ]);
 
 const itemPageTitles = new Map([
