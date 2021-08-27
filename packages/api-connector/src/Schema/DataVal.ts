@@ -83,6 +83,7 @@ interface BaseDataVal {
     OffPositions?: number[];
     TargetIndiv?: number;
     IncludeIgnoreIndividuality?: number;
+    EvenIfWinDie?: number;
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -178,6 +179,7 @@ export enum DataValField {
     OFF_POSITIONS = "OffPositions",
     TARGET_INDIV = "TargetIndiv",
     INCLUDE_IGNORE_INDIVIDUALITY = "IncludeIgnoreIndividuality",
+    EVEN_IF_WIN_DIE = "EvenIfWinDie",
     PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",
