@@ -5,7 +5,7 @@
 }
 
 .collapsible-card {
-    border-color: transparent !important;
+    border-color: transparent;
     margin: 0;
 }
 
@@ -13,9 +13,24 @@
     margin: 0;
 }
 
+.collapsible-header-tight,
 .collapsible-header {
     cursor: pointer;
     margin: 1em 0;
     display: flex;
     justify-content: space-between;
+}
+
+.collapsible-header-tight {
+    margin: 0.5em 0;
+}
+
+.collapsible-header-arrow {
+    text-align: right;
+    align-self: center;
+    margin-right: 1em;
+}
+
+.collapsible-header-title {
+    margin-bottom: 0;
 }

@@ -1,13 +1,17 @@
 import {Card, Func, NoblePhantasm, Region, Skill} from "@atlasacademy/api-connector";
 import {FuncDescriptor} from "@atlasacademy/api-descriptor";
 import React from "react";
+import { Table } from "react-bootstrap";
 import CardType from "../Component/CardType";
+import { CollapsibleLight } from "../Component/CollapsibleContent";
 import {default as FuncDescription} from "../Descriptor/FuncDescriptor";
 import SkillReferenceDescriptor from "../Descriptor/SkillReferenceDescriptor";
 import {describeMutators} from "../Helper/FuncHelper";
 import {asPercent} from "../Helper/OutputHelper";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
+
+import "./EffectBreakdownLines.css"
 
 interface IProps {
     region: Region;
@@ -97,16 +101,39 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                 }) : null}
                             </tr>
                             {relatedSkillIds.map((relatedSkill, _) => {
-                                return <AdditionalEffectBreakdown key={relatedSkill.skillId}
-                                                                  region={this.props.region}
-                                                                  skillId={relatedSkill.skillId}
-                                                                  triggerSkillIdStack={
-                                                                      this.props.triggerSkillIdStack.concat([relatedSkill.skillId])
-                                                                  }
-                                                                  levels={relatedSkill.skillLvs}
-                                                                  level={this.props.level}
-                                                                  popOver={this.props.popOver}/>
-                            })}
+                                return (
+                                    <tr className="trigger-skill" key={relatedSkill.skillId}>
+                                        <td colSpan={11}>
+                                            <CollapsibleLight
+                                                title={<span className="trigger-skill-name">
+                                                    {relatedSkill.skillId}:{" "}
+                                                    <SkillReferenceDescriptor
+                                                        region={this.props.region}
+                                                        id={relatedSkill.skillId}/>
+                                                </span>}
+                                                content={<>
+                                                    <Table>
+                                                        <tbody>
+                                                            <AdditionalEffectBreakdown
+                                                                key={relatedSkill.skillId}
+                                                                region={this.props.region}
+                                                                skillId={relatedSkill.skillId}
+                                                                triggerSkillIdStack={
+                                                                    this.props.triggerSkillIdStack.concat([relatedSkill.skillId])
+                                                                }
+                                                                levels={relatedSkill.skillLvs}
+                                                                level={this.props.level}
+                                                                popOver={this.props.popOver}
+                                                            />
+                                                        </tbody>
+                                                    </Table>
+                                                </>}
+                                                eventKey={relatedSkill.skillId.toString()}
+                                                defaultActiveKey={relatedSkill.skillId.toString()}
+                                            />
+                                        </td>
+                                    </tr>
+                            )})}
                         </React.Fragment>
                     );
                 })}

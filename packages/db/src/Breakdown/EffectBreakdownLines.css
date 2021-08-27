@@ -1,0 +1,7 @@
+tr.trigger-skill > td {
+    padding: 0;
+}
+
+tr.trigger-skill .trigger-skill-name {
+    padding-left: 0.75rem;
+}

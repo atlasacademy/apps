@@ -6,16 +6,13 @@ import {
     Servant,
 } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
-import { Accordion, AccordionContext, Card } from "react-bootstrap";
 import { areIdenticalArrays, isSubset } from "../Helper/ArrayHelper";
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 import TraitDescription from "./TraitDescription";
+import { CollapsibleLight } from "../Component/CollapsibleContent";
 
 export const missionRange = (missions: number[]) => {
     const max = Math.max(...missions);
@@ -66,54 +63,6 @@ export const MergeElementsOr = (props: {
     );
 };
 
-const ArrowToggle = ({ eventKey }: { eventKey: string }) => {
-    const currentKey = useContext(AccordionContext);
-    return (
-        <FontAwesomeIcon
-            icon={currentKey === eventKey ? faChevronUp : faChevronDown}
-        />
-    );
-};
-
-export const CollapsibleQuests = ({
-    title,
-    content,
-}: {
-    title: Renderable;
-    content: Renderable;
-}) => {
-    return (
-        <Accordion defaultActiveKey={""}>
-            <Card className="collapsible-card">
-                <Accordion.Toggle
-                    as="div"
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        cursor: "pointer",
-                        margin: "0.5em 0",
-                    }}
-                    eventKey={`${title}`}
-                >
-                    <span style={{ marginBottom: 0 }}>{title}</span>
-                    <span
-                        style={{
-                            textAlign: "right",
-                            alignSelf: "center",
-                            marginRight: "1em",
-                        }}
-                    >
-                        <ArrowToggle eventKey={`${title}`} />
-                    </span>
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey={`${title}`}>
-                    <>{content}</>
-                </Accordion.Collapse>
-            </Card>
-        </Accordion>
-    );
-};
-
 export const MultipleQuests = (props: {
     region: Region;
     questIds: number[];
@@ -152,9 +101,11 @@ export const MultipleQuests = (props: {
             return questList;
         } else {
             return (
-                <CollapsibleQuests
+                <CollapsibleLight
                     title={`These ${numQuest} quests`}
                     content={questList}
+                    eventKey={props.questIds.map(q => q.toString()).join("-")}
+                    defaultActiveKey={""}
                 />
             );
         }

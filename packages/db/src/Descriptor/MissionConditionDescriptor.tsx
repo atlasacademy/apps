@@ -13,8 +13,8 @@ import { Link } from "react-router-dom";
 import { handleNewLine } from "../Helper/OutputHelper";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
 import QuestSearchDescriptor from "./QuestSearchDescriptor";
-import { CollapsibleQuests } from "./MultipleDescriptors";
 import { getURLSearchParams } from "../Helper/StringHelper";
+import { CollapsibleLight } from "../Component/CollapsibleContent";
 
 export default function MissionConditionDescriptor(props: {
     region: Region;
@@ -77,7 +77,7 @@ export default function MissionConditionDescriptor(props: {
                             <FontAwesomeIcon icon={faShare} />
                         </Link>
                     ) : (
-                        <CollapsibleQuests
+                        <CollapsibleLight
                             title="Applicable Quests"
                             content={
                                 <QuestSearchDescriptor
@@ -88,6 +88,8 @@ export default function MissionConditionDescriptor(props: {
                                     returnList={true}
                                 />
                             }
+                            eventKey={`${props.region}-${props.warIds}-enemyTraits:${cond.detail.targetIds}`}
+                            defaultActiveKey={""}
                         />
                     )
                 ) : null}

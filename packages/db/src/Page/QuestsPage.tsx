@@ -367,7 +367,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Button variant={"primary"} onClick={() => this.search()}>
+                    <Button variant={"primary"} onClick={() => this.search()} style={{marginBottom: "1em"}}>
                         Search <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>

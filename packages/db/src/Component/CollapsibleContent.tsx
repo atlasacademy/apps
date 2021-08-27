@@ -5,7 +5,7 @@ import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import {Renderable} from "../Helper/OutputHelper";
 import "./CollapsibleContent.css";
 
-function ArrowToggle({ eventKey } : { eventKey: string }) {
+export function ArrowToggle({ eventKey } : { eventKey: string }) {
     const currentKey = useContext(AccordionContext);
     return <FontAwesomeIcon className="collapsible-header-collapse-actions" icon={(currentKey === eventKey) ? faChevronUp : faChevronDown} />
 }
@@ -22,8 +22,10 @@ function renderCollapsibleContent(
             <Card border="light" className="collapsible-card">
                 {separator && <hr className="collapsible-header-separator" />}
                 <Accordion.Toggle className="collapsible-header" as="div" eventKey={`${title}`}>
-                    {subheader ? <h4 style={{ marginBottom: 0 }}>{title}</h4> : <h3 style={{ marginBottom: 0 }}>{title}</h3>}
-                    <span style={{ textAlign: 'right', alignSelf: 'center', marginRight: '1em' }}><ArrowToggle eventKey={`${title}`}/></span>
+                    {subheader
+                        ? <h4 className="collapsible-header-title">{title}</h4>
+                        : <h3 className="collapsible-header-title">{title}</h3>}
+                    <span className="collapsible-header-arrow"><ArrowToggle eventKey={`${title}`}/></span>
                 </Accordion.Toggle>
                 {/* 2 px to align the hr line with the start of content */}
                 <Accordion.Collapse eventKey={`${title}`}>
@@ -35,3 +37,35 @@ function renderCollapsibleContent(
 }
 
 export default renderCollapsibleContent;
+
+export const CollapsibleLight = ({
+    title,
+    content,
+    eventKey,
+    defaultActiveKey,
+}: {
+    title: Renderable;
+    content: Renderable;
+    eventKey: string;
+    defaultActiveKey: string;
+}) => {
+    return (
+        <Accordion defaultActiveKey={defaultActiveKey}>
+            <Card className="collapsible-card">
+                <Accordion.Toggle
+                    as="div"
+                    className="collapsible-header-tight"
+                    eventKey={eventKey}
+                >
+                    <span className="collapsible-header-title">{title}</span>
+                    <span className="collapsible-header-arrow">
+                        <ArrowToggle eventKey={eventKey} />
+                    </span>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey={eventKey}>
+                    <>{content}</>
+                </Accordion.Collapse>
+            </Card>
+        </Accordion>
+    );
+};
