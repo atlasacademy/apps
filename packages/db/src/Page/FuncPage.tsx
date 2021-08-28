@@ -39,20 +39,14 @@ class FuncPage extends React.Component<IProps, IState> {
         this.loadFunc();
     }
 
-    async loadFunc() {
-        try {
-            const func = await Api.func(this.props.id);
-
-            this.setState({
-                loading: false,
-                func: func,
-            });
-            document.title = `[${this.props.region}] Function - ${func.funcId} - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+    loadFunc() {
+        Api.func(this.props.id)
+            .then((func) => {
+                document.title = `[${this.props.region}] Function - ${func.funcId} - Atlas Academy DB`;
+                this.setState({ func });
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

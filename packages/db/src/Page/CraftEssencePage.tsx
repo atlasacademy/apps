@@ -1,4 +1,4 @@
-import {CraftEssence, Region, Trait} from "@atlasacademy/api-connector";
+import {CraftEssence, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -46,25 +46,14 @@ class CraftEssencePage extends React.Component<IProps, IState> {
         this.loadCraftEssence();
     }
 
-    async loadCraftEssence() {
-        try {
-            let [craftEssences, craftEssence] = await Promise.all<CraftEssence.CraftEssenceBasic[], CraftEssence.CraftEssence, Trait.Trait[]>([
-                Api.craftEssenceList(),
-                Api.craftEssence(this.state.id),
-                Api.traitList()
-            ]);
-
-            this.setState({
-                loading: false,
-                craftEssences,
-                craftEssence
-            });
-            document.title = `[${this.props.region}] Craft Essence - ${craftEssence.name} - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+    loadCraftEssence() {
+        Promise.all([Api.craftEssenceList(), Api.craftEssence(this.state.id), Api.traitList()])
+            .then(([craftEssences, craftEssence]) => {
+                document.title = `[${this.props.region}] Craft Essence - ${craftEssence.name} - Atlas Academy DB`;
+                this.setState({ craftEssences, craftEssence});
+            })
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

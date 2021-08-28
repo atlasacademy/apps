@@ -54,20 +54,16 @@ class SkillPage extends React.Component<IProps, IState> {
     }
 
     async loadSkill() {
-        try {
-            const skill = await Api.skill(this.props.id);
-
-            this.setState({
-                loading: false,
-                skill: skill,
-                levels: skill.functions[0]?.svals?.length ?? 1,
-            });
-            document.title = `[${this.props.region}] Skill - ${skill.name} - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+        Api.skill(this.props.id)
+            .then(skill => {
+                document.title = `[${this.props.region}] Skill - ${skill.name} - Atlas Academy DB`;
+                this.setState({
+                    skill,
+                    levels: skill.functions[0]?.svals?.length ?? 1
+                });
+            })
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     private changeLevel(level: number) {

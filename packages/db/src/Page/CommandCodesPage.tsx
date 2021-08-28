@@ -42,20 +42,12 @@ class CommandCodesPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        try {
-            Manager.setRegion(this.props.region);
-            Api.commandCodeList().then(list => {
-                this.setState({
-                    loading: false,
-                    commandCodes: list
-                });
-                document.title = `[${this.props.region}] Command Codes - Atlas Academy DB`
-            });
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+        Manager.setRegion(this.props.region);
+        document.title = `[${this.props.region}] Command Codes - Atlas Academy DB`;
+        Api.commandCodeList()
+            .then(commandCodes => this.setState({ commandCodes }))
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     private toggleRarityFilter(rarity: number): void {

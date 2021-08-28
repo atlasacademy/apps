@@ -92,23 +92,16 @@ class BuffsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Buffs - Atlas Academy DB`;
 
-        try {
-            const traitList = await Api.traitList();
-            if (this.props.location.search !== "") {
-                await this.search();
-            }
+        Api.traitList()
+            .then((traitList) => this.setState({ traitList }))
+            .catch((error) => this.setState({ error }));
 
-            if (stateCache.has(this.props.region)) {
-                this.setQueryURL();
-            }
+        if (this.props.location.search !== "") {
+            this.search();
+        }
 
-            this.setState({
-                traitList,
-            });
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
+        if (stateCache.has(this.props.region)) {
+            this.setQueryURL();
         }
     }
 
@@ -134,7 +127,7 @@ class BuffsPage extends React.Component<IProps, IState> {
         );
     }
 
-    private async search() {
+    private search() {
         // no filter set
         if (
             !this.state.name &&
@@ -151,30 +144,22 @@ class BuffsPage extends React.Component<IProps, IState> {
             return;
         }
 
-        try {
-            this.setState({ searching: true, buffs: [] });
-
-            const buffs = await Api.searchBuff(
-                this.state.name,
-                this.state.type,
-                this.state.buffGroup,
-                this.state.vals,
-                this.state.tvals,
-                this.state.ckSelfIndv,
-                this.state.ckOpIndv
-            );
-
+        this.setState({ searching: true, buffs: [] });
+        Api.searchBuff(
+            this.state.name,
+            this.state.type,
+            this.state.buffGroup,
+            this.state.vals,
+            this.state.tvals,
+            this.state.ckSelfIndv,
+            this.state.ckOpIndv
+        ).then((buffs) => {
             this.setQueryURL();
-
             this.setState({ buffs, searched: true });
-        } catch (e) {
+        }).catch((error) => {
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
-            this.setState({
-                error: e,
-            });
-        } finally {
-            this.setState({ searching: false });
-        }
+            this.setState({ error });
+        }).finally(() => this.setState({ searching: false }));
     }
 
     render() {

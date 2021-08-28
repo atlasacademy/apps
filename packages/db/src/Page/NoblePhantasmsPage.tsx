@@ -104,23 +104,16 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Noble Phantasms - Atlas Academy DB`;
 
-        try {
-            const traitList = await Api.traitList();
-            if (this.props.location.search !== "") {
-                await this.search();
-            }
+        Api.traitList()
+            .then((traitList) => this.setState({ traitList }))
+            .catch((error) => this.setState({ error }));
 
-            if (stateCache.has(this.props.region)) {
-                this.setQueryURL();
-            }
+        if (this.props.location.search !== "") {
+            this.search();
+        }
 
-            this.setState({
-                traitList,
-            });
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
+        if (stateCache.has(this.props.region)) {
+            this.setQueryURL();
         }
     }
 
@@ -141,7 +134,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
         }).toString();
     }
 
-    private async search() {
+    private search() {
         // no filter set
         if (
             !this.state.name &&
@@ -161,10 +154,9 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
             return;
         }
 
-        try {
-            this.setState({ searching: true, noblePhantasms: [] });
+        this.setState({ searching: true, noblePhantasms: [] });
 
-            const noblePhantasms = await Api.searchNoblePhantasm(
+        Api.searchNoblePhantasm(
                 this.state.name,
                 this.state.card,
                 this.state.individuality,
@@ -173,21 +165,16 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                 this.state.numFunctions,
                 this.state.minNpNpGain,
                 this.state.maxNpNpGain
-            );
-
-            this.setQueryURL();
-
-            this.setState({ noblePhantasms: noblePhantasms, searched: true });
-        } catch (e) {
-            this.props.history.replace(
-                `/${this.props.region}/${this.props.path}`
-            );
-            this.setState({
-                error: e,
-            });
-        } finally {
-            this.setState({ searching: false });
-        }
+            )
+            .then((noblePhantasms) => {
+                this.setQueryURL();
+                this.setState({ noblePhantasms, searched: true });
+            })
+            .catch((error) => {
+                this.props.history.replace(`/${this.props.region}/${this.props.path}`);
+                this.setState({ error });
+            })
+            .finally(() => this.setState({ searching: false }));
     }
 
     getNumberForm(

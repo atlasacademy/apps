@@ -24,13 +24,8 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        try {
-            this.setState({
-                skill: await Api.skill(this.props.skillId)
-            });
-        } catch (e) {
-            // do nothing on failure
-        }
+        Api.skill(this.props.skillId)
+            .then((skill) => this.setState({ skill }));
     }
 
     render() {

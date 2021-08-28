@@ -23,13 +23,8 @@ class SkillReferenceBreakdown extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        try {
-            this.setState({
-                skill: await Api.skill(this.props.id)
-            });
-        } catch (e) {
-            // do nothing
-        }
+        Api.skill(this.props.id)
+            .then(skill => this.setState({skill}));
     }
 
     render() {

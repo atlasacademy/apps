@@ -91,18 +91,12 @@ class SkillsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Skills - Atlas Academy DB`;
 
-        try {
-            if (this.props.location.search !== "") {
-                await this.search();
-            }
+        if (this.props.location.search !== "") {
+            this.search();
+        }
 
-            if (stateCache.has(this.props.region)) {
-                this.setQueryURL();
-            }
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
+        if (stateCache.has(this.props.region)) {
+            this.setQueryURL();
         }
     }
 
@@ -122,7 +116,7 @@ class SkillsPage extends React.Component<IProps, IState> {
         }).toString();
     }
 
-    private async search() {
+    private search() {
         // no filter set
         if (
             !this.state.name &&
@@ -141,10 +135,9 @@ class SkillsPage extends React.Component<IProps, IState> {
             return;
         }
 
-        try {
-            this.setState({ searching: true, skills: [] });
+        this.setState({ searching: true, skills: [] });
 
-            const skills = await Api.searchSkill(
+        Api.searchSkill(
                 this.state.name,
                 this.state.type,
                 this.state.num,
@@ -152,21 +145,16 @@ class SkillsPage extends React.Component<IProps, IState> {
                 this.state.strengthStatus,
                 this.state.lvl1coolDown,
                 this.state.numFunctions
-            );
-
-            this.setQueryURL();
-
-            this.setState({ skills, searched: true });
-        } catch (e) {
-            this.props.history.replace(
-                `/${this.props.region}/${this.props.path}`
-            );
-            this.setState({
-                error: e,
-            });
-        } finally {
-            this.setState({ searching: false });
-        }
+            )
+            .then((skills) => {
+                this.setQueryURL();
+                this.setState({ skills, searched: true });
+            })
+            .catch((error) => {
+                this.props.history.replace(`/${this.props.region}/${this.props.path}`);
+                this.setState({ error });
+            })
+            .finally(() => this.setState({ searching: false }));
     }
 
     getNumberForm(

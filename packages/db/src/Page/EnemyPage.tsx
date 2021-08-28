@@ -1,4 +1,4 @@
-import {Enemy, Region, Servant, Trait} from "@atlasacademy/api-connector";
+import {Enemy, Region, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -25,7 +25,6 @@ interface IProps extends RouteComponentProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    id: number;
     enemy?: Enemy.Enemy;
 }
 
@@ -35,7 +34,6 @@ class EnemyPage extends React.Component<IProps, IState> {
 
         this.state = {
             loading: true,
-            id: this.props.id,
         };
     }
 
@@ -44,23 +42,14 @@ class EnemyPage extends React.Component<IProps, IState> {
         this.loadEnemy();
     }
 
-    async loadEnemy() {
-        try {
-            let [enemy] = await Promise.all<Enemy.Enemy, Trait.Trait[]>([
-                Api.enemy(this.state.id),
-                Api.traitList()
-            ]);
-
-            this.setState({
-                loading: false,
-                enemy,
-            });
-            document.title = `[${this.props.region}] Enemy - ${enemy.name} - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+    loadEnemy() {
+        Promise.all([Api.enemy(this.props.id), Api.traitList()])
+            .then(([enemy]) => {
+                document.title = `[${this.props.region}] Enemy - ${enemy.name} - Atlas Academy DB`;
+                this.setState({ enemy });
+            })
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

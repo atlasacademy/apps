@@ -91,20 +91,12 @@ class ServantsPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        try {
-            Manager.setRegion(this.props.region);
-            Api.servantList().then(servantList => {
-                this.setState({
-                    loading: false,
-                    servants: servantList
-                });
-            });
-            document.title = `[${this.props.region}] Servants - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+        Manager.setRegion(this.props.region);
+        document.title = `[${this.props.region}] Servants - Atlas Academy DB`;
+        Api.servantList()
+            .then((servants) => this.setState({ servants }))
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     componentDidUpdate(_ : Readonly<IProps>, prevState : Readonly<IState>) {

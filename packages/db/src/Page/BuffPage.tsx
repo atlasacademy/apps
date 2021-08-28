@@ -39,20 +39,14 @@ class BuffPage extends React.Component<IProps, IState> {
         this.loadBuff();
     }
 
-    async loadBuff() {
-        try {
-            const buff = await Api.buff(this.props.id);
-
-            this.setState({
-                loading: false,
-                buff: buff,
-            });
-            document.title = `[${this.props.region}] Buff - ${buff.id} - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+    loadBuff() {
+        Api.buff(this.props.id)
+            .then(buff => {
+                document.title = `[${this.props.region}] Buff - ${buff.id} - Atlas Academy DB`;
+                this.setState({ buff });
+            })
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

@@ -57,25 +57,22 @@ class AiPage extends React.Component<IProps, IState> {
         this.loadAi();
     }
 
-    async loadAi() {
-        try {
-            const ai = await Api.ai(this.props.aiType, this.props.id);
-            this.setState({
-                loading: false,
-                aiCollection: ai,
-                refs: new Map(
-                    [...ai.mainAis, ...ai.relatedAis].map((ai) => [
-                        ai.id,
-                        React.createRef(),
-                    ])
-                ),
-            });
-            document.title = `[${this.props.region}] AI - ${this.props.id} - Atlas Academy DB`;
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
-        }
+    loadAi() {
+        Api.ai(this.props.aiType, this.props.id)
+            .then((ai) => {
+                document.title = `[${this.props.region}] AI - ${this.props.id} - Atlas Academy DB`;
+                this.setState({
+                    aiCollection: ai,
+                    refs: new Map(
+                        [...ai.mainAis, ...ai.relatedAis].map((ai) => [
+                            ai.id,
+                            React.createRef(),
+                        ])
+                    ),
+                });
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

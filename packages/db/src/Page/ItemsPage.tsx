@@ -63,21 +63,16 @@ class ItemsPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        try {
-            Manager.setRegion(this.props.region);
-            Api.itemList().then(itemList => {
-                this.setState({
-                    itemList: itemList,
-                    tabs: this.createTabs(itemList),
-                    loading: false,
-                });
-            });
-            document.title = `[${this.props.region}] Items - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+        Manager.setRegion(this.props.region);
+        document.title = `[${this.props.region}] Items - Atlas Academy DB`;
+
+        Api.itemList()
+            .then((itemList) => this.setState({
+                itemList,
+                tabs: this.createTabs(itemList),
+            }))
+            .catch((error) => this.setState({error}))
+            .finally(() => this.setState({loading: false}));
     }
 
     componentDidUpdate(prevProps : Readonly<IProps>, prevState : Readonly<IState>) {

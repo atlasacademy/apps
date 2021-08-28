@@ -110,23 +110,16 @@ class QuestsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Quests - Atlas Academy DB`;
 
-        try {
-            const traitList = await Api.traitList();
-            if (this.props.location.search !== "") {
-                await this.search();
-            }
+        Api.traitList()
+            .then((traitList) => this.setState({ traitList }))
+            .catch((error) => this.setState({ error }));
 
-            if (stateCache.has(this.props.region)) {
-                this.setQueryURL();
-            }
+        if (this.props.location.search !== "") {
+            this.search();
+        }
 
-            this.setState({
-                traitList,
-            });
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
+        if (stateCache.has(this.props.region)) {
+            this.setQueryURL();
         }
     }
 
@@ -157,7 +150,7 @@ class QuestsPage extends React.Component<IProps, IState> {
         );
     }
 
-    private async search() {
+    private search() {
         // no filter set
         if (
             this.state.name === undefined &&
@@ -181,10 +174,9 @@ class QuestsPage extends React.Component<IProps, IState> {
             return;
         }
 
-        try {
-            this.setState({ searching: true, quests: [] });
+        this.setState({ searching: true, quests: [] });
 
-            const funcs = await Api.searchQuestPhase(
+        Api.searchQuestPhase(
                 this.state.name,
                 this.state.spotName,
                 this.state.warId ? [this.state.warId] : undefined,
@@ -197,23 +189,16 @@ class QuestsPage extends React.Component<IProps, IState> {
                 this.state.enemySvtAiId,
                 this.state.enemyTrait,
                 this.state.enemyClassName
-            );
-
-            this.setQueryURL();
-
-            this.setState({ quests: funcs, searched: true });
-        } catch (e) {
-            this.props.history.replace(
-                `/${this.props.region}/${this.props.path}`
-            );
-            this.setState({
-                error: e,
-            });
-        } finally {
-            this.setState({
-                searching: false,
-            });
-        }
+            )
+            .then((quests) => {
+                this.setQueryURL();
+                this.setState({ quests, searched: true });
+            })
+            .catch((error) => {
+                this.props.history.replace(`/${this.props.region}/${this.props.path}`);
+                this.setState({ error });
+            })
+            .finally(() => this.setState({ searching: false }));
     }
 
     getNumberForm(

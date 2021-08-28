@@ -42,7 +42,6 @@ interface IProps extends RouteComponentProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    id: number;
     servants: Servant.ServantBasic[];
     servant?: Servant.Servant;
     assetType?: AssetType;
@@ -56,7 +55,6 @@ class ServantPage extends React.Component<IProps, IState> {
 
         this.state = {
             loading: true,
-            id: this.props.id,
             servants: [],
         };
     }
@@ -66,62 +64,55 @@ class ServantPage extends React.Component<IProps, IState> {
         this.loadServant();
     }
 
-    async loadServant() {
-        try {
-            let [servants, servant] = await Promise.all<Servant.ServantBasic[], Servant.Servant>([
-                Api.servantList(),
-                Api.servant(this.state.id),
-            ]);
+    loadServant() {
+        Promise.all([Api.servantList(), Api.servant(this.props.id)])
+            .then(([servants, servant]) => {
+                let assetType: AssetType | undefined,
+                    assetId,
+                    assetExpand;
 
-            let assetType: AssetType | undefined,
-                assetId,
-                assetExpand;
+                if (servant.extraAssets.charaGraph.ascension) {
+                    assetType = 'ascension';
+                    assetId = Object.keys(servant.extraAssets.charaGraph.ascension).shift();
+                    assetExpand = false;
+                    if (assetId !== undefined)
+                        assetId = parseInt(assetId);
+                }
 
-            if (servant.extraAssets.charaGraph.ascension) {
-                assetType = 'ascension';
-                assetId = Object.keys(servant.extraAssets.charaGraph.ascension).shift();
-                assetExpand = false;
-                if (assetId !== undefined)
-                    assetId = parseInt(assetId);
-            }
+                if (assetId === undefined && servant.extraAssets.charaGraph.costume) {
+                    assetType = 'costume';
+                    assetId = Object.keys(servant.extraAssets.charaGraph.costume).shift();
+                    assetExpand = false;
+                    if (assetId !== undefined)
+                        assetId = parseInt(assetId);
+                }
 
-            if (assetId === undefined && servant.extraAssets.charaGraph.costume) {
-                assetType = 'costume';
-                assetId = Object.keys(servant.extraAssets.charaGraph.costume).shift();
-                assetExpand = false;
-                if (assetId !== undefined)
-                    assetId = parseInt(assetId);
-            }
+                if (assetId === undefined && servant.extraAssets.charaGraphEx.ascension) {
+                    assetType = 'ascension';
+                    assetId = Object.keys(servant.extraAssets.charaGraphEx.ascension).shift();
+                    assetExpand = true;
+                    if (assetId !== undefined)
+                        assetId = parseInt(assetId);
+                }
 
-            if (assetId === undefined && servant.extraAssets.charaGraphEx.ascension) {
-                assetType = 'ascension';
-                assetId = Object.keys(servant.extraAssets.charaGraphEx.ascension).shift();
-                assetExpand = true;
-                if (assetId !== undefined)
-                    assetId = parseInt(assetId);
-            }
+                if (assetId === undefined && servant.extraAssets.charaGraphEx.costume) {
+                    assetType = 'costume';
+                    assetId = Object.keys(servant.extraAssets.charaGraphEx.costume).shift();
+                    assetExpand = true;
+                    if (assetId !== undefined)
+                        assetId = parseInt(assetId);
+                }
 
-            if (assetId === undefined && servant.extraAssets.charaGraphEx.costume) {
-                assetType = 'costume';
-                assetId = Object.keys(servant.extraAssets.charaGraphEx.costume).shift();
-                assetExpand = true;
-                if (assetId !== undefined)
-                    assetId = parseInt(assetId);
-            }
-
-            this.setState({
-                loading: false,
-                servants,
-                servant,
-                assetType,
-                assetId,
-                assetExpand,
-            });
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+                this.setState({
+                    servants,
+                    servant,
+                    assetType,
+                    assetId,
+                    assetExpand,
+                });
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     private skillRankUps(skillId: number): number[] {

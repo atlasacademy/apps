@@ -21,13 +21,8 @@ class CraftEssenceReferenceDescriptor extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        try {
-            this.setState({
-                craftEssence: await Api.craftEssenceBasic(this.props.id)
-            });
-        } catch (e) {
-            // do nothing
-        }
+        Api.craftEssenceBasic(this.props.id)
+            .then(craftEssence => this.setState({craftEssence}));
     }
 
     render() {

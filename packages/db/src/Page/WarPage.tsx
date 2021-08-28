@@ -350,25 +350,20 @@ class WarPage extends React.Component<IProps, IState> {
     }
 
     async loadItemMap() {
-        const itemList = await Api.itemList();
-        this.setState({
-            itemCache: new Map(itemList.map((item) => [item.id, item])),
-        });
+        Api.itemList()
+            .then((items) => this.setState({
+                itemCache: new Map(items.map((item) => [item.id, item])),
+            }));
     }
 
     async loadWar() {
-        try {
-            const war = await Api.war(this.props.warId);
-            this.setState({
-                loading: false,
-                war: war,
-            });
-            document.title = `[${this.props.region}] War - ${war.longName} - Atlas Academy DB`;
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
-        }
+        Api.war(this.props.warId)
+            .then((war) => {
+                document.title = `[${this.props.region}] War - ${war.longName} - Atlas Academy DB`;
+                this.setState({ war });
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

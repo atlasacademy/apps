@@ -30,7 +30,6 @@ interface IProps extends RouteComponentProps {
 interface IState {
     error?: AxiosError;
     loading: boolean;
-    id: number;
     servants: Servant.Servant[];
     item?: Item.Item;
     isMaterial?: boolean;
@@ -185,7 +184,6 @@ class ItemPage extends React.Component<IProps, IState> {
 
         this.state = {
             loading: true,
-            id: this.props.id,
             isMaterial: false,
             servants: [],
             blacklistedColumnIndexes: []
@@ -204,29 +202,18 @@ class ItemPage extends React.Component<IProps, IState> {
                     || item.type === Item.ItemType.EVENT_ITEM))
     }
 
-    async loadData() {
-        try {
-            let item = await Api.item(this.state.id);
-
-            if (this.itemIsMaterial(item)) {
-                let servants = await Api.servantListNice();
-                this.setState({
-                    loading: false,
-                    isMaterial: true,
-                    servants,
-                    item
-                });
-            } else {
-                this.setState({
-                    loading: false,
-                    item
-                });
-            }
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+    loadData() {
+        Api.item(this.props.id)
+            .then((item) => {
+                this.setState({ item });
+                if (this.itemIsMaterial(item)) {
+                    Api.servantListNice()
+                        .then((servants) => this.setState({ isMaterial: false, servants }))
+                        .catch((error) => this.setState({ error }));
+                }
+            })
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     private isExtra(className: ClassName): boolean {

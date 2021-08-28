@@ -8,7 +8,6 @@ import Api from "../Api";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import Manager from "../Setting/Manager";
 import MysticCodeMainData from "./MysticCode/MysticCodeMainData";
 import MysticCodePicker from "./MysticCode/MysticCodePicker";
 import MysticCodePortrait from "./MysticCode/MysticCodePortrait";
@@ -40,24 +39,13 @@ class MysticCodePage extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        try {
-            Manager.setRegion(this.props.region);
-            let [mysticCodes, mysticCode] = await Promise.all<MysticCode.MysticCodeBasic[], MysticCode.MysticCode>([
-                Api.mysticCodeList(),
-                Api.mysticCode(this.state.id),
-            ]);
-
-            this.setState({
-                loading: false,
-                mysticCodes,
-                mysticCode
-            });
-            document.title = `[${this.props.region}] Mystic Code - ${mysticCode.name} - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+        Promise.all([Api.mysticCodeList(), Api.mysticCode(this.state.id)])
+            .then(([mysticCodes, mysticCode]) => {
+                document.title = `[${this.props.region}] Mystic Code - ${mysticCode.name} - Atlas Academy DB`;
+                this.setState({ mysticCodes, mysticCode });
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

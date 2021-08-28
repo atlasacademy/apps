@@ -1,4 +1,4 @@
-import {CommandCode, Region, Trait} from "@atlasacademy/api-connector";
+import {CommandCode, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Col, Row, Tab, Tabs} from "react-bootstrap";
@@ -43,25 +43,14 @@ class CommandCodePage extends React.Component<IProps, IState> {
         this.loadCraftEssence();
     }
 
-    async loadCraftEssence() {
-        try {
-            let [commandCodes, commandCode] = await Promise.all<CommandCode.CommandCodeBasic[], CommandCode.CommandCode, Trait.Trait[]>([
-                Api.commandCodeList(),
-                Api.commandCode(this.state.id),
-                Api.traitList()
-            ]);
-
-            this.setState({
-                loading: false,
-                commandCodes,
-                commandCode
-            });
-            document.title = `[${this.props.region}] Command Code - ${commandCode.name} - Atlas Academy DB`;
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+    loadCraftEssence() {
+        Promise.all([Api.commandCodeList(), Api.commandCode(this.state.id), Api.traitList()])
+            .then(([commandCodes, commandCode]) => {
+                document.title = `[${this.props.region}] Command Code - ${commandCode.name} - Atlas Academy DB`;
+                this.setState({ commandCodes, commandCode });
+            })
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

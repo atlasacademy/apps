@@ -50,19 +50,13 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
     }
 
     async loadNp() {
-        try {
-            const noblePhantasm = await Api.noblePhantasm(this.props.id);
-
-            this.setState({
-                loading: false,
-                noblePhantasm: noblePhantasm,
-            });
-            document.title = `[${this.props.region}] Noble Phantasm - ${noblePhantasm.name} - Atlas Academy DB`
-        } catch (e) {
-            this.setState({
-                error: e
-            });
-        }
+        Api.noblePhantasm(this.props.id)
+            .then((noblePhantasm) => {
+                document.title = `[${this.props.region}] Noble Phantasm - ${noblePhantasm.name} - Atlas Academy DB`;
+                this.setState({ noblePhantasm })
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     private changeLevel(level: number) {

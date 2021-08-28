@@ -102,28 +102,22 @@ class EntitiesPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Entities - Atlas Academy DB`;
 
-        try {
-            const [traitList, illustratorList, cvList] = await Promise.all([
-                Api.traitList(), Api.illustratorList(), Api.cvList()
-            ]);
-            if (this.props.location.search !== "" || this.props.traitSelected) {
-                await this.search();
-            }
+        Promise.all([Api.traitList(), Api.illustratorList(), Api.cvList()])
+            .then(([traitList, illustratorList, cvList]) => {
+                this.setState({
+                    traitList,
+                    illustratorList: illustratorList.map(illustrator => illustrator.name),
+                    cvList: cvList.map(cv => cv.name),
+                });
+            })
+            .catch((error) => this.setState({ error }));
 
-            if (stateCache.has(this.props.region)) {
-                this.setQueryURL();
-            }
+        if (this.props.location.search !== "" || this.props.traitSelected) {
+            this.search();
+        }
 
-            this.setState({
-                loading: false,
-                traitList,
-                illustratorList: illustratorList.map(illustrator => illustrator.name),
-                cvList: cvList.map(cv => cv.name),
-            });
-        } catch (e) {
-            this.setState({
-                error: e
-            });
+        if (stateCache.has(this.props.region)) {
+            this.setQueryURL();
         }
     }
 
@@ -167,7 +161,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
         this.props.history.replace(`/${this.props.region}/entities?${this.getQueryString()}`);
     }
 
-    private async search() {
+    private search() {
         // no filter set
         if (!this.state.name && !this.state.illustrator && !this.state.cv
             && (this.state.type === undefined || this.state.type.length === 0)
@@ -183,30 +177,28 @@ class EntitiesPage extends React.Component<IProps, IState> {
             return;
         }
 
-        try {
-            this.setState({searching: true, entities: []});
-            const entities = await Api.searchEntity(
-                this.state.name,
-                this.state.type,
-                this.state.className,
-                this.state.gender,
-                this.state.attribute,
-                this.state.trait,
-                this.state.notTrait,
-                undefined,
-                this.state.illustrator,
-                this.state.cv
-            );
-
+        this.setState({searching: true, entities: []});
+        Api.searchEntity(
+            this.state.name,
+            this.state.type,
+            this.state.className,
+            this.state.gender,
+            this.state.attribute,
+            this.state.trait,
+            this.state.notTrait,
+            undefined,
+            this.state.illustrator,
+            this.state.cv
+        )
+        .then((entities) => {
             this.setQueryURL();
-
-            this.setState({searching: false, entities: entities});
-        } catch (e) {
+            this.setState({ entities });
+        })
+        .catch((error) => {
             this.props.history.replace(`/${this.props.region}/entities`);
-            this.setState({
-                error: e
-            });
-        }
+            this.setState({ error });
+        })
+        .finally(() => this.setState({searching: false}));
     }
 
     render() {

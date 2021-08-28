@@ -53,20 +53,12 @@ class EventsPage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        try {
-            Manager.setRegion(this.props.region);
-            document.title = `[${this.props.region}] Events - Atlas Academy DB`;
-            Api.eventList().then((list) => {
-                this.setState({
-                    loading: false,
-                    events: list,
-                });
-            });
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
-        }
+        Manager.setRegion(this.props.region);
+        document.title = `[${this.props.region}] Events - Atlas Academy DB`;
+        Api.eventList()
+            .then((events) => this.setState({ events }))
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     private toggleEventTypeFilter(eventType: Event.EventType): void {

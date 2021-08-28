@@ -86,81 +86,65 @@ class EventPage extends React.Component<IProps, IState> {
         this.loadEvent();
     }
 
-    async loadEnums() {
-        const enums = await Api.enumList();
-        this.setState({
-            enums: enums,
-        });
+    loadEnums() {
+        Api.enumList().then((enums) => this.setState({ enums }));
     }
 
-    async loadServantMap() {
-        const servants = await Api.servantList();
-        this.setState({
-            servantCache: new Map(
-                servants.map((servant) => [servant.id, servant])
-            ),
-        });
-    }
-
-    async loadItemMap() {
-        const itemList = await Api.itemList();
-        this.setState({
-            itemCache: new Map(itemList.map((item) => [item.id, item])),
-        });
-    }
-
-    async loadWars(warIds: number[], setQuestCache = false) {
-        try {
-            const wars = await Promise.all(
-                warIds.map((warId) => Api.war(warId))
-            );
-            if (setQuestCache) {
-                const quests: Quest.Quest[] = [];
-                for (const war of wars) {
-                    for (const spot of war.spots) {
-                        for (const quest of spot.quests) {
-                            quests.push(quest);
-                        }
-                    }
-                }
+    loadServantMap() {
+        Api.servantList()
+            .then((servantList) => {
                 this.setState({
-                    wars: wars,
-                    questCache: new Map(
-                        quests.map((quest) => [quest.id, quest])
+                    servantCache: new Map(
+                        servantList.map((servant) => [servant.id, servant])
                     ),
                 });
-            } else {
-                this.setState({
-                    wars: wars,
-                });
-            }
-        } catch (e) {
-            this.setState({
-                error: e,
             });
-        }
     }
 
-    async loadEvent() {
-        try {
-            const event = await Api.event(this.props.eventId);
-            this.setState({
-                loading: false,
-                event: event,
-                missionRefs: new Map(
-                    event.missions.map((mission) => [
-                        mission.id,
-                        React.createRef(),
-                    ])
-                ),
+    loadItemMap() {
+        Api.itemList()
+            .then((itemList) => {
+                this.setState({
+                    itemCache: new Map(itemList.map((item) => [item.id, item])),
+                });
             });
-            document.title = `[${this.props.region}] Event - ${event.name} - Atlas Academy DB`;
-            await this.loadWars(event.warIds, event.missions.length > 0);
-        } catch (e) {
-            this.setState({
-                error: e,
+    }
+
+    loadWars(warIds: number[], setQuestCache = false) {
+        Promise.all(warIds.map((warId) => Api.war(warId)))
+            .then((wars) => {
+                this.setState({ wars });
+                if (setQuestCache) {
+                    const questCache = new Map<number, Quest.Quest>();
+                    for (const war of wars) {
+                        for (const spot of war.spots) {
+                            for (const quest of spot.quests) {
+                                questCache.set(quest.id, quest);
+                            }
+                        }
+                    }
+                    this.setState({ questCache });
+                }
             });
-        }
+    }
+
+    loadEvent() {
+        Api.event(this.props.eventId)
+            .then((event) => {
+                document.title = `[${this.props.region}] Event - ${event.name} - Atlas Academy DB`;
+                this.setState({
+                    event: event,
+                    missionRefs: new Map(
+                        event.missions.map((mission) => [
+                            mission.id,
+                            React.createRef(),
+                        ])
+                    ),
+                });
+                this.loadWars(event.warIds, event.missions.length > 0);
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     renderMissionConds(

@@ -24,14 +24,10 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
 
     useEffect(() => {
         Manager.setRegion(region);
-        try {
-            Api.bgm(bgmId).then((bgm) => {
-                setBgm(bgm);
-                setLoading(false);
-            });
-        } catch (e) {
-            setError(e);
-        }
+        Api.bgm(bgmId)
+            .then((bgm) => setBgm(bgm))
+            .catch((e) => setError(e))
+            .finally(() => setLoading(false));
     }, [region, bgmId]);
 
     if (loading) return <Loading />;

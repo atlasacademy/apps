@@ -212,19 +212,13 @@ class QuestPage extends React.Component<IProps, IState> {
     }
 
     async loadQuest(phase: number) {
-        try {
-            const quest = await Api.questPhase(this.props.id, phase);
-
-            this.setState({
-                loading: false,
-                quest: quest,
-            });
-            document.title = `[${this.props.region}] Quest - ${quest.name} - Atlas Academy DB`;
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
-        }
+        Api.questPhase(this.props.id, phase)
+            .then((quest) => {
+                document.title = `[${this.props.region}] Quest - ${quest.name} - Atlas Academy DB`;
+                this.setState({ quest });
+            })
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {

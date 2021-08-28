@@ -91,23 +91,16 @@ class FuncsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Functions - Atlas Academy DB`;
 
-        try {
-            const traitList = await Api.traitList();
-            if (this.props.location.search !== "") {
-                await this.search();
-            }
+        Api.traitList()
+            .then((traitList) => this.setState({ traitList }))
+            .catch((error) => this.setState({ error }));
 
-            if (stateCache.has(this.props.region)) {
-                this.setQueryURL();
-            }
+        if (this.props.location.search !== "") {
+            this.search();
+        }
 
-            this.setState({
-                traitList,
-            });
-        } catch (e) {
-            this.setState({
-                error: e,
-            });
+        if (stateCache.has(this.props.region)) {
+            this.setQueryURL();
         }
     }
 
@@ -133,7 +126,7 @@ class FuncsPage extends React.Component<IProps, IState> {
         );
     }
 
-    private async search() {
+    private search() {
         // no filter set
         if (
             !this.state.popupText &&
@@ -150,10 +143,9 @@ class FuncsPage extends React.Component<IProps, IState> {
             return;
         }
 
-        try {
-            this.setState({ searching: true, funcs: [] });
+        this.setState({ searching: true, funcs: [] });
 
-            const funcs = await Api.searchFunc(
+        Api.searchFunc(
                 this.state.popupText,
                 this.state.type,
                 this.state.targetType,
@@ -161,21 +153,16 @@ class FuncsPage extends React.Component<IProps, IState> {
                 this.state.vals,
                 this.state.tvals,
                 this.state.questTvals
-            );
-
-            this.setQueryURL();
-
-            this.setState({ funcs, searched: true });
-        } catch (e) {
-            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
-            this.setState({
-                error: e,
-            });
-        } finally {
-            this.setState({
-                searching: false,
-            });
-        }
+            )
+            .then((funcs) => {
+                this.setQueryURL();
+                this.setState({ funcs, searched: true });
+            })
+            .catch((error) => {
+                this.props.history.replace(`/${this.props.region}/${this.props.path}`);
+                this.setState({ error });
+            })
+            .finally(() => this.setState({ searching: false }));
     }
 
     render() {
