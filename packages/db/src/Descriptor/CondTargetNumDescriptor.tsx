@@ -209,7 +209,7 @@ export default function CondTargetNumDescriptor(props: {
                 </>
             );
         case CondType.EVENT_TOTAL_POINT:
-            return <>Reached {num} event points</>;
+            return <>Reached {num.toLocaleString()} event points</>;
         case CondType.EVENT_MISSION_CLEAR:
             const missionDispNos = targets.map((target) => {
                 const mission = (props.missions ?? new Map([])).get(target);
