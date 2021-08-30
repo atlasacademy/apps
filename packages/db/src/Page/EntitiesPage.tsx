@@ -110,7 +110,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     cvList: cvList.map(cv => cv.name),
                 });
             })
-            .catch((error) => this.setState({ error }));
+            .catch((error) => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
 
         if (this.props.location.search !== "" || this.props.traitSelected) {
             this.search();

@@ -18,7 +18,7 @@ class FuncMainData extends React.Component<IProps> {
 
         return (
             <>
-                <DataTable data={{
+                <DataTable responsive data={{
                     "ID": func.funcId,
                     "Type": <Link to={`/${this.props.region}/funcs?type=${func.funcType}`}>{func.funcType}</Link>,
                     "Target": func.funcTargetType,

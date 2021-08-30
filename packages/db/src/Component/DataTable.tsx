@@ -6,6 +6,7 @@ import {Renderable} from "../Helper/OutputHelper";
 
 interface IProp {
     header?: JSX.Element | string,
+    responsive?: boolean,
     data: {
         [key: string]: Renderable | object;
     }
@@ -34,7 +35,7 @@ class DataTable extends React.Component<IProp> {
                     </div>
                 ) : null}
 
-                <Table bordered hover className={'data-table'}>
+                <Table bordered hover className={'data-table'} responsive={this.props.responsive}>
                     <tbody>
                     {Object.keys(this.props.data).map((key, index) => {
                         return (
