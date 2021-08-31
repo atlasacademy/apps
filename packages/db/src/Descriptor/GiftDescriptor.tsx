@@ -1,16 +1,17 @@
-import { Event, Gift, Item, Region } from "@atlasacademy/api-connector";
+import { Event, Gift, Item, Region, Servant } from "@atlasacademy/api-connector";
 import { AssetHost } from "../Api";
 import { CommandCodeDescriptorId } from "./CommandCodeDescriptor";
 import CostumeDescriptor from "./CostumeDescriptor";
-import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { MysticCodeDescriptorId } from "./MysticCodeDescriptor";
 import PointBuffDescriptor from "./PointBuffDescriptor";
+import ServantDescriptorId from "./ServantDescriptorId";
 
 export default function GiftDescriptor(props: {
     region: Region;
     gift: Gift.Gift;
     items?: Map<number, Item.Item>;
+    servants?: Map<number, Servant.ServantBasic>;
     pointBuffs?: Map<number, Event.EventPointBuff>;
 }) {
     const gift = props.gift,
@@ -19,9 +20,10 @@ export default function GiftDescriptor(props: {
         case Gift.GiftType.SERVANT:
             return (
                 <>
-                    <EntityReferenceDescriptor
+                    <ServantDescriptorId
                         region={region}
-                        svtId={gift.objectId}
+                        id={gift.objectId}
+                        servants={props.servants}
                     />{" "}
                     x{gift.num}
                 </>
@@ -56,9 +58,10 @@ export default function GiftDescriptor(props: {
         case Gift.GiftType.EVENT_SVT_JOIN:
             return (
                 <>
-                    <EntityReferenceDescriptor
+                    <ServantDescriptorId
                         region={region}
-                        svtId={gift.objectId}
+                        id={gift.objectId}
+                        servants={props.servants}
                     />{" "}
                     joins the party
                 </>
@@ -67,9 +70,10 @@ export default function GiftDescriptor(props: {
             return (
                 <>
                     Get{" "}
-                    <EntityReferenceDescriptor
+                    <ServantDescriptorId
                         region={region}
-                        svtId={gift.objectId}
+                        id={gift.objectId}
+                        servants={props.servants}
                     />{" "}
                     x{gift.num}
                 </>

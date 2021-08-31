@@ -32,7 +32,7 @@ interface IState {
     loading: boolean;
     servants: Servant.Servant[];
     item?: Item.Item;
-    isMaterial?: boolean;
+    isMaterial: boolean;
     blacklistedColumnIndexes: number[];
 }
 
@@ -208,7 +208,7 @@ class ItemPage extends React.Component<IProps, IState> {
                 this.setState({ item });
                 if (this.itemIsMaterial(item)) {
                     Api.servantListNice()
-                        .then((servants) => this.setState({ isMaterial: false, servants }))
+                        .then((servants) => this.setState({ isMaterial: true, servants }))
                         .catch((error) => this.setState({ error }));
                 }
             })

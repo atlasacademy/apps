@@ -80,9 +80,6 @@ class EventPage extends React.Component<IProps, IState> {
 
     async componentDidMount() {
         Manager.setRegion(this.props.region);
-        this.loadServantMap();
-        this.loadItemMap();
-        this.loadEnums();
         this.loadEvent();
     }
 
@@ -91,41 +88,38 @@ class EventPage extends React.Component<IProps, IState> {
     }
 
     loadServantMap() {
-        Api.servantList()
-            .then((servantList) => {
-                this.setState({
-                    servantCache: new Map(
-                        servantList.map((servant) => [servant.id, servant])
-                    ),
-                });
+        Api.servantList().then((servantList) => {
+            this.setState({
+                servantCache: new Map(
+                    servantList.map((servant) => [servant.id, servant])
+                ),
             });
+        });
     }
 
     loadItemMap() {
-        Api.itemList()
-            .then((itemList) => {
-                this.setState({
-                    itemCache: new Map(itemList.map((item) => [item.id, item])),
-                });
+        Api.itemList().then((itemList) => {
+            this.setState({
+                itemCache: new Map(itemList.map((item) => [item.id, item])),
             });
+        });
     }
 
     loadWars(warIds: number[], setQuestCache = false) {
-        Promise.all(warIds.map((warId) => Api.war(warId)))
-            .then((wars) => {
-                this.setState({ wars });
-                if (setQuestCache) {
-                    const questCache = new Map<number, Quest.Quest>();
-                    for (const war of wars) {
-                        for (const spot of war.spots) {
-                            for (const quest of spot.quests) {
-                                questCache.set(quest.id, quest);
-                            }
+        Promise.all(warIds.map((warId) => Api.war(warId))).then((wars) => {
+            this.setState({ wars });
+            if (setQuestCache) {
+                const questCache = new Map<number, Quest.Quest>();
+                for (const war of wars) {
+                    for (const spot of war.spots) {
+                        for (const quest of spot.quests) {
+                            questCache.set(quest.id, quest);
                         }
                     }
-                    this.setState({ questCache });
                 }
-            });
+                this.setState({ questCache });
+            }
+        });
     }
 
     loadEvent() {
@@ -142,6 +136,11 @@ class EventPage extends React.Component<IProps, IState> {
                     ),
                 });
                 this.loadWars(event.warIds, event.missions.length > 0);
+                if (event.missions.length > 0) {
+                    this.loadServantMap();
+                    this.loadItemMap();
+                    this.loadEnums();
+                }
             })
             .catch((error) => this.setState({ error }))
             .finally(() => this.setState({ loading: false }));
@@ -232,6 +231,7 @@ class EventPage extends React.Component<IProps, IState> {
                             <GiftDescriptor
                                 region={region}
                                 gift={gift}
+                                servants={servantCache}
                                 items={itemMap}
                             />
                             <br />
