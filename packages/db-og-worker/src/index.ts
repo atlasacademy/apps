@@ -142,7 +142,7 @@ const tabTitles = new Map([
 async function handleDBEvent(event: FetchEvent) {
     const { pathname } = new URL(event.request.url),
         [region, subpage, target, ...paths] = pathname
-            .replace("/db/", "")
+            .replace("/db", "")
             .split("/")
             .filter(Boolean);
 
@@ -155,7 +155,7 @@ async function handleDBEvent(event: FetchEvent) {
 
     if (region === "NA") {
         mutableResponse.headers.append("Content-Language", "en-US");
-    } else if (region === "JP") {
+    } else if (region === "JP" || region === undefined) {
         mutableResponse.headers.append("Content-Language", "ja-JP, en-US");
     }
 
@@ -277,7 +277,7 @@ async function handleEvent(event: FetchEvent) {
         if (pathname === "/sitemap.xml") {
             return fetch("https://apps.atlasacademy.io/sitemap.xml");
         }
-        if (pathname.startsWith("/db/")) {
+        if (pathname.startsWith("/db")) {
             return handleDBEvent(event);
         }
         for (const basePath of [
