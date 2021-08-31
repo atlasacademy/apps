@@ -32,7 +32,6 @@ interface IState {
     loading: boolean;
     servants: Servant.Servant[];
     item?: Item.Item;
-    isMaterial: boolean;
     blacklistedColumnIndexes: number[];
 }
 
@@ -69,12 +68,12 @@ let usageDataColumns : {
     { extractor: (usage: MaterialUsageColumn) => usage.ascensions, title: "Total Ascension" },
     {
         extractor: (usage: MaterialUsageColumn) => usage.skills * 3,
-        displayExtractor: (usage: MaterialUsageColumn) => `${usage.skills} (${usage.skills * 3})`,
+        displayExtractor: (usage: MaterialUsageColumn) => `${usage.skills.toLocaleString()} (${(usage.skills * 3).toLocaleString()})`,
         title: "Per Skill (Total)"
     },
     {
         extractor: (usage: MaterialUsageColumn) => usage.appendSkills * 3,
-        displayExtractor: (usage: MaterialUsageColumn) => `${usage.appendSkills} (${usage.appendSkills * 3})`,
+        displayExtractor: (usage: MaterialUsageColumn) => `${usage.appendSkills.toLocaleString()} (${(usage.appendSkills * 3).toLocaleString()})`,
         title: "Per Append Skill (Total)"
     },
     { extractor: (usage: MaterialUsageColumn) => usage.costumes, title: "Costume" },
@@ -178,13 +177,19 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
     )
 }
 
+const itemIsMaterial = (item: Item.Item) => {
+    return item.uses.includes(Item.ItemUse.SKILL)
+        || (item.uses.includes(Item.ItemUse.ASCENSION)
+            && (item.type === Item.ItemType.TD_LV_UP
+                || item.type === Item.ItemType.EVENT_ITEM))
+}
+
 class ItemPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {
             loading: true,
-            isMaterial: false,
             servants: [],
             blacklistedColumnIndexes: []
         };
@@ -195,20 +200,13 @@ class ItemPage extends React.Component<IProps, IState> {
         this.loadData();
     }
 
-    private itemIsMaterial(item: Item.Item): boolean {
-        return item.uses.includes(Item.ItemUse.SKILL)
-            || (item.uses.includes(Item.ItemUse.ASCENSION)
-                && (item.type === Item.ItemType.TD_LV_UP
-                    || item.type === Item.ItemType.EVENT_ITEM))
-    }
-
     loadData() {
         Api.item(this.props.id)
             .then((item) => {
                 this.setState({ item });
-                if (this.itemIsMaterial(item)) {
+                if (itemIsMaterial(item)) {
                     Api.servantListNice()
-                        .then((servants) => this.setState({ isMaterial: true, servants }))
+                        .then((servants) => this.setState({ servants }))
                         .catch((error) => this.setState({ error }));
                 }
             })
@@ -343,8 +341,12 @@ class ItemPage extends React.Component<IProps, IState> {
                     <tr key="total">
                         <td className="materialOwner">Total</td>
                         {usageDataColumns.map(
-                            field => <td>{field?.displayExtractor?.(totalUsage) ?? field?.extractor(totalUsage as MaterialUsageColumn)}</td>
-                        )}
+                            field => (
+                                <td>
+                                    {field?.displayExtractor?.(totalUsage)
+                                    ?? field?.extractor(totalUsage as MaterialUsageColumn).toLocaleString()}
+                                </td>
+                        ))}
                     </tr>
                     <tr key="switches">
                         <td className="materialOwner">Show below?</td>
@@ -402,11 +404,13 @@ class ItemPage extends React.Component<IProps, IState> {
         if (this.state.error)
             return <ErrorStatus error={this.state.error}/>;
 
-        if (this.state.loading || !this.state.item || !this.state.servants)
+        if (this.state.loading || !this.state.item)
             return <Loading/>;
 
         const item = this.state.item;
-        document.title = `[${this.props.region}] ${this.state.isMaterial ? "Material" : "Item"} - ${item.name} - Atlas Academy DB`;
+        document.title = `[${this.props.region}] ${itemIsMaterial(item) ? "Material" : "Item"} - ${item.name} - Atlas Academy DB`;
+
+        const itemUsageTable = item.type === Item.ItemType.EVENT_ITEM ? this.renderEventServantMaterial() : this.renderMaterialBreakdown();
 
         return (
             <div id={'item.id'}>
@@ -451,13 +455,9 @@ class ItemPage extends React.Component<IProps, IState> {
                         data={`${Host}/raw/${this.props.region}/item/${item.id}`}/>
                 </div>
 
-                {item.type === Item.ItemType.EVENT_ITEM
-                    ? (this.state.isMaterial
-                        ? this.renderEventServantMaterial()
-                        : undefined)
-                    : (this.state.isMaterial
-                        ? this.renderMaterialBreakdown()
-                        : undefined)
+                {itemIsMaterial(item)
+                    ? this.state.servants.length === 0 ? <>Loading servants data</> : itemUsageTable
+                    : null
                 }
             </div>
         );
