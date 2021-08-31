@@ -151,6 +151,12 @@ async function handleDBEvent(event: FetchEvent) {
         cacheControl: { edgeTTL: 60 * 60 * 3, bypassCache: DEBUG },
     });
 
+    if (region === "NA") {
+        page.headers.append("Content-Language", "en-US");
+    } else if (region === "JP") {
+        page.headers.append("Content-Language", "ja-JP, en-US");
+    }
+
     const responseDetail = {
         response: page,
         pageUrl: event.request.url,
