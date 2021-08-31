@@ -146,19 +146,21 @@ async function handleDBEvent(event: FetchEvent) {
             .split("/")
             .filter(Boolean);
 
-    const page = await getAssetFromKV(event, {
+    const response = await getAssetFromKV(event, {
         mapRequestToAsset: (request) => serveSinglePageApp(request, "db"),
         cacheControl: { edgeTTL: 60 * 60 * 3, bypassCache: DEBUG },
     });
 
+    const mutableResponse = new Response(response.body, response);
+
     if (region === "NA") {
-        page.headers.append("Content-Language", "en-US");
+        mutableResponse.headers.append("Content-Language", "en-US");
     } else if (region === "JP") {
-        page.headers.append("Content-Language", "ja-JP, en-US");
+        mutableResponse.headers.append("Content-Language", "ja-JP, en-US");
     }
 
     const responseDetail = {
-        response: page,
+        response: mutableResponse,
         pageUrl: event.request.url,
     };
 
@@ -264,7 +266,7 @@ async function handleDBEvent(event: FetchEvent) {
             return overwrite(responseDetail, title);
         }
         default:
-            return new Response(page.body, page);
+            return mutableResponse;
     }
 }
 
