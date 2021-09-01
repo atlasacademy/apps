@@ -93,7 +93,7 @@ function overwrite(
     const ogDescription = description ?? defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
-        .on("head", new HtmlLangHandler(response.region))
+        .on("html", new HtmlLangHandler(response.region))
         .on('[name="description"]', new Handler(metaDescription))
         .on('[property="og:url"]', new Handler(response.pageUrl))
         .on('[property="og:title"]', new Handler(title))
