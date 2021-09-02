@@ -10,19 +10,6 @@ addEventListener("fetch", (event) => {
     event.respondWith(response);
 });
 
-type Region = "JP" | "NA";
-
-class HtmlLangHandler {
-    region: Region = "JP";
-    constructor(region: Region) {
-        this.region = region;
-    }
-    element(elem: Element) {
-        const language = this.region === "NA" ? "en-US" : "ja-JP";
-        elem.setAttribute("lang", language);
-    }
-}
-
 class Handler {
     content = "";
     constructor(content: string = "") {
@@ -81,7 +68,7 @@ async function fetchApi(
 }
 
 function overwrite(
-    response: { response: Response; pageUrl: string; region: Region },
+    response: { response: Response; pageUrl: string },
     title: string,
     image?: string,
     description?: string
@@ -93,7 +80,6 @@ function overwrite(
     const ogDescription = description ?? defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
-        .on("html", new HtmlLangHandler(response.region))
         .on('[name="description"]', new Handler(metaDescription))
         .on('[property="og:url"]', new Handler(response.pageUrl))
         .on('[property="og:title"]', new Handler(title))
@@ -176,7 +162,6 @@ async function handleDBEvent(event: FetchEvent) {
     const responseDetail = {
         response: mutableResponse,
         pageUrl: event.request.url,
-        region: (region as Region) ?? "JP",
     };
 
     const listingPageTitle = listingPageTitles.get(subpage);

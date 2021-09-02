@@ -74,10 +74,12 @@ class Navigation extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <div>
+            <>
                 <Navbar id={'navigation'} bg={"dark"} variant={'dark'} expand={"lg"}>
                     <Container fluid>
-                        <Link to="/" className={'navbar-brand'}>AA-DB</Link>
+                        <Navbar.Brand as={Link} to="/" title="Atlas Academy Database">
+                            Atlas Academy DB
+                        </Navbar.Brand>
                         <Navbar.Toggle/>
 
                         <Navbar.Collapse>
@@ -85,12 +87,14 @@ class Navigation extends React.Component<IProps, IState> {
                                 <NavPage path="servants" description="Servants"/>
                                 <NavPage path="craft-essences" description="Craft Essences"/>
                                 <NavPage path="command-codes" description="Command Codes"/>
-                                <NavPage path="mystic-codes" description="Mystic Codes"/>
-                                <NavPage path="items" description="Materials"/>
-                                <NavPage path="events" description="Events"/>
-                                <NavPage path="wars" description="Wars"/>
-                                <NavPage path="bgms" description="BGMs"/>
-                                <NavPage path="master-missions" description="Master Missions"/>
+                                <NavDropdown title="Other" id="dropdown-other">
+                                    <NavDropdownPage path="mystic-codes" description="Mystic Codes"/>
+                                    <NavDropdownPage path="items" description="Materials"/>
+                                    <NavDropdownPage path="events" description="Events"/>
+                                    <NavDropdownPage path="wars" description="Wars"/>
+                                    <NavDropdownPage path="bgms" description="BGMs"/>
+                                    <NavDropdownPage path="master-missions" description="Master Missions"/>
+                                </NavDropdown>
                                 <NavDropdown title="Search" id="dropdown-search">
                                     <NavDropdownPage path="entities" description="Entities"/>
                                     <NavDropdownPage path="skills" description="Skills"/>
@@ -157,7 +161,7 @@ class Navigation extends React.Component<IProps, IState> {
                             theme={this.props.theme}/>
                     </Modal.Body>
                 </Modal>
-            </div>
+            </>
         );
     }
 
