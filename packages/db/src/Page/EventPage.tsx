@@ -135,10 +135,16 @@ class EventPage extends React.Component<IProps, IState> {
                         ])
                     ),
                 });
+                if (event.towers.length > 0
+                    || event.rewards.length > 0
+                    || event.shop.length > 0
+                    || event.missions.length > 0
+                    || event.lotteries.length > 0) {
+                    this.loadItemMap();
+                }
                 this.loadWars(event.warIds, event.missions.length > 0);
                 if (event.missions.length > 0) {
                     this.loadServantMap();
-                    this.loadItemMap();
                     this.loadEnums();
                 }
             })
