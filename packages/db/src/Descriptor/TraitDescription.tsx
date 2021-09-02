@@ -1,7 +1,7 @@
-import {Region, Trait} from "@atlasacademy/api-connector";
-import {TraitDescriptor} from "@atlasacademy/api-descriptor";
+import { Region, Trait } from "@atlasacademy/api-connector";
+import { TraitDescriptor } from "@atlasacademy/api-descriptor";
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Api from "../Api";
 import Description from "./Description";
 
@@ -10,8 +10,17 @@ interface IProps {
     trait: Trait.Trait | number;
     disableLink?: boolean;
     overrideTraits?: Trait.Trait[];
-    owner?: "entities" | "funcs" | "buffs" | "noble-phantasms";
-    ownerParameter?: "trait" | "vals" | "tvals" | "questTvals" | "ckSelfIndv" | "ckOpIndv" | "individuality";
+    owner?: "entities" | "funcs" | "buffs" | "noble-phantasms" | "quests";
+    ownerParameter?:
+        | "trait"
+        | "vals"
+        | "tvals"
+        | "questTvals"
+        | "ckSelfIndv"
+        | "ckOpIndv"
+        | "individuality"
+        | "fieldIndividuality"
+        | "enemyTrait";
 }
 
 interface IState {
@@ -36,8 +45,7 @@ class TraitDescription extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        if (this.state.trait)
-            return;
+        if (this.state.trait) return;
 
         const traitList = await Api.traitList();
 
@@ -45,7 +53,7 @@ class TraitDescription extends React.Component<IProps, IState> {
             const trait = traitList[i];
 
             if (trait.id === this.state.id) {
-                this.setState({trait});
+                this.setState({ trait });
 
                 return;
             }
@@ -53,24 +61,43 @@ class TraitDescription extends React.Component<IProps, IState> {
     }
 
     private getDescription(trait: Trait.Trait | number) {
-        const descriptor = TraitDescriptor.describe(trait, this.props.overrideTraits);
+        const descriptor = TraitDescriptor.describe(
+            trait,
+            this.props.overrideTraits
+        );
 
-        return <Description region={this.props.region} descriptor={descriptor}/>;
+        return (
+            <Description region={this.props.region} descriptor={descriptor} />
+        );
     }
 
     private getLocation(): string {
-        const owner = this.props.owner ? this.props.owner : "entities";
-        const ownerParameter = this.props.ownerParameter ? this.props.ownerParameter : "trait";
+        let owner = this.props.owner ?? "entities";
+        let ownerParameter = this.props.ownerParameter ?? "trait";
+        if (this.state.trait !== undefined) {
+            if (this.state.trait.name.startsWith("buff")) {
+                owner = "buffs";
+                ownerParameter = "vals";
+            }
+            if (this.state.trait.name.startsWith("enemy")) {
+                owner = "quests";
+                ownerParameter = "enemyTrait";
+            }
+            if (this.state.trait.name.startsWith("event")) {
+                owner = "quests";
+                ownerParameter = "fieldIndividuality";
+            }
+        }
         return `/${this.props.region}/${owner}?${ownerParameter}=${this.state.id}`;
     }
 
     render() {
         const trait = this.state.trait ?? this.state.id;
 
-        return (
-            this.props.disableLink
-                ? <span>[{this.getDescription(trait)}]</span>
-                : <Link to={this.getLocation()}>[{this.getDescription(trait)}]</Link>
+        return this.props.disableLink ? (
+            <span>[{this.getDescription(trait)}]</span>
+        ) : (
+            <Link to={this.getLocation()}>[{this.getDescription(trait)}]</Link>
         );
     }
 }
