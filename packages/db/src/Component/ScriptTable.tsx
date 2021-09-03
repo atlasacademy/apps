@@ -5,6 +5,7 @@ import React from "react";
 import {Button, Table} from "react-bootstrap";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
+import { flatten } from "../Helper/PolyFill";
 import useWindowDimensions from "../Helper/WindowHelper";
 import Scene from "./Scene";
 import {
@@ -43,7 +44,7 @@ const DialogueRow = (props: {
             <td>
                 {dialogueVoice}
                 <ScriptDialogueLine
-                    components={props.dialogue.components.flat()}
+                    components={flatten(props.dialogue.components)}
                 />
             </td>
         </tr>

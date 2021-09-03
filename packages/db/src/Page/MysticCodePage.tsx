@@ -42,10 +42,9 @@ class MysticCodePage extends React.Component<IProps, IState> {
         Promise.all([Api.mysticCodeList(), Api.mysticCode(this.state.id)])
             .then(([mysticCodes, mysticCode]) => {
                 document.title = `[${this.props.region}] Mystic Code - ${mysticCode.name} - Atlas Academy DB`;
-                this.setState({ mysticCodes, mysticCode });
+                this.setState({ mysticCodes, mysticCode, loading: false });
             })
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch((error) => this.setState({ error }));
     }
 
     render() {

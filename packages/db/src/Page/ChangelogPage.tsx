@@ -43,9 +43,8 @@ class ChangelogPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Changelog - Atlas Academy DB`;
         Promise.all([Api.changelog(), Api.servantList(), Api.craftEssenceList()])
-            .then(([changes, servantList, ceList]) => this.setState({ changes, servantList, ceList }))
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .then(([changes, servantList, ceList]) => this.setState({ changes, servantList, ceList, loading: false }))
+            .catch((error) => this.setState({ error }));
     }
 
     render() {

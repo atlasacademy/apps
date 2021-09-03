@@ -215,10 +215,9 @@ class QuestPage extends React.Component<IProps, IState> {
         Api.questPhase(this.props.id, phase)
             .then((quest) => {
                 document.title = `[${this.props.region}] Quest - ${quest.name} - Atlas Academy DB`;
-                this.setState({ quest });
+                this.setState({ quest, loading: false });
             })
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch((error) => this.setState({ error }));
     }
 
     render() {

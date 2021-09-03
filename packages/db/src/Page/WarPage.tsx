@@ -360,10 +360,9 @@ class WarPage extends React.Component<IProps, IState> {
         Api.war(this.props.warId)
             .then((war) => {
                 document.title = `[${this.props.region}] War - ${war.longName} - Atlas Academy DB`;
-                this.setState({ war });
+                this.setState({ war, loading: false });
             })
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch((error) => this.setState({ error }));
     }
 
     render() {

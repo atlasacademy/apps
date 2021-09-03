@@ -155,11 +155,11 @@ class BuffsPage extends React.Component<IProps, IState> {
             this.state.ckOpIndv
         ).then((buffs) => {
             this.setQueryURL();
-            this.setState({ buffs, searched: true });
+            this.setState({ buffs, searched: true, searching: false });
         }).catch((error) => {
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
             this.setState({ error });
-        }).finally(() => this.setState({ searching: false }));
+        });
     }
 
     render() {

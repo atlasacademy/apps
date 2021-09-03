@@ -70,9 +70,9 @@ class ItemsPage extends React.Component<IProps, IState> {
             .then((itemList) => this.setState({
                 itemList,
                 tabs: this.createTabs(itemList),
+                loading: false,
             }))
-            .catch((error) => this.setState({error}))
-            .finally(() => this.setState({loading: false}));
+            .catch((error) => this.setState({error}));
     }
 
     componentDidUpdate(prevProps : Readonly<IProps>, prevState : Readonly<IState>) {

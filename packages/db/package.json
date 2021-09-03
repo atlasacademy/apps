@@ -56,7 +56,7 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "iOS 12",
+      "iOS 11",
       "not dead",
       "not op_mini all"
     ],

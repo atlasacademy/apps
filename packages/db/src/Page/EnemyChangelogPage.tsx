@@ -17,9 +17,8 @@ const EnemyChangelogPage = ({ region }: { region: Region }) => {
     useEffect(() => {
         Manager.setRegion(region);
         Api.questEnemyChangelog()
-            .then((quests) => setQuests(quests))
-            .catch((error) => setError(error))
-            .finally(() => setLoading(false));
+            .then((quests) => {setQuests(quests); setLoading(false);})
+            .catch((error) => setError(error));
     }, [region]);
 
     if (loading) return <Loading />;

@@ -14,6 +14,7 @@ import {
     ScriptComponentType,
 } from "../Component/Script";
 import RawDataViewer from "../Component/RawDataViewer";
+import { fromEntries } from "../Helper/PolyFill";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
@@ -62,11 +63,13 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const parsedScript = parseScript(region, script);
 
     const audioUrls = [] as string[];
+    let hasDialogueLines = false;
     const addAudioUrls = (component: ScriptComponent) => {
         switch (component.type) {
             case ScriptComponentType.DIALOGUE:
                 if (component.voice !== undefined)
                     audioUrls.push(component.voice.audioAsset);
+                    hasDialogueLines = true;
                 break;
             case ScriptComponentType.SOUND_EFFECT:
                 audioUrls.push(component.soundEffect.audioAsset);
@@ -118,11 +121,11 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         <>
             <h1>Script {scriptId}</h1>
             <ButtonGroup style={{ margin: "1em 0" }}>
-                {audioUrls.length > 0 ? (
+                {hasDialogueLines ? (
                     <VoiceLinePlayer
                         audioAssetUrls={audioUrls}
                         delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
-                        title="all audio files"
+                        title="voice lines"
                         showTitle
                         handleNavigateAssetUrl={scrollToRow}
                     />
@@ -136,7 +139,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                 </Button>
                 <RawDataViewer
                     text="Parsed Script"
-                    data={Object.fromEntries(showRawData)}
+                    data={fromEntries(showRawData)}
                 />
             </ButtonGroup>
             <ScriptTable

@@ -108,10 +108,10 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     traitList,
                     illustratorList: illustratorList.map(illustrator => illustrator.name),
                     cvList: cvList.map(cv => cv.name),
+                    loading: false,
                 });
             })
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch((error) => this.setState({ error }));
 
         if (this.props.location.search !== "" || this.props.traitSelected) {
             this.search();
@@ -193,13 +193,12 @@ class EntitiesPage extends React.Component<IProps, IState> {
         )
         .then((entities) => {
             this.setQueryURL();
-            this.setState({ entities });
+            this.setState({ entities, searching: false });
         })
         .catch((error) => {
             this.props.history.replace(`/${this.props.region}/entities`);
             this.setState({ error });
-        })
-        .finally(() => this.setState({searching: false}));
+        });
     }
 
     render() {

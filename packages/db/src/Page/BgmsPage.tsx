@@ -54,9 +54,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] BGMs - Atlas Academy DB`;
         Api.bgmList()
-            .then((bgms) => this.setState({ bgms }))
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .then((bgms) => this.setState({ bgms, loading: false }))
+            .catch((error) => this.setState({ error }));
     }
 
     private bgms(): Bgm.BgmEntity[] {

@@ -156,13 +156,12 @@ class FuncsPage extends React.Component<IProps, IState> {
             )
             .then((funcs) => {
                 this.setQueryURL();
-                this.setState({ funcs, searched: true });
+                this.setState({ funcs, searched: true, searching: false });
             })
             .catch((error) => {
                 this.props.history.replace(`/${this.props.region}/${this.props.path}`);
                 this.setState({ error });
-            })
-            .finally(() => this.setState({ searching: false }));
+            });
     }
 
     render() {

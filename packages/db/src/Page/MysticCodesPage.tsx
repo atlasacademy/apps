@@ -35,9 +35,8 @@ class MysticCodesPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Mystic Codes - Atlas Academy DB`;
         Api.mysticCodeList()
-            .then((mysticCodes) => this.setState({ mysticCodes }))
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .then((mysticCodes) => this.setState({ mysticCodes, loading: false  }))
+            .catch((error) => this.setState({ error }));
     }
 
     render() {

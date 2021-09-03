@@ -128,6 +128,7 @@ class EventPage extends React.Component<IProps, IState> {
                 document.title = `[${this.props.region}] Event - ${event.name} - Atlas Academy DB`;
                 this.setState({
                     event: event,
+                    loading: false,
                     missionRefs: new Map(
                         event.missions.map((mission) => [
                             mission.id,
@@ -148,8 +149,7 @@ class EventPage extends React.Component<IProps, IState> {
                     this.loadEnums();
                 }
             })
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch((error) => this.setState({ error }));
     }
 
     renderMissionConds(

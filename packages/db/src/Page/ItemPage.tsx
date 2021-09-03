@@ -203,15 +203,14 @@ class ItemPage extends React.Component<IProps, IState> {
     loadData() {
         Api.item(this.props.id)
             .then((item) => {
-                this.setState({ item });
+                this.setState({ item, loading: false });
                 if (itemIsMaterial(item)) {
                     Api.servantListNice()
                         .then((servants) => this.setState({ servants }))
                         .catch((error) => this.setState({ error }));
                 }
             })
-            .catch(error => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch(error => this.setState({ error }));
     }
 
     private isExtra(className: ClassName): boolean {

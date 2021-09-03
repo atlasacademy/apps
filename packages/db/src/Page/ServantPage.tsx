@@ -109,10 +109,10 @@ class ServantPage extends React.Component<IProps, IState> {
                     assetType,
                     assetId,
                     assetExpand,
+                    loading: false
                 });
             })
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch((error) => this.setState({ error }));
     }
 
     private skillRankUps(skillId: number): number[] {

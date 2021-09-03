@@ -58,9 +58,8 @@ class WarsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Wars - Atlas Academy DB`;
         Api.warList()
-            .then((wars) => this.setState({ wars }))
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .then((wars) => this.setState({ wars, loading: false }))
+            .catch((error) => this.setState({ error }));
     }
 
     private toggleWarTypeFilter(warType: WarType): void {

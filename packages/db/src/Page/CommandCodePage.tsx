@@ -47,10 +47,9 @@ class CommandCodePage extends React.Component<IProps, IState> {
         Promise.all([Api.commandCodeList(), Api.commandCode(this.state.id), Api.traitList()])
             .then(([commandCodes, commandCode]) => {
                 document.title = `[${this.props.region}] Command Code - ${commandCode.name} - Atlas Academy DB`;
-                this.setState({ commandCodes, commandCode });
+                this.setState({ commandCodes, commandCode, loading: false });
             })
-            .catch(error => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch(error => this.setState({ error }));
     }
 
     render() {

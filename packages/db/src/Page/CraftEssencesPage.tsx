@@ -57,9 +57,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Craft Essences - Atlas Academy DB`;
         Api.craftEssenceList()
-            .then((craftEssences) => this.setState({ craftEssences }))
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .then((craftEssences) => this.setState({ craftEssences, loading: false }))
+            .catch((error) => this.setState({ error }));
     }
 
     private toggleRarityFilter(rarity: number): void {

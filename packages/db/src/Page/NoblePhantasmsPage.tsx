@@ -168,13 +168,12 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
             )
             .then((noblePhantasms) => {
                 this.setQueryURL();
-                this.setState({ noblePhantasms, searched: true });
+                this.setState({ noblePhantasms, searched: true, searching: false });
             })
             .catch((error) => {
                 this.props.history.replace(`/${this.props.region}/${this.props.path}`);
                 this.setState({ error });
-            })
-            .finally(() => this.setState({ searching: false }));
+            });
     }
 
     getNumberForm(

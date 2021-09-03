@@ -46,10 +46,9 @@ class EnemyPage extends React.Component<IProps, IState> {
         Promise.all([Api.enemy(this.props.id), Api.traitList()])
             .then(([enemy]) => {
                 document.title = `[${this.props.region}] Enemy - ${enemy.name} - Atlas Academy DB`;
-                this.setState({ enemy });
+                this.setState({ enemy, loading: false });
             })
-            .catch(error => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch(error => this.setState({ error }));
     }
 
     render() {

@@ -1,6 +1,7 @@
 import { Region, Skill } from "@atlasacademy/api-connector";
 import { Col, Row } from "react-bootstrap";
 import SkillBreakdown from "../../Breakdown/SkillBreakdown";
+import { flatten } from "../../Helper/PolyFill";
 
 const ExtraPassive = ({
     region,
@@ -16,12 +17,11 @@ const ExtraPassive = ({
     const solomonEORBondNum = [10, 11, 12, 13, 14];
 
     const passiveNums = new Set(
-        skills
-            .map((skill) =>
+        flatten(
+            skills.map((skill) =>
                 skill.extraPassive.map((extraPassive) => extraPassive.num)
             )
-            .flat()
-            .filter((num) => !solomonEORBondNum.includes(num))
+        ).filter((num) => !solomonEORBondNum.includes(num))
     );
 
     return (

@@ -59,11 +59,11 @@ class SkillPage extends React.Component<IProps, IState> {
                 document.title = `[${this.props.region}] Skill - ${skill.name} - Atlas Academy DB`;
                 this.setState({
                     skill,
-                    levels: skill.functions[0]?.svals?.length ?? 1
+                    levels: skill.functions[0]?.svals?.length ?? 1,
+                    loading: false,
                 });
             })
-            .catch(error => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch(error => this.setState({ error }));
     }
 
     private changeLevel(level: number) {

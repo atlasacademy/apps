@@ -148,13 +148,12 @@ class SkillsPage extends React.Component<IProps, IState> {
             )
             .then((skills) => {
                 this.setQueryURL();
-                this.setState({ skills, searched: true });
+                this.setState({ skills, searched: true, searching: false });
             })
             .catch((error) => {
                 this.props.history.replace(`/${this.props.region}/${this.props.path}`);
                 this.setState({ error });
-            })
-            .finally(() => this.setState({ searching: false }));
+            });
     }
 
     getNumberForm(

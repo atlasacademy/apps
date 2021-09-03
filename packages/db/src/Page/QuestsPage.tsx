@@ -192,13 +192,12 @@ class QuestsPage extends React.Component<IProps, IState> {
             )
             .then((quests) => {
                 this.setQueryURL();
-                this.setState({ quests, searched: true });
+                this.setState({ quests, searched: true, searching: false });
             })
             .catch((error) => {
                 this.props.history.replace(`/${this.props.region}/${this.props.path}`);
                 this.setState({ error });
-            })
-            .finally(() => this.setState({ searching: false }));
+            });
     }
 
     getNumberForm(

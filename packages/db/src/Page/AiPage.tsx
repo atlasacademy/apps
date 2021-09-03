@@ -63,6 +63,7 @@ class AiPage extends React.Component<IProps, IState> {
                 document.title = `[${this.props.region}] AI - ${this.props.id} - Atlas Academy DB`;
                 this.setState({
                     aiCollection: ai,
+                    loading: false,
                     refs: new Map(
                         [...ai.mainAis, ...ai.relatedAis].map((ai) => [
                             ai.id,
@@ -71,8 +72,7 @@ class AiPage extends React.Component<IProps, IState> {
                     ),
                 });
             })
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch((error) => this.setState({ error }));
     }
 
     render() {

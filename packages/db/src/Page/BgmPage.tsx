@@ -25,9 +25,8 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
     useEffect(() => {
         Manager.setRegion(region);
         Api.bgm(bgmId)
-            .then((bgm) => setBgm(bgm))
-            .catch((e) => setError(e))
-            .finally(() => setLoading(false));
+            .then((bgm) => {setBgm(bgm); setLoading(false);})
+            .catch((e) => setError(e));
     }, [region, bgmId]);
 
     if (loading) return <Loading />;

@@ -45,9 +45,8 @@ class CommandCodesPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Command Codes - Atlas Academy DB`;
         Api.commandCodeList()
-            .then(commandCodes => this.setState({ commandCodes }))
-            .catch(error => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .then(commandCodes => this.setState({ commandCodes, loading: false }))
+            .catch(error => this.setState({ error }));
     }
 
     private toggleRarityFilter(rarity: number): void {

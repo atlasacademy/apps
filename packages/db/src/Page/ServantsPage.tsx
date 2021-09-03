@@ -94,9 +94,8 @@ class ServantsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Servants - Atlas Academy DB`;
         Api.servantList()
-            .then((servants) => this.setState({ servants }))
-            .catch((error) => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .then((servants) => this.setState({ servants, loading: false }))
+            .catch((error) => this.setState({ error }));
     }
 
     componentDidUpdate(_ : Readonly<IProps>, prevState : Readonly<IState>) {

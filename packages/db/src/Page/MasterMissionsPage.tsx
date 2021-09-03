@@ -24,9 +24,8 @@ const MasterMissionsPage = (props: { region: Region }) => {
     useEffect(() => {
         Manager.setRegion(region);
         Api.masterMissionList()
-            .then((r) => setMasterMissions(r))
-            .catch((e) => setError(e))
-            .finally(() => setLoading(false));
+            .then((r) => {setMasterMissions(r); setLoading(false);})
+            .catch((e) => setError(e));
     }, [region]);
 
     if (loading) return <Loading />;

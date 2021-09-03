@@ -49,9 +49,9 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             .then((r) => {
                 setSearched(true);
                 setScripts(r);
+                setSearching(false);
             })
-            .catch((e) => setError(e))
-            .finally(() => setSearching(false));
+            .catch((e) => setError(e));
     };
 
     const searchButton = (query: string | null) => {

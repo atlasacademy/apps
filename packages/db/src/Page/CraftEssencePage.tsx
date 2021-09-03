@@ -50,10 +50,9 @@ class CraftEssencePage extends React.Component<IProps, IState> {
         Promise.all([Api.craftEssenceList(), Api.craftEssence(this.state.id), Api.traitList()])
             .then(([craftEssences, craftEssence]) => {
                 document.title = `[${this.props.region}] Craft Essence - ${craftEssence.name} - Atlas Academy DB`;
-                this.setState({ craftEssences, craftEssence});
+                this.setState({ craftEssences, craftEssence, loading: false });
             })
-            .catch(error => this.setState({ error }))
-            .finally(() => this.setState({ loading: false }));
+            .catch(error => this.setState({ error }));
     }
 
     render() {
