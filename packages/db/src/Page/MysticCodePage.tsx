@@ -5,6 +5,7 @@ import {Col, Row, Tab, Tabs} from "react-bootstrap";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
 import Api from "../Api";
+import Manager from "../Setting/Manager";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -39,6 +40,7 @@ class MysticCodePage extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
+        Manager.setRegion(this.props.region);
         Promise.all([Api.mysticCodeList(), Api.mysticCode(this.state.id)])
             .then(([mysticCodes, mysticCode]) => {
                 document.title = `[${this.props.region}] Mystic Code - ${mysticCode.name} - Atlas Academy DB`;
