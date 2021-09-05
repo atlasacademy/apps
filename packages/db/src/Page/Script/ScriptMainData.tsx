@@ -11,6 +11,7 @@ import { flatten } from "../../Helper/PolyFill";
 
 import "../../Component/DataTable.css";
 import "./ScriptMainData.css";
+import { dedupe } from "../../Helper/ArrayHelper";
 
 const getQuestSortedScriptIds = (quest: Quest.Quest) => {
     const phaseScripts = quest.phaseScripts.sort((a, b) => a.phase - b.phase);
@@ -22,7 +23,7 @@ const getQuestSortedScriptIds = (quest: Quest.Quest) => {
         )
     ).map((script) => script.scriptId);
 
-    return scriptIds;
+    return dedupe(scriptIds);
 };
 
 const QuestWarDescriptor = ({
@@ -106,8 +107,12 @@ const ScriptMainData = ({
                             )
                         )
                     ).sort((a, b) => a.id - b.id);
-                    const warScriptIds = flatten(
-                        warQuests.map((quest) => getQuestSortedScriptIds(quest))
+                    const warScriptIds = dedupe(
+                        flatten(
+                            warQuests.map((quest) =>
+                                getQuestSortedScriptIds(quest)
+                            )
+                        )
                     );
 
                     const warScriptIndex = warScriptIds.indexOf(scriptId);

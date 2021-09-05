@@ -17,3 +17,7 @@ export const isSubset = (bigger: number[], smaller: number[]) => {
     }
     return true;
 };
+
+export function dedupe<T>(array: T[]): T[] {
+    return Array.from(new Set(array));
+}
