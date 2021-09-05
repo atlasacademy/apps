@@ -1,13 +1,16 @@
 import { Quest, Region, Script } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Api from "../../Api";
-import "../../Component/DataTable.css";
 import { QuestDescriptionNoApi } from "../../Descriptor/QuestDescriptor";
 import ScriptDescriptor, {
     getScriptType,
 } from "../../Descriptor/ScriptDescriptor";
 import { flatten } from "../../Helper/PolyFill";
+
+import "../../Component/DataTable.css";
+import "./ScriptMainData.css";
 
 const getQuestSortedScriptIds = (quest: Quest.Quest) => {
     const phaseScripts = quest.phaseScripts.sort((a, b) => a.phase - b.phase);
@@ -20,6 +23,31 @@ const getQuestSortedScriptIds = (quest: Quest.Quest) => {
     ).map((script) => script.scriptId);
 
     return scriptIds;
+};
+
+const QuestWarDescriptor = ({
+    region,
+    quest,
+    questPhase,
+}: {
+    region: Region;
+    quest: Quest.Quest;
+    questPhase: number;
+}) => {
+    return (
+        <>
+            <Link to={`/${region}/war/${quest.warId}`}>
+                War {quest.warId} {quest.warLongName}
+            </Link>
+            {" — "}
+            <QuestDescriptionNoApi
+                region={region}
+                quest={quest}
+                questPhase={questPhase}
+                showType={false}
+            />
+        </>
+    );
 };
 
 const ScriptMainData = ({
@@ -128,7 +156,7 @@ const ScriptMainData = ({
                     }`}</th>
                     <td colSpan={3}>
                         {scriptData.quests.length === 1 ? (
-                            <QuestDescriptionNoApi
+                            <QuestWarDescriptor
                                 region={region}
                                 quest={scriptData.quests[0]}
                                 questPhase={scriptPhase ?? 1}
@@ -137,8 +165,7 @@ const ScriptMainData = ({
                             <ul>
                                 {scriptData.quests.map((quest) => (
                                     <li key={quest.id}>
-                                        War {quest.warId}:{" "}
-                                        <QuestDescriptionNoApi
+                                        <QuestWarDescriptor
                                             region={region}
                                             quest={quest}
                                             questPhase={scriptPhase ?? 1}
@@ -161,7 +188,7 @@ const ScriptMainData = ({
                 </tr>
                 <tr>
                     <th>Previous Script</th>
-                    <td>
+                    <td className="script-nav-link">
                         {previousScript === undefined ? (
                             `N/A${
                                 firstScriptInWar
@@ -177,7 +204,7 @@ const ScriptMainData = ({
                         )}
                     </td>
                     <th>Next Script</th>
-                    <td>
+                    <td className="script-nav-link">
                         {nextScript === undefined ? (
                             `N/A${
                                 lastScriptInWar
@@ -197,7 +224,7 @@ const ScriptMainData = ({
         );
 
     return (
-        <Table bordered hover responsive className="data-table">
+        <Table bordered hover responsive className="data-table script-data">
             <tbody>
                 <tr>
                     <th>Raw Size</th>
