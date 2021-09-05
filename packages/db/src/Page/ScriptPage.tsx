@@ -1,8 +1,8 @@
-import { Region } from "@atlasacademy/api-connector";
+import { Region, Script } from "@atlasacademy/api-connector";
 import axios, { AxiosError } from "axios";
 import { createRef, useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
-import { AssetHost } from "../Api";
+import Api, { AssetHost } from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import ScriptTable from "../Component/ScriptTable";
@@ -15,6 +15,7 @@ import {
 } from "../Component/Script";
 import RawDataViewer from "../Component/RawDataViewer";
 import { fromEntries } from "../Helper/PolyFill";
+import ScriptMainData from "./Script/ScriptMainData";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
@@ -37,26 +38,33 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | undefined>(undefined);
     const [script, setScript] = useState<string>("");
+    const [scriptData, setScriptData] = useState<Script.Script | undefined>(
+        undefined
+    );
     const [enableScene, setEnableScene] = useState<boolean>(
         Manager.scriptSceneEnabled()
     );
 
-    const scriptURL = getScriptAssetURL(region, scriptId);
-
     useEffect(() => {
         Manager.setRegion(region);
-        axios
-            .get(scriptURL, { timeout: 10000 })
-            .then((r) => setScript(r.data))
+        setLoading(true);
+        Promise.all([
+            axios.get(getScriptAssetURL(region, scriptId), { timeout: 10000 }),
+            Api.script(scriptId),
+        ])
+            .then(([rawScript, scriptData]) => {
+                setScript(rawScript.data);
+                setScriptData(scriptData);
+                setLoading(false);
+            })
             .catch((e) => setError(e));
-        setLoading(false);
-    }, [region, scriptURL]);
-
-    if (loading) return <Loading />;
+    }, [region, scriptId]);
 
     if (error !== undefined) return <ErrorStatus error={error} />;
 
-    if (script === "") return null;
+    if (loading) return <Loading />;
+
+    if (script === "" || scriptData === undefined) return null;
 
     document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
 
@@ -69,7 +77,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
             case ScriptComponentType.DIALOGUE:
                 if (component.voice !== undefined)
                     audioUrls.push(component.voice.audioAsset);
-                    hasDialogueLines = true;
+                hasDialogueLines = true;
                 break;
             case ScriptComponentType.SOUND_EFFECT:
                 audioUrls.push(component.soundEffect.audioAsset);
@@ -120,6 +128,8 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     return (
         <>
             <h1>Script {scriptId}</h1>
+            <br />
+            <ScriptMainData region={region} scriptData={scriptData} />
             <ButtonGroup style={{ margin: "1em 0" }}>
                 {hasDialogueLines ? (
                     <VoiceLinePlayer

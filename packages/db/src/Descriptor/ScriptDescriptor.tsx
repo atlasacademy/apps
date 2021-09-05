@@ -25,35 +25,30 @@ export const sortScript = (scriptIds: string[]) => {
     return sortedScriptIds;
 };
 
+export const getScriptType = (scriptId: string) => {
+    switch (scriptId.slice(scriptId.length - 1, scriptId.length)) {
+        case "0":
+            return "Pre-battle script";
+        case "1":
+            return "Post-battle script";
+        case "2":
+            return "Pre-battle post-scene script";
+        case "3":
+            return "Post-battle pre-scene script";
+        case "4":
+            return "Post-battle script (without defeating the enemies)";
+        default:
+            return "Script";
+    }
+};
+
 const ScriptDescriptor = (props: {
     region: Region;
     scriptId: string;
     scriptName?: string;
     scriptType?: string;
 }) => {
-    let defaultScriptType = "";
-    switch (
-        props.scriptId.slice(props.scriptId.length - 1, props.scriptId.length)
-    ) {
-        case "0":
-            defaultScriptType = "Pre-battle script";
-            break;
-        case "1":
-            defaultScriptType = "Post-battle script";
-            break;
-        case "2":
-            defaultScriptType = "Pre-battle post-scene script";
-            break;
-        case "3":
-            defaultScriptType = "Post-battle pre-scene script";
-            break;
-        case "4":
-            defaultScriptType =
-                "Post-battle script (without defeating the enemies)";
-            break;
-        default:
-            defaultScriptType = "Script";
-    }
+    const defaultScriptType = getScriptType(props.scriptId);
     if (props.scriptType === "") {
         return (
             <Link to={`/${props.region}/script/${props.scriptId}`}>

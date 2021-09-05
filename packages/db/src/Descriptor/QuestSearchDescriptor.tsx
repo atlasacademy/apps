@@ -86,7 +86,6 @@ export default function QuestSearchDescriptor(props: IProps) {
         .slice(0, maxShowResults)
         .map((quest) => (
             <QuestDescriptionNoApi
-                text=""
                 region={props.region}
                 quest={quest}
                 questPhase={quest.phase}

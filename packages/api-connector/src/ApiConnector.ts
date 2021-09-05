@@ -66,7 +66,7 @@ import {
     FuncTargetType,
     FuncType,
 } from "./Schema/Func";
-import { ScriptSearchResult, SvtScript } from "./Schema/Script";
+import { Script, ScriptSearchResult, SvtScript } from "./Schema/Script";
 
 export enum ReverseData {
     BASIC = "basic",
@@ -284,6 +284,7 @@ class ApiConnector {
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
         servantListNice: new ResultCache<null, Servant[]>(),
+        script: new ResultCache<string, Script>(),
         skill: new ResultCache<number, Skill>(),
         skillBasic: new ResultCache<number, SkillBasic>(),
         svtScript: new ResultCache<string, SvtScript[]>(),
@@ -971,6 +972,23 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.questPhaseBasic.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    script(id: string, cacheDuration?: number): Promise<Script> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<Script>(
+                `${this.host}/nice/${this.region}/script/${id}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.script.get(
             id,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration

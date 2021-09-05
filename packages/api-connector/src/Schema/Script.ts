@@ -1,3 +1,5 @@
+import { Quest } from "./Quest";
+
 export interface ScriptExtendData {
     combineResultMultipleForm?: number;
     myroomForm?: number;
@@ -24,4 +26,11 @@ export interface ScriptSearchResult {
     script: string;
     score: number;
     snippets: string[];
+}
+
+export interface Script {
+    scriptId: string;
+    scriptSizeBytes: number;
+    script: string;
+    quests: Quest[];
 }

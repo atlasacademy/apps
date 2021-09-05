@@ -6,15 +6,16 @@ import { Link } from "react-router-dom";
 import Api from "../Api";
 
 export function QuestDescriptionNoApi(props: {
-    text: string;
     region: Region;
     quest: Quest.QuestBasic;
     questPhase: number;
+    text?: string;
     questStage?: number;
     showType?: boolean;
+    showPhase?: boolean;
 }) {
     const quest = props.quest;
-    if (props.text !== "") {
+    if (props.text !== undefined && props.text !== "") {
         return (
             <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}`}>
                 {props.text} <FontAwesomeIcon icon={faShare} />
@@ -55,12 +56,13 @@ export function QuestDescriptionNoApi(props: {
 
         const showType = props.showType ?? true;
         const stageUri = props.questStage ? `/stage-${props.questStage}` : "";
+        const phase = props.showPhase ? ` – phase ${props.questPhase}` : "";
         return (
             <Link
                 to={`/${props.region}/quest/${quest.id}/${props.questPhase}${stageUri}`}
             >
                 {showType && type !== "" ? `${type} ` : ""}
-                {quest.name} <FontAwesomeIcon icon={faShare} />
+                {quest.name}{phase} <FontAwesomeIcon icon={faShare} />
             </Link>
         );
     }
@@ -85,7 +87,7 @@ export default function QuestDescriptor(props: IProps) {
     if (quest !== null) {
         return (
             <QuestDescriptionNoApi
-                text={props.text ?? ""}
+                text={props.text}
                 region={props.region}
                 quest={quest}
                 questPhase={props.questPhase ?? 1}
@@ -152,7 +154,7 @@ export function QuestDescriptorMap(props: {
     if (quest !== undefined && quest !== null) {
         return (
             <QuestDescriptionNoApi
-                text={props.text ?? ""}
+                text={props.text}
                 region={props.region}
                 quest={quest}
                 questPhase={props.questPhase ?? 1}

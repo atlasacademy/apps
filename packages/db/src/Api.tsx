@@ -187,6 +187,10 @@ class Api {
         return apiConnector.questBasic(id, cacheDuration);
     }
 
+    static script(id: string): Promise<Script.Script> {
+        return apiConnector.script(id, cacheDuration);
+    }
+
     static ai(type: Ai.AiType, id: number): Promise<Ai.AiCollection> {
         return apiConnector.ai(type, id, cacheDuration);
     }
