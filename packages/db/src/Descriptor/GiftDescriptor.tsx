@@ -2,6 +2,7 @@ import { Event, Gift, Item, Region, Servant } from "@atlasacademy/api-connector"
 import { AssetHost } from "../Api";
 import { CommandCodeDescriptorId } from "./CommandCodeDescriptor";
 import CostumeDescriptor from "./CostumeDescriptor";
+import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { MysticCodeDescriptorId } from "./MysticCodeDescriptor";
 import PointBuffDescriptor from "./PointBuffDescriptor";
@@ -20,10 +21,9 @@ export default function GiftDescriptor(props: {
         case Gift.GiftType.SERVANT:
             return (
                 <>
-                    <ServantDescriptorId
+                    <EntityReferenceDescriptor
                         region={region}
-                        id={gift.objectId}
-                        servants={props.servants}
+                        svtId={gift.objectId}
                     />{" "}
                     x{gift.num}
                 </>
