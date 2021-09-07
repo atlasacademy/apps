@@ -310,7 +310,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                         return <tr key={craftEssence.id}>
                             <td className="col-center">
                                 <Link to={route}>
-                                    {craftEssence.collectionNo} (<span className="listing-svtId">{craftEssence.id}</span>)
+                                    {craftEssence.collectionNo} (<span className="listing-svtId" lang="en-US">{craftEssence.id}</span>)
                                 </Link>
                             </td>
                             <td className="col-center">

@@ -97,7 +97,7 @@ class App extends React.Component<any, IState> {
                     />
                 <br/>
 
-                <Container fluid="xl" id={'app'} key={`${this.state.language}`}>
+                <Container fluid="xl" id={'app'} key={`${this.state.language}`} lang={Manager.region() === Region.JP ? "ja-JP" : "en-US"}>
                     <Helmet>
                         {this.state.theme === Theme.DEFAULT ? null : (
                             <link key='theme' rel="stylesheet"

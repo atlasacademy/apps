@@ -1,0 +1,24 @@
+.newline {
+    white-space: pre-wrap;
+}
+
+span.e000 {
+    display: inline-block;
+    line-height: 1em;
+    position: relative;
+    vertical-align: -0.6em;
+}
+
+span.e000-bottom {
+    transform: scale(1, 0.5);
+    display: inline-block;
+    padding-top: 1em;
+}
+
+span.e000-top {
+    transform: scale(1, 0.75);
+    position: absolute;
+    display: block;
+    line-height: 1.6em;
+    top: 0;
+}

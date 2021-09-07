@@ -121,7 +121,7 @@ const ScriptMainData = ({
                         if (warScriptIndex > 0) {
                             setPreviousScript(warScriptIds[warScriptIndex - 1]);
                             foundPrevious = true;
-                        } else {
+                        } else if (warScriptIds.length > 0) {
                             setFirstScriptInWar(true);
                         }
                     }
@@ -130,7 +130,7 @@ const ScriptMainData = ({
                         if (warScriptIndex < warScriptIds.length - 1) {
                             setNextScript(warScriptIds[warScriptIndex + 1]);
                             foundNext = true;
-                        } else {
+                        } else if (warScriptIds.length > 0) {
                             setLastScriptInWar(true);
                         }
                     }

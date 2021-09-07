@@ -1,11 +1,15 @@
 import { Region } from "@atlasacademy/api-connector";
 import { mergeElements } from "../Helper/OutputHelper";
+import { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import {
     DialogueBasicComponent,
     DialogueChildComponent,
     ScriptComponentType,
 } from "./Script";
+
+import "../Helper/StringHelper.css";
+import "./ScriptDialogueLine.css";
 
 const DialogueBasic = (props: { component: DialogueBasicComponent }) => {
     const component = props.component;
@@ -30,9 +34,9 @@ const DialogueBasic = (props: { component: DialogueBasicComponent }) => {
             if (component.text !== undefined && component.ruby !== undefined) {
                 return (
                     <ruby>
-                        {component.text}
+                        {replacePUACodePoints(component.text)}
                         <rp>(</rp>
-                        <rt>{component.ruby}</rt>
+                        <rt>{replacePUACodePoints(component.ruby)}</rt>
                         <rp>)</rp>
                     </ruby>
                 );
@@ -45,53 +49,19 @@ const DialogueBasic = (props: { component: DialogueBasicComponent }) => {
                         fontStyle: "normal",
                     }}
                 >
-                    {component.text}
+                    {replacePUACodePoints(component.text)}
                 </em>
             );
         case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
-            return <>{component.trueName}</>;
+            return <>{replacePUACodePoints(component.trueName)}</>;
         case ScriptComponentType.DIALOGUE_TEXT:
-            let innerContent = <>{component.text}</>;
-            if (component.size !== undefined) {
-                switch (component.size) {
-                    case "small":
-                        innerContent = (
-                            <span
-                                style={{
-                                    position: "relative",
-                                    top: "-0.125em",
-                                    fontSize: "0.75em",
-                                }}
-                            >
-                                {component.text}
-                            </span>
-                        );
-                        break;
-                    case "medium":
-                        innerContent = (
-                            <span style={{ fontSize: "0.75em" }}>
-                                {component.text}
-                            </span>
-                        );
-                        break;
-                    case "large":
-                        innerContent = (
-                            <sub style={{ fontSize: "1.5em" }}>
-                                {component.text}
-                            </sub>
-                        );
-                        break;
-                    case "x-large":
-                        innerContent = (
-                            <span style={{ fontSize: "2em" }}>
-                                {component.text}
-                            </span>
-                        );
-                        break;
-                }
-            }
+            const replacedPUA = replacePUACodePoints(component.text);
+            const sizeClass =
+                component.size !== undefined
+                    ? `scriptDialogueText-${component.size}`
+                    : "";
             return (
-                <span style={{ whiteSpace: "pre-wrap" }}>{innerContent}</span>
+                <span className={`newLine ${sizeClass}`}>{replacedPUA}</span>
             );
         default:
             return null;

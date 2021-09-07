@@ -1,9 +1,11 @@
-import {Region} from "@atlasacademy/api-connector";
-import {ProfileComment} from "@atlasacademy/api-connector/dist/Schema/Profile";
+import { Region } from "@atlasacademy/api-connector";
+import { ProfileComment } from "@atlasacademy/api-connector/dist/Schema/Profile";
 import React from "react";
-import {Table} from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import ProfileConditionDescriptor from "../../Descriptor/ProfileConditionDescriptor";
-import {handleNewLine} from "../../Helper/OutputHelper";
+import { replacePUACodePoints } from "../../Helper/StringHelper";
+
+import "../../Helper/StringHelper.css";
 
 interface IProps {
     region: Region;
@@ -16,24 +18,29 @@ class ServantProfileComments extends React.Component<IProps> {
             <>
                 <h3>Profile</h3>
 
-                <Table>
+                <Table responsive>
                     <thead>
-                    <tr>
-                        <th>Condition</th>
-                        <th>Message</th>
-                    </tr>
+                        <tr>
+                            <th>Condition</th>
+                            <th>Message</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {this.props.comments.map((comment) => {
-                        return (
-                            <tr key={`${comment.id}-${comment.priority}`}>
-                                <td>
-                                    <ProfileConditionDescriptor region={this.props.region} comment={comment}/>
-                                </td>
-                                <td>{handleNewLine(comment.comment)}</td>
-                            </tr>
-                        )
-                    })}
+                        {this.props.comments.map((comment) => {
+                            return (
+                                <tr key={`${comment.id}-${comment.priority}`}>
+                                    <td>
+                                        <ProfileConditionDescriptor
+                                            region={this.props.region}
+                                            comment={comment}
+                                        />
+                                    </td>
+                                    <td className="newline">
+                                        {replacePUACodePoints(comment.comment)}
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </Table>
             </>

@@ -82,7 +82,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                     <Modal.Header closeButton>
                         <Modal.Title>Raw Data Viewer</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body lang="en-US">
                         {this.state.data ? (
                             <ReactJson
                                 style={{ wordBreak: "break-all" }}

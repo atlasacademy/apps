@@ -626,6 +626,7 @@ function parseDialogueLine(
                     break;
                 case "f":
                 case "fontSize":
+                case "font":
                     if (parameters[1] === "-") {
                         parserDialogueState.size = undefined;
                         parsed = true;

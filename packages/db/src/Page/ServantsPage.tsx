@@ -372,7 +372,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                         return <tr key={servant.id}>
                             <td className="col-center">
                                 <Link to={route}>
-                                    {servant.collectionNo} (<span className="listing-svtId">{servant.id}</span>)
+                                    {servant.collectionNo} (<span className="listing-svtId" lang="en-US">{servant.id}</span>)
                                 </Link>
                             </td>
                             <td className="col-center">
