@@ -1,21 +1,18 @@
 import { Event, Item, Region } from "@atlasacademy/api-connector";
 import { Table } from "react-bootstrap";
-import GiftDescriptor from "../../Descriptor/GiftDescriptor";
-import ItemDescriptor from "../../Descriptor/ItemDescriptor";
+import CommonConsumeDescriptor from "../../Descriptor/CommonConsumeDescriptor";
 import { MultipleGifts } from "../../Descriptor/MultipleDescriptors";
-import { sum } from "../../Helper/NumberHelper";
-import { mergeElements } from "../../Helper/OutputHelper";
 
 import "../ListingPage.css";
 
 const TreasureBoxGiftTable = ({
     region,
     treasureBoxGifts,
-    itemCache,
+    itemMap,
 }: {
     region: Region;
     treasureBoxGifts: Event.EventTreasureBoxGift[];
-    itemCache: Map<number, Item.Item>;
+    itemMap: Map<number, Item.Item>;
 }) => {
     return (
         <Table hover responsive className="listing-table">
@@ -23,7 +20,6 @@ const TreasureBoxGiftTable = ({
                 <tr>
                     <th className="col-center">#</th>
                     <th>Reward</th>
-                    <th className="col-center">Limit</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,11 +31,8 @@ const TreasureBoxGiftTable = ({
                                 <MultipleGifts
                                     region={region}
                                     gifts={boxGift.gifts}
-                                    itemMap={itemCache}
+                                    itemMap={itemMap}
                                 />
-                            </td>
-                            <td className="col-center">
-                                {boxGift.collateralUpperLimit}
                             </td>
                         </tr>
                     );
@@ -52,39 +45,41 @@ const TreasureBoxGiftTable = ({
 const TreasureBox = ({
     region,
     treasureBox,
-    itemCache,
+    itemMap,
 }: {
     region: Region;
     treasureBox: Event.EventTreasureBox;
-    itemCache: Map<number, Item.Item>;
+    itemMap: Map<number, Item.Item>;
 }) => {
     return (
         <>
-            <h4>
-                Treasure Box {treasureBox.id}-{treasureBox.idx}
-            </h4>
+            <h4>Treasure Box {treasureBox.idx}</h4>
             <ul>
-                <li>Maximum number of draws: {treasureBox.maxDrawNumOnce}</li>
                 <li>
-                    Draw Currency:{" "}
-                    <ItemDescriptor
+                    Maximum number of draws at once:{" "}
+                    {treasureBox.maxDrawNumOnce}
+                </li>
+                <li>
+                    Draw Cost:{" "}
+                    <CommonConsumeDescriptor
                         region={region}
-                        item={treasureBox.commonConsumeItem}
+                        commonConsume={treasureBox.commonConsume}
+                        itemMap={itemMap}
                     />
                 </li>
                 <li>
-                    Extra Gifts:{" "}
+                    Extra Gifts per box:{" "}
                     <MultipleGifts
                         region={region}
                         gifts={treasureBox.extraGifts}
-                        itemMap={itemCache}
+                        itemMap={itemMap}
                     />
                 </li>
             </ul>
             <TreasureBoxGiftTable
                 region={region}
                 treasureBoxGifts={treasureBox.treasureBoxGifts}
-                itemCache={itemCache}
+                itemMap={itemMap}
             />
         </>
     );
@@ -107,7 +102,7 @@ const TreasureBoxes = ({
                     key={`${treasureBox.id}-${treasureBox.idx}`}
                     region={region}
                     treasureBox={treasureBox}
-                    itemCache={itemCache}
+                    itemMap={itemCache}
                 />
             ))}
         </>

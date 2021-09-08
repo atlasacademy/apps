@@ -19,6 +19,7 @@ table.listing-table .col-center {
 
 .listing-page table > thead > tr > th,
 .listing-page table > tbody > tr > td,
+table.listing-table > thead > tr > th,
 table.listing-table > tbody > tr > td {
     vertical-align: middle;
 }

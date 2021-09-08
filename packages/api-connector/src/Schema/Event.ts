@@ -1,3 +1,4 @@
+import { CommonConsume } from "./CommonConsume";
 import { Gift } from "./Gift";
 import { Item, ItemBackgroundType } from "./Item";
 import { Mission } from "./Mission";
@@ -108,7 +109,7 @@ export interface EventTreasureBox {
     treasureBoxGifts: EventTreasureBoxGift[];
     maxDrawNumOnce: number;
     extraGifts: Gift[];
-    commonConsumeItem: Item;
+    commonConsume: CommonConsume;
 }
 
 export interface EventBasic {

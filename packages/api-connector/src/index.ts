@@ -10,6 +10,7 @@ import * as Bgm from "./Schema/Bgm";
 import * as Buff from "./Schema/Buff";
 import * as Change from "./Schema/Change";
 import * as CommandCode from "./Schema/CommandCode";
+import * as CommonConsume from "./Schema/CommonConsume";
 import * as CommonRelease from "./Schema/CommonRelease";
 import * as Constant from "./Schema/Constant";
 import * as CraftEssence from "./Schema/CraftEssence";
@@ -58,6 +59,7 @@ export {
     Bgm,
     Buff,
     CommandCode,
+    CommonConsume,
     CommonRelease,
     Constant,
     CraftEssence,

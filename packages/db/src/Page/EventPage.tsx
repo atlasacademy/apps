@@ -689,26 +689,6 @@ class EventPage extends React.Component<IProps, IState> {
                 })
         );
 
-        const shopSlots = Array.from(
-            new Set(event.shop.map((shop) => shop.slot))
-        );
-
-        tabs = tabs.concat(
-            shopSlots
-                .sort((a, b) => a - b)
-                .map((shopSlot) => {
-                    return {
-                        type: "shop",
-                        id: shopSlot,
-                        title:
-                            shopSlots.length === 1
-                                ? "Shop"
-                                : `Shop ${shopSlot}`,
-                        tabKey: `shop-${shopSlot}`,
-                    };
-                })
-        );
-
         const treasureBoxSlots = Array.from(
             new Set(event.treasureBoxes.map((tb) => tb.slot))
         );
@@ -725,6 +705,26 @@ class EventPage extends React.Component<IProps, IState> {
                                 ? "Treasure Box"
                                 : `Treasure Box ${slot}`,
                         tabKey: `treasure-box-${slot}`,
+                    };
+                })
+        );
+
+        const shopSlots = Array.from(
+            new Set(event.shop.map((shop) => shop.slot))
+        );
+
+        tabs = tabs.concat(
+            shopSlots
+                .sort((a, b) => a - b)
+                .map((shopSlot) => {
+                    return {
+                        type: "shop",
+                        id: shopSlot,
+                        title:
+                            shopSlots.length === 1
+                                ? "Shop"
+                                : `Shop ${shopSlot}`,
+                        tabKey: `shop-${shopSlot}`,
                     };
                 })
         );
