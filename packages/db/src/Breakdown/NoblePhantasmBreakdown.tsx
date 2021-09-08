@@ -22,9 +22,13 @@ interface IProps {
 }
 
 class NoblePhantasmBreakdown extends React.Component<IProps> {
-    private getOverwriteData(ascensionAddField: "overWriteTDName" | "overWriteTDRuby" | "overWriteTDFileName") {
+    private getOverwriteData(ascensionAddField: "overWriteTDName"
+                                                | "overWriteTDRuby"
+                                                | "overWriteTDFileName"
+                                                | "overWriteTDRank"
+                                                | "overWriteTDTypeText") {
         const overWriteTD = this.props.servant.ascensionAdd[ascensionAddField];
-        if (this.props.assetId) {
+        if (this.props.assetId !== undefined && overWriteTD !== undefined) {
             const limit = this.props.assetId === 1 ? 0 : this.props.assetId;
             if (limit in overWriteTD.ascension) {
                 return overWriteTD.ascension[limit];
@@ -39,6 +43,10 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                 return this.props.noblePhantasm.ruby;
             case "overWriteTDFileName":
                 return this.props.noblePhantasm.icon;
+            case "overWriteTDRank":
+                return this.props.noblePhantasm.rank;
+            case "overWriteTDTypeText":
+                return this.props.noblePhantasm.type;
         }
     }
 
@@ -53,7 +61,9 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
     }
 
     render() {
-        const np = this.props.noblePhantasm;
+        const np = this.props.noblePhantasm,
+            npRank = this.getOverwriteData("overWriteTDRank") ?? "",
+            npType = this.getOverwriteData("overWriteTDTypeText") ?? "";
         return (
             <div>
                 <Row>
@@ -94,8 +104,8 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                         <p className="newline">{np.detail}</p>
 
                         <p style={{ lineHeight: "2em" }}>
-                            {np.rank !== "" ? <span><b>Rank:</b> {np.rank}<br /></span> : null}
-                            {np.type !== "" ? <span><b>Type:</b> {np.type}<br /></span> : null}
+                            {npRank !== "" ? <span><b>Rank:</b> {npRank}<br /></span> : null}
+                            {npType !== "" ? <span><b>Type:</b> {npType}<br /></span> : null}
                             {this.props.hideCard ? <span><b>Card:</b> <CardType card={np.card} height={60}/><br/></span> : null}
                             <b>Hits:</b> {np.npDistribution.length} Hits
                             – {mergeElements(np.npDistribution.map(hit => asPercent(hit, 0)), ', ')}<br />

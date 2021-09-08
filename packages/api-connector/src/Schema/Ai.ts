@@ -155,6 +155,7 @@ export enum AiCond {
     COUNT_HIGHER_AI_171 = "countHigherAi171",
     COUNT_LOWER_AI_172 = "countLowerAi172",
     COUNT_EQUAL_AI_173 = "countEqualAi173",
+    CHECK_AI_174 = "checkAi174",
 }
 
 export enum AiTiming {

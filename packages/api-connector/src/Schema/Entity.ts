@@ -109,6 +109,8 @@ export interface ServantAscensionAdditions {
     overWriteTDName: ServantAscensionAdditionDetails<string>;
     overWriteTDRuby: ServantAscensionAdditionDetails<string>;
     overWriteTDFileName: ServantAscensionAdditionDetails<string>;
+    overWriteTDRank: ServantAscensionAdditionDetails<string>;
+    overWriteTDTypeText: ServantAscensionAdditionDetails<string>;
 }
 
 export interface AppendPassive {

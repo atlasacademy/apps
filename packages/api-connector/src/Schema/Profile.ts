@@ -1,4 +1,5 @@
 import CondType from "../Enum/Cond";
+import { PhaseScript } from "./Quest";
 
 export enum ProfileVoiceType {
     HOME = "home",
@@ -18,6 +19,7 @@ export enum ProfileVoiceType {
     GUIDE = "guide",
     EVENT_DAILY_POINT = "eventDailyPoint",
     TDDAMAGE = "tddamage",
+    TREASURE_BOX = "treasureBox",
     SUM = "sum",
 }
 
@@ -100,6 +102,7 @@ export interface Profile {
             priority?: number;
             svtVoiceType?: ProfileVoiceType;
             overwriteName: string;
+            summonScript?: PhaseScript;
             id: string[];
             audioAssets: string[];
             delay: number[];

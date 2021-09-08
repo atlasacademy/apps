@@ -6,7 +6,8 @@
     float: right;
 }
 
-.listing-page .col-center {
+.listing-page .col-center,
+table.listing-table .col-center {
     text-align: center;
     width: 1px;
 }
@@ -17,7 +18,8 @@
 }
 
 .listing-page table > thead > tr > th,
-.listing-page table > tbody > tr > td {
+.listing-page table > tbody > tr > td,
+table.listing-table > tbody > tr > td {
     vertical-align: middle;
 }
 

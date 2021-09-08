@@ -14,6 +14,7 @@ import {mergeElements} from "../../Helper/OutputHelper";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import mergeVoiceLine from "../../Descriptor/VoiceLineMerger";
 import VoiceActorDescriptor from "../../Descriptor/VoiceActorDescriptor";
+import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 
 import "../../Helper/StringHelper.css";
 
@@ -72,6 +73,16 @@ export default function ServantVoiceLines(
                                 {line.conds.length || line.playConds.length ? (
                                     <>
                                         <Alert variant="info" style={{marginBottom: 0, marginTop: '1em'}}>
+                                            {line.summonScript === undefined ? null : (
+                                                <>
+                                                    Summoning Script:{" "}
+                                                    <ScriptDescriptor
+                                                        region={props.region}
+                                                        scriptId={line.summonScript.scriptId}
+                                                        scriptType=""
+                                                    />
+                                                </>
+                                            )}
                                             {line.conds.length > 1 && (
                                                 <>
                                                     <b>Unlock Requirements (all of the following):</b>

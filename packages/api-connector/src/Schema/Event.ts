@@ -27,6 +27,7 @@ export enum EventType {
     LOCATION_CAMPAIGN = "locationCampaign",
     WAR_BOARD = "warBoard",
     COMBINE_COSUTUME_ITEM = "combineCosutumeItem",
+    TREASURE_BOX = "treasureBox",
 }
 
 export interface EventReward {
@@ -93,6 +94,23 @@ export interface EventLottery {
     boxes: EventLotteryBox[];
 }
 
+export interface EventTreasureBoxGift {
+    id: number;
+    idx: number;
+    gifts: Gift[];
+    probability: number;
+    collateralLowerLimit: number;
+    collateralUpperLimit: number;
+}
+
+export interface EventTreasureBox {
+    slot: number;
+    id: number;
+    idx: number;
+    treasureBoxGifts: EventTreasureBoxGift[];
+    maxDrawNumOnce: number;
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -128,4 +146,5 @@ export interface Event {
     missions: Mission[];
     towers: EventTower[];
     lotteries: EventLottery[];
+    treasureBoxes: EventTreasureBox[];
 }

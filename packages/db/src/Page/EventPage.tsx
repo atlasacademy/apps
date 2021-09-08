@@ -33,12 +33,13 @@ import { colorString, interpolateString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import { getEventStatus } from "../Helper/TimeHelper";
 import ShopTab from "./Event/Shop";
+import TreasureBoxes from "./Event/TreasureBoxes";
 
 import "./EventPage.css";
 import "../Helper/StringHelper.css";
 
 interface TabInfo {
-    type: "ladder" | "shop" | "mission" | "tower" | "lottery";
+    type: "ladder" | "shop" | "mission" | "tower" | "lottery" | "treasureBox";
     id: number;
     title: string | React.ReactNode;
     tabKey: string;
@@ -138,11 +139,14 @@ class EventPage extends React.Component<IProps, IState> {
                         ])
                     ),
                 });
-                if (event.towers.length > 0
-                    || event.rewards.length > 0
-                    || event.shop.length > 0
-                    || event.missions.length > 0
-                    || event.lotteries.length > 0) {
+                if (
+                    event.towers.length > 0 ||
+                    event.rewards.length > 0 ||
+                    event.shop.length > 0 ||
+                    event.missions.length > 0 ||
+                    event.lotteries.length > 0 ||
+                    event.treasureBoxes.length > 0
+                ) {
                     this.loadItemMap();
                 }
                 this.loadWars(event.warIds, event.missions.length > 0);
@@ -584,6 +588,17 @@ class EventPage extends React.Component<IProps, IState> {
                     (lottery) => lottery.id === tab.id
                 )[0];
                 return this.renderLotteryTab(region, lottery, itemMap);
+            case "treasureBox":
+                const treasureBoxes = event.treasureBoxes.filter(
+                    (tb) => tb.slot === tab.id
+                );
+                return (
+                    <TreasureBoxes
+                        region={region}
+                        treasureBoxes={treasureBoxes}
+                        itemCache={itemCache}
+                    />
+                );
         }
     }
 
@@ -690,6 +705,26 @@ class EventPage extends React.Component<IProps, IState> {
                                 ? "Shop"
                                 : `Shop ${shopSlot}`,
                         tabKey: `shop-${shopSlot}`,
+                    };
+                })
+        );
+
+        const treasureBoxSlots = Array.from(
+            new Set(event.treasureBoxes.map((tb) => tb.slot))
+        );
+
+        tabs = tabs.concat(
+            treasureBoxSlots
+                .sort((a, b) => a - b)
+                .map((slot) => {
+                    return {
+                        type: "treasureBox",
+                        id: slot,
+                        title:
+                            treasureBoxSlots.length === 1
+                                ? "Treasure Box"
+                                : `Treasure Box ${slot}`,
+                        tabKey: `treasure-box-${slot}`,
                     };
                 })
         );
