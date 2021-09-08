@@ -10,11 +10,12 @@ import {
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { handleNewLine } from "../Helper/OutputHelper";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
 import QuestSearchDescriptor from "./QuestSearchDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import { CollapsibleLight } from "../Component/CollapsibleContent";
+
+import "../Helper/StringHelper.css";
 
 export default function MissionConditionDescriptor(props: {
     region: Region;
@@ -44,7 +45,7 @@ export default function MissionConditionDescriptor(props: {
         <>
             <i>{progressType}:</i>
             <ul style={{ margin: 0 }}>
-                <li>{handleNewLine(props.cond.conditionMessage)}</li>
+                <li className="newline">{props.cond.conditionMessage}</li>
                 <li>
                     <CondTargetNumDescriptor
                         region={props.region}

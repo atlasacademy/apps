@@ -1,6 +1,8 @@
 import { Profile } from "@atlasacademy/api-connector";
 import { Table } from "react-bootstrap";
 
+import "../../Helper/StringHelper.css";
+
 const ServantCostumeDetails = (props: {
     costumes?: {
         [key: string]: Profile.CostumeDetail;
@@ -27,8 +29,8 @@ const ServantCostumeDetails = (props: {
                                 <th scope="row">
                                     {costume.costumeCollectionNo}
                                 </th>
-                                <td>{costume.name}</td>
-                                <td>{costume.detail}</td>
+                                <td className="newline">{costume.name}</td>
+                                <td className="newline">{costume.detail}</td>
                             </tr>
                         ))}
                     </tbody>

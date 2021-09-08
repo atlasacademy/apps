@@ -16,10 +16,11 @@ import Loading from "../Component/Loading";
 import TraitDescription from "../Descriptor/TraitDescription";
 import ItemUseDescription from "../Descriptor/ItemUseDescription";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
-import {handleNewLine, mergeElements} from "../Helper/OutputHelper";
+import {mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 
 import './ItemPage.css';
+import "../Helper/StringHelper.css";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -428,7 +429,7 @@ class ItemPage extends React.Component<IProps, IState> {
                 <DataTable data={{
                     "ID": item.id,
                     "Name": item.name,
-                    "Detail": handleNewLine(item.detail),
+                    "Detail": <span className="newline">{item.detail}</span>,
                     "Individuality": (
                         <div>
                             {mergeElements(

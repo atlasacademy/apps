@@ -18,9 +18,11 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
-import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
+import { mergeElements } from "../Helper/OutputHelper";
 import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
+
+import "../Helper/StringHelper.css";
 
 export const QuestTypeDescription = new Map([
     [Quest.QuestType.MAIN, "Main"],
@@ -252,21 +254,17 @@ class QuestPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
                 {quest.messages.length > 0 ? (
-                    <Alert variant="success">
+                    <Alert variant="success" className="newline">
                         {quest.messages.length > 1 ? (
                             <ul style={{ marginBottom: 0 }}>
                                 {quest.messages.map((message) => (
                                     <li key={message.idx}>
-                                        {handleNewLine(
-                                            colorString(message.message)
-                                        )}
+                                        {colorString(message.message)}
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            handleNewLine(
-                                colorString(quest.messages[0].message)
-                            )
+                            colorString(quest.messages[0].message)
                         )}
                     </Alert>
                 ) : null}

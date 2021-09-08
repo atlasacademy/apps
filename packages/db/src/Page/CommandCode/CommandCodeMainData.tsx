@@ -4,8 +4,9 @@ import React from "react";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
-import { handleNewLine } from "../../Helper/OutputHelper";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
+
+import "../../Helper/StringHelper.css";
 
 interface IProps {
     region: Region;
@@ -34,7 +35,7 @@ class CommandCodeMainData extends React.Component<IProps> {
                             hideTypeText={true}
                         />
                     ),
-                    "Comment": handleNewLine(commandCode.comment),
+                    "Comment": <span className="newline">{commandCode.comment}</span>,
                 }}/>
                 <span>
                     <RawDataViewer text="Nice" data={commandCode}/>

@@ -18,8 +18,10 @@ import RawDataViewer from "../Component/RawDataViewer";
 import Manager from "../Setting/Manager";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
-import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
+import { mergeElements } from "../Helper/OutputHelper";
 import { getEventStatus, getTimeString } from "../Helper/TimeHelper";
+
+import "../Helper/StringHelper.css";
 
 const MasterMissionCond = (props: {
     region: Region;
@@ -163,7 +165,7 @@ const MasterMissionPage = (props: {
                                 {mission.dispNo}
                             </th>
                             <td>
-                                <b>{handleNewLine(mission.name)}</b>
+                                <b className="newline">{mission.name}</b>
                                 <br />
                                 <MasterMissionCond
                                     region={region}

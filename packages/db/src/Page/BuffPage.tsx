@@ -14,6 +14,8 @@ import TraitDescription from "../Descriptor/TraitDescription";
 import {mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 
+import "../Helper/StringHelper.css";
+
 interface IProps {
     region: Region;
     id: number;
@@ -72,7 +74,7 @@ class BuffPage extends React.Component<IProps, IState> {
                 <DataTable data={{
                     "ID": buff.id,
                     "Name": buff.name,
-                    "Detail": buff.detail,
+                    "Detail": <span className="newline">{buff.detail}</span>,
                     "Type": <Link to={`/${this.props.region}/buffs?type=${buff.type}`}>{buff.type}</Link>,
                     "Buff Group": buff.buffGroup,
                     "Buff Traits": (

@@ -10,12 +10,12 @@ import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
 import VoicePlayCondDescriptor from "../../Descriptor/VoicePlayCondDescriptor";
 import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
 import EntityDescriptor from "../../Descriptor/EntityDescriptor";
-import {handleNewLine, mergeElements} from "../../Helper/OutputHelper";
+import {mergeElements} from "../../Helper/OutputHelper";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import mergeVoiceLine from "../../Descriptor/VoiceLineMerger";
 import VoiceActorDescriptor from "../../Descriptor/VoiceActorDescriptor";
 
-let formatSubtitle = (subtitle: string) => handleNewLine(subtitle.replace(/ *\[[^\]]*]/g, ' ').trim());
+import "../../Helper/StringHelper.css";
 
 export default function ServantVoiceLines(
     props: {
@@ -61,16 +61,17 @@ export default function ServantVoiceLines(
                     {voiceLines.map((line, index) => (
                         <tr key={`line_${index}`}>
                             <td style={{verticalAlign: 'middle'}}>
-                                <b>{voiceLineNames[index]}</b>
+                                <b className="newline">{voiceLineNames[index]}</b>
                                 <br/>
-                                {formatSubtitle(
-                                    (props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET) ?
-                                        line.text.join() : line.subtitle
-                                )}
+                                <div className="newline">
+                                    {(props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET
+                                        ? line.text.join('')
+                                        : line.subtitle
+                                    ).replace(/\[[^\]]]/g, '').trim()}
+                                </div>
                                 {line.conds.length || line.playConds.length ? (
                                     <>
-                                        <br/>{line.text.join('') || line.subtitle ? <>&nbsp;</> : ''}
-                                        <Alert variant="info" style={{marginBottom: 0}}>
+                                        <Alert variant="info" style={{marginBottom: 0, marginTop: '1em'}}>
                                             {line.conds.length > 1 && (
                                                 <>
                                                     <b>Unlock Requirements (all of the following):</b>

@@ -17,8 +17,10 @@ import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 import getRubyText from "../Helper/StringHelper";
 import CommandCodeDescriptor from "../Descriptor/CommandCodeDescriptor";
-import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
+import { mergeElements } from "../Helper/OutputHelper";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
+
+import "../Helper/StringHelper.css";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {
 
@@ -116,9 +118,9 @@ class SkillPage extends React.Component<IProps, IState> {
 
                 <DataTable data={{
                     "ID": skill.id,
-                    "Name": skill.name,
+                    "Name": <span className="newline">{skill.name}</span>,
                     "Ruby": skill.ruby,
-                    "Detail": handleNewLine(skill.detail),
+                    "Detail": <span className="newline">{skill.detail}</span>,
                     "Skill Add": skillAdd,
                     "Type": toTitleCase(skill.type),
                     "Related AIs": AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),

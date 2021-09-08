@@ -8,8 +8,10 @@ import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import getRubyText from "../Helper/StringHelper";
 import EffectBreakdown from "./EffectBreakdown";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
-import { handleNewLine, Renderable } from "../Helper/OutputHelper";
+import { Renderable } from "../Helper/OutputHelper";
 import EventDescriptor from "../Descriptor/EventDescriptor";
+
+import "../Helper/StringHelper.css";
 
 interface IProps {
     region: Region;
@@ -75,7 +77,7 @@ class SkillBreakdown extends React.Component<IProps> {
                     </Alert>
                 ) : null}
 
-                <p>{handleNewLine(skill.detail)}</p>
+                <p className="newline">{skill.detail}</p>
 
                 {this.props.extraPassiveCond &&
                 skill.extraPassive.length > 0 ? (

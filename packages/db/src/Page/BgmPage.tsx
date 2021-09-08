@@ -16,6 +16,8 @@ import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import QuestSearchDescriptor from "../Descriptor/QuestSearchDescriptor";
 
+import "../Helper/StringHelper.css";
+
 const BgmPage = (props: { region: Region; bgmId: number }) => {
     const { region, bgmId } = props;
     const [loading, setLoading] = useState<boolean>(true);
@@ -83,12 +85,12 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                     style={{ height: "1.5em" }}
                     alt="BGM Logo"
                 />
-                {showName}
+                <span className="newline">{showName}</span>
             </h1>
             <DataTable
                 data={{
                     ID: bgm.id,
-                    Name: showName,
+                    Name: <span className="newline">{showName}</span>,
                     "Available to Buy": toTitleCase(
                         (!bgm.notReleased).toString()
                     ),

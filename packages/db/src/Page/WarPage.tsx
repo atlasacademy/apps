@@ -17,10 +17,12 @@ import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import EventDescriptor from "../Descriptor/EventDescriptor";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
-import { handleNewLine, mergeElements } from "../Helper/OutputHelper";
+import { mergeElements } from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
 import { removeSuffix } from "../Helper/StringHelper";
+
+import "../Helper/StringHelper.css";
 
 const BannerImage = (props: { src?: string; index: number }) => {
     const [src, setSrc] = useState(props.src);
@@ -439,14 +441,14 @@ class WarPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1 style={{ marginBottom: "1em" }}>
-                    {handleNewLine(war.longName)}
+                <h1 style={{ marginBottom: "1em" }} className="newline">
+                    {war.longName}
                 </h1>
                 <div style={{ marginBottom: "3%" }}>
                     <DataTable
                         data={{
                             ID: war.id,
-                            Name: handleNewLine(war.longName),
+                            Name: <span className="newline">{war.longName}</span>,
                             Age: war.age,
                             Event: event,
                             "Opening Script": openingScript,

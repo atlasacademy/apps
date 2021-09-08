@@ -5,13 +5,13 @@ import { faEdit, faFilter } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ItemIcon from "../../Component/ItemIcon";
 import ShopPurchaseDescriptor from "../../Descriptor/ShopPurchaseDescriptor";
-import { handleNewLine } from "../../Helper/OutputHelper";
 import { colorString } from "../../Helper/StringHelper";
 import Manager from "../../Setting/Manager";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import { Item, Region, Shop } from "@atlasacademy/api-connector";
 import { gemIds, magicGemIds, secretGemIds, monumentIds, pieceIds } from '../../Descriptor/MultipleDescriptors'
 import "./Shop.css";
+import "../../Helper/StringHelper.css";
 
 const ScriptLink = (props: { region: Region; shop: Shop.Shop }) => {
     const { region, shop } = props;
@@ -216,10 +216,8 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange } : IProps) => {
                                 <tr key={shop.id}>
                                     <td style={{ minWidth: "10em" }}>
                                         <b>{shop.name}</b>
-                                        <div style={{ fontSize: "0.75rem" }}>
-                                            {handleNewLine(
-                                                colorString(shop.detail)
-                                            )}
+                                        <div style={{ fontSize: "0.75rem" }} className="newline">
+                                            {colorString(shop.detail)}
                                             <ScriptLink
                                                 region={region}
                                                 shop={shop}

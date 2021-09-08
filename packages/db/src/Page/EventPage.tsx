@@ -1,3 +1,14 @@
+import {
+    Event,
+    Item,
+    Region,
+    Mission,
+    Quest,
+    Servant,
+    EnumList,
+    War,
+    Gift,
+} from "@atlasacademy/api-connector";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -20,20 +31,11 @@ import WarDescriptor from "../Descriptor/WarDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import { colorString, interpolateString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
-import "./EventPage.css";
-import {
-    Event,
-    Item,
-    Region,
-    Mission,
-    Quest,
-    Servant,
-    EnumList,
-    War,
-    Gift,
-} from "@atlasacademy/api-connector";
 import { getEventStatus } from "../Helper/TimeHelper";
 import ShopTab from "./Event/Shop";
+
+import "./EventPage.css";
+import "../Helper/StringHelper.css";
 
 interface TabInfo {
     type: "ladder" | "shop" | "mission" | "tower" | "lottery";
@@ -218,7 +220,7 @@ class EventPage extends React.Component<IProps, IState> {
                     {mission.dispNo}
                 </th>
                 <td>
-                    <b>{mission.name}</b>
+                    <b className="newline">{mission.name}</b>
                     <br />
                     {this.renderMissionConds(
                         region,

@@ -3,7 +3,8 @@ import {Host} from "../../Api";
 import React from "react";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
-import { handleNewLine } from "../../Helper/OutputHelper";
+
+import "../../Helper/StringHelper.css";
 
 interface IProps {
     region: Region;
@@ -23,7 +24,7 @@ class MysticCodeMainData extends React.Component<IProps> {
                 <DataTable data={{
                     "ID": mysticCode.id,
                     "Name": mysticCode.name,
-                    "Detail": handleNewLine(mysticCode.detail),
+                    "Detail": <span className="newline">{mysticCode.detail}</span>,
                 }}/>
                 <span>
                     <RawDataViewer text="Nice" data={mysticCode}/>

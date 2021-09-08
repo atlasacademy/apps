@@ -6,8 +6,10 @@ import CommandCard from "../Component/CommandCard";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
-import {asPercent, handleNewLine, mergeElements} from "../Helper/OutputHelper";
+import {asPercent, mergeElements} from "../Helper/OutputHelper";
 import EffectBreakdown from "./EffectBreakdown";
+
+import "../Helper/StringHelper.css";
 
 interface IProps {
     region: Region;
@@ -89,7 +91,7 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                             </Alert>
                         ) : null}
 
-                        <p>{handleNewLine(np.detail)}</p>
+                        <p className="newline">{np.detail}</p>
 
                         <p style={{ lineHeight: "2em" }}>
                             {np.rank !== "" ? <span><b>Rank:</b> {np.rank}<br /></span> : null}
