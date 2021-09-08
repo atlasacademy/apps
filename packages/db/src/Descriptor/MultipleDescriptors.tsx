@@ -1,5 +1,6 @@
 import {
     ClassName,
+    Gift,
     Item,
     Quest,
     Region,
@@ -13,6 +14,7 @@ import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 import TraitDescription from "./TraitDescription";
 import { CollapsibleLight } from "../Component/CollapsibleContent";
+import GiftDescriptor from "./GiftDescriptor";
 
 export const missionRange = (missions: number[]) => {
     const max = Math.max(...missions);
@@ -104,7 +106,7 @@ export const MultipleQuests = (props: {
                 <CollapsibleLight
                     title={`These ${numQuest} quests`}
                     content={questList}
-                    eventKey={props.questIds.map(q => q.toString()).join("-")}
+                    eventKey={props.questIds.map((q) => q.toString()).join("-")}
                     defaultActiveKey={""}
                 />
             );
@@ -406,6 +408,32 @@ export const MultipleEquipRarityLevel = (props: {
         <>
             <MergeElementsOr elements={classLimits} lastJoinWord="or" /> CE
             {pluralSuffix}
+        </>
+    );
+};
+
+export const MultipleGifts = ({
+    region,
+    gifts,
+    itemMap,
+}: {
+    region: Region;
+    gifts: Gift.Gift[];
+    itemMap: Map<number, Item.Item>;
+}) => {
+    return (
+        <>
+            {mergeElements(
+                gifts.map((gift) => (
+                    <GiftDescriptor
+                        key={`${gift.objectId}-${gift.priority}`}
+                        region={region}
+                        gift={gift}
+                        items={itemMap}
+                    />
+                )),
+                ", "
+            )}
         </>
     );
 };

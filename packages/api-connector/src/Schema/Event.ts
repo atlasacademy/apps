@@ -98,8 +98,6 @@ export interface EventTreasureBoxGift {
     id: number;
     idx: number;
     gifts: Gift[];
-    probability: number;
-    collateralLowerLimit: number;
     collateralUpperLimit: number;
 }
 
@@ -109,6 +107,8 @@ export interface EventTreasureBox {
     idx: number;
     treasureBoxGifts: EventTreasureBoxGift[];
     maxDrawNumOnce: number;
+    extraGifts: Gift[];
+    commonConsumeItem: Item;
 }
 
 export interface EventBasic {

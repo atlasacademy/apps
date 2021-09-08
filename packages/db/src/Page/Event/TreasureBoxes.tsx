@@ -1,6 +1,8 @@
 import { Event, Item, Region } from "@atlasacademy/api-connector";
 import { Table } from "react-bootstrap";
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
+import ItemDescriptor from "../../Descriptor/ItemDescriptor";
+import { MultipleGifts } from "../../Descriptor/MultipleDescriptors";
 import { sum } from "../../Helper/NumberHelper";
 import { mergeElements } from "../../Helper/OutputHelper";
 
@@ -9,12 +11,10 @@ import "../ListingPage.css";
 const TreasureBoxGiftTable = ({
     region,
     treasureBoxGifts,
-    totalProbability,
     itemCache,
 }: {
     region: Region;
     treasureBoxGifts: Event.EventTreasureBoxGift[];
-    totalProbability: number;
     itemCache: Map<number, Item.Item>;
 }) => {
     return (
@@ -23,36 +23,20 @@ const TreasureBoxGiftTable = ({
                 <tr>
                     <th className="col-center">#</th>
                     <th>Reward</th>
-                    <th className="col-center">Chance</th>
-                    <th className="col-center">Collateral Lower Limit</th>
-                    <th className="col-center">Collateral Upper Limit</th>
+                    <th className="col-center">Limit</th>
                 </tr>
             </thead>
             <tbody>
                 {treasureBoxGifts.map((boxGift) => {
-                    const chance =
-                        (boxGift.probability / totalProbability) * 100;
                     return (
                         <tr key={`${boxGift.id}-${boxGift.idx}`}>
                             <td className="col-center">{boxGift.idx}</td>
                             <td>
-                                {mergeElements(
-                                    boxGift.gifts.map((gift) => (
-                                        <GiftDescriptor
-                                            key={`${gift.objectId}-${gift.priority}`}
-                                            region={region}
-                                            gift={gift}
-                                            items={itemCache}
-                                        />
-                                    )),
-                                    ", "
-                                )}
-                            </td>
-                            <td className="col-center">
-                                {`${chance.toFixed(2)}%`}
-                            </td>
-                            <td className="col-center">
-                                {boxGift.collateralLowerLimit}
+                                <MultipleGifts
+                                    region={region}
+                                    gifts={boxGift.gifts}
+                                    itemMap={itemCache}
+                                />
                             </td>
                             <td className="col-center">
                                 {boxGift.collateralUpperLimit}
@@ -74,19 +58,32 @@ const TreasureBox = ({
     treasureBox: Event.EventTreasureBox;
     itemCache: Map<number, Item.Item>;
 }) => {
-    const totalProbability = sum(
-        treasureBox.treasureBoxGifts.map((gift) => gift.probability)
-    );
     return (
         <>
             <h4>
                 Treasure Box {treasureBox.id}-{treasureBox.idx}
             </h4>
-            Maximum number of draws per roll: {treasureBox.maxDrawNumOnce}
+            <ul>
+                <li>Maximum number of draws: {treasureBox.maxDrawNumOnce}</li>
+                <li>
+                    Draw Currency:{" "}
+                    <ItemDescriptor
+                        region={region}
+                        item={treasureBox.commonConsumeItem}
+                    />
+                </li>
+                <li>
+                    Extra Gifts:{" "}
+                    <MultipleGifts
+                        region={region}
+                        gifts={treasureBox.extraGifts}
+                        itemMap={itemCache}
+                    />
+                </li>
+            </ul>
             <TreasureBoxGiftTable
                 region={region}
                 treasureBoxGifts={treasureBox.treasureBoxGifts}
-                totalProbability={totalProbability}
                 itemCache={itemCache}
             />
         </>
@@ -104,6 +101,7 @@ const TreasureBoxes = ({
 }) => {
     return (
         <>
+            <br />
             {treasureBoxes.map((treasureBox) => (
                 <TreasureBox
                     key={`${treasureBox.id}-${treasureBox.idx}`}
