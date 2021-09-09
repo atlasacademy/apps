@@ -704,6 +704,18 @@ function getBgmObject(fileName: string, audioUrl: string): ScriptSound {
     };
 }
 
+function getVoiceLocation(scriptVoice: string): {
+    folder: string;
+    fileName: string;
+} {
+    const splitted = scriptVoice.split("_"),
+        voiceLine = splitted[splitted.length - 1],
+        fileName = splitted.slice(1).join("_"),
+        folderName = voiceLine.startsWith("B") ? "Servants" : "ChrVoice",
+        folder = `${folderName}_${splitted[0]}`;
+    return { folder, fileName };
+}
+
 function parseBracketComponent(
     region: Region,
     parameters: string[],
@@ -922,9 +934,7 @@ function parseBracketComponent(
                 fadeoutTime: parseFloat(parameters[2]),
             };
         case "voice":
-            const splitted = parameters[1].split("_"),
-                folder = `Servants_${splitted[0]}`,
-                fileName = splitted.slice(1).join("_"),
+            const { folder, fileName } = getVoiceLocation(parameters[1]),
                 audioUrl = `${AssetHost}/${region}/Audio/${folder}/${fileName}.mp3`;
             return {
                 type: ScriptComponentType.VOICE,
@@ -1002,6 +1012,26 @@ export function parseScript(region: Region, script: string): ScriptInfo {
     const lineEnding = script.includes("\r\n") ? "\r\n" : "\n";
 
     for (const line of script.split(lineEnding)) {
+        if (line.includes("wait voiceCancel")) {
+            const dialogueChildComponents = parseDialogueLine(
+                region,
+                line,
+                parserState
+            );
+            const dialogueComponent = {
+                type: ScriptComponentType.DIALOGUE,
+                speaker: undefined,
+                lines: [line],
+                components: [dialogueChildComponents],
+                voice: undefined,
+            } as ScriptDialogue;
+            for (const component of dialogueChildComponents) {
+                if (component.type === ScriptComponentType.VOICE) {
+                    dialogueComponent.voice = component.voice;
+                }
+            }
+            components.push(dialogueComponent);
+        }
         switch (line[0]) {
             case "＄":
                 // First line script info: ＄01-00-08-19-2-2

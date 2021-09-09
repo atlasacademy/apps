@@ -15,6 +15,7 @@ import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import mergeVoiceLine from "../../Descriptor/VoiceLineMerger";
 import VoiceActorDescriptor from "../../Descriptor/VoiceActorDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
+import { removeSuffix, replacePUACodePoints } from "../../Helper/StringHelper";
 
 import "../../Helper/StringHelper.css";
 
@@ -65,12 +66,12 @@ export default function ServantVoiceLines(
                                 <b className="newline">{voiceLineNames[index]}</b>
                                 <br/>
                                 <div className="newline">
-                                    {(props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET
-                                        ? line.text.join('')
+                                    {replacePUACodePoints((props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET
+                                        ? line.text.map(line => removeSuffix(line, '[')).join('')
                                         : line.subtitle
-                                    ).replace(/\[[^\]]]/g, '').trim()}
+                                    ).replace(/\[[^\]]]/g, '').trim())}
                                 </div>
-                                {line.conds.length || line.playConds.length ? (
+                                {line.conds.length || line.playConds.length || line.summonScript ? (
                                     <>
                                         <Alert variant="info" style={{marginBottom: 0, marginTop: '1em'}}>
                                             {line.summonScript === undefined ? null : (

@@ -11,11 +11,18 @@ import {
 import "../Helper/StringHelper.css";
 import "./ScriptDialogueLine.css";
 
-const DialogueBasic = (props: { component: DialogueBasicComponent }) => {
+const DialogueBasic = (props: {
+    component: DialogueBasicComponent;
+    index?: number;
+}) => {
     const component = props.component;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_NEW_LINE:
-            return <br />;
+            if (props.index !== 0) {
+                return <br />;
+            } else {
+                return null;
+            }
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
             return <>{Manager.region() === Region.JP ? "ぐだ子" : "Gudako"}</>;
         case ScriptComponentType.DIALOGUE_LINE:
@@ -68,8 +75,11 @@ const DialogueBasic = (props: { component: DialogueBasicComponent }) => {
     }
 };
 
-const DialogueChild = (props: { component: DialogueChildComponent }) => {
-    const component = props.component;
+const DialogueChild = (props: {
+    component: DialogueChildComponent;
+    index?: number;
+}) => {
+    const { component, index } = props;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
             const femaleComponents = component.female.map((component) => (
@@ -81,7 +91,7 @@ const DialogueChild = (props: { component: DialogueChildComponent }) => {
         case ScriptComponentType.DIALOGUE_LINE:
         case ScriptComponentType.DIALOGUE_RUBY:
         case ScriptComponentType.DIALOGUE_TEXT:
-            return <DialogueBasic component={component} />;
+            return <DialogueBasic component={component} index={index} />;
         default:
             return null;
     }
@@ -90,8 +100,8 @@ const DialogueChild = (props: { component: DialogueChildComponent }) => {
 const ScriptDialogueLine = (props: {
     components: DialogueChildComponent[];
 }) => {
-    const childDialogue = props.components.map((component) => (
-        <DialogueChild component={component} />
+    const childDialogue = props.components.map((component, i) => (
+        <DialogueChild component={component} index={i} />
     ));
     return <>{mergeElements(childDialogue, "")}</>;
 };
