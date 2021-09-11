@@ -15,7 +15,7 @@ import {BasicMysticCodeDescriptor} from "../Descriptor/MysticCodeDescriptor";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import Manager from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
-import getRubyText from "../Helper/StringHelper";
+import getRubyText, { replacePUACodePoints } from "../Helper/StringHelper";
 import CommandCodeDescriptor from "../Descriptor/CommandCodeDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
@@ -118,7 +118,7 @@ class SkillPage extends React.Component<IProps, IState> {
 
                 <DataTable data={{
                     "ID": skill.id,
-                    "Name": <span className="newline">{skill.name}</span>,
+                    "Name": <span className="newline">{replacePUACodePoints(skill.name)}</span>,
                     "Ruby": skill.ruby,
                     "Detail": <span className="newline">{skill.detail}</span>,
                     "Skill Add": skillAdd,

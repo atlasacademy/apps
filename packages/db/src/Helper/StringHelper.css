@@ -6,13 +6,13 @@ span.e000 {
     display: inline-block;
     line-height: 1em;
     position: relative;
-    vertical-align: -0.6em;
+    vertical-align: -0.55em;
 }
 
 span.e000-bottom {
-    transform: scale(1, 0.5);
+    transform: scale(1, 0.4);
     display: inline-block;
-    padding-top: 1em;
+    padding-top: 0.98em;
 }
 
 span.e000-top {

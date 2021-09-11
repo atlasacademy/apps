@@ -29,7 +29,7 @@ import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor
 import PointBuffDescriptor from "../Descriptor/PointBuffDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
-import { colorString, interpolateString } from "../Helper/StringHelper";
+import { colorString, interpolateString, replacePUACodePoints } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import { getEventStatus } from "../Helper/TimeHelper";
 import ShopTab from "./Event/Shop";
@@ -738,14 +738,14 @@ class EventPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1>{event.name}</h1>
+                <h1>{replacePUACodePoints(event.name)}</h1>
 
                 <br />
                 <div style={{ marginBottom: "3%" }}>
                     <DataTable
                         data={{
                             ID: event.id,
-                            Name: event.name,
+                            Name: replacePUACodePoints(event.name),
                             Wars: wars,
                             Status: getEventStatus(
                                 event.startedAt,

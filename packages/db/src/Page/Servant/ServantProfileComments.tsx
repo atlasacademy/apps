@@ -6,6 +6,7 @@ import ProfileConditionDescriptor from "../../Descriptor/ProfileConditionDescrip
 import { replacePUACodePoints } from "../../Helper/StringHelper";
 
 import "../../Helper/StringHelper.css";
+import "./ServantProfileComments.css";
 
 interface IProps {
     region: Region;
@@ -18,7 +19,7 @@ class ServantProfileComments extends React.Component<IProps> {
             <>
                 <h3>Profile</h3>
 
-                <Table responsive>
+                <Table responsive className="servant-comments">
                     <thead>
                         <tr>
                             <th>Condition</th>
@@ -29,7 +30,7 @@ class ServantProfileComments extends React.Component<IProps> {
                         {this.props.comments.map((comment) => {
                             return (
                                 <tr key={`${comment.id}-${comment.priority}`}>
-                                    <td>
+                                    <td className="profile-condition">
                                         <ProfileConditionDescriptor
                                             region={this.props.region}
                                             comment={comment}

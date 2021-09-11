@@ -87,7 +87,12 @@ const ChoiceComponentsTable = (props: {
     );
 };
 
-const getSceneScale = (windowWidth: number, windowHeight: number) => {
+const getSceneScale = (windowWidth: number, windowHeight: number, wideScreen: boolean) => {
+    if (wideScreen){
+        if (windowWidth < 768) {
+            return 4;
+        }
+    }
     if (windowWidth < 768) {
         return 3;
     }
@@ -103,7 +108,7 @@ const SceneRow = (props: {
             ? {height: 576, width: 1344}
             : {height: 576, width: 1024},
         { windowWidth, windowHeight } = useWindowDimensions(),
-        sceneScale = getSceneScale(windowWidth, windowHeight),
+        sceneScale = getSceneScale(windowWidth, windowHeight, props.wideScreen),
         height = (props.wideScreen ? 576 : 576) / sceneScale,
         width = (props.wideScreen ? 1344 : 1024) / sceneScale,
         background = props.background ? {asset: props.background.backgroundAsset} : undefined,

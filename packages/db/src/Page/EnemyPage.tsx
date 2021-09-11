@@ -15,6 +15,7 @@ import EnemyMainData from "./Enemy/EnemyMainData";
 import EnemySubData from "./Enemy/EnemySubData";
 import ServantProfileStat from "./Servant/ServantProfileStats";
 import ServantStatGrowth from "./Servant/ServantStatGrowth";
+import ServantAssets from "./Servant/ServantAssets";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -85,6 +86,20 @@ class EnemyPage extends React.Component<IProps, IState> {
                       onSelect={(key: string | null) => {
                           this.props.history.replace(`/${this.props.region}/enemy/${this.props.id}/${key}`);
                       }}>
+                    {enemy.skills.length > 0 ? (
+                        <Tab eventKey={'skills'} title={'Skills'}>
+                            <br/>
+                            {enemy
+                                .skills
+                                .map((skill) => {
+                                    return <SkillBreakdown region={this.props.region}
+                                                            key={skill.id}
+                                                            skill={skill}
+                                                            cooldowns={true}
+                                                            levels={10}/>;
+                                })}
+                        </Tab>
+                    ) : null}
                     <Tab eventKey={'noble-phantasms'} title={'Noble Phantasms'}>
                         <br/>
                         {enemy.noblePhantasms
@@ -96,20 +111,6 @@ class EnemyPage extends React.Component<IProps, IState> {
                                                                hideCard={true}/>;
                             })}
                     </Tab>
-                    {enemy.skills.length > 0 ? (
-                        <Tab eventKey={'skills'} title={'Skills'}>
-                            <br/>
-                            {enemy
-                                .skills
-                                .map((skill) => {
-                                    return <SkillBreakdown region={this.props.region}
-                                                           key={skill.id}
-                                                           skill={skill}
-                                                           cooldowns={true}
-                                                           levels={10}/>;
-                                })}
-                        </Tab>
-                    ) : null}
                     {enemy.classPassive.length > 0 ? (
                         <Tab eventKey={'passives'} title={'Passives'}>
                             <br/>
@@ -133,6 +134,10 @@ class EnemyPage extends React.Component<IProps, IState> {
                     <Tab eventKey={'profile'} title={'Profile'}>
                         <br/>
                         <ServantProfileStat region={this.props.region} profile={(enemy as unknown as Servant.Servant).profile}/>
+                    </Tab>
+                    <Tab eventKey={'assets'} title={'Assets'}>
+                        <br/>
+                        <ServantAssets region={this.props.region} servant={enemy as unknown as Servant.Servant}/>
                     </Tab>
                 </Tabs>
             </div>

@@ -1,6 +1,6 @@
 # Atlas Academy DB
 
-![Docker](https://github.com/atlasacademy/apps/workflows/Docker/badge.svg) ![Cloudflare Worker Publish](https://github.com/atlasacademy/apps/workflows/Cloudflare%20Worker%20Publish/badge.svg)
+![Cloudflare Worker Publish](https://github.com/atlasacademy/apps/workflows/Cloudflare%20Worker%20Publish/badge.svg)
 
 Source code for the Atlas Academy DB at https://apps.atlasacademy.io/db
 

@@ -20,13 +20,19 @@ export function makeRubyText(text: string, ruby: string, splitRank = false): Ren
     } else if (splitRank && rank.length > 0 && ["A", "B", "C", "D", "E"].includes(rank[0].toUpperCase())) {
         return (
             <ruby>
-                {skillName}<rp>(</rp><rt>{ruby}</rt><rp>)</rp>&nbsp;{rank}
+                {replacePUACodePoints(skillName)}
+                <rp>(</rp>
+                <rt>{replacePUACodePoints(ruby)}</rt>
+                <rp>)</rp>&nbsp;{rank}
             </ruby>
         )
     } else {
         return (
             <ruby>
-                {text}<rp>(</rp><rt>{ruby}</rt><rp>)</rp>
+                {replacePUACodePoints(text)}
+                <rp>(</rp>
+                <rt>{replacePUACodePoints(ruby)}</rt>
+                <rp>)</rp>
             </ruby>
         )
     }

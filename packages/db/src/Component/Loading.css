@@ -18,14 +18,17 @@
 
 #loading .fou.f2 {
     visibility: hidden;
+    animation-delay: 0.25s;
     -webkit-animation-delay: 0.25s;
 }
 #loading .fou.f3 {
     visibility: hidden;
+    animation-delay: 0.25s;
     -webkit-animation-delay: 0.50s;
 }
 #loading .fou.f4 {
     visibility: hidden;
+    animation-delay: 0.25s;
     -webkit-animation-delay: 0.75s;
 }
 
