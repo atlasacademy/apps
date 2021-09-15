@@ -9,7 +9,6 @@ import { Col, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
-import "../Descriptor/Descriptor.css";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";

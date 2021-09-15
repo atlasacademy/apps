@@ -1,4 +1,5 @@
 import { Region } from "@atlasacademy/api-connector";
+
 import { mergeElements } from "../Helper/OutputHelper";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
@@ -68,7 +69,7 @@ const DialogueBasic = (props: {
                     ? `scriptDialogueText-${component.size}`
                     : "";
             return (
-                <span className={`newLine ${sizeClass}`}>{replacedPUA}</span>
+                <span className={`newline ${sizeClass}`}>{replacedPUA}</span>
             );
         default:
             return null;

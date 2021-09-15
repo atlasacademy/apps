@@ -69,7 +69,7 @@ export default function ServantVoiceLines(
                                     {replacePUACodePoints((props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET
                                         ? line.text.map(line => removeSuffix(line, '[')).join('')
                                         : line.subtitle
-                                    ).replace(/\[[^\]]]/g, '').trim())}
+                                    ).replace(/ *\[[^\]]*]/g, '').trim())}
                                 </div>
                                 {line.conds.length || line.playConds.length || line.summonScript ? (
                                     <>

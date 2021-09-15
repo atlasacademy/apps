@@ -794,10 +794,14 @@ class ApiConnector {
     }
 
     illustratorList(cacheDuration?: number): Promise<Illustrator[]> {
-        const fetch = () =>
-            ApiConnector.fetch<Illustrator[]>(
-                `${this.host}/export/${this.region}/nice_illustrator.json`
-            );
+        let source: string;
+        if (this.showJPdataWithEnglishText()) {
+            source = `${this.host}/export/JP/nice_illustrator_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/nice_illustrator.json`;
+        }
+
+        const fetch = () => ApiConnector.fetch<Illustrator[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
@@ -809,10 +813,14 @@ class ApiConnector {
     }
 
     cvList(cacheDuration?: number): Promise<Cv[]> {
-        const fetch = () =>
-            ApiConnector.fetch<Cv[]>(
-                `${this.host}/export/${this.region}/nice_cv.json`
-            );
+        let source: string;
+        if (this.showJPdataWithEnglishText()) {
+            source = `${this.host}/export/JP/nice_cv_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/nice_illustrator.json`;
+        }
+
+        const fetch = () => ApiConnector.fetch<Cv[]>(source);
 
         if (cacheDuration === undefined) return fetch();
 
