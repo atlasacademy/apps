@@ -8,8 +8,8 @@ import {mergeElements} from "../../Helper/OutputHelper";
 interface TraitDiff {
     type: "Ascension" | "Costume",
     id: number,
-    addedTraits: number[];
-    removedTraits: number[];
+    addedTraits: Trait.Trait[];
+    removedTraits: Trait.Trait[];
 }
 
 interface IProps {
@@ -26,14 +26,15 @@ class ServantTraits extends React.Component<IProps> {
 
     private getTraitDiffs(): TraitDiff[] {
         const diffs: TraitDiff[] = [],
+            existingTraits = this.props.servant.traits,
             existingIds = this.props.servant.traits.map(trait => trait.id);
 
         for (let x in this.props.servant.ascensionAdd.individuality.ascension) {
             const key = parseInt(x),
                 traits = this.props.servant.ascensionAdd.individuality.ascension[key],
                 ids = traits.map(trait => trait.id),
-                addedTraits = ids.filter(id => existingIds.indexOf(id) === -1),
-                removedTraits = existingIds.filter(id => ids.indexOf(id) === -1);
+                addedTraits = traits.filter(trait => existingIds.indexOf(trait.id) === -1),
+                removedTraits = existingTraits.filter(trait => ids.indexOf(trait.id) === -1);
 
             if (ids.length > 0) {
                 diffs.push({type: "Ascension", id: key, addedTraits, removedTraits});
@@ -44,8 +45,8 @@ class ServantTraits extends React.Component<IProps> {
             const key = parseInt(x),
                 traits = this.props.servant.ascensionAdd.individuality.costume[key],
                 ids = traits.map(trait => trait.id),
-                addedTraits = ids.filter(id => existingIds.indexOf(id) === -1),
-                removedTraits = existingIds.filter(id => ids.indexOf(id) === -1);
+                addedTraits = traits.filter(trait => existingIds.indexOf(trait.id) === -1),
+                removedTraits = existingTraits.filter(trait => ids.indexOf(trait.id) === -1);
 
             if (ids.length === 0)
                 continue;
@@ -76,9 +77,9 @@ class ServantTraits extends React.Component<IProps> {
                                 <h3>{diffs.type} {diffs.id}: Additional Traits</h3>
                                 <p>
                                     {mergeElements(
-                                        diffs.addedTraits.map(id => <TraitDescription region={this.props.region}
-                                                                                      trait={id}
-                                                                                      overrideTraits={this.getOverrideTraits()}/>),
+                                        diffs.addedTraits.map(trait => <TraitDescription region={this.props.region}
+                                                                                         trait={trait}
+                                                                                         overrideTraits={this.getOverrideTraits()}/>),
                                         ', '
                                     )}
                                 </p>
@@ -90,9 +91,9 @@ class ServantTraits extends React.Component<IProps> {
                                 <h3>{diffs.type} {diffs.id}: Removed Traits</h3>
                                 <p>
                                     {mergeElements(
-                                        diffs.removedTraits.map(id => <TraitDescription region={this.props.region}
-                                                                                        trait={id}
-                                                                                        overrideTraits={this.getOverrideTraits()}/>),
+                                        diffs.removedTraits.map(trait => <TraitDescription region={this.props.region}
+                                                                                           trait={trait}
+                                                                                           overrideTraits={this.getOverrideTraits()}/>),
                                         ', '
                                     )}
                                 </p>

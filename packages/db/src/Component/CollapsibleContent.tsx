@@ -19,7 +19,7 @@ function renderCollapsibleContent(
     if (separator === undefined) separator = true;
     return (
         <Accordion defaultActiveKey={initialOpen ? `${title}` : ''}>
-            <Card border="light" className="collapsible-card">
+            <Card className="collapsible-card">
                 {separator && <hr className="collapsible-header-separator" />}
                 <Accordion.Toggle className="collapsible-header" as="div" eventKey={`${title}`}>
                     {subheader

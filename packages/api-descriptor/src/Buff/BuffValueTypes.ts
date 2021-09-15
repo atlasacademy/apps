@@ -58,6 +58,8 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.DOWN_TOLERANCE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_TOLERANCE_SUBSTATE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_TOLERANCE_SUBSTATE, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.UP_GIVEGAIN_HP, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.DOWN_GIVEGAIN_HP, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.GUTS_RATIO, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.BUFF_RATE, {value: DataValField.VALUE, power: 1}],
 
