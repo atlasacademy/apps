@@ -106,10 +106,11 @@ export const replacePUACodePoints = (
     const elements: Renderable[] = [];
     let normalText = "";
     for (const char of inputString) {
-        if ((char.charCodeAt(0) >= 0xe000 && char.charCodeAt(0) <= 0xf8ff) || ([0x9bd6].includes(char.charCodeAt(0)))) {
+        const codePoint = char.charCodeAt(0);
+        if ((codePoint >= 0xe000 && codePoint <= 0xf8ff) || ([0x9bd6].includes(codePoint))) {
             elements.push(normalText);
             normalText = "";
-            switch (char.charCodeAt(0)) {
+            switch (codePoint) {
                 case 0xe000:
                     elements.push(
                         <span className="e000">

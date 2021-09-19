@@ -5,6 +5,8 @@ import {
 
 const DEBUG = false;
 
+const KV_EDGE_TTL = 60 * 60 * 3;
+
 addEventListener("fetch", (event) => {
     const response = handleEvent(event).catch(() => fetch(event.request));
     event.respondWith(response);
@@ -148,7 +150,7 @@ async function handleDBEvent(event: FetchEvent) {
 
     const response = await getAssetFromKV(event, {
         mapRequestToAsset: (request) => serveSinglePageApp(request, "db"),
-        cacheControl: { edgeTTL: 60 * 60 * 3, bypassCache: DEBUG },
+        cacheControl: { edgeTTL: KV_EDGE_TTL, bypassCache: DEBUG },
     });
 
     const mutableResponse = new Response(response.body, response);
@@ -294,15 +296,15 @@ async function handleEvent(event: FetchEvent) {
             }
         }
         return await getAssetFromKV(event, {
-            cacheControl: { edgeTTL: 60 * 60 * 3, bypassCache: DEBUG },
+            cacheControl: { edgeTTL: KV_EDGE_TTL, bypassCache: DEBUG },
         });
     } catch (e) {
-        if (DEBUG)
+        if (DEBUG && e instanceof Error)
             return new Response(e.message || e.toString(), { status: 500 });
 
         return new Response(`"${pathname}" not found`, {
             status: 404,
-            statusText: "not found",
+            statusText: `"${pathname}" not found`,
         });
     }
 }

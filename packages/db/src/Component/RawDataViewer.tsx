@@ -11,6 +11,7 @@ import { Theme } from "../Setting/Theme";
 interface IProps {
     data: object | string;
     text?: string;
+    block?: boolean;
 }
 
 interface IState {
@@ -60,11 +61,12 @@ class RawDataViewer extends React.Component<IProps, IState> {
     }
 
     render() {
+        const block = this.props.block ?? true;
         return (
             <>
                 <Button
                     variant="outline-info"
-                    block
+                    block={block}
                     onClick={() => {
                         this.show();
                     }}

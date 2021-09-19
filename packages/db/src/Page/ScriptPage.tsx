@@ -143,13 +143,13 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                 <Button
                     variant={enableScene ? "success" : "secondary"}
                     onClick={() => setEnableScene(!enableScene)}
-                    style={{ whiteSpace: "nowrap" }}
                 >
                     Scene {enableScene ? "Enabled" : "Disabled"}
                 </Button>
                 <RawDataViewer
                     text="Parsed Script"
                     data={fromEntries(showRawData)}
+                    block={false}
                 />
             </ButtonGroup>
             <ScriptTable
