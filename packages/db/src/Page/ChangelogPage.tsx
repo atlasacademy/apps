@@ -53,7 +53,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
         if (error)
             return <ErrorStatus error={this.state.error}/>;
 
-        if (loading || !changes?.length)
+        if (loading)
             return <Loading/>;
 
         let openedChange = true;

@@ -62,7 +62,7 @@ class Navigation extends React.Component<IProps, IState> {
 
     private regionLink(region: Region): string {
         const {pathname} = this.props.location,
-            matches = pathname.match(/^\/(?:JP|NA)(.*)/);
+            matches = pathname.match(/^\/(?:JP|NA|CN)(.*)/);
 
         return matches
             ? `/${region}${matches[1]}`
