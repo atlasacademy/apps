@@ -11,6 +11,7 @@ import SettingForm from "../Setting/SettingForm";
 import {Theme} from "../Setting/Theme";
 import {ReactComponent as USFlag} from "../Assets/us.svg";
 import {ReactComponent as JPFlag} from "../Assets/jp.svg";
+import {ReactComponent as CNFlag} from "../Assets/cn.svg";
 
 import "./Navigation.css";
 
@@ -123,6 +124,13 @@ class Navigation extends React.Component<IProps, IState> {
                                             to={this.regionLink(Region.NA)}
                                             className={`nav-link ${this.regionClass(Region.NA)}`}>
                                             <USFlag title='View data from the NA version'/>
+                                        </Link>
+                                    </Col>
+                                    <Col>
+                                        <Link
+                                            to={this.regionLink(Region.CN)}
+                                            className={`nav-link ${this.regionClass(Region.CN)}`}>
+                                            <CNFlag title='View data from the CN version'/>
                                         </Link>
                                     </Col>
                                 </Row>

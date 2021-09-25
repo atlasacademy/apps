@@ -26,14 +26,21 @@ const PointBuffDescriptor = (props: {
             <br />
             <b>Detail:</b> {pointBuff.detail}
             <br />
-            <b>Functions:</b>{" "}
-            <ul style={{ margin: 0 }}>
-                {pointBuff.funcIds.map((funcId) => (
-                    <li key={funcId}>
-                        <FuncDescriptorId region={region} funcId={funcId} />
-                    </li>
-                ))}
-            </ul>
+            {pointBuff.funcIds.length > 0 ? (
+                <>
+                    <b>Functions:</b>{" "}
+                    <ul style={{ margin: 0 }}>
+                        {pointBuff.funcIds.map((funcId) => (
+                            <li key={funcId}>
+                                <FuncDescriptorId
+                                    region={region}
+                                    funcId={funcId}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            ) : null}
             <b>Value:</b> {pointBuff.value / 10}%
         </>
     );

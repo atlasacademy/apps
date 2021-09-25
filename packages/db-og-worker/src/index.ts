@@ -159,6 +159,8 @@ async function handleDBEvent(event: FetchEvent) {
         mutableResponse.headers.append("Content-Language", "en-US");
     } else if (region === "JP" || region === undefined) {
         mutableResponse.headers.append("Content-Language", "ja-JP, en-US");
+    }else if (region === "CN") {
+        mutableResponse.headers.append("Content-Language", "zh-CN, en-US");
     }
 
     const responseDetail = {
