@@ -157,10 +157,12 @@ async function handleDBEvent(event: FetchEvent) {
 
     if (region === "NA") {
         mutableResponse.headers.append("Content-Language", "en-US");
-    } else if (region === "JP" || region === undefined) {
-        mutableResponse.headers.append("Content-Language", "ja-JP, en-US");
     } else if (region === "CN") {
         mutableResponse.headers.append("Content-Language", "zh-CN, en-US");
+    } else if (region === "KR") {
+        mutableResponse.headers.append("Content-Language", "ko-KR, en-US");
+    } else if (region === "JP" || region === undefined) {
+        mutableResponse.headers.append("Content-Language", "ja-JP, en-US");
     }
 
     const responseDetail = {

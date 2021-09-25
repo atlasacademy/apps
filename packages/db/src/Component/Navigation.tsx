@@ -12,6 +12,7 @@ import {Theme} from "../Setting/Theme";
 import {ReactComponent as USFlag} from "../Assets/us.svg";
 import {ReactComponent as JPFlag} from "../Assets/jp.svg";
 import {ReactComponent as CNFlag} from "../Assets/cn.svg";
+import {ReactComponent as KRFlag} from "../Assets/kr.svg";
 
 import "./Navigation.css";
 
@@ -62,7 +63,7 @@ class Navigation extends React.Component<IProps, IState> {
 
     private regionLink(region: Region): string {
         const {pathname} = this.props.location,
-            matches = pathname.match(/^\/(?:JP|NA|CN)(.*)/);
+            matches = pathname.match(/^\/(?:JP|NA|CN|KR)(.*)/);
 
         return matches
             ? `/${region}${matches[1]}`
@@ -131,6 +132,13 @@ class Navigation extends React.Component<IProps, IState> {
                                             to={this.regionLink(Region.CN)}
                                             className={`nav-link ${this.regionClass(Region.CN)}`}>
                                             <CNFlag title='View data from the CN version'/>
+                                        </Link>
+                                    </Col>
+                                    <Col>
+                                        <Link
+                                            to={this.regionLink(Region.KR)}
+                                            className={`nav-link ${this.regionClass(Region.KR)}`}>
+                                            <KRFlag title='View data from the KR version'/>
                                         </Link>
                                     </Col>
                                 </Row>
