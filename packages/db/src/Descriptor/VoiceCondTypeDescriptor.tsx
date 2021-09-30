@@ -3,6 +3,7 @@ import QuestDescriptor from './QuestDescriptor';
 import EventDescriptor from './EventDescriptor';
 import {ServantLink} from './ServantDescriptor';
 import {Profile, Region, Servant} from '@atlasacademy/api-connector';
+import { WarDescriptorId } from './WarDescriptor';
 
 const { VoiceCondType } = Profile;
 
@@ -34,7 +35,7 @@ let VoiceCondTypeDescriptor = (props : IProps) => {
         case VoiceCondType.LIMIT_COUNT_COMMON: return <>Ascension 2</>;
         case VoiceCondType.LIMIT_COUNT_ABOVE: return <>Ascension {value}</>;
         case VoiceCondType.COSTUME: return <>Unlock costume <b>{costumes[value].name}</b></>;
-        case VoiceCondType.IS_NEW_WAR: return <>New war {value}</>;
+        case VoiceCondType.IS_NEW_WAR: return <>War <WarDescriptorId region={region} warId={value}/> Opened</>;
         case VoiceCondType.QUEST_CLEAR: return <>Cleared <QuestDescriptor region={region} questId={value}/></>;
         case VoiceCondType.NOT_QUEST_CLEAR: return <>Hasn't cleared <QuestDescriptor region={region} questId={value}/></>;
         case VoiceCondType.SVT_GET: return <>Presence of <ServantLink region={region} id={value} servants={props.servants}/></>;

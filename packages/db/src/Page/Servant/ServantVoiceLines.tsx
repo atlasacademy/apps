@@ -66,7 +66,9 @@ export default function ServantVoiceLines(
                                 <b className="newline">{voiceLineNames[index]}</b>
                                 <br/>
                                 <div className="newline">
-                                    {replacePUACodePoints((props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET
+                                    {replacePUACodePoints(((props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET)
+                                        || props.region === Region.CN
+                                        || props.region === Region.TW
                                         ? line.text.map(line => removeSuffix(line, '[')).join('')
                                         : line.subtitle
                                     ).replace(/ *\[[^\]]*]/g, '').trim())}

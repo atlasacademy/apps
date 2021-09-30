@@ -155,7 +155,9 @@ class ServantPage extends React.Component<IProps, IState> {
         let remappedCostumeMaterials: Entity.EntityLevelUpMaterialProgression = {};
         if (servant.profile) {
             for (const [costumeId, costume] of Object.entries(servant.costumeMaterials)) {
-                remappedCostumeMaterials[servant.profile?.costume[costumeId].name] = costume;
+                if (servant.profile?.costume[costumeId] !== undefined) {
+                    remappedCostumeMaterials[servant.profile?.costume[costumeId].name] = costume;
+                }
             }
         }
 
