@@ -1,4 +1,5 @@
 import { CondType, Region, Servant } from "@atlasacademy/api-connector";
+import CostumeDescriptor from "./CostumeDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import { ItemDescriptorId } from "./ItemDescriptor";
 import QuestDescriptor from "./QuestDescriptor";
@@ -81,6 +82,17 @@ export default function CondTargetValueDescriptor(props: {
                         servants={props.servants}
                     />{" "}
                     at bond level {value} or higher
+                </>
+            );
+        case CondType.COSTUME_GET:
+            return (
+                <>
+                    <CostumeDescriptor
+                        region={region}
+                        servantId={props.target}
+                        costumeLimit={props.value}
+                    />{" "}
+                    get
                 </>
             );
         case CondType.EVENT_END:

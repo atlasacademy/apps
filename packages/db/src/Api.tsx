@@ -34,7 +34,7 @@ import {
 } from "@atlasacademy/api-connector";
 
 export const Host = "https://api.atlasacademy.io";
-export const AssetHost = "https://assets.atlasacademy.io/GameData";
+export const AssetHost = "https://static.atlasacademy.io";
 
 const cacheDuration = 20 * 1000;
 
