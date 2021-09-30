@@ -63,6 +63,7 @@ const REGION_LANG = new Map([
     [Region.NA, "en-US"],
     [Region.CN, "zh-CN"],
     [Region.KR, "ko-KR"],
+    [Region.TW, "zh-TW"],
 ])
 
 class App extends React.Component<any, IState> {
@@ -112,7 +113,7 @@ class App extends React.Component<any, IState> {
                         )}
                     </Helmet>
                     <Switch>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/bgm/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/bgm/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -120,7 +121,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/bgms" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/bgms" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -128,7 +129,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/buff/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/buff/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -136,7 +137,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/command-code/:id([0-9]+)/:tab?"
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/command-code/:id([0-9]+)/:tab?"
                                render={props => {
                                    const {region, id, tab} = props.match.params;
                                    return (
@@ -145,7 +146,7 @@ class App extends React.Component<any, IState> {
                                        </Suspense>
                                    );
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/craft-essence/:id([0-9]+)/:tab?"
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/craft-essence/:id([0-9]+)/:tab?"
                                render={props => {
                                    const {region, id, tab} = props.match.params;
                                    return (
@@ -154,7 +155,7 @@ class App extends React.Component<any, IState> {
                                        </Suspense>
                                    );
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/enemy/:id([0-9]+)/:tab?"
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/enemy/:id([0-9]+)/:tab?"
                                render={props => {
                                    const {region, id, tab} = props.match.params;
                                    return (
@@ -163,7 +164,7 @@ class App extends React.Component<any, IState> {
                                        </Suspense>
                                    );
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/func/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/func/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -171,7 +172,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/item/:id([0-9]+)/:tab?" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/item/:id([0-9]+)/:tab?" render={props => {
                             const {region, id, tab} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -179,7 +180,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/master-missions"
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/master-missions"
                                render={props => {
                                    const {region} = props.match.params;
                                    return (
@@ -188,7 +189,7 @@ class App extends React.Component<any, IState> {
                                        </Suspense>
                                    );
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/master-mission/:id([0-9]+)"
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/master-mission/:id([0-9]+)"
                                render={props => {
                                    const {region, id} = props.match.params;
                                    return (
@@ -197,7 +198,7 @@ class App extends React.Component<any, IState> {
                                        </Suspense>
                                    );
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/mystic-code/:id([0-9]+)/:tab?"
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/mystic-code/:id([0-9]+)/:tab?"
                                render={props => {
                                    const {region, id, tab} = props.match.params;
                                    return (
@@ -206,7 +207,7 @@ class App extends React.Component<any, IState> {
                                        </Suspense>
                                    );
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/noble-phantasm/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/noble-phantasm/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -214,7 +215,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/noble-phantasms" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/noble-phantasms" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -222,7 +223,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/quest/:id([0-9]+)/:phase([0-9]+)/:stage?"
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/quest/:id([0-9]+)/:phase([0-9]+)/:stage?"
                         render={props => {
                             const {region, id, phase, stage} = props.match.params;
                             return (
@@ -237,7 +238,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/quests" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/quests" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -245,7 +246,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/script/:id" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/script/:id" render={props => {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -253,7 +254,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/scripts" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/scripts" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -261,7 +262,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/ai/:aiType(svt|field)/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/ai/:aiType(svt|field)/:id([0-9]+)" render={props => {
                             const {region, aiType, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -269,7 +270,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/servant/:id([0-9]+)/:tab?"
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/servant/:id([0-9]+)/:tab?"
                                render={props => {
                                    const {region, id, tab} = props.match.params;
                                    return (
@@ -278,7 +279,7 @@ class App extends React.Component<any, IState> {
                                        </Suspense>
                                    )
                                }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/skills" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/skills" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -286,7 +287,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/skill/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/skill/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -294,7 +295,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/buffs" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/buffs" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -302,7 +303,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/command-codes" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/command-codes" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -310,7 +311,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/craft-essences" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/craft-essences" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -318,7 +319,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/entities/trait/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/entities/trait/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -326,7 +327,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/entities" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/entities" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -334,7 +335,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/funcs" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/funcs" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -342,7 +343,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/items/:tab?" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/items/:tab?" render={props => {
                             const {region, tab} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -350,7 +351,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             );
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/event/:id([0-9]+)/:tab?" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/event/:id([0-9]+)/:tab?" render={props => {
                             const {region, id, tab} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -358,7 +359,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/events" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/events" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -366,7 +367,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/war/:id([0-9]+)" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/war/:id([0-9]+)" render={props => {
                             const {region, id} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -374,7 +375,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/wars" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/wars" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -382,7 +383,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/mystic-codes" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/mystic-codes" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -390,7 +391,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR)/servants" render={props => {
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/servants" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -398,7 +399,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact path="/:region(JP|NA|CN|KR)/changes" render={props => {
+                        <Route exact path="/:region(JP|NA|CN|KR|TW)/changes" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -410,7 +411,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }} />
-                        <Route exact path="/:region(JP|NA|CN|KR)/enemy-changes" render={props => {
+                        <Route exact path="/:region(JP|NA|CN|KR|TW)/enemy-changes" render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
@@ -420,7 +421,7 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }} />
-                        <Route path="/:region(JP|NA|CN|KR)" exact={true} render={props => {
+                        <Route path="/:region(JP|NA|CN|KR|TW)" exact={true} render={props => {
                             const {region} = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
