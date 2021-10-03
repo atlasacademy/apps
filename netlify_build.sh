@@ -11,15 +11,16 @@ CI=false \
 && cd src \
 && curl -L -o drop-serializer.tar.gz https://github.com/atlasacademy/drop-serializer-react/archive/master.tar.gz \
 && tar -zxvf drop-serializer.tar.gz \
-&& cd drop-serializer-react-master && npm install && npm run build \
+&& npm install -g npm@7 \
+&& cd drop-serializer-react-master && npm ci && npm run build \
 && cd ../../ && cp -r src/drop-serializer-react-master/build/ app/drop-serializer \
 && cd src \
 && curl -L -o bingo.tar.gz https://github.com/atlasacademy/bingo/archive/master.tar.gz \
 && tar -zxvf bingo.tar.gz \
 && cd ../ && cp -r ./src/bingo-master app/bingo \
-&& cd packages/db && npm install && npm run build \
+&& cd packages/db && npm ci && npm run build \
 && cd ../../ && cp -r packages/db/build/ app/db \
-&& cd packages/paper-moon && npm install && npm run build \
+&& cd packages/paper-moon && npm ci && npm run build \
 && cd ../../ && cp -r packages/paper-moon/build/ app/paper-moon \
 && cp build/index.html app/index.html \
 && cp build/_redirects app/_redirects \

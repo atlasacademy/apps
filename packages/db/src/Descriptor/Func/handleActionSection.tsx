@@ -66,7 +66,7 @@ function handleBuffActionSection(region: Region, sections: FuncDescriptorSection
         if (index > 0)
             parts.push('&');
 
-        parts.push(<BuffDescription region={region} buff={buff}/>);
+        parts.push(<BuffDescription region={region} buff={buff} passiveFrame={dataVal.SetPassiveFrame === 1}/>);
     });
 
     if (
