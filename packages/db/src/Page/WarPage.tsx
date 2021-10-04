@@ -14,7 +14,6 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
-import EventDescriptor from "../Descriptor/EventDescriptor";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
@@ -376,10 +375,9 @@ class WarPage extends React.Component<IProps, IState> {
 
         const event =
             war.eventId !== 0 ? (
-                <EventDescriptor
-                    region={this.props.region}
-                    eventId={war.eventId}
-                />
+                <Link to={`/${this.props.region}/event/${war.eventId}`}>
+                    {war.eventName !== "" ? war.eventName : `Event ${war.eventId}`}
+                </Link>
             ) : (
                 ""
             );

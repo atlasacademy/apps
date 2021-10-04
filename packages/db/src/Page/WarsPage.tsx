@@ -330,6 +330,7 @@ class WarsPage extends React.Component<IProps, IState> {
                         <tr>
                             <th className="col-center">#</th>
                             <th>Name</th>
+                            <th>Event</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -343,6 +344,19 @@ class WarsPage extends React.Component<IProps, IState> {
                                     </td>
                                     <td>
                                         <Link to={route}>{war.longName}</Link>
+                                    </td>
+                                    <td>
+                                        {war.eventId !== 0 ? (
+                                            <Link
+                                                to={`/${this.props.region}/event/${war.eventId}`}
+                                            >
+                                                {war.eventName !== ""
+                                                    ? war.eventName
+                                                    : `Event ${war.eventId}`}
+                                            </Link>
+                                        ) : (
+                                            ""
+                                        )}
                                     </td>
                                 </tr>
                             );

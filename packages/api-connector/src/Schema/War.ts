@@ -85,6 +85,7 @@ export interface War {
     startType: WarStartType;
     targetId: number;
     eventId: number;
+    eventName: string;
     lastQuestId: number;
     warAdds: WarAdd[];
     maps: Map[];
@@ -98,4 +99,5 @@ export interface WarBasic {
     name: string;
     longName: string;
     eventId: number;
+    eventName: string;
 }
