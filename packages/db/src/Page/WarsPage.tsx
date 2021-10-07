@@ -16,6 +16,8 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
+import {faSortNumericDown, faSortNumericDownAlt} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import "./ListingPage.css";
 
@@ -31,6 +33,11 @@ interface IProps {
     region: Region;
 }
 
+enum SortingOrder {
+    ASC = 0,
+    DESC = 1
+}
+
 interface IState {
     error?: AxiosError;
     loading: boolean;
@@ -39,6 +46,7 @@ interface IState {
     perPage: number;
     page: number;
     search?: string;
+    sort?: SortingOrder
 }
 
 class WarsPage extends React.Component<IProps, IState> {
@@ -267,7 +275,9 @@ class WarsPage extends React.Component<IProps, IState> {
 
         if (this.state.loading) return <Loading />;
 
-        const wars = this.wars(),
+        const currentSortingOrder = this.state.sort;
+        const wars = this.wars()
+            .sort((w1, w2) => (currentSortingOrder ? 1 : -1) * (w1.id - w2.id)),
             results = wars.slice(
                 this.state.perPage * this.state.page,
                 this.state.perPage * (this.state.page + 1)
@@ -328,7 +338,22 @@ class WarsPage extends React.Component<IProps, IState> {
                 <Table striped bordered hover responsive>
                     <thead>
                         <tr>
-                            <th className="col-center">#</th>
+                            <th className="col-center">
+                                <Button
+                                    variant=""
+                                    style={{ outline: 'none' }}
+                                    onClick={() => this.setState({ sort: currentSortingOrder ? SortingOrder.ASC : SortingOrder.DESC })}>
+                                    {
+                                    currentSortingOrder !== undefined
+                                        ? (
+                                            currentSortingOrder === SortingOrder.ASC
+                                                ? <FontAwesomeIcon icon={faSortNumericDown} />
+                                                : <FontAwesomeIcon icon={faSortNumericDownAlt} />
+                                        )
+                                        : '#'
+                                    }
+                                </Button>
+                            </th>
                             <th>Name</th>
                             <th>Event</th>
                         </tr>
