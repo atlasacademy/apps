@@ -277,7 +277,7 @@ class WarsPage extends React.Component<IProps, IState> {
 
         const currentSortingOrder = this.state.sort;
         const wars = this.wars()
-            .sort((w1, w2) => (currentSortingOrder ? 1 : -1) * (w1.id - w2.id)),
+            .sort((w1, w2) => (currentSortingOrder ? -1 : 1) * (w1.id - w2.id)),
             results = wars.slice(
                 this.state.perPage * this.state.page,
                 this.state.perPage * (this.state.page + 1)
@@ -344,13 +344,9 @@ class WarsPage extends React.Component<IProps, IState> {
                                     style={{ outline: 'none' }}
                                     onClick={() => this.setState({ sort: currentSortingOrder ? SortingOrder.ASC : SortingOrder.DESC })}>
                                     {
-                                    currentSortingOrder !== undefined
-                                        ? (
-                                            currentSortingOrder === SortingOrder.ASC
-                                                ? <FontAwesomeIcon icon={faSortNumericDown} />
-                                                : <FontAwesomeIcon icon={faSortNumericDownAlt} />
-                                        )
-                                        : '#'
+                                        currentSortingOrder
+                                            ? <FontAwesomeIcon icon={faSortNumericDownAlt} />
+                                            : <FontAwesomeIcon icon={faSortNumericDown} />
                                     }
                                 </Button>
                             </th>
