@@ -89,12 +89,12 @@ class Navigation extends React.Component<IProps, IState> {
                             <Nav activeKey={this.props.location.pathname}>
                                 <NavPage path="servants" description="Servants"/>
                                 <NavPage path="craft-essences" description="Craft Essences"/>
-                                <NavPage path="command-codes" description="Command Codes"/>
+                                <NavPage path="wars" description="Wars"/>
                                 <NavDropdown title="Other" id="dropdown-other">
+                                    <NavDropdownPage path="command-codes" description="Command Codes"/>
                                     <NavDropdownPage path="mystic-codes" description="Mystic Codes"/>
                                     <NavDropdownPage path="items" description="Materials"/>
                                     <NavDropdownPage path="events" description="Events"/>
-                                    <NavDropdownPage path="wars" description="Wars"/>
                                     <NavDropdownPage path="bgms" description="BGMs"/>
                                     <NavDropdownPage path="master-missions" description="Master Missions"/>
                                 </NavDropdown>

@@ -66,32 +66,38 @@ async function fetchApi(
         ? "nice"
         : "basic";
     const url = `https://api.atlasacademy.io/${dataType}/${region}/${endpoint}/${target}?lang=${language}`;
-    return fetch(url).then((res) => res.json());
+    return fetch(url);
 }
 
 function overwrite(
     response: { response: Response; pageUrl: string },
-    title: string,
+    title?: string,
     image?: string,
     description?: string
 ) {
     const defaultDescription = "Atlas Academy DB - FGO Game Data Navigator";
-    const metaDescription = `${
-        description ?? title
-    } - ${defaultDescription} - without any of the fluffs.`;
+    const metaCustomDesc =
+        (description ?? title) !== undefined
+            ? `${description ?? title} - `
+            : "";
+    const metaDescription =
+        metaCustomDesc + `${defaultDescription} - without any of the fluffs.`;
     const ogDescription = description ?? defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
         .on('[name="description"]', new Handler(metaDescription))
         .on('[property="og:url"]', new Handler(response.pageUrl))
-        .on('[property="og:title"]', new Handler(title))
+        .on('[property="og:title"]', new Handler(title ?? defaultDescription))
         .on('[property="og:description"]', new Handler(ogDescription));
 
     if (image === undefined) return titleRewriter.transform(response.response);
 
     return titleRewriter
         .on('[property="og:image"]', new Handler(image))
-        .on('[property="og:image:alt"]', new Handler(`${title} icon`))
+        .on(
+            '[property="og:image:alt"]',
+            new Handler(`${title ?? "Atlas Academy"} icon`)
+        )
         .transform(response.response);
 }
 
@@ -185,7 +191,12 @@ async function handleDBEvent(event: FetchEvent) {
     const itemPage = itemPageTitles.get(subpage);
     if (itemPage !== undefined) {
         const res = await fetchApi(region, itemPage.endpoint, target, language);
-        const { name, longName, face, icon, rarity, className } = res;
+        if (res.status !== 200) {
+            const title = `[${region}] ${itemPage.itemType} - ${target}`;
+            return overwrite(responseDetail, title);
+        }
+        const { name, longName, face, icon, rarity, className } =
+            await res.json();
 
         let title = `[${region}] ${itemPage.itemType} - ${name}`;
         switch (subpage) {
@@ -221,12 +232,12 @@ async function handleDBEvent(event: FetchEvent) {
 
     switch (subpage) {
         case "func": {
-            const { funcId, funcPopupText } = await fetchApi(
-                region,
-                "function",
-                target,
-                language
-            );
+            const res = await fetchApi(region, "function", target, language);
+            if (res.status !== 200) {
+                const title = `[${region}] Function - ${target}`;
+                return overwrite(responseDetail, title);
+            }
+            const { funcId, funcPopupText } = await res.json();
             const funcTitle =
                 funcPopupText === ""
                     ? `Function: ${funcId}`
@@ -235,12 +246,12 @@ async function handleDBEvent(event: FetchEvent) {
             return overwrite(responseDetail, title);
         }
         case "bgm": {
-            const { name, fileName, logo } = await fetchApi(
-                region,
-                "bgm",
-                target,
-                language
-            );
+            const res = await fetchApi(region, "bgm", target, language);
+            if (res.status !== 200) {
+                const title = `[${region}] BGM - ${target}`;
+                return overwrite(responseDetail, title);
+            }
+            const { name, fileName, logo } = await res.json();
             let bgmName = target;
             if (name !== "" && name !== "0") {
                 bgmName = name;
@@ -251,12 +262,12 @@ async function handleDBEvent(event: FetchEvent) {
             return overwrite(responseDetail, title, logo);
         }
         case "buff": {
-            const { id, name, icon } = await fetchApi(
-                region,
-                "buff",
-                target,
-                language
-            );
+            const res = await fetchApi(region, "buff", target, language);
+            if (res.status !== 200) {
+                const title = `[${region}] Buff - ${target}`;
+                return overwrite(responseDetail, title);
+            }
+            const { id, name, icon } = await res.json();
             const title = `[${region}] Buff ${id}: ${name}`;
             return overwrite(responseDetail, title, icon);
         }
