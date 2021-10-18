@@ -1,4 +1,4 @@
-import { Quest, Region } from "@atlasacademy/api-connector";
+import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
@@ -13,6 +13,7 @@ import Loading from "../Component/Loading";
 import QuestStage from "../Component/QuestStage";
 import SupportServantTables from "../Component/SupportServant";
 import RawDataViewer from "../Component/RawDataViewer";
+import { QuestDropDescriptor } from "../Component/QuestEnemy";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
@@ -21,6 +22,7 @@ import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
 import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
+import { flatten } from "../Helper/PolyFill";
 
 import "../Helper/StringHelper.css";
 
@@ -198,6 +200,43 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
     );
 };
 
+const QuestDrops = ({
+    region,
+    stages,
+}: {
+    region: Region;
+    stages: Quest.Stage[];
+}) => {
+    const allDrops = flatten(
+        flatten(stages.map((stage) => stage.enemies)).map(
+            (enemy) => enemy.drops
+        )
+    );
+
+    if (allDrops.length === 0) {
+        return <></>;
+    }
+
+    const totalDrops = new Map<string, QuestEnemy.EnemyDrop>();
+    for (const drop of allDrops) {
+        const key = `${drop.type}-${drop.objectId}-${drop.num}`;
+        if (totalDrops.has(key)) {
+            totalDrops.get(key)!.dropCount += drop.dropCount;
+        } else {
+            totalDrops.set(key, drop);
+        }
+    }
+
+    const dropList = Array.from(totalDrops.values()).sort(
+        (a, b) =>
+            a.type.localeCompare(b.type) ||
+            a.objectId - b.objectId ||
+            a.num - b.num
+    );
+
+    return <QuestDropDescriptor region={region} drops={dropList} />;
+};
+
 class QuestPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
@@ -293,6 +332,7 @@ class QuestPage extends React.Component<IProps, IState> {
                         )}
                     </Alert>
                 ) : null}
+                <QuestDrops region={this.props.region} stages={quest.stages} />
                 {quest.supportServants.length > 0 ? (
                     <>
                         {renderCollapsibleContent({

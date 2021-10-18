@@ -193,8 +193,9 @@ class ItemsPage extends React.Component<IProps, IState> {
             list = list.filter(
                 entity => {
                     const normalizedName = diacritics.remove(entity.name.toLowerCase());
+                    const searchName = `${entity.id} ${normalizedName}`;
 
-                    return normalizedName.match(new RegExp(glob, 'g'));
+                    return searchName.match(new RegExp(glob, 'g'));
                 }
             );
         }

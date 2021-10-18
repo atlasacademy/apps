@@ -1,5 +1,6 @@
 import { Attribute } from "./Attribute";
 import { EntityBasic } from "./Entity";
+import { GiftType } from "./Gift";
 import { NoblePhantasm } from "./NoblePhantasm";
 import { Skill } from "./Skill";
 import { Trait } from "./Trait";
@@ -103,6 +104,14 @@ export interface EnemyMisc {
     status: number;
 }
 
+export interface EnemyDrop {
+    type: GiftType;
+    objectId: number;
+    num: number;
+    dropCount: number;
+    runs: number;
+}
+
 export enum DeckType {
     ENEMY = "enemy",
     CALL = "call",
@@ -118,6 +127,7 @@ export interface QuestEnemy {
     npcId: number;
     name: string;
     svt: EntityBasic;
+    drops: EnemyDrop[];
     lv: number;
     exp: number;
     atk: number;

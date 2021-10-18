@@ -1,5 +1,15 @@
 import { toTitleCase } from "@atlasacademy/api-descriptor";
-import { Button, Col, Row, Table } from "react-bootstrap";
+import {
+    Alert,
+    Button,
+    Col,
+    OverlayTrigger,
+    Row,
+    Table,
+    Tooltip,
+} from "react-bootstrap";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
 import AiDescriptor from "../Descriptor/AiDescriptor";
@@ -18,6 +28,7 @@ import {
     NoblePhantasm,
     Ai,
 } from "@atlasacademy/api-connector";
+import GiftDescriptor from "../Descriptor/GiftDescriptor";
 
 type RenderableRow = {
     title: Renderable;
@@ -376,6 +387,50 @@ const QuestEnemySubData = (props: {
     );
 };
 
+export const QuestDropDescriptor = ({
+    region,
+    drops,
+}: {
+    region: Region;
+    drops: QuestEnemy.EnemyDrop[];
+}) => {
+    return (
+        <Alert variant="success">
+            <ul style={{ marginBottom: 0 }}>
+                {drops.map((drop) => {
+                    const dummyGift = {
+                        ...drop,
+                        id: 0,
+                        priority: 0,
+                    };
+                    const tooltip = (
+                        <Tooltip
+                            id={`drop-detail-tooltip`}
+                            style={{ fontSize: "1em" }}
+                        >
+                            {drop.dropCount} drops / {drop.runs} runs
+                        </Tooltip>
+                    );
+                    return (
+                        <li key={`${drop.type}-${drop.objectId}-${drop.num}`}>
+                            <GiftDescriptor region={region} gift={dummyGift} />:{" "}
+                            <span>
+                                {((drop.dropCount / drop.runs) * 100).toFixed(
+                                    2
+                                )}
+                                %
+                            </span>{" "}
+                            <OverlayTrigger overlay={tooltip}>
+                                <FontAwesomeIcon icon={faInfoCircle} />
+                            </OverlayTrigger>
+                        </li>
+                    );
+                })}
+            </ul>
+        </Alert>
+    );
+};
+
 export interface FromToEntry {
     shiftFrom: string;
     shiftTo: number;
@@ -472,6 +527,10 @@ const QuestEnemyTable = (props: {
                 {shiftOriginDescription}
                 {changeOriginDescription}
             </ul>
+
+            {enemy.drops.length > 0 ? (
+                <QuestDropDescriptor region={region} drops={enemy.drops} />
+            ) : null}
 
             <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>
