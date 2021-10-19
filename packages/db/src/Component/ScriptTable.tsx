@@ -360,6 +360,12 @@ const ScriptTable = (props: {
                             sceneRow = renderScene();
                             sceneDisplayed = true;
                     }
+                } else if (component.type === ScriptComponentType.CHOICES) {
+                    flatten(component.choices.map(choice => choice.results)).forEach(childChoice => {
+                        if (childChoice.type === ScriptComponentType.BACKGROUND) {
+                            backgroundComponent = childChoice;
+                        }
+                    })
                 }
 
                 return (
