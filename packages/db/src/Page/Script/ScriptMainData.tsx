@@ -55,10 +55,12 @@ const ScriptMainData = ({
     region,
     scriptData,
     wordCount,
+    children,
 }: {
     region: Region;
     scriptData: Script.Script;
     wordCount: number;
+    children?: React.ReactNode;
 }) => {
     const { scriptId } = scriptData;
     const [previousScript, setPreviousScript] = useState<string | undefined>(
@@ -154,6 +156,43 @@ const ScriptMainData = ({
                     .includes(scriptId)
         )?.phase ?? scriptIdPhaseNum;
 
+    const scriptNavigation = (
+        <tr>
+            <th>Previous Script</th>
+            <td className="script-nav-link">
+                {previousScript === undefined ? (
+                    `N/A${
+                        firstScriptInWar
+                            ? ": This is the first script in this war"
+                            : ""
+                    }`
+                ) : (
+                    <ScriptDescriptor
+                        region={region}
+                        scriptId={previousScript}
+                        scriptType=""
+                    />
+                )}
+            </td>
+            <th>Next Script</th>
+            <td className="script-nav-link">
+                {nextScript === undefined ? (
+                    `N/A${
+                        lastScriptInWar
+                            ? ": This is the last script in this war"
+                            : ""
+                    }`
+                ) : (
+                    <ScriptDescriptor
+                        region={region}
+                        scriptId={nextScript}
+                        scriptType=""
+                    />
+                )}
+            </td>
+        </tr>
+    );
+
     const questList =
         scriptData.quests.length === 0 ? null : (
             <>
@@ -193,40 +232,7 @@ const ScriptMainData = ({
                     <th>Script Type</th>
                     <td colSpan={3}>{getScriptType(scriptId)}</td>
                 </tr>
-                <tr>
-                    <th>Previous Script</th>
-                    <td className="script-nav-link">
-                        {previousScript === undefined ? (
-                            `N/A${
-                                firstScriptInWar
-                                    ? ": This is the first script in this war"
-                                    : ""
-                            }`
-                        ) : (
-                            <ScriptDescriptor
-                                region={region}
-                                scriptId={previousScript}
-                                scriptType=""
-                            />
-                        )}
-                    </td>
-                    <th>Next Script</th>
-                    <td className="script-nav-link">
-                        {nextScript === undefined ? (
-                            `N/A${
-                                lastScriptInWar
-                                    ? ": This is the last script in this war"
-                                    : ""
-                            }`
-                        ) : (
-                            <ScriptDescriptor
-                                region={region}
-                                scriptId={nextScript}
-                                scriptType=""
-                            />
-                        )}
-                    </td>
-                </tr>
+                {scriptNavigation}
             </>
         );
 
@@ -247,20 +253,37 @@ const ScriptMainData = ({
     }
 
     return (
-        <Table bordered hover responsive className="data-table script-data">
-            <tbody>
-                <tr>
-                    <th>Raw Size</th>
-                    <td>{`${(scriptData.scriptSizeBytes / 1024).toFixed(
-                        2
-                    )} KiB`}</td>
-                    <td colSpan={2}>
-                        ~{Math.ceil(wordCount / WORDS_PER_MINUTE)} minute read
-                    </td>
-                </tr>
-                {questList}
-            </tbody>
-        </Table>
+        <>
+            <Table bordered hover responsive className="data-table script-data">
+                <tbody>
+                    <tr>
+                        <th>Raw Size</th>
+                        <td>{`${(scriptData.scriptSizeBytes / 1024).toFixed(
+                            2
+                        )} KiB`}</td>
+                        <td colSpan={2}>
+                            ~{Math.ceil(wordCount / WORDS_PER_MINUTE)} minute
+                            read
+                        </td>
+                    </tr>
+                    {questList}
+                </tbody>
+            </Table>
+            {children}
+            {children === undefined ? null : (
+                <>
+                    <br />
+                    <Table
+                        bordered
+                        hover
+                        responsive
+                        className="data-table script-data"
+                    >
+                        <tbody>{scriptNavigation}</tbody>
+                    </Table>
+                </>
+            )}
+        </>
     );
 };
 

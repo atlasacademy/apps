@@ -136,35 +136,38 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                 region={region}
                 scriptData={scriptData}
                 wordCount={countWord(region, parsedScript.components)}
-            />
-            <ButtonGroup style={{ margin: "1em 0" }}>
-                {hasDialogueLines ? (
-                    <VoiceLinePlayer
-                        audioAssetUrls={audioUrls}
-                        delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
-                        title="voice lines"
-                        showTitle
-                        handleNavigateAssetUrl={scrollToRow}
+            >
+                <ButtonGroup style={{ margin: "1em 0" }}>
+                    {hasDialogueLines ? (
+                        <VoiceLinePlayer
+                            audioAssetUrls={audioUrls}
+                            delay={new Array(audioUrls.length)
+                                .fill(0)
+                                .fill(1, 1)}
+                            title="voice lines"
+                            showTitle
+                            handleNavigateAssetUrl={scrollToRow}
+                        />
+                    ) : null}
+                    <Button
+                        variant={enableScene ? "success" : "secondary"}
+                        onClick={() => setEnableScene(!enableScene)}
+                    >
+                        Scene {enableScene ? "Enabled" : "Disabled"}
+                    </Button>
+                    <RawDataViewer
+                        text="Parsed Script"
+                        data={fromEntries(showRawData)}
+                        block={false}
                     />
-                ) : null}
-                <Button
-                    variant={enableScene ? "success" : "secondary"}
-                    onClick={() => setEnableScene(!enableScene)}
-                >
-                    Scene {enableScene ? "Enabled" : "Disabled"}
-                </Button>
-                <RawDataViewer
-                    text="Parsed Script"
-                    data={fromEntries(showRawData)}
-                    block={false}
+                </ButtonGroup>
+                <ScriptTable
+                    region={region}
+                    script={parsedScript}
+                    showScene={enableScene}
+                    refs={scrollRefs}
                 />
-            </ButtonGroup>
-            <ScriptTable
-                region={region}
-                script={parsedScript}
-                showScene={enableScene}
-                refs={scrollRefs}
-            />
+            </ScriptMainData>
         </>
     );
 };
