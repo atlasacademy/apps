@@ -1,5 +1,6 @@
 import { Region } from "@atlasacademy/api-connector";
 import { AssetHost } from "../Api";
+import { flatten } from "../Helper/PolyFill";
 
 export enum ScriptComponentType {
     UNPARSED,
@@ -1129,3 +1130,59 @@ export function parseScript(region: Region, script: string): ScriptInfo {
 
     return { components };
 }
+
+const countWordInString = (region: Region, text: string) => {
+    if (region === Region.NA) {
+        return text.split(/\s+/g).length;
+    } else {
+        return text.replace(/\s+/g, "").length;
+    }
+};
+
+export const countWord = (region: Region, components: ScriptComponent[]) => {
+    let wordCount = 0;
+    const addWordCountBasic = (component: DialogueBasicComponent) => {
+        switch (component.type) {
+            case ScriptComponentType.DIALOGUE_TEXT:
+            case ScriptComponentType.DIALOGUE_RUBY:
+                wordCount += countWordInString(region, component.text);
+                break;
+            case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
+                wordCount += countWordInString(region, component.trueName);
+                break;
+        }
+    };
+
+    const addWordCountNotChoice = (component: ScriptComponent) => {
+        if (component.type === ScriptComponentType.DIALOGUE) {
+            for (const childComponent of flatten(component.components)) {
+                switch (childComponent.type) {
+                    case ScriptComponentType.DIALOGUE_TEXT:
+                    case ScriptComponentType.DIALOGUE_RUBY:
+                    case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
+                        addWordCountBasic(childComponent);
+                        break;
+                    case ScriptComponentType.DIALOGUE_GENDER:
+                        childComponent.female.forEach(addWordCountBasic);
+                        break;
+                }
+            }
+        }
+    };
+
+    for (const component of components) {
+        switch (component.type) {
+            case ScriptComponentType.CHOICES:
+                for (const choice of component.choices) {
+                    for (const choiceComponent of choice.results) {
+                        addWordCountNotChoice(choiceComponent);
+                    }
+                }
+                break;
+            default:
+                addWordCountNotChoice(component);
+        }
+    }
+
+    return wordCount;
+};

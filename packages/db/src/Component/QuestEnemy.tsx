@@ -408,7 +408,8 @@ export const QuestDropDescriptor = ({
                             id={`drop-detail-tooltip`}
                             style={{ fontSize: "1em" }}
                         >
-                            {drop.dropCount} drops / {drop.runs} runs
+                            {drop.dropCount.toLocaleString()} drops /{" "}
+                            {drop.runs.toLocaleString()} runs
                         </Tooltip>
                     );
                     return (

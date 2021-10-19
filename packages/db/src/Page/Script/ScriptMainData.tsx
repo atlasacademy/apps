@@ -54,9 +54,11 @@ const QuestWarDescriptor = ({
 const ScriptMainData = ({
     region,
     scriptData,
+    wordCount,
 }: {
     region: Region;
     scriptData: Script.Script;
+    wordCount: number;
 }) => {
     const { scriptId } = scriptData;
     const [previousScript, setPreviousScript] = useState<string | undefined>(
@@ -228,14 +230,33 @@ const ScriptMainData = ({
             </>
         );
 
+    let WORDS_PER_MINUTE = 200;
+    // https://irisreading.com/average-reading-speed-in-various-languages/
+    switch (region) {
+        case Region.NA:
+            WORDS_PER_MINUTE = 228;
+            break;
+        case Region.JP:
+        case Region.KR:
+            WORDS_PER_MINUTE = 357;
+            break;
+        case Region.CN:
+        case Region.TW:
+            WORDS_PER_MINUTE = 255;
+            break;
+    }
+
     return (
         <Table bordered hover responsive className="data-table script-data">
             <tbody>
                 <tr>
                     <th>Raw Size</th>
-                    <td colSpan={3}>{`${(
-                        scriptData.scriptSizeBytes / 1024
-                    ).toFixed(2)} KiB`}</td>
+                    <td>{`${(scriptData.scriptSizeBytes / 1024).toFixed(
+                        2
+                    )} KiB`}</td>
+                    <td colSpan={2}>
+                        ~{Math.ceil(wordCount / WORDS_PER_MINUTE)} minute read
+                    </td>
                 </tr>
                 {questList}
             </tbody>

@@ -223,7 +223,7 @@ const QuestDrops = ({
         if (totalDrops.has(key)) {
             totalDrops.get(key)!.dropCount += drop.dropCount;
         } else {
-            totalDrops.set(key, drop);
+            totalDrops.set(key, { ...drop });
         }
     }
 

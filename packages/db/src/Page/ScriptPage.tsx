@@ -9,6 +9,7 @@ import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
 import Manager from "../Setting/Manager";
 import {
+    countWord,
     parseScript,
     ScriptComponent,
     ScriptComponentType,
@@ -84,6 +85,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                 break;
         }
     };
+
     for (const component of parsedScript.components) {
         switch (component.type) {
             case ScriptComponentType.CHOICES:
@@ -97,6 +99,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                 addAudioUrls(component);
         }
     }
+
     const scrollRefs = new Map(
         audioUrls.map((url) => [url, createRef<HTMLTableRowElement>()])
     );
@@ -129,7 +132,11 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         <>
             <h1>Script {scriptId}</h1>
             <br />
-            <ScriptMainData region={region} scriptData={scriptData} />
+            <ScriptMainData
+                region={region}
+                scriptData={scriptData}
+                wordCount={countWord(region, parsedScript.components)}
+            />
             <ButtonGroup style={{ margin: "1em 0" }}>
                 {hasDialogueLines ? (
                     <VoiceLinePlayer
