@@ -111,15 +111,26 @@ const SceneRow = (props: {
         sceneScale = getSceneScale(windowWidth, windowHeight, props.wideScreen),
         height = (props.wideScreen ? 576 : 576) / sceneScale,
         width = (props.wideScreen ? 1344 : 1024) / sceneScale,
-        background = props.background ? {asset: props.background.backgroundAsset} : undefined,
-        figure = props.figure
-        && (props.figure.assetSet?.type === ScriptComponentType.CHARA_SET
-            || props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE)
-        ? {
-            asset: props.figure.assetSet?.charaGraphAsset,
-            face: props.figure.face,
-            charaGraphId: props.figure.assetSet?.charaGraphId,
-        } : undefined;
+        background = props.background ? {asset: props.background.backgroundAsset} : undefined;
+
+    let figure = undefined;
+    if (props.figure !== undefined && props.figure.assetSet !== undefined) {
+        switch (props.figure.assetSet.type) {
+            case ScriptComponentType.CHARA_SET:
+            case ScriptComponentType.CHARA_CHANGE:
+                figure = {
+                    asset: props.figure.assetSet.charaGraphAsset,
+                    face: props.figure.face,
+                    charaGraphId: props.figure.assetSet.charaGraphId,
+                }
+                break;
+            case ScriptComponentType.IMAGE_SET:
+                figure = {
+                    asset: props.figure.assetSet.imageAsset,
+                    face: props.figure.face,
+                }
+        }
+    };
 
     return (
         <tr>

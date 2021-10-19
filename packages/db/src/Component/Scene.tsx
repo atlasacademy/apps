@@ -10,7 +10,7 @@ const Scene = (props: {
     figure?: {
         asset: string,
         face: number,
-        charaGraphId: number,
+        charaGraphId?: number,
     },
     resolution: {
         height: number,
@@ -31,7 +31,7 @@ const Scene = (props: {
         figureWrapperTop = (script ? -script.offsetY : 0) * scale,
         faceElement = null;
 
-    if (props.figure) {
+    if (props.figure !== undefined && props.figure.charaGraphId !== undefined) {
         Api.svtScript(props.figure.charaGraphId).then(script => {
             setScript(script[0]);
         });
