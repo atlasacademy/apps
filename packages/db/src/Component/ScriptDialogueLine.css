@@ -5,7 +5,9 @@
 }
 
 .scriptDialogueText-medium {
-    font-size: 0.75em;
+     /* [f medium] is seems to always appear before [messageShake] */
+     /* and the text size is the same */
+    font-size: 1em;
 }
 
 .scriptDialogueText-large {

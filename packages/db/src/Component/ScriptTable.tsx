@@ -390,6 +390,17 @@ const ScriptTable = (props: {
                     </React.Fragment>
                 );
             })}
+            {props.showScene !== false
+                && (figureComponent !== undefined || backgroundComponent !== undefined)
+                && !sceneDisplayed
+                ? (
+                    <SceneRow
+                        background={backgroundComponent}
+                        figure={figureComponent}
+                        wideScreen={wideScreen}
+                    />
+                )
+                : null}
             </tbody>
         </Table>
     );
