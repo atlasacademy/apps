@@ -19,6 +19,7 @@ export enum EntityType {
     ENEMY_COLLECTION_DETAIL = "enemyCollectionDetail",
     ALL = "all",
     COMMAND_CODE = "commandCode",
+    SVT_MATERIAL_TD = "svtMaterialTd",
 }
 
 export enum EntityFlag {
