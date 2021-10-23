@@ -28,6 +28,7 @@ const CraftEssencesPage = React.lazy(() => import("./Page/CraftEssencesPage"));
 const EnemyPage = React.lazy(() => import('./Page/EnemyPage'));
 const EnemyChangelogPage = React.lazy(() => import('./Page/EnemyChangelogPage'));
 const EntitiesPage = React.lazy(() => import('./Page/EntitiesPage'));
+const FaqPage = React.lazy(() => import("./Page/FaqPage"));
 const FuncPage = React.lazy(() => import('./Page/FuncPage'));
 const FuncsPage = React.lazy(() => import('./Page/FuncsPage'));
 const ItemPage = React.lazy(() => import('./Page/ItemPage'));
@@ -418,6 +419,14 @@ class App extends React.Component<any, IState> {
                                     <EnemyChangelogPage
                                         key={region}
                                         region={region as Region}/>
+                                </Suspense>
+                            )
+                        }} />
+                        <Route exact path="/:region(JP|NA|CN|KR|TW)/faq" render={props => {
+                            const {region} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <FaqPage region={region as Region}/>
                                 </Suspense>
                             )
                         }} />

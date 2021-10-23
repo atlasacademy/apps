@@ -1,5 +1,6 @@
 import {Region} from "@atlasacademy/api-connector";
 import React from "react";
+import { Link } from "react-router-dom";
 import Manager from "../Setting/Manager";
 
 interface IProps {
@@ -44,6 +45,12 @@ class HomePage extends React.Component<IProps> {
                     rel="noopener noreferrer">https://api.atlasacademy.io</a>.
                     The data at api.atlasacademy.io is automatically maintained and will be refreshed within an hour of
                     a new release of the game.
+                </p>
+
+                <p>
+                    <Link to={`${this.props.region ?? "NA"}/faq`}>
+                        <b>Frequently Asked Questions / How to navigate the DB</b>
+                    </Link>
                 </p>
 
                 <br/>

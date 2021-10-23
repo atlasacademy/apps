@@ -1,0 +1,13 @@
+ol.faq-list > ol > li {
+    margin-bottom: 1em;
+}
+
+.faq-link-hover-target .faq-link-icon {
+    text-decoration: none;
+    color: inherit;
+    visibility: hidden;
+}
+
+.faq-link-hover-target:hover .faq-link-icon {
+    visibility: visible;
+}
