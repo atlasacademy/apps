@@ -51,16 +51,18 @@ class ErrorStatus extends React.Component<IProps> {
 
         if (
             typeof this.props.error?.response?.data === "object"
-            && typeof this.props.error.response.data.detail === "string"
+            && this.props.error.response.data !== null
+            && typeof (this.props.error.response.data as any).detail === "string"
         ) {
-            message = this.props.error.response.data.detail;
+            message = (this.props.error.response.data as any).detail;
         }
 
         if (
             typeof this.props.error?.response?.data === "object"
-            && typeof this.props.error.response.data.detail === "object"
+            && this.props.error.response.data !== null
+            && typeof (this.props.error.response.data as any).detail === "object"
         ) {
-            const value_errors: string[] = this.props.error.response.data.detail.map((detail: ErrorDetail) => {
+            const value_errors: string[] = (this.props.error.response.data as any).detail.map((detail: ErrorDetail) => {
                 if (detail.type.startsWith("value_error.number")) {
                     return detail.msg.replace("ensure this value", detail.loc[1]);
                 } else {

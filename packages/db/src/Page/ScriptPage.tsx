@@ -50,7 +50,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         Manager.setRegion(region);
         setLoading(true);
         Promise.all([
-            axios.get(getScriptAssetURL(region, scriptId), { timeout: 10000 }),
+            axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }),
             Api.script(scriptId),
         ])
             .then(([rawScript, scriptData]) => {

@@ -49,7 +49,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
             try {
                 this.setState({
                     showing: true,
-                    data: (await axios.get(this.props.data)).data,
+                    data: (await axios.get<any>(this.props.data)).data,
                 });
             } catch (e) {
                 this.setState({
