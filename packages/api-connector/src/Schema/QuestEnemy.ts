@@ -120,11 +120,19 @@ export enum DeckType {
     TRANSFORM = "transform",
 }
 
+export enum RoleType {
+    NORMAL = "normal",
+    DANGER = "danger",
+    SERVANT = "servant",
+}
+
 export interface QuestEnemy {
     deck: DeckType;
+    deckId: number;
     userSvtId: number;
     uniqueId: number;
     npcId: number;
+    roleType: RoleType;
     name: string;
     svt: EntityBasic;
     drops: EnemyDrop[];
