@@ -165,7 +165,12 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                 ),
                 Individuality: mergeElements(
                     quest.individuality.map((trait) => (
-                        <TraitDescription region={props.region} trait={trait} />
+                        <TraitDescription
+                            region={props.region}
+                            trait={trait}
+                            owner="quests"
+                            ownerParameter="fieldIndividuality"
+                        />
                     )),
                     ", "
                 ),

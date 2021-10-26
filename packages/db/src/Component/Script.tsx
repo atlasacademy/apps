@@ -588,7 +588,7 @@ function parseDialogueWord(
     parserDialogueState: ParserDialogueState
 ): DialogueChildComponent {
     if (word[0] === "[") {
-        if (word[1] === "&") {
+        if (word[1] === "&" && word.includes(":")) {
             return parseDialogueGender(word, parserDialogueState);
         } else if (!isDialogueBasic(word)) {
             return parseBracketComponent(

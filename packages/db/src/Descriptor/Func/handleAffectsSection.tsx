@@ -107,7 +107,12 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         parts.push('if on field');
         parts.push(
             mergeElements(
-                func.funcquestTvals.map(trait => <TraitDescription region={region} trait={trait}/>),
+                func.funcquestTvals.map(trait => <TraitDescription
+                    region={region}
+                    trait={trait}
+                    owner="quests"
+                    ownerParameter="fieldIndividuality"/>
+                ),
                 ' or '
             )
         );
