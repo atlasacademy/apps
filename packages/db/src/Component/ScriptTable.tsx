@@ -279,9 +279,9 @@ const ScriptBracketRow = (props: {
 const ChoiceRouteInfo = ({routeInfo} : {routeInfo?: ScriptChoiceRouteInfo})=> {
     switch (routeInfo?.routeType) {
         case ScriptChoiceRouteType.TRUE:
-            return <>True Route</>
+            return <>True Route: </>
         case ScriptChoiceRouteType.BAD:
-            return <>Bad Route</>
+            return <>Bad Route: </>
     }
     return null;
 }
@@ -305,7 +305,7 @@ const ScriptRow = (props: {
                         <ul>
                             {component.choices.map((choice) => (
                                 <li key={choice.id}>
-                                    <ChoiceRouteInfo routeInfo={choice.routeInfo}/>: {" "}
+                                    <ChoiceRouteInfo routeInfo={choice.routeInfo}/>
                                     <ScriptDialogueLine
                                         components={choice.option}
                                     />
