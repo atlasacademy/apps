@@ -109,6 +109,11 @@ const getQuestSection = (quest: Quest.Quest) => {
     return "";
 };
 
+const firstPhaseLink = (region: Region, quest: Quest.Quest) => {
+    const firstPhase = Math.min(...quest.phases);
+    return `/${region}/quest/${quest.id}/${firstPhase}`;
+};
+
 const QuestTable = (props: {
     region: Region;
     quests: Quest.Quest[];
@@ -142,12 +147,12 @@ const QuestTable = (props: {
                     <tr key={quest.id}>
                         {hasSection ? <td>{getQuestSection(quest)}</td> : null}
                         <td>
-                            <Link to={`/${region}/quest/${quest.id}/1`}>
+                            <Link to={firstPhaseLink(region, quest)}>
                                 {quest.id}
                             </Link>
                         </td>
                         <td style={{ maxWidth: "15em" }}>
-                            <Link to={`/${region}/quest/${quest.id}/1`}>
+                            <Link to={firstPhaseLink(region, quest)}>
                                 {quest.name}
                             </Link>
                         </td>
@@ -351,10 +356,11 @@ class WarPage extends React.Component<IProps, IState> {
     }
 
     async loadItemMap() {
-        Api.itemList()
-            .then((items) => this.setState({
+        Api.itemList().then((items) =>
+            this.setState({
                 itemCache: new Map(items.map((item) => [item.id, item])),
-            }));
+            })
+        );
     }
 
     async loadWar() {
@@ -376,7 +382,9 @@ class WarPage extends React.Component<IProps, IState> {
         const event =
             war.eventId !== 0 ? (
                 <Link to={`/${this.props.region}/event/${war.eventId}`}>
-                    {war.eventName !== "" ? war.eventName : `Event ${war.eventId}`}
+                    {war.eventName !== ""
+                        ? war.eventName
+                        : `Event ${war.eventId}`}
                 </Link>
             ) : (
                 ""
@@ -446,7 +454,9 @@ class WarPage extends React.Component<IProps, IState> {
                     <DataTable
                         data={{
                             ID: war.id,
-                            Name: <span className="newline">{war.longName}</span>,
+                            Name: (
+                                <span className="newline">{war.longName}</span>
+                            ),
                             Age: war.age,
                             Event: event,
                             "Opening Script": openingScript,

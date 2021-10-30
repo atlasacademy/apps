@@ -1,6 +1,7 @@
 import { Region } from "@atlasacademy/api-connector";
 import { AssetHost } from "../Api";
 import { flatten } from "../Helper/PolyFill";
+import { splitString } from "../Helper/StringHelper";
 
 export enum ScriptComponentType {
     UNPARSED,
@@ -414,10 +415,23 @@ export type ScriptChoiceChildComponent =
     | ScriptBracketComponent
     | ScriptDialogue;
 
+export enum ScriptChoiceRouteType {
+    NONE,
+    BAD,
+    TRUE,
+}
+
+export type ScriptChoiceRouteInfo = {
+    route: number;
+    saveCollection: boolean;
+    routeType: ScriptChoiceRouteType;
+};
+
 export type ScriptChoice = {
     id: number;
     option: DialogueChildComponent[];
     results: ScriptChoiceChildComponent[];
+    routeInfo?: ScriptChoiceRouteInfo;
 };
 
 export type ScriptChoices = {
@@ -443,11 +457,11 @@ type ParserState = {
 
 type ParserDialogueState = { colorHex?: string; size?: DialogueTextSize };
 
+/**
+ * Split the bracketed parameter into its components.
+ * "[a b [c d]]" => ["a", "b", "[c d]"]
+ */
 function parseParameter(line: string): string[] {
-    /*
-    Split the bracketed parameter into its components.
-    "[a b [c d]]" => ["a", "b", "[c d]"]
-    */
     const noNewLine = line.replace("\n", " ").replace("\r", " ").trim(),
         sliceStart = noNewLine[0] === "[" ? 1 : 0,
         sliceEnd =
@@ -1106,7 +1120,12 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                     break;
                 }
 
-                const lineChoiceNumber = parseInt(line[1]);
+                const [routeDetail, optionText] = splitString(
+                    line.slice(1),
+                    "：",
+                    1
+                );
+                const lineChoiceNumber = parseInt(routeDetail[0]);
                 if (lineChoiceNumber !== choice.id && choice.id !== -1) {
                     choices.push({ ...choice });
                 }
@@ -1114,10 +1133,27 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 choice.id = lineChoiceNumber;
                 choice.option = parseDialogueLine(
                     region,
-                    line.slice(3),
+                    optionText,
                     parserState
                 );
                 choice.results = [];
+                if (routeDetail.includes(",")) {
+                    const routeParams = routeDetail.split(",");
+                    let routeType = ScriptChoiceRouteType.NONE;
+                    switch (routeParams[3]) {
+                        case "trueRoute":
+                            routeType = ScriptChoiceRouteType.TRUE;
+                            break;
+                        case "badRoute":
+                            routeType = ScriptChoiceRouteType.BAD;
+                            break;
+                    }
+                    choice.routeInfo = {
+                        route: parseInt(routeParams[1]),
+                        saveCollection: routeParams[2] === "saveCollection",
+                        routeType,
+                    };
+                }
 
                 parserState.choice = true;
                 break;

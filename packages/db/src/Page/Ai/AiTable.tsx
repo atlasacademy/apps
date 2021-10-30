@@ -307,7 +307,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td>Priority|Probability</td>
+                    <td>Priority|Weight</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             {ai.priority}|{ai.probability}

@@ -350,7 +350,7 @@ class WarsPage extends React.Component<IProps, IState> {
                                     }
                                 </Button>
                             </th>
-                            <th>Name</th>
+                            <th>War Name</th>
                             <th>Event</th>
                         </tr>
                     </thead>
