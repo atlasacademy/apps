@@ -84,6 +84,7 @@ interface BaseDataVal {
     TargetIndiv?: number;
     IncludeIgnoreIndividuality?: number;
     EvenIfWinDie?: number;
+    CallSvtEffectId?: number;
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -180,6 +181,7 @@ export enum DataValField {
     TARGET_INDIV = "TargetIndiv",
     INCLUDE_IGNORE_INDIVIDUALITY = "IncludeIgnoreIndividuality",
     EVEN_IF_WIN_DIE = "EvenIfWinDie",
+    CALL_SVT_EFFECT_ID = "CallSvtEffectId",
     PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",
