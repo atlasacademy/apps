@@ -305,9 +305,10 @@ class WarsPage extends React.Component<IProps, IState> {
                                                 : "outline-dark"
                                         }
                                         key={warType}
-                                        onClick={(_) =>
-                                            this.toggleWarTypeFilter(warType)
-                                        }
+                                        onClick={(_) => {
+                                            this.toggleWarTypeFilter(warType);
+                                            this.setState({ page: 0 });
+                                        }}
                                     >
                                         {warType.toString()}
                                     </Button>
