@@ -10,6 +10,7 @@ export enum MissionType {
     EXTRA = "extra",
     LIMITED = "limited",
     COMPLETE = "complete",
+    RANDOM = "random",
 }
 
 export enum RewardType {
