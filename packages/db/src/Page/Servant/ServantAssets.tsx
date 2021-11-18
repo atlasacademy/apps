@@ -64,6 +64,12 @@ class ServantAssets extends React.Component<IProps> {
                         <div key={form}>{renderCollapsibleContent({ title: `Form ${form}`, content: this.displayAssets(assetMap), subheader: true })}</div>
                     ))
                 }
+                <br />
+                {Object.entries(this.props.servant.extraAssets.charaFigureMulti)
+                    .map(([idx, assetMap]) => (
+                        <div key={idx}>{renderCollapsibleContent({ title: `Character ${idx}`, content: this.displayAssets(assetMap), subheader: true })}</div>
+                    ))
+                }
             </>
         )
 

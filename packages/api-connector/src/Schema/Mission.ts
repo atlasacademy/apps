@@ -31,7 +31,8 @@ export enum ProgressType {
 export enum DetailCondLinkType {
     EVENT_START = "eventStart",
     MISSION_START = "missionStart",
-    MASTER＿MISSION_START = "master＿missionStart",
+    MASTER_MISSION_START = "masterMissionStart",
+    RANDOM_MISSION_START = "randomMissionStart",
 }
 
 export enum DetailCondType {

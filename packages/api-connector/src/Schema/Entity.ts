@@ -59,6 +59,7 @@ export interface EntityAssetMap {
 export interface EntityAssets {
     charaFigure: EntityAssetMap;
     charaFigureForm: { [key: string]: EntityAssetMap };
+    charaFigureMulti: { [key: string]: EntityAssetMap };
     charaGraph: EntityAssetMap;
     charaGraphEx: EntityAssetMap;
     commands: EntityAssetMap;
