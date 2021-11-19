@@ -132,7 +132,7 @@ function EnemyNpcDescription(props: {
                 className="move-button"
                 onClick={() => props.handleNavigateEnemyHash?.(hash)}
             >
-                {enemy.userSvtId}.{" "}
+                {enemy.deckId}.{" "}
                 <ClassIcon
                     className={enemy.svt.className}
                     rarity={enemy.svt.rarity}
@@ -514,7 +514,7 @@ const QuestEnemyTable = (props: {
     return (
         <>
             <h3>
-                {enemy.userSvtId}.{" "}
+                {enemy.deckId}.{" "}
                 <EntityDescriptor
                     region={region}
                     entity={enemy.svt}

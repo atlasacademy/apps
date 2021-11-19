@@ -1,5 +1,5 @@
 import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
-import { faBook, faDragon, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faDragon, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React, { useState } from "react";
@@ -85,7 +85,7 @@ const PhaseLink = ({
     const isRepeatableIcon = isRepeatable ? (
         <>
             &nbsp;
-            <FontAwesomeIcon icon={faRedoAlt} />
+            <FontAwesomeIcon icon={faRepeat} /> 
         </>
     ) : null;
     const hasEnemies = quest.phasesWithEnemies.includes(phase);
