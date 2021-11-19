@@ -95,6 +95,7 @@ const QuestMainData = (props: {
     const quest = props.quest;
     return (
         <DataTable
+            responsive
             data={{
                 ID: quest.id,
                 Phases: (
@@ -149,6 +150,7 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
     const quest = props.quest;
     return (
         <DataTable
+            responsive
             data={{
                 "QP Reward": quest.qp.toLocaleString(),
                 EXP: quest.exp.toLocaleString(),
