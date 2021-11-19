@@ -24,6 +24,13 @@ export enum QuestType {
     WAR_BOARD = "warBoard",
 }
 
+export enum QuestAfterClearType {
+    CLOSE = "close",
+    REPEAT_FIRST = "repeatFirst",
+    REPEAT_LAST = "repeatLast",
+    RESET_INTERVAL = "resetInterval",
+}
+
 export interface QuestRelease {
     type: CondType;
     targetId: number;
@@ -86,6 +93,7 @@ export interface Quest {
     consumeType: QuestConsumeType;
     consume: number;
     consumeItem: { item: Item; amount: number }[];
+    afterClear: QuestAfterClearType;
     spotId: number;
     warId: number;
     warLongName: string;

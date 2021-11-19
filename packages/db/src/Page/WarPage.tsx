@@ -1,5 +1,5 @@
 import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
-import { faBook, faDragon } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faDragon, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React, { useState } from "react";
@@ -68,9 +68,28 @@ const SpotImage = (props: { src?: string; name: string; height: string }) => {
     );
 };
 
-const phaseLink = (region: Region, quest: Quest.Quest, phase: number) => {
+const PhaseLink = ({
+    region,
+    quest,
+    phase,
+}: {
+    region: Region;
+    quest: Quest.Quest;
+    phase: number;
+}) => {
+    let description = `Arrow ${phase}`;
+    const isRepeatable =
+        quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST &&
+        phase === Math.max(...quest.phases);
+    if (isRepeatable) description += " (repeatable)";
+    const isRepeatableIcon = isRepeatable ? (
+        <>
+            &nbsp;
+            <FontAwesomeIcon icon={faRedoAlt} />
+        </>
+    ) : null;
     const hasEnemies = quest.phasesWithEnemies.includes(phase);
-    const hasEnemiesDescription = hasEnemies ? " (has enemies data)" : "";
+    if (hasEnemies) description += " (has enemies data)";
     const hasEnemiesIcon = hasEnemies ? (
         <>
             &nbsp;
@@ -78,7 +97,7 @@ const phaseLink = (region: Region, quest: Quest.Quest, phase: number) => {
         </>
     ) : null;
     const isStory = quest.phasesNoBattle.includes(phase);
-    const isStoryDescription = isStory ? " (has no battle)" : "";
+    if (isStory) description += " (has no battle)";
     const isStoryIcon = isStory ? (
         <>
             &nbsp;
@@ -87,12 +106,13 @@ const phaseLink = (region: Region, quest: Quest.Quest, phase: number) => {
     ) : null;
     return (
         <Link
-            title={`Arrow ${phase}${hasEnemiesDescription}${isStoryDescription}`}
+            title={description}
             key={phase}
             to={`/${region}/quest/${quest.id}/${phase}`}
             style={{ whiteSpace: "nowrap" }}
         >
             {phase}
+            {isRepeatableIcon}
             {hasEnemiesIcon}
             {isStoryIcon}
         </Link>
@@ -170,9 +190,13 @@ const QuestTable = (props: {
                         ) : null}
                         <td>
                             {mergeElements(
-                                quest.phases.map((phase) =>
-                                    phaseLink(region, quest, phase)
-                                ),
+                                quest.phases.map((phase) => (
+                                    <PhaseLink
+                                        region={region}
+                                        quest={quest}
+                                        phase={phase}
+                                    />
+                                )),
                                 <br />
                             )}
                         </td>

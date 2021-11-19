@@ -52,9 +52,10 @@ interface IState {
 const PhaseNavigator = (props: {
     region: Region;
     quest: Quest.QuestPhase;
+    currentPhase: number;
     setPhase: (phase: number) => void;
 }) => {
-    const currentPhase = props.quest.phase,
+    const currentPhase = props.currentPhase,
         phases = props.quest.phases.sort((a, b) => a - b);
     return (
         <Pagination style={{ marginBottom: 0, float: "right" }}>
@@ -88,6 +89,7 @@ const PhaseNavigator = (props: {
 const QuestMainData = (props: {
     region: Region;
     quest: Quest.QuestPhase;
+    phase: number;
     setPhase: (phase: number) => void;
 }) => {
     const quest = props.quest;
@@ -99,6 +101,7 @@ const QuestMainData = (props: {
                     <PhaseNavigator
                         region={props.region}
                         quest={quest}
+                        currentPhase={props.phase}
                         setPhase={props.setPhase}
                     />
                 ),
@@ -124,6 +127,12 @@ const QuestMainData = (props: {
                         ))}
                     </>
                 ),
+                Repeatable:
+                    quest.afterClear ===
+                        Quest.QuestAfterClearType.REPEAT_LAST &&
+                    props.phase === Math.max(...quest.phases)
+                        ? "True"
+                        : "False",
                 War: (
                     <Link to={`/${props.region}/war/${quest.warId}`}>
                         {quest.warLongName}
@@ -254,13 +263,27 @@ class QuestPage extends React.Component<IProps, IState> {
 
     componentDidMount() {
         Manager.setRegion(this.props.region);
-        this.loadQuest(this.state.phase);
+        this.loadQuest(this.props.phase);
+    }
+
+    componentDidUpdate(
+        prevProps: Readonly<IProps>,
+        prevState: Readonly<IState>
+    ) {
+        if (
+            this.props.id !== prevProps.id ||
+            this.state.phase !== prevState.phase
+        ) {
+            this.loadQuest(this.state.phase);
+            const url = `/${this.props.region}/quest/${this.props.id}/${this.state.phase}`;
+            this.props.history.push(url);
+        }
     }
 
     async loadQuest(phase: number) {
         Api.questPhase(this.props.id, phase)
             .then((quest) => {
-                document.title = `[${this.props.region}] Quest - ${quest.name} - Atlas Academy DB`;
+                document.title = `[${this.props.region}] Quest - ${quest.name} - Phase ${phase} - Atlas Academy DB`;
                 this.setState({ quest, loading: false });
             })
             .catch((error) => this.setState({ error }));
@@ -283,10 +306,9 @@ class QuestPage extends React.Component<IProps, IState> {
                         <QuestMainData
                             region={this.props.region}
                             quest={quest}
+                            phase={this.state.phase}
                             setPhase={(phase) => {
-                                this.props.history.replace(
-                                    `/${this.props.region}/quest/${this.props.id}/${phase}`
-                                );
+                                this.setState({ phase });
                             }}
                         />
                     </Col>

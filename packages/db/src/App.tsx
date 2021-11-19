@@ -230,7 +230,7 @@ class App extends React.Component<any, IState> {
                             return (
                                 <Suspense fallback={<Loading/>}>
                                     <QuestPage
-                                        key={`${region}-${id}-${phase}`}
+                                        key={`${region}-${id}`}
                                         region={region as Region}
                                         id={parseInt(id)}
                                         phase={parseInt(phase)}
