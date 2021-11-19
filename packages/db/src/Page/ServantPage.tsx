@@ -31,6 +31,8 @@ import VoiceActorDescriptor from "../Descriptor/VoiceActorDescriptor";
 import IllustratorDescriptor from "../Descriptor/IllustratorDescriptor";
 import ExtraPassive from "./Servant/ExtraPassive";
 
+import "./ServantPage.css";
+
 type AssetType = "ascension" | "costume";
 
 interface IProps extends RouteComponentProps {
@@ -209,7 +211,6 @@ class ServantPage extends React.Component<IProps, IState> {
                       }}>
                     {[1, 2, 3].map(i => (
                         <Tab key={`skill-${i}`} eventKey={`skill-${i}`} title={`Skill ${i}`}>
-                            <br/>
                             {servant.skills
                                 .filter(skill => skill.num === i)
                                 .sort((a, b) => b.id - a.id)
@@ -235,7 +236,6 @@ class ServantPage extends React.Component<IProps, IState> {
                         </Tab>
                     ))}
                     <Tab eventKey={'noble-phantasms'} title={'NPs'}>
-                        <br/>
                         {servant.noblePhantasms
                             .filter(noblePhantasm => noblePhantasm.functions.length > 0)
                             // Card change NPs have 0 priority.
@@ -251,7 +251,6 @@ class ServantPage extends React.Component<IProps, IState> {
                             })}
                     </Tab>
                     <Tab eventKey={'passives'} title={'Passives'}>
-                        <br/>
                         <Row>
                             {servant.classPassive.map((skill) => {
                                 return (
@@ -286,11 +285,9 @@ class ServantPage extends React.Component<IProps, IState> {
                         </> : null}
                     </Tab>
                     <Tab eventKey={'traits'} title={'Traits'}>
-                        <br/>
                         <ServantTraits region={this.props.region} servant={this.state.servant}/>
                     </Tab>
                     <Tab eventKey={'materials'} title={'Materials'}>
-                        <br/>
                         <Row>
                             <Col xs={12} lg={6}>
                                 <ServantMaterialBreakdown region={this.props.region}
@@ -340,11 +337,10 @@ class ServantPage extends React.Component<IProps, IState> {
                         }
                     </Tab>
                     <Tab eventKey={'stat-growth'} title={'Growth'}>
-                        <br/>
                         <ServantStatGrowth region={this.props.region} servant={servant}/>
                     </Tab>
                     <Tab eventKey={'lore'} title={'Profile'}>
-                        <Alert variant="success" style={{ lineHeight: "2em", margin: "1em 0" }}>
+                        <Alert variant="success" style={{ lineHeight: "2em" }}>
                             <IllustratorDescriptor
                                 region={this.props.region}
                                 illustrator={servant.profile?.illustrator}/>
@@ -359,11 +355,9 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []}/>
                     </Tab>
                     <Tab eventKey={'assets'} title={'Assets'}>
-                        <br/>
                         <ServantAssets region={this.props.region} servant={servant}/>
                     </Tab>
                     <Tab eventKey={'voices'} title={'Voices'}>
-                        <br/>
                         <ServantVoiceLines
                             region={this.props.region}
                             servants={new Map(this.state.servants.map((servant) => [servant.id, servant]))}

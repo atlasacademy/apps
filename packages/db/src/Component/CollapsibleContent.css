@@ -2,6 +2,11 @@
     font-size: 2em;
     line-height: 1em;
     margin-top: 5%;
+    transition: transform 0.3s ease;
+}
+
+.collapsible-header-rotate-arrow {
+    transform: rotate(-180deg);
 }
 
 .collapsible-card {

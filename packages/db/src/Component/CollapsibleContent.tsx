@@ -1,13 +1,14 @@
 import {useContext} from "react";
 import {Accordion, AccordionContext, Card} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import {Renderable} from "../Helper/OutputHelper";
 import "./CollapsibleContent.css";
 
 export function ArrowToggle({ eventKey } : { eventKey: string }) {
     const currentKey = useContext(AccordionContext);
-    return <FontAwesomeIcon className="collapsible-header-collapse-actions" icon={(currentKey === eventKey) ? faChevronUp : faChevronDown} />
+    const rotateClass = (currentKey === eventKey) ? "collapsible-header-rotate-arrow" : "";
+    return <FontAwesomeIcon className={`collapsible-header-collapse-actions ${rotateClass}`} icon={faChevronDown} />
 }
 
 function renderCollapsibleContent(
