@@ -146,8 +146,13 @@ const QuestMainData = (props: {
     );
 };
 
-const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
-    const quest = props.quest;
+const QuestSubData = ({
+    region,
+    quest,
+}: {
+    region: Region;
+    quest: Quest.QuestPhase;
+}) => {
     return (
         <DataTable
             data={{
@@ -164,7 +169,7 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                                     ? `${cond.closedMessage} — `
                                     : ""}
                                 <CondTargetValueDescriptor
-                                    region={props.region}
+                                    region={region}
                                     cond={cond.type}
                                     target={cond.targetId}
                                     value={cond.value}
@@ -176,7 +181,7 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                 Individuality: mergeElements(
                     quest.individuality.map((trait) => (
                         <TraitDescription
-                            region={props.region}
+                            region={region}
                             trait={trait}
                             owner="quests"
                             ownerParameter="fieldIndividuality"
@@ -192,7 +197,7 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                 ),
                 "Battle BG ID": (
                     <Link
-                        to={`/${props.region}/quests?battleBgId=${quest.battleBgId}`}
+                        to={`/${region}/quests?battleBgId=${quest.battleBgId}`}
                     >
                         {quest.battleBgId}
                     </Link>
@@ -200,12 +205,17 @@ const QuestSubData = (props: { region: Region; quest: Quest.QuestPhase }) => {
                 Raw: (
                     <Row>
                         <Col>
-                            <RawDataViewer text="Nice" data={quest} />
+                            <RawDataViewer
+                                key={`${region}-${quest.id}-${quest.phase}`}
+                                text="Nice"
+                                data={quest}
+                            />
                         </Col>
                         <Col>
                             <RawDataViewer
+                                key={`${region}-${quest.id}-${quest.phase}`}
                                 text="Raw"
-                                data={`${Host}/raw/${props.region}/quest/${quest.id}/${quest.phase}`}
+                                data={`${Host}/raw/${region}/quest/${quest.id}/${quest.phase}`}
                             />
                         </Col>
                     </Row>
