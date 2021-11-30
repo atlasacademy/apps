@@ -22,6 +22,8 @@ class CommandCodePortrait extends React.Component<IProps> {
             <div>
                 <img alt={this.props.commandCode.name}
                      id={'command-code-portrait'}
+                     width={512}
+                     height={875}
                      src={asset}/>
             </div>
         );

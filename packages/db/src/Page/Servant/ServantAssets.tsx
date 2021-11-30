@@ -1,9 +1,10 @@
 import {Entity, Region, Servant} from "@atlasacademy/api-connector";
 import React from "react";
-import {mergeElements} from "../../Helper/OutputHelper";
 import {Alert} from "react-bootstrap";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
+
+import "./ServantAssets.css";
 
 interface IProps {
     region: Region;
@@ -38,19 +39,18 @@ class ServantAssets extends React.Component<IProps> {
         return assets;
     }
 
-    private displayAssets(assetMap: Entity.EntityAssetMap | undefined, story = false) {
-        let assets;
-        if (story) {
-            assets = this.flattenStoryAssets(assetMap);
-        } else {
-            assets = this.flattenAssets(assetMap);
-        }
-
-        return mergeElements(
-            assets.map(asset => <a key={asset} href={asset} target={'_blank'} rel={'noopener noreferrer'}>
-                <img alt={''} src={asset} style={{maxWidth: "100%"}}/>
-            </a>),
-            ''
+    private displayAssets(assetMap: Entity.EntityAssetMap | undefined, size: {width: number, height: number} | undefined = undefined, story = false) {
+        const assets = story ? this.flattenStoryAssets(assetMap) : this.flattenAssets(assetMap);
+        const getImg = size !== undefined
+            ? (asset: string) => <img alt='' src={asset} width={size.width} height={size.height} className="servant-asset-images"/>
+            : (asset: string) => <img alt='' src={asset} className="servant-asset-images"/>
+        
+        return (
+            <>
+                {assets.map(asset => 
+                <a key={asset} href={asset} target='_blank' rel='noopener noreferrer'>{getImg(asset)}</a>)
+                }
+            </>
         );
     }
 
@@ -75,17 +75,17 @@ class ServantAssets extends React.Component<IProps> {
 
         const portraits = (
             <>
-                {this.displayAssets(this.props.servant.extraAssets.charaGraph)}
-                {this.displayAssets(this.props.servant.extraAssets.charaGraphEx)}
+                {this.displayAssets(this.props.servant.extraAssets.charaGraph, {width: 512, height: 724})}
+                {this.displayAssets(this.props.servant.extraAssets.charaGraphEx, {width: 512, height: 724})}
             </>
         );
 
         const content = [
             { title: "Portraits", content: portraits },
-            { title: "Status", content: this.displayAssets(this.props.servant.extraAssets.status) },
-            { title: "Command", content: this.displayAssets(this.props.servant.extraAssets.commands) },
-            { title: "Formation", content: this.displayAssets(this.props.servant.extraAssets.narrowFigure) },
-            { title: "Thumbnail", content: this.displayAssets(this.props.servant.extraAssets.faces) },
+            { title: "Status", content: this.displayAssets(this.props.servant.extraAssets.status, {width: 256, height: 256}) },
+            { title: "Command", content: this.displayAssets(this.props.servant.extraAssets.commands, {width: 256, height: 256}) },
+            { title: "Formation", content: this.displayAssets(this.props.servant.extraAssets.narrowFigure, {width: 148, height: 375}) },
+            { title: "Thumbnail", content: this.displayAssets(this.props.servant.extraAssets.faces, {width: 128, height: 128}) },
             { title: "Figure", content: charaFigure }
         ].map(a => Object.assign({}, a, { subheader: false }));
         return (
@@ -100,8 +100,8 @@ class ServantAssets extends React.Component<IProps> {
                         title: "Story Figure (May contain spoilers)",
                         content: (
                             <>
-                            {this.displayAssets(this.props.servant.extraAssets.charaFigure, true)}
-                            {this.displayAssets(this.props.servant.extraAssets.image, true)}
+                            {this.displayAssets(this.props.servant.extraAssets.charaFigure, undefined, true)}
+                            {this.displayAssets(this.props.servant.extraAssets.image, undefined, true)}
                             </>
                         ),
                         subheader: false,
@@ -113,7 +113,7 @@ class ServantAssets extends React.Component<IProps> {
                             {assetMap.story
                             ? renderCollapsibleContent({
                                 title: `Story Figure Form ${form}`,
-                                content: this.displayAssets(assetMap, true),
+                                content: this.displayAssets(assetMap, undefined, true),
                                 subheader: true,
                                 initialOpen: false})
                             : null}

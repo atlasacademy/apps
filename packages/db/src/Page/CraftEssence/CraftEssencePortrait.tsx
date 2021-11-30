@@ -24,6 +24,8 @@ class CraftEssencePortrait extends React.Component<IProps> {
             <div>
                 <img alt={this.props.craftEssence.name}
                      id={'craft-essence-portrait'}
+                     width={512}
+                     height={875}
                      src={asset}/>
             </div>
         );
