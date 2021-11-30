@@ -185,7 +185,9 @@ async function handleDBEvent(event: FetchEvent) {
         return overwrite(responseDetail, title);
     }
 
-    const language = ["JP", "TW", "CN"].includes(event.request.cf.country)
+    const language = ["JP", "TW", "CN"].includes(
+        event.request.cf?.country ?? ""
+    )
         ? "jp"
         : "en";
 

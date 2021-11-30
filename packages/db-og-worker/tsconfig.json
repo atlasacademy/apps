@@ -3,7 +3,7 @@
     "outDir": "./dist",
     "module": "commonjs",
     "target": "es2018",
-    "lib": ["es2020", "webworker"],
+    "lib": ["es2020"],
     "alwaysStrict": true,
     "strict": true,
     "preserveConstEnums": true,
