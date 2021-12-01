@@ -1,34 +1,16 @@
 class AudioElement {
     private element: HTMLAudioElement = new Audio();
     private url: string;
-    private loaded: boolean = false;
 
     constructor(url: string) {
         this.url = url;
     };
 
     load() {
-        return new Promise(res => {
-            if (this.loaded) {
-                res(undefined);
-
-                return;
-            }
-
-            const element = new Audio(this.url);
-            element.volume = 0.5;
-
-            element.addEventListener('loadeddata', () => {
-                element.pause();
-                element.currentTime = 0;
-                this.loaded = true;
-
-                res(undefined);
-            });
-
-            element.play();
-            this.element = element;
-        });
+        const element = new Audio(this.url);
+        element.volume = 0.5;
+        element.load();
+        this.element = element;
     }
 
     play() {
@@ -37,7 +19,7 @@ class AudioElement {
                 this.stop();
                 res(undefined);
             };
-            this.element.play();
+            this.element.play().catch(() => {});
         });
     }
 
@@ -59,7 +41,8 @@ export class VoiceLine {
     }
 
     async play() {
-        for (let { audio } of this.voiceLines) await audio.load();
+        this.current = this.voiceLines[0].audio;
+        for (let { audio } of this.voiceLines) audio.load();
         for (let line of this.voiceLines) {
             if (this.stopping) break;
             await new Promise(resolve => setTimeout(resolve, line.delay * 1000));
