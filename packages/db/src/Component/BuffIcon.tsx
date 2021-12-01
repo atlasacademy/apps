@@ -12,7 +12,10 @@ class BuffIcon extends React.Component<IProp> {
             <img
                 alt={""}
                 src={this.props.location}
+                width={110}
+                height={110}
                 style={{
+                    width: "auto",
                     height: this.props.height ?? 25,
                     minHeight: this.props.height ?? 25,
                     verticalAlign: "bottom",

@@ -4,6 +4,8 @@ import React from "react";
 import {Button} from "react-bootstrap";
 import {VoiceLine} from "./VoiceLine";
 
+import "./VoiceLinePlayer.css";
+
 const VoiceLineStorage = new Map<string, VoiceLine>();
 
 interface IProps {
@@ -80,7 +82,7 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
             <Button
                 variant={this.state.playing ? 'warning' : 'success'}
                 onClick={this.onClick}
-                style={{whiteSpace: "nowrap"}}
+                className="voice-line-player-button"
                 title={title}>
                 <FontAwesomeIcon icon={this.state.playing ? faStop : faPlay}/>
                 {this.props.showTitle ? <>&nbsp;{title}</> : null}

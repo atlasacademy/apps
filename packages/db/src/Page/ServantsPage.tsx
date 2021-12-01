@@ -8,7 +8,6 @@ import {Link} from "react-router-dom";
 import Api from "../Api";
 import ClassIcon from "../Component/ClassIcon";
 import ErrorStatus from "../Component/ErrorStatus";
-import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import Manager from "../Setting/Manager";
@@ -380,10 +379,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                             </td>
                             <td className="col-center">
                                 <Link to={route}>
-                                    <FaceIcon type={servant.type}
-                                              rarity={servant.rarity}
-                                              location={servant.face}
-                                              height={50}/>
+                                    <img src={servant.face} alt={`${servant.name} face icon`} width={50} height={50} />
                                 </Link>
                             </td>
                             <td style={{ whiteSpace: Manager.showingJapaneseText() ? "nowrap": "normal" }}>

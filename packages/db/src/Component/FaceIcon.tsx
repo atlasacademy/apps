@@ -1,4 +1,4 @@
-import {Entity} from "@atlasacademy/api-connector";
+import { Entity } from "@atlasacademy/api-connector";
 import React from "react";
 
 interface IProps {
@@ -9,15 +9,18 @@ interface IProps {
 }
 
 class FaceIcon extends React.Component<IProps> {
-
     render() {
         return (
-            <img alt={''} src={this.props.location}
-                 key={this.props.location}
-                 style={{height: this.props.height ?? '2em'}}/>
+            <img
+                alt={""}
+                src={this.props.location}
+                key={this.props.location}
+                width={128}
+                height={128}
+                style={{ height: this.props.height ?? "2em", width: "auto" }}
+            />
         );
     }
-
 }
 
 export default FaceIcon;

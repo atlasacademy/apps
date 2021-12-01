@@ -1,6 +1,6 @@
-import {ClassName} from "@atlasacademy/api-connector";
+import { ClassName } from "@atlasacademy/api-connector";
 import React from "react";
-import {AssetHost} from "../Api";
+import { AssetHost } from "../Api";
 
 const classTypes = new Map<number, number>([
     [0, 0],
@@ -36,7 +36,7 @@ const classIds = new Map<ClassName, number>([
 
     [ClassName.ALL, 1001],
     [ClassName.EXTRA, 1002],
-    [ClassName.UNKNOWN, 97]
+    [ClassName.UNKNOWN, 97],
 ]);
 const unknownClassId = 12;
 
@@ -49,15 +49,23 @@ interface IProps {
 class ClassIcon extends React.Component<IProps> {
     render() {
         return (
-            <img alt={''} src={this.location()}
-                 style={{height: this.props.height ?? 24}}/>
+            <img
+                alt={`${this.props.className} class icon`}
+                src={this.location()}
+                width={this.props.height ?? 24}
+                height={this.props.height ?? 24}
+            />
         );
     }
 
     private location(): string {
-        let classId = classIds.has(this.props.className) ? classIds.get(this.props.className) : unknownClassId,
+        let classId = classIds.has(this.props.className)
+                ? classIds.get(this.props.className)
+                : unknownClassId,
             rarity = this.props.rarity ?? 5,
-            type = classTypes.has(rarity) ? classTypes.get(rarity) : unknownClassType;
+            type = classTypes.has(rarity)
+                ? classTypes.get(rarity)
+                : unknownClassType;
 
         return `${AssetHost}/JP/ClassIcons/class${type}_${classId}.png`;
     }
