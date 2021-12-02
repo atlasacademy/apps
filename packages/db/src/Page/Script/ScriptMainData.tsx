@@ -1,6 +1,6 @@
 import { Quest, Region, Script } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Row, Col, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Api from "../../Api";
 import { QuestDescriptionNoApi } from "../../Descriptor/QuestDescriptor";
@@ -156,43 +156,6 @@ const ScriptMainData = ({
                     .includes(scriptId)
         )?.phase ?? scriptIdPhaseNum;
 
-    const scriptNavigation = (
-        <tr>
-            <th>Previous Script</th>
-            <td className="script-nav-link">
-                {previousScript === undefined ? (
-                    `N/A${
-                        firstScriptInWar
-                            ? ": This is the first script in this war"
-                            : ""
-                    }`
-                ) : (
-                    <ScriptDescriptor
-                        region={region}
-                        scriptId={previousScript}
-                        scriptType=""
-                    />
-                )}
-            </td>
-            <th>Next Script</th>
-            <td className="script-nav-link">
-                {nextScript === undefined ? (
-                    `N/A${
-                        lastScriptInWar
-                            ? ": This is the last script in this war"
-                            : ""
-                    }`
-                ) : (
-                    <ScriptDescriptor
-                        region={region}
-                        scriptId={nextScript}
-                        scriptType=""
-                    />
-                )}
-            </td>
-        </tr>
-    );
-
     const questList =
         scriptData.quests.length === 0 ? null : (
             <>
@@ -232,7 +195,40 @@ const ScriptMainData = ({
                     <th>Script Type</th>
                     <td colSpan={3}>{getScriptType(scriptId)}</td>
                 </tr>
-                {scriptNavigation}
+                <tr>
+                    <th>Previous Script</th>
+                    <td className="script-nav-link">
+                        {previousScript === undefined ? (
+                            `N/A${
+                                firstScriptInWar
+                                    ? ": This is the first script in this war"
+                                    : ""
+                            }`
+                        ) : (
+                            <ScriptDescriptor
+                                region={region}
+                                scriptId={previousScript}
+                                scriptType=""
+                            />
+                        )}
+                    </td>
+                    <th>Next Script</th>
+                    <td className="script-nav-link">
+                        {nextScript === undefined ? (
+                            `N/A${
+                                lastScriptInWar
+                                    ? ": This is the last script in this war"
+                                    : ""
+                            }`
+                        ) : (
+                            <ScriptDescriptor
+                                region={region}
+                                scriptId={nextScript}
+                                scriptType=""
+                            />
+                        )}
+                    </td>
+                </tr>
             </>
         );
 
@@ -271,17 +267,32 @@ const ScriptMainData = ({
             </Table>
             {children}
             {children === undefined ? null : (
-                <>
-                    <br />
-                    <Table
-                        bordered
-                        hover
-                        responsive
-                        className="data-table script-data"
-                    >
-                        <tbody>{scriptNavigation}</tbody>
-                    </Table>
-                </>
+                <Row className="mt-3">
+                    <Col xs={12} sm="auto">
+                        {previousScript === undefined ? null : (
+                            <Button
+                                className="w-100 mb-2"
+                                variant="light"
+                                as={Link}
+                                to={`/${region}/script/${previousScript}`}
+                            >
+                                Previous Script: {previousScript}
+                            </Button>
+                        )}
+                    </Col>
+                    <Col xs={12} sm="auto" className="ml-auto">
+                        {nextScript === undefined ? null : (
+                            <Button
+                                className="w-100"
+                                variant="light"
+                                as={Link}
+                                to={`/${region}/script/${nextScript}`}
+                            >
+                                Next Script: {nextScript}
+                            </Button>
+                        )}
+                    </Col>
+                </Row>
             )}
         </>
     );

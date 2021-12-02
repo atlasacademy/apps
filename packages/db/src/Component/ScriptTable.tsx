@@ -12,6 +12,7 @@ import {
     ScriptBackground,
     ScriptBracketComponent,
     ScriptCharaFace,
+    ScriptCharaFadeIn,
     ScriptChoiceRouteInfo,
     ScriptChoiceRouteType,
     ScriptComponent,
@@ -104,6 +105,7 @@ const getSceneScale = (windowWidth: number, windowHeight: number, wideScreen: bo
 const SceneRow = (props: {
     background?: ScriptBackground,
     figure?: ScriptCharaFace,
+    charaFadeIn?: ScriptCharaFadeIn,
     wideScreen: boolean
 }) => {
     const resolution = props.wideScreen
@@ -133,6 +135,42 @@ const SceneRow = (props: {
                 }
         }
     };
+    
+    if (props.charaFadeIn !== undefined) {
+        switch (props.charaFadeIn.assetSet?.type) {
+            case ScriptComponentType.SCENE_SET:
+                figure = {
+                    asset: props.charaFadeIn.assetSet.backgroundAsset,
+                    face: 0
+                };
+                break;
+            case ScriptComponentType.IMAGE_SET:
+                figure = {
+                    asset: props.charaFadeIn.assetSet.imageAsset,
+                    face: 0,
+                };
+                break;
+        }
+        return (
+            <tr>
+                <td/>
+                <td>
+                    <Scene 
+                        background={undefined}
+                        figure={figure}
+                        resolution={resolution}
+                        height={height}
+                        width={width}
+                    />
+                    <div>
+                        {figure !== undefined 
+                        ? <a href={figure.asset} target='_blank' rel="noreferrer">[Figure]</a>
+                        : null}
+                    </div>
+                </td>
+            </tr>
+        );
+    }
 
     return (
         <tr>
@@ -339,6 +377,7 @@ const ScriptTable = (props: {
 }) => {
     let backgroundComponent: ScriptBackground | undefined,
         figureComponent: ScriptCharaFace | undefined,
+        charaFadeIn: ScriptCharaFadeIn | undefined,
         wideScreen = false,
         sceneDisplayed = false;
 
@@ -358,6 +397,7 @@ const ScriptTable = (props: {
                     renderScene = () => (
                         <SceneRow background={backgroundComponent}
                                   figure={figureComponent}
+                                  charaFadeIn={charaFadeIn}
                                   wideScreen={wideScreen}
                         />
                     );
@@ -377,6 +417,12 @@ const ScriptTable = (props: {
 
                     figureComponent = component;
                     sceneDisplayed = false;
+                } else if (component.type === ScriptComponentType.CHARA_FADE_IN) {
+                    if (component?.assetSet?.type !== ScriptComponentType.CHARA_SET) {
+                        charaFadeIn = component;
+                        sceneRow = renderScene();
+                        charaFadeIn = undefined;
+                    }
                 } else if (!sceneDisplayed) {
                     switch (component.type) {
                         case ScriptComponentType.DIALOGUE:

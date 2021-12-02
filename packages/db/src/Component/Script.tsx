@@ -23,6 +23,7 @@ export enum ScriptComponentType {
     VERTICAL_IMAGE_SET,
     HORIZONTAL_IMAGE_SET,
     EQUIP_SET,
+    SCENE_SET,
     DIALOGUE,
     CHOICES,
     SOUND_EFFECT,
@@ -186,6 +187,14 @@ export type ScriptEquipSet = {
     baseName: string;
 };
 
+export type ScriptSceneSet = {
+    type: ScriptComponentType.SCENE_SET;
+    speakerCode: string;
+    backgroundId: string;
+    backgroundAsset: string;
+    baseFace: number;
+};
+
 export type CharaChangeKind = "fade" | "normal";
 
 export type ScriptCharaChange = {
@@ -204,7 +213,8 @@ export type ScriptAssetSet =
     | ScriptImageSet
     | ScriptVerticalImageSet
     | ScriptHorizontalImageSet
-    | ScriptEquipSet;
+    | ScriptEquipSet
+    | ScriptSceneSet;
 
 export type ScriptCharaTalk = {
     type: ScriptComponentType.CHARA_TALK;
@@ -383,11 +393,7 @@ export type ScriptBracketComponent =
     | ScriptEnableFullScreen
     | ScriptUnParsed
     | ScriptSoundEffect
-    | ScriptCharaSet
-    | ScriptImageSet
-    | ScriptVerticalImageSet
-    | ScriptHorizontalImageSet
-    | ScriptEquipSet
+    | ScriptAssetSet
     | ScriptCharaChange
     | ScriptCharaTalk
     | ScriptCharaTalkToggle
@@ -785,6 +791,16 @@ function parseBracketComponent(
             } as ScriptEquipSet;
             parserState.assetSetMap.set(parameters[1], equipSet);
             return equipSet;
+        case "sceneSet":
+            const sceneSet = {
+                type: ScriptComponentType.SCENE_SET,
+                speakerCode: parameters[1],
+                backgroundId: parameters[2],
+                backgroundAsset: `${AssetHost}/${region}/Back/back${parameters[2]}.png`,
+                baseFace: parseInt(parameters[3]),
+            } as ScriptSceneSet;
+            parserState.assetSetMap.set(parameters[1], sceneSet);
+            return sceneSet;
         case "charaChange":
             const charaChange = {
                 type: ScriptComponentType.CHARA_CHANGE,
