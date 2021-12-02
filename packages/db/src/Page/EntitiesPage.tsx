@@ -361,7 +361,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                 </td>
                                 <td>{entityTypeDescriptions.get(entity.type) ?? entity.type}</td>
                                 <td>
-                                    <FaceIcon location={entity.face}/>
+                                    <FaceIcon location={entity.face} mightNotExist={true}/>
                                 </td>
                                 <td>{entity.name}</td>
                             </tr>

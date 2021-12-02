@@ -165,6 +165,7 @@ export default function (func: Func.BasicFunc,
                 case Func.FuncType.QP_DROP_UP:
                 case Func.FuncType.SERVANT_FRIENDSHIP_UP:
                 case Func.FuncType.USER_EQUIP_EXP_UP:
+                case Func.FuncType.EXP_UP:
                     addPartials([
                         new ValuePartial(ValueType.PERCENT, dataVal.RateCount / 10)
                     ]);

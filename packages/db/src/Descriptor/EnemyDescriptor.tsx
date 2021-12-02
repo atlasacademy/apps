@@ -28,7 +28,8 @@ class EnemyDescriptor extends React.Component<IProps> {
                 <FaceIcon type={this.props.enemy.type}
                           rarity={this.props.enemy.rarity}
                           location={this.props.enemy.face}
-                          height={this.props.iconHeight}/>
+                          height={this.props.iconHeight}
+                          mightNotExist={true}/>
                 {' '}
                 <span className="hover-text">
                     [{this.props.overwriteName ?? this.props.enemy.name}]

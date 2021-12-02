@@ -141,6 +141,7 @@ function EnemyNpcDescription(props: {
                     type={enemy.svt.type}
                     rarity={enemy.svt.rarity}
                     location={enemy.svt.face}
+                    mightNotExist={true}
                 />{" "}
                 {enemy.name} Lv. {enemy.lv}
             </Button>

@@ -89,6 +89,7 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         func.funcType === Func.FuncType.QP_DROP_UP
         || func.funcType === Func.FuncType.SERVANT_FRIENDSHIP_UP
         || func.funcType === Func.FuncType.USER_EQUIP_EXP_UP
+        || func.funcType === Func.FuncType.EXP_UP
     )) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal}/>);
     } else if (func.funcType === Func.FuncType.TRANSFORM_SERVANT && dataVal.Value !== undefined) {
