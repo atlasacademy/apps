@@ -53,8 +53,10 @@ class Manager {
     }
 
     static setRegion(_region: Region) {
-        region = _region;
-        Manager.triggerCallbacks();
+        if (_region !== region) {
+            region = _region;
+            Manager.triggerCallbacks();
+        }
     }
 
     static showingJapaneseText(): boolean {

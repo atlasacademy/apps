@@ -59,6 +59,8 @@ interface IState {
     localTime: boolean
 }
 
+const BASE_NAME = "/db";
+
 const REGION_LANG = new Map([
     [Region.JP, "ja-JP"],
     [Region.NA, "en-US"],
@@ -76,6 +78,13 @@ class App extends React.Component<any, IState> {
             changelogVisibleOnly: Manager.changelogVisibleOnly(),
             localTime: Manager.changelogLocalTimestamp()
         };
+
+        for (const region of REGION_LANG.keys()) {
+            if (window.location.pathname.startsWith(`${BASE_NAME}/${region}`)) {
+                Manager.setRegion(region);
+                break;
+            }
+        }
 
         Api.init(Manager.region(), Manager.language());
     }
@@ -99,7 +108,7 @@ class App extends React.Component<any, IState> {
     render() {
         return (
             <HelmetProvider>
-            <Router basename="/db">
+            <Router basename={BASE_NAME}>
                 <Navigation
                     language={this.state.language}
                     theme={this.state.theme}

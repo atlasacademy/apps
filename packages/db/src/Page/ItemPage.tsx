@@ -130,7 +130,7 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
                 </Button>
             );
         })
-        .map((element, index) => <th colSpan={usageDataColumnsWithServantColumn[index].colspan}>{element}</th>)
+        .map((element, index) => <th key={index} colSpan={usageDataColumnsWithServantColumn[index].colspan}>{element}</th>)
         // we concated above, shift everything by one
         .filter((_, index) => !blacklistedColumnIndexes!.includes(index - 1));
 
@@ -166,7 +166,7 @@ function MaterialListingTable(props : { region : Region, usageData: MaterialUsag
                         </td>
                         {usageDataColumns
                             .map(
-                                field => <td>{field?.displayExtractor?.(servantUsage) ?? field?.extractor(servantUsage, blacklistedColumnIndexes)}</td>
+                                field => <td key={field.title}>{field?.displayExtractor?.(servantUsage) ?? field?.extractor(servantUsage, blacklistedColumnIndexes)}</td>
                             )
                             .filter((_, index) => !blacklistedColumnIndexes!.includes(index))
                         }
@@ -336,13 +336,13 @@ class ItemPage extends React.Component<IProps, IState> {
                     <thead>
                     <tr>
                         <th></th>
-                        {usageDataColumns.map(field => <th>{field.title}</th>)}
+                        {usageDataColumns.map(field => <th key={field.title}>{field.title}</th>)}
                     </tr>
                     <tr key="total">
                         <td className="materialOwner">Total</td>
                         {usageDataColumns.map(
                             field => (
-                                <td>
+                                <td key={field.title}>
                                     {field?.displayExtractor?.(totalUsage)
                                     ?? field?.extractor(totalUsage as MaterialUsageColumn).toLocaleString()}
                                 </td>
@@ -354,7 +354,7 @@ class ItemPage extends React.Component<IProps, IState> {
                             (_, index) => {
                                 let blacklisted = this.state.blacklistedColumnIndexes.includes(index);
                                 return (
-                                    <td>
+                                    <td key={_.title}>
                                         <Button
                                             variant={blacklisted ? 'danger' : 'success'}
                                             onClick={() => {
