@@ -36,6 +36,7 @@ export enum ItemType {
     COMMAND_CARD_PRM_UP = "commandCardPrmUp",
     DICE = "dice",
     SVT_COIN = "svtCoin",
+    FRIENDSHIP_UP_ITEM = "friendshipUpItem",
 }
 
 export enum ItemUse {

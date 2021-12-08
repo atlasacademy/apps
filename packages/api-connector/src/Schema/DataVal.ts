@@ -85,6 +85,11 @@ interface BaseDataVal {
     IncludeIgnoreIndividuality?: number;
     EvenIfWinDie?: number;
     CallSvtEffectId?: number;
+    ForceAddState?: number;
+    UnSubState?: number;
+    ForceSubState?: number;
+    IgnoreIndivUnreleaseable?: number;
+    OnParty?: number;
     ApplySupportSvt?: number;
     Individuality?: number;
     EventId?: number;
@@ -182,6 +187,11 @@ export enum DataValField {
     INCLUDE_IGNORE_INDIVIDUALITY = "IncludeIgnoreIndividuality",
     EVEN_IF_WIN_DIE = "EvenIfWinDie",
     CALL_SVT_EFFECT_ID = "CallSvtEffectId",
+    FORCE_ADD_STATE = "ForceAddState",
+    UN_SUB_STATE = "UnSubState",
+    FORCE_SUB_STATE = "ForceSubState",
+    IGNORE_INDIV_UNRELEASEABLE = "IgnoreIndivUnreleaseable",
+    ON_PARTY = "OnParty",
     PARAM_ADD_VALUE = "ParamAddValue",
     APPLY_SUPPORT_SVT = "ApplySupportSvt",
     INDIVIDUALITY = "Individuality",
