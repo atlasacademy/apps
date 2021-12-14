@@ -44,7 +44,9 @@ const DialogueBasic = (props: {
                     <ruby>
                         {replacePUACodePoints(component.text)}
                         <rp>(</rp>
-                        <rt>{replacePUACodePoints(component.ruby)}</rt>
+                        <rt className="dialogueRuby">
+                            {replacePUACodePoints(component.ruby)}
+                        </rt>
                         <rp>)</rp>
                     </ruby>
                 );

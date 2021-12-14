@@ -30,6 +30,10 @@ ruby:nth-of-type(1) > img.dialogueTextImage {
     margin-top: 0.5em;
 }
 
+rt.dialogueRuby {
+    font-size: 0.7em;
+}
+
 rt.dialogueTextImageRuby {
     font-size: 0.75em;
 }
