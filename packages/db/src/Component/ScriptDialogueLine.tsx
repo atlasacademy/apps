@@ -71,6 +71,26 @@ const DialogueBasic = (props: {
             return (
                 <span className={`newline ${sizeClass}`}>{replacedPUA}</span>
             );
+        case ScriptComponentType.DIALOGUE_TEXT_IMAGE:
+            if (component.ruby === undefined)
+                return (
+                    <img
+                        src={component.imageAsset}
+                        alt="Berserker Text"
+                        className="dialogueTextImage"
+                    />
+                );
+
+            return (
+                <ruby>
+                    <img
+                        src={component.imageAsset}
+                        alt="Berserker Text"
+                        className="dialogueTextImage"
+                    />
+                    <rt className="dialogueTextImageRuby">{component.ruby}</rt>
+                </ruby>
+            );
         default:
             return null;
     }
@@ -92,6 +112,7 @@ const DialogueChild = (props: {
         case ScriptComponentType.DIALOGUE_LINE:
         case ScriptComponentType.DIALOGUE_RUBY:
         case ScriptComponentType.DIALOGUE_TEXT:
+        case ScriptComponentType.DIALOGUE_TEXT_IMAGE:
             return <DialogueBasic component={component} index={index} />;
         default:
             return null;

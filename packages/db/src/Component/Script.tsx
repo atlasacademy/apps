@@ -4,47 +4,48 @@ import { flatten } from "../Helper/PolyFill";
 import { splitString } from "../Helper/StringHelper";
 
 export enum ScriptComponentType {
-    UNPARSED,
-    ENABLE_FULL_SCREEN,
-    CHARA_SET,
-    CHARA_CHANGE,
-    CHARA_TALK,
-    CHARA_TALK_TOGGLE,
-    CHARA_FILTER,
-    CHARA_SCALE,
-    CHARA_DEPTH,
-    CHARA_CUT_IN,
-    CHARA_FACE,
-    CHARA_FADE_TIME,
-    CHARA_FADE_IN,
-    CHARA_FADE_OUT,
-    CHARA_PUT,
-    IMAGE_SET,
-    VERTICAL_IMAGE_SET,
-    HORIZONTAL_IMAGE_SET,
-    EQUIP_SET,
-    SCENE_SET,
-    DIALOGUE,
-    CHOICES,
-    SOUND_EFFECT,
-    WAIT,
-    LABEL,
-    BRANCH,
-    BRANCH_QUEST_NOT_CLEAR,
-    BRANCH_MASTER_GENDER,
-    BGM,
-    BGM_STOP,
-    VOICE,
-    BACKGROUND,
-    FLAG,
-    DIALOGUE_TEXT,
-    DIALOGUE_NEW_LINE,
-    DIALOGUE_PLAYER_NAME,
-    DIALOGUE_LINE,
-    DIALOGUE_GENDER,
-    DIALOGUE_RUBY,
-    DIALOGUE_HIDDEN_NAME,
-    DIALOGUE_SPEED,
+    UNPARSED = "UNPARSED",
+    ENABLE_FULL_SCREEN = "ENABLE_FULL_SCREEN",
+    CHARA_SET = "CHARA_SET",
+    CHARA_CHANGE = "CHARA_CHANGE",
+    CHARA_TALK = "CHARA_TALK",
+    CHARA_TALK_TOGGLE = "CHARA_TALK_TOGGLE",
+    CHARA_FILTER = "CHARA_FILTER",
+    CHARA_SCALE = "CHARA_SCALE",
+    CHARA_DEPTH = "CHARA_DEPTH",
+    CHARA_CUT_IN = "CHARA_CUT_IN",
+    CHARA_FACE = "CHARA_FACE",
+    CHARA_FADE_TIME = "CHARA_FADE_TIME",
+    CHARA_FADE_IN = "CHARA_FADE_IN",
+    CHARA_FADE_OUT = "CHARA_FADE_OUT",
+    CHARA_PUT = "CHARA_PUT",
+    IMAGE_SET = "IMAGE_SET",
+    VERTICAL_IMAGE_SET = "VERTICAL_IMAGE_SET",
+    HORIZONTAL_IMAGE_SET = "HORIZONTAL_IMAGE_SET",
+    EQUIP_SET = "EQUIP_SET",
+    SCENE_SET = "SCENE_SET",
+    DIALOGUE = "DIALOGUE",
+    CHOICES = "CHOICES",
+    SOUND_EFFECT = "SOUND_EFFECT",
+    WAIT = "WAIT",
+    LABEL = "LABEL",
+    BRANCH = "BRANCH",
+    BRANCH_QUEST_NOT_CLEAR = "BRANCH_QUEST_NOT_CLEAR",
+    BRANCH_MASTER_GENDER = "BRANCH_MASTER_GENDER",
+    BGM = "BGM",
+    BGM_STOP = "BGM_STOP",
+    VOICE = "VOICE",
+    BACKGROUND = "BACKGROUND",
+    FLAG = "FLAG",
+    DIALOGUE_TEXT = "DIALOGUE_TEXT",
+    DIALOGUE_TEXT_IMAGE = "DIALOGUE_TEXT_IMAGE",
+    DIALOGUE_NEW_LINE = "DIALOGUE_NEW_LINE",
+    DIALOGUE_PLAYER_NAME = "DIALOGUE_PLAYER_NAME",
+    DIALOGUE_LINE = "DIALOGUE_LINE",
+    DIALOGUE_GENDER = "DIALOGUE_GENDER",
+    DIALOGUE_RUBY = "DIALOGUE_RUBY",
+    DIALOGUE_HIDDEN_NAME = "DIALOGUE_HIDDEN_NAME",
+    DIALOGUE_SPEED = "DIALOGUE_SPEED",
 }
 
 export type ScriptSound = {
@@ -62,6 +63,12 @@ export type DialogueText = {
     text: string;
     colorHex?: string;
     size?: DialogueTextSize;
+};
+
+export type DialogueTextImage = {
+    type: ScriptComponentType.DIALOGUE_TEXT_IMAGE;
+    imageAsset: string;
+    ruby?: string;
 };
 
 export type DialogueNewLine = {
@@ -101,6 +108,7 @@ export type DialogueSpeed = {
 
 export type DialogueBasicComponent =
     | DialogueText
+    | DialogueTextImage
     | DialogueNewLine
     | DialogueSpeed
     | DialoguePlayerName
@@ -513,7 +521,16 @@ function isDialogueBasic(word: string): boolean {
     for (const signature of NOT_BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return false;
     }
-    const BASIC_SIGNATURES = ["r", "sr", "s", "%1", "line", "#", "servantName"];
+    const BASIC_SIGNATURES = [
+        "r",
+        "sr",
+        "s",
+        "%1",
+        "line",
+        "#",
+        "servantName",
+        "image",
+    ];
     for (const signature of BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return true;
     }
@@ -521,6 +538,7 @@ function isDialogueBasic(word: string): boolean {
 }
 
 function parseDialogueBasic(
+    region: Region,
     word: string,
     parserDialogueState: ParserDialogueState
 ): DialogueBasicComponent {
@@ -530,8 +548,8 @@ function parseDialogueBasic(
             const [text, ruby] = word.slice(2, word.length - 1).split(":");
             return {
                 type: ScriptComponentType.DIALOGUE_RUBY,
-                text: text,
-                ruby: ruby,
+                text,
+                ruby,
                 colorHex: parserDialogueState.colorHex,
             };
         }
@@ -571,6 +589,14 @@ function parseDialogueBasic(
                     trueName,
                     colorHex: parserDialogueState.colorHex,
                 };
+            case "image":
+                const [image, ruby] = word.slice(1, word.length - 1).split(":");
+                const imageName = image.split(" ")[1];
+                return {
+                    type: ScriptComponentType.DIALOGUE_TEXT_IMAGE,
+                    imageAsset: `${AssetHost}/${region}/Marks/${imageName}.png`,
+                    ruby,
+                };
         }
     }
     return {
@@ -582,6 +608,7 @@ function parseDialogueBasic(
 }
 
 function parseDialogueGender(
+    region: Region,
     word: string,
     parserDialogueState: ParserDialogueState
 ): DialogueGender {
@@ -592,10 +619,10 @@ function parseDialogueGender(
     return {
         type: ScriptComponentType.DIALOGUE_GENDER,
         male: splitLine(male).map((word) =>
-            parseDialogueBasic(word, parserDialogueState)
+            parseDialogueBasic(region, word, parserDialogueState)
         ),
         female: splitLine(female).map((word) =>
-            parseDialogueBasic(word, parserDialogueState)
+            parseDialogueBasic(region, word, parserDialogueState)
         ),
         colorHex: parserDialogueState.colorHex,
     };
@@ -609,7 +636,7 @@ function parseDialogueWord(
 ): DialogueChildComponent {
     if (word[0] === "[") {
         if (word[1] === "&" && word.includes(":")) {
-            return parseDialogueGender(word, parserDialogueState);
+            return parseDialogueGender(region, word, parserDialogueState);
         } else if (!isDialogueBasic(word)) {
             return parseBracketComponent(
                 region,
@@ -618,7 +645,7 @@ function parseDialogueWord(
             );
         }
     }
-    return parseDialogueBasic(word, parserDialogueState);
+    return parseDialogueBasic(region, word, parserDialogueState);
 }
 
 function parseDialogueLine(

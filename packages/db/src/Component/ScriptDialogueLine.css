@@ -5,8 +5,8 @@
 }
 
 .scriptDialogueText-medium {
-     /* [f medium] is seems to always appear before [messageShake] */
-     /* and the text size is the same */
+    /* [f medium] seems to always appear before [messageShake] */
+    /* and the text size is the same */
     font-size: 1em;
 }
 
@@ -16,4 +16,20 @@
 
 .scriptDialogueText-x-large {
     font-size: 2em;
+}
+
+img.dialogueTextImage {
+    height: 1.25em;
+}
+
+ruby > img.dialogueTextImage {
+    margin-top: 1.75em;
+}
+
+ruby:nth-of-type(1) > img.dialogueTextImage {
+    margin-top: 0.5em;
+}
+
+rt.dialogueTextImageRuby {
+    font-size: 0.75em;
 }
