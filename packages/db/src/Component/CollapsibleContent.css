@@ -1,6 +1,6 @@
 .collapsible-header-collapse-actions {
     font-size: 2em;
-    line-height: 1em;
+    line-height: 1;
     margin-top: 5%;
     transition: transform 0.3s ease;
 }

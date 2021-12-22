@@ -4,7 +4,7 @@
 
 span.e000 {
     display: inline-block;
-    line-height: 1em;
+    line-height: 1;
     position: relative;
     vertical-align: -0.55em;
 }
@@ -19,6 +19,6 @@ span.e000-top {
     transform: scale(1, 0.75);
     position: absolute;
     display: block;
-    line-height: 1.6em;
+    line-height: 1.6;
     top: 0;
 }

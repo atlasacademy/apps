@@ -41,12 +41,10 @@ const DialogueBasic = (props: {
         case ScriptComponentType.DIALOGUE_RUBY:
             if (component.text !== undefined && component.ruby !== undefined) {
                 return (
-                    <ruby>
+                    <ruby className="dialogueRuby">
                         {replacePUACodePoints(component.text)}
                         <rp>(</rp>
-                        <rt className="dialogueRuby">
-                            {replacePUACodePoints(component.ruby)}
-                        </rt>
+                        <rt>{replacePUACodePoints(component.ruby)}</rt>
                         <rp>)</rp>
                     </ruby>
                 );

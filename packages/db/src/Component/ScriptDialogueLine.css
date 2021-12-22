@@ -19,21 +19,23 @@
 }
 
 img.dialogueTextImage {
-    height: 1.25em;
+    height: 1.5em;
 }
 
 ruby > img.dialogueTextImage {
-    margin-top: 1.75em;
+    margin-top: 2em;
 }
 
+/* The best for this is probably ::first-line but margin-top doesn't work with it */
+/* This is probably good enough since it's rare to have 2 berserker images on the same line */
 ruby:nth-of-type(1) > img.dialogueTextImage {
-    margin-top: 0.5em;
-}
-
-rt.dialogueRuby {
-    font-size: 0.7em;
+    margin-top: 1em;
 }
 
 rt.dialogueTextImageRuby {
+    font-size: 1em;
+}
+
+ruby.dialogueRuby > rt {
     font-size: 0.75em;
 }

@@ -135,7 +135,7 @@ const SceneRow = (props: {
                 }
         }
     };
-    
+
     if (props.charaFadeIn !== undefined) {
         switch (props.charaFadeIn.assetSet?.type) {
             case ScriptComponentType.SCENE_SET:
@@ -155,7 +155,7 @@ const SceneRow = (props: {
             <tr>
                 <td/>
                 <td>
-                    <Scene 
+                    <Scene
                         background={undefined}
                         figure={figure}
                         resolution={resolution}
@@ -163,7 +163,7 @@ const SceneRow = (props: {
                         width={width}
                     />
                     <div>
-                        {figure !== undefined 
+                        {figure !== undefined
                         ? <a href={figure.asset} target='_blank' rel="noreferrer">[Figure]</a>
                         : null}
                     </div>
@@ -418,10 +418,17 @@ const ScriptTable = (props: {
                     figureComponent = component;
                     sceneDisplayed = false;
                 } else if (component.type === ScriptComponentType.CHARA_FADE_IN) {
-                    if (component?.assetSet?.type !== ScriptComponentType.CHARA_SET) {
+                    if (component?.assetSet?.type !== ScriptComponentType.CHARA_SET
+                        && component?.assetSet?.type !== ScriptComponentType.CHARA_CHANGE) {
                         charaFadeIn = component;
                         sceneRow = renderScene();
                         charaFadeIn = undefined;
+                    }
+                } else if (component.type === ScriptComponentType.BRANCH) {
+                    if (backgroundComponent && !sceneDisplayed) {
+                        sceneRow = renderScene();
+                        backgroundComponent = undefined;
+                        sceneDisplayed = false;
                     }
                 } else if (!sceneDisplayed) {
                     switch (component.type) {

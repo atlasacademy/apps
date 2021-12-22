@@ -524,6 +524,7 @@ function isDialogueBasic(word: string): boolean {
     const BASIC_SIGNATURES = [
         "r",
         "sr",
+        "csr",
         "s",
         "%1",
         "line",
@@ -558,6 +559,7 @@ function parseDialogueBasic(
         switch (parameters[0]) {
             case "r":
             case "sr":
+            case "csr":
                 return { type: ScriptComponentType.DIALOGUE_NEW_LINE };
             case "s":
                 return {
