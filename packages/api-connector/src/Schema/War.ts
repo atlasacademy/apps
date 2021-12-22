@@ -22,6 +22,10 @@ export enum WarOverwriteType {
     COORDINATES = "coordinates",
     EFFECT_CHANGE_BLACK_MARK = "effectChangeBlackMark",
     QUEST_BOARD_SECTION_IMAGE = "questBoardSectionImage",
+    WAR_FORCE_DISP = "warForceDisp",
+    WAR_FORCE_HIDE = "warForceHide",
+    START_TYPE = "startType",
+    NOTICE_DIALOG_TEXT = "noticeDialogText",
 }
 
 export interface Map {

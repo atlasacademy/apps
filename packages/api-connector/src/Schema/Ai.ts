@@ -17,6 +17,9 @@ export enum AiActNum {
     MAXNP = "maxnp",
     SHIFT_SARVANT_AFTER = "shiftSarvantAfter",
     USENP_TARGET = "usenpTarget",
+    REACTION_TURNSTART = "reactionTurnstart",
+    REACTION_PLAYERACTIONSTART = "reactionPlayeractionstart",
+    REACTION_ENTRY_UNIT = "reactionEntryUnit",
     UNKNOWN = "unknown",
 }
 
@@ -158,6 +161,10 @@ export enum AiCond {
     CHECK_AI_174 = "checkAi174",
     CHECK_SELF_NPTURN_HIGHER = "checkSelfNpturnHigher",
     CHECK_SELF_NPTURN_LOWER = "checkSelfNpturnLower",
+    CHECK_USE_SKILL_THISTURN = "checkUseSkillThisturn",
+    COUNT_CHAIN_HIGHER = "countChainHigher",
+    COUNT_CHAIN_LOWER = "countChainLower",
+    COUNT_CHAIN_EQUAL = "countChainEqual",
 }
 
 export enum AiTiming {
