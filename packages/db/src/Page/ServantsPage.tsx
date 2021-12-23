@@ -1,7 +1,7 @@
 import {ClassName, Region, Servant} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import diacritics from 'diacritics';
-import escape from 'escape-string-regexp';
+import escapeStringRegexp from "escape-string-regexp";
 import React from "react";
 import {Button, ButtonGroup, Col, Form, Pagination, Row, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -252,7 +252,7 @@ class ServantsPage extends React.Component<IProps, IState> {
             const glob = diacritics.remove(this.state.search.toLowerCase())
                 .split(' ')
                 .filter(word => word)
-                .map(word => escape(word))
+                .map(word => escapeStringRegexp(word))
                 .join('.*');
 
             list = list.filter(

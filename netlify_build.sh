@@ -11,7 +11,7 @@ CI=false \
 && cd src \
 && curl -L -o drop-serializer.tar.gz https://github.com/atlasacademy/drop-serializer-react/archive/master.tar.gz \
 && tar -zxvf drop-serializer.tar.gz \
-&& npm install -g npm@7 \
+&& npm install -g npm@8 \
 && cd drop-serializer-react-master && npm ci && npm run build \
 && cd ../../ && cp -r src/drop-serializer-react-master/build/ app/drop-serializer \
 && cd src \

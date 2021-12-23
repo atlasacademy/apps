@@ -1,7 +1,7 @@
 import {Region, Item} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import diacritics from 'diacritics';
-import escape from 'escape-string-regexp';
+import escapeStringRegexp from "escape-string-regexp";
 import React from "react";
 import {Form, Pagination, Table, Tab, Tabs, Row, Col} from "react-bootstrap";
 import {withRouter} from "react-router";
@@ -187,7 +187,7 @@ class ItemsPage extends React.Component<IProps, IState> {
             const glob = diacritics.remove(searchTerm.toLowerCase())
                 .split(' ')
                 .filter(word => word)
-                .map(word => escape(word))
+                .map(word => escapeStringRegexp(word))
                 .join('.*');
 
             list = list.filter(

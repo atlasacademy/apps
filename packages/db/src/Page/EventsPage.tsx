@@ -3,7 +3,7 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
-import escape from "escape-string-regexp";
+import escapeStringRegexp from "escape-string-regexp";
 import React from "react";
 import {
     Col,
@@ -92,7 +92,7 @@ class EventsPage extends React.Component<IProps, IState> {
                 .remove(this.state.search.toLowerCase())
                 .split(" ")
                 .filter((word) => word)
-                .map((word) => escape(word))
+                .map((word) => escapeStringRegexp(word))
                 .join(".*");
 
             list = list.filter((entity) => {

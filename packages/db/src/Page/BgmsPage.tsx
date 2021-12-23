@@ -1,6 +1,7 @@
 import { Bgm, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
+import escapeStringRegexp from "escape-string-regexp";
 import React from "react";
 import {
     Col,
@@ -72,7 +73,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                 .remove(this.state.search.toLowerCase())
                 .split(" ")
                 .filter((word) => word)
-                .map((word) => escape(word))
+                .map((word) => escapeStringRegexp(word))
                 .join(".*");
 
             list = list.filter((bgm) => {
