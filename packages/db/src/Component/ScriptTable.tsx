@@ -424,11 +424,11 @@ const ScriptTable = (props: {
                         sceneRow = renderScene();
                         charaFadeIn = undefined;
                     }
-                } else if (component.type === ScriptComponentType.BRANCH) {
+                } else if (component.type === ScriptComponentType.BRANCH
+                    || component.type === ScriptComponentType.LABEL) {
                     if (backgroundComponent && !sceneDisplayed) {
                         sceneRow = renderScene();
-                        backgroundComponent = undefined;
-                        sceneDisplayed = false;
+                        sceneDisplayed = true;
                     }
                 } else if (!sceneDisplayed) {
                     switch (component.type) {

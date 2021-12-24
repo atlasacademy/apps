@@ -100,12 +100,15 @@ export const interpolateString = (inputString: string, variables: any[]) => {
     return inputString;
 };
 
+const unicodeFromHex = (hex: string) => String.fromCharCode(parseInt(hex.slice(1), 16));
+
 export const replacePUACodePoints = (
     inputString: string
 ): Renderable => {
+    const unicodeReplaced = inputString.replace(/u[0-9A-Z]{4}/g, unicodeFromHex);
     const elements: Renderable[] = [];
     let normalText = "";
-    for (const char of inputString) {
+    for (const char of unicodeReplaced) {
         const codePoint = char.charCodeAt(0);
         if ((codePoint >= 0xe000 && codePoint <= 0xf8ff) || ([0x9bd6].includes(codePoint))) {
             elements.push(normalText);
