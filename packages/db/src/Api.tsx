@@ -179,6 +179,10 @@ class Api {
         return apiConnector.noblePhantasm(id, reverse, cacheDuration);
     }
 
+    static quest(id: number): Promise<Quest.Quest> {
+        return apiConnector.quest(id, cacheDuration);
+    }
+
     static questPhase(id: number, phase: number): Promise<Quest.QuestPhase> {
         return apiConnector.questPhase(id, phase, cacheDuration);
     }

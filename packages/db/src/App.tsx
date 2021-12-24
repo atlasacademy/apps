@@ -39,6 +39,7 @@ const MysticCodePage = React.lazy(() => import("./Page/MysticCodePage"));
 const MysticCodesPage = React.lazy(() => import("./Page/MysticCodesPage"));
 const NoblePhantasmPage = React.lazy(() => import("./Page/NoblePhantasmPage"));
 const NoblePhantasmsPage = React.lazy(() => import("./Page/NoblePhantasmsPage"));
+const QuestRedirect = React.lazy(() => import("./Page/QuestRedirect"));
 const QuestPage = React.lazy(() => import("./Page/QuestPage"));
 const QuestsPage = React.lazy(() => import("./Page/QuestsPage"));
 const ScriptPage = React.lazy(() => import("./Page/ScriptPage"));
@@ -232,6 +233,19 @@ class App extends React.Component<any, IState> {
                                     <NoblePhantasmsPage key={region} region={region as Region} path="noble-phantasms"/>
                                 </Suspense>
                             );
+                        }}/>
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/quest/:id([0-9]+)"
+                        render={props => {
+                            const {region, id} = props.match.params;
+                            return (
+                                <Suspense fallback={<Loading/>}>
+                                    <QuestRedirect
+                                        key={`${region}-${id}`}
+                                        region={region as Region}
+                                        id={parseInt(id)}
+                                    />
+                                </Suspense>
+                            )
                         }}/>
                         <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/quest/:id([0-9]+)/:phase([0-9]+)/:stage?"
                         render={props => {
