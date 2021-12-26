@@ -32,6 +32,7 @@ const classIds = new Map<ClassName, number>([
     [ClassName.BEAST_IIIR, 24],
     [ClassName.BEAST_UNKNOWN, 26],
     [ClassName.PRETENDER, 28],
+    [ClassName.LB_BEAST_IV, 29],
     [ClassName.CCC_FINALE_EMIYA_ALTER, 124],
 
     [ClassName.ALL, 1001],
