@@ -57,9 +57,11 @@ export interface QuestBasic {
     id: number;
     name: string;
     type: QuestType;
+    afterClear: QuestAfterClearType;
     consumeType: QuestConsumeType;
     consume: number;
     spotId: number;
+    spotName: string;
     warId: number;
     warLongName: string;
     noticeAt: number;
@@ -94,7 +96,9 @@ export interface Quest {
     consume: number;
     consumeItem: { item: Item; amount: number }[];
     afterClear: QuestAfterClearType;
+    recommendLv: string;
     spotId: number;
+    spotName: string;
     warId: number;
     warLongName: string;
     chapterId: number;

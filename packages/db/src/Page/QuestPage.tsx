@@ -139,6 +139,7 @@ const QuestMainData = (props: {
                         {quest.warLongName}
                     </Link>
                 ),
+                Spot: quest.spotName,
                 Open: new Date(quest.openedAt * 1000).toLocaleString(),
                 Close: new Date(quest.closedAt * 1000).toLocaleString(),
             }}
@@ -195,6 +196,7 @@ const QuestSubData = ({
                     )),
                     " "
                 ),
+                "Recommended Level": quest.recommendLv,
                 "Battle BG ID": (
                     <Link
                         to={`/${region}/quests?battleBgId=${quest.battleBgId}`}
