@@ -59,6 +59,23 @@ class Manager {
         }
     }
 
+    static lang(): string {
+        switch (this.region()) {
+            case Region.JP:
+                return "ja-JP";
+            case Region.NA:
+                return "en-US";
+            case Region.CN:
+                return "zh-CN";
+            case Region.KR:
+                return "ko-KR";
+            case Region.TW:
+                return "zh-TW";
+            default:
+                return "en-US";
+        }
+    }
+
     static showingJapaneseText(): boolean {
         return this.region() === Region.JP && this.language() === Language.DEFAULT;
     }

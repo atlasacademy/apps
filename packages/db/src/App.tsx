@@ -62,14 +62,6 @@ interface IState {
 
 const BASE_NAME = "/db";
 
-const REGION_LANG = new Map([
-    [Region.JP, "ja-JP"],
-    [Region.NA, "en-US"],
-    [Region.CN, "zh-CN"],
-    [Region.KR, "ko-KR"],
-    [Region.TW, "zh-TW"],
-])
-
 class App extends React.Component<any, IState> {
     constructor(props: any) {
         super(props);
@@ -80,7 +72,7 @@ class App extends React.Component<any, IState> {
             localTime: Manager.changelogLocalTimestamp()
         };
 
-        for (const region of REGION_LANG.keys()) {
+        for (const region of Object.values(Region)) {
             if (window.location.pathname.startsWith(`${BASE_NAME}/${region}`)) {
                 Manager.setRegion(region);
                 break;
@@ -116,7 +108,7 @@ class App extends React.Component<any, IState> {
                     />
                 <br/>
 
-                <Container fluid="xl" id={'app'} key={`${this.state.language}`} lang={REGION_LANG.get(Manager.region()) ?? "en-US"}>
+                <Container fluid="xl" id={'app'} key={`${this.state.language}`} lang={Manager.lang()}>
                     <Helmet>
                         {this.state.theme === Theme.DEFAULT ? null : (
                             <link key='theme' rel="stylesheet"

@@ -10,6 +10,7 @@ import EffectBreakdown from "./EffectBreakdown";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import { Renderable } from "../Helper/OutputHelper";
 import EventDescriptor from "../Descriptor/EventDescriptor";
+import Manager from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
 
@@ -27,7 +28,11 @@ class SkillBreakdown extends React.Component<IProps> {
         const skill = this.props.skill;
         const skillAdd =
             this.props.skill.skillAdd.length > 0 ? (
-                <Tooltip id="skillAdd-tooltip" style={{ fontSize: "1em" }}>
+                <Tooltip
+                    id="skillAdd-tooltip"
+                    style={{ fontSize: "1em" }}
+                    lang={Manager.lang()}
+                >
                     {getRubyText(
                         this.props.region,
                         this.props.skill.skillAdd[0].name,
@@ -70,9 +75,13 @@ class SkillBreakdown extends React.Component<IProps> {
                         <QuestDescriptor
                             region={this.props.region}
                             questId={skill.condQuestId}
-                            questPhase={["91", "94"].includes(skill.condQuestId.toString().slice(0, 2))
-                                            ? 1
-                                            : skill.condQuestPhase}
+                            questPhase={
+                                ["91", "94"].includes(
+                                    skill.condQuestId.toString().slice(0, 2)
+                                )
+                                    ? 1
+                                    : skill.condQuestPhase
+                            }
                         />
                     </Alert>
                 ) : null}
