@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import quantile from "@stdlib/stats-base-dists-t-quantile";
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
 import AiDescriptor from "../Descriptor/AiDescriptor";
@@ -388,6 +389,8 @@ const QuestEnemySubData = (props: {
     );
 };
 
+const numToPct = (value: number) => `${(value * 100).toFixed(2)}%`;
+
 export const QuestDropDescriptor = ({
     region,
     drops,
@@ -404,6 +407,21 @@ export const QuestDropDescriptor = ({
                         id: 0,
                         priority: 0,
                     };
+                    let ciText = <></>;
+                    if (drop.runs > 1) {
+                        const c = quantile(0.975, drop.runs - 1);
+                        const stdDevOverRuns = Math.sqrt(
+                            drop.dropVariance / drop.runs
+                        );
+                        const lower = drop.dropExpected - c * stdDevOverRuns;
+                        const upper = drop.dropExpected + c * stdDevOverRuns;
+                        ciText = (
+                            <>
+                                <br />
+                                95% CI: {numToPct(lower)} – {numToPct(upper)}
+                            </>
+                        );
+                    }
                     const tooltip = (
                         <Tooltip
                             id={`drop-detail-tooltip`}
@@ -411,17 +429,13 @@ export const QuestDropDescriptor = ({
                         >
                             {drop.dropCount.toLocaleString()} drops /{" "}
                             {drop.runs.toLocaleString()} runs
+                            {ciText}
                         </Tooltip>
                     );
                     return (
                         <li key={`${drop.type}-${drop.objectId}-${drop.num}`}>
                             <GiftDescriptor region={region} gift={dummyGift} />:{" "}
-                            <span>
-                                {((drop.dropCount / drop.runs) * 100).toFixed(
-                                    2
-                                )}
-                                %
-                            </span>{" "}
+                            <span>{numToPct(drop.dropExpected)}</span>{" "}
                             <OverlayTrigger overlay={tooltip}>
                                 <FontAwesomeIcon icon={faInfoCircle} />
                             </OverlayTrigger>

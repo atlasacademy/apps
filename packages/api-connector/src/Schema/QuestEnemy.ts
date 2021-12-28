@@ -110,6 +110,8 @@ export interface EnemyDrop {
     num: number;
     dropCount: number;
     runs: number;
+    dropExpected: number;
+    dropVariance: number;
 }
 
 export enum DeckType {

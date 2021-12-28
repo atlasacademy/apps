@@ -3,7 +3,7 @@ import CondType from "../Enum/Cond";
 import { Bgm } from "./Bgm";
 import { Gift } from "./Gift";
 import { Item } from "./Item";
-import { QuestEnemy } from "./QuestEnemy";
+import { EnemyDrop, QuestEnemy } from "./QuestEnemy";
 import { SupportServant } from "./SupportServant";
 import { Trait } from "./Trait";
 
@@ -50,6 +50,7 @@ export interface Stage {
     wave: number;
     bgm: Bgm;
     fieldAis: { day?: number; raid?: number; id: number }[];
+    call: number[];
     enemies: QuestEnemy[];
 }
 
@@ -126,5 +127,6 @@ export interface QuestPhase extends Quest {
     scripts: PhaseScript[];
     messages: QuestMessage[];
     supportServants: SupportServant[];
+    drops: EnemyDrop[];
     stages: Stage[];
 }

@@ -11,21 +11,21 @@
     "jsonpointer" "^5.0.0"
     "leven" "^3.1.0"
 
-"@atlasacademy/api-connector@^3.0.81":
-  "integrity" "sha512-H3uIytujI3DCW9rB+ZsO+Purhyd33FdvOUVpUZyRM18fXM+hy+lAbDu4wCAUqr2LLX2Vl41WRyZb2zLDVgKh2A=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.81.tgz"
-  "version" "3.0.81"
+"@atlasacademy/api-connector@^3.0.83":
+  "integrity" "sha512-a4okPBbV0piKus0yrq6ft08UkesrH6JpAuA1Kc61bl1jnTC/492kDz+scXvH8R4ugj+Rnc8SZnGzPbLXaaZw6w=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.83.tgz"
+  "version" "3.0.83"
   dependencies:
     "axios" "^0.21.1"
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/api-descriptor@^1.0.88":
-  "integrity" "sha512-DCucNqPqNncKTTyS0hzNXyTV6Po7JI2j7tqIhtMwa3RbswGI6mm1rI8BY6tGYCIRPmWXTixV5FE6ZVAPQhvVdw=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.88.tgz"
-  "version" "1.0.88"
+"@atlasacademy/api-descriptor@^1.0.90":
+  "integrity" "sha512-F+JOiDtZnn2aKz8GsMA2QJaBb03nUDOdWBGRD6aPM1zAH3t8ANNMvUq7sOWCeUuEkLivJJhBJ3qO7WZ4D5eEZw=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.90.tgz"
+  "version" "1.0.90"
   dependencies:
-    "@atlasacademy/api-connector" "^3.0.81"
+    "@atlasacademy/api-connector" "^3.0.83"
     "install" "^0.13.0"
     "only" "0.0.2"
 
@@ -1452,6 +1452,1455 @@
   "version" "8.1.0"
   dependencies:
     "@sinonjs/commons" "^1.7.0"
+
+"@stdlib/array-float64@^0.0.x":
+  "integrity" "sha512-3sdl0aePQoQ+pr5tGGSVh76JrfBpyYXGDOQeH3R16WE83xD4agKEHCK9F/dD+/edd18CYsj4Ca9Kb+Ed79nwUw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/array-float64/-/array-float64-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/assert-has-float64array-support" "^0.0.x"
+
+"@stdlib/array-uint16@^0.0.x":
+  "integrity" "sha512-U8AGVQID6WNIAJ8w5oitn5MOvNKNh9j5PgotuGB1y9oE+6Tp+kebG4gxsQ/MhyW2uSH9LrAimUGBQre4pRHM5w=="
+  "resolved" "https://registry.npmjs.org/@stdlib/array-uint16/-/array-uint16-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/assert-has-uint16array-support" "^0.0.x"
+
+"@stdlib/array-uint32@^0.0.x":
+  "integrity" "sha512-4hCIixPLqLtMGF0L+4MxHKS8MHPpNsdl0yHuWf9XTj5GOJ1N86rwS7ZW6e0qpg45HbXSOey4+yXm8Kin5XO64A=="
+  "resolved" "https://registry.npmjs.org/@stdlib/array-uint32/-/array-uint32-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/assert-has-uint32array-support" "^0.0.x"
+
+"@stdlib/array-uint8@^0.0.x":
+  "integrity" "sha512-lENVAPYd6NHYTllLnKMW/KykJtUZSbFX4uq2WXPkx+Hw9zz60LdFXLFP3iYUepsHevNDP+z5tA6iw0oa9kkwAQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/array-uint8/-/array-uint8-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-has-uint8array-support" "^0.0.x"
+
+"@stdlib/assert-has-float64array-support@^0.0.x":
+  "integrity" "sha512-mmLVPPQcDVcokadjlT3i6QQuNk7iX9QGliR3T3Yxv74t0ylMO4Bfd6x1+BhShYehJEW3cWhnUQLRQQ/Vd6BCNw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-float64array-support/-/assert-has-float64array-support-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-float64array" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-has-generator-support@^0.0.x":
+  "integrity" "sha512-kzGIPksD6udp2yEuw90d+ep3dTbHC/rFFhCP4JYG/veSrfBw+MXCFxmjV7fLPF96JEdBtfb1TZECtlPs7YeMag=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-generator-support/-/assert-has-generator-support-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/utils-eval" "^0.0.x"
+
+"@stdlib/assert-has-node-buffer-support@^0.0.x":
+  "integrity" "sha512-UU1YqYCkM+DM4q1ZepKoa/3ypWyNCtKup4RdU7fYbpqLE5MaN/1hEPiaM7yEbZLpBYHGMhUOyxo1TTjClsaqMg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-node-buffer-support/-/assert-has-node-buffer-support-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-buffer" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-has-own-property@^0.0.x":
+  "integrity" "sha512-e70dnINl+687dpLPT70iq+MO8rNovbD5d+fOFL0+SafHsyOFHSZrkR6htaUSEQ+9oKPV6c8MzDiR3jQW6GK3bw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-own-property/-/assert-has-own-property-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/assert-has-symbol-support@^0.0.x":
+  "integrity" "sha512-kiLf0eGHLxuk3tvsJ3ScNhcmhZZ8g0657BdhtYjR82fLPGyqFm81WxU/bCH3facTlLEuMWSK61CwxQF7FdsrPw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-symbol-support/-/assert-has-symbol-support-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-has-tostringtag-support@^0.0.x":
+  "integrity" "sha512-hE9MyseGwS4joFU3NAMjtZe8FPLZl7N/RAu21gOeiRSpm7ewbBjvmYwNTuZCnNV6FxMyxPCtW9lzXVP33fM8rQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-tostringtag-support/-/assert-has-tostringtag-support-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-has-symbol-support" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-has-uint16array-support@^0.0.x":
+  "integrity" "sha512-lJUZZcjwVAR+THxzFgDHRdIZC99VfL8gf2xLDUXqLtkPqH3Lpd4faXU3rmOxajzH4pFD8QXhMhwFTX+Eubd4TA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-uint16array-support/-/assert-has-uint16array-support-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-uint16array" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/constants-uint16-max" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-has-uint32array-support@^0.0.x":
+  "integrity" "sha512-DCw3saMNrOavbFTmLkrVAn6YGkAkCfbpn3zYMVrqAAJ3JLP/yvnAGggDaCJ2HHX071V+R7XypclkxLlGEgI8UA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-uint32array-support/-/assert-has-uint32array-support-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-uint32array" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/constants-uint32-max" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-has-uint8array-support@^0.0.x":
+  "integrity" "sha512-iIuz7Vw7I7M2AiRj20/aVB+r8aEdrhLsreSbYZyKv+LTB8BEpl6IRec4TAvXt3b8zZvxcnKuKi0barFl3hPBeg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-has-uint8array-support/-/assert-has-uint8array-support-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-uint8array" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/constants-uint8-max" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-is-array@^0.0.x":
+  "integrity" "sha512-t5z8B8Z80r8dSkXznG4Ryvtk5FuCbUKdXieK3Zvbq03xlP5Y6EUk3zc94ZZOZ9/MyKHJd+nUl47KJsSRox3KSg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-array/-/assert-is-array-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-is-big-endian@^0.0.x":
+  "integrity" "sha512-OhNNir1H1PzznaN4golqnnT36wb8GahrmRCiODmsPN/GGveJvt9Fwu/cGk8eNSA0ZN6KbJS3RWoBbfU8+Ev/WA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-big-endian/-/assert-is-big-endian-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/array-uint16" "^0.0.x"
+    "@stdlib/array-uint8" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-is-boolean@^0.0.x":
+  "integrity" "sha512-e7DFVs4V9x9yDcKzNR0Ue+y2xvGCp+Qgs3frCFtp+XiCoDUwUI6GkgbmOLQIPhWOBVgwIw8BAQ1nUvZJeKRWxw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-boolean/-/assert-is-boolean-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-has-tostringtag-support" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-is-buffer@^0.0.x":
+  "integrity" "sha512-1VJPY69LPNFtF4kB17SIegROVxU2J5j0HNMP5UdvfxISegE4kaTPUE0TET6yZ2/cYe4vFAXYnpY8YlRHCFpWlg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-buffer/-/assert-is-buffer-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-object-like" "^0.0.x"
+
+"@stdlib/assert-is-float64array@^0.0.x":
+  "integrity" "sha512-ryavYFbw3oVaQm1D4Hhv3oBVoxiGKriTXNQu+axjhQf9VZK+tKvpKEgjWSeJMmt0nYjfo5z/2CasP7SCLwWPmw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-float64array/-/assert-is-float64array-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-is-function@^0.0.x":
+  "integrity" "sha512-/kx5JaDWj7q6XeSzKMprLpi/NlUDxl/3bH1RQIDlTC8MmyzpVCMcxdNcP/mL6XGFF0cIipBzqkxD1Dsieh9xpg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-function/-/assert-is-function-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/utils-type-of" "^0.0.x"
+
+"@stdlib/assert-is-little-endian@^0.0.x":
+  "integrity" "sha512-Cz7ghgzMInJtEzk7xFkhILZri9LBrqwVUULgsdpW7jgUczogtqQ4lcRUtUbRh1n3bNCrCCxuIl1zOxd7ixtZfQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-little-endian/-/assert-is-little-endian-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/array-uint16" "^0.0.x"
+    "@stdlib/array-uint8" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/assert-is-object-like@^0.0.x":
+  "integrity" "sha512-UiChPZdXKnmL+jZrh3JnGlD4PZZgILLnxedS68nJRM9X2FmrlPONSk9m+nnvMHSskgMsTsy08Z4lks2EMsvm6w=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-object-like/-/assert-is-object-like-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-tools-array-function" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/assert-is-object@^0.0.x":
+  "integrity" "sha512-tesx+ZaeSNdnI5QRe2sbE6w2eBcYyRZ1KQupryVYN3z8Hs+Mgx4kgm7huxmY2Qg4dfEJTYy0pMPPnSFTxchNUw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-object/-/assert-is-object-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-array" "^0.0.x"
+
+"@stdlib/assert-is-plain-object@^0.0.x":
+  "integrity" "sha512-ig5WRnVWcnhO7eLtPXfutt3IHNV9WegtCZwjEdrBIXV/CDXaxIlClFZ+0UUf4NsE0C0w9cFvRBnHllytdDyUww=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-plain-object/-/assert-is-plain-object-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-has-own-property" "^0.0.x"
+    "@stdlib/assert-is-function" "^0.0.x"
+    "@stdlib/assert-is-object" "^0.0.x"
+    "@stdlib/utils-get-prototype-of" "^0.0.x"
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-is-regexp-string@^0.0.x":
+  "integrity" "sha512-LXz+OI3GenG2zwWvLHLmuVaNIP2KXuGVV1d+LsmlV78bmdnByIamT/ZgLXZK969c5c9RWi8bYWrFhH2OYPh2ZA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-regexp-string/-/assert-is-regexp-string-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/process-read-stdin" "^0.0.x"
+    "@stdlib/regexp-eol" "^0.0.x"
+    "@stdlib/regexp-regexp" "^0.0.x"
+    "@stdlib/streams-node-stdin" "^0.0.x"
+
+"@stdlib/assert-is-regexp@^0.0.x":
+  "integrity" "sha512-tF/2LAFmKtJAns9N4/+F9XWJH3CqLVrrW8gLgeX5/U813vql/o3OQWUymW6TVypCv12ky0x4VKSt262TkqAOiA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-regexp/-/assert-is-regexp-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-has-tostringtag-support" "^0.0.x"
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-is-string@^0.0.x":
+  "integrity" "sha512-ngAej4+jmSCKJbKRVZkPIidik5LZ478C5kqdpteEe8QgLBaj3kPg56SlomXCQDyG0+pEiQ7RlNpwRrWkZWCoKw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-string/-/assert-is-string-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-has-tostringtag-support" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-is-uint16array@^0.0.x":
+  "integrity" "sha512-cbQ9JELbasYHePJvzvlw+P1spbWPBvabtsYUJiXWdbJSWH3HGQvdx0YgJYnhF0Ru8OvBO4zdSYVuQPMtbyaS0A=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-uint16array/-/assert-is-uint16array-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-is-uint32array@^0.0.x":
+  "integrity" "sha512-55wU8M/C6ghiMZ4j1UiZ7mqTmv+mViq+O4avZkLZzy6wBpR5YEIAkzVeUBVqT3dubhZgMwKI81Wx6BTuEXsPdw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-uint32array/-/assert-is-uint32array-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-is-uint8array@^0.0.x":
+  "integrity" "sha512-VoP9hnT9bN9tFU8EmlPaLNX7NlWv2yF0n0EN1Li4DEtlbrJTg73N5VGCRFgF5UAJ/Bka6N5dnSqMuPqj7Wyipw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-is-uint8array/-/assert-is-uint8array-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/assert-tools-array-function@^0.0.x":
+  "integrity" "sha512-46/b3X0tqtGUSWmqsl5GXoRKeiqeGTgqqXwYa5y3K2yHJWW4XNRbo+y9RqmyGAu4KIhr/D+fFqVk8wm/sYWgeQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/assert-tools-array-function/-/assert-tools-array-function-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-is-array" "^0.0.x"
+
+"@stdlib/buffer-ctor@^0.0.x":
+  "integrity" "sha512-ltmQFGbRmYEC7TW74fbI+PYLhvr/cyq0DJ8cwdfLE22QJWLmSw61t173RD+aDeGqwpkbmdfLitLrbYR5YLM2pQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/buffer-ctor/-/buffer-ctor-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-has-node-buffer-support" "^0.0.x"
+
+"@stdlib/buffer-from-string@^0.0.x":
+  "integrity" "sha512-2FgbWYZUZQ/KaG5/vvEwd5QL1u26qKP2FuxYPKBDjTHiIqR3n+3FAFvTEmxpw7PiS5rcA7kyz3ZwDrIZVlK76A=="
+  "resolved" "https://registry.npmjs.org/@stdlib/buffer-from-string/-/buffer-from-string-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-is-function" "^0.0.x"
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/buffer-ctor" "^0.0.x"
+
+"@stdlib/cli-ctor@^0.0.x":
+  "integrity" "sha512-/5mNj/FGCxDlcprVv9uVHlxymsLdqUdpHlhiRK8J54iVATFbEjnfOG71+J/EdBPxQgs/oWAV4u8QXC8ZM+EOcg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/cli-ctor/-/cli-ctor-0.0.2.tgz"
+  "version" "0.0.2"
+  dependencies:
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+    "@stdlib/utils-noop" "^0.0.x"
+    "minimist" "^1.2.0"
+
+"@stdlib/constants-float32-max@^0.0.x":
+  "integrity" "sha512-P2+xvRGHVYRu+/RznjzfbS0ZTw0c7g0kKZkXEbU/I8NyuCipy1Ibya2NHjPHGWte90Ashxw8U0bdr0rZMdDymg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float32-max/-/constants-float32-max-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float32-smallest-normal@^0.0.x":
+  "integrity" "sha512-bwK0PnwxH6yPf7FGLv2Zn/nllfTnX42KCbQuFzIbQUVwCD10JQhX85yeDh60fJW1HFsOmxx8nXJnkvlwFNQj+A=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float32-smallest-normal/-/constants-float32-smallest-normal-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-e@^0.0.x":
+  "integrity" "sha512-ooVzd4U7zYoxprCEoSLaVcReY6CQBvYdD95prLofSVHrHdgNkrJpxbIPT1zyovji5eL01UcEx0fD1ncnblclXQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-e/-/constants-float64-e-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-eps@^0.0.x":
+  "integrity" "sha512-IX95qM2EASCJbZtH3S4TOI3lzM+q0s1P3yxGzAT4m1sYMogJFivlou4BUglIY4g8nGY7KUKJ3eNMg4H1v8IZAQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-eps/-/constants-float64-eps-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-eulergamma@^0.0.x":
+  "integrity" "sha512-P3+JfrNIfTF6txHTb82doIKaSsGU+6S5vIZomoq9Wwlt2hrouzdhCCmaJ1B85sAFWd28J1RWp+u0IaJ1AQcepQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-eulergamma/-/constants-float64-eulergamma-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-exponent-bias@^0.0.x":
+  "integrity" "sha512-2y/RL6P4CYj7v5DRRrhVNbLuxrWFgArVEQCDbQoVyDYemSSKZH379RihxOOdGqY4KKIEEmHFGwqr4mA2EYRm9g=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-exponent-bias/-/constants-float64-exponent-bias-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-fourth-pi@^0.0.x":
+  "integrity" "sha512-EIqO9xohlJvedrzk/+vn3l0qj58MuESvztdAphmbvZfeOqslIxiocCR+ja0hOtWpWu5JaEa6rtphnxKLEuZqDg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-fourth-pi/-/constants-float64-fourth-pi-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-gamma-lanczos-g@^0.0.x":
+  "integrity" "sha512-enEDSvXB1F7SiD5fU6xhJrf2/Gzu22zB6K/n/e0lVU6E15a2PQ3ZvAZKSrFryms/pUMdJ5pF4/irXd3EKVvkpA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-gamma-lanczos-g/-/constants-float64-gamma-lanczos-g-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-half-ln-two@^0.0.x":
+  "integrity" "sha512-nQ0iXExpbrA2OvQYAE4eDF4t32OlQxOnsBWgqUdWH4/vef7tCmTvvAj2iClogh3d+nwi89H5li1oY07n7IT+4w=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-half-ln-two/-/constants-float64-half-ln-two-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-half-pi@^0.0.x":
+  "integrity" "sha512-oWKAYCeGw9okWY6stO9TnyZBCQ318KXpsj71qqg5CzyAGNQ4C4qn8d4xfPpizBUYmqdcGK3rlsOEyjXkFx0gOw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-half-pi/-/constants-float64-half-pi-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-high-word-exponent-mask@^0.0.x":
+  "integrity" "sha512-2vkkZpTAokqxgm27pmmylmU4lZHZlDUGpDcCwXaZrG7/Q9FRf1/hAKuesooCoG8XAVAdh2XcY/0yiSXbXMLL7w=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-high-word-exponent-mask/-/constants-float64-high-word-exponent-mask-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-ln-sqrt-two-pi@^0.0.x":
+  "integrity" "sha512-JYl2ruA9q/X/drCLsLOGUnW2UwvOLsA6Y10zf32tVHr7XVk8wYpnwgj+OhiZD5ympDgRuYTFA3kjXetInP1qWg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-ln-sqrt-two-pi/-/constants-float64-ln-sqrt-two-pi-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-ln-two@^0.0.x":
+  "integrity" "sha512-8g/wY9tYFxsiG5xuHwgtlQJIa/JlHozTJglbh3xKr4XPJ51o71iN020KKyZQchvpDvtiQCNURAhAdwPtKVvHMg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-ln-two/-/constants-float64-ln-two-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-max-base2-exponent-subnormal@^0.0.x":
+  "integrity" "sha512-SCtH+u9DgJIT2NCpQ3yNlawYyHCnGJfPhry5D5csJvzxzADGOIl7afnOuNHP0TFcUTrOpRjTcTm8DxldO10OPQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-max-base2-exponent-subnormal/-/constants-float64-max-base2-exponent-subnormal-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-max-base2-exponent@^0.0.x":
+  "integrity" "sha512-SbAvxQdVKRFfc9xKD2t865pwZzZmTHEOVO+xZOnj5Bf7oRHMPtRBYtqZEuah8kewwraFdtO0dr/vV1Gv+MOIkA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-max-base2-exponent/-/constants-float64-max-base2-exponent-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-max-ln@^0.0.x":
+  "integrity" "sha512-kHLoKK0cah9aT6C5Ggl8jgWLHpCOwqPVB+ggVj4rKB0QyTNdAkqvj8hyQ7XvzyLY+OhA5YJPYxfe0eiOwPdCdw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-max-ln/-/constants-float64-max-ln-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-max@^0.0.x":
+  "integrity" "sha512-qBNhpks7Kk0AmXtlyGM27v+WdROD+K/Lf8qtUTHvq/Jt/fjNc2Ohrb5w4o5/1M4OgennR8bJWVNmJhtdJA9UMg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-max/-/constants-float64-max-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-min-base2-exponent-subnormal@^0.0.x":
+  "integrity" "sha512-Z9sBm1Yq9Cr1Qz6/1Uem2PtDXI+aUHweOr4j2DEm/M7PbTWqIYtat1VnENvfVBqyOD/sikTTDAh4btsgGXGrQA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-min-base2-exponent-subnormal/-/constants-float64-min-base2-exponent-subnormal-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-min-ln@^0.0.x":
+  "integrity" "sha512-GWHvmjx9rY+cXxRTb53zuhZtFA8ZiNDtsboexDq9Fu8X8oh6K3WQxoPSafOgVweNvn0LlOPxoVGPTclIzembMg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-min-ln/-/constants-float64-min-ln-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-ninf@^0.0.x":
+  "integrity" "sha512-C+CzgsC77QkiMCNUKw3qG+VvCmtpZWE5WIEyXKBpD8zXzKfaQg4BKAinXUZZWeSaJcb2Sw+fpKaNjqXi2PmBUw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-ninf/-/constants-float64-ninf-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/number-ctor" "^0.0.x"
+
+"@stdlib/constants-float64-pi@^0.0.x":
+  "integrity" "sha512-UkiqEUOd+LD3Q+Q8liLIcaS4o9sRhWR088L6YCKELg2faafoM01DfQk1u2M3zUjA50Gk++/C9Lp8olU8ZlrPuA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-pi/-/constants-float64-pi-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-pinf@^0.0.x":
+  "integrity" "sha512-T9TKPXeJZiVk5DmfnmnoEvb4e7KKjGxstTuqx7F6HXKSpfjnn0mGT5muI2LYJSEibTu2Ce3o+aahWLUoMsP21A=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-pinf/-/constants-float64-pinf-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-smallest-normal@^0.0.x":
+  "integrity" "sha512-NapcpklLgtzau18fhro3xkjANB8kNARHH5yVfOj4XPv31C8N25tlqyJYsScgIbi8nQJojKa+moyigdo94/lIzg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-smallest-normal/-/constants-float64-smallest-normal-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-smallest-subnormal@^0.0.x":
+  "integrity" "sha512-Y/N04MqMIullRpFCBQXSM81atZFGCwGgEZ8M6As77RSVtAsrDSBebpPFujz8bmoef0tRVm3vnz/41L+09MBaPA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-smallest-subnormal/-/constants-float64-smallest-subnormal-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-sqrt-eps@^0.0.x":
+  "integrity" "sha512-wZqPbd/bs4oPMzU2Pc2jKSTdZoJsdWM35M05n8eVe57BgmfQzvODmUKw1im9FDz29fhM8iaPn4+OuZEtTw4pag=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-sqrt-eps/-/constants-float64-sqrt-eps-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-sqrt-two-pi@^0.0.x":
+  "integrity" "sha512-ihzdCGBdWNVwTmvwHdhLvXD82sQ81BQVnInuNFuvt8i1Qn0ZRxUTcB38cC4f5ckQd+5FEywApT9N0YT51DCoqg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-sqrt-two-pi/-/constants-float64-sqrt-two-pi-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-sqrt-two@^0.0.x":
+  "integrity" "sha512-wYOxZvFdvg2QSPDxbDV8jouHUjlnRfJW/CJ2WQOKaiNIAu6WCZxYiWQqsu4HL8agpC8t/DBBjeXgNHEnAkVlPw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-sqrt-two/-/constants-float64-sqrt-two-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-float64-two-pi@^0.0.x":
+  "integrity" "sha512-KxHNhPikwEMje0mzNNLuhti4mHOC59hMWEMsI7HyFt98uBtDCjXaOz3px5kLk/Wi0Zr6eVCXH9YaDGEG98VczQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-float64-two-pi/-/constants-float64-two-pi-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-int32-max@^0.0.x":
+  "integrity" "sha512-eR7lDPXHBZXaz77lUejMEMKW8C2RtyMTXtI+y2UxVPF9i2D7sj4F2qWBHZc8kQMTs0mlgd4TDvKmHwcn+r7Whw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-int32-max/-/constants-int32-max-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-uint16-max@^0.0.x":
+  "integrity" "sha512-to3zo8bVffm6GHgy7zNYScEQqXsH0AGnwiaSUKNqCbVLWhKiJe/71wGsXwg4TrRH7sdeYFMo9cNYfGOSCEJrLg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-uint16-max/-/constants-uint16-max-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-uint32-max@^0.0.x":
+  "integrity" "sha512-6W1h8I/OVnLEz6MgrgaJ+ZNomEQQt71v9lBXIK6hTVV3hVPUTUk3ByxQgMjuLpf5XHTo3+jk26ymibZ6RT7rJw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-uint32-max/-/constants-uint32-max-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/constants-uint8-max@^0.0.x":
+  "integrity" "sha512-3Sa67GevE3fIGmfSxbO3cUZA6aS9MhVMjVYRTK3iZmg6KV7C3JICUaaQgWp0IPgVJih9kbRBb4XxRM/QPEMe0Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/constants-uint8-max/-/constants-uint8-max-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/fs-exists@^0.0.x":
+  "integrity" "sha512-Sm9N4uOj9mA1m3N3sBvu/YT9+5nrxPjqfvDXtMLuzSVHuz28ml1seoNP4wndtEIKOpel7cjIuN411+t/0mSlYQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/fs-exists/-/fs-exists-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/process-cwd" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/fs-read-file@^0.0.x":
+  "integrity" "sha512-m3VKVTRTO+OaCSBP1g+ja+dpo2Fs4sIZ4PFzntI7smFFlQfIDG9kcayC1+cqGNtPD3lV7/wVCfgozIycHmGJtQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/fs-read-file/-/fs-read-file-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/fs-resolve-parent-path@^0.0.x":
+  "integrity" "sha512-RDlyf+DlgPx5tK/7Vu1EQPPmP0xOOniu0higINCWLyKbOKbbEhYMvU4aSbEq8he9OQdYA8SCUJMil8grKE5gGA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/fs-resolve-parent-path/-/fs-resolve-parent-path-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-has-own-property" "^0.0.x"
+    "@stdlib/assert-is-function" "^0.0.x"
+    "@stdlib/assert-is-plain-object" "^0.0.x"
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-exists" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/process-cwd" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/math-base-assert-is-even@^0.0.x":
+  "integrity" "sha512-aS/tnrTHXyNXWYS8UtAnF0A06WZVieCzZFbvV8eg9QFSIH9QxE0ZKM2mEzEFP5CVRYwu4Tmm2DCnUyMYUWKPTw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-assert-is-even/-/math-base-assert-is-even-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/math-base-assert-is-integer" "^0.0.x"
+
+"@stdlib/math-base-assert-is-infinite@^0.0.x":
+  "integrity" "sha512-eEjIqvHuw/OBUUKWBdJPQUqHYetjUhiS1SMJym+yR4hhSt/kj/7EAdOPSYvzESCR8ancbYAhbVvTyB/LBKS9EQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-assert-is-infinite/-/math-base-assert-is-infinite-0.0.8.tgz"
+  "version" "0.0.8"
+  dependencies:
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-assert-is-integer@^0.0.x":
+  "integrity" "sha512-m919vzY6xg/xKnUg8KWucCkwTA90iABnR70fdbp5NE8bDVSHWvM1wxgwk5QiOzRyR846rXMIYF/AyyoMaHAt2g=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-assert-is-integer/-/math-base-assert-is-integer-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/math-base-special-floor" "^0.0.x"
+
+"@stdlib/math-base-assert-is-nan@^0.0.x":
+  "integrity" "sha512-+J+19NXLumZkQlTky1ZQLQp0haBZo8P3af/lvAzx2t8eFgqE6JKO13xBoASGMJMUt877/T27Q8Ur6cuYOJlvLA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-assert-is-nan/-/math-base-assert-is-nan-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-assert-is-negative-zero@^0.0.x":
+  "integrity" "sha512-paFDJ0kYhuOfq2YzLVv5UP+SyLBv6sE213mYs0kN5o4Q0x2eIRIh3UQdeZIvwZM0mS4MvLXuTViIqnCzuwJptw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-assert-is-negative-zero/-/math-base-assert-is-negative-zero-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-assert-is-odd@^0.0.x":
+  "integrity" "sha512-3GsQ1qUwHKGxZaECgIo2t6dacqxtEdQ5RwvV5ALJoIch1Szxr4psTaz1Y5pE67oMEcb/2JFOSGwljBr1k24Ksg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-assert-is-odd/-/math-base-assert-is-odd-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/math-base-assert-is-even" "^0.0.x"
+
+"@stdlib/math-base-assert-is-positive-zero@^0.0.x":
+  "integrity" "sha512-+po0FGWqjxx7SO/DIrxcK2faUTUWq2PZ8RSmZGeM7I9rzRgMH5pBIPS8XWiYLxLOlLzJA60OgF3WmvA6FFOQ9A=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-assert-is-positive-zero/-/math-base-assert-is-positive-zero-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-napi-unary@^0.0.x":
+  "integrity" "sha512-z7v2sjLRbwOBOyfsHk4BCp+lUb1M3D8tufNqGJoRy/9f5NZH5H04ZI1tgQAd323QUqeOTb4YoiRAXgLSsycNzQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-napi-unary/-/math-base-napi-unary-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-special-abs@^0.0.x":
+  "integrity" "sha512-pErR5KkWMvD8CRseqInuTEPu7nVlv37Ye2sqy4OkbsZE6Nuk/daxejovk9n96pRcE872Q7r/g6ClDa1saiiTKw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-abs/-/math-base-special-abs-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/math-base-napi-unary" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-special-acos@^0.0.x":
+  "integrity" "sha512-Vq1q28UMZfi73DTnjfu3vpg6XfM5uJUqqmqOT0OLGWzaJOvnNt5tdgDZWyOOilPWFiPQ6Wq4fXYpjTwlCQChZA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-acos/-/math-base-special-acos-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/constants-float64-fourth-pi" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-asin" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+
+"@stdlib/math-base-special-asin@^0.0.x":
+  "integrity" "sha512-6YvNUL2Nopxkt2Zd0dx8LBNYk0RwSb6P/RkHPZgPaShQnxgFEmc3Q266S+7IdVydf59BbbCzpbE6ngIB+ySgcQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-asin/-/math-base-special-asin-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/constants-float64-fourth-pi" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+
+"@stdlib/math-base-special-beta@^0.0.x":
+  "integrity" "sha512-/QFsXh7BeAnlFGu9oCxcr0EQGP3yg/2Ca1hCeQuDjuGaZwHmhmniJruNKKHRG3we809Cb9StZ6eZJOi1/LnHOw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-beta/-/math-base-special-beta-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-e" "^0.0.x"
+    "@stdlib/constants-float64-eps" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-exp" "^0.0.x"
+    "@stdlib/math-base-special-log1p" "^0.0.x"
+    "@stdlib/math-base-special-pow" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+
+"@stdlib/math-base-special-betainc@^0.0.x":
+  "integrity" "sha512-w1MfKAXeNlqX2sq4Mh/he1ShG7m3JqPyqk43ruH2aLfE8tV+GbOGQOshL9DEYrYop+Di8g+WL5mtntBlTYSeHQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-betainc/-/math-base-special-betainc-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/math-base-special-kernel-betainc" "^0.0.x"
+
+"@stdlib/math-base-special-binomcoef@^0.0.x":
+  "integrity" "sha512-DdTLX0KG50UhS8WdPvsxj96kKsv2vmbXhpwQ6fmnXJ+F7IhYTdpFYLVND5e/D+vrmuu8nAyriIIanxUnl3QVSg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-binomcoef/-/math-base-special-binomcoef-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/math-base-assert-is-integer" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-assert-is-odd" "^0.0.x"
+    "@stdlib/math-base-special-round" "^0.0.x"
+
+"@stdlib/math-base-special-ceil@^0.0.x":
+  "integrity" "sha512-DPCVVn8eQXkuImMBEJfgXNc8RvcbzoOrwwnYS0e4ic8LoO2p1wAyAjsr94IoZzKrYbOjdvIfilFMa6LwjO8PWw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-ceil/-/math-base-special-ceil-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/math-base-napi-unary" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-special-copysign@^0.0.x":
+  "integrity" "sha512-/nN5e2eLrsGNuOPvQQRBwysapPVQC+aCTp1UGwUbOSnAc6CUo1iyLhzq4Gv5nxBSU0coVxplC+z2HabPBJvEiQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-copysign/-/math-base-special-copysign-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/number-float64-base-from-words" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+
+"@stdlib/math-base-special-cos@^0.0.x":
+  "integrity" "sha512-/3kQupkke6w7YkDAlqhkXzOXnsKhsNLhSvsxldfzcuGg411bMZV4+ZUU0ZbuXp3Sq7IStgA6jQg7hOcdxE+www=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-cos/-/math-base-special-cos-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/math-base-special-kernel-cos" "^0.0.x"
+    "@stdlib/math-base-special-kernel-sin" "^0.0.x"
+    "@stdlib/math-base-special-rempio2" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+
+"@stdlib/math-base-special-erfc@^0.0.x":
+  "integrity" "sha512-0hxEu0FKpQkkyiMIsrzcno08yOCcpUc2qVM9w8X/ADYwMvglOUVuHRfAl6jaqIGxX11+Ic9O4bDddROqVU/0fg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-erfc/-/math-base-special-erfc-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-exp" "^0.0.x"
+    "@stdlib/number-float64-base-set-low-word" "^0.0.x"
+
+"@stdlib/math-base-special-erfcinv@^0.0.x":
+  "integrity" "sha512-AkWv8vfQYDSRAz44Tw7aPXndp0SafSxpeDi4m1051kXGzKePfxG8Hmkp/9EegoSQeovY20OIGUrL5O5PR59vLg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-erfcinv/-/math-base-special-erfcinv-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-ln" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+
+"@stdlib/math-base-special-exp@^0.0.x":
+  "integrity" "sha512-xSgDSosE4cAMbq2ij0HJiPDmFjN8Sf2NHLFs5C2LQmU6CcqkoyyCjQGgWItBz1pqCIEKdimbS4MuxPbeYFB4PA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-exp/-/math-base-special-exp-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-ldexp" "^0.0.x"
+    "@stdlib/math-base-special-trunc" "^0.0.x"
+
+"@stdlib/math-base-special-expm1@^0.0.x":
+  "integrity" "sha512-qJN7x7nGID/uMPdKkoF0Vfbrmltz2Uz5Lpz2Rkp1m2wG/wHfCg+qL6RVxh/aZDtzIuQaw5F/ZNYKVbn5JKeigQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-expm1/-/math-base-special-expm1-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-exponent-bias" "^0.0.x"
+    "@stdlib/constants-float64-half-ln-two" "^0.0.x"
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+    "@stdlib/number-float64-base-set-high-word" "^0.0.x"
+
+"@stdlib/math-base-special-factorial@^0.0.x":
+  "integrity" "sha512-PZZMDbZCylNIeRArhp4Eaa/iVKmqRuuDUw2cJ3kJR43xToAwTvDSnzWFPl9ZX89KGp7kBcCM6mAJ3e1U38uREg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-factorial/-/math-base-special-factorial-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-integer" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-gamma" "^0.0.x"
+
+"@stdlib/math-base-special-floor@^0.0.x":
+  "integrity" "sha512-vlAMOlCl6Q8edapuFNq540T9lBF2QOSPOh0pI3XLHEO4F5+AtotqKyn2opyTL43jEF+esCVC7/5em5hxGsBTfQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-floor/-/math-base-special-floor-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/math-base-napi-unary" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-special-gamma-delta-ratio@^0.0.x":
+  "integrity" "sha512-VSoYga0KmkCARmAOBUXBQ97DBQ77xSX3IUAFnPxN4J8AuEu/G256UUsBOUzVwF2r6WV+EmBNZDXHnrP2kL5qrg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-gamma-delta-ratio/-/math-base-special-gamma-delta-ratio-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-e" "^0.0.x"
+    "@stdlib/constants-float64-eps" "^0.0.x"
+    "@stdlib/constants-float64-gamma-lanczos-g" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-exp" "^0.0.x"
+    "@stdlib/math-base-special-factorial" "^0.0.x"
+    "@stdlib/math-base-special-floor" "^0.0.x"
+    "@stdlib/math-base-special-gamma" "^0.0.x"
+    "@stdlib/math-base-special-gamma-lanczos-sum" "^0.0.x"
+    "@stdlib/math-base-special-log1p" "^0.0.x"
+    "@stdlib/math-base-special-pow" "^0.0.x"
+
+"@stdlib/math-base-special-gamma-lanczos-sum-expg-scaled@^0.0.x":
+  "integrity" "sha512-jaAogjQ+ZvaxfAhQmQpK5JfBTCR6fO9p2IJgdLu2alA0xyftOv9bOa/5NmAjkt60Wy7tzVy6pS7c+XQRg8Id6w=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-gamma-lanczos-sum-expg-scaled/-/math-base-special-gamma-lanczos-sum-expg-scaled-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/math-base-special-gamma-lanczos-sum@^0.0.x":
+  "integrity" "sha512-pNtIVBEaUX8rOrDsyt3JxKr2nojwQlUkhN6f3zmpdQ1pl6bDksYdJdTf26xfUFlo6rMSHaC0ZLQ3IsOoi9fnWg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-gamma-lanczos-sum/-/math-base-special-gamma-lanczos-sum-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/math-base-special-gamma@^0.0.x":
+  "integrity" "sha512-ZLPvG3RBN/4CPhTNm/eVZ9tQ6w7NZUnCMJdiyPhBot6N4RozE60cyURJt/hQNab3DFBKsxsf3Zp6eeh3kPpsvA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-gamma/-/math-base-special-gamma-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-eulergamma" "^0.0.x"
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pi" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/constants-float64-sqrt-two-pi" "^0.0.x"
+    "@stdlib/math-base-assert-is-integer" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-assert-is-negative-zero" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-exp" "^0.0.x"
+    "@stdlib/math-base-special-floor" "^0.0.x"
+    "@stdlib/math-base-special-pow" "^0.0.x"
+    "@stdlib/math-base-special-sin" "^0.0.x"
+
+"@stdlib/math-base-special-gamma1pm1@^0.0.x":
+  "integrity" "sha512-cJzXkvfcSA34MuS6i+5q4H9ZmuE9WANo3okVTJmq3b/sNWM/iw7xurnF8YUNeiBop1J8dyvDMOewztF1F1tJyw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-gamma1pm1/-/math-base-special-gamma1pm1-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-eps" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-expm1" "^0.0.x"
+    "@stdlib/math-base-special-gamma" "^0.0.x"
+    "@stdlib/math-base-special-ln" "^0.0.x"
+    "@stdlib/math-base-special-log1p" "^0.0.x"
+
+"@stdlib/math-base-special-gammainc@^0.0.x":
+  "integrity" "sha512-i2lJTGCWBqul4SS3aV3+1o317nenbuwBj1wHZ/L0OhXOLctPf5bBo/LINQBe5FodOWrM7JtnfX9uAeVXgDr78A=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-gammainc/-/math-base-special-gammainc-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-e" "^0.0.x"
+    "@stdlib/constants-float64-gamma-lanczos-g" "^0.0.x"
+    "@stdlib/constants-float64-max" "^0.0.x"
+    "@stdlib/constants-float64-max-ln" "^0.0.x"
+    "@stdlib/constants-float64-min-ln" "^0.0.x"
+    "@stdlib/constants-float64-pi" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/constants-float64-sqrt-eps" "^0.0.x"
+    "@stdlib/constants-float64-sqrt-two-pi" "^0.0.x"
+    "@stdlib/constants-float64-two-pi" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-erfc" "^0.0.x"
+    "@stdlib/math-base-special-exp" "^0.0.x"
+    "@stdlib/math-base-special-floor" "^0.0.x"
+    "@stdlib/math-base-special-gamma" "^0.0.x"
+    "@stdlib/math-base-special-gamma-lanczos-sum-expg-scaled" "^0.0.x"
+    "@stdlib/math-base-special-gamma1pm1" "^0.0.x"
+    "@stdlib/math-base-special-gammaln" "^0.0.x"
+    "@stdlib/math-base-special-ln" "^0.0.x"
+    "@stdlib/math-base-special-log1p" "^0.0.x"
+    "@stdlib/math-base-special-max" "^0.0.x"
+    "@stdlib/math-base-special-min" "^0.0.x"
+    "@stdlib/math-base-special-pow" "^0.0.x"
+    "@stdlib/math-base-special-powm1" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+    "@stdlib/math-base-tools-continued-fraction" "^0.0.x"
+    "@stdlib/math-base-tools-evalpoly" "^0.0.x"
+    "@stdlib/math-base-tools-sum-series" "^0.0.x"
+
+"@stdlib/math-base-special-gammaincinv@^0.0.x":
+  "integrity" "sha512-OK9hcsHMrweZt0FvcD4g6CConNOrwbmpvyXAfWhvFTWfMMMilzvjjnxZLi54759M30y0BfZqJ7OPGIzEoUfgHA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-gammaincinv/-/math-base-special-gammaincinv-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float32-max" "^0.0.x"
+    "@stdlib/constants-float32-smallest-normal" "^0.0.x"
+    "@stdlib/constants-float64-ln-sqrt-two-pi" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/constants-float64-sqrt-two-pi" "^0.0.x"
+    "@stdlib/constants-float64-two-pi" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-erfcinv" "^0.0.x"
+    "@stdlib/math-base-special-exp" "^0.0.x"
+    "@stdlib/math-base-special-gamma" "^0.0.x"
+    "@stdlib/math-base-special-gammainc" "^0.0.x"
+    "@stdlib/math-base-special-gammaln" "^0.0.x"
+    "@stdlib/math-base-special-ln" "^0.0.x"
+    "@stdlib/math-base-special-min" "^0.0.x"
+    "@stdlib/math-base-special-pow" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+    "@stdlib/math-base-tools-evalpoly" "^0.0.x"
+    "debug" "^2.6.9"
+
+"@stdlib/math-base-special-gammaln@^0.0.x":
+  "integrity" "sha512-jNDPWwOt/f9+JPbyjD5uYLDAv5que/ORjaiPoun1kwDZbtE3S6z0RZG/0+qW2xeklBeO1QxTpiBvRps5PLHjXA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-gammaln/-/math-base-special-gammaln-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-pi" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-infinite" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-ln" "^0.0.x"
+    "@stdlib/math-base-special-sinpi" "^0.0.x"
+    "@stdlib/math-base-special-trunc" "^0.0.x"
+
+"@stdlib/math-base-special-kernel-betainc@^0.0.x":
+  "integrity" "sha512-lNyvpd1GsDAn7fh1dHSDRwyn2eVUIKL36alr5cKF45QvKn++j8yD4zOBhTFCH/C/FmEiFXae1qcFFHOOveLScw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-kernel-betainc/-/math-base-special-kernel-betainc-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-e" "^0.0.x"
+    "@stdlib/constants-float64-eps" "^0.0.x"
+    "@stdlib/constants-float64-gamma-lanczos-g" "^0.0.x"
+    "@stdlib/constants-float64-half-pi" "^0.0.x"
+    "@stdlib/constants-float64-max" "^0.0.x"
+    "@stdlib/constants-float64-max-ln" "^0.0.x"
+    "@stdlib/constants-float64-min-ln" "^0.0.x"
+    "@stdlib/constants-float64-pi" "^0.0.x"
+    "@stdlib/constants-float64-smallest-normal" "^0.0.x"
+    "@stdlib/constants-int32-max" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-asin" "^0.0.x"
+    "@stdlib/math-base-special-beta" "^0.0.x"
+    "@stdlib/math-base-special-binomcoef" "^0.0.x"
+    "@stdlib/math-base-special-exp" "^0.0.x"
+    "@stdlib/math-base-special-expm1" "^0.0.x"
+    "@stdlib/math-base-special-factorial" "^0.0.x"
+    "@stdlib/math-base-special-floor" "^0.0.x"
+    "@stdlib/math-base-special-gamma" "^0.0.x"
+    "@stdlib/math-base-special-gamma-delta-ratio" "^0.0.x"
+    "@stdlib/math-base-special-gamma-lanczos-sum-expg-scaled" "^0.0.x"
+    "@stdlib/math-base-special-gammainc" "^0.0.x"
+    "@stdlib/math-base-special-gammaln" "^0.0.x"
+    "@stdlib/math-base-special-ln" "^0.0.x"
+    "@stdlib/math-base-special-log1p" "^0.0.x"
+    "@stdlib/math-base-special-max" "^0.0.x"
+    "@stdlib/math-base-special-maxabs" "^0.0.x"
+    "@stdlib/math-base-special-min" "^0.0.x"
+    "@stdlib/math-base-special-minabs" "^0.0.x"
+    "@stdlib/math-base-special-pow" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+    "@stdlib/math-base-tools-continued-fraction" "^0.0.x"
+    "@stdlib/math-base-tools-sum-series" "^0.0.x"
+    "@stdlib/types" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/math-base-special-kernel-betaincinv@^0.0.x":
+  "integrity" "sha512-Ir5Jf7C/k3/+lKSG9DuGnjy7cChBFn+Z4WElJLe7lEbPiCDMzTcMlpBCfeOxh7EOHqHJ4HpgNreFlR8KebfXKg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-kernel-betaincinv/-/math-base-special-kernel-betaincinv-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-eps" "^0.0.x"
+    "@stdlib/constants-float64-half-pi" "^0.0.x"
+    "@stdlib/constants-float64-max" "^0.0.x"
+    "@stdlib/constants-float64-pi" "^0.0.x"
+    "@stdlib/constants-float64-smallest-normal" "^0.0.x"
+    "@stdlib/constants-float64-smallest-subnormal" "^0.0.x"
+    "@stdlib/constants-float64-sqrt-two" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-acos" "^0.0.x"
+    "@stdlib/math-base-special-asin" "^0.0.x"
+    "@stdlib/math-base-special-beta" "^0.0.x"
+    "@stdlib/math-base-special-betainc" "^0.0.x"
+    "@stdlib/math-base-special-cos" "^0.0.x"
+    "@stdlib/math-base-special-erfcinv" "^0.0.x"
+    "@stdlib/math-base-special-exp" "^0.0.x"
+    "@stdlib/math-base-special-expm1" "^0.0.x"
+    "@stdlib/math-base-special-floor" "^0.0.x"
+    "@stdlib/math-base-special-gamma-delta-ratio" "^0.0.x"
+    "@stdlib/math-base-special-gammaincinv" "^0.0.x"
+    "@stdlib/math-base-special-kernel-betainc" "^0.0.x"
+    "@stdlib/math-base-special-ldexp" "^0.0.x"
+    "@stdlib/math-base-special-ln" "^0.0.x"
+    "@stdlib/math-base-special-log1p" "^0.0.x"
+    "@stdlib/math-base-special-max" "^0.0.x"
+    "@stdlib/math-base-special-min" "^0.0.x"
+    "@stdlib/math-base-special-pow" "^0.0.x"
+    "@stdlib/math-base-special-round" "^0.0.x"
+    "@stdlib/math-base-special-signum" "^0.0.x"
+    "@stdlib/math-base-special-sin" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+    "@stdlib/math-base-tools-evalpoly" "^0.0.x"
+
+"@stdlib/math-base-special-kernel-cos@^0.0.x":
+  "integrity" "sha512-jS3c6evYrHGFd7RELdsY07GyHLjorFvNjiBZsKolnTdGH9lBbih+oXUt0LOfwrsoUDpQ+2QmXQrlX3+L9843Qg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-kernel-cos/-/math-base-special-kernel-cos-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/math-base-special-kernel-sin@^0.0.x":
+  "integrity" "sha512-Cy+60ntuNtM1fGQCGbM0ErZwmfyjZReO1MN9gVPIrBQihiVM+cH/iGq6QhlnvFscS19tMFv6sJ4gGJj87iz65g=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-kernel-sin/-/math-base-special-kernel-sin-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/math-base-special-ldexp@^0.0.x":
+  "integrity" "sha512-RLRsPpCdcJZMhwb4l4B/FsmGfEPEWAsik6KYUkUSSHb7ok/gZWt8LgVScxGMpJMpl5IV0v9qG4ZINVONKjX5KA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-ldexp/-/math-base-special-ldexp-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-exponent-bias" "^0.0.x"
+    "@stdlib/constants-float64-max-base2-exponent" "^0.0.x"
+    "@stdlib/constants-float64-max-base2-exponent-subnormal" "^0.0.x"
+    "@stdlib/constants-float64-min-base2-exponent-subnormal" "^0.0.x"
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-infinite" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-copysign" "^0.0.x"
+    "@stdlib/number-float64-base-exponent" "^0.0.x"
+    "@stdlib/number-float64-base-from-words" "^0.0.x"
+    "@stdlib/number-float64-base-normalize" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+
+"@stdlib/math-base-special-ln@^0.0.x":
+  "integrity" "sha512-Ih/5DiZuFocgbaEGlFQ+x+rVyenHqNBU1fLU2uqZZYWWGXQKDVjUVLCf6B4mDo+ktI9uHaWB0jgLmv9/2B0Qmg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-ln/-/math-base-special-ln-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-exponent-bias" "^0.0.x"
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+    "@stdlib/number-float64-base-set-high-word" "^0.0.x"
+
+"@stdlib/math-base-special-log1p@^0.0.x":
+  "integrity" "sha512-OYpwK21srfy0Q6gZ5yOprTtXl9NNXjltyB6cvXDcd3NSzexW08xzh5gxfSrsHRK3hFnho9dYolr95L4HLw34/Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-log1p/-/math-base-special-log1p-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-exponent-bias" "^0.0.x"
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+    "@stdlib/number-float64-base-set-high-word" "^0.0.x"
+
+"@stdlib/math-base-special-max@^0.0.x":
+  "integrity" "sha512-Y59J5xx2crBw00ndB4hvoUXpYZY8duX9bDti9MHBYhGZ23IomoO72F9NIPQkbKHEwLXDldrJRYp6eF+E1C9+tQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-max/-/math-base-special-max-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-assert-is-positive-zero" "^0.0.x"
+
+"@stdlib/math-base-special-maxabs@^0.0.x":
+  "integrity" "sha512-H610MVi+DiNE0G8tOGz+gF1+t52GdExPSPdpqucFp5yDUPj4N1mBdY3H4ACxnbGkljrGkISAXFnH9BRiTqEjZw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-maxabs/-/math-base-special-maxabs-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-max" "^0.0.x"
+
+"@stdlib/math-base-special-min@^0.0.x":
+  "integrity" "sha512-jx4NNOKTVxwMNrh7h3gPRktzpNX/H1YJcc7yprNAc2hylzmeKA0xRsAYJaeA3XwXBOGXktVFqcuiO5C1y+LY1Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-min/-/math-base-special-min-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-assert-is-negative-zero" "^0.0.x"
+
+"@stdlib/math-base-special-minabs@^0.0.x":
+  "integrity" "sha512-MTrpS25O6ZcyQj0Mrkh/4YcLeFZAPjDx6b6mGuLKWgGb77/TKUK+tPKknjjeOhiVV3Nm4drV0H8om17DMDktJQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-minabs/-/math-base-special-minabs-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-min" "^0.0.x"
+
+"@stdlib/math-base-special-pow@^0.0.x":
+  "integrity" "sha512-PQgvrX5mY2mnqopk8vxm3y/SkcYwImtmBySNl4IGt2DmhJbw16GJW/1u+r6xq1LGY6mm69pVmRlo69Ts+2Aw9w=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-pow/-/math-base-special-pow-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-exponent-bias" "^0.0.x"
+    "@stdlib/constants-float64-ln-two" "^0.0.x"
+    "@stdlib/constants-float64-ninf" "^0.0.x"
+    "@stdlib/constants-float64-pinf" "^0.0.x"
+    "@stdlib/math-base-assert-is-infinite" "^0.0.x"
+    "@stdlib/math-base-assert-is-integer" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-assert-is-odd" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-copysign" "^0.0.x"
+    "@stdlib/math-base-special-ldexp" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+    "@stdlib/number-float64-base-set-high-word" "^0.0.x"
+    "@stdlib/number-float64-base-set-low-word" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+    "@stdlib/number-uint32-base-to-int32" "^0.0.x"
+
+"@stdlib/math-base-special-powm1@^0.0.x":
+  "integrity" "sha512-/Q/pibYJlxMbvIpgafCr2tVu5TWBLqlTCRbH0ERWy1ZdFhZt9gvbSY0OILsyWJOZ6fY9FK2JQZUTVtqCZTiA6g=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-powm1/-/math-base-special-powm1-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-expm1" "^0.0.x"
+    "@stdlib/math-base-special-ln" "^0.0.x"
+    "@stdlib/math-base-special-pow" "^0.0.x"
+    "@stdlib/math-base-special-trunc" "^0.0.x"
+
+"@stdlib/math-base-special-rempio2@^0.0.x":
+  "integrity" "sha512-Dn5Jq0yPY0PVAg54ifqGJjkx72r0bjFUjRAowRe4IGYGZQ5Fmkbr7u+wYx7TEboPsbDYLAEa3vGjT9h07KvU6Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-rempio2/-/math-base-special-rempio2-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/math-base-special-floor" "^0.0.x"
+    "@stdlib/math-base-special-ldexp" "^0.0.x"
+    "@stdlib/math-base-special-round" "^0.0.x"
+    "@stdlib/number-float64-base-from-words" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+    "@stdlib/number-float64-base-get-low-word" "^0.0.x"
+    "@stdlib/types" "^0.0.x"
+
+"@stdlib/math-base-special-round@^0.0.x":
+  "integrity" "sha512-jHJAMgK3CsD1EmwHjxKoH/jItfQAcfvrGva4ovWqE/pt6x1yBlQBzlk7Ssp8W5IkZjUDv/w4txF5uqxU08eeAw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-round/-/math-base-special-round-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/math-base-special-signum@^0.0.x":
+  "integrity" "sha512-ZCkxr0oWTGC5HCD/h86Cng/V2bvkfVlXckaYiuPbYaDhZVUQyfgj50NXQx+oShmyD5c7MPBeo1B1zWXfc2n5kw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-signum/-/math-base-special-signum-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-napi-unary" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-special-sin@^0.0.x":
+  "integrity" "sha512-dQ2MfhW2ifjRs8vbfxhMeUeHAZ3M+kXE6PGLctjLszsgkNmYGo0KGvPtXxM4elgaQpebiF5RDVICV4s/BmG4QQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-sin/-/math-base-special-sin-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/math-base-special-kernel-cos" "^0.0.x"
+    "@stdlib/math-base-special-kernel-sin" "^0.0.x"
+    "@stdlib/math-base-special-rempio2" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+
+"@stdlib/math-base-special-sinpi@^0.0.x":
+  "integrity" "sha512-DaJfOY3Bdv86AQ+fl1B45BFAWbsSxSjGSm88DdNkG4CQbYb0uSklZXohdbpU4H7LuwBFxJVHf9a4FhXK9tsCKA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-sinpi/-/math-base-special-sinpi-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-pi" "^0.0.x"
+    "@stdlib/math-base-assert-is-infinite" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/math-base-special-copysign" "^0.0.x"
+    "@stdlib/math-base-special-cos" "^0.0.x"
+    "@stdlib/math-base-special-sin" "^0.0.x"
+
+"@stdlib/math-base-special-sqrt@^0.0.x":
+  "integrity" "sha512-3KVMOTIzgKmsqGnN7DafIyIXM6HNrgPXTi4xGgPtPphGRlfxIf42e3J6xNnEtIWgGDxYjOkP6lYUuasO/k80zw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-sqrt/-/math-base-special-sqrt-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/math-base-napi-unary" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-special-trunc@^0.0.x":
+  "integrity" "sha512-No1Nw5Bnh6dNLJz3d6It0dn7yYXSX48uPXIDuFbw//YAYQzuj8BkO3y304C9RB/4+An1+drLwMklefLwwJrcLQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-special-trunc/-/math-base-special-trunc-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/math-base-napi-unary" "^0.0.x"
+    "@stdlib/math-base-special-ceil" "^0.0.x"
+    "@stdlib/math-base-special-floor" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/math-base-tools-continued-fraction@^0.0.x":
+  "integrity" "sha512-tJlgF67yNb5Xlr0O2Z9pFIwUoi4o9mogrcAlWhjE9c+zu++sEspGrDkWJFL7w4qaRcHUktf9o89z6fBwFsQAjg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-tools-continued-fraction/-/math-base-tools-continued-fraction-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/assert-has-generator-support" "^0.0.x"
+    "@stdlib/constants-float32-smallest-normal" "^0.0.x"
+    "@stdlib/constants-float64-eps" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/types" "^0.0.x"
+
+"@stdlib/math-base-tools-evalpoly@^0.0.x":
+  "integrity" "sha512-iFYAAc4X5W+APEsv9AyacOLvfV3gPZ+KFz6spLlmyPcxDqlVoTMYtVJlBANF1i6d0h+mHWYcGypUVf7/6lbJFQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-tools-evalpoly/-/math-base-tools-evalpoly-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/math-base-tools-sum-series@^0.0.x":
+  "integrity" "sha512-BGK2tqWOz4bflY9v6A/umBRwmDFYwNz/rtQ+wd6xXyr7Kb2vgHCLQkUKh+5S81zYRClRoCzCF3tNMgBxA/FJ/Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/math-base-tools-sum-series/-/math-base-tools-sum-series-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/assert-has-generator-support" "^0.0.x"
+    "@stdlib/constants-float64-eps" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/types" "^0.0.x"
+
+"@stdlib/number-ctor@^0.0.x":
+  "integrity" "sha512-Ye0r4iU0BllFe3g4chEUdMzKdwuJpnEeob6VCEjYBxFppvzU9prINSlP7f+WjsognP5pwzB8xyMJ6jINPgpOaw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-ctor/-/number-ctor-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/number-float64-base-exponent@^0.0.x":
+  "integrity" "sha512-xu2FL4/8jhf5U1n62Ezh4sQ7BJNNmFhnEALbfWovIjVM60eazpbOYvaegWUeOEH1kDcmV1QDS/6V3M0hcL+ECA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-float64-base-exponent/-/number-float64-base-exponent-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-exponent-bias" "^0.0.x"
+    "@stdlib/constants-float64-high-word-exponent-mask" "^0.0.x"
+    "@stdlib/number-float64-base-get-high-word" "^0.0.x"
+
+"@stdlib/number-float64-base-from-words@^0.0.x":
+  "integrity" "sha512-ls57zrbnm+y47XdQ7Z2CVo5Ic18me4ZQh270CyOfL1msLIWjpAGVo3WMmount0I8ca5mWGUR0+VzuClq9BSSXw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-float64-base-from-words/-/number-float64-base-from-words-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/array-float64" "^0.0.x"
+    "@stdlib/array-uint32" "^0.0.x"
+    "@stdlib/assert-is-little-endian" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/number-float64-base-get-high-word@^0.0.x":
+  "integrity" "sha512-0Qle932scm+YgmoUIzKQ5RC9qbxmoo414ProG+8mdRHSjVY2RhytvimDsU+sFG7Jkrtt9gglPzWn2sU5xztYHg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-float64-base-get-high-word/-/number-float64-base-get-high-word-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/array-float64" "^0.0.x"
+    "@stdlib/array-uint32" "^0.0.x"
+    "@stdlib/assert-is-little-endian" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/number-float64-base-get-low-word@^0.0.x":
+  "integrity" "sha512-mXDuxAxVFoDyxvjnE5r1gNBN1fQcymgOK0dCTlP7z/l29Posr85GPUc6zr0imgR2Q9RidUwmfq1aQcjQloHaUg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-float64-base-get-low-word/-/number-float64-base-get-low-word-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/array-float64" "^0.0.x"
+    "@stdlib/array-uint32" "^0.0.x"
+    "@stdlib/assert-is-little-endian" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/number-float64-base-normalize@^0.0.x":
+  "integrity" "sha512-unxSY+5HkkjMRu03oKuig51OE2BUGIMeOLp5MdCb9zpLQlxYNngj0zzeWKXoQw4aVSOJ4KLZnqSvHO7t+EhZvA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-float64-base-normalize/-/number-float64-base-normalize-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/constants-float64-smallest-normal" "^0.0.x"
+    "@stdlib/math-base-assert-is-infinite" "^0.0.x"
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-abs" "^0.0.x"
+    "@stdlib/types" "^0.0.x"
+
+"@stdlib/number-float64-base-set-high-word@^0.0.x":
+  "integrity" "sha512-hSV3pJDaPpT9TJTrQrShi4R55DhZD7kLiEsJnMnYHN6UbGXTJsacsgdrFJTO27i97ZelCoJmG/1g7+FDtdsXaQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-float64-base-set-high-word/-/number-float64-base-set-high-word-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/array-float64" "^0.0.x"
+    "@stdlib/array-uint32" "^0.0.x"
+    "@stdlib/assert-is-little-endian" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/number-float64-base-set-low-word@^0.0.x":
+  "integrity" "sha512-3KcdkqU8TNOx/C1wZSVhSHMJFzKvA4VGKmvYb7n0cPLbYx8YKeYUa+ZrUJ61OyX7JSFORzLnffGW08qSc9QH3Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-float64-base-set-low-word/-/number-float64-base-set-low-word-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/array-float64" "^0.0.x"
+    "@stdlib/array-uint32" "^0.0.x"
+    "@stdlib/assert-is-little-endian" "^0.0.x"
+    "@stdlib/number-float64-base-to-words" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/number-float64-base-to-words@^0.0.x":
+  "integrity" "sha512-V/5g4X3tafP9D8JV6gd3iCFenICzQozP2K1BFaJPjo/kWy2QnftnN2JSH9gG7tYOzDGZK+StkEKg8GXs6l0tsQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-float64-base-to-words/-/number-float64-base-to-words-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/array-float64" "^0.0.x"
+    "@stdlib/array-uint32" "^0.0.x"
+    "@stdlib/assert-is-little-endian" "^0.0.x"
+    "@stdlib/os-byte-order" "^0.0.x"
+    "@stdlib/os-float-word-order" "^0.0.x"
+    "@stdlib/types" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/number-uint32-base-to-int32@^0.0.x":
+  "integrity" "sha512-wrA9lz1oRZsHocSwiWB9tiUXAxBzPjyZq9+iF66D4BIv/pCAP95yQ5qD7Tk0tISMy9jKdTYCuNR7957Tmbs8sg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/number-uint32-base-to-int32/-/number-uint32-base-to-int32-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/os-byte-order@^0.0.x":
+  "integrity" "sha512-LqOxqt0STvy664LHqT1tEvUbM6g1tG9MNYpHwSs12FQeYtGfcYDURkhqBcBrouMy0dlFXsxkDJd26h34WAvBUg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/os-byte-order/-/os-byte-order-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-is-big-endian" "^0.0.x"
+    "@stdlib/assert-is-little-endian" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/os-float-word-order@^0.0.x":
+  "integrity" "sha512-/NubodAXzgvPjskEQm7tAVV4kiLyqiPGn6gNjViw9sF679IkyJDenGUafUnFjiEoJvXudomTHfo7JgutaCnrrg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/os-float-word-order/-/os-float-word-order-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/os-byte-order" "^0.0.x"
+    "@stdlib/utils-library-manifest" "^0.0.x"
+
+"@stdlib/process-cwd@^0.0.x":
+  "integrity" "sha512-nm0GIt8eKzTPhlRv47Ufwi56iVK8lrPCHZ4LZ/f6G5rTuaxL2n01zO7Yv2nV64N0Zc+3yubShcTXwVmfkHg2VA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/process-cwd/-/process-cwd-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/process-read-stdin@^0.0.x":
+  "integrity" "sha512-8PSXMK4XMfhyjTSzxoeKqRRGvOLB8WjkxzzBNf27GI8jgw51oKs3yHbQFLOlpNSsTNN66NIDLn1PEhOK68RgvA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/process-read-stdin/-/process-read-stdin-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-is-function" "^0.0.x"
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/buffer-ctor" "^0.0.x"
+    "@stdlib/buffer-from-string" "^0.0.x"
+    "@stdlib/streams-node-stdin" "^0.0.x"
+    "@stdlib/utils-next-tick" "^0.0.x"
+
+"@stdlib/regexp-eol@^0.0.x":
+  "integrity" "sha512-MPf26obg0z9D+JSQ1SMG97Zw79lBMMWXkiyF2nEi4h9yADqJfiZmjqV+Oe4p48eTSKZmpcbyOFopjb1rM/kfJg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/regexp-eol/-/regexp-eol-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-has-own-property" "^0.0.x"
+    "@stdlib/assert-is-boolean" "^0.0.x"
+    "@stdlib/assert-is-plain-object" "^0.0.x"
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/regexp-extended-length-path@^0.0.x":
+  "integrity" "sha512-QiC8A52RtkwOV1jcWP51hsY0l+ZtUGFy+qZAfu+KTtc29Y3I0KL4qOcz5PF978xWBmShKKmxyZPry7dzKhi3Kw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/regexp-extended-length-path/-/regexp-extended-length-path-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/regexp-function-name@^0.0.x":
+  "integrity" "sha512-T/WdLsJ1ghhg0km+2JF0OZ9ntkPqCWlk9AaD2zITkpVNN6w4072+MpUl2XwTM6dGwHgxzQldCGK4Ti/J0/bftw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/regexp-function-name/-/regexp-function-name-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/regexp-regexp@^0.0.x":
+  "integrity" "sha512-z/PfA7bpBe6FPNOAXEIu8Z5tePrJ1VXMMZBgcOIdxX2syM/tP4BuFUmeljb8zFXo0fnYxHlPuHqe7+SeIbV40Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/regexp-regexp/-/regexp-regexp-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/stats-base-dists-t-quantile@^0.0.5":
+  "integrity" "sha512-Lb6QNYW5eWlvOjMfzJfbfsITI8bd/hjGMgu96enm+ssyAkP0gJwM/m/y6jCgV0i79QQJ+Ng0+92Mc5clNyOurA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/stats-base-dists-t-quantile/-/stats-base-dists-t-quantile-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "@stdlib/math-base-assert-is-nan" "^0.0.x"
+    "@stdlib/math-base-special-kernel-betaincinv" "^0.0.x"
+    "@stdlib/math-base-special-signum" "^0.0.x"
+    "@stdlib/math-base-special-sqrt" "^0.0.x"
+    "@stdlib/utils-constant-function" "^0.0.x"
+    "@stdlib/utils-define-nonenumerable-read-only-property" "^0.0.x"
+
+"@stdlib/streams-node-stdin@^0.0.x":
+  "integrity" "sha512-WBxrBpFewya5PD09nyPHM9x0HMFrCKEgVaea7OHD6ZrLjU+zzXDTGIgU6p7+lF0WxFxU/K/PUeFhs+iWnvNg0Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/streams-node-stdin/-/streams-node-stdin-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/string-lowercase@^0.0.x":
+  "integrity" "sha512-cXKY/vNsCbuqtr6VvyvORjLkC17e1kZYqJq4xKCx4waOrjo6LyrAcbQiZOfISn6YGkRZR5f1R2Q3LGWpqVNaMA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/string-lowercase/-/string-lowercase-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/process-read-stdin" "^0.0.x"
+    "@stdlib/streams-node-stdin" "^0.0.x"
+
+"@stdlib/string-replace@^0.0.x":
+  "integrity" "sha512-NhOAiJJ5vzjmsV3RDmCroFIyItV1jnP5g3M9EJn5DFE2af8zWcAtaoyRsl6ki3uccwx5LdYsVNQqBbZPlxpZJA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/string-replace/-/string-replace-0.0.9.tgz"
+  "version" "0.0.9"
+  dependencies:
+    "@stdlib/assert-is-function" "^0.0.x"
+    "@stdlib/assert-is-regexp" "^0.0.x"
+    "@stdlib/assert-is-regexp-string" "^0.0.x"
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/process-read-stdin" "^0.0.x"
+    "@stdlib/regexp-eol" "^0.0.x"
+    "@stdlib/streams-node-stdin" "^0.0.x"
+    "@stdlib/utils-escape-regexp-string" "^0.0.x"
+    "@stdlib/utils-regexp-from-string" "^0.0.x"
+
+"@stdlib/types@^0.0.x":
+  "integrity" "sha512-8aPkDtaJM/XZENqhoj7BYuwENLGyxz1xfLIcf2zct7kLZMi0rODzks3n65LEMIR9Rh3rFDXlwc35XvzEkTpmZQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/types/-/types-0.0.13.tgz"
+  "version" "0.0.13"
+
+"@stdlib/utils-constant-function@^0.0.x":
+  "integrity" "sha512-q3MeMc99RcsB06ueQgaa4hceoP466KEl3S0xsH5+FRR/0lTLhT7KPL7RuoA4cPCzNAOSK9uxpYfg1btzPiaaqg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-constant-function/-/utils-constant-function-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/utils-constructor-name@^0.0.x":
+  "integrity" "sha512-Z5N6fnJvbU4Zmbrtr0s3TeNqjZm/nj3/jDEnRmMn7g5zuTr3Yl4VzfcjGWP80Dqjc5GlK32rfcWS5C4ujy0B5A=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-constructor-name/-/utils-constructor-name-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-buffer" "^0.0.x"
+    "@stdlib/regexp-function-name" "^0.0.x"
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/utils-convert-path@^0.0.x":
+  "integrity" "sha512-h6WXFVtFG6M9UZra1FyVoEr1Z7jfq8yY4J24etykP2603M1+AhzXy60NUTZDk8ne9VKAyvd0KwEx5UsGYCA8WQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-convert-path/-/utils-convert-path-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+    "@stdlib/process-read-stdin" "^0.0.x"
+    "@stdlib/regexp-eol" "^0.0.x"
+    "@stdlib/regexp-extended-length-path" "^0.0.x"
+    "@stdlib/streams-node-stdin" "^0.0.x"
+    "@stdlib/string-lowercase" "^0.0.x"
+    "@stdlib/string-replace" "^0.0.x"
+
+"@stdlib/utils-define-nonenumerable-read-only-property@^0.0.x":
+  "integrity" "sha512-j0NsSDFa0hUx9MtZ1mMj+Ak5nxI+cU7dEMB6C6JgJhkKDz9Hg1iT/KhzlGPaIn1Tsycvyydge906qVepjspXgQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-define-nonenumerable-read-only-property/-/utils-define-nonenumerable-read-only-property-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/types" "^0.0.x"
+    "@stdlib/utils-define-property" "^0.0.x"
+
+"@stdlib/utils-define-property@^0.0.x":
+  "integrity" "sha512-druB11NwdtkDTP35lx8qeYnqXPcyddde78h1hflVB0OsKtFofUVbg0oo/pm30gBYFCWWtIhxL6iC7feeuUU/yQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-define-property/-/utils-define-property-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/types" "^0.0.x"
+
+"@stdlib/utils-escape-regexp-string@^0.0.x":
+  "integrity" "sha512-SbKYCns08nj8HDrxJJTaEf7+PQAIZgDitl63SLGRXFecCYOcBYadsdrLObFUaS1CucwQArynFuG+6TjXbBbV8Q=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-escape-regexp-string/-/utils-escape-regexp-string-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-string" "^0.0.x"
+
+"@stdlib/utils-eval@^0.0.x":
+  "integrity" "sha512-c3ZQQ1Znz98Z0nf19vAz2TwTeFXCVob/rgOLCLjUsYM8mgrior/6j6E9Jx8g1ndN6eeZLZ2qBgCRf00sWGCLzQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-eval/-/utils-eval-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-read-file" "^0.0.x"
+
+"@stdlib/utils-get-prototype-of@^0.0.x":
+  "integrity" "sha512-OUT2k7UU43JkwQhU/QxMIq9pXt3ZV8gdEKAHLemTIqTindfQMK4Gfmuc4Bsi/GPTcmCOK5m0Aqp2MHjJXIhOcg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-get-prototype-of/-/utils-get-prototype-of-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-is-function" "^0.0.x"
+    "@stdlib/utils-native-class" "^0.0.x"
+
+"@stdlib/utils-global@^0.0.x":
+  "integrity" "sha512-I40vkISJ+TFak8HYIhtNMx2ILj9NGkYuey0YqGC+fBo1/cNm4GET4DbTlFKc6N4jEzZDRQyDxQjAK+9iBC75yw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-global/-/utils-global-0.0.6.tgz"
+  "version" "0.0.6"
+  dependencies:
+    "@stdlib/assert-is-boolean" "^0.0.x"
+
+"@stdlib/utils-library-manifest@^0.0.x":
+  "integrity" "sha512-bEZAZGv56feqjoE0ItT6KstDnPQFF/qnhO3wtzFiF0JMyVG8nzePi3HDT6SkS5HMzQKhI9loeZm03fI8AJUOag=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-library-manifest/-/utils-library-manifest-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/cli-ctor" "^0.0.x"
+    "@stdlib/fs-resolve-parent-path" "^0.0.x"
+    "@stdlib/utils-convert-path" "^0.0.x"
+    "debug" "^2.6.9"
+    "resolve" "^1.1.7"
+
+"@stdlib/utils-native-class@^0.0.x":
+  "integrity" "sha512-83s2ithhqlHh60zXxqmIdN1vm4tyTDb4aL+MIfuLh+0x8cSodOhcdtyhQ4rCGXNSMeQUB/N6/rVVf3BGRFzrLQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-native-class/-/utils-native-class-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-has-own-property" "^0.0.x"
+    "@stdlib/assert-has-tostringtag-support" "^0.0.x"
+
+"@stdlib/utils-next-tick@^0.0.x":
+  "integrity" "sha512-NWFJCx4pTqs48JSEImsYod4GWmi2m1Q1PB5MPd9b0cGey05GybJ5I3SY0fUUn/dSaAI7dydXcxx6cgGnHJbXAw=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-next-tick/-/utils-next-tick-0.0.6.tgz"
+  "version" "0.0.6"
+
+"@stdlib/utils-noop@^0.0.x":
+  "integrity" "sha512-rDCM7W7T9J5H/98n01v+mk/cnbw6mErVg0gK2Rwgora0o1/roJjlRRM0lcvz2Csc+jh5dyO+A26L0y4yyBs/yg=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-noop/-/utils-noop-0.0.8.tgz"
+  "version" "0.0.8"
+
+"@stdlib/utils-regexp-from-string@^0.0.x":
+  "integrity" "sha512-2YzrFtQt+b1sBmvfv+YZzY3/CA8P9kuLTAiGiE/HHVmFaG15j8JfzSzE6rTfMN0+5sFSBQcyt+qOpsNrT65PpQ=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-regexp-from-string/-/utils-regexp-from-string-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/assert-is-string" "^0.0.x"
+    "@stdlib/regexp-regexp" "^0.0.x"
+
+"@stdlib/utils-type-of@^0.0.x":
+  "integrity" "sha512-dZysZILiFNOhuxhmqR+xyWU9thrrrvwWMnNARIVfH/z1pVtM/jmbUXSYRSMrKLyC6RQkKHwH2NRRammnUIDzdA=="
+  "resolved" "https://registry.npmjs.org/@stdlib/utils-type-of/-/utils-type-of-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "@stdlib/utils-constructor-name" "^0.0.x"
+    "@stdlib/utils-global" "^0.0.x"
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   "integrity" "sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ=="
@@ -7925,7 +9374,7 @@
   "resolved" "https://registry.npmjs.org/resolve.exports/-/resolve.exports-1.1.0.tgz"
   "version" "1.1.0"
 
-"resolve@^1.14.2", "resolve@^1.19.0", "resolve@^1.20.0":
+"resolve@^1.1.7", "resolve@^1.14.2", "resolve@^1.19.0", "resolve@^1.20.0":
   "integrity" "sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A=="
   "resolved" "https://registry.npmjs.org/resolve/-/resolve-1.20.0.tgz"
   "version" "1.20.0"

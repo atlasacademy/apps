@@ -22,7 +22,6 @@ import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
 import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
-import { flatten } from "../Helper/PolyFill";
 
 import "../Helper/StringHelper.css";
 
@@ -229,39 +228,23 @@ const QuestSubData = ({
 
 const QuestDrops = ({
     region,
-    stages,
+    drops,
 }: {
     region: Region;
-    stages: Quest.Stage[];
+    drops: QuestEnemy.EnemyDrop[];
 }) => {
-    const allDrops = flatten(
-        flatten(stages.map((stage) => stage.enemies)).map(
-            (enemy) => enemy.drops
-        )
-    );
-
-    if (allDrops.length === 0) {
+    if (drops.length === 0) {
         return <></>;
     }
 
-    const totalDrops = new Map<string, QuestEnemy.EnemyDrop>();
-    for (const drop of allDrops) {
-        const key = `${drop.type}-${drop.objectId}-${drop.num}`;
-        if (totalDrops.has(key)) {
-            totalDrops.get(key)!.dropCount += drop.dropCount;
-        } else {
-            totalDrops.set(key, { ...drop });
-        }
-    }
-
-    const dropList = Array.from(totalDrops.values()).sort(
+    drops.sort(
         (a, b) =>
             a.type.localeCompare(b.type) ||
             a.objectId - b.objectId ||
             a.num - b.num
     );
 
-    return <QuestDropDescriptor region={region} drops={dropList} />;
+    return <QuestDropDescriptor region={region} drops={drops} />;
 };
 
 class QuestPage extends React.Component<IProps, IState> {
@@ -372,7 +355,7 @@ class QuestPage extends React.Component<IProps, IState> {
                         )}
                     </Alert>
                 ) : null}
-                <QuestDrops region={this.props.region} stages={quest.stages} />
+                <QuestDrops region={this.props.region} drops={quest.drops} />
                 {quest.supportServants.length > 0 ? (
                     <>
                         {renderCollapsibleContent({
