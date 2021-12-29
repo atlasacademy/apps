@@ -389,7 +389,10 @@ const QuestEnemySubData = (props: {
     );
 };
 
-const numToPct = (value: number) => `${(value * 100).toFixed(2)}%`;
+const numToPct = (value: number) =>
+    value < 1
+        ? `${(value * 100).toFixed(2)}%`
+        : `${Math.round(value * 100).toLocaleString()}%`;
 
 export const QuestDropDescriptor = ({
     region,
