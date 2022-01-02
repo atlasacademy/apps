@@ -24,6 +24,7 @@ interface IProps {
     scripts?: Skill.SkillScript;
     relatedSkillId?: number;
     popOver?: boolean;
+    additionalSkillId?: number[];
 }
 
 class EffectBreakdownLines extends React.Component<IProps> {
@@ -66,7 +67,24 @@ class EffectBreakdownLines extends React.Component<IProps> {
                     let mutatingDescriptions = describeMutators(this.props.region, func),
                         relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func).filter(
                             skill => !this.props.triggerSkillIdStack.includes(skill.skillId)
+                        ),
+                        additionalSkillRow = <></>;
+
+                    if (index === this.props.funcs.length - 1 && this.props.additionalSkillId) {
+                        relatedSkillIds.push({
+                            skillId: this.props.additionalSkillId[0],
+                            skillLvs: [this.props.additionalSkillId.length],
+                        });
+
+                        additionalSkillRow = (
+                            <tr>
+                                <td style={effectStyle}>
+                                    Additional skill:{" "}
+                                    <SkillReferenceDescriptor region={this.props.region} id={this.props.additionalSkillId[0]}/>
+                                </td>
+                            </tr>
                         );
+                    }
 
                     for (let i = 0; i < (this.props.level ?? 0); i++) {
                         if (!mutatingDescriptions[i])
@@ -100,6 +118,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                     }
                                 }) : null}
                             </tr>
+                            {additionalSkillRow}
                             {relatedSkillIds.map((relatedSkill, _) => {
                                 return (
                                     <tr className="trigger-skill" key={relatedSkill.skillId}>

@@ -20,6 +20,8 @@ export interface SkillScript {
     HP_VAL_LOWER?: number[];
     HP_PER_HIGHER?: number[];
     HP_PER_LOWER?: number[];
+    additionalSkillId?: number[];
+    additionalSkillActorType?: number[];
 }
 
 export interface ExtraPassive {

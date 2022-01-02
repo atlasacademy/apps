@@ -167,7 +167,8 @@ class SkillPage extends React.Component<IProps, IState> {
                                  funcs={skill.functions}
                                  levels={skill.functions[0]?.svals?.length ?? 1}
                                  scripts={skill.script}
-                                 triggerSkillIdStack={[skill.id]}/>
+                                 triggerSkillIdStack={[skill.id]}
+                                 additionalSkillId={skill.script.additionalSkillId}/>
 
                 <br/>
                 <br/>

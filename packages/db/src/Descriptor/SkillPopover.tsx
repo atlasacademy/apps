@@ -32,6 +32,7 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
                     levels={skill.functions[0]?.svals.length ?? 1}
                     scripts={skill.script}
                     popOver={true}
+                    additionalSkillId={skill.script.additionalSkillId}
                 />
             </Popover.Content>
         </Popover>

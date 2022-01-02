@@ -13,6 +13,7 @@ interface IProps {
     levels?: number;
     scripts?: Skill.SkillScript;
     popOver?: boolean;
+    additionalSkillId?: number[];
 }
 
 class EffectBreakdown extends React.Component<IProps> {
@@ -35,7 +36,8 @@ class EffectBreakdown extends React.Component<IProps> {
                                       gain={this.props.gain}
                                       level={this.props.levels}
                                       scripts={this.props.scripts}
-                                      popOver={this.props.popOver}/>
+                                      popOver={this.props.popOver}
+                                      additionalSkillId={this.props.additionalSkillId}/>
                 </tbody>
             </Table>
         );

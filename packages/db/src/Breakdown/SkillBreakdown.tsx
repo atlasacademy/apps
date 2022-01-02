@@ -35,8 +35,8 @@ class SkillBreakdown extends React.Component<IProps> {
                 >
                     {getRubyText(
                         this.props.region,
-                        this.props.skill.skillAdd[0].name,
-                        this.props.skill.skillAdd[0].ruby,
+                        skill.skillAdd[0].name,
+                        skill.skillAdd[0].ruby,
                         true
                     )}
                 </Tooltip>
@@ -103,10 +103,11 @@ class SkillBreakdown extends React.Component<IProps> {
                     cooldowns={
                         this.props.cooldowns ? skill.coolDown : undefined
                     }
-                    funcs={this.props.skill.functions}
-                    triggerSkillIdStack={[this.props.skill.id]}
+                    funcs={skill.functions}
+                    triggerSkillIdStack={[skill.id]}
                     levels={this.props.levels}
-                    scripts={this.props.skill.script}
+                    scripts={skill.script}
+                    additionalSkillId={skill.script.additionalSkillId}
                 />
             </div>
         );
