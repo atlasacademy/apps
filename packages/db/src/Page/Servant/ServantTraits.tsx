@@ -57,6 +57,19 @@ class ServantTraits extends React.Component<IProps> {
         return diffs;
     }
 
+    private describeDiff(diff: TraitDiff): string {
+        if (diff.type === "Costume") {
+            const costumes = this.props.servant.profile?.costume;
+            if (costumes !== undefined) {
+                const costume = costumes[diff.id];
+                if (costume !== undefined) {
+                    return `Costume ${costume.name}`;
+                }
+            }
+        }
+        return `${diff.type} ${diff.id}`;
+    }
+
     render() {
         return (
             <div>
@@ -74,7 +87,7 @@ class ServantTraits extends React.Component<IProps> {
                     <div key={i}>
                         {diffs.addedTraits.length > 0 ? (
                             <div>
-                                <h3>{diffs.type} {diffs.id}: Additional Traits</h3>
+                                <h3>{this.describeDiff(diffs)} Additional Traits</h3>
                                 <p>
                                     {mergeElements(
                                         diffs.addedTraits.map(trait => <TraitDescription region={this.props.region}
@@ -88,7 +101,7 @@ class ServantTraits extends React.Component<IProps> {
 
                         {diffs.removedTraits.length > 0 ? (
                             <div>
-                                <h3>{diffs.type} {diffs.id}: Removed Traits</h3>
+                                <h3>{this.describeDiff(diffs)} Removed Traits</h3>
                                 <p>
                                     {mergeElements(
                                         diffs.removedTraits.map(trait => <TraitDescription region={this.props.region}
