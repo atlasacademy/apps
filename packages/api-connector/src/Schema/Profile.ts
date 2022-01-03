@@ -52,6 +52,13 @@ export enum VoiceCondType {
     LEVEL_UP_LIMIT_COUNT_BELOW = "levelUpLimitCountBelow",
 }
 
+export interface ProfileCommentAdd {
+    idx: number;
+    condType: CondType;
+    condValues: number[];
+    condValue2: number;
+}
+
 export interface ProfileComment {
     id: number;
     priority: number;
@@ -60,6 +67,7 @@ export interface ProfileComment {
     condType: CondType;
     condValues?: number[];
     condValue2: number;
+    additionalConds: ProfileCommentAdd[];
 }
 
 export interface VoicePlayCond {
@@ -89,6 +97,7 @@ export interface Profile {
         magic: string;
         luck: string;
         np: string;
+        deity: string;
     };
     comments: ProfileComment[];
     voices: {

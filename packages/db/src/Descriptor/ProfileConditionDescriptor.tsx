@@ -12,7 +12,7 @@ class ProfileConditionDescriptor extends React.Component<IProps> {
         const comment = this.props.comment;
 
         if (comment.condType === CondType.NONE) {
-            return <>None</>;
+            return comment.additionalConds.length > 0 ? <></> : <>None</>;
         } else if (
             comment.condType === CondType.QUEST_CLEAR &&
             comment.condValues &&

@@ -11,6 +11,8 @@ class ServantProfileStats extends React.Component<IProps> {
     render() {
         const stats = this.props.profile?.stats;
 
+        if (stats === undefined) return <></>;
+
         return (
             <>
                 <h3>Stats</h3>
@@ -24,16 +26,18 @@ class ServantProfileStats extends React.Component<IProps> {
                         <th>Magic</th>
                         <th>Luck</th>
                         <th>NP</th>
+                        <th>Divinity</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>{stats?.strength}</td>
-                        <td>{stats?.endurance}</td>
-                        <td>{stats?.agility}</td>
-                        <td>{stats?.magic}</td>
-                        <td>{stats?.luck}</td>
-                        <td>{stats?.np}</td>
+                        <td>{stats.strength}</td>
+                        <td>{stats.endurance}</td>
+                        <td>{stats.agility}</td>
+                        <td>{stats.magic}</td>
+                        <td>{stats.luck}</td>
+                        <td>{stats.np}</td>
+                        <td>{stats.deity}</td>
                     </tr>
                     </tbody>
                 </Table>
