@@ -17,10 +17,10 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.2.4"
+    "typescript": "^4.5.4"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.24.0",
     "install": "^0.13.0",
     "only": "0.0.2"
   },
