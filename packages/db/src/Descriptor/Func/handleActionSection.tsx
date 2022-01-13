@@ -130,7 +130,7 @@ function handleMoveStateActionSection(region: Region, sections: FuncDescriptorSe
 
     parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 
-    if (func.funcId === 6027) {
+    if (func.funcId === 6027 || func.funcId === 8192) {
         parts.push('with');
         parts.push(<TraitDescription region={region} trait={{'id': 3026, 'name': 'buffCurse'}} owner="buffs" ownerParameter="vals"/>);
     }

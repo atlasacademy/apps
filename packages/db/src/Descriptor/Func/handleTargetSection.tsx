@@ -77,6 +77,9 @@ export default function handleTargetSection(region: Region, sections: FuncDescri
             case 6026:
                 targetType = Func.FuncTargetType.FIELD_OTHER;
                 break;
+            case 8191:
+                targetType = Func.FuncTargetType.PT_OTHER;
+                break;
         }
     }
 
