@@ -1068,10 +1068,27 @@ export function parseScript(region: Region, script: string): ScriptInfo {
         choice.option = [];
         choice.results = [];
     };
+    const finalizeDialogueComponent = () => {
+        dialogue.components = [
+            parseDialogueLine(region, dialogue.lines.join(""), parserState),
+        ];
+        // dialogue.components = dialogue.lines.map((line) =>
+        //     parseDialogueLine(region, line, parserState)
+        // );
+        if (parserState.choice) {
+            choice.results.push({ ...dialogue });
+        } else {
+            components.push({ ...dialogue });
+        }
+
+        parserState.dialogue = false;
+        resetDialogueVariables();
+    };
 
     const lineEnding = script.includes("\r\n") ? "\r\n" : "\n";
 
     for (const line of script.split(lineEnding)) {
+        if (line.startsWith("//")) continue;
         if (line.includes("wait voiceCancel")) {
             const dialogueChildComponents = parseDialogueLine(
                 region,
@@ -1101,23 +1118,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 switch (parameters[0]) {
                     case "k":
                     case "page":
-                        dialogue.components = [
-                            parseDialogueLine(
-                                region,
-                                dialogue.lines.join(""),
-                                parserState
-                            ),
-                        ];
-                        // dialogue.components = dialogue.lines.map((line) =>
-                        //     parseDialogueLine(region, line, parserState)
-                        // );
-                        if (parserState.choice) {
-                            choice.results.push({ ...dialogue });
-                        } else {
-                            components.push({ ...dialogue });
-                        }
-
-                        parserState.dialogue = false;
+                        finalizeDialogueComponent();
                         resetDialogueVariables();
                         break;
                     case "tVoice":
@@ -1127,8 +1128,11 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         dialogue.voice = getBgmObject(fileName, audioUrl);
                         break;
                     default:
-                        if (parserState.dialogue || line[0] !== "[") {
+                        if (parserState.dialogue) {
                             dialogue.lines.push(line);
+                            if (line.endsWith("[k]")) {
+                                finalizeDialogueComponent();
+                            }
                             break;
                         } else {
                             const parsedComponent = parseBracketComponent(
@@ -1206,6 +1210,11 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 break;
             default:
                 dialogue.lines.push(line);
+                // Hacky way to do this. The proper way is to parse by characters.
+                if (line.endsWith("[k]")) {
+                    finalizeDialogueComponent();
+                    resetDialogueVariables();
+                }
         }
     }
 
