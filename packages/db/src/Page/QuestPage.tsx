@@ -24,6 +24,7 @@ import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
+import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 
 export const QuestTypeDescription = new Map([
     [Quest.QuestType.MAIN, "Main"],
@@ -318,7 +319,7 @@ class QuestPage extends React.Component<IProps, IState> {
                 {quest.messages.length > 0 ? (
                     <Alert variant="success" className="newline">
                         {quest.messages.length > 1 ? (
-                            <ul style={{ marginBottom: 0 }}>
+                            <ul className="mb-0">
                                 {quest.messages.map((message) => (
                                     <li key={message.idx}>
                                         {colorString(message.message)}
@@ -333,7 +334,7 @@ class QuestPage extends React.Component<IProps, IState> {
                 {quest.scripts.length > 0 ? (
                     <Alert variant="success">
                         {quest.scripts.length > 1 ? (
-                            <ul style={{ marginBottom: 0 }}>
+                            <ul className="mb-0">
                                 {sortScript(
                                     quest.scripts.map(
                                         (script) => script.scriptId
@@ -353,6 +354,28 @@ class QuestPage extends React.Component<IProps, IState> {
                                 scriptId={quest.scripts[0].scriptId}
                             />
                         )}
+                    </Alert>
+                ) : null}
+                {quest.extraDetail.questSelect !== undefined ? (
+                    <Alert variant="success">
+                        {quest.extraDetail.questSelect.length > 1
+                            ? "Other versions"
+                            : "Another version"}{" "}
+                        this quest:
+                        <ul className="mb-0">
+                            {quest.extraDetail.questSelect
+                                .filter((questId) => questId !== this.props.id)
+                                .map((questId) => (
+                                    <li key={questId}>
+                                        {questId}:{" "}
+                                        <QuestDescriptorId
+                                            region={this.props.region}
+                                            questId={questId}
+                                            questPhase={this.state.phase}
+                                        />
+                                    </li>
+                                ))}
+                        </ul>
                     </Alert>
                 ) : null}
                 <QuestDrops region={this.props.region} drops={quest.drops} />

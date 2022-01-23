@@ -89,6 +89,11 @@ export interface QuestPhaseScript {
     scripts: PhaseScript[];
 }
 
+export interface QuestPhaseExtraDetail {
+    questSelect?: number[];
+    singleForceSvtId?: number;
+}
+
 export interface Quest {
     id: number;
     name: string;
@@ -124,6 +129,7 @@ export interface QuestPhase extends Quest {
     exp: number;
     bond: number;
     battleBgId: number;
+    extraDetail: QuestPhaseExtraDetail;
     scripts: PhaseScript[];
     messages: QuestMessage[];
     supportServants: SupportServant[];
