@@ -358,7 +358,9 @@ class QuestPage extends React.Component<IProps, IState> {
                 ) : null}
                 {quest.extraDetail.questSelect !== undefined ? (
                     <Alert variant="success">
-                        {quest.extraDetail.questSelect.length > 1
+                        {quest.extraDetail.questSelect.filter(
+                            (questId) => questId !== this.props.id
+                        ).length > 1
                             ? "Other versions"
                             : "Another version"}{" "}
                         this quest:
