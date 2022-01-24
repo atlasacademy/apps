@@ -115,7 +115,7 @@ class WarsPage extends React.Component<IProps, IState> {
 
             list = list.filter((war) => {
                 const normalizedName = diacritics.remove(
-                    `${war.name} ${war.longName}`
+                    `${war.name} ${war.longName} ${war.eventName}`
                         .replace("\n", " ")
                         .toLowerCase()
                 );
