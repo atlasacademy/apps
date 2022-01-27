@@ -95,6 +95,7 @@ interface BaseDataVal {
     EventId?: number;
     AddCount?: number;
     RateCount?: number;
+    DropRateCount?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -198,4 +199,5 @@ export enum DataValField {
     EVENT_ID = "EventId",
     ADD_COUNT = "AddCount",
     RATE_COUNT = "RateCount",
+    DROP_RATE_COUNT = "DropRateCount",
 }

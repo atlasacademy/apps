@@ -74,6 +74,9 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
         ) {
             if (dataVal.AddCount !== undefined)
                 parts.push(<span>by {dataVal.AddCount / 10}%</span>)
+
+            if (dataVal.DropRateCount !== undefined)
+                parts.push(<span>by {dataVal.DropRateCount / 10}%</span>)
         } else {
             if (dataVal.AddCount !== undefined)
                 parts.push(<span>by {dataVal.AddCount}</span>)
@@ -82,7 +85,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
                 parts.push(<span>by {dataVal.RateCount / 10}%</span>)
         }
 
-        if (dataVal.EventId !== undefined)
+        if (dataVal.EventId !== undefined && dataVal.EventId !== 0)
             parts.push(<span>during event <EventDescriptor region={region} eventId={dataVal.EventId}/></span>)
     }
 
@@ -96,7 +99,7 @@ export default function handleAffectsSection(region: Region, sections: FuncDescr
             )
         }
 
-        if (dataVal.EventId !== undefined) {
+        if (dataVal.EventId !== undefined && dataVal.EventId !== 0) {
             parts.push(
                 <span>during event <EventDescriptor region={region} eventId={dataVal.EventId}/></span>
             )

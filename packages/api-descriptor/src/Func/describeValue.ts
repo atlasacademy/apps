@@ -177,6 +177,12 @@ export default function (func: Func.BasicFunc,
             }
         }
 
+        if (dataVal.DropRateCount !== undefined) {
+            addPartials([
+                new ValuePartial(ValueType.PERCENT, dataVal.DropRateCount / 10)
+            ]);
+        }
+
         addPartialCount();
     }
 
