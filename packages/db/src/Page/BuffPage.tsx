@@ -2,7 +2,7 @@ import {Buff, Region} from "@atlasacademy/api-connector";
 import {AxiosError} from "axios";
 import React from "react";
 import {Link} from "react-router-dom";
-import {Table} from "react-bootstrap";
+import {Alert, Table} from "react-bootstrap";
 import Api, {Host} from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
@@ -15,6 +15,7 @@ import {mergeElements} from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
+import BuffClassRelationOverwrite from "../Component/BuffClassRelationOverwrite";
 
 interface IProps {
     region: Region;
@@ -136,6 +137,12 @@ class BuffPage extends React.Component<IProps, IState> {
                         text="Raw"
                         data={`${Host}/raw/${this.props.region}/buff/${buff.id}`}/>
                 </div>
+
+                <Alert variant="success">
+                    {buff.script.relationId !== undefined
+                        ? <BuffClassRelationOverwrite relations={buff.script.relationId}/>
+                        : undefined}
+                </Alert>
 
                 <h3>Related Functions</h3>
                 <Table>

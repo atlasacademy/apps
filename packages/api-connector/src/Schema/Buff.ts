@@ -271,17 +271,17 @@ export enum ClassRelationOverwriteType {
     OVERWRITE_LESS_THAN_TARGET = "overwriteLessThanTarget",
 }
 
-interface RelationOverwriteDetail {
+export interface RelationOverwriteDetail {
     damageRate: number;
     type: ClassRelationOverwriteType;
 }
 
-interface BuffRelationOverwrite {
+export interface BuffRelationOverwrite {
     atkSide: Record<ClassName, Record<ClassName, RelationOverwriteDetail>>;
     defSide: Record<ClassName, Record<ClassName, RelationOverwriteDetail>>;
 }
 
-interface BuffScript {
+export interface BuffScript {
     checkIndvType?: number;
     CheckOpponentBuffTypes?: BuffType[];
     relationId?: BuffRelationOverwrite;

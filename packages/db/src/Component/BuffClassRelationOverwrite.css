@@ -1,0 +1,8 @@
+.classRelationTable > * > tr > td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.classRelationTable > * > tr > td:first-child {
+    width: 5%;
+}

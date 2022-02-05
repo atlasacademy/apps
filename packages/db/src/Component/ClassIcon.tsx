@@ -1,6 +1,7 @@
-import { ClassName } from "@atlasacademy/api-connector";
-import React from "react";
 import { AssetHost } from "../Api";
+import { ClassName } from "@atlasacademy/api-connector";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
+import React from "react";
 
 const classTypes = new Map<number, number>([
     [0, 0],
@@ -45,13 +46,18 @@ interface IProps {
     className: ClassName;
     rarity?: number;
     height?: number;
+    textFallback?: boolean;
 }
 
 class ClassIcon extends React.Component<IProps> {
     render() {
+        if (!classIds.has(this.props.className) && this.props.textFallback) {
+            return <>{toTitleCase(this.props.className)}</>;
+        }
         return (
             <img
                 alt={`${this.props.className} class icon`}
+                title={`${toTitleCase(this.props.className)}`}
                 src={this.location()}
                 width={this.props.height ?? 24}
                 height={this.props.height ?? 24}
