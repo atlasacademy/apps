@@ -3,12 +3,12 @@
 
 
 "@ampproject/remapping@^2.0.0":
-  "integrity" "sha512-sE8Gx+qSDMLoJvb3QarJJlDQK7SSY4rK3hxp4XsiANeFOmjU46ZI7Y9adAQRJrmbz8zbtZkp3mJTT+rGxtF0XA=="
-  "resolved" "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.0.2.tgz"
-  "version" "2.0.2"
+  "integrity" "sha512-DmIAguV77yFP0MGVFWknCMgSLAtsLR3VlRTteR6xgMpIfYtwaZuMvjGv5YlpiqN7S/5q87DHyuIx8oa15kiyag=="
+  "resolved" "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.0.3.tgz"
+  "version" "2.0.3"
   dependencies:
-    "@jridgewell/trace-mapping" "^0.2.2"
-    "sourcemap-codec" "1.4.8"
+    "@jridgewell/sourcemap-codec" "^1.4.9"
+    "@jridgewell/trace-mapping" "^0.2.7"
 
 "@apideck/better-ajv-errors@^0.3.1":
   "integrity" "sha512-JdEazx7qiVqTBzzBl5rolRwl5cmhihjfIcpqRzIZjtT6b18liVmDn/VlWpqW4C/qP2hrFFMLRV1wlex8ZVBPTg=="
@@ -19,21 +19,21 @@
     "jsonpointer" "^5.0.0"
     "leven" "^3.1.0"
 
-"@atlasacademy/api-connector@^3.0.91":
-  "integrity" "sha512-pa2IJBZ+ReBKSR32IP7SasTm11DygS62rOA5/PjEKjftTyaoYGcVFmImOgpTWOlnHUeFPrQ8n9vQbHerXB8Mpw=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.91.tgz"
-  "version" "3.0.91"
+"@atlasacademy/api-connector@^3.0.92":
+  "integrity" "sha512-Jkq7FecLEGwIBGlyg60kEWuONbbSwdOy/ydER/Wei0fRO5wcXXz29aw/JKebe4Qk+HC2Tz5h0pZ8O/qJUXDYWA=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.92.tgz"
+  "version" "3.0.92"
   dependencies:
     "axios" "^0.25.0"
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/api-descriptor@^1.0.99":
-  "integrity" "sha512-aKGoN4rt6QqRNcufnnjyLGr4uF2RuTj29U8thoLPEvvUKhePSfplyPYH/TYN53gVe0LXiNUTEUK7jyU4CifDIw=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.99.tgz"
-  "version" "1.0.99"
+"@atlasacademy/api-descriptor@^1.0.100":
+  "integrity" "sha512-eZJsmrIjpcra6H9TS1o8sKf05kH8xzCOH43DPcckXiWRqKiiSP9w9DD9R91e2vr7DrqflnKTtrbpFpnKmWURyA=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.100.tgz"
+  "version" "1.0.100"
   dependencies:
-    "@atlasacademy/api-connector" "^3.0.91"
+    "@atlasacademy/api-connector" "^3.0.92"
     "install" "^0.13.0"
     "only" "0.0.2"
 
@@ -1381,13 +1381,18 @@
   "resolved" "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.0.4.tgz"
   "version" "3.0.4"
 
-"@jridgewell/trace-mapping@^0.2.2":
-  "integrity" "sha512-rVJf5dSMEBxnDEwtAT5x8+p6tZ+xU6Ocm+cR1MYL2gMsRi4MMzVf9Pvq6JaxIsEeKAyYmo2U+yPQN4QfdTfFnA=="
-  "resolved" "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.2.6.tgz"
-  "version" "0.2.6"
+"@jridgewell/sourcemap-codec@^1.4.9":
+  "integrity" "sha512-iKsUDLGOrC5pSdVTyb8zJI/f55wItTzGtfGWiWPWTc8h2P4oucax7XOGSRq9V2aA1nwE8qMaGvwdXk3PZRtgjg=="
+  "resolved" "https://registry.npmjs.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.9.tgz"
+  "version" "1.4.9"
+
+"@jridgewell/trace-mapping@^0.2.7":
+  "integrity" "sha512-ZKfRhw6eK2vvdWqpU7DQq49+BZESqh5rmkYpNhuzkz01tapssl2sNNy6uMUIgrTtUWQDijomWJzJRCoevVrfgw=="
+  "resolved" "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.2.7.tgz"
+  "version" "0.2.7"
   dependencies:
     "@jridgewell/resolve-uri" "^3.0.3"
-    "sourcemap-codec" "1.4.8"
+    "@jridgewell/sourcemap-codec" "^1.4.9"
 
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="
@@ -9806,7 +9811,7 @@
   "resolved" "https://registry.npmjs.org/source-map/-/source-map-0.7.3.tgz"
   "version" "0.7.3"
 
-"sourcemap-codec@^1.4.4", "sourcemap-codec@1.4.8":
+"sourcemap-codec@^1.4.4":
   "integrity" "sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA=="
   "resolved" "https://registry.npmjs.org/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz"
   "version" "1.4.8"
