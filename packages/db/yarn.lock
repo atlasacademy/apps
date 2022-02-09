@@ -18,21 +18,21 @@
     "jsonpointer" "^5.0.0"
     "leven" "^3.1.0"
 
-"@atlasacademy/api-connector@^3.0.93":
-  "integrity" "sha512-9koLE2fz83IxRvZCjHTXI966Yva5K1dDOG2geso4rxPJaGrqgHWp2vBqJmmUNY1di7KP1XOuQdIyqNCL29W6aw=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.93.tgz"
-  "version" "3.0.93"
+"@atlasacademy/api-connector@^3.0.94":
+  "integrity" "sha512-Nemy0nGjYdMzrtBBUjoo0ggc2XUuodS3TaKEhfEtYXPGi8QSS/pwZJkh+gAnWEvaQL18Q0VkAxOlypVgCjy71g=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.94.tgz"
+  "version" "3.0.94"
   dependencies:
     "axios" "^0.25.0"
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/api-descriptor@^1.0.101":
-  "integrity" "sha512-HamBR+NrrH632ol133g92MDxl5l2/HgS6KmWcu2qkA4CO1AtDzx8cMEt60YAqLx00emvqKTVdEnQUIlzpwl+jQ=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.101.tgz"
-  "version" "1.0.101"
+"@atlasacademy/api-descriptor@^1.0.102":
+  "integrity" "sha512-kfQh2vgzxMn2gWIIAOgEvOoq8eeHjJLK0tZAWuG85rdi8qj4ZRTJIBCTLKt1Bl6d2BvpgL2R2XbljEkweTR7MA=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.102.tgz"
+  "version" "1.0.102"
   dependencies:
-    "@atlasacademy/api-connector" "^3.0.93"
+    "@atlasacademy/api-connector" "^3.0.94"
     "install" "^0.13.0"
     "only" "0.0.2"
 
@@ -3335,9 +3335,9 @@
   "version" "4.0.0"
 
 "@types/prettier@^2.1.5":
-  "integrity" "sha512-QzSuZMBuG5u8HqYz01qtMdg/Jfctlnvj1z/lYnIDXs/golxw0fxtRAHd9KrzjR7Yxz1qVeI00o0kiO3PmVdJ9w=="
-  "resolved" "https://registry.npmjs.org/@types/prettier/-/prettier-2.4.3.tgz"
-  "version" "2.4.3"
+  "integrity" "sha512-ReVR2rLTV1kvtlWFyuot+d1pkpG2Fw/XKE3PDAdj57rbM97ttSp9JZ2UsP+2EHTylra9cUf6JA7tGwW1INzUrA=="
+  "resolved" "https://registry.npmjs.org/@types/prettier/-/prettier-2.4.4.tgz"
+  "version" "2.4.4"
 
 "@types/prop-types@*", "@types/prop-types@^15.7.3":
   "integrity" "sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ=="
