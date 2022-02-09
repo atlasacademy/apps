@@ -112,6 +112,7 @@ export interface BuffTriggerType {
     after: boolean;
     when?: string;
     event: string;
+    counterNp?: boolean;
 }
 
 export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
@@ -125,5 +126,5 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.NPATTACK_PREV_BUFF, {after: true, event: 'NP'}],
     [Buff.BuffType.WAVESTART_FUNCTION, {after: true, event: 'wave start'}],
     [Buff.BuffType.REFLECTION_FUNCTION, {after: true, event: "end of enemy's turn"}],
-    [Buff.BuffType.COUNTER_FUNCTION, {after: true, event: "NP counter"}],
+    [Buff.BuffType.COUNTER_FUNCTION, {after: true, event: "NP", counterNp: true}],
 ]);

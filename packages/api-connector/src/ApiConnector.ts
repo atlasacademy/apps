@@ -272,6 +272,7 @@ class ApiConnector {
         mysticCodeBasic: new ResultCache<number, MysticCodeBasic>(),
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
+        noblePhantasmBasic: new ResultCache<number, NoblePhantasmBasic>(),
         quest: new ResultCache<number, Quest>(),
         questPhase: new ResultCache<
             { id: number; phase: number },
@@ -904,6 +905,27 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.noblePhantasm.get(
+            id,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    noblePhantasmBasic(
+        id: number,
+        reverse?: ReverseOptions,
+        cacheDuration?: number
+    ): Promise<NoblePhantasmBasic> {
+        const query = this.getQueryString(this.getReverseParams(reverse));
+        const fetch = () => {
+            return ApiConnector.fetch<NoblePhantasmBasic>(
+                `${this.host}/basic/${this.region}/NP/${id}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.noblePhantasmBasic.get(
             id,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration

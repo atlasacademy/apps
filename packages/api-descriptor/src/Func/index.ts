@@ -1,6 +1,7 @@
 import describe from "./describe";
 import describeBreakdown from "./describeBreakdown";
 import describeValue from "./describeValue";
+import getRelatedNpIds from "./getRelatedNpIds";
 import getRelatedSkillIds from "./getRelatedSkillIds";
 
 export default {
@@ -8,4 +9,5 @@ export default {
     describeBreakdown,
     describeValue,
     getRelatedSkillIds,
+    getRelatedNpIds,
 };

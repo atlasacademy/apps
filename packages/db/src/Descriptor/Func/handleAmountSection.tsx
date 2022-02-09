@@ -3,6 +3,7 @@ import { asPercent, mergeElements } from "../../Helper/OutputHelper";
 import BuffValueDescription from "../BuffValueDescription";
 import EntityReferenceDescriptor from "../EntityReferenceDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
+import { NoblePhantasmDescriptorId } from "../NoblePhantasmDescriptor";
 import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
 import TraitDescription from "../TraitDescription";
 import {FuncDescriptorSections} from "./FuncDescriptorSections";
@@ -116,7 +117,7 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         section.preposition = undefined;
         parts.push('that triggers');
         parts.push(
-            <SkillReferenceDescriptor region={region} id={dataVal.CounterId}/>
+            <NoblePhantasmDescriptorId region={region} noblePhantasmId={dataVal.CounterId}/>
         );
     } else if (func.buffs[0] !== undefined && dataVal.Value !== undefined) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal}/>);

@@ -12,6 +12,7 @@ import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
 
 import "./EffectBreakdownLines.css"
+import { NoblePhantasmDescriptorId } from "../Descriptor/NoblePhantasmDescriptor";
 
 interface IProps {
     region: Region;
@@ -23,6 +24,7 @@ interface IProps {
     levels?: number[];
     scripts?: Skill.SkillScript;
     relatedSkillId?: number;
+    relatedNpId?: number;
     popOver?: boolean;
     additionalSkillId?: number[];
 }
@@ -68,6 +70,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                         relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func).filter(
                             skill => !this.props.triggerSkillIdStack.includes(skill.skillId)
                         ),
+                        relatedNpIds = FuncDescriptor.getRelatedNpIds(func),
                         additionalSkillRow = <></>;
 
                     if (index === this.props.funcs.length - 1 && this.props.additionalSkillId) {
@@ -86,6 +89,8 @@ class EffectBreakdownLines extends React.Component<IProps> {
                         );
                     }
 
+                    console.log(relatedNpIds)
+
                     for (let i = 0; i < (this.props.level ?? 0); i++) {
                         if (!mutatingDescriptions[i])
                             mutatingDescriptions.push('-');
@@ -97,11 +102,16 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                 <td style={effectStyle}>
                                     {
                                         this.props.relatedSkillId
-                                            ? <SkillReferenceDescriptor region={this.props.region}
-                                                                        id={this.props.relatedSkillId}/>
+                                            ? <><SkillReferenceDescriptor region={this.props.region}
+                                                                        id={this.props.relatedSkillId}/>{" "}</>
                                             : null
                                     }
-                                    {this.props.relatedSkillId ? ' ' : ''}
+                                    {
+                                        this.props.relatedNpId
+                                            ? <><NoblePhantasmDescriptorId region={this.props.region}
+                                                                           noblePhantasmId={this.props.relatedNpId}/>{" "}</>
+                                            : null
+                                    }
                                     <FuncDescription region={this.props.region} func={func} levels={this.props.levels}/>
                                 </td>
                                 {this.props.level ? mutatingDescriptions.map((description, index) => {
@@ -119,7 +129,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                 }) : null}
                             </tr>
                             {additionalSkillRow}
-                            {relatedSkillIds.map((relatedSkill, _) => {
+                            {relatedSkillIds.map((relatedSkill) => {
                                 return (
                                     <tr className="trigger-skill" key={relatedSkill.skillId}>
                                         <td colSpan={11}>
@@ -136,7 +146,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                                             <AdditionalEffectBreakdown
                                                                 key={relatedSkill.skillId}
                                                                 region={this.props.region}
-                                                                skillId={relatedSkill.skillId}
+                                                                id={relatedSkill.skillId}
                                                                 triggerSkillIdStack={
                                                                     this.props.triggerSkillIdStack.concat([relatedSkill.skillId])
                                                                 }
@@ -149,6 +159,41 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                                 </>}
                                                 eventKey={relatedSkill.skillId.toString()}
                                                 defaultActiveKey={relatedSkill.skillId.toString()}
+                                            />
+                                        </td>
+                                    </tr>
+                            )})}
+                            {relatedNpIds.map((relatedNp) => {
+                                return (
+                                    <tr className="trigger-skill" key={relatedNp.npId}>
+                                        <td colSpan={6}>
+                                            <CollapsibleLight
+                                                title={<span className="trigger-skill-name">
+                                                    {relatedNp.npId}:{" "}
+                                                    <NoblePhantasmDescriptorId
+                                                        region={this.props.region}
+                                                        noblePhantasmId={relatedNp.npId}/>
+                                                </span>}
+                                                content={<>
+                                                    <Table>
+                                                        <tbody>
+                                                            <AdditionalEffectBreakdown
+                                                                key={relatedNp.npId}
+                                                                region={this.props.region}
+                                                                id={relatedNp.npId}
+                                                                isNp={true}
+                                                                triggerSkillIdStack={
+                                                                    this.props.triggerSkillIdStack.concat([relatedNp.npId])
+                                                                }
+                                                                levels={relatedNp.npLvs}
+                                                                level={this.props.level}
+                                                                popOver={this.props.popOver}
+                                                            />
+                                                        </tbody>
+                                                    </Table>
+                                                </>}
+                                                eventKey={relatedNp.npId.toString()}
+                                                defaultActiveKey={relatedNp.npId.toString()}
                                             />
                                         </td>
                                     </tr>

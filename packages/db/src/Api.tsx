@@ -179,6 +179,10 @@ class Api {
         return apiConnector.noblePhantasm(id, reverse, cacheDuration);
     }
 
+    static noblePhantasmBasic(id: number): Promise<NoblePhantasm.NoblePhantasmBasic> {
+        return apiConnector.noblePhantasmBasic(id, undefined, cacheDuration);
+    }
+
     static quest(id: number): Promise<Quest.Quest> {
         return apiConnector.quest(id, cacheDuration);
     }

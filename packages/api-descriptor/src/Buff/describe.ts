@@ -67,8 +67,10 @@ export default function (buff: Buff.BasicBuff): Descriptor {
     } else if (typeDescription) {
         partials.push(new TextPartial(typeDescription));
         partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, buff.script.checkIndvType));
+    } else if (triggerType && triggerType.counterNp) {
+        partials.push(new TextPartial('NP Counter'));
     } else if (triggerType) {
-        partials.push(new TextPartial('Trigger Skills'));
+        partials.push(new TextPartial('Trigger Skill'));
         partials.push(new ParticlePartial(triggerType.after ? ' on ' : ' before '));
 
         if (triggerType.when) {
