@@ -134,6 +134,7 @@ export enum FuncType {
     FUNC_126 = "func126",
     FUNC_127 = "func127",
     UPDATE_ENTRY_POSITIONS = "updateEntryPositions",
+    BUDDY_POINT_UP = "buddyPointUp",
 }
 
 export interface BasicFunc {

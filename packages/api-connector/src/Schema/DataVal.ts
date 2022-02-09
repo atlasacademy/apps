@@ -96,6 +96,11 @@ interface BaseDataVal {
     AddCount?: number;
     RateCount?: number;
     DropRateCount?: number;
+    CounterId?: number;
+    CounterLv?: number;
+    CounterOc?: number;
+    UseTreasureDevice?: number;
+    SkillReaction?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -200,4 +205,9 @@ export enum DataValField {
     ADD_COUNT = "AddCount",
     RATE_COUNT = "RateCount",
     DROP_RATE_COUNT = "DropRateCount",
+    COUNTER_ID = "CounterId",
+    COUNTER_LV = "CounterLv",
+    COUNTER_OC = "CounterOc",
+    USE_TREASURE_DEVICE = "UseTreasureDevice",
+    SKILL_REACTION = "SkillReaction",
 }

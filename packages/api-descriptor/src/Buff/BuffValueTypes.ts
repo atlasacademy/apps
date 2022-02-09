@@ -101,6 +101,10 @@ export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType
         level: DataValField.VALUE2,
         rate: DataValField.USE_RATE
     }],
+    [Buff.BuffType.COUNTER_FUNCTION, {
+        skill: DataValField.COUNTER_ID,
+        level: DataValField.COUNTER_LV,
+    }],
 ])
 
 export interface BuffValueTraitType {

@@ -36,6 +36,10 @@ export default function (func: Func.Func, dataVals?: DataVal.DataVal[]): related
         return getUniqueDataValField(vals, DataVal.DataValField.SKILL_ID, DataVal.DataValField.SKILL_LV);
     }
 
+    if (buff.type === Buff.BuffType.COUNTER_FUNCTION) {
+        return getUniqueDataValField(vals, DataVal.DataValField.COUNTER_ID, DataVal.DataValField.COUNTER_LV);
+    }
+
     return [];
 }
 

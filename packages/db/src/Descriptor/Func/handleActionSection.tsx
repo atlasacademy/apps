@@ -80,6 +80,7 @@ function handleBuffActionSection(region: Region, sections: FuncDescriptorSection
     if (
         func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_FUNCTION
         || func.buffs[0]?.type === Buff.BuffType.NPATTACK_PREV_BUFF
+        || func.buffs[0]?.type === Buff.BuffType.COUNTER_FUNCTION
     ) {
         sections.target.preposition = 'for';
     }

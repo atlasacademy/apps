@@ -107,6 +107,17 @@ export default function handleAmountSection(region: Region, sections: FuncDescri
         parts.push(
             <SkillReferenceDescriptor region={region} id={dataVal.SkillID}/>
         );
+    } else if (func.buffs[0]?.type === Buff.BuffType.COUNTER_FUNCTION) {
+        if (typeof dataVal.CounterId !== "number") {
+            section.showing = false;
+            return;
+        }
+
+        section.preposition = undefined;
+        parts.push('that triggers');
+        parts.push(
+            <SkillReferenceDescriptor region={region} id={dataVal.CounterId}/>
+        );
     } else if (func.buffs[0] !== undefined && dataVal.Value !== undefined) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal}/>);
 

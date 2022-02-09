@@ -104,6 +104,7 @@ export enum BuffAction {
     FUNCTION_ATTACK_BEFORE = "functionAttackBefore",
     DONOT_SKILL_SELECT = "donotSkillSelect",
     BUFF_RATE = "buffRate",
+    COUNTER_FUNCTION = "counterFunction",
 }
 
 export enum BuffLimit {
@@ -263,6 +264,7 @@ export enum BuffType {
     DONOT_SKILL_SELECT = "donotSkillSelect",
     BUFF_RATE = "buffRate",
     INVISIBLE_BATTLE_CHARA = "invisibleBattleChara",
+    COUNTER_FUNCTION = "counterFunction",
 }
 
 export enum ClassRelationOverwriteType {
