@@ -1,11 +1,11 @@
 import { Entity, EntityBasic, EntityType } from "./Entity";
-import { ItemBackgroundType } from "./Item";
 import { Profile } from "./Profile";
 
 export interface ServantScript {
     SkillRankUp?: {
         [key: number]: number[];
     };
+    svtBuffTurnExtend?: boolean;
 }
 
 export interface Servant extends Entity {

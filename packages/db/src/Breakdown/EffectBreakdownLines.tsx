@@ -89,8 +89,6 @@ class EffectBreakdownLines extends React.Component<IProps> {
                         );
                     }
 
-                    console.log(relatedNpIds)
-
                     for (let i = 0; i < (this.props.level ?? 0); i++) {
                         if (!mutatingDescriptions[i])
                             mutatingDescriptions.push('-');

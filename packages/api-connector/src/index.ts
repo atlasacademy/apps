@@ -13,6 +13,7 @@ import * as CommandCode from "./Schema/CommandCode";
 import * as CommonConsume from "./Schema/CommonConsume";
 import * as CommonRelease from "./Schema/CommonRelease";
 import * as Constant from "./Schema/Constant";
+import * as ConstantStr from "./Schema/ConstantStr";
 import * as CraftEssence from "./Schema/CraftEssence";
 import { Cv } from "./Schema/Cv";
 import * as DataVal from "./Schema/DataVal";
@@ -62,6 +63,7 @@ export {
     CommonConsume,
     CommonRelease,
     Constant,
+    ConstantStr,
     CraftEssence,
     Cv,
     DataVal,

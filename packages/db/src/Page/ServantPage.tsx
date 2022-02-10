@@ -29,7 +29,7 @@ import ServantValentine from "./Servant/ServantValentine";
 import ServantVoiceLines from "./Servant/ServantVoiceLines";
 import VoiceActorDescriptor from "../Descriptor/VoiceActorDescriptor";
 import IllustratorDescriptor from "../Descriptor/IllustratorDescriptor";
-import ExtraPassive from "./Servant/ExtraPassive";
+import ServantPassive from "./Servant/ServantPassive";
 
 import "./ServantPage.css";
 
@@ -251,38 +251,7 @@ class ServantPage extends React.Component<IProps, IState> {
                             })}
                     </Tab>
                     <Tab eventKey={'passives'} title={'Passives'}>
-                        <Row>
-                            {servant.classPassive.map((skill) => {
-                                return (
-                                    <Col xs={12}
-                                         lg={(servant.classPassive.length ?? 1) > 1 ? 6 : 12}
-                                         key={skill.id}>
-                                        <SkillBreakdown region={this.props.region} skill={skill} cooldowns={false}/>
-                                    </Col>
-                                );
-                            })}
-                        </Row>
-                        {servant.appendPassive.length > 0 ? <>
-                            <h3 style={{ margin: "1em 0 "}}>Append Skills</h3>
-                            <Row>
-                                {servant.appendPassive.sort((a, b) => (a.num - b.num)).map((skill) => {
-                                    return (
-                                        <Col lg={12} key={skill.skill.id}>
-                                            <SkillBreakdown
-                                                region={this.props.region}
-                                                skill={skill.skill}
-                                                cooldowns={false}
-                                                levels={skill.skill.coolDown.length}
-                                            />
-                                        </Col>
-                                    );
-                                })}
-                            </Row>
-                        </> : null}
-                        {servant.extraPassive.length > 0 ? <>
-                            <h3 style={{ margin: "1em 0 "}}>Extra Passive</h3>
-                            <ExtraPassive region={this.props.region} skills={servant.extraPassive}/>
-                        </> : null}
+                        <ServantPassive region={this.props.region} servant={servant} />
                     </Tab>
                     <Tab eventKey={'traits'} title={'Traits'}>
                         <ServantTraits region={this.props.region} servant={this.state.servant}/>

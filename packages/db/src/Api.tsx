@@ -6,6 +6,7 @@ import {
     Bgm,
     Buff,
     Card,
+    ConstantStr,
     Change,
     ClassName,
     CommandCode,
@@ -68,6 +69,10 @@ class Api {
 
     static buffBasic(id: number): Promise<Buff.BasicBuff> {
         return apiConnector.buffBasic(id, undefined, cacheDuration);
+    }
+
+    static constantStrs(): Promise<ConstantStr.ConstantStrs> {
+        return apiConnector.constantStr(cacheDuration);
     }
 
     static changelog(): Promise<Change.Change[]> {
@@ -179,7 +184,9 @@ class Api {
         return apiConnector.noblePhantasm(id, reverse, cacheDuration);
     }
 
-    static noblePhantasmBasic(id: number): Promise<NoblePhantasm.NoblePhantasmBasic> {
+    static noblePhantasmBasic(
+        id: number
+    ): Promise<NoblePhantasm.NoblePhantasmBasic> {
         return apiConnector.noblePhantasmBasic(id, undefined, cacheDuration);
     }
 

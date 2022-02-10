@@ -67,6 +67,7 @@ import {
     FuncType,
 } from "./Schema/Func";
 import { Script, ScriptSearchResult, SvtScript } from "./Schema/Script";
+import { ConstantStrs } from "./Schema/ConstantStr";
 
 export enum ReverseData {
     BASIC = "basic",
@@ -248,6 +249,7 @@ class ApiConnector {
         commandCodeBasic: new ResultCache<number, CommandCodeBasic>(),
         commandCodeList: new ResultCache<null, CommandCodeBasic[]>(),
         constants: new ResultCache<null, Constants>(),
+        constantStrs: new ResultCache<null, ConstantStrs>(),
         classAttackRateMap: new ResultCache<null, ClassAttackRateMap>(),
         classAffinityMap: new ResultCache<null, ClassAffinityMap>(),
         craftEssence: new ResultCache<number, CraftEssence>(),
@@ -1340,6 +1342,21 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.constants.get(
+            null,
+            fetch,
+            cacheDuration <= 0 ? null : cacheDuration
+        );
+    }
+
+    constantStr(cacheDuration?: number): Promise<ConstantStrs> {
+        const fetch = () =>
+            ApiConnector.fetch<ConstantStrs>(
+                `${this.host}/export/${this.region}/NiceConstantStr.json`
+            );
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.constantStrs.get(
             null,
             fetch,
             cacheDuration <= 0 ? null : cacheDuration
