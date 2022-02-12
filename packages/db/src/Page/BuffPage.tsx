@@ -138,11 +138,12 @@ class BuffPage extends React.Component<IProps, IState> {
                         data={`${Host}/raw/${this.props.region}/buff/${buff.id}`}/>
                 </div>
 
-                <Alert variant="success">
-                    {buff.script.relationId !== undefined
-                        ? <BuffClassRelationOverwrite relations={buff.script.relationId}/>
-                        : undefined}
-                </Alert>
+                {buff.script.relationId !== undefined
+                    ? <Alert variant="success">
+                          <BuffClassRelationOverwrite relations={buff.script.relationId}/>
+                      </Alert>
+                    : undefined}
+
 
                 <h3>Related Functions</h3>
                 <Table>
