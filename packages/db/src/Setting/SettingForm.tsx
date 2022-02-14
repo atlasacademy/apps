@@ -30,6 +30,10 @@ class SettingForm extends React.Component<IProps> {
         Manager.setScriptSceneEnabled(value);
     }
 
+    updateHideEnemyFunction(value : boolean) {
+        Manager.setHideEnemyFunctions(value);
+    }
+
     render() {
         return (
             <div>
@@ -60,11 +64,18 @@ class SettingForm extends React.Component<IProps> {
                         Shop planner: {Manager.shopPlannerEnabled() ? 'Enabled' : 'Disabled'}
                     </Button>
                 </ButtonGroup>
-                <ButtonGroup style={{ width: '100%' }}>
+                <ButtonGroup style={{ width: '100%', marginBottom: '1em' }}>
                     <Button
                         variant={Manager.scriptSceneEnabled() ? 'success' : 'secondary'}
                         onClick={() => this.updateScriptSceneEnabled(!Manager.scriptSceneEnabled())}>
                         Script Scene: {Manager.scriptSceneEnabled() ? 'Enabled' : 'Disabled'}
+                    </Button>
+                </ButtonGroup>
+                <ButtonGroup style={{ width: '100%' }}>
+                    <Button
+                        variant={Manager.hideEnemyFunctions() ? 'success' : 'secondary'}
+                        onClick={() => this.updateHideEnemyFunction(!Manager.hideEnemyFunctions())}>
+                        Enemy functions {Manager.hideEnemyFunctions() ? 'hidden' : 'shown'}
                     </Button>
                 </ButtonGroup>
             </div>

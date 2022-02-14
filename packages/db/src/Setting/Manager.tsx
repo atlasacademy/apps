@@ -7,7 +7,8 @@ const languageKey = 'language',
     changelogVisibleOnly = 'changelog.visibleOnly',
     changelogLocalTime = 'changelog.localTime',
     shopPlannerEnabled = 'shop.planner.enabled',
-    scriptSceneEnabled = 'script.scene.enabled';
+    scriptSceneEnabled = 'script.scene.enabled',
+    hideEnemyFunction = 'aa-db.function.enemy.hide';
 
 const callbacks: Function[] = [];
 
@@ -102,6 +103,15 @@ class Manager {
 
     static setShopPlannerEnabled(plannerEnabled : boolean) {
         window.localStorage.setItem(shopPlannerEnabled, `${+!!plannerEnabled}`);
+        Manager.triggerCallbacks();
+    }
+
+    static hideEnemyFunctions() : boolean {
+        return !!+(window.localStorage.getItem(hideEnemyFunction) ?? 0);
+    }
+
+    static setHideEnemyFunctions(hide : boolean) {
+        window.localStorage.setItem(hideEnemyFunction, `${+!!hide}`);
         Manager.triggerCallbacks();
     }
 

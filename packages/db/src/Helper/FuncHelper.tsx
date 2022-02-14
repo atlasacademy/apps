@@ -195,3 +195,48 @@ export function getTargetVersionValues(func: Partial<Func.Func>, level: number, 
 export function hasFollowerDataVals(func: Partial<Func.Func>): boolean {
     return func.followerVals !== undefined;
 }
+
+export function isPlayerSideFunction(func: Func.Func) {
+    let playerTargetEnemies = (
+        [
+            Func.FuncTargetType.ENEMY,
+            Func.FuncTargetType.ENEMY_ANOTHER,
+            Func.FuncTargetType.ENEMY_ALL,
+            Func.FuncTargetType.ENEMY_FULL,
+            Func.FuncTargetType.ENEMY_OTHER,
+            Func.FuncTargetType.ENEMY_RANDOM,
+            Func.FuncTargetType.ENEMY_OTHER_FULL,
+            Func.FuncTargetType.ENEMY_ONE_ANOTHER_RANDOM
+        ].includes(func.funcTargetType)
+        &&
+        // must target at least enemy
+        (func.funcTargetTeam != Func.FuncTargetTeam.PLAYER)
+    )
+
+    let playerTargetPlayers = (
+        [
+            Func.FuncTargetType.SELF,
+            Func.FuncTargetType.PT_ONE,
+            Func.FuncTargetType.PT_ANOTHER,
+            Func.FuncTargetType.PT_ALL,
+            Func.FuncTargetType.PT_FULL,
+            Func.FuncTargetType.PT_OTHER,
+            Func.FuncTargetType.PT_ONE_OTHER,
+            Func.FuncTargetType.PT_RANDOM,
+            Func.FuncTargetType.PT_OTHER_FULL,
+            Func.FuncTargetType.PTSELECT_ONE_SUB,
+            Func.FuncTargetType.PTSELECT_SUB,
+            Func.FuncTargetType.PT_ONE_ANOTHER_RANDOM,
+            Func.FuncTargetType.PT_SELF_ANOTHER_RANDOM,
+            Func.FuncTargetType.PT_SELF_ANOTHER_FIRST,
+            Func.FuncTargetType.PT_SELF_BEFORE,
+            Func.FuncTargetType.PT_SELF_AFTER,
+            Func.FuncTargetType.PT_SELF_ANOTHER_LAST,
+            Func.FuncTargetType.COMMAND_TYPE_SELF_TREASURE_DEVICE,
+        ].includes(func.funcTargetType)
+        &&
+        (func.funcTargetTeam != Func.FuncTargetTeam.ENEMY)
+    );
+
+    return playerTargetEnemies || playerTargetPlayers;
+}

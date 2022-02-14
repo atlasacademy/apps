@@ -1,6 +1,8 @@
 import {Func, NoblePhantasm, Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
 import {Table} from "react-bootstrap";
+import Manager from '../Setting/Manager';
+import { isPlayerSideFunction } from '../Helper/FuncHelper'
 
 import EffectBreakdownLines from "./EffectBreakdownLines";
 
@@ -16,32 +18,39 @@ interface IProps {
     additionalSkillId?: number[];
 }
 
-class EffectBreakdown extends React.Component<IProps> {
-    render() {
-        return (
-            <Table responsive>
-                <thead>
+function EffectBreakdown(props: IProps) {
+    let hideEnemy = Manager.hideEnemyFunctions();
+    return (
+        <Table responsive>
+            <thead>
                 <tr>
-                    <th>Effect</th>
-                    {this.props.levels ? Array.from(Array(this.props.levels).keys()).map(level => {
+                    <th>
+                        Effect {hideEnemy && <>(enemies hidden)</>}
+                    </th>
+                    {props.levels ? Array.from(Array(props.levels).keys()).map(level => {
                         return <td key={level}>{level + 1}</td>;
                     }) : null}
                 </tr>
-                </thead>
-                <tbody>
-                <EffectBreakdownLines region={this.props.region}
-                                      cooldowns={this.props.cooldowns}
-                                      funcs={this.props.funcs}
-                                      triggerSkillIdStack={this.props.triggerSkillIdStack ?? []}
-                                      gain={this.props.gain}
-                                      level={this.props.levels}
-                                      scripts={this.props.scripts}
-                                      popOver={this.props.popOver}
-                                      additionalSkillId={this.props.additionalSkillId}/>
-                </tbody>
-            </Table>
-        );
-    }
+            </thead>
+            <tbody>
+                <EffectBreakdownLines region={props.region}
+                    cooldowns={props.cooldowns}
+                    funcs={
+                        props.funcs
+                            .filter(func => {
+                                if (!hideEnemy) return true;
+                                return isPlayerSideFunction(func);
+                            })
+                    }
+                    triggerSkillIdStack={props.triggerSkillIdStack ?? []}
+                    gain={props.gain}
+                    level={props.levels}
+                    scripts={props.scripts}
+                    popOver={props.popOver}
+                    additionalSkillId={props.additionalSkillId} />
+            </tbody>
+        </Table>
+    )
 }
 
 export default EffectBreakdown;
