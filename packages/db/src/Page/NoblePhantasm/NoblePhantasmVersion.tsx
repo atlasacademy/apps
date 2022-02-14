@@ -13,41 +13,39 @@ interface IProps {
     overcharge: number;
 }
 
-class NoblePhantasmVersion extends React.Component<IProps> {
-    render() {
-        return (
-            <div>
-                {this.props.noblePhantasm.functions.map((func, index) => {
-                    const dataVal = getTargetVersionValues(func, this.props.level, this.props.overcharge);
+function NoblePhantasmVersion (props: IProps) {
+    return (
+        <div>
+            {props.noblePhantasm.functions.map((func, index) => {
+                const dataVal = getTargetVersionValues(func, props.level, props.overcharge);
 
-                    return (
-                        <div key={func.funcId}>
-                            <h3>Effect #{index + 1}</h3>
-                            <p>
-                                <FuncDescriptor region={this.props.region}
-                                                func={func}
-                                                level={this.props.level}
-                                                overcharge={this.props.overcharge}/>
-                            </p>
+                return (
+                    <div key={func.funcId}>
+                        <h3>Effect #{index + 1}</h3>
+                        <p>
+                            <FuncDescriptor region={props.region}
+                                            func={func}
+                                            level={props.level}
+                                            overcharge={props.overcharge}/>
+                        </p>
 
-                            <Row>
-                                <Col xs={12} md={6}>
-                                    <h5>Function</h5>
-                                    <FuncMainData region={this.props.region} func={func}/>
-                                </Col>
-                                <Col xs={12} md={6}>
-                                    <h5>Values</h5>
-                                    <DataValMainData dataVal={dataVal ?? {}}/>
-                                </Col>
-                            </Row>
+                        <Row>
+                            <Col xs={12} md={6}>
+                                <h5>Function</h5>
+                                <FuncMainData region={props.region} func={func}/>
+                            </Col>
+                            <Col xs={12} md={6}>
+                                <h5>Values</h5>
+                                <DataValMainData dataVal={dataVal ?? {}}/>
+                            </Col>
+                        </Row>
 
-                            <hr/>
-                        </div>
-                    );
-                })}
-            </div>
-        );
-    }
+                        <hr/>
+                    </div>
+                );
+            })}
+        </div>
+    );
 }
 
 export default NoblePhantasmVersion;
