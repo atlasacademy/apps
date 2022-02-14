@@ -1,6 +1,8 @@
 import Api from "../Api";
 import EffectBreakdownLines from "./EffectBreakdownLines";
 import { NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
+import Manager from '../Setting/Manager';
+import { isPlayerSideFunction } from '../Helper/FuncHelper'
 import React from "react";
 
 interface IProps {
@@ -36,15 +38,28 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
     }
 
     render() {
-        if (this.props.isNp && this.state.noblePhantasm !== undefined) {
+        let hasNp = this.props.isNp && this.state.noblePhantasm !== undefined;
+        let functions = hasNp
+            ? this.state.noblePhantasm?.functions
+            : this.state.skill?.functions;
+
+        if (functions) {
+            let hideEnemy = Manager.hideEnemyFunctions();
+            functions = functions.filter(func => {
+                if (!hideEnemy) return true;
+                return isPlayerSideFunction(func);
+            })
+        }
+
+        if (hasNp) {
             return (
                 <EffectBreakdownLines
                     region={this.props.region}
-                    funcs={this.state.noblePhantasm.functions}
+                    funcs={functions!}
                     triggerSkillIdStack={this.props.triggerSkillIdStack}
                     level={this.props.level}
                     levels={this.props.levels}
-                    relatedNpId={this.state.noblePhantasm.id}
+                    relatedNpId={this.state.noblePhantasm!.id}
                     popOver={this.props.popOver}
                 />
             );
@@ -54,7 +69,7 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
             return (
                 <EffectBreakdownLines
                     region={this.props.region}
-                    funcs={this.state.skill.functions}
+                    funcs={functions!}
                     triggerSkillIdStack={this.props.triggerSkillIdStack}
                     level={this.props.level}
                     levels={this.props.levels}
