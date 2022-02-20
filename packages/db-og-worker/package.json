@@ -8,8 +8,8 @@
   "license": "MIT",
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.2.0",
-    "@cloudflare/workers-types": "^3.3.1",
-    "@cloudflare/wrangler": "^1.19.7",
+    "@cloudflare/workers-types": "^3.4.0",
+    "@cloudflare/wrangler": "^1.19.8",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
     "ts-loader": "^8.3.0",
