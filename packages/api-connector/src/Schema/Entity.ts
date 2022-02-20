@@ -68,6 +68,7 @@ export interface EntityAssets {
     narrowFigure: EntityAssetMap;
     status: EntityAssetMap;
     image: EntityAssetMap;
+    spriteModel: EntityAssetMap;
 }
 
 export interface CardDetail {
@@ -196,6 +197,13 @@ export interface Entity {
     noblePhantasms: NoblePhantasm[];
 }
 
+export interface CostumeDetailBasic {
+    id: number;
+    costumeCollectionNo: number;
+    battleCharaId: number;
+    shortName: string;
+}
+
 export interface EntityBasic {
     id: number;
     collectionNo: number;
@@ -208,4 +216,7 @@ export interface EntityBasic {
     atkMax: number;
     hpMax: number;
     face: string;
+    costume: {
+        [key: string]: CostumeDetailBasic;
+    };
 }

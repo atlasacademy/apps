@@ -3,6 +3,7 @@ import React from "react";
 import {Alert} from "react-bootstrap";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
+import ServantModelViewer from "./ServantModelViewer";
 
 import "./ServantAssets.css";
 
@@ -44,10 +45,10 @@ class ServantAssets extends React.Component<IProps> {
         const getImg = size !== undefined
             ? (asset: string) => <img alt='' src={asset} width={size.width} height={size.height} className="servant-asset-images"/>
             : (asset: string) => <img alt='' src={asset} className="servant-asset-images"/>
-        
+
         return (
             <>
-                {assets.map(asset => 
+                {assets.map(asset =>
                 <a key={asset} href={asset} target='_blank' rel='noopener noreferrer'>{getImg(asset)}</a>)
                 }
             </>
@@ -95,6 +96,7 @@ class ServantAssets extends React.Component<IProps> {
                         region={this.props.region}
                         illustrator={this.props.servant.profile?.illustrator}/>
                 </Alert>
+                <ServantModelViewer servant={this.props.servant} />
                     {content.map(content => <div key={content.title}>{renderCollapsibleContent(content)}</div>)}
                     {this.props.servant.extraAssets.charaFigure.story ? renderCollapsibleContent({
                         title: "Story Figure (May contain spoilers)",

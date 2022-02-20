@@ -9,7 +9,7 @@ import './Descriptor.css';
 
 interface IPropsCommon {
     region: Region;
-    craftEssence: Omit<CraftEssence.CraftEssenceBasic, 'face'>;
+    craftEssence: Omit<CraftEssence.CraftEssenceBasic, 'face' | 'costume'>;
     iconHeight?: number;
     tab?: string;
     overwriteName?: string;

@@ -210,7 +210,7 @@ export function isPlayerSideFunction(func: Func.Func) {
         ].includes(func.funcTargetType)
         &&
         // must target at least enemy
-        (func.funcTargetTeam != Func.FuncTargetTeam.PLAYER)
+        (func.funcTargetTeam !== Func.FuncTargetTeam.PLAYER)
     )
 
     let playerTargetPlayers = (
@@ -235,7 +235,7 @@ export function isPlayerSideFunction(func: Func.Func) {
             Func.FuncTargetType.COMMAND_TYPE_SELF_TREASURE_DEVICE,
         ].includes(func.funcTargetType)
         &&
-        (func.funcTargetTeam != Func.FuncTargetTeam.ENEMY)
+        (func.funcTargetTeam !== Func.FuncTargetTeam.ENEMY)
     );
 
     return playerTargetEnemies || playerTargetPlayers;

@@ -8,7 +8,7 @@ import './Descriptor.css';
 
 interface IPropsCommon {
     region: Region;
-    servant: Omit<Servant.ServantBasic, 'face'>;
+    servant: Omit<Servant.ServantBasic, 'face' | 'costume'>;
     iconHeight?: number;
     tab?: string;
     overwriteName?: string;
