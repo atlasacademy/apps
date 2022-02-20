@@ -6,6 +6,7 @@ import {
 const DEBUG = false;
 
 const KV_EDGE_TTL = 60 * 60 * 3;
+const API_FETCH_EDGE_TTL = 60 * 5;
 
 addEventListener("fetch", (event) => {
     const response = handleEvent(event).catch(() => fetch(event.request));
@@ -25,7 +26,7 @@ class Handler {
     }
 }
 
-const serveSinglePageApp = (request: Request, basePath: string) => {
+function serveSinglePageApp(request: Request, basePath: string) {
     const url = new URL(request.url);
     let pathname = url.pathname,
         spaUrl = request.url;
@@ -41,7 +42,7 @@ const serveSinglePageApp = (request: Request, basePath: string) => {
         spaUrl = `${url.protocol}//${url.host}/${basePath}/index.html`;
     }
     return mapRequestToAsset(new Request(spaUrl, request));
-};
+}
 
 function toTitleCase(value: string): string {
     const matches = value.match(/[A-Z]*[a-z0-9]*/g);
@@ -66,7 +67,7 @@ async function fetchApi(
         ? "nice"
         : "basic";
     const url = `https://api.atlasacademy.io/${dataType}/${region}/${endpoint}/${target}?lang=${language}`;
-    return fetch(url);
+    return fetch(url, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
 }
 
 function overwrite(
