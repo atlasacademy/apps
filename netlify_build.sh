@@ -24,4 +24,5 @@ CI=false \
 && cd ../../ && cp -r packages/paper-moon/build/ app/paper-moon \
 && cp build/index.html app/index.html \
 && cp build/_redirects app/_redirects \
-&& cp build/robots.txt app/robots.txt
+&& cp build/robots.txt app/robots.txt \
+&& cp packages/db/public/favicon.ico app/favicon.ico
