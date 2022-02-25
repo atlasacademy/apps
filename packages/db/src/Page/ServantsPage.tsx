@@ -361,7 +361,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                         <th className="col-center">Class</th>
                         <th className="col-center">Thumbnail</th>
                         <th>Name</th>
-                        <th>Rarity</th>
+                        <th className="col-center">Rarity</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -387,7 +387,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                     {servant.name}
                                 </Link>
                             </td>
-                            <td>
+                            <td className="col-center">
                                 <RarityDescriptor rarity={servant.rarity}/>
                             </td>
                         </tr>
