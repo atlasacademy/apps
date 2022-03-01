@@ -1,5 +1,5 @@
 import { Region } from "@atlasacademy/api-connector";
-
+import { OverlayTrigger, Tooltip } from "react-bootstrap"
 import { mergeElements } from "../Helper/OutputHelper";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
@@ -63,11 +63,47 @@ const DialogueBasic = (props: {
         case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
             return <>{replacePUACodePoints(component.trueName)}</>;
         case ScriptComponentType.DIALOGUE_TEXT:
+            const needSplitByGender = component.text.includes('{gender}');
+
+            if(needSplitByGender) {
+                const [male, female] = component.text.split('{gender}');
+
+                console.log(female)
+
+                const replacedPUAMale = replacePUACodePoints(male);
+                const replacedPUAFemale = replacePUACodePoints(female);
+
+                // Compontent Tooltip
+                const maleToolTip = (props: any) => (
+                    <Tooltip {...props}>
+                      {replacedPUAMale}
+                    </Tooltip>
+                );
+
+                const sizeClass =
+                component.size !== undefined
+                    ? `scriptDialogueText-${component.size}`
+                    : "";
+                
+                    return (
+                        <OverlayTrigger
+                            placement="top"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={maleToolTip}
+                        >
+                            <span style={{textDecoration: "underline"}} className={`newline ${sizeClass}`}>
+                                {replacedPUAFemale}
+                            </span>
+                        </OverlayTrigger>
+                    );
+            }
+
             const replacedPUA = replacePUACodePoints(component.text);
             const sizeClass =
                 component.size !== undefined
                     ? `scriptDialogueText-${component.size}`
                     : "";
+        
             return (
                 <span className={`newline ${sizeClass}`}>{replacedPUA}</span>
             );
@@ -103,9 +139,11 @@ const DialogueChild = (props: {
     const { component, index } = props;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
-            const femaleComponents = component.female.map((component) => (
-                <DialogueBasic component={component} />
-            ));
+
+            const femaleComponents = component.both.map((component, index) => {
+                return <DialogueBasic component={component} />
+            });
+
             return <>{mergeElements(femaleComponents, "")}</>;
         case ScriptComponentType.DIALOGUE_NEW_LINE:
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
