@@ -120,6 +120,7 @@ export type DialogueGender = {
     type: ScriptComponentType.DIALOGUE_GENDER;
     male: DialogueBasicComponent[];
     female: DialogueBasicComponent[];
+    both: DialogueBasicComponent[];
     colorHex?: string;
 };
 
@@ -624,6 +625,9 @@ function parseDialogueGender(
             parseDialogueBasic(region, word, parserDialogueState)
         ),
         female: splitLine(female).map((word) =>
+            parseDialogueBasic(region, word, parserDialogueState)
+        ),
+        both: splitLine(`${female}{gender}${male}`).map((word) =>
             parseDialogueBasic(region, word, parserDialogueState)
         ),
         colorHex: parserDialogueState.colorHex,
