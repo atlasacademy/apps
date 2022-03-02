@@ -1,4 +1,6 @@
 import {Region} from "@atlasacademy/api-connector";
+import { parseDialogueLine } from "../Component/Script";
+import { DialogueChild } from "../Component/ScriptDialogueLine";
 import {mergeElements, Renderable} from "./OutputHelper";
 
 import "./StringHelper.css";
@@ -144,6 +146,15 @@ export const removeSuffix = (inputString: string, suffix: string) => {
         return inputString.slice(0, -suffix.length);
     }
     return inputString;
+}
+
+export const VoiceSubtitleFormat = ({region, inputString}: {region: Region, inputString: string}) => {
+    const components = parseDialogueLine(region, inputString.replace("\n", "[r]"), {
+        choice: false,
+        dialogue: false,
+        assetSetMap: new Map()
+    });
+    return <>{components.map((component, i) => <DialogueChild key={i} component={component} index={i}/>)}</>;
 }
 
 /**
