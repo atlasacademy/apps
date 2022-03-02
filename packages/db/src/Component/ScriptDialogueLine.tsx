@@ -1,6 +1,6 @@
 import { Region } from "@atlasacademy/api-connector";
 import { OverlayTrigger, Tooltip } from "react-bootstrap"
-import { mergeElements } from "../Helper/OutputHelper";
+import { mergeElements, Renderable } from "../Helper/OutputHelper";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import {
@@ -97,24 +97,15 @@ const DialogueBasic = (props: {
     }
 };
 
-
-const DialogueGenderPopover = (props: {
-    female: DialogueBasicComponent[],
-    male: DialogueBasicComponent[]
+const DialoguePopover = (props: {
+    children: Renderable[];
+    tooltipComponent: Renderable[]
 }) => {
-    const { female, male } = props;
-
-    const femaleComponent = female.map((component, index) => (
-        <DialogueBasic component={component} />
-    ))
-
-    const maleComponent = male.map((component, index) => (
-        <DialogueBasic component={component} />
-    ))
+    const { children, tooltipComponent } = props;
 
     const maleToolTip = (props: any) => (
         <Tooltip {...props}>
-          {femaleComponent}
+          {tooltipComponent}
         </Tooltip>
     );
 
@@ -125,12 +116,11 @@ const DialogueGenderPopover = (props: {
             overlay={maleToolTip}
         >
             <span style={{textDecoration: "underline"}}>
-                {maleComponent}
+                {mergeElements(children, "")}
             </span>
         </OverlayTrigger>
     )
 }
-
 
 const DialogueChild = (props: {
     component: DialogueChildComponent;
@@ -140,11 +130,19 @@ const DialogueChild = (props: {
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
 
-            const femaleComponents = component.female;
-            const maleComponents = component.male;
-            const popover = <DialogueGenderPopover female={femaleComponents} male={maleComponents} />
+            const femaleComponents = component.female.map((component) => (
+                <DialogueBasic component={component} />
+            ));
 
-            return <>{mergeElements([popover], "")}</>;
+            const maleComponents = component.male.map((component) => (
+                <DialogueBasic component={component} />
+            ));
+            
+            return (
+                <DialoguePopover tooltipComponent={femaleComponents}>
+                    {maleComponents}
+                </DialoguePopover>
+            )
         case ScriptComponentType.DIALOGUE_NEW_LINE:
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
         case ScriptComponentType.DIALOGUE_LINE:
