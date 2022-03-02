@@ -63,41 +63,6 @@ const DialogueBasic = (props: {
         case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
             return <>{replacePUACodePoints(component.trueName)}</>;
         case ScriptComponentType.DIALOGUE_TEXT:
-            const needSplitByGender = component.text.includes('{gender}');
-
-            if(needSplitByGender) {
-                const [male, female] = component.text.split('{gender}');
-
-                console.log(female)
-
-                const replacedPUAMale = replacePUACodePoints(male);
-                const replacedPUAFemale = replacePUACodePoints(female);
-
-                // Compontent Tooltip
-                const maleToolTip = (props: any) => (
-                    <Tooltip {...props}>
-                      {replacedPUAMale}
-                    </Tooltip>
-                );
-
-                const sizeClass =
-                component.size !== undefined
-                    ? `scriptDialogueText-${component.size}`
-                    : "";
-                
-                    return (
-                        <OverlayTrigger
-                            placement="top"
-                            delay={{ show: 250, hide: 400 }}
-                            overlay={maleToolTip}
-                        >
-                            <span style={{textDecoration: "underline"}} className={`newline ${sizeClass}`}>
-                                {replacedPUAFemale}
-                            </span>
-                        </OverlayTrigger>
-                    );
-            }
-
             const replacedPUA = replacePUACodePoints(component.text);
             const sizeClass =
                 component.size !== undefined
@@ -132,6 +97,41 @@ const DialogueBasic = (props: {
     }
 };
 
+
+const DialogueGenderPopover = (props: {
+    female: DialogueBasicComponent[],
+    male: DialogueBasicComponent[]
+}) => {
+    const { female, male } = props;
+
+    const femaleComponent = female.map((component, index) => (
+        <DialogueBasic component={component} />
+    ))
+
+    const maleComponent = male.map((component, index) => (
+        <DialogueBasic component={component} />
+    ))
+
+    const maleToolTip = (props: any) => (
+        <Tooltip {...props}>
+          {femaleComponent}
+        </Tooltip>
+    );
+
+    return (
+        <OverlayTrigger
+            placement="top"
+            delay={{ show: 250, hide: 400 }}
+            overlay={maleToolTip}
+        >
+            <span style={{textDecoration: "underline"}}>
+                {maleComponent}
+            </span>
+        </OverlayTrigger>
+    )
+}
+
+
 const DialogueChild = (props: {
     component: DialogueChildComponent;
     index?: number;
@@ -140,11 +140,11 @@ const DialogueChild = (props: {
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
 
-            const femaleComponents = component.both.map((component, index) => {
-                return <DialogueBasic component={component} />
-            });
+            const femaleComponents = component.female;
+            const maleComponents = component.male;
+            const popover = <DialogueGenderPopover female={femaleComponents} male={maleComponents} />
 
-            return <>{mergeElements(femaleComponents, "")}</>;
+            return <>{mergeElements([popover], "")}</>;
         case ScriptComponentType.DIALOGUE_NEW_LINE:
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
         case ScriptComponentType.DIALOGUE_LINE:
