@@ -300,6 +300,9 @@ async function handleEvent(event: FetchEvent) {
         if (pathname === "/sitemap.xml") {
             return fetch("https://apps.atlasacademy.io/sitemap.xml");
         }
+        if (pathname.startsWith("/.well-known")) {
+            return fetch(event.request.url, { cf: { cacheTtl: 0 } });
+        }
         if (pathname.startsWith("/db")) {
             return handleDBEvent(event);
         }
