@@ -68,7 +68,7 @@ const DialogueBasic = (props: {
                 component.size !== undefined
                     ? `scriptDialogueText-${component.size}`
                     : "";
-        
+
             return (
                 <span className={`newline ${sizeClass}`}>{replacedPUA}</span>
             );
@@ -104,8 +104,8 @@ const DialoguePopover = (props: {
     const { children, tooltipComponent } = props;
 
     const maleToolTip = (props: any) => (
-        <Tooltip {...props}>
-          {tooltipComponent}
+        <Tooltip lang={Manager.lang()} {...props}>
+            {tooltipComponent}
         </Tooltip>
     );
 
@@ -130,14 +130,14 @@ const DialogueChild = (props: {
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
 
-            const femaleComponents = component.female.map((component) => (
-                <DialogueBasic component={component} />
+            const femaleComponents = component.female.map((component, i) => (
+                <DialogueBasic key={i} component={component} />
             ));
 
-            const maleComponents = component.male.map((component) => (
-                <DialogueBasic component={component} />
+            const maleComponents = component.male.map((component, i) => (
+                <DialogueBasic key={i} component={component} />
             ));
-            
+
             return (
                 <DialoguePopover tooltipComponent={femaleComponents}>
                     {maleComponents}
