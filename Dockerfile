@@ -1,5 +1,5 @@
 # stage 1 : prepare the sources
-FROM node:13.8.0-alpine3.11 as build
+FROM node:16-alpine as build
 
 ENV GENERATE_SOURCEMAP false
 

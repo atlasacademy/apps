@@ -1,4 +1,4 @@
-import {Profile, ProfileVoiceType, Region, Entity, Servant} from "@atlasacademy/api-connector";
+import {Profile, ProfileVoiceType, Region, Entity, Servant, CraftEssence} from "@atlasacademy/api-connector";
 import {toTitleCase} from "@atlasacademy/api-descriptor";
 import {faFileAudio} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -15,15 +15,19 @@ import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import mergeVoiceLine from "../../Descriptor/VoiceLineMerger";
 import VoiceActorDescriptor from "../../Descriptor/VoiceActorDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
-import { removeSuffix, replacePUACodePoints } from "../../Helper/StringHelper";
+import { VoiceSubtitleFormat } from "../../Helper/StringHelper";
 
 import "../../Helper/StringHelper.css";
+
+const voiceTextField = (region: Region, voiceType: ProfileVoiceType) =>{
+    return (region === Region.JP && voiceType === ProfileVoiceType.FIRST_GET) || region === Region.CN || region === Region.TW
+}
 
 export default function ServantVoiceLines(
     props: {
         region: Region;
         servants: Map<number, Servant.ServantBasic>;
-        servant: Servant.Servant;
+        servant: Servant.Servant | CraftEssence.CraftEssence;
         servantName?: string;
     }
 ){
@@ -66,12 +70,9 @@ export default function ServantVoiceLines(
                                 <b className="newline">{voiceLineNames[index]}</b>
                                 <br/>
                                 <div className="newline">
-                                    {replacePUACodePoints(((props.region === Region.JP && voice.type === ProfileVoiceType.FIRST_GET)
-                                        || props.region === Region.CN
-                                        || props.region === Region.TW
-                                        ? line.text.map(line => removeSuffix(line, '[')).join('')
-                                        : line.subtitle
-                                    ).replace(/ *\[[^\]]*]/g, '').trim())}
+                                    {voiceTextField(props.region, voice.type)
+                                        ? line.text.map((line, i) => <VoiceSubtitleFormat key={i} region={props.region} inputString={line}/>)
+                                        : <VoiceSubtitleFormat region={props.region} inputString={line.subtitle}/>}
                                 </div>
                                 {line.conds.length || line.playConds.length || line.summonScript ? (
                                     <>
@@ -193,7 +194,7 @@ export default function ServantVoiceLines(
             <Alert variant="success">
                 <VoiceActorDescriptor region={props.region} cv={props.servant.profile?.cv}/>
             </Alert>
-            <Alert variant="success">
+            {props.servant.type !== Entity.EntityType.SERVANT_EQUIP && <Alert variant="success">
                 {relatedVoiceSvts !== null
                     ? relatedVoiceSvts.length > 0
                     ? `Servants with voice lines about ${props.servantName ?? props.servant.name}: `
@@ -204,7 +205,7 @@ export default function ServantVoiceLines(
                         svt => <EntityDescriptor key={svt.id} region={props.region} entity={svt} tab={"voices"} />
                     ), ', ')
                     : ''}
-            </Alert>
+            </Alert>}
             {out}
         </>
     )

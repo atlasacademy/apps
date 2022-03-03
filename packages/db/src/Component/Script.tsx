@@ -650,7 +650,7 @@ function parseDialogueWord(
     return parseDialogueBasic(region, word, parserDialogueState);
 }
 
-function parseDialogueLine(
+export function parseDialogueLine(
     region: Region,
     line: string,
     parserState: ParserState

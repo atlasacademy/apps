@@ -122,11 +122,10 @@ const DialoguePopover = (props: {
     )
 }
 
-const DialogueChild = (props: {
+export const DialogueChild = ({ component, index }: {
     component: DialogueChildComponent;
     index?: number;
 }) => {
-    const { component, index } = props;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
 

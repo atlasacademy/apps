@@ -81,7 +81,7 @@ const AscensionModelViewer = ({ assetMap }: { assetMap: AssetMap }) => {
 
                         if (
                             perceivedAscensions.length > 0 &&
-                            uncategorizedAscensionCount == 0
+                            uncategorizedAscensionCount === 0
                         ) {
                             ascensionString = (
                                 <>

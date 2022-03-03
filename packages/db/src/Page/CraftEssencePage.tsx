@@ -15,6 +15,7 @@ import CraftEssencePicker from "./CraftEssence/CraftEssencePicker";
 import CraftEssencePortrait from "./CraftEssence/CraftEssencePortrait";
 import CraftEssenceProfileComments from "./CraftEssence/CraftEssenceProfileComments";
 import CraftEssenceStatGrowth from "./CraftEssence/CraftEssenceStatGrowth";
+import ServantVoiceLines from "./Servant/ServantVoiceLines";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -116,6 +117,15 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                         <CraftEssenceAssets region={this.props.region}
                                             craftEssence={craftEssence}/>
                     </Tab>
+                    {(craftEssence.profile?.voices.length ?? 0) > 0 && <Tab eventKey={'voices'} title={'Voices'}>
+                        <br/>
+                        <ServantVoiceLines
+                            region={this.props.region}
+                            servants={new Map()}
+                            servant={craftEssence}
+                            servantName={craftEssence.name}
+                        />
+                    </Tab>}
                 </Tabs>
             </div>
         );

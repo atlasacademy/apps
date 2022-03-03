@@ -301,7 +301,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                         <th className="col-center">#</th>
                         <th className="col-center">Thumbnail</th>
                         <th>Name</th>
-                        <th>Rarity</th>
+                        <th className="col-center">Rarity</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -327,7 +327,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                     {craftEssence.name}
                                 </Link>
                             </td>
-                            <td>
+                            <td className="col-center">
                                 <RarityDescriptor rarity={craftEssence.rarity}/>
                             </td>
                         </tr>
