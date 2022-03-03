@@ -1,3 +1,4 @@
+import { CommonRelease } from "./CommonRelease";
 import { Skill } from "./Skill";
 
 export interface MysticCodeAssets {
@@ -24,6 +25,12 @@ export interface MysticCodeBasic {
     };
 }
 
+export interface MysticCodeCostume {
+    id: number;
+    releaseConditions: CommonRelease[];
+    extraAssets: MysticCodeAssets;
+}
+
 export interface MysticCode {
     id: number;
     name: string;
@@ -32,13 +39,5 @@ export interface MysticCode {
     extraAssets: MysticCodeAssets;
     skills: Skill[];
     expRequired: number[];
-}
-
-export interface MysticCodeBasic {
-    id: number;
-    name: string;
-    item: {
-        male: string;
-        female: string;
-    };
+    costumes: MysticCodeCostume[];
 }

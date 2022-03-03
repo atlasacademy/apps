@@ -13,6 +13,7 @@ import MysticCodeMainData from "./MysticCode/MysticCodeMainData";
 import MysticCodePicker from "./MysticCode/MysticCodePicker";
 import MysticCodePortrait from "./MysticCode/MysticCodePortrait";
 import MysticCodeExp from "./MysticCode/MysticCodeExp";
+import MysticCodeAssets from "./MysticCode/MysticCodeAsset";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -112,6 +113,11 @@ class MysticCodePage extends React.Component<IProps, IState> {
                     <Tab eventKey={'exp'} title={'EXP'}>
                         <br />
                         <MysticCodeExp mysticCode={this.state.mysticCode} />
+                    </Tab>
+
+                    <Tab eventKey={'assets'} title={'Assets'}>
+                        <br />
+                        <MysticCodeAssets mysticCode={this.state.mysticCode} />
                     </Tab>
                 </Tabs>
             </div>
