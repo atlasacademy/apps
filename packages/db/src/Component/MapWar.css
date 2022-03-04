@@ -1,0 +1,39 @@
+.map-war {
+    max-width: 1140px;
+    max-height: 1140px;
+    overflow: hidden;
+    position: relative;
+    transition: all ease 0.5s;
+}
+
+.map-war-spot {
+    height: 120px;
+    filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.329));
+    display: block;
+    transition: all ease 0.5s;
+    position: absolute;
+    zoom: 0.534;
+}
+
+.map-war-drag {
+    position: absolute;
+    bottom: 1rem;
+    right: 2rem;
+    padding: 1rem;
+    background-color: #fff;
+}
+
+.visibility {
+    display: none;
+}
+
+/* Mobile & Ipad Devices */
+@media only screen and (max-width: 768px) {
+    .map-war {
+        overflow: scroll;
+    }
+
+    .visibility {
+        display: block;
+    }
+}

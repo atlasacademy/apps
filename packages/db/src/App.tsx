@@ -383,11 +383,11 @@ class App extends React.Component<any, IState> {
                                 </Suspense>
                             )
                         }}/>
-                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/war/:id([0-9]+)" render={props => {
-                            const {region, id} = props.match.params;
+                        <Route exact={true} path="/:region(JP|NA|CN|KR|TW)/war/:id([0-9]+)/:tab?" render={props => {
+                            const { region, id, tab } = props.match.params;
                             return (
                                 <Suspense fallback={<Loading/>}>
-                                    <WarPage key={`${region}-war-${id}`} region={region as Region} warId={parseInt(id)}/>
+                                    <WarPage key={`${region}-war-${id}`} region={region as Region} warId={parseInt(id)} tab={tab} />
                                 </Suspense>
                             )
                         }}/>

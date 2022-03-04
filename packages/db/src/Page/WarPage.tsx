@@ -3,7 +3,7 @@ import { faBook, faDragon, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React, { useState } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table, Tab, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
@@ -20,6 +20,7 @@ import { mergeElements } from "../Helper/OutputHelper";
 import Manager from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
 import { removeSuffix } from "../Helper/StringHelper";
+import WarMap from "../Component/MapWar";
 
 import "../Helper/StringHelper.css";
 
@@ -352,6 +353,7 @@ const SpotQuestList = (props: {
 interface IProps extends RouteComponentProps {
     region: Region;
     warId: number;
+    tab?: string;
 }
 
 interface IState {
@@ -469,6 +471,8 @@ class WarPage extends React.Component<IProps, IState> {
                 </Link>
             );
 
+        const hasMaps = war.maps.some((map) => map.mapImage ?? false);
+        
         return (
             <div>
                 <h1 style={{ marginBottom: "1em" }} className="newline">
@@ -502,44 +506,66 @@ class WarPage extends React.Component<IProps, IState> {
                         }}
                     />
                 </div>
-                <MainQuests
-                    region={this.props.region}
-                    spots={war.spots}
-                    itemMap={this.state.itemCache}
-                />
-                {[
-                    Quest.QuestType.FREE,
-                    Quest.QuestType.EVENT,
-                    Quest.QuestType.FRIENDSHIP,
-                    Quest.QuestType.WAR_BOARD,
-                    Quest.QuestType.HERO_BALLAD,
-                ]
-                    .filter((questType) => {
-                        for (let { quests } of war.spots)
-                            if (quests.find((q) => q.type === questType))
-                                return true;
 
-                        return false;
-                    })
-                    .map((questType, index, array) => {
-                        const questTypeDescription =
-                            QuestTypeDescription.get(questType) ??
-                            questType.toString();
-                        let questFilter = (quest: Quest.Quest) =>
-                            quest.type === questType;
+                <Tabs id={'war-tabs'} defaultActiveKey={this.props.tab ?? 'quests'} mountOnEnter={false}
+                      onSelect={(key: string | null) => {
+                          this.props.history.replace(`/${this.props.region}/war/${this.props.warId}/${key}`);
+                      }}>
+                    <Tab eventKey="quests" title="Quests">              
+                        <MainQuests
+                            region={this.props.region}
+                            spots={war.spots}
+                            itemMap={this.state.itemCache}
+                        />
+                        {[
+                            Quest.QuestType.FREE,
+                            Quest.QuestType.EVENT,
+                            Quest.QuestType.FRIENDSHIP,
+                            Quest.QuestType.WAR_BOARD,
+                            Quest.QuestType.HERO_BALLAD,
+                        ]
+                            .filter((questType) => {
+                                for (let { quests } of war.spots)
+                                    if (quests.find((q) => q.type === questType))
+                                        return true;
 
-                        return (
-                            <SpotQuestList
-                                key={questType}
-                                title={`${questTypeDescription} Quests`}
-                                region={this.props.region}
-                                spots={war.spots}
-                                filterQuest={questFilter}
-                                itemMap={this.state.itemCache}
-                                last={index === array.length - 1}
-                            />
-                        );
-                    })}
+                                return false;
+                            })
+                            .map((questType, index, array) => {
+                                const questTypeDescription =
+                                    QuestTypeDescription.get(questType) ??
+                                    questType.toString();
+                                let questFilter = (quest: Quest.Quest) =>
+                                    quest.type === questType;
+
+                                return (
+                                    <SpotQuestList
+                                        key={questType}
+                                        title={`${questTypeDescription} Quests`}
+                                        region={this.props.region}
+                                        spots={war.spots}
+                                        filterQuest={questFilter}
+                                        itemMap={this.state.itemCache}
+                                        last={index === array.length - 1}
+                                    />
+                                );
+                            })}
+                    </Tab>
+
+                    <Tab eventKey="maps" title="Maps">
+                        {hasMaps 
+                            ? (<WarMap war={war} /> ) 
+                            : (
+                                <div style={{
+                                    padding: "2rem",
+                                }}>
+                                    <h1>This war doesn't have maps</h1>
+                                </div>
+                            ) 
+                        }
+                    </Tab>
+                </Tabs>
+                
             </div>
         );
     }
