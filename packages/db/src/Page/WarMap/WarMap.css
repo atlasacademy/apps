@@ -1,0 +1,19 @@
+.warmap-parent {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+.warmap-container {
+    transform: translate(-11%, -11%);
+}
+.warmap {
+    width:100%;
+    transform: translate(11%, 11%);
+    display: block;
+    /* margin-top: -15%; */
+}
+.warspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transform: scale(0.3, 0.3);
+}

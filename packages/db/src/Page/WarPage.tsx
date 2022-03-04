@@ -7,6 +7,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
+import WarMap from "./WarMap/WarMap";
 import Api, { Host } from "../Api";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
@@ -349,6 +350,48 @@ const SpotQuestList = (props: {
     );
 };
 
+const WarMapList = (props: {
+    region: Region
+    title: string
+    maps: War.Map[],
+    spots: War.Spot[],
+    warName: string,
+    last?: boolean
+}) => {
+    const groupBy = <T,>(array: T[], property: (x: T) => string): { [key: string]: Array<T> } =>
+    array.reduce((acc: { [key: string]: Array<T> }, cur: T) => {
+        if (!acc[property(cur)]) {
+        acc[property(cur)] = [];
+        }
+        acc[property(cur)].push(cur);
+        return acc;
+    }, {});
+    let mapsById = groupBy(props.maps, map => `${map.id}`), last = false;
+    const warMaps = (
+        <div>
+            {Object.keys(mapsById).map((mapId, index, array) => {
+                let mapSpots = props.spots.filter(spot => spot.mapId === +mapId).filter(spot => spot.quests.some(quest => quest.afterClear === 'repeatLast')).filter(spot => spot.x || spot.y);
+                last = index === array.length - 1;
+                return mapSpots.length > 0 ? (
+                    <WarMap
+                        region={props.region}
+                        key={index}
+                        map={mapsById[mapId][0]}
+                        spots={mapSpots}
+                        warName={props.warName}
+                    />
+                ) : null;
+            })}
+        </div>
+    );
+    return renderCollapsibleContent({
+        title: props.title,
+        content: warMaps,
+        subheader: false,
+    },
+    !last);
+};
+
 interface IProps extends RouteComponentProps {
     region: Region;
     warId: number;
@@ -502,6 +545,13 @@ class WarPage extends React.Component<IProps, IState> {
                         }}
                     />
                 </div>
+                <WarMapList
+                    region={this.props.region}
+                    maps={war.maps}
+                    spots={war.spots}
+                    warName={war.name}
+                    title={'xxxTitle'}
+                />
                 <MainQuests
                     region={this.props.region}
                     spots={war.spots}
