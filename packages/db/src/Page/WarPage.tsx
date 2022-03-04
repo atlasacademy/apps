@@ -3,7 +3,7 @@ import { faBook, faDragon, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React, { useState } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table, Tabs, Tab } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
@@ -356,6 +356,7 @@ const WarMapList = (props: {
     maps: War.Map[],
     spots: War.Spot[],
     warName: string,
+    warId: number,
     last?: boolean
 }) => {
     const groupBy = <T,>(array: T[], property: (x: T) => string): { [key: string]: Array<T> } =>
@@ -366,23 +367,28 @@ const WarMapList = (props: {
         acc[property(cur)].push(cur);
         return acc;
     }, {});
-    let mapsById = groupBy(props.maps, map => `${map.id}`), last = false;
+    
+    const mapsById = groupBy(props.maps, map => `${map.id}`);
+    let last = false;
     const warMaps = (
-        <div>
+        <Tabs defaultAciveKey={`${mapsById[Object.keys(mapsById)[0]]}`} id='war-maps-tabs' className='mb-3' >
             {Object.keys(mapsById).map((mapId, index, array) => {
                 let mapSpots = props.spots.filter(spot => spot.mapId === +mapId).filter(spot => spot.quests.some(quest => quest.afterClear === 'repeatLast')).filter(spot => spot.x || spot.y);
                 last = index === array.length - 1;
                 return mapSpots.length > 0 ? (
+                    <Tab eventKey={`${mapId}`} title={`#${mapId}`} >
                     <WarMap
                         region={props.region}
                         key={index}
                         map={mapsById[mapId][0]}
                         spots={mapSpots}
                         warName={props.warName}
+                        warId={props.warId}
                     />
+                    </Tab>
                 ) : null;
             })}
-        </div>
+        </Tabs>
     );
     return renderCollapsibleContent({
         title: props.title,
@@ -550,7 +556,8 @@ class WarPage extends React.Component<IProps, IState> {
                     maps={war.maps}
                     spots={war.spots}
                     warName={war.name}
-                    title={'xxxTitle'}
+                    warId={war.id}
+                    title={'Maps'}
                 />
                 <MainQuests
                     region={this.props.region}
