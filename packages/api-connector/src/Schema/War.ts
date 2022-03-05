@@ -71,6 +71,23 @@ export interface Spot {
     quests: Quest[];
 }
 
+export interface SpotRoad {
+    id: number;
+    warId: number;
+    mapId: number;
+    srcSpotId: number;
+    dstSpotId: number;
+    dispCondType: Cond;
+    dispTargetId: number;
+    dispTargetValue: number;
+    dispCondType2: Cond;
+    dispTargetId2: number;
+    dispTargetValue2: number;
+    activeCondType: Cond;
+    activeTargetId: number;
+    activeTargetValue: number;
+}
+
 export interface War {
     id: number;
     coordinates: number[][];
@@ -94,6 +111,7 @@ export interface War {
     warAdds: WarAdd[];
     maps: Map[];
     spots: Spot[];
+    spotRoads: SpotRoad[];
 }
 
 export interface WarBasic {
