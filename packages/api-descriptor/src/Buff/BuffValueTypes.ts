@@ -52,6 +52,7 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.DOWN_NPDAMAGE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_SPECIALDEFENCE, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_SPECIALDEFENCE, {value: DataValField.VALUE, power: 1}],
+    [Buff.BuffType.UP_DAMAGE_SPECIAL, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_STARWEIGHT, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.DOWN_STARWEIGHT, {value: DataValField.VALUE, power: 1}],
     [Buff.BuffType.UP_TOLERANCE, {value: DataValField.VALUE, power: 1}],
