@@ -45,6 +45,7 @@ export const upDownBuffs: UpDownBuffType[] = [
     {up: undefined, down: Buff.BuffType.UP_NONRESIST_INSTANTDEATH, description: "Death Resist"},
     {up: Buff.BuffType.UP_NPDAMAGE, down: Buff.BuffType.DOWN_NPDAMAGE, description: "NP Damage"},
     {up: Buff.BuffType.UP_SPECIALDEFENCE, down: Buff.BuffType.DOWN_SPECIALDEFENCE, description: "SP.DEF"},
+    {up: Buff.BuffType.UP_DAMAGE_SPECIAL, down: undefined, description: "Attack Special Damage"},
     {up: Buff.BuffType.UP_STARWEIGHT, down: Buff.BuffType.DOWN_STARWEIGHT, description: "Star Weight"},
     {up: Buff.BuffType.DOWN_TOLERANCE, down: Buff.BuffType.UP_TOLERANCE, description: "Received Effect Chance"},
     {
