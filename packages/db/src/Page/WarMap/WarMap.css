@@ -15,22 +15,23 @@
 .warspot-img {
     position: absolute;
     height: 80px;
-    transform: translate(-50%, -50%);
+    transform: translate(-45%, -50%);
 }
 .spot-name {
     display: inline-block;
     position: absolute;
     background-color: rgba(0,0,24,0.8);
     color: #FFF;
-    /* width: 200px; */
     white-space: nowrap;
     padding-left: 5px;
     padding-right: 5px;
-    /* height: 1.2em; */
     text-align: center;
     vertical-align: center;
     font-size: 0.9em;
     transform: translate(-50%);
     top: 35px;
     border-radius: 30px;
+}
+.spot-road {
+    position: absolute;
 }
