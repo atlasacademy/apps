@@ -1,8 +1,9 @@
-import {faPlay, faStop} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import {Button} from "react-bootstrap";
-import {VoiceLine} from "./VoiceLine";
+import { Button } from "react-bootstrap";
+
+import { VoiceLine } from "./VoiceLine";
 
 import "./VoiceLinePlayer.css";
 
@@ -29,10 +30,11 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
             new VoiceLine(
                 props.audioAssetUrls.map((url, index) => [url, props.delay[index]]),
                 this.props.handleNavigateAssetUrl
-        ));
+            )
+        );
     }
 
-    componentDidUpdate(prevProps : IProps) {
+    componentDidUpdate(prevProps: IProps) {
         // compare urls. stop if they change.
         let reset = () => {
             VoiceLineStorage.get(this.getVoiceLineKey(prevProps.audioAssetUrls))?.stop();
@@ -40,10 +42,13 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
             VoiceLineStorage.set(
                 this.getVoiceLineKey(this.props.audioAssetUrls),
                 new VoiceLine(
-                    this.props.audioAssetUrls.map((url, index) => [url, this.props.delay[index]],
-                    this.props.handleNavigateAssetUrl
-            )));
-        }
+                    this.props.audioAssetUrls.map(
+                        (url, index) => [url, this.props.delay[index]],
+                        this.props.handleNavigateAssetUrl
+                    )
+                )
+            );
+        };
 
         if (this.props.audioAssetUrls.length !== prevProps.audioAssetUrls.length) return void reset();
         for (let index in this.props.audioAssetUrls)
@@ -57,20 +62,20 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
 
     private onClick = async () => {
         const control = VoiceLineStorage.get(this.getVoiceLineKey(this.props.audioAssetUrls));
-        if (this.state.playing)
-            return control?.stop().then(() => this.setState({ playing: false }))
+        if (this.state.playing) return control?.stop().then(() => this.setState({ playing: false }));
 
         this.setState({ playing: true });
-        for (let [key, player] of VoiceLineStorage) if (key !== this.getVoiceLineKey(this.props.audioAssetUrls)) player.stop();
+        for (let [key, player] of VoiceLineStorage)
+            if (key !== this.getVoiceLineKey(this.props.audioAssetUrls)) player.stop();
         control?.play().then(() => this.setState({ playing: false }));
-    }
+    };
 
     private stop() {
         VoiceLineStorage.get(this.getVoiceLineKey(this.props.audioAssetUrls))?.stop();
         this.setState({ playing: false });
     }
 
-    private getVoiceLineKey(urls : string[]) {
+    private getVoiceLineKey(urls: string[]) {
         // derive an unique key across voice lines
         return urls.join("|");
     }
@@ -80,14 +85,15 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
         const title = `${command} ${this.props.title}`;
         return (
             <Button
-                variant={this.state.playing ? 'warning' : 'success'}
+                variant={this.state.playing ? "warning" : "success"}
                 onClick={this.onClick}
                 className="voice-line-player-button"
-                title={title}>
-                <FontAwesomeIcon icon={this.state.playing ? faStop : faPlay}/>
+                title={title}
+            >
+                <FontAwesomeIcon icon={this.state.playing ? faStop : faPlay} />
                 {this.props.showTitle ? <>&nbsp;{title}</> : null}
             </Button>
-        )
+        );
     }
 }
 

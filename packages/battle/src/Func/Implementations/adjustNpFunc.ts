@@ -1,27 +1,25 @@
-import {Buff, Func} from "@atlasacademy/api-connector";
-import {BattleActor} from "../../Actor/BattleActor";
-import {Battle} from "../../Battle";
-import {BattleTeam} from "../../Enum/BattleTeam";
+import { Buff, Func } from "@atlasacademy/api-connector";
+
+import { BattleActor } from "../../Actor/BattleActor";
+import { Battle } from "../../Battle";
+import { BattleTeam } from "../../Enum/BattleTeam";
 import BattleAdjustNpEvent from "../../Event/BattleAdjustNpEvent";
 import BattleEvent from "../../Event/BattleEvent";
-import {Variable} from "../../Game/Variable";
+import { Variable } from "../../Game/Variable";
 import BattleFunc from "../BattleFunc";
 import checkFuncAction from "../checkFuncAction";
 
-export default async function adjustNpFunc(battle: Battle,
-                                           func: BattleFunc,
-                                           actor: BattleActor,
-                                           target: BattleActor): Promise<BattleEvent[]> {
-    if (!func.applicableToTarget(target)
-        || !(await checkFuncAction(battle, func, actor, target))
-        || target.team() === BattleTeam.ENEMY
-        || target.buffs().getBuffs(
-            Buff.BuffAction.DONOT_GAINNP,
-            [],
-            target.traits(),
-            true,
-            true
-        ).length > 0
+export default async function adjustNpFunc(
+    battle: Battle,
+    func: BattleFunc,
+    actor: BattleActor,
+    target: BattleActor
+): Promise<BattleEvent[]> {
+    if (
+        !func.applicableToTarget(target) ||
+        !(await checkFuncAction(battle, func, actor, target)) ||
+        target.team() === BattleTeam.ENEMY ||
+        target.buffs().getBuffs(Buff.BuffAction.DONOT_GAINNP, [], target.traits(), true, true).length > 0
     ) {
         const event = new BattleAdjustNpEvent(actor, target, false);
         battle.addEvent(event);
@@ -34,11 +32,7 @@ export default async function adjustNpFunc(battle: Battle,
         magnification = target.buffs().netBuffs(Buff.BuffAction.FUNCGAIN_NP, [], target.traits());
 
     if (!func.state.dataVal.Unaffected) {
-        amount = Variable
-            .int(amount)
-            .multiply(Variable.int(magnification))
-            .divide(Variable.int(1000))
-            .value();
+        amount = Variable.int(amount).multiply(Variable.int(magnification)).divide(Variable.int(1000)).value();
     }
 
     amount *= plus ? 1 : -1;

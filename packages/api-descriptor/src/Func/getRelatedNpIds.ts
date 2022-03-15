@@ -1,5 +1,6 @@
-import getValList from "./getValList";
 import { Buff, DataVal, Func } from "@atlasacademy/api-connector";
+
+import getValList from "./getValList";
 
 export interface relatedNp {
     npId: number;
@@ -7,17 +8,10 @@ export interface relatedNp {
     npOCs: number[];
 }
 
-export default function (
-    func: Func.Func,
-    dataVals?: DataVal.DataVal[]
-): relatedNp[] {
+export default function (func: Func.Func, dataVals?: DataVal.DataVal[]): relatedNp[] {
     const vals = dataVals ?? getValList(func);
 
-    if (
-        func.funcType !== Func.FuncType.ADD_STATE &&
-        func.funcType !== Func.FuncType.ADD_STATE_SHORT
-    )
-        return [];
+    if (func.funcType !== Func.FuncType.ADD_STATE && func.funcType !== Func.FuncType.ADD_STATE_SHORT) return [];
 
     const buff = func.buffs[0];
     if (buff.type === Buff.BuffType.COUNTER_FUNCTION) {
@@ -25,7 +19,7 @@ export default function (
             vals,
             DataVal.DataValField.COUNTER_ID,
             DataVal.DataValField.COUNTER_LV,
-            DataVal.DataValField.COUNTER_OC,
+            DataVal.DataValField.COUNTER_OC
         );
     }
 

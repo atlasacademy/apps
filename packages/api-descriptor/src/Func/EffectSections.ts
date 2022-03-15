@@ -1,4 +1,4 @@
-import {BasePartial} from "../Descriptor";
+import { BasePartial } from "../Descriptor";
 
 export class EffectSection {
     public showing: boolean = true;
@@ -15,8 +15,8 @@ export class EffectSections {
     public chance = new EffectSection();
     public action = new EffectSection();
     public affects = new EffectSection();
-    public amount = new EffectSection('of');
-    public target = new EffectSection('to');
+    public amount = new EffectSection("of");
+    public target = new EffectSection("to");
     public duration = new EffectSection();
     public scaling = new EffectSection();
 }

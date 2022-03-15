@@ -1,13 +1,14 @@
-import {Attribute, Buff, Card, ClassName, QuestEnemy, Trait} from "@atlasacademy/api-connector";
-import {BattleAttackAction} from "../Action/BattleAttackAction";
-import {Battle} from "../Battle";
-import {BattleBuff} from "../Buff/BattleBuff";
+import { Attribute, Buff, Card, ClassName, QuestEnemy, Trait } from "@atlasacademy/api-connector";
+
+import { BattleAttackAction } from "../Action/BattleAttackAction";
+import { Battle } from "../Battle";
+import { BattleBuff } from "../Buff/BattleBuff";
 import BattleBuffManager from "../Buff/BattleBuffManager";
-import {BattleTeam} from "../Enum/BattleTeam";
+import { BattleTeam } from "../Enum/BattleTeam";
 import BattleEvent from "../Event/BattleEvent";
 import getDamageList from "../Func/Implementations/getDamageList";
 import GameConstantManager from "../Game/GameConstantManager";
-import {Variable} from "../Game/Variable";
+import { Variable } from "../Game/Variable";
 import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
 import BattleSkill from "../Skill/BattleSkill";
 import BattleSkillPassive from "../Skill/BattleSkillPassive";
@@ -19,49 +20,47 @@ export enum BattleActorLogic {
 }
 
 export interface BattleActorHitDistribution {
-    buster?: number[],
+    buster?: number[];
     arts?: number[];
     quick?: number[];
     extra?: number[];
 }
 
 export interface BattleActorProps {
-    attribute: Attribute.Attribute,
-    baseAttack: number,
-    baseHealth: number,
-    baseStarGen: number,
-    className: ClassName,
-    face?: string,
-    gaugeLineCount: number,
-    gaugeLineMax: number,
-    hits: BattleActorHitDistribution,
-    id: number,
-    level: number,
-    logic: BattleActorLogic,
-    name: string,
-    passives: BattleSkillPassive[],
-    phase: number,
-    serverMod: QuestEnemy.EnemyServerMod,
-    team: BattleTeam,
-    traits: Trait.Trait[],
+    attribute: Attribute.Attribute;
+    baseAttack: number;
+    baseHealth: number;
+    baseStarGen: number;
+    className: ClassName;
+    face?: string;
+    gaugeLineCount: number;
+    gaugeLineMax: number;
+    hits: BattleActorHitDistribution;
+    id: number;
+    level: number;
+    logic: BattleActorLogic;
+    name: string;
+    passives: BattleSkillPassive[];
+    phase: number;
+    serverMod: QuestEnemy.EnemyServerMod;
+    team: BattleTeam;
+    traits: Trait.Trait[];
 }
 
 export interface BattleActorState {
-    battle?: Battle,
-    buffs: BattleBuffManager,
-    damageDone: number,
-    gauge: number,
-    health: number,
+    battle?: Battle;
+    buffs: BattleBuffManager;
+    damageDone: number;
+    gauge: number;
+    health: number;
     maxHealth: number;
-    noblePhantasm: BattleNoblePhantasm,
-    position: number,
-    skills: BattleSkill[],
+    noblePhantasm: BattleNoblePhantasm;
+    position: number;
+    skills: BattleSkill[];
 }
 
 export class BattleActor {
-
-    constructor(public props: BattleActorProps,
-                public state: BattleActorState) {
+    constructor(public props: BattleActorProps, public state: BattleActorState) {
         this.buffs().logic = this.props.logic;
     }
 
@@ -88,18 +87,15 @@ export class BattleActor {
         }
 
         const maxGauge = this.props.gaugeLineMax * this.props.gaugeLineCount;
-        if (this.state.gauge > maxGauge)
-            this.state.gauge = maxGauge;
+        if (this.state.gauge > maxGauge) this.state.gauge = maxGauge;
 
-        if (this.state.gauge < 0)
-            this.state.gauge = 0;
+        if (this.state.gauge < 0) this.state.gauge = 0;
     }
 
     adjustHealth(value: number) {
         // TODO
         this.state.health += value;
-        if (this.state.health < 0)
-            this.state.health = 0;
+        if (this.state.health < 0) this.state.health = 0;
     }
 
     attack(target?: BattleActor): number {
@@ -119,7 +115,7 @@ export class BattleActor {
     async autoAttack(attack: BattleAttackAction): Promise<BattleEvent[]> {
         const target = this.battle().actors().getActiveTarget(this);
         if (!target) {
-            throw new Error('No valid attack target');
+            throw new Error("No valid attack target");
         }
 
         return getDamageList(this.battle(), attack, this, target);
@@ -160,8 +156,7 @@ export class BattleActor {
     }
 
     battle(): Battle {
-        if (this.state.battle === undefined)
-            throw new Error('BATTLE NOT SET');
+        if (this.state.battle === undefined) throw new Error("BATTLE NOT SET");
 
         return this.state.battle;
     }
@@ -176,8 +171,7 @@ export class BattleActor {
             classId = this.state.buffs.getValue(Buff.BuffAction.OVERWRITE_BATTLECLASS, traits, targetTraits);
 
         let className;
-        if (classId !== undefined)
-            className = this.battle().constants().className(classId);
+        if (classId !== undefined) className = this.battle().constants().className(classId);
 
         return className ?? this.baseClassName();
     }
@@ -204,34 +198,32 @@ export class BattleActor {
 
     hasTrait(trait: Trait.Trait | number, additional?: Trait.Trait[]): boolean {
         switch (this.props.logic) {
-            case BattleActorLogic.PERFECT: return true;
-            case BattleActorLogic.NEUTRAL: return false;
+            case BattleActorLogic.PERFECT:
+                return true;
+            case BattleActorLogic.NEUTRAL:
+                return false;
         }
 
         const traitId: number = typeof trait === "number" ? trait : trait.id,
             traits = this.traits(additional);
 
-        return traits.filter(_trait => _trait.id === traitId).length > 0;
+        return traits.filter((_trait) => _trait.id === traitId).length > 0;
     }
 
     health(): number {
         const traits = this.traits(),
             targetTraits: Trait.Trait[] = [];
 
-        return (
-            this.props.baseHealth
-            + this.state.buffs.netBuffs(Buff.BuffAction.MAXHP_VALUE, traits, targetTraits)
-        );
+        return this.props.baseHealth + this.state.buffs.netBuffs(Buff.BuffAction.MAXHP_VALUE, traits, targetTraits);
     }
 
     hits(attack: BattleAttackAction, target?: BattleActor): number[] {
-        if (attack.np)
-            return this.noblePhantasm().hits();
+        if (attack.np) return this.noblePhantasm().hits();
 
         const hits = this.baseHits(attack);
         const multiHit = this.multihit(attack, target);
         if (multiHit > 1) {
-            return hits.map(hit => new Array(multiHit).fill(hit)).flat();
+            return hits.map((hit) => new Array(multiHit).fill(hit)).flat();
         }
         return hits;
     }
@@ -252,7 +244,7 @@ export class BattleActor {
         const multiHitBuffValue = this.state.buffs.getValue(
             Buff.BuffAction.MULTIATTACK,
             this.traits(attack.traits()),
-            target?.traits() ?? [],
+            target?.traits() ?? []
         );
 
         return multiHitBuffValue ?? 1;
@@ -295,7 +287,7 @@ export class BattleActor {
     }
 
     skill(num: number): BattleSkill | undefined {
-        return this.state.skills.filter(skill => skill.props.id === num).shift();
+        return this.state.skills.filter((skill) => skill.props.id === num).shift();
     }
 
     team(): BattleTeam {
@@ -307,17 +299,13 @@ export class BattleActor {
 
         traits.push(...this.props.traits);
         traits.push(...this.battle().traits());
-        if (additional && additional.length)
-            traits.push(...additional);
+        if (additional && additional.length) traits.push(...additional);
 
         const addTraitIds = this.state.buffs.getAllValues(Buff.BuffAction.INDIVIDUALITY_ADD, [], []);
-        for (let traitId of addTraitIds)
-            traits.push({id: traitId, name: `Trait ${traitId}`});
-
+        for (let traitId of addTraitIds) traits.push({ id: traitId, name: `Trait ${traitId}` });
 
         const subTraitIds = this.state.buffs.getAllValues(Buff.BuffAction.INDIVIDUALITY_SUB, [], []);
-        if (subTraitIds.length > 0)
-            return traits.filter(trait => !subTraitIds.includes(trait.id));
+        if (subTraitIds.length > 0) return traits.filter((trait) => !subTraitIds.includes(trait.id));
 
         return traits;
     }
@@ -327,7 +315,7 @@ export class BattleActor {
             ...this.state,
             buffs: this.state.buffs.clone(),
             noblePhantasm: this.state.noblePhantasm.clone(),
-            skills: this.state.skills.map(skill => skill.clone()),
+            skills: this.state.skills.map((skill) => skill.clone()),
         };
     }
 }

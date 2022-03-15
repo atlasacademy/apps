@@ -1,6 +1,8 @@
-import {Region, Skill} from "@atlasacademy/api-connector";
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import { Region, Skill } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import SkillDescriptor from "./SkillDescriptor";
 
@@ -21,8 +23,7 @@ class SkillReferenceDescriptor extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        Api.skill(this.props.id)
-            .then(skill => this.setState({ skill }));
+        Api.skill(this.props.id).then((skill) => this.setState({ skill }));
     }
 
     static renderAsString(id: number): string {
@@ -36,9 +37,7 @@ class SkillReferenceDescriptor extends React.Component<IProps, IState> {
             return <Link to={route}>[Skill: {this.props.id}]</Link>;
         }
 
-        return (
-            <SkillDescriptor region={this.props.region} skill={this.state.skill}/>
-        );
+        return <SkillDescriptor region={this.props.region} skill={this.state.skill} />;
     }
 }
 

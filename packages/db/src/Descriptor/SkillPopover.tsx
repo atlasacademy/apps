@@ -1,10 +1,12 @@
-import { Region, Skill } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
 import { Button, OverlayTrigger, Popover } from "react-bootstrap";
+
+import { Region, Skill } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
-import SkillDescriptor from "./SkillDescriptor";
 import Manager from "../Setting/Manager";
+import SkillDescriptor from "./SkillDescriptor";
 
 import "../Component/MoveButton.css";
 import "./PopOver.css";
@@ -13,20 +15,14 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
     const { region, skill } = props;
 
     const popOverContent = (
-        <Popover
-            id={`skill-${skill.id}`}
-            className="skill-popover"
-            lang={Manager.lang()}
-        >
+        <Popover id={`skill-${skill.id}`} className="skill-popover" lang={Manager.lang()}>
             <Popover.Title>
                 <SkillDescriptor region={region} skill={skill} />
             </Popover.Title>
             <Popover.Content>
                 <EffectBreakdown
                     region={region}
-                    cooldowns={
-                        skill.coolDown.length > 0 ? skill.coolDown : undefined
-                    }
+                    cooldowns={skill.coolDown.length > 0 ? skill.coolDown : undefined}
                     funcs={skill.functions}
                     triggerSkillIdStack={[skill.id]}
                     levels={skill.functions[0]?.svals.length ?? 1}
@@ -55,11 +51,7 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
                 ],
             }}
         >
-            <Button
-                variant="link"
-                className="move-button"
-                title={`Click to view details of skill ${skill.name}`}
-            >
+            <Button variant="link" className="move-button" title={`Click to view details of skill ${skill.name}`}>
                 {SkillDescriptor.renderAsString(skill)}
             </Button>
         </OverlayTrigger>

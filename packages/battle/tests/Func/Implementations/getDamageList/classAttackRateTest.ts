@@ -1,10 +1,12 @@
-import {ClassName} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {classAttackRate} from "../../../../src/Func/Implementations/getDamageList";
-import {createBattle} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList classAttackRate', () => {
-    it('class defined', () => {
+import { ClassName } from "@atlasacademy/api-connector";
+
+import { classAttackRate } from "../../../../src/Func/Implementations/getDamageList";
+import { createBattle } from "../../../helpers";
+
+describe("getDamageList classAttackRate", () => {
+    it("class defined", () => {
         const battle = createBattle();
 
         expect(classAttackRate(battle, ClassName.SABER).value()).to.equal(1);
@@ -12,7 +14,7 @@ describe('getDamageList classAttackRate', () => {
         expect(classAttackRate(battle, ClassName.CASTER).value()).to.be.closeTo(0.9, 0.0001);
     });
 
-    it('class not defined', () => {
+    it("class not defined", () => {
         expect(() => {
             const battle = createBattle();
 

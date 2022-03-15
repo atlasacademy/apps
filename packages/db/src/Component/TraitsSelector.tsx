@@ -1,5 +1,7 @@
-import { Region, Trait } from "@atlasacademy/api-connector";
 import { Typeahead } from "react-bootstrap-typeahead";
+
+import { Region, Trait } from "@atlasacademy/api-connector";
+
 import TraitDescription from "../Descriptor/TraitDescription";
 import { isPositiveInteger } from "../Helper/StringHelper";
 
@@ -18,10 +20,7 @@ function getTraitOption(trait: Trait.Trait): Option {
     };
 }
 
-function getOptionList(
-    traitNums: number[],
-    knownTraits: Map<number, Trait.Trait>
-): Option[] {
+function getOptionList(traitNums: number[], knownTraits: Map<number, Trait.Trait>): Option[] {
     return traitNums.map((traitNum) => {
         const trait = knownTraits.get(traitNum);
         if (trait !== undefined) {
@@ -43,9 +42,7 @@ export default function TraitSelector(props: {
     customPlaceHolder?: string;
     emptyLabel?: string;
 }) {
-    const knownTraits = new Map(
-        props.traitList.map((trait) => [trait.id, trait])
-    );
+    const knownTraits = new Map(props.traitList.map((trait) => [trait.id, trait]));
 
     const options = props.traitList.map((trait) => getTraitOption(trait));
     let selectedOptions = getOptionList(props.initialTraits, knownTraits);
@@ -56,28 +53,14 @@ export default function TraitSelector(props: {
                 id="trait-typeahead-multiple"
                 multiple
                 options={options}
-                placeholder={
-                    props.customPlaceHolder
-                        ? props.customPlaceHolder
-                        : "Add a Trait or a positive integer"
-                }
-                emptyLabel={
-                    props.customPlaceHolder
-                        ? props.customPlaceHolder
-                        : "No trait found"
-                }
+                placeholder={props.customPlaceHolder ? props.customPlaceHolder : "Add a Trait or a positive integer"}
+                emptyLabel={props.customPlaceHolder ? props.customPlaceHolder : "No trait found"}
                 allowNew
                 selected={selectedOptions}
                 onChange={(selected) => {
                     const traitNums = selected
-                        .filter(
-                            (sel) =>
-                                !sel.customOption ||
-                                isPositiveInteger(sel.label)
-                        )
-                        .map((sel) =>
-                            sel.customOption ? parseInt(sel.label) : sel.value
-                        );
+                        .filter((sel) => !sel.customOption || isPositiveInteger(sel.label))
+                        .map((sel) => (sel.customOption ? parseInt(sel.label) : sel.value));
                     props.onUpdate(traitNums);
                     selectedOptions = getOptionList(traitNums, knownTraits);
                 }}

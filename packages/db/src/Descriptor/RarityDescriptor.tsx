@@ -1,4 +1,5 @@
 import React from "react";
+
 import star1 from "../Assets/star1.png";
 import star2 from "../Assets/star2.png";
 import star3 from "../Assets/star3.png";
@@ -23,9 +24,11 @@ class RarityDescriptor extends React.Component<IProps> {
         return (
             <span>
                 {assetMap.has(this.props.rarity) ? (
-                    <img alt={`${this.props.rarity} star(s)`}
-                         src={assetMap.get(this.props.rarity)}
-                         style={{height: this.props.height ?? 18}}/>
+                    <img
+                        alt={`${this.props.rarity} star(s)`}
+                        src={assetMap.get(this.props.rarity)}
+                        style={{ height: this.props.height ?? 18 }}
+                    />
                 ) : null}
             </span>
         );

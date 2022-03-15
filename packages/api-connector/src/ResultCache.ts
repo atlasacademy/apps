@@ -6,7 +6,7 @@ class ResultCache<K, V> {
     get(key: K, fetcher: Function, duration: number | null): Promise<V> {
         const value = this.cache.get(key);
         if (value !== undefined) {
-            return new Promise<V>(resolve => {
+            return new Promise<V>((resolve) => {
                 resolve(value);
             });
         }
@@ -29,7 +29,7 @@ class ResultCache<K, V> {
                 .then((value: V) => {
                     const callbacks = this.pending.get(key) ?? [];
 
-                    callbacks.forEach(callback => {
+                    callbacks.forEach((callback) => {
                         callback.call(null, value);
                     });
 
@@ -48,7 +48,7 @@ class ResultCache<K, V> {
                 .catch((error: any) => {
                     const callbacks = this.pendingCatches.get(key) ?? [];
 
-                    callbacks.forEach(callback => {
+                    callbacks.forEach((callback) => {
                         callback.call(null, error);
                     });
 

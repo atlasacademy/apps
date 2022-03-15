@@ -1,11 +1,13 @@
-import {Attribute} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../../src";
-import {attributeAffinityRate} from "../../../../src/Func/Implementations/getDamageList";
-import {createBattle, servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList attributeAffinityRate', () => {
-    it('defined', () => {
+import { Attribute } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../../src";
+import { attributeAffinityRate } from "../../../../src/Func/Implementations/getDamageList";
+import { createBattle, servant } from "../../../helpers";
+
+describe("getDamageList attributeAffinityRate", () => {
+    it("defined", () => {
         const battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY);
@@ -19,7 +21,7 @@ describe('getDamageList attributeAffinityRate', () => {
         expect(attributeAffinityRate(target, target).value()).to.equal(1);
     });
 
-    it('not defined', () => {
+    it("not defined", () => {
         const battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY);

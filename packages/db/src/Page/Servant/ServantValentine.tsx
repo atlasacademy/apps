@@ -1,11 +1,9 @@
 import { Region, Servant } from "@atlasacademy/api-connector";
+
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 
-const ServantValentine = (props: {
-    region: Region;
-    servant: Servant.Servant;
-}) => {
+const ServantValentine = (props: { region: Region; servant: Servant.Servant }) => {
     const { region, servant } = props;
     if (servant.valentineEquip.length === 0) return null;
 
@@ -29,10 +27,7 @@ const ServantValentine = (props: {
                             );
                     return (
                         <li key={equipId}>
-                            <CraftEssenceReferenceDescriptor
-                                region={region}
-                                id={equipId}
-                            />
+                            <CraftEssenceReferenceDescriptor region={region} id={equipId} />
                             {scriptLink}
                         </li>
                     );

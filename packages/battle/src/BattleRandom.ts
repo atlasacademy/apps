@@ -8,10 +8,11 @@ export enum BattleRandomType {
 }
 
 export class BattleRandom {
-
-    constructor(public type: BattleRandomType,
-                public values: number[] = [],
-                public callback?: (message: string) => Promise<number>) {
+    constructor(
+        public type: BattleRandomType,
+        public values: number[] = [],
+        public callback?: (message: string) => Promise<number>
+    ) {
         //
     }
 
@@ -20,11 +21,10 @@ export class BattleRandom {
     }
 
     async generate(min: number, max: number, message: string = ""): Promise<number> {
-        if (this.type === BattleRandomType.HIGH)
-            return Math.floor(max) - 1;
+        if (this.type === BattleRandomType.HIGH) return Math.floor(max) - 1;
 
         const range = Math.floor(max) - Math.floor(min),
-            plus = Math.floor(range * await this.next(message));
+            plus = Math.floor(range * (await this.next(message)));
 
         return Math.floor(min) + plus;
     }
@@ -54,21 +54,18 @@ export class BattleRandom {
             case BattleRandomType.RANDOM:
                 return Math.random();
             case BattleRandomType.HIGH:
-                throw new Error('THIS IS A BAD IDEA');
+                throw new Error("THIS IS A BAD IDEA");
             case BattleRandomType.LOW:
                 return 0;
             case BattleRandomType.MANUAL:
                 const value = this.values.shift();
-                if (value === undefined)
-                    throw new Error('NO MANUAL VALUES AVAILABLE');
+                if (value === undefined) throw new Error("NO MANUAL VALUES AVAILABLE");
 
                 return value;
             case BattleRandomType.CALLBACK:
-                if (this.callback === undefined)
-                    throw new Error('CALLBACK NOT SET');
+                if (this.callback === undefined) throw new Error("CALLBACK NOT SET");
 
                 return await this.callback(message);
         }
     }
-
 }

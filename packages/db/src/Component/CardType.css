@@ -8,7 +8,8 @@
     height: 100%;
 }
 
-.card-type-icon, .card-type-text {
+.card-type-icon,
+.card-type-text {
     height: 100%;
     left: 0;
     position: absolute;
@@ -25,22 +26,22 @@
         (185 - 133) / 185 / 2
         52 / 370
      */
-    top: calc(52% / 3.70);
+    top: calc(52% / 3.7);
 }
 
 .card-type-text {
     /**
         73 / 150
      */
-    height: calc(73% / 1.50);
+    height: calc(73% / 1.5);
     /**
         (150 - 73) / 150 / 2
         77 / 300
      */
-    top: calc(77% / 3.00);
+    top: calc(77% / 3);
 }
 
-.card-type.extra>.card-type-text {
+.card-type.extra > .card-type-text {
     /**
         100 / 200
      */

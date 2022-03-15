@@ -1,12 +1,14 @@
-import {Card, ClassName} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../../src";
-import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {classAffinityRate} from "../../../../src/Func/Implementations/getDamageList";
-import {createBattle, servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList classAffinityRate', () => {
-    it('defined', () => {
+import { Card, ClassName } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../../src";
+import { BattleAttackActionList } from "../../../../src/Action/BattleAttackAction";
+import { classAffinityRate } from "../../../../src/Func/Implementations/getDamageList";
+import { createBattle, servant } from "../../../helpers";
+
+describe("getDamageList classAffinityRate", () => {
+    it("defined", () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -23,7 +25,7 @@ describe('getDamageList classAffinityRate', () => {
         expect(classAffinityRate(actions.get(1), target, actor).value()).to.equal(0.5);
     });
 
-    it('not defined', () => {
+    it("not defined", () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -41,7 +43,7 @@ describe('getDamageList classAffinityRate', () => {
         expect(classAffinityRate(actions.get(1), target, actor).value()).to.equal(1);
     });
 
-    it('handles overrides', async () => {
+    it("handles overrides", async () => {
         const actor = servant(161, BattleTeam.PLAYER),
             target = servant(241, BattleTeam.ENEMY),
             battle = createBattle();

@@ -1,10 +1,12 @@
-import {Region} from "@atlasacademy/api-connector";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import { Region } from "@atlasacademy/api-connector";
+
 import Manager from "../Setting/Manager";
 
 interface IProps {
-    region?: Region,
+    region?: Region;
 }
 
 class HomePage extends React.Component<IProps> {
@@ -13,7 +15,7 @@ class HomePage extends React.Component<IProps> {
             Manager.setRegion(this.props.region);
         }
 
-        document.title = 'Atlas Academy DB';
+        document.title = "Atlas Academy DB";
     }
 
     render() {
@@ -25,13 +27,12 @@ class HomePage extends React.Component<IProps> {
                     <i>FGO Game Data Navigator — without any of the fluff.</i>
                 </p>
 
-                <hr/>
+                <hr />
 
                 <p>
-                    This tools lets you accurately navigate the raw data the game is using in the back.
-                    None of the data that is being displayed on this tool is manually entered.
-                    Everything is accurately reflecting exactly the raw data available from the most recent version of
-                    the game.
+                    This tools lets you accurately navigate the raw data the game is using in the back. None of the data
+                    that is being displayed on this tool is manually entered. Everything is accurately reflecting
+                    exactly the raw data available from the most recent version of the game.
                 </p>
 
                 <p>
@@ -40,11 +41,12 @@ class HomePage extends React.Component<IProps> {
                 </p>
 
                 <p>
-                    All the data that is being used to render this DB is publicly available at <a
-                    href='https://api.atlasacademy.io' target='_blank'
-                    rel="noopener noreferrer">https://api.atlasacademy.io</a>.
-                    The data at api.atlasacademy.io is automatically maintained and will be refreshed within an hour of
-                    a new release of the game.
+                    All the data that is being used to render this DB is publicly available at{" "}
+                    <a href="https://api.atlasacademy.io" target="_blank" rel="noopener noreferrer">
+                        https://api.atlasacademy.io
+                    </a>
+                    . The data at api.atlasacademy.io is automatically maintained and will be refreshed within an hour
+                    of a new release of the game.
                 </p>
 
                 <p>
@@ -53,25 +55,20 @@ class HomePage extends React.Component<IProps> {
                     </Link>
                 </p>
 
-                <br/>
+                <br />
 
                 <div>Credits:</div>
                 <ul>
                     <li>
-                        <a href='https://atlasacademy.io'>
-                            Atlas Academy
-                        </a>
-                        &nbsp;
-                        (<a href='https://discord.gg/TKJmuCR' target='_blank' rel="noopener noreferrer">
+                        <a href="https://atlasacademy.io">Atlas Academy</a>
+                        &nbsp; (
+                        <a href="https://discord.gg/TKJmuCR" target="_blank" rel="noopener noreferrer">
                             Discord
-                        </a>)
+                        </a>
+                        )
                     </li>
-                    <li>
-                        solution (solution#0286)
-                    </li>
-                    <li>
-                        Cereal
-                    </li>
+                    <li>solution (solution#0286)</li>
+                    <li>Cereal</li>
                     <li>
                         Cipher (<a href="https://github.com/minhducsun2002">minhducsun2002</a>)
                     </li>
@@ -79,14 +76,15 @@ class HomePage extends React.Component<IProps> {
                         <a href="https://github.com/Mitsunee">Mitsunee</a>
                     </li>
                     <li>
-                        <a href='https://rayshift.io/' target='_blank' rel="noreferrer">
+                        <a href="https://rayshift.io/" target="_blank" rel="noreferrer">
                             Neo
                         </a>
                     </li>
                     <li>
-                        <a href='https://github.com/MaxAkito' target='_blank' rel="noreferrer">
+                        <a href="https://github.com/MaxAkito" target="_blank" rel="noreferrer">
                             Max
-                        </a> (MaxAkito#0096)
+                        </a>{" "}
+                        (MaxAkito#0096)
                     </li>
                 </ul>
             </div>

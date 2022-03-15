@@ -1,10 +1,12 @@
-import { Region, Bgm } from "@atlasacademy/api-connector";
 import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonGroup, Button } from "react-bootstrap";
-import VoiceLinePlayer from "./VoiceLinePlayer";
 import { Link } from "react-router-dom";
-import { faShare } from "@fortawesome/free-solid-svg-icons";
+
+import { Region, Bgm } from "@atlasacademy/api-connector";
+
+import VoiceLinePlayer from "./VoiceLinePlayer";
 
 export const getBgmName = (bgm: Bgm.Bgm) => {
     if (bgm.name !== "" && bgm.name !== "0") {
@@ -28,34 +30,17 @@ export default function BgmDescriptor(props: {
         const showName = getBgmName(bgm);
         const toLink = props.showLink ? (
             <>
-                <Button
-                    variant="primary"
-                    as={Link}
-                    to={`/${props.region}/bgm/${bgm.id}`}
-                >
-                    <FontAwesomeIcon
-                        icon={faShare}
-                        title={`Go to ${props.region} BGM ${showName}`}
-                    />
+                <Button variant="primary" as={Link} to={`/${props.region}/bgm/${bgm.id}`}>
+                    <FontAwesomeIcon icon={faShare} title={`Go to ${props.region} BGM ${showName}`} />
                 </Button>
             </>
         ) : null;
         const downloadButton = bgm.notReleased ? (
-            <Button
-                disabled
-                variant="secondary"
-                target="_blank"
-                title={showName}
-            >
+            <Button disabled variant="secondary" target="_blank" title={showName}>
                 {showName}
             </Button>
         ) : (
-            <Button
-                variant={"info"}
-                href={bgm.audioAsset}
-                target="_blank"
-                title={`Download ${showName}`}
-            >
+            <Button variant={"info"} href={bgm.audioAsset} target="_blank" title={`Download ${showName}`}>
                 {props.showName ?? showName}&nbsp;
                 <FontAwesomeIcon icon={faFileAudio} />
             </Button>
@@ -63,11 +48,7 @@ export default function BgmDescriptor(props: {
         return (
             <>
                 <ButtonGroup size="sm" style={props.style}>
-                    <VoiceLinePlayer
-                        audioAssetUrls={[bgm.audioAsset]}
-                        delay={[0]}
-                        title={bgm.name}
-                    />
+                    <VoiceLinePlayer audioAssetUrls={[bgm.audioAsset]} delay={[0]} title={bgm.name} />
                     {downloadButton}
                     {toLink}
                 </ButtonGroup>

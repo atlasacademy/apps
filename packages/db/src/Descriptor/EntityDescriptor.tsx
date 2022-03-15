@@ -1,13 +1,8 @@
+import { CraftEssence, Entity, Enemy, Region, Servant } from "@atlasacademy/api-connector";
+
 import { BasicCraftEssenceDescriptor } from "./CraftEssenceDescriptor";
 import EnemyDescriptor from "./EnemyDescriptor";
 import { BasicServantDescriptor } from "./ServantDescriptor";
-import {
-    CraftEssence,
-    Entity,
-    Enemy,
-    Region,
-    Servant,
-} from "@atlasacademy/api-connector";
 
 export default function EntityDescriptor(props: {
     region: Region;
@@ -28,10 +23,7 @@ export default function EntityDescriptor(props: {
                     overwriteName={props.overwriteName}
                 />
             );
-        } else if (
-            entity.type === Entity.EntityType.NORMAL ||
-            entity.type === Entity.EntityType.HEROINE
-        ) {
+        } else if (entity.type === Entity.EntityType.NORMAL || entity.type === Entity.EntityType.HEROINE) {
             return (
                 <BasicServantDescriptor
                     region={props.region}
@@ -55,11 +47,7 @@ export default function EntityDescriptor(props: {
     );
 }
 
-export function entityDescriptorTable(
-    region: Region,
-    entity: Entity.EntityBasic,
-    index: number
-) {
+export function entityDescriptorTable(region: Region, entity: Entity.EntityBasic, index: number) {
     return (
         <div key={index} style={{ marginTop: index === 0 ? 0 : "24.5px" }}>
             <EntityDescriptor region={region} entity={entity} iconHeight={25} />

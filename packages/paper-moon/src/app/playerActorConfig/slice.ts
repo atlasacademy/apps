@@ -1,22 +1,23 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {PlayerActorConfigServantOptions, PlayerActorConfigState} from "./types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { PlayerActorConfigServantOptions, PlayerActorConfigState } from "./types";
 
 const initialState: PlayerActorConfigState = {
     open: false,
     loading: false,
     ready: false,
     servantOptions: {
-        name: '',
-        level: '',
+        name: "",
+        level: "",
     },
     defaultServantOptions: {
-        name: '',
-        level: '',
+        name: "",
+        level: "",
     },
 };
 
 export const playerActorConfigSlice = createSlice({
-    name: 'playerActorConfig',
+    name: "playerActorConfig",
     initialState,
     reducers: {
         setCraftEssence: (state, action: PayloadAction<number | undefined>) => {
@@ -40,5 +41,5 @@ export const playerActorConfigSlice = createSlice({
         setDefaultServantOptions: (state, action: PayloadAction<PlayerActorConfigServantOptions>) => {
             state.defaultServantOptions = action.payload;
         },
-    }
-})
+    },
+});

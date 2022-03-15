@@ -1,4 +1,3 @@
-import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
 import { faBook, faDragon, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -7,7 +6,9 @@ import { Col, Row, Table, Tabs, Tab } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
-import WarMap from "./WarMap/WarMap";
+
+import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
+
 import Api, { Host } from "../Api";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
@@ -15,12 +16,13 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
-import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
+import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
+import { removeSuffix } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
-import { removeSuffix } from "../Helper/StringHelper";
+import WarMap from "./WarMap/WarMap";
 
 import "../Helper/StringHelper.css";
 
@@ -69,24 +71,15 @@ const SpotImage = (props: { src?: string; name: string; height: string }) => {
     );
 };
 
-const PhaseLink = ({
-    region,
-    quest,
-    phase,
-}: {
-    region: Region;
-    quest: Quest.Quest;
-    phase: number;
-}) => {
+const PhaseLink = ({ region, quest, phase }: { region: Region; quest: Quest.Quest; phase: number }) => {
     let description = `Arrow ${phase}`;
     const isRepeatable =
-        quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST &&
-        phase === Math.max(...quest.phases);
+        quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST && phase === Math.max(...quest.phases);
     if (isRepeatable) description += " (repeatable)";
     const isRepeatableIcon = isRepeatable ? (
         <>
             &nbsp;
-            <FontAwesomeIcon icon={faRepeat} /> 
+            <FontAwesomeIcon icon={faRepeat} />
         </>
     ) : null;
     const hasEnemies = quest.phasesWithEnemies.includes(phase);
@@ -143,13 +136,10 @@ const QuestTable = (props: {
     showSection?: boolean;
 }) => {
     const { region, quests } = props,
-        hasScript =
-            props.quests.find((quest) => quest.phaseScripts.length > 0) !==
-            undefined,
+        hasScript = props.quests.find((quest) => quest.phaseScripts.length > 0) !== undefined,
         hasSection =
             props.showSection &&
-            (quests.find((quest) => quest.chapterSubId !== 0) ||
-                quests.find((quest) => quest.chapterSubStr !== ""));
+            (quests.find((quest) => quest.chapterSubId !== 0) || quests.find((quest) => quest.chapterSubStr !== ""));
     return (
         <Table hover responsive>
             <thead>
@@ -168,47 +158,27 @@ const QuestTable = (props: {
                     <tr key={quest.id}>
                         {hasSection ? <td>{getQuestSection(quest)}</td> : null}
                         <td>
-                            <Link to={firstPhaseLink(region, quest)}>
-                                {quest.id}
-                            </Link>
+                            <Link to={firstPhaseLink(region, quest)}>{quest.id}</Link>
                         </td>
                         <td style={{ maxWidth: "15em" }}>
-                            <Link to={firstPhaseLink(region, quest)}>
-                                {quest.name}
-                            </Link>
+                            <Link to={firstPhaseLink(region, quest)}>{quest.name}</Link>
                         </td>
                         {props.spots !== undefined ? (
                             <td style={{ whiteSpace: "nowrap" }}>
-                                <SpotImage
-                                    src={props.spots[i].image}
-                                    name={props.spots[i].name}
-                                    height="2em"
-                                />{" "}
-                                <span style={{ whiteSpace: "normal" }}>
-                                    {props.spots[i].name}
-                                </span>
+                                <SpotImage src={props.spots[i].image} name={props.spots[i].name} height="2em" />{" "}
+                                <span style={{ whiteSpace: "normal" }}>{props.spots[i].name}</span>
                             </td>
                         ) : null}
                         <td>
                             {mergeElements(
-                                quest.phases.map((phase) => (
-                                    <PhaseLink
-                                        region={region}
-                                        quest={quest}
-                                        phase={phase}
-                                    />
-                                )),
+                                quest.phases.map((phase) => <PhaseLink region={region} quest={quest} phase={phase} />),
                                 <br />
                             )}
                         </td>
                         <td>
                             {quest.gifts.map((gift) => (
                                 <div key={`${gift.objectId}-${gift.priority}`}>
-                                    <GiftDescriptor
-                                        region={region}
-                                        gift={gift}
-                                        items={props.itemMap}
-                                    />
+                                    <GiftDescriptor region={region} gift={gift} items={props.itemMap} />
                                     <br />
                                 </div>
                             ))}
@@ -220,20 +190,14 @@ const QuestTable = (props: {
                                         <span style={{ whiteSpace: "nowrap" }}>
                                             {scripts.phase}:{" "}
                                             {mergeElements(
-                                                scripts.scripts.map(
-                                                    (script) => (
-                                                        <ScriptDescriptor
-                                                            region={region}
-                                                            scriptId={
-                                                                script.scriptId
-                                                            }
-                                                            scriptName={script.scriptId.slice(
-                                                                -2
-                                                            )}
-                                                            scriptType=""
-                                                        />
-                                                    )
-                                                ),
+                                                scripts.scripts.map((script) => (
+                                                    <ScriptDescriptor
+                                                        region={region}
+                                                        scriptId={script.scriptId}
+                                                        scriptName={script.scriptId.slice(-2)}
+                                                        scriptType=""
+                                                    />
+                                                )),
                                                 ", "
                                             )}
                                         </span>
@@ -249,11 +213,7 @@ const QuestTable = (props: {
     );
 };
 
-const MainQuests = (props: {
-    region: Region;
-    spots: War.Spot[];
-    itemMap: Map<number, Item.Item>;
-}) => {
+const MainQuests = (props: { region: Region; spots: War.Spot[]; itemMap: Map<number, Item.Item> }) => {
     let mainQuests = [] as { quest: Quest.Quest; spot: War.Spot }[];
     for (let spot of props.spots) {
         for (let quest of spot.quests) {
@@ -302,13 +262,7 @@ const Spot = (props: {
         </span>
     );
 
-    const questTable = (
-        <QuestTable
-            region={props.region}
-            quests={filteredQuest}
-            itemMap={props.itemMap}
-        />
-    );
+    const questTable = <QuestTable region={props.region} quests={filteredQuest} itemMap={props.itemMap} />;
 
     return renderCollapsibleContent({
         title: title,
@@ -351,51 +305,56 @@ const SpotQuestList = (props: {
 };
 
 const WarMapList = (props: {
-    region: Region
-    title: string
-    maps: War.Map[],
-    spots: War.Spot[],
-    warName: string,
-    warId: number,
-    last?: boolean
+    region: Region;
+    title: string;
+    maps: War.Map[];
+    spots: War.Spot[];
+    warName: string;
+    warId: number;
+    last?: boolean;
 }) => {
     const groupBy = <T,>(array: T[], property: (x: T) => string): { [key: string]: Array<T> } =>
-    array.reduce((acc: { [key: string]: Array<T> }, cur: T) => {
-        if (!acc[property(cur)]) {
-        acc[property(cur)] = [];
-        }
-        acc[property(cur)].push(cur);
-        return acc;
-    }, {});
-    
-    const mapsById = groupBy(props.maps, map => `${map.id}`);
+        array.reduce((acc: { [key: string]: Array<T> }, cur: T) => {
+            if (!acc[property(cur)]) {
+                acc[property(cur)] = [];
+            }
+            acc[property(cur)].push(cur);
+            return acc;
+        }, {});
+
+    const mapsById = groupBy(props.maps, (map) => `${map.id}`);
     let last = false;
     const warMaps = (
-        <Tabs /* defaultAciveKey={`${mapsById[Object.keys(mapsById)[0]]}`} */ id='war-maps-tabs' className='mb-3' >
+        <Tabs /* defaultAciveKey={`${mapsById[Object.keys(mapsById)[0]]}`} */ id="war-maps-tabs" className="mb-3">
             {Object.keys(mapsById).map((mapId, index, array) => {
-                let mapSpots = props.spots.filter(spot => spot.mapId === +mapId).filter(spot => spot.quests.some(quest => quest.afterClear === 'repeatLast')).filter(spot => spot.x || spot.y);
+                let mapSpots = props.spots
+                    .filter((spot) => spot.mapId === +mapId)
+                    .filter((spot) => spot.quests.some((quest) => quest.afterClear === "repeatLast"))
+                    .filter((spot) => spot.x || spot.y);
                 last = index === array.length - 1;
                 return mapSpots.length > 0 ? (
-                    <Tab eventKey={`${mapId}`} key={mapId} title={`#${mapId}`} >
-                    <WarMap
-                        region={props.region}
-                        key={index}
-                        map={mapsById[mapId][0]}
-                        spots={mapSpots}
-                        warName={props.warName}
-                        warId={props.warId}
-                    />
+                    <Tab eventKey={`${mapId}`} key={mapId} title={`#${mapId}`}>
+                        <WarMap
+                            region={props.region}
+                            key={index}
+                            map={mapsById[mapId][0]}
+                            spots={mapSpots}
+                            warName={props.warName}
+                            warId={props.warId}
+                        />
                     </Tab>
                 ) : null;
             })}
         </Tabs>
     );
-    return renderCollapsibleContent({
-        title: props.title,
-        content: warMaps,
-        subheader: false,
-    },
-    !last);
+    return renderCollapsibleContent(
+        {
+            title: props.title,
+            content: warMaps,
+            subheader: false,
+        },
+        !last
+    );
 };
 
 interface IProps extends RouteComponentProps {
@@ -455,9 +414,7 @@ class WarPage extends React.Component<IProps, IState> {
         const event =
             war.eventId !== 0 ? (
                 <Link to={`/${this.props.region}/event/${war.eventId}`}>
-                    {war.eventName !== ""
-                        ? war.eventName
-                        : `Event ${war.eventId}`}
+                    {war.eventName !== "" ? war.eventName : `Event ${war.eventId}`}
                 </Link>
             ) : (
                 ""
@@ -466,10 +423,7 @@ class WarPage extends React.Component<IProps, IState> {
         let banners: string[] = [];
         if (war.banner !== undefined) banners.push(war.banner);
         for (let warAdd of war.warAdds) {
-            if (
-                warAdd.type === War.WarOverwriteType.BANNER &&
-                warAdd.overwriteBanner !== undefined
-            ) {
+            if (warAdd.type === War.WarOverwriteType.BANNER && warAdd.overwriteBanner !== undefined) {
                 banners.push(warAdd.overwriteBanner);
             }
         }
@@ -487,24 +441,17 @@ class WarPage extends React.Component<IProps, IState> {
             bgms.set(map.bgm.id, map.bgm);
         }
 
-        const bgmDeduped = Array.from(bgms.values()).filter(
-            (bgm) => bgm.id !== 0
-        );
+        const bgmDeduped = Array.from(bgms.values()).filter((bgm) => bgm.id !== 0);
 
         const bgmPlayers = bgmDeduped.map((bgm, index) => {
             return (
                 <div
                     key={bgm.id}
                     style={{
-                        marginBottom:
-                            index === bgmDeduped.length - 1 ? 0 : "0.75em",
+                        marginBottom: index === bgmDeduped.length - 1 ? 0 : "0.75em",
                     }}
                 >
-                    <BgmDescriptor
-                        region={this.props.region}
-                        bgm={bgm}
-                        showLink={true}
-                    />
+                    <BgmDescriptor region={this.props.region} bgm={bgm} showLink={true} />
                 </div>
             );
         });
@@ -513,9 +460,7 @@ class WarPage extends React.Component<IProps, IState> {
             war.scriptId === "NONE" ? (
                 ""
             ) : (
-                <Link to={`/${this.props.region}/script/${war.scriptId}`}>
-                    {war.scriptId}
-                </Link>
+                <Link to={`/${this.props.region}/script/${war.scriptId}`}>{war.scriptId}</Link>
             );
 
         return (
@@ -527,9 +472,7 @@ class WarPage extends React.Component<IProps, IState> {
                     <DataTable
                         data={{
                             ID: war.id,
-                            Name: (
-                                <span className="newline">{war.longName}</span>
-                            ),
+                            Name: <span className="newline">{war.longName}</span>,
                             Age: war.age,
                             Event: event,
                             "Opening Script": openingScript,
@@ -557,13 +500,9 @@ class WarPage extends React.Component<IProps, IState> {
                     spots={war.spots}
                     warName={war.name}
                     warId={war.id}
-                    title={'Maps'}
+                    title={"Maps"}
                 />
-                <MainQuests
-                    region={this.props.region}
-                    spots={war.spots}
-                    itemMap={this.state.itemCache}
-                />
+                <MainQuests region={this.props.region} spots={war.spots} itemMap={this.state.itemCache} />
                 {[
                     Quest.QuestType.FREE,
                     Quest.QuestType.EVENT,
@@ -572,18 +511,13 @@ class WarPage extends React.Component<IProps, IState> {
                     Quest.QuestType.HERO_BALLAD,
                 ]
                     .filter((questType) => {
-                        for (let { quests } of war.spots)
-                            if (quests.find((q) => q.type === questType))
-                                return true;
+                        for (let { quests } of war.spots) if (quests.find((q) => q.type === questType)) return true;
 
                         return false;
                     })
                     .map((questType, index, array) => {
-                        const questTypeDescription =
-                            QuestTypeDescription.get(questType) ??
-                            questType.toString();
-                        let questFilter = (quest: Quest.Quest) =>
-                            quest.type === questType;
+                        const questTypeDescription = QuestTypeDescription.get(questType) ?? questType.toString();
+                        let questFilter = (quest: Quest.Quest) => quest.type === questType;
 
                         return (
                             <SpotQuestList

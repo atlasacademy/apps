@@ -1,4 +1,5 @@
 import { Event, Gift, Item, Region, Servant } from "@atlasacademy/api-connector";
+
 import { AssetHost } from "../Api";
 import { CommandCodeDescriptorId } from "./CommandCodeDescriptor";
 import CostumeDescriptor from "./CostumeDescriptor";
@@ -21,61 +22,36 @@ export default function GiftDescriptor(props: {
         case Gift.GiftType.SERVANT:
             return (
                 <>
-                    <EntityReferenceDescriptor
-                        region={region}
-                        svtId={gift.objectId}
-                    />{" "}
-                    x{gift.num}
+                    <EntityReferenceDescriptor region={region} svtId={gift.objectId} /> x{gift.num}
                 </>
             );
         case Gift.GiftType.ITEM:
             if (props.items !== undefined) {
                 return (
                     <>
-                        <IconDescriptorMap
-                            region={region}
-                            itemId={gift.objectId}
-                            items={props.items}
-                        />{" "}
-                        x{gift.num.toLocaleString()}
+                        <IconDescriptorMap region={region} itemId={gift.objectId} items={props.items} /> x
+                        {gift.num.toLocaleString()}
                     </>
                 );
             } else {
                 return (
                     <>
-                        <ItemDescriptorId
-                            region={region}
-                            itemId={gift.objectId}
-                        />{" "}
-                        x{gift.num.toLocaleString()}
+                        <ItemDescriptorId region={region} itemId={gift.objectId} /> x{gift.num.toLocaleString()}
                     </>
                 );
             }
         case Gift.GiftType.EQUIP:
-            return (
-                <MysticCodeDescriptorId region={region} mcId={gift.objectId} />
-            );
+            return <MysticCodeDescriptorId region={region} mcId={gift.objectId} />;
         case Gift.GiftType.EVENT_SVT_JOIN:
             return (
                 <>
-                    <ServantDescriptorId
-                        region={region}
-                        id={gift.objectId}
-                        servants={props.servants}
-                    />{" "}
-                    joins the party
+                    <ServantDescriptorId region={region} id={gift.objectId} servants={props.servants} /> joins the party
                 </>
             );
         case Gift.GiftType.EVENT_SVT_GET:
             return (
                 <>
-                    Get{" "}
-                    <ServantDescriptorId
-                        region={region}
-                        id={gift.objectId}
-                        servants={props.servants}
-                    />{" "}
-                    x{gift.num}
+                    Get <ServantDescriptorId region={region} id={gift.objectId} servants={props.servants} /> x{gift.num}
                 </>
             );
         case Gift.GiftType.QUEST_REWARD_ICON:
@@ -99,32 +75,16 @@ export default function GiftDescriptor(props: {
             const costumeLimit = gift.objectId % 100;
             return (
                 <>
-                    <CostumeDescriptor
-                        region={region}
-                        servantId={servantId}
-                        costumeLimit={costumeLimit}
-                    />{" "}
-                    {gift.type === Gift.GiftType.COSTUME_RELEASE
-                        ? "Unlocked"
-                        : "Get"}
+                    <CostumeDescriptor region={region} servantId={servantId} costumeLimit={costumeLimit} />{" "}
+                    {gift.type === Gift.GiftType.COSTUME_RELEASE ? "Unlocked" : "Get"}
                 </>
             );
         case Gift.GiftType.COMMAND_CODE:
-            return (
-                <CommandCodeDescriptorId region={region} ccId={gift.objectId} />
-            );
+            return <CommandCodeDescriptorId region={region} ccId={gift.objectId} />;
         case Gift.GiftType.EVENT_POINT_BUFF:
-            const pointBuff =
-                props.pointBuffs !== undefined
-                    ? props.pointBuffs.get(gift.objectId)
-                    : undefined;
+            const pointBuff = props.pointBuffs !== undefined ? props.pointBuffs.get(gift.objectId) : undefined;
             if (pointBuff !== undefined) {
-                return (
-                    <PointBuffDescriptor
-                        region={region}
-                        pointBuff={pointBuff}
-                    />
-                );
+                return <PointBuffDescriptor region={region} pointBuff={pointBuff} />;
             } else {
                 return <>Event Buff {gift.objectId}</>;
             }

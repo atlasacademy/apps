@@ -1,4 +1,3 @@
-import { ClassName, Quest, Region, Trait } from "@atlasacademy/api-connector";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -6,12 +5,15 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+
+import { ClassName, Quest, Region, Trait } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import QuestPhaseTable from "../Component/QuestPhaseTable";
 import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
-import QuestPhaseTable from "../Component/QuestPhaseTable";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
@@ -64,8 +66,7 @@ class QuestsPage extends React.Component<IProps, IState> {
         let state: IState = defaultState;
         if (props.location.search !== "") {
             const searchParams = new URLSearchParams(props.location.search);
-            const getQueryNums = (param: string) =>
-                    searchParams.getAll(param).map((num) => parseInt(num)),
+            const getQueryNums = (param: string) => searchParams.getAll(param).map((num) => parseInt(num)),
                 getQueryNum = (param: string) => {
                     const num = searchParams.get(param);
                     if (num !== null) {
@@ -80,8 +81,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                 name: searchParams.get("name") ?? undefined,
                 spotName: searchParams.get("spotName") ?? undefined,
                 warId: getQueryNum("warId"),
-                type:
-                    (searchParams.get("type") as Quest.QuestType) ?? undefined,
+                type: (searchParams.get("type") as Quest.QuestType) ?? undefined,
                 fieldIndividuality: getQueryNums("fieldIndividuality"),
                 battleBgId: getQueryNum("battleBgId"),
                 bgmId: getQueryNum("bgmId"),
@@ -89,9 +89,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                 enemySvtId: getQueryNum("enemySvtId"),
                 enemySvtAiId: getQueryNum("enemySvtAiId"),
                 enemyTrait: getQueryNums("enemyTrait"),
-                enemyClassName: searchParams.getAll(
-                    "enemyClassName"
-                ) as ClassName[],
+                enemyClassName: searchParams.getAll("enemyClassName") as ClassName[],
             };
         } else {
             state = stateCache.get(props.region) ?? defaultState;
@@ -145,9 +143,7 @@ class QuestsPage extends React.Component<IProps, IState> {
     }
 
     setQueryURL() {
-        this.props.history.replace(
-            `/${this.props.region}/${this.props.path}?${this.getQueryString()}`
-        );
+        this.props.history.replace(`/${this.props.region}/${this.props.path}?${this.getQueryString()}`);
     }
 
     private search() {
@@ -167,9 +163,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             this.state.enemyClassName.length === 0
         ) {
             this.setState({ quests: [] });
-            this.props.history.replace(
-                `/${this.props.region}/${this.props.path}`
-            );
+            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
             alert("Please refine the results before searching");
             return;
         }
@@ -177,19 +171,19 @@ class QuestsPage extends React.Component<IProps, IState> {
         this.setState({ searching: true, quests: [] });
 
         Api.searchQuestPhase(
-                this.state.name,
-                this.state.spotName,
-                this.state.warId ? [this.state.warId] : undefined,
-                this.state.type ? [this.state.type] : undefined,
-                this.state.fieldIndividuality,
-                this.state.battleBgId,
-                this.state.bgmId,
-                this.state.fieldAiId,
-                this.state.enemySvtId,
-                this.state.enemySvtAiId,
-                this.state.enemyTrait,
-                this.state.enemyClassName
-            )
+            this.state.name,
+            this.state.spotName,
+            this.state.warId ? [this.state.warId] : undefined,
+            this.state.type ? [this.state.type] : undefined,
+            this.state.fieldIndividuality,
+            this.state.battleBgId,
+            this.state.bgmId,
+            this.state.fieldAiId,
+            this.state.enemySvtId,
+            this.state.enemySvtAiId,
+            this.state.enemyTrait,
+            this.state.enemyClassName
+        )
             .then((quests) => {
                 this.setQueryURL();
                 this.setState({ quests, searched: true, searching: false });
@@ -201,13 +195,7 @@ class QuestsPage extends React.Component<IProps, IState> {
     }
 
     getNumberForm(
-        stateVar:
-            | "warId"
-            | "battleBgId"
-            | "bgmId"
-            | "fieldAiId"
-            | "enemySvtId"
-            | "enemySvtAiId",
+        stateVar: "warId" | "battleBgId" | "bgmId" | "fieldAiId" | "enemySvtId" | "enemySvtAiId",
         label: string
     ) {
         return (
@@ -217,10 +205,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                     type="number"
                     value={this.state[stateVar]?.toString() ?? ""}
                     onChange={(ev: ChangeEvent) => {
-                        if (
-                            ev.target.value !== "" &&
-                            isPositiveInteger(ev.target.value)
-                        ) {
+                        if (ev.target.value !== "" && isPositiveInteger(ev.target.value)) {
                             this.setState({
                                 [stateVar]: parseInt(ev.target.value),
                             } as Pick<IState, typeof stateVar>);
@@ -273,10 +258,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             value={this.state.name ?? ""}
                             onChange={(ev: ChangeEvent) => {
                                 this.setState({
-                                    name:
-                                        ev.target.value !== ""
-                                            ? ev.target.value
-                                            : undefined,
+                                    name: ev.target.value !== "" ? ev.target.value : undefined,
                                 });
                             }}
                         />
@@ -287,10 +269,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             value={this.state.spotName ?? ""}
                             onChange={(ev: ChangeEvent) => {
                                 this.setState({
-                                    spotName:
-                                        ev.target.value !== ""
-                                            ? ev.target.value
-                                            : undefined,
+                                    spotName: ev.target.value !== "" ? ev.target.value : undefined,
                                 });
                             }}
                         />
@@ -339,9 +318,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         <Form.Label>Enemy Class</Form.Label>
                         <SearchableSelect<ClassName>
                             id="select-ClassName"
-                            options={Object.values(ClassName).filter(
-                                (className) => className !== ClassName.EXTRA
-                            )}
+                            options={Object.values(ClassName).filter((className) => className !== ClassName.EXTRA)}
                             labels={new Map([])}
                             selected={this.state.enemyClassName[0] ?? undefined}
                             onChange={(value?: ClassName) => {
@@ -351,7 +328,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Button variant={"primary"} onClick={() => this.search()} style={{marginBottom: "1em"}}>
+                    <Button variant={"primary"} onClick={() => this.search()} style={{ marginBottom: "1em" }}>
                         Search <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>
@@ -364,11 +341,9 @@ class QuestsPage extends React.Component<IProps, IState> {
                         {this.state.quests.length > 1 ? "s" : ""}.
                     </h5>
                 )}
-                {this.state.quests.length
-                    ? <QuestPhaseTable
-                        region={this.props.region}
-                        quests={this.state.quests}/>
-                    : null}
+                {this.state.quests.length ? (
+                    <QuestPhaseTable region={this.props.region} quests={this.state.quests} />
+                ) : null}
             </div>
         );
     }

@@ -1,5 +1,7 @@
-import { Ai, Quest, Region } from "@atlasacademy/api-connector";
 import { createRef } from "react";
+
+import { Ai, Quest, Region } from "@atlasacademy/api-connector";
+
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
@@ -8,23 +10,12 @@ import QuestEnemyTable, { FromToEntry, hashEnemy } from "./QuestEnemy";
 const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
     const stage = props.stage;
     const fieldAiDescriptions = stage.fieldAis.map((ai) => (
-        <AiDescriptor
-            region={props.region}
-            aiType={Ai.AiType.FIELD}
-            id={ai.id}
-        />
+        <AiDescriptor region={props.region} aiType={Ai.AiType.FIELD} id={ai.id} />
     ));
 
-    const enemyLookUp = new Map(
-        stage.enemies.map((enemy) => [hashEnemy(enemy), enemy])
-    );
+    const enemyLookUp = new Map(stage.enemies.map((enemy) => [hashEnemy(enemy), enemy]));
 
-    const enemyRefs = new Map(
-        stage.enemies.map((enemy) => [
-            hashEnemy(enemy),
-            createRef<HTMLDivElement>(),
-        ])
-    );
+    const enemyRefs = new Map(stage.enemies.map((enemy) => [hashEnemy(enemy), createRef<HTMLDivElement>()]));
 
     const callEntries: { caller: string; callee: number }[] = [];
     for (const enemy of stage.enemies) {
@@ -69,17 +60,11 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
     return (
         <div>
             <div style={{ margin: "1em 0", lineHeight: "3em" }}>
-                <b>BGM:</b>{" "}
-                <BgmDescriptor
-                    region={props.region}
-                    bgm={stage.bgm}
-                    showLink={true}
-                />
+                <b>BGM:</b> <BgmDescriptor region={props.region} bgm={stage.bgm} showLink={true} />
                 {stage.fieldAis.length >= 1 ? (
                     <>
                         <br />
-                        <b>Field AI:</b>{" "}
-                        {mergeElements(fieldAiDescriptions, " ")}
+                        <b>Field AI:</b> {mergeElements(fieldAiDescriptions, " ")}
                     </>
                 ) : null}
             </div>

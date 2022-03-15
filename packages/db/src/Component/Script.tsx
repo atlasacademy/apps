@@ -1,4 +1,5 @@
 import { Region } from "@atlasacademy/api-connector";
+
 import { AssetHost } from "../Api";
 import { flatten } from "../Helper/PolyFill";
 import { splitString } from "../Helper/StringHelper";
@@ -123,10 +124,7 @@ export type DialogueGender = {
     colorHex?: string;
 };
 
-export type DialogueChildComponent =
-    | DialogueBasicComponent
-    | DialogueGender
-    | ScriptBracketComponent;
+export type DialogueChildComponent = DialogueBasicComponent | DialogueGender | ScriptBracketComponent;
 
 export type DialogueSpeaker = {
     name: string;
@@ -425,9 +423,7 @@ export type ScriptBracketComponent =
     | ScriptBackground
     | ScriptFlag;
 
-export type ScriptChoiceChildComponent =
-    | ScriptBracketComponent
-    | ScriptDialogue;
+export type ScriptChoiceChildComponent = ScriptBracketComponent | ScriptDialogue;
 
 export enum ScriptChoiceRouteType {
     NONE,
@@ -453,10 +449,7 @@ export type ScriptChoices = {
     choices: ScriptChoice[];
 };
 
-export type ScriptComponent =
-    | ScriptBracketComponent
-    | ScriptDialogue
-    | ScriptChoices;
+export type ScriptComponent = ScriptBracketComponent | ScriptDialogue | ScriptChoices;
 
 export type ScriptInfo = {
     components: ScriptComponent[];
@@ -478,13 +471,8 @@ type ParserDialogueState = { colorHex?: string; size?: DialogueTextSize };
 function parseParameter(line: string): string[] {
     const noNewLine = line.replace("\n", " ").replace("\r", " ").trim(),
         sliceStart = noNewLine[0] === "[" ? 1 : 0,
-        sliceEnd =
-            noNewLine[noNewLine.length - 1] === "]"
-                ? noNewLine.length - 1
-                : noNewLine.length;
-    return (
-        noNewLine.slice(sliceStart, sliceEnd).match(/[^\s"]+|"([^"]*)"/g) ?? []
-    );
+        sliceEnd = noNewLine[noNewLine.length - 1] === "]" ? noNewLine.length - 1 : noNewLine.length;
+    return noNewLine.slice(sliceStart, sliceEnd).match(/[^\s"]+|"([^"]*)"/g) ?? [];
 }
 
 function splitLine(line: string): string[] {
@@ -521,17 +509,7 @@ function isDialogueBasic(word: string): boolean {
     for (const signature of NOT_BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return false;
     }
-    const BASIC_SIGNATURES = [
-        "r",
-        "sr",
-        "csr",
-        "s",
-        "%1",
-        "line",
-        "#",
-        "servantName",
-        "image",
-    ];
+    const BASIC_SIGNATURES = ["r", "sr", "csr", "s", "%1", "line", "#", "servantName", "image"];
     for (const signature of BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return true;
     }
@@ -564,8 +542,7 @@ function parseDialogueBasic(
             case "s":
                 return {
                     type: ScriptComponentType.DIALOGUE_SPEED,
-                    speed:
-                        parameters[1] === "-" ? -1 : parseFloat(parameters[1]),
+                    speed: parameters[1] === "-" ? -1 : parseFloat(parameters[1]),
                 };
             case "%1":
                 // Player's name
@@ -609,23 +586,13 @@ function parseDialogueBasic(
     };
 }
 
-function parseDialogueGender(
-    region: Region,
-    word: string,
-    parserDialogueState: ParserDialogueState
-): DialogueGender {
+function parseDialogueGender(region: Region, word: string, parserDialogueState: ParserDialogueState): DialogueGender {
     // Gender ternary `[&male:female]`
-    const [male, female] = word
-        .slice(2, word.length - 1)
-        .split(/:(?=[^\]]*(?:\[|$))/); // To split nested components
+    const [male, female] = word.slice(2, word.length - 1).split(/:(?=[^\]]*(?:\[|$))/); // To split nested components
     return {
         type: ScriptComponentType.DIALOGUE_GENDER,
-        male: splitLine(male).map((word) =>
-            parseDialogueBasic(region, word, parserDialogueState)
-        ),
-        female: splitLine(female).map((word) =>
-            parseDialogueBasic(region, word, parserDialogueState)
-        ),
+        male: splitLine(male).map((word) => parseDialogueBasic(region, word, parserDialogueState)),
+        female: splitLine(female).map((word) => parseDialogueBasic(region, word, parserDialogueState)),
         colorHex: parserDialogueState.colorHex,
     };
 }
@@ -640,21 +607,13 @@ function parseDialogueWord(
         if (word[1] === "&" && word.includes(":")) {
             return parseDialogueGender(region, word, parserDialogueState);
         } else if (!isDialogueBasic(word)) {
-            return parseBracketComponent(
-                region,
-                parseParameter(word),
-                parserState
-            );
+            return parseBracketComponent(region, parseParameter(word), parserState);
         }
     }
     return parseDialogueBasic(region, word, parserDialogueState);
 }
 
-export function parseDialogueLine(
-    region: Region,
-    line: string,
-    parserState: ParserState
-): DialogueChildComponent[] {
+export function parseDialogueLine(region: Region, line: string, parserState: ParserState): DialogueChildComponent[] {
     let outComponents: DialogueChildComponent[] = [],
         parserDialogueState: ParserDialogueState = {};
     for (const word of splitLine(line)) {
@@ -684,32 +643,20 @@ export function parseDialogueLine(
                     }
 
                     if (parameters[1]) {
-                        parserDialogueState.size =
-                            parameters[1] as DialogueTextSize;
+                        parserDialogueState.size = parameters[1] as DialogueTextSize;
                         parsed = true;
                         break;
                     }
             }
         }
         if (!parsed) {
-            outComponents.push(
-                parseDialogueWord(
-                    region,
-                    word,
-                    parserState,
-                    parserDialogueState
-                )
-            );
+            outComponents.push(parseDialogueWord(region, word, parserState, parserDialogueState));
         }
     }
     return outComponents;
 }
 
-function parseDialogueSpeaker(
-    region: Region,
-    line: string,
-    parserState: ParserState
-): DialogueSpeaker {
+function parseDialogueSpeaker(region: Region, line: string, parserState: ParserState): DialogueSpeaker {
     const noMarker = line.slice(1);
     let name = noMarker,
         speakerCode = undefined;
@@ -766,11 +713,7 @@ function getVoiceLocation(scriptVoice: string): {
     return { folder, fileName };
 }
 
-function parseBracketComponent(
-    region: Region,
-    parameters: string[],
-    parserState: ParserState
-): ScriptBracketComponent {
+function parseBracketComponent(region: Region, parameters: string[], parserState: ParserState): ScriptBracketComponent {
     switch (parameters[0]) {
         case "charaSet":
             const charaSet = {
@@ -803,10 +746,7 @@ function parseBracketComponent(
                 speakerCode: parameters[1],
                 imageName: parameters[2],
                 imageAsset: `${AssetHost}/${region}/Image/${parameters[2]}/${parameters[2]}.png`,
-            } as
-                | ScriptImageSet
-                | ScriptVerticalImageSet
-                | ScriptHorizontalImageSet;
+            } as ScriptImageSet | ScriptVerticalImageSet | ScriptHorizontalImageSet;
             parserState.assetSetMap.set(parameters[1], imageSet);
             return imageSet;
         case "equipSet":
@@ -874,10 +814,7 @@ function parseBracketComponent(
                 type: ScriptComponentType.CHARA_FADE_IN,
                 speakerCode: parameters[1],
                 durationSec: parseFloat(parameters[2]),
-                position:
-                    parameters[3] !== undefined
-                        ? getPosition(parameters[3])
-                        : undefined,
+                position: parameters[3] !== undefined ? getPosition(parameters[3]) : undefined,
                 assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "charaFadeout":
@@ -923,18 +860,14 @@ function parseBracketComponent(
                 speakerCode: parameters[1],
                 effect: parameters[2] as CharaCutInEffect,
                 durationSec: parseFloat(parameters[3]),
-                mgd:
-                    parameters[4] !== undefined ? parseFloat(parameters[4]) : 0,
+                mgd: parameters[4] !== undefined ? parseFloat(parameters[4]) : 0,
                 pause: parameters[0] === "charaCutinPause",
                 assetSet: parserState.assetSetMap.get(parameters[1]),
             };
         case "se":
             return {
                 type: ScriptComponentType.SOUND_EFFECT,
-                soundEffect: getBgmObject(
-                    parameters[1],
-                    getSoundEffectUrl(region, parameters[1])
-                ),
+                soundEffect: getBgmObject(parameters[1], getSoundEffectUrl(region, parameters[1])),
             };
         case "wt":
             return {
@@ -971,26 +904,14 @@ function parseBracketComponent(
         case "bgm":
             return {
                 type: ScriptComponentType.BGM,
-                bgm: getBgmObject(
-                    parameters[1],
-                    `${AssetHost}/${region}/Audio/${parameters[1]}/${parameters[1]}.mp3`
-                ),
-                volumne:
-                    parameters[2] === undefined
-                        ? undefined
-                        : parseFloat(parameters[2]),
-                fadeinTime:
-                    parameters[3] === undefined
-                        ? undefined
-                        : parseFloat(parameters[3]),
+                bgm: getBgmObject(parameters[1], `${AssetHost}/${region}/Audio/${parameters[1]}/${parameters[1]}.mp3`),
+                volumne: parameters[2] === undefined ? undefined : parseFloat(parameters[2]),
+                fadeinTime: parameters[3] === undefined ? undefined : parseFloat(parameters[3]),
             };
         case "bgmStop":
             return {
                 type: ScriptComponentType.BGM_STOP,
-                bgm: getBgmObject(
-                    parameters[1],
-                    `${AssetHost}/${region}/Audio/${parameters[1]}/${parameters[1]}.mp3`
-                ),
+                bgm: getBgmObject(parameters[1], `${AssetHost}/${region}/Audio/${parameters[1]}/${parameters[1]}.mp3`),
                 fadeoutTime: parseFloat(parameters[2]),
             };
         case "voice":
@@ -1006,10 +927,7 @@ function parseBracketComponent(
                 backgroundAsset: parserState.enableFullScreen
                     ? `${AssetHost}/${region}/Back/back${parameters[1]}_1344_626.png`
                     : `${AssetHost}/${region}/Back/back${parameters[1]}.png`,
-                crossFadeDurationSec:
-                    parameters[3] === undefined
-                        ? undefined
-                        : parseFloat(parameters[3]),
+                crossFadeDurationSec: parameters[3] === undefined ? undefined : parseFloat(parameters[3]),
             };
         case "flag":
             return {
@@ -1069,9 +987,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
         choice.results = [];
     };
     const finalizeDialogueComponent = () => {
-        dialogue.components = [
-            parseDialogueLine(region, dialogue.lines.join(""), parserState),
-        ];
+        dialogue.components = [parseDialogueLine(region, dialogue.lines.join(""), parserState)];
         // dialogue.components = dialogue.lines.map((line) =>
         //     parseDialogueLine(region, line, parserState)
         // );
@@ -1090,11 +1006,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
     for (const line of script.split(lineEnding)) {
         if (line.startsWith("//")) continue;
         if (line.includes("wait voiceCancel")) {
-            const dialogueChildComponents = parseDialogueLine(
-                region,
-                line,
-                parserState
-            );
+            const dialogueChildComponents = parseDialogueLine(region, line, parserState);
             const dialogueComponent = {
                 type: ScriptComponentType.DIALOGUE,
                 speaker: undefined,
@@ -1135,11 +1047,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                             }
                             break;
                         } else {
-                            const parsedComponent = parseBracketComponent(
-                                region,
-                                parameters,
-                                parserState
-                            );
+                            const parsedComponent = parseBracketComponent(region, parameters, parserState);
                             if (parserState.choice) {
                                 choice.results.push(parsedComponent);
                             } else {
@@ -1150,11 +1058,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 break;
             case "＠":
                 parserState.dialogue = true;
-                dialogue.speaker = parseDialogueSpeaker(
-                    region,
-                    line,
-                    parserState
-                );
+                dialogue.speaker = parseDialogueSpeaker(region, line, parserState);
                 break;
             case "？":
                 if (line[1] === "！") {
@@ -1169,22 +1073,14 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                     break;
                 }
 
-                const [routeDetail, optionText] = splitString(
-                    line.slice(1),
-                    "：",
-                    1
-                );
+                const [routeDetail, optionText] = splitString(line.slice(1), "：", 1);
                 const lineChoiceNumber = parseInt(routeDetail[0]);
                 if (lineChoiceNumber !== choice.id && choice.id !== -1) {
                     choices.push({ ...choice });
                 }
 
                 choice.id = lineChoiceNumber;
-                choice.option = parseDialogueLine(
-                    region,
-                    optionText,
-                    parserState
-                );
+                choice.option = parseDialogueLine(region, optionText, parserState);
                 choice.results = [];
                 if (routeDetail.includes(",")) {
                     const routeParams = routeDetail.split(",");

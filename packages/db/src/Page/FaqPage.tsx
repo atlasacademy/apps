@@ -1,22 +1,16 @@
-import { Region } from "@atlasacademy/api-connector";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+
+import { Region } from "@atlasacademy/api-connector";
+
 import Manager from "../Setting/Manager";
 import warFaq from "./Faq/War";
 
 import "./FaqPage.css";
 
-const FaqItem = ({
-    id,
-    title,
-    children,
-}: {
-    id: string;
-    title: string;
-    children?: React.ReactNode;
-}) => {
+const FaqItem = ({ id, title, children }: { id: string; title: string; children?: React.ReactNode }) => {
     return (
         <li id={id}>
             <b className="faq-link-hover-target">
@@ -64,9 +58,7 @@ const FaqPage = ({ region }: { region: Region }) => {
                         <ol>
                             {faq.subSections.map((subSection) => (
                                 <li key={subSection.id}>
-                                    <a href={`#${subSection.id}`}>
-                                        {subSection.title}
-                                    </a>
+                                    <a href={`#${subSection.id}`}>{subSection.title}</a>
                                 </li>
                             ))}
                         </ol>
@@ -85,11 +77,7 @@ const FaqPage = ({ region }: { region: Region }) => {
                         </span>
                         <ol>
                             {faq.subSections.map((subSection) => (
-                                <FaqItem
-                                    key={subSection.id}
-                                    id={subSection.id}
-                                    title={subSection.title}
-                                >
+                                <FaqItem key={subSection.id} id={subSection.id} title={subSection.title}>
                                     {subSection.content}
                                 </FaqItem>
                             ))}

@@ -1,6 +1,6 @@
-import {BattleCommandAction} from "./Action/BattleCommandAction";
-import {Battle} from "./Battle";
-import {BattleTeam} from "./Enum/BattleTeam";
+import { BattleCommandAction } from "./Action/BattleCommandAction";
+import { Battle } from "./Battle";
+import { BattleTeam } from "./Enum/BattleTeam";
 import BattleAdjustNpEvent from "./Event/BattleAdjustNpEvent";
 import BattleBuffEvent from "./Event/BattleBuffEvent";
 import BattleDamageEvent from "./Event/BattleDamageEvent";
@@ -17,11 +17,4 @@ const events = {
     BattleUnhandledEffectEvent,
 };
 
-export {
-    Battle,
-    BattleCommandAction,
-    BattleEvent,
-    BattleFactory,
-    BattleTeam,
-    events,
-}
+export { Battle, BattleCommandAction, BattleEvent, BattleFactory, BattleTeam, events };

@@ -1,8 +1,11 @@
-import {Region, Servant} from "@atlasacademy/api-connector";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import React from "react";
-import {formatNumber} from "../../Helper/OutputHelper";
-import HighchartsReact from 'highcharts-react-official';
-import Highcharts from 'highcharts';
+
+import { Region, Servant } from "@atlasacademy/api-connector";
+
+import { formatNumber } from "../../Helper/OutputHelper";
+
 import "./ServantStatGrowth.css";
 
 interface IProps {
@@ -13,7 +16,7 @@ interface IProps {
 class ServantStatGrowth extends React.Component<IProps> {
     render() {
         let { hpGrowth, lvMax, atkGrowth, growthCurve } = this.props.servant,
-            growthCurveName:string;
+            growthCurveName: string;
         switch (growthCurve) {
             case 1:
             case 2:
@@ -56,7 +59,9 @@ class ServantStatGrowth extends React.Component<IProps> {
         }
         return (
             <div>
-                <div className="growth-curve-name"><b>Growth Curve:</b> {growthCurveName}</div>
+                <div className="growth-curve-name">
+                    <b>Growth Curve:</b> {growthCurveName}
+                </div>
                 <HighchartsReact
                     highcharts={Highcharts}
                     options={{
@@ -66,66 +71,77 @@ class ServantStatGrowth extends React.Component<IProps> {
                                 crisp: false,
                                 getExtremesFromAll: true,
                                 marker: { enabled: false },
-                            }
+                            },
                         },
-                        series: [{
-                            type: 'line',
-                            data: hpGrowth,
-                            name: 'HP',
-                            yAxis: 0,
-                            tooltip: {
-                                pointFormatter: function () {
-                                    let { x, y } = (this as any);
-                                    return `HP: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : '') + `<br/>`
-                                }
-                            },
-                            zones: [
-                                {
-                                    value: hpGrowth[lvMax]
+                        series: [
+                            {
+                                type: "line",
+                                data: hpGrowth,
+                                name: "HP",
+                                yAxis: 0,
+                                tooltip: {
+                                    pointFormatter: function () {
+                                        let { x, y } = this as any;
+                                        return (
+                                            `HP: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : "") + `<br/>`
+                                        );
+                                    },
                                 },
-                                { color: '#C70039' }
-                            ],
-                            pointStart: 1
-                        }, {
-                            type: 'line',
-                            data: atkGrowth,
-                            name: 'ATK',
-                            yAxis: 0,
-                            tooltip: {
-                                pointFormatter: function () {
-                                    let { x, y } = (this as any);
-                                    return `ATK: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : '') + `<br/>`
-                                }
+                                zones: [
+                                    {
+                                        value: hpGrowth[lvMax],
+                                    },
+                                    { color: "#C70039" },
+                                ],
+                                pointStart: 1,
                             },
-                            zones: [
-                                {
-                                    value: atkGrowth[lvMax]
+                            {
+                                type: "line",
+                                data: atkGrowth,
+                                name: "ATK",
+                                yAxis: 0,
+                                tooltip: {
+                                    pointFormatter: function () {
+                                        let { x, y } = this as any;
+                                        return (
+                                            `ATK: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : "") + `<br/>`
+                                        );
+                                    },
                                 },
-                                { color: '#C70039' }
-                            ],
-                            pointStart: 1
-                        }],
+                                zones: [
+                                    {
+                                        value: atkGrowth[lvMax],
+                                    },
+                                    { color: "#C70039" },
+                                ],
+                                pointStart: 1,
+                            },
+                        ],
                         credits: false,
-                        chart: { zoomType: 'x' },
-                        xAxis: [{
-                            title: { text: 'Level' },
-                            crosshair: {
-                                dashStyle: "Dash",
-                            }
-                        }],
-                        yAxis: [{
-                            title: { text: undefined },
-                            min: 0
-                        }],
+                        chart: { zoomType: "x" },
+                        xAxis: [
+                            {
+                                title: { text: "Level" },
+                                crosshair: {
+                                    dashStyle: "Dash",
+                                },
+                            },
+                        ],
+                        yAxis: [
+                            {
+                                title: { text: undefined },
+                                min: 0,
+                            },
+                        ],
                         tooltip: {
                             shared: true,
                             useHTML: true,
                             headerFormat: '<span style="font-size: 12px">Level <b>{point.key}</b></span><br/>',
-                        }
+                        },
                     }}
-                    />
+                />
             </div>
-        )
+        );
     }
 }
 

@@ -1,6 +1,7 @@
-import {Profile, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import {Table} from "react-bootstrap";
+import { Table } from "react-bootstrap";
+
+import { Profile, Region } from "@atlasacademy/api-connector";
 
 interface IProps {
     region: Region;
@@ -19,26 +20,26 @@ class ServantProfileStats extends React.Component<IProps> {
 
                 <Table responsive>
                     <thead>
-                    <tr>
-                        <th>Strength</th>
-                        <th>Endurance</th>
-                        <th>Agility</th>
-                        <th>Magic</th>
-                        <th>Luck</th>
-                        <th>NP</th>
-                        <th>Divinity</th>
-                    </tr>
+                        <tr>
+                            <th>Strength</th>
+                            <th>Endurance</th>
+                            <th>Agility</th>
+                            <th>Magic</th>
+                            <th>Luck</th>
+                            <th>NP</th>
+                            <th>Divinity</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>{stats.strength}</td>
-                        <td>{stats.endurance}</td>
-                        <td>{stats.agility}</td>
-                        <td>{stats.magic}</td>
-                        <td>{stats.luck}</td>
-                        <td>{stats.np}</td>
-                        <td>{stats.deity}</td>
-                    </tr>
+                        <tr>
+                            <td>{stats.strength}</td>
+                            <td>{stats.endurance}</td>
+                            <td>{stats.agility}</td>
+                            <td>{stats.magic}</td>
+                            <td>{stats.luck}</td>
+                            <td>{stats.np}</td>
+                            <td>{stats.deity}</td>
+                        </tr>
                     </tbody>
                 </Table>
             </>

@@ -1,32 +1,22 @@
-import {
-    Region,
-    SupportServant,
-    CraftEssence,
-} from "@atlasacademy/api-connector";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import { Region, SupportServant, CraftEssence } from "@atlasacademy/api-connector";
+
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
-import {
-    describeEnemyNoblePhantasm,
-    describeEnemySkill,
-    renderDoubleRow,
-    renderSpanningRow,
-} from "./QuestEnemy";
+import { describeEnemyNoblePhantasm, describeEnemySkill, renderDoubleRow, renderSpanningRow } from "./QuestEnemy";
 
-import "./QuestEnemy.css";
 import "../Descriptor/Descriptor.css";
+import "./QuestEnemy.css";
 
-const SupportCraftEssenseLink = (props: {
-    region: Region;
-    craftEssence: CraftEssence.CraftEssence;
-}) => {
+const SupportCraftEssenseLink = (props: { region: Region; craftEssence: CraftEssence.CraftEssence }) => {
     const { region, craftEssence } = props;
     if (craftEssence.collectionNo === 0) {
         const faceUrl = craftEssence.extraAssets.equipFace.equip
@@ -34,17 +24,10 @@ const SupportCraftEssenseLink = (props: {
                 : undefined,
             title = `Story Support CE ${craftEssence.id}`;
         return (
-            <Link
-                to={`/${region}/enemy/${craftEssence.id}`}
-                className="descriptor-link"
-            >
+            <Link to={`/${region}/enemy/${craftEssence.id}`} className="descriptor-link">
                 {faceUrl !== undefined ? (
                     <>
-                        <img
-                            src={faceUrl}
-                            style={{ height: "1.5em" }}
-                            alt={title}
-                        />{" "}
+                        <img src={faceUrl} style={{ height: "1.5em" }} alt={title} />{" "}
                     </>
                 ) : null}
                 <span className="hover-text">
@@ -53,24 +36,17 @@ const SupportCraftEssenseLink = (props: {
             </Link>
         );
     }
-    return (
-        <CraftEssenceDescriptor region={region} craftEssence={craftEssence} />
-    );
+    return <CraftEssenceDescriptor region={region} craftEssence={craftEssence} />;
 };
 
-const SupportServantMainData = (props: {
-    region: Region;
-    supportServant: SupportServant.SupportServant;
-}) => {
+const SupportServantMainData = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
     const { region, supportServant } = props;
     const craftEssense = supportServant.equips[0];
     const craftEsseseSkills =
         craftEssense === undefined
             ? []
             : craftEssense.equip.skills.filter(
-                  (skill) =>
-                      craftEssense.lv >= skill.condLv &&
-                      craftEssense.limitCount >= skill.condLimitCount
+                  (skill) => craftEssense.lv >= skill.condLv && craftEssense.limitCount >= skill.condLimitCount
               );
     return (
         <Table bordered responsive className="quest-svt-data-table">
@@ -134,12 +110,8 @@ const SupportServantMainData = (props: {
                           title: "Craft Essense",
                           content: (
                               <>
-                                  <SupportCraftEssenseLink
-                                      region={region}
-                                      craftEssence={craftEssense.equip}
-                                  />{" "}
-                                  LB {craftEssense.limitCount} Lv.{" "}
-                                  {craftEssense.lv}
+                                  <SupportCraftEssenseLink region={region} craftEssence={craftEssense.equip} /> LB{" "}
+                                  {craftEssense.limitCount} Lv. {craftEssense.lv}
                               </>
                           ),
                       })
@@ -148,9 +120,7 @@ const SupportServantMainData = (props: {
                     ? renderSpanningRow({
                           title: "Craft Essense Skills",
                           content: mergeElements(
-                              craftEsseseSkills.map((skill) => (
-                                  <SkillPopover region={region} skill={skill} />
-                              )),
+                              craftEsseseSkills.map((skill) => <SkillPopover region={region} skill={skill} />),
                               <br />
                           ),
                       })
@@ -160,10 +130,7 @@ const SupportServantMainData = (props: {
     );
 };
 
-const SupportServantSubData = (props: {
-    region: Region;
-    supportServant: SupportServant.SupportServant;
-}) => {
+const SupportServantSubData = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
     const { region, supportServant } = props;
     const traitDescriptions = supportServant.traits.map((trait) => (
         <TraitDescription
@@ -202,10 +169,7 @@ const SupportServantSubData = (props: {
     );
 };
 
-const SupportServantTable = (props: {
-    region: Region;
-    supportServant: SupportServant.SupportServant;
-}) => {
+const SupportServantTable = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
     const { region, supportServant } = props;
     return (
         <>
@@ -214,46 +178,29 @@ const SupportServantTable = (props: {
                 <EntityDescriptor
                     region={region}
                     entity={supportServant.svt}
-                    overwriteName={
-                        supportServant.name === "NONE"
-                            ? supportServant.svt.name
-                            : supportServant.name
-                    }
+                    overwriteName={supportServant.name === "NONE" ? supportServant.svt.name : supportServant.name}
                     iconHeight={40}
                 />{" "}
                 <span className="quest-svt-lv">Lv. {supportServant.lv}</span>
             </h4>
             <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>
-                    <SupportServantMainData
-                        region={region}
-                        supportServant={supportServant}
-                    />
+                    <SupportServantMainData region={region} supportServant={supportServant} />
                 </Col>
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>
-                    <SupportServantSubData
-                        region={region}
-                        supportServant={supportServant}
-                    />
+                    <SupportServantSubData region={region} supportServant={supportServant} />
                 </Col>
             </Row>
         </>
     );
 };
 
-const SupportServantTables = (props: {
-    region: Region;
-    supportServants: SupportServant.SupportServant[];
-}) => {
+const SupportServantTables = (props: { region: Region; supportServants: SupportServant.SupportServant[] }) => {
     const { region, supportServants } = props;
     return (
         <>
             {supportServants.map((supportServant) => (
-                <SupportServantTable
-                    key={supportServant.id}
-                    region={region}
-                    supportServant={supportServant}
-                />
+                <SupportServantTable key={supportServant.id} region={region} supportServant={supportServant} />
             ))}
         </>
     );

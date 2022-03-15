@@ -8,7 +8,11 @@
     height: 100%;
 }
 
-.command-card-bg, .command-card-icon, .command-card-portrait, .command-card-text-card, .command-card-text-np {
+.command-card-bg,
+.command-card-icon,
+.command-card-portrait,
+.command-card-text-card,
+.command-card-text-np {
     height: 100%;
     left: 0;
     position: absolute;
@@ -20,7 +24,7 @@
         (170 - 130) / 170 / 2
         40 / 340
     **/
-    left: calc(40% / 3.40);
+    left: calc(40% / 3.4);
 }
 
 .command-card-icon {
@@ -41,13 +45,13 @@
     /**
         73 / 150
      */
-    height: calc(calc(73% / 1.50) - 10%);
+    height: calc(calc(73% / 1.5) - 10%);
     left: 10%;
     /**
         (150 - 73) / 150
         77 / 150
      */
-    top: calc(calc(77% / 1.50) + 8.5%);
+    top: calc(calc(77% / 1.5) + 8.5%);
     z-index: 2;
 }
 
@@ -60,7 +64,7 @@
     z-index: 2;
 }
 
-.command-card-text-np>img {
+.command-card-text-np > img {
     display: block;
     left: 0;
     position: absolute;
@@ -68,6 +72,6 @@
     width: 100%;
 }
 
-.command-card-text-np.bottom>img {
+.command-card-text-np.bottom > img {
     top: -100%;
 }

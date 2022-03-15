@@ -1,21 +1,21 @@
 {
-  "name": "db-og-worker",
-  "private": true,
-  "scripts": {
-    "build": "webpack",
-    "dev": "NODE_ENV=development npm run build"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@cloudflare/kv-asset-handler": "^0.2.0",
-    "@cloudflare/workers-types": "^3.4.0",
-    "@cloudflare/wrangler": "^1.19.8",
-    "prettier": "^2.5.1",
-    "rimraf": "^3.0.2",
-    "ts-loader": "^8.3.0",
-    "types-cloudflare-worker": "^1.2.0",
-    "typescript": "^4.5.5",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
-  }
+    "name": "db-og-worker",
+    "private": true,
+    "scripts": {
+        "build": "webpack",
+        "dev": "NODE_ENV=development npm run build"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@cloudflare/kv-asset-handler": "^0.2.0",
+        "@cloudflare/workers-types": "^3.4.0",
+        "@cloudflare/wrangler": "^1.19.8",
+        "prettier": "^2.5.1",
+        "rimraf": "^3.0.2",
+        "ts-loader": "^8.3.0",
+        "types-cloudflare-worker": "^1.2.0",
+        "typescript": "^4.5.5",
+        "webpack": "^4.46.0",
+        "webpack-cli": "^3.3.12"
+    }
 }

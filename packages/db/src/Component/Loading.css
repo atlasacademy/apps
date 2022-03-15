@@ -24,7 +24,7 @@
 #loading .fou.f3 {
     visibility: hidden;
     animation-delay: 0.25s;
-    -webkit-animation-delay: 0.50s;
+    -webkit-animation-delay: 0.5s;
 }
 #loading .fou.f4 {
     visibility: hidden;
@@ -33,9 +33,19 @@
 }
 
 @keyframes loading-animation {
-    0% {visibility: visible;}
-    25% {visibility: hidden;}
-    50% {visibility: hidden;}
-    75% {visibility: hidden;}
-    100% {visibility: hidden;}
+    0% {
+        visibility: visible;
+    }
+    25% {
+        visibility: hidden;
+    }
+    50% {
+        visibility: hidden;
+    }
+    75% {
+        visibility: hidden;
+    }
+    100% {
+        visibility: hidden;
+    }
 }

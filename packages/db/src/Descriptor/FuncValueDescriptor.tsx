@@ -1,6 +1,8 @@
-import {DataVal, Func, Region} from "@atlasacademy/api-connector";
-import {FuncDescriptor} from "@atlasacademy/api-descriptor";
 import React from "react";
+
+import { DataVal, Func, Region } from "@atlasacademy/api-connector";
+import { FuncDescriptor } from "@atlasacademy/api-descriptor";
+
 import Description from "./Description";
 
 interface IProps {
@@ -20,9 +22,7 @@ class FuncValueDescriptor extends React.Component<IProps> {
             this.props.hideRate
         );
 
-        return descriptor
-            ? <Description region={this.props.region} descriptor={descriptor}/>
-            : '-';
+        return descriptor ? <Description region={this.props.region} descriptor={descriptor} /> : "-";
     }
 }
 

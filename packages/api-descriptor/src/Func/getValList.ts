@@ -1,13 +1,8 @@
-import {DataVal, Func} from "@atlasacademy/api-connector";
+import { DataVal, Func } from "@atlasacademy/api-connector";
 
 export default function getValList(func: Func.Func, level?: number, overcharge?: number): DataVal.DataVal[] {
     if (level === undefined && overcharge === undefined) {
-        return func.svals.concat(
-            func.svals2 ?? [],
-            func.svals3 ?? [],
-            func.svals4 ?? [],
-            func.svals5 ?? [],
-        );
+        return func.svals.concat(func.svals2 ?? [], func.svals3 ?? [], func.svals4 ?? [], func.svals5 ?? []);
     }
 
     if (typeof level === "number" && overcharge === undefined) {

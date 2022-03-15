@@ -1,7 +1,9 @@
-import { Quest, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+
+import { Quest, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";

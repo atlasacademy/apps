@@ -1,5 +1,5 @@
-import { Trait } from "./Trait";
 import { Skill } from "./Skill";
+import { Trait } from "./Trait";
 
 export enum AiType {
     SVT = "svt",

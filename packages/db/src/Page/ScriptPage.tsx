@@ -1,21 +1,18 @@
-import { Region, Script } from "@atlasacademy/api-connector";
 import axios, { AxiosError } from "axios";
 import { createRef, useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
+
+import { Region, Script } from "@atlasacademy/api-connector";
+
 import Api, { AssetHost } from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import RawDataViewer from "../Component/RawDataViewer";
+import { countWord, parseScript, ScriptComponent, ScriptComponentType } from "../Component/Script";
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
-import Manager from "../Setting/Manager";
-import {
-    countWord,
-    parseScript,
-    ScriptComponent,
-    ScriptComponentType,
-} from "../Component/Script";
-import RawDataViewer from "../Component/RawDataViewer";
 import { fromEntries } from "../Helper/PolyFill";
+import Manager from "../Setting/Manager";
 import ScriptMainData from "./Script/ScriptMainData";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
@@ -39,20 +36,13 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | undefined>(undefined);
     const [script, setScript] = useState<string>("");
-    const [scriptData, setScriptData] = useState<Script.Script | undefined>(
-        undefined
-    );
-    const [enableScene, setEnableScene] = useState<boolean>(
-        Manager.scriptSceneEnabled()
-    );
+    const [scriptData, setScriptData] = useState<Script.Script | undefined>(undefined);
+    const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
 
     useEffect(() => {
         Manager.setRegion(region);
         setLoading(true);
-        Promise.all([
-            axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }),
-            Api.script(scriptId),
-        ])
+        Promise.all([axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }), Api.script(scriptId)])
             .then(([rawScript, scriptData]) => {
                 setScript(rawScript.data);
                 setScriptData(scriptData);
@@ -76,8 +66,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const addAudioUrls = (component: ScriptComponent) => {
         switch (component.type) {
             case ScriptComponentType.DIALOGUE:
-                if (component.voice !== undefined)
-                    audioUrls.push(component.voice.audioAsset);
+                if (component.voice !== undefined) audioUrls.push(component.voice.audioAsset);
                 hasDialogueLines = true;
                 break;
             case ScriptComponentType.SOUND_EFFECT:
@@ -100,9 +89,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         }
     }
 
-    const scrollRefs = new Map(
-        audioUrls.map((url) => [url, createRef<HTMLTableRowElement>()])
-    );
+    const scrollRefs = new Map(audioUrls.map((url) => [url, createRef<HTMLTableRowElement>()]));
     for (const component of parsedScript.components) {
         if (component.type === ScriptComponentType.LABEL) {
             scrollRefs.set(component.name, createRef<HTMLTableRowElement>());
@@ -141,9 +128,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                     {hasDialogueLines ? (
                         <VoiceLinePlayer
                             audioAssetUrls={audioUrls}
-                            delay={new Array(audioUrls.length)
-                                .fill(0)
-                                .fill(1, 1)}
+                            delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
                             title="voice lines"
                             showTitle
                             handleNavigateAssetUrl={scrollToRow}
@@ -155,18 +140,9 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                     >
                         Scene {enableScene ? "Enabled" : "Disabled"}
                     </Button>
-                    <RawDataViewer
-                        text="Parsed Script"
-                        data={fromEntries(showRawData)}
-                        block={false}
-                    />
+                    <RawDataViewer text="Parsed Script" data={fromEntries(showRawData)} block={false} />
                 </ButtonGroup>
-                <ScriptTable
-                    region={region}
-                    script={parsedScript}
-                    showScene={enableScene}
-                    refs={scrollRefs}
-                />
+                <ScriptTable region={region} script={parsedScript} showScene={enableScene} refs={scrollRefs} />
             </ScriptMainData>
         </>
     );

@@ -4,6 +4,6 @@
     margin-top: 10px;
 }
 
-.battle-actor-action-display>.action {
+.battle-actor-action-display > .action {
     flex: 0 1 auto !important;
 }

@@ -1,5 +1,7 @@
-import { CondType, Profile, Region } from "@atlasacademy/api-connector";
 import React from "react";
+
+import { CondType, Profile, Region } from "@atlasacademy/api-connector";
+
 import QuestDescriptor from "./QuestDescriptor";
 
 interface IProps {
@@ -13,11 +15,7 @@ class ProfileConditionDescriptor extends React.Component<IProps> {
 
         if (comment.condType === CondType.NONE) {
             return comment.additionalConds.length > 0 ? <></> : <>None</>;
-        } else if (
-            comment.condType === CondType.QUEST_CLEAR &&
-            comment.condValues &&
-            comment.condValues.length > 0
-        ) {
+        } else if (comment.condType === CondType.QUEST_CLEAR && comment.condValues && comment.condValues.length > 0) {
             return (
                 <>
                     <QuestDescriptor

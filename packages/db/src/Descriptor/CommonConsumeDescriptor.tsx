@@ -1,4 +1,5 @@
 import { CommonConsume, Item, Region } from "@atlasacademy/api-connector";
+
 import { IconDescriptorMap } from "./ItemDescriptor";
 
 const CommonConsumeDescriptor = ({
@@ -14,12 +15,8 @@ const CommonConsumeDescriptor = ({
         case CommonConsume.CommonConsumeType.ITEM:
             return (
                 <>
-                    <IconDescriptorMap
-                        region={region}
-                        itemId={commonConsume.objectId}
-                        items={itemMap}
-                    />{" "}
-                    x{commonConsume.num}
+                    <IconDescriptorMap region={region} itemId={commonConsume.objectId} items={itemMap} /> x
+                    {commonConsume.num}
                 </>
             );
     }

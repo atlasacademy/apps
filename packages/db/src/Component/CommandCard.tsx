@@ -1,5 +1,7 @@
-import {Card, Servant} from "@atlasacademy/api-connector";
 import React from "react";
+
+import { Card, Servant } from "@atlasacademy/api-connector";
+
 import card_bg_arts from "../Assets/card_bg_arts.png";
 import card_bg_buster from "../Assets/card_bg_buster.png";
 import card_bg_quick from "../Assets/card_bg_quick.png";
@@ -12,11 +14,7 @@ import card_txt_quick from "../Assets/card_txt_quick.png";
 
 import "./CommandCard.css";
 
-const supportedCardTypes = [
-    Card.ARTS,
-    Card.BUSTER,
-    Card.QUICK,
-];
+const supportedCardTypes = [Card.ARTS, Card.BUSTER, Card.QUICK];
 
 interface IProps {
     card: Card;
@@ -65,13 +63,15 @@ class CommandCard extends React.Component<IProps> {
             return <span>[Card: {this.props.card}]</span>;
         }
 
-        const height = this.props.height ?? '1em',
+        const height = this.props.height ?? "1em",
             portrait = this.getPortrait();
 
-        if (portrait === undefined)
-            return null;
+        if (portrait === undefined) return null;
 
-        let bg, icon, txt, np = false;
+        let bg,
+            icon,
+            txt,
+            np = false;
 
         switch (this.props.card) {
             case Card.ARTS:
@@ -96,20 +96,25 @@ class CommandCard extends React.Component<IProps> {
             np = true;
         }
 
-        return <span className={'command-card'} style={{height: height}}>
-            <img alt={''} className={'command-card-ratio'}
-                 src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
-            <img alt={`${this.props.card} Card Background`} className={'command-card-bg'} src={bg}/>
-            <img alt='Servant Portrait' className={'command-card-portrait'} src={portrait}/>
-            <img alt={`${this.props.card} Card Icon`} className={'command-card-icon'} src={icon}/>
-            {
-                np
-                    ? <div className={'command-card-text-np' + (this.props.npTextBottom ? ' bottom' : '')}>
-                        <img alt={`NP Name Text`} src={txt}/>
+        return (
+            <span className={"command-card"} style={{ height: height }}>
+                <img
+                    alt={""}
+                    className={"command-card-ratio"}
+                    src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                />
+                <img alt={`${this.props.card} Card Background`} className={"command-card-bg"} src={bg} />
+                <img alt="Servant Portrait" className={"command-card-portrait"} src={portrait} />
+                <img alt={`${this.props.card} Card Icon`} className={"command-card-icon"} src={icon} />
+                {np ? (
+                    <div className={"command-card-text-np" + (this.props.npTextBottom ? " bottom" : "")}>
+                        <img alt={`NP Name Text`} src={txt} />
                     </div>
-                    : <img className={'command-card-text-card'} alt={`${this.props.card} Card Text`} src={txt}/>
-            }
-        </span>;
+                ) : (
+                    <img className={"command-card-text-card"} alt={`${this.props.card} Card Text`} src={txt} />
+                )}
+            </span>
+        );
     }
 }
 

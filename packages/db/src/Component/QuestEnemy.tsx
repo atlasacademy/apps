@@ -1,35 +1,24 @@
-import { toTitleCase } from "@atlasacademy/api-descriptor";
-import {
-    Alert,
-    Button,
-    Col,
-    OverlayTrigger,
-    Row,
-    Table,
-    Tooltip,
-} from "react-bootstrap";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import quantile from "@stdlib/stats-base-dists-t-quantile";
+import { Alert, Button, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
+
+import { QuestEnemy, Region, Skill, NoblePhantasm, Ai } from "@atlasacademy/api-connector";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
+
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
+import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import NoblePhantasmPopover from "../Descriptor/NoblePhantasmPopover";
 import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { asPercent, mergeElements, Renderable } from "../Helper/OutputHelper";
 import { ordinalNumeral } from "../Helper/StringHelper";
+
 import "./MoveButton.css";
 import "./QuestEnemy.css";
-import {
-    QuestEnemy,
-    Region,
-    Skill,
-    NoblePhantasm,
-    Ai,
-} from "@atlasacademy/api-connector";
-import GiftDescriptor from "../Descriptor/GiftDescriptor";
 
 type RenderableRow = {
     title: Renderable;
@@ -38,12 +27,9 @@ type RenderableRow = {
 
 type EnemyLookUp = Map<string, QuestEnemy.QuestEnemy>;
 
-export const hashEnemy = (enemy: QuestEnemy.QuestEnemy) =>
-    `${enemy.deck}-${enemy.npcId}`;
+export const hashEnemy = (enemy: QuestEnemy.QuestEnemy) => `${enemy.deck}-${enemy.npcId}`;
 
-export function renderDoubleRow(
-    content: [RenderableRow, RenderableRow]
-): Renderable {
+export function renderDoubleRow(content: [RenderableRow, RenderableRow]): Renderable {
     return (
         <tr>
             <th>{content[0].title}</th>
@@ -63,12 +49,7 @@ export function renderSpanningRow(content: RenderableRow): Renderable {
     );
 }
 
-export function describeEnemySkill(
-    region: Region,
-    skillId: number,
-    skillLv: number,
-    skill?: Skill.Skill
-) {
+export function describeEnemySkill(region: Region, skillId: number, skillLv: number, skill?: Skill.Skill) {
     if (skillId === 0) {
         return "None";
     } else {
@@ -96,11 +77,7 @@ export function describeEnemyNoblePhantasm(
         if (noblePhantasm !== undefined) {
             return (
                 <>
-                    <NoblePhantasmPopover
-                        region={region}
-                        noblePhantasm={noblePhantasm}
-                    />{" "}
-                    Lv. {noblePhantasmLv}
+                    <NoblePhantasmPopover region={region} noblePhantasm={noblePhantasm} /> Lv. {noblePhantasmLv}
                 </>
             );
         } else {
@@ -110,9 +87,7 @@ export function describeEnemyNoblePhantasm(
 }
 
 function describeMultipleSkills(region: Region, skills: Skill.Skill[]) {
-    const skillDescriptions = skills.map((skill) => (
-        <SkillPopover region={region} skill={skill} />
-    ));
+    const skillDescriptions = skills.map((skill) => <SkillPopover region={region} skill={skill} />);
     return mergeElements(skillDescriptions, <br />);
 }
 
@@ -128,16 +103,8 @@ function EnemyNpcDescription(props: {
     const enemy = props.enemyLookUp.get(hash);
     if (enemy !== undefined) {
         return (
-            <Button
-                variant="link"
-                className="move-button"
-                onClick={() => props.handleNavigateEnemyHash?.(hash)}
-            >
-                {enemy.deckId}.{" "}
-                <ClassIcon
-                    className={enemy.svt.className}
-                    rarity={enemy.svt.rarity}
-                />{" "}
+            <Button variant="link" className="move-button" onClick={() => props.handleNavigateEnemyHash?.(hash)}>
+                {enemy.deckId}. <ClassIcon className={enemy.svt.className} rarity={enemy.svt.rarity} />{" "}
                 <FaceIcon
                     type={enemy.svt.type}
                     rarity={enemy.svt.rarity}
@@ -171,10 +138,7 @@ function EnemyNpcListDescription(props: {
     return <>{mergeElements(enemyDescriptions, <br />)}</>;
 }
 
-const QuestEnemyMainData = (props: {
-    region: Region;
-    enemy: QuestEnemy.QuestEnemy;
-}) => {
+const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnemy }) => {
     const region = props.region,
         enemy = props.enemy;
     return (
@@ -197,9 +161,7 @@ const QuestEnemyMainData = (props: {
                 {renderDoubleRow([
                     {
                         title: "NP bar",
-                        content: `${enemy.chargeTurn} bar${
-                            enemy.chargeTurn > 1 ? "s" : ""
-                        }`,
+                        content: `${enemy.chargeTurn} bar${enemy.chargeTurn > 1 ? "s" : ""}`,
                     },
                     {
                         title: "NP gain mod",
@@ -263,19 +225,13 @@ const QuestEnemyMainData = (props: {
                 {enemy.classPassive.classPassive.length > 0
                     ? renderSpanningRow({
                           title: "Class Passive",
-                          content: describeMultipleSkills(
-                              region,
-                              enemy.classPassive.classPassive
-                          ),
+                          content: describeMultipleSkills(region, enemy.classPassive.classPassive),
                       })
                     : null}
                 {enemy.classPassive.addPassive.length > 0
                     ? renderSpanningRow({
                           title: "Extra Passive",
-                          content: describeMultipleSkills(
-                              region,
-                              enemy.classPassive.addPassive
-                          ),
+                          content: describeMultipleSkills(region, enemy.classPassive.addPassive),
                       })
                     : null}
             </tbody>
@@ -292,11 +248,7 @@ const QuestEnemySubData = (props: {
     const region = props.region,
         enemy = props.enemy;
     const traitDescriptions = enemy.traits.map((trait) => (
-        <TraitDescription
-            region={region}
-            trait={trait}
-            overrideTraits={[{ id: enemy.svt.id, name: `Self` }]}
-        />
+        <TraitDescription region={region} trait={trait} overrideTraits={[{ id: enemy.svt.id, name: `Self` }]} />
     ));
     return (
         <Table bordered responsive className="quest-svt-data-table">
@@ -339,9 +291,7 @@ const QuestEnemySubData = (props: {
                                   npcIds={enemy.enemyScript.call}
                                   deck={QuestEnemy.DeckType.CALL}
                                   enemyLookUp={props.enemyLookUp}
-                                  handleNavigateEnemyHash={
-                                      props.handleNavigateEnemyHash
-                                  }
+                                  handleNavigateEnemyHash={props.handleNavigateEnemyHash}
                               />
                           ),
                       })
@@ -355,9 +305,7 @@ const QuestEnemySubData = (props: {
                                   npcIds={enemy.enemyScript.shift}
                                   deck={QuestEnemy.DeckType.SHIFT}
                                   enemyLookUp={props.enemyLookUp}
-                                  handleNavigateEnemyHash={
-                                      props.handleNavigateEnemyHash
-                                  }
+                                  handleNavigateEnemyHash={props.handleNavigateEnemyHash}
                               />
                           ),
                       })
@@ -371,9 +319,7 @@ const QuestEnemySubData = (props: {
                                   npcIds={enemy.enemyScript.change}
                                   deck={QuestEnemy.DeckType.CHANGE}
                                   enemyLookUp={props.enemyLookUp}
-                                  handleNavigateEnemyHash={
-                                      props.handleNavigateEnemyHash
-                                  }
+                                  handleNavigateEnemyHash={props.handleNavigateEnemyHash}
                               />
                           ),
                       })
@@ -390,17 +336,9 @@ const QuestEnemySubData = (props: {
 };
 
 const numToPct = (value: number) =>
-    value < 1
-        ? `${(value * 100).toFixed(2)}%`
-        : `${Math.round(value * 100).toLocaleString()}%`;
+    value < 1 ? `${(value * 100).toFixed(2)}%` : `${Math.round(value * 100).toLocaleString()}%`;
 
-export const QuestDropDescriptor = ({
-    region,
-    drops,
-}: {
-    region: Region;
-    drops: QuestEnemy.EnemyDrop[];
-}) => {
+export const QuestDropDescriptor = ({ region, drops }: { region: Region; drops: QuestEnemy.EnemyDrop[] }) => {
     return (
         <Alert variant="success">
             <ul style={{ marginBottom: 0 }}>
@@ -413,9 +351,7 @@ export const QuestDropDescriptor = ({
                     let ciText = <></>;
                     if (drop.runs > 1) {
                         const c = quantile(0.975, drop.runs - 1);
-                        const stdDevOverRuns = Math.sqrt(
-                            drop.dropVariance / drop.runs
-                        );
+                        const stdDevOverRuns = Math.sqrt(drop.dropVariance / drop.runs);
                         const lower = drop.dropExpected - c * stdDevOverRuns;
                         const upper = drop.dropExpected + c * stdDevOverRuns;
                         ciText = (
@@ -426,12 +362,8 @@ export const QuestDropDescriptor = ({
                         );
                     }
                     const tooltip = (
-                        <Tooltip
-                            id={`drop-detail-tooltip`}
-                            style={{ fontSize: "1em" }}
-                        >
-                            {drop.dropCount.toLocaleString()} drops /{" "}
-                            {drop.runs.toLocaleString()} runs
+                        <Tooltip id={`drop-detail-tooltip`} style={{ fontSize: "1em" }}>
+                            {drop.dropCount.toLocaleString()} drops / {drop.runs.toLocaleString()} runs
                             {ciText}
                         </Tooltip>
                     );
@@ -479,9 +411,7 @@ const QuestEnemyTable = (props: {
                               region={region}
                               hash={call.caller}
                               enemyLookUp={props.enemyLookUp}
-                              handleNavigateEnemyHash={
-                                  props.handleNavigateEnemyHash
-                              }
+                              handleNavigateEnemyHash={props.handleNavigateEnemyHash}
                           />
                       </li>
                   ))
@@ -492,17 +422,13 @@ const QuestEnemyTable = (props: {
             ? props.shiftEntries
                   .filter((shift) => shift.shiftTo === enemy.npcId)
                   .map((shift) => (
-                      <li
-                          key={`${shift.shiftFrom}-${shift.shiftTo}-${shift.index}`}
-                      >
+                      <li key={`${shift.shiftFrom}-${shift.shiftTo}-${shift.index}`}>
                           {ordinalNumeral(shift.index + 2)} break bar of{" "}
                           <EnemyNpcDescription
                               region={region}
                               hash={shift.shiftFrom}
                               enemyLookUp={props.enemyLookUp}
-                              handleNavigateEnemyHash={
-                                  props.handleNavigateEnemyHash
-                              }
+                              handleNavigateEnemyHash={props.handleNavigateEnemyHash}
                           />
                       </li>
                   ))
@@ -513,17 +439,13 @@ const QuestEnemyTable = (props: {
             ? props.changeEntries
                   .filter((change) => change.shiftTo === enemy.npcId)
                   .map((change) => (
-                      <li
-                          key={`${change.shiftFrom}-${change.shiftTo}-${change.index}`}
-                      >
+                      <li key={`${change.shiftFrom}-${change.shiftTo}-${change.index}`}>
                           {ordinalNumeral(change.index + 1)} transformation of{" "}
                           <EnemyNpcDescription
                               region={region}
                               hash={change.shiftFrom}
                               enemyLookUp={props.enemyLookUp}
-                              handleNavigateEnemyHash={
-                                  props.handleNavigateEnemyHash
-                              }
+                              handleNavigateEnemyHash={props.handleNavigateEnemyHash}
                           />
                       </li>
                   ))
@@ -533,12 +455,7 @@ const QuestEnemyTable = (props: {
         <>
             <h3>
                 {enemy.deckId}.{" "}
-                <EntityDescriptor
-                    region={region}
-                    entity={enemy.svt}
-                    overwriteName={enemy.name}
-                    iconHeight={40}
-                />{" "}
+                <EntityDescriptor region={region} entity={enemy.svt} overwriteName={enemy.name} iconHeight={40} />{" "}
                 <span className="quest-svt-lv">Lv. {enemy.lv}</span>
             </h3>
             <ul>
@@ -547,9 +464,7 @@ const QuestEnemyTable = (props: {
                 {changeOriginDescription}
             </ul>
 
-            {enemy.drops.length > 0 ? (
-                <QuestDropDescriptor region={region} drops={enemy.drops} />
-            ) : null}
+            {enemy.drops.length > 0 ? <QuestDropDescriptor region={region} drops={enemy.drops} /> : null}
 
             <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>

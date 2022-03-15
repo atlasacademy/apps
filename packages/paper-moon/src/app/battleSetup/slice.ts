@@ -1,6 +1,8 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {BattleTeam} from "@atlasacademy/battle";
-import {BattleSetupOptionList, BattleSetupState} from "./types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { BattleTeam } from "@atlasacademy/battle";
+
+import { BattleSetupOptionList, BattleSetupState } from "./types";
 
 const initialState: BattleSetupState = {
     pending: true,
@@ -11,7 +13,7 @@ const initialState: BattleSetupState = {
 };
 
 export const battleSetupSlice = createSlice({
-    name: 'battleSetup',
+    name: "battleSetup",
     initialState,
     reducers: {
         setCanAddActor: (state, action: PayloadAction<boolean>) => {
@@ -31,6 +33,6 @@ export const battleSetupSlice = createSlice({
         },
         selectTeam: (state, action: PayloadAction<BattleTeam>) => {
             state.selectedTeam = action.payload;
-        }
-    }
-})
+        },
+    },
+});

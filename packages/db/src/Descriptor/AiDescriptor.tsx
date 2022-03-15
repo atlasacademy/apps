@@ -1,7 +1,10 @@
-import { Region, Ai } from "@atlasacademy/api-connector";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import { Region, Ai } from "@atlasacademy/api-connector";
+
 import { Renderable, mergeElements } from "../Helper/OutputHelper";
+
 import "./Descriptor.css";
 
 interface IProps {
@@ -18,20 +21,12 @@ class AiDescriptor extends React.Component<IProps> {
         return `[${aiType} - ${id}]`;
     }
 
-    static renderParentAiLinks(
-        region: Region,
-        aiLinks?: Record<Ai.AiType, number[]>
-    ): Renderable {
+    static renderParentAiLinks(region: Region, aiLinks?: Record<Ai.AiType, number[]>): Renderable {
         if (aiLinks) {
             let links: Renderable[] = [];
-            for (let [aiType, ids] of Object.entries(aiLinks) as [
-                Ai.AiType,
-                number[]
-            ][]) {
+            for (let [aiType, ids] of Object.entries(aiLinks) as [Ai.AiType, number[]][]) {
                 for (let id of ids) {
-                    links.push(
-                        <AiDescriptor region={region} aiType={aiType} id={id} />
-                    );
+                    links.push(<AiDescriptor region={region} aiType={aiType} id={id} />);
                 }
             }
             return mergeElements(links, " ");
@@ -55,11 +50,7 @@ class AiDescriptor extends React.Component<IProps> {
             baseUrl += `?${searchParams.toString()}`;
         }
 
-        return (
-            <Link to={baseUrl}>
-                {AiDescriptor.renderAsString(this.props.aiType, this.props.id)}
-            </Link>
-        );
+        return <Link to={baseUrl}>{AiDescriptor.renderAsString(this.props.aiType, this.props.id)}</Link>;
     }
 }
 

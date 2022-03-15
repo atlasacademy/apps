@@ -1,5 +1,7 @@
-import Card from "@atlasacademy/api-connector/dist/Enum/Card";
 import React from "react";
+
+import Card from "@atlasacademy/api-connector/dist/Enum/Card";
+
 import card_icon_arts from "../Assets/card_icon_arts.png";
 import card_icon_buster from "../Assets/card_icon_buster.png";
 import card_icon_quick from "../Assets/card_icon_quick.png";
@@ -10,12 +12,7 @@ import card_txt_quick from "../Assets/card_txt_quick.png";
 
 import "./CardType.css";
 
-const supportedCardTypes = [
-    Card.ARTS,
-    Card.BUSTER,
-    Card.QUICK,
-    Card.EXTRA,
-];
+const supportedCardTypes = [Card.ARTS, Card.BUSTER, Card.QUICK, Card.EXTRA];
 
 interface IProps {
     card: Card;
@@ -28,8 +25,8 @@ class CardType extends React.Component<IProps> {
             return `[Card: ${this.props.card}]`;
         }
 
-        const height = this.props.height ?? '2em',
-            classNames = ['card-type'];
+        const height = this.props.height ?? "2em",
+            classNames = ["card-type"];
 
         let icon = undefined,
             txt = undefined;
@@ -48,17 +45,22 @@ class CardType extends React.Component<IProps> {
                 txt = card_txt_quick;
                 break;
             case Card.EXTRA:
-                classNames.push('extra');
+                classNames.push("extra");
                 txt = card_txt_extra;
                 break;
         }
 
-        return <span className={classNames.join(' ')} style={{height: height}}>
-            <img alt={''} className={'card-type-ratio'}
-                 src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
-            {icon ? <img alt={`${this.props.card} Card Icon`} className={'card-type-icon'} src={icon}/> : null}
-            <img alt={`${this.props.card} Card Text`} className={'card-type-text'} src={txt}/>
-        </span>;
+        return (
+            <span className={classNames.join(" ")} style={{ height: height }}>
+                <img
+                    alt={""}
+                    className={"card-type-ratio"}
+                    src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                />
+                {icon ? <img alt={`${this.props.card} Card Icon`} className={"card-type-icon"} src={icon} /> : null}
+                <img alt={`${this.props.card} Card Text`} className={"card-type-text"} src={txt} />
+            </span>
+        );
     }
 }
 

@@ -1,9 +1,11 @@
-import Api from "../Api";
-import EffectBreakdownLines from "./EffectBreakdownLines";
-import { NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
-import Manager from '../Setting/Manager';
-import { isPlayerSideFunction } from '../Helper/FuncHelper'
 import React from "react";
+
+import { NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
+
+import Api from "../Api";
+import { isPlayerSideFunction } from "../Helper/FuncHelper";
+import Manager from "../Setting/Manager";
+import EffectBreakdownLines from "./EffectBreakdownLines";
 
 interface IProps {
     region: Region;
@@ -29,9 +31,7 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
 
     async componentDidMount() {
         if (this.props.isNp) {
-            Api.noblePhantasm(this.props.id).then((np) =>
-                this.setState({ noblePhantasm: np })
-            );
+            Api.noblePhantasm(this.props.id).then((np) => this.setState({ noblePhantasm: np }));
         } else {
             Api.skill(this.props.id).then((skill) => this.setState({ skill }));
         }
@@ -39,16 +39,14 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
 
     render() {
         let hasNp = this.props.isNp && this.state.noblePhantasm !== undefined;
-        let functions = hasNp
-            ? this.state.noblePhantasm?.functions
-            : this.state.skill?.functions;
+        let functions = hasNp ? this.state.noblePhantasm?.functions : this.state.skill?.functions;
 
         if (functions) {
             let hideEnemy = Manager.hideEnemyFunctions();
-            functions = functions.filter(func => {
+            functions = functions.filter((func) => {
                 if (!hideEnemy) return true;
                 return isPlayerSideFunction(func);
-            })
+            });
         }
 
         if (hasNp) {

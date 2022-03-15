@@ -1,4 +1,5 @@
 import { Item, Region, Shop } from "@atlasacademy/api-connector";
+
 import { CommandCodeDescriptorId } from "../Descriptor/CommandCodeDescriptor";
 import CostumeDescriptor from "../Descriptor/CostumeDescriptor";
 import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
@@ -16,39 +17,20 @@ export default function ShopPurchaseDescriptor(props: {
         target = shop.targetIds[0];
     switch (shop.purchaseType) {
         case Shop.PurchaseType.ITEM:
-            return (
-                <IconDescriptorMap
-                    region={region}
-                    itemId={target}
-                    height={40}
-                    items={props.itemMap}
-                />
-            );
+            return <IconDescriptorMap region={region} itemId={target} height={40} items={props.itemMap} />;
         case Shop.PurchaseType.FRIEND_GACHA:
             return <>Friend Point</>;
         case Shop.PurchaseType.SERVANT:
             return <EntityReferenceDescriptor region={region} svtId={target} />;
         case Shop.PurchaseType.SET_ITEM:
             if (shop.itemSet.length === 1) {
-                return (
-                    <ItemSetDescriptor
-                        region={region}
-                        itemSet={shop.itemSet[0]}
-                        itemMap={props.itemMap}
-                    />
-                );
+                return <ItemSetDescriptor region={region} itemSet={shop.itemSet[0]} itemMap={props.itemMap} />;
             } else {
                 return (
                     <ul>
                         {shop.itemSet.map((itemSet) => (
-                            <li
-                                key={`${itemSet.id}-${itemSet.purchaseType}-${itemSet.targetId}-${itemSet.setNum}`}
-                            >
-                                <ItemSetDescriptor
-                                    region={region}
-                                    itemSet={itemSet}
-                                    itemMap={props.itemMap}
-                                />
+                            <li key={`${itemSet.id}-${itemSet.purchaseType}-${itemSet.targetId}-${itemSet.setNum}`}>
+                                <ItemSetDescriptor region={region} itemSet={itemSet} itemMap={props.itemMap} />
                             </li>
                         ))}
                     </ul>
@@ -60,8 +42,7 @@ export default function ShopPurchaseDescriptor(props: {
         case Shop.PurchaseType.EVENT_SVT_GET:
             return (
                 <>
-                    <EntityReferenceDescriptor region={region} svtId={target} />{" "}
-                    joins
+                    <EntityReferenceDescriptor region={region} svtId={target} /> joins
                 </>
             );
         case Shop.PurchaseType.MANA_SHOP:
@@ -76,12 +57,7 @@ export default function ShopPurchaseDescriptor(props: {
             const costumeLimit = target % 100;
             return (
                 <>
-                    <CostumeDescriptor
-                        region={region}
-                        servantId={servantId}
-                        costumeLimit={costumeLimit}
-                    />{" "}
-                    Unlocked
+                    <CostumeDescriptor region={region} servantId={servantId} costumeLimit={costumeLimit} /> Unlocked
                 </>
             );
         // case Shop.PurchaseType.BGM_RELEASE:

@@ -1,6 +1,8 @@
-import {MysticCode, Region} from "@atlasacademy/api-connector";
-import {Host} from "../../Api";
 import React from "react";
+
+import { MysticCode, Region } from "@atlasacademy/api-connector";
+
+import { Host } from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 
@@ -17,20 +19,21 @@ class MysticCodeMainData extends React.Component<IProps> {
 
         return (
             <div>
-                <h1>
-                    {mysticCode.name}
-                </h1>
+                <h1>{mysticCode.name}</h1>
 
-                <DataTable data={{
-                    "ID": mysticCode.id,
-                    "Name": mysticCode.name,
-                    "Detail": <span className="newline">{mysticCode.detail}</span>,
-                }}/>
+                <DataTable
+                    data={{
+                        ID: mysticCode.id,
+                        Name: mysticCode.name,
+                        Detail: <span className="newline">{mysticCode.detail}</span>,
+                    }}
+                />
                 <span>
-                    <RawDataViewer text="Nice" data={mysticCode}/>
+                    <RawDataViewer text="Nice" data={mysticCode} />
                     <RawDataViewer
                         text="Raw"
-                        data={`${Host}/raw/${this.props.region}/MC/${mysticCode.id}?expand=true`}/>
+                        data={`${Host}/raw/${this.props.region}/MC/${mysticCode.id}?expand=true`}
+                    />
                 </span>
             </div>
         );

@@ -1,8 +1,10 @@
-import {CraftEssence, Entity, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import {mergeElements} from "../../Helper/OutputHelper";
-import {Alert} from "react-bootstrap";
+import { Alert } from "react-bootstrap";
+
+import { CraftEssence, Entity, Region } from "@atlasacademy/api-connector";
+
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
+import { mergeElements } from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
@@ -11,13 +13,11 @@ interface IProps {
 
 class CraftEssenceAssets extends React.Component<IProps> {
     private flattenAssets(assetMap: Entity.EntityAssetMap | undefined): string[] {
-        if (!assetMap)
-            return [];
+        if (!assetMap) return [];
 
         const assets = [];
 
-        if (assetMap.equip)
-            assets.push(...Object.values(assetMap.equip));
+        if (assetMap.equip) assets.push(...Object.values(assetMap.equip));
 
         return assets;
     }
@@ -26,10 +26,12 @@ class CraftEssenceAssets extends React.Component<IProps> {
         const assets = this.flattenAssets(assetMap);
 
         return mergeElements(
-            assets.map(asset => <a href={asset} target={'_blank'} rel={'noopener noreferrer'}>
-                <img alt={''} src={asset} style={{maxWidth: "100%"}}/>
-            </a>),
-            ''
+            assets.map((asset) => (
+                <a href={asset} target={"_blank"} rel={"noopener noreferrer"}>
+                    <img alt={""} src={asset} style={{ maxWidth: "100%" }} />
+                </a>
+            )),
+            ""
         );
     }
 
@@ -43,23 +45,17 @@ class CraftEssenceAssets extends React.Component<IProps> {
                     />
                 </Alert>
                 <h3>Portraits</h3>
-                <div>
-                    {this.displayAssets(this.props.craftEssence.extraAssets.charaGraph)}
-                </div>
+                <div>{this.displayAssets(this.props.craftEssence.extraAssets.charaGraph)}</div>
 
-                <hr/>
+                <hr />
 
                 <h3>Formation</h3>
-                <div>
-                    {this.displayAssets(this.props.craftEssence.extraAssets.equipFace)}
-                </div>
+                <div>{this.displayAssets(this.props.craftEssence.extraAssets.equipFace)}</div>
 
-                <hr/>
+                <hr />
 
                 <h3>Thumbnail</h3>
-                <div>
-                    {this.displayAssets(this.props.craftEssence.extraAssets.faces)}
-                </div>
+                <div>{this.displayAssets(this.props.craftEssence.extraAssets.faces)}</div>
             </div>
         );
     }

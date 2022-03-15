@@ -1,10 +1,11 @@
-import {expect} from 'chai';
-import {BattleRandomType} from "../../../../src/BattleRandom";
-import {randomAttack} from "../../../../src/Func/Implementations/getDamageList";
-import {createBattle} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList randomAttack', () => {
-    it('test range', async () => {
+import { BattleRandomType } from "../../../../src/BattleRandom";
+import { randomAttack } from "../../../../src/Func/Implementations/getDamageList";
+import { createBattle } from "../../../helpers";
+
+describe("getDamageList randomAttack", () => {
+    it("test range", async () => {
         const battle = createBattle();
 
         battle.random().setType(BattleRandomType.LOW);

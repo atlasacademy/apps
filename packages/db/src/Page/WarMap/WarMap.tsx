@@ -1,11 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+
 import { War, Region } from "@atlasacademy/api-connector";
 
-import './WarMap.css';
+import "./WarMap.css";
 
 interface IProps {
-    region: Region
+    region: Region;
     map: War.Map;
     spots: War.Spot[];
     warName: string;
@@ -17,46 +18,40 @@ interface IState {
     mapImage?: string;
 }
 
-const overrideMaps = [ 9010, 9011, 9012, 9053, 9054, 9088, 9089, 9090, 9056, 9057, 9058, 9059, 9060, 9080, 9081, 9082, 9083, 9084 ];
+const overrideMaps = [
+    9010, 9011, 9012, 9053, 9054, 9088, 9089, 9090, 9056, 9057, 9058, 9059, 9060, 9080, 9081, 9082, 9083, 9084,
+];
 
-const SpotRoad = ({ map, region, srcSpotId, spotRoads }: {
-    map: War.Map,
-    region: Region,
-    srcSpotId: number,
-    spotRoads: War.SpotRoad[],
-}) => {
-    const roads = spotRoads.filter(road => road.srcSpotId);
-};
-
-const WarSpot = ({ map, region, spot, }: {
-    map: War.Map,
-    region: Region,
-    spot: War.Spot,
-}) => {
-    const firstFreeQuestId = spot.quests.find((quest) => quest.afterClear === 'repeatLast')!.id;
-    return (spot.x < 99999 && spot.y < 99999) ? (
+const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
+    const firstFreeQuestId = spot.quests.find((quest) => quest.afterClear === "repeatLast")!.id;
+    return spot.x < 99999 && spot.y < 99999 ? (
         <Link to={`/${region}/quest/${firstFreeQuestId}`}>
-            <figure className='warspot-fig' style={{ top: `${ 100 * (spot.y + spot.questOfsY + spot.nameOfsY) / map.mapImageH + 2 }%`, left: `${100 * (spot.x + spot.questOfsX + spot.nameOfsX) / map.mapImageW -2 }%` }} >
-                <img alt={spot.name} src={spot.image} className='warspot-img' />
-                <figcaption className='spot-name' > {spot.name} </figcaption>
+            <figure
+                className="warspot-fig"
+                style={{
+                    top: `${(100 * (spot.y + spot.questOfsY + spot.nameOfsY)) / map.mapImageH + 2}%`,
+                    left: `${(100 * (spot.x + spot.questOfsX + spot.nameOfsX)) / map.mapImageW - 2}%`,
+                }}
+            >
+                <img alt={spot.name} src={spot.image} className="warspot-img" />
+                <figcaption className="spot-name"> {spot.name} </figcaption>
             </figure>
         </Link>
-        ) : null;
+    ) : null;
 };
 
 class WarMap extends React.Component<IProps, IState> {
     mapImage: string;
-    constructor (props: IProps) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             isMapLoaded: true,
-        }
-        this.mapImage = this.props.map.mapImage ?? '';
+        };
+        this.mapImage = this.props.map.mapImage ?? "";
     }
-    overrideMap (mapId: number) {
+    overrideMap(mapId: number) {
         let mapImage;
         switch (mapId) {
-
             case 9010: // fallthrough: corresponding map images are same across reruns of the same event
             case 9053:
             case 9088:
@@ -100,32 +95,41 @@ class WarMap extends React.Component<IProps, IState> {
                 break;
 
             default:
-                mapImage = '';break;
-        };
+                mapImage = "";
+                break;
+        }
         this.mapImage = mapImage;
     }
-    render () {
+    render() {
         let mapImageElement = null;
         if (overrideMaps.includes(this.props.map.id)) {
             this.overrideMap(this.props.map.id);
         }
         mapImageElement = (
             <img
-                className='warmap'
+                className="warmap"
                 alt={`${this.props.warName} map ${this.props.map.id}`}
                 src={this.mapImage}
-                onError={() => {this.setState({ isMapLoaded: false }); console.log('error')}}
+                onError={() => {
+                    this.setState({ isMapLoaded: false });
+                    console.log("error");
+                }}
                 style={{ aspectRatio: `${this.props.map.mapImageW}/${this.props.map.mapImageH}` }}
             />
         );
         return (
-        <div className='warmap-parent' >
-            <div className='warmap-container' >
-                { this.state.isMapLoaded ? mapImageElement : <p> { 'Map unavailable for this war.' } </p> }
-                { this.state.isMapLoaded ? this.props.spots.map((spot) => <WarSpot key={spot.id} map={this.props.map} region={this.props.region} spot={spot} />) : null }
+            <div className="warmap-parent">
+                <div className="warmap-container">
+                    {this.state.isMapLoaded ? mapImageElement : <p> {"Map unavailable for this war."} </p>}
+                    {this.state.isMapLoaded
+                        ? this.props.spots.map((spot) => (
+                              <WarSpot key={spot.id} map={this.props.map} region={this.props.region} spot={spot} />
+                          ))
+                        : null}
+                </div>
             </div>
-        </div>)
+        );
     }
-};
+}
 
 export default WarMap;

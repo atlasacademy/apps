@@ -1,16 +1,19 @@
-import { Region, Script } from "@atlasacademy/api-connector";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import { useState, useEffect } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
+
+import { Region, Script } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
+
 import "./ScriptsPage.css";
 
 const stateCache = new Map<
@@ -33,12 +36,8 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         location = useLocation(),
         searchParams = new URLSearchParams(location.search),
         thisStateCache = stateCache.get(region),
-        [query, setQuery] = useState(
-            searchParams.get("query") ?? thisStateCache?.query ?? null
-        ),
-        [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(
-            thisStateCache?.scripts ?? []
-        ),
+        [query, setQuery] = useState(searchParams.get("query") ?? thisStateCache?.query ?? null),
+        [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(thisStateCache?.scripts ?? []),
         [error, setError] = useState<AxiosError | undefined>(undefined),
         [searching, setSearching] = useState(false),
         [searched, setSearched] = useState(thisStateCache?.searched ?? false);
@@ -143,9 +142,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     <Form.Control
                         value={query ?? ""}
                         onChange={(ev) => {
-                            setQuery(
-                                ev.target.value !== "" ? ev.target.value : null
-                            );
+                            setQuery(ev.target.value !== "" ? ev.target.value : null);
                         }}
                     />
                 </Form.Group>
@@ -180,11 +177,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                             {scripts.map((script) => (
                                 <tr key={script.scriptId}>
                                     <td>
-                                        <ScriptDescriptor
-                                            region={region}
-                                            scriptId={script.scriptId}
-                                            scriptType=""
-                                        />
+                                        <ScriptDescriptor region={region} scriptId={script.scriptId} scriptType="" />
                                     </td>
                                     <td
                                         dangerouslySetInnerHTML={{

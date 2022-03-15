@@ -1,12 +1,14 @@
-import {Card} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../../src";
-import {BattleAttackAction} from "../../../../src/Action/BattleAttackAction";
-import {npMagnification} from "../../../../src/Func/Implementations/getDamageList";
-import {createBattle, servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList npMagnification', () => {
-    it('check np buff', async () => {
+import { Card } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../../src";
+import { BattleAttackAction } from "../../../../src/Action/BattleAttackAction";
+import { npMagnification } from "../../../../src/Func/Implementations/getDamageList";
+import { createBattle, servant } from "../../../helpers";
+
+describe("getDamageList npMagnification", () => {
+    it("check np buff", async () => {
         const actor = servant(65, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();

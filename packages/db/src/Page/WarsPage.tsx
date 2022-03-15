@@ -1,23 +1,17 @@
-import { Region, War } from "@atlasacademy/api-connector";
+import { faSortNumericDown, faSortNumericDownAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
 import React from "react";
-import {
-    Col,
-    Form,
-    Pagination,
-    Row,
-    Table,
-    ButtonGroup,
-    Button,
-} from "react-bootstrap";
+import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import { Region, War } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
-import {faSortNumericDown, faSortNumericDownAlt} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import "./ListingPage.css";
 
@@ -35,7 +29,7 @@ interface IProps {
 
 enum SortingOrder {
     ASC = 0,
-    DESC = 1
+    DESC = 1,
 }
 
 interface IState {
@@ -46,7 +40,7 @@ interface IState {
     perPage: number;
     page: number;
     search?: string;
-    sort?: SortingOrder
+    sort?: SortingOrder;
 }
 
 class WarsPage extends React.Component<IProps, IState> {
@@ -73,16 +67,11 @@ class WarsPage extends React.Component<IProps, IState> {
     private toggleWarTypeFilter(warType: WarType): void {
         if (this.state.activeWarTypeFilters.includes(warType)) {
             this.setState({
-                activeWarTypeFilters: this.state.activeWarTypeFilters.filter(
-                    (activeType) => activeType !== warType
-                ),
+                activeWarTypeFilters: this.state.activeWarTypeFilters.filter((activeType) => activeType !== warType),
             });
         } else {
             this.setState({
-                activeWarTypeFilters: [
-                    ...this.state.activeWarTypeFilters,
-                    warType,
-                ],
+                activeWarTypeFilters: [...this.state.activeWarTypeFilters, warType],
             });
         }
     }
@@ -93,15 +82,11 @@ class WarsPage extends React.Component<IProps, IState> {
         if (this.state.activeWarTypeFilters.length > 0) {
             list = list.filter((war) => {
                 return (
-                    (this.state.activeWarTypeFilters.includes(WarType.MAIN) &&
-                        war.id <= 1000) ||
-                    (this.state.activeWarTypeFilters.includes(
-                        WarType.CHALDEA_GATE
-                    ) &&
+                    (this.state.activeWarTypeFilters.includes(WarType.MAIN) && war.id <= 1000) ||
+                    (this.state.activeWarTypeFilters.includes(WarType.CHALDEA_GATE) &&
                         1000 < war.id &&
                         war.id <= 2000) ||
-                    (this.state.activeWarTypeFilters.includes(WarType.OTHER) &&
-                        2000 < war.id)
+                    (this.state.activeWarTypeFilters.includes(WarType.OTHER) && 2000 < war.id)
                 );
             });
         }
@@ -115,9 +100,7 @@ class WarsPage extends React.Component<IProps, IState> {
 
             list = list.filter((war) => {
                 const normalizedName = diacritics.remove(
-                    `${war.name} ${war.longName} ${war.eventName}`
-                        .replace("\n", " ")
-                        .toLowerCase()
+                    `${war.name} ${war.longName} ${war.eventName}`.replace("\n", " ").toLowerCase()
                 );
                 const searchName = `${war.id} ${normalizedName}`;
 
@@ -128,29 +111,13 @@ class WarsPage extends React.Component<IProps, IState> {
         return list;
     }
 
-    private pageItem(
-        label: string,
-        page: number,
-        key: string | number,
-        active: boolean,
-        disabled: boolean
-    ) {
+    private pageItem(label: string, page: number, key: string | number, active: boolean, disabled: boolean) {
         return (
-            <li
-                key={key}
-                className={
-                    "page-item" +
-                    (active ? " active" : "") +
-                    (disabled ? " disabled" : "")
-                }
-            >
+            <li key={key} className={"page-item" + (active ? " active" : "") + (disabled ? " disabled" : "")}>
                 {disabled ? (
                     <span className={"page-link"}>{label}</span>
                 ) : (
-                    <button
-                        className={"page-link"}
-                        onClick={() => this.setPage(page)}
-                    >
+                    <button className={"page-link"} onClick={() => this.setPage(page)}>
                         {label}
                     </button>
                 )}
@@ -188,15 +155,7 @@ class WarsPage extends React.Component<IProps, IState> {
 
         const pages = nearbyPrev.concat([this.state.page], nearbyNext);
 
-        items.push(
-            this.pageItem(
-                "<",
-                this.state.page - 1,
-                "prev",
-                false,
-                this.state.page <= 0
-            )
-        );
+        items.push(this.pageItem("<", this.state.page - 1, "prev", false, this.state.page <= 0));
 
         if (pages[0] > 0) {
             items.push(this.pageItem("1", 0, "first", false, false));
@@ -208,56 +167,20 @@ class WarsPage extends React.Component<IProps, IState> {
             }
         }
 
-        items.push(
-            ...pages.map((i) =>
-                this.pageItem(
-                    (i + 1).toString(),
-                    i,
-                    i,
-                    i === this.state.page,
-                    false
-                )
-            )
-        );
+        items.push(...pages.map((i) => this.pageItem((i + 1).toString(), i, i, i === this.state.page, false)));
 
         const lastNearbyPage = pages[pages.length - 1];
         if (lastNearbyPage < maxPage) {
             if (lastNearbyPage === maxPage - 2) {
-                items.push(
-                    this.pageItem(
-                        maxPage.toString(),
-                        maxPage - 1,
-                        maxPage - 1,
-                        false,
-                        false
-                    )
-                );
+                items.push(this.pageItem(maxPage.toString(), maxPage - 1, maxPage - 1, false, false));
             } else if (lastNearbyPage < maxPage - 2) {
-                items.push(
-                    this.pageItem("…", maxPage, "lastEllipsis", false, true)
-                );
+                items.push(this.pageItem("…", maxPage, "lastEllipsis", false, true));
             }
 
-            items.push(
-                this.pageItem(
-                    (maxPage + 1).toString(),
-                    maxPage,
-                    "last",
-                    false,
-                    false
-                )
-            );
+            items.push(this.pageItem((maxPage + 1).toString(), maxPage, "last", false, false));
         }
 
-        items.push(
-            this.pageItem(
-                ">",
-                this.state.page + 1,
-                "next",
-                false,
-                this.state.page >= maxPage
-            )
-        );
+        items.push(this.pageItem(">", this.state.page + 1, "next", false, this.state.page >= maxPage));
 
         return (
             <div className="page-navigator">
@@ -276,12 +199,8 @@ class WarsPage extends React.Component<IProps, IState> {
         if (this.state.loading) return <Loading />;
 
         const currentSortingOrder = this.state.sort;
-        const wars = this.wars()
-            .sort((w1, w2) => (currentSortingOrder ? -1 : 1) * (w1.id - w2.id)),
-            results = wars.slice(
-                this.state.perPage * this.state.page,
-                this.state.perPage * (this.state.page + 1)
-            );
+        const wars = this.wars().sort((w1, w2) => (currentSortingOrder ? -1 : 1) * (w1.id - w2.id)),
+            results = wars.slice(this.state.perPage * this.state.page, this.state.perPage * (this.state.page + 1));
 
         const pageNavigator = this.paginator(wars.length);
 
@@ -290,17 +209,11 @@ class WarsPage extends React.Component<IProps, IState> {
                 <Row>
                     <Col md={12} lg={4} id="item-type">
                         <ButtonGroup>
-                            {[
-                                WarType.MAIN,
-                                WarType.CHALDEA_GATE,
-                                WarType.OTHER,
-                            ].map((warType) => {
+                            {[WarType.MAIN, WarType.CHALDEA_GATE, WarType.OTHER].map((warType) => {
                                 return (
                                     <Button
                                         variant={
-                                            this.state.activeWarTypeFilters.includes(
-                                                warType
-                                            )
+                                            this.state.activeWarTypeFilters.includes(warType)
                                                 ? "success"
                                                 : "outline-dark"
                                         }
@@ -342,13 +255,18 @@ class WarsPage extends React.Component<IProps, IState> {
                             <th className="col-center">
                                 <Button
                                     variant=""
-                                    style={{ outline: 'none' }}
-                                    onClick={() => this.setState({ sort: currentSortingOrder ? SortingOrder.ASC : SortingOrder.DESC })}>
-                                    {
-                                        currentSortingOrder
-                                            ? <FontAwesomeIcon icon={faSortNumericDownAlt} />
-                                            : <FontAwesomeIcon icon={faSortNumericDown} />
+                                    style={{ outline: "none" }}
+                                    onClick={() =>
+                                        this.setState({
+                                            sort: currentSortingOrder ? SortingOrder.ASC : SortingOrder.DESC,
+                                        })
                                     }
+                                >
+                                    {currentSortingOrder ? (
+                                        <FontAwesomeIcon icon={faSortNumericDownAlt} />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faSortNumericDown} />
+                                    )}
                                 </Button>
                             </th>
                             <th>War Name</th>
@@ -369,12 +287,8 @@ class WarsPage extends React.Component<IProps, IState> {
                                     </td>
                                     <td>
                                         {war.eventId !== 0 ? (
-                                            <Link
-                                                to={`/${this.props.region}/event/${war.eventId}`}
-                                            >
-                                                {war.eventName !== ""
-                                                    ? war.eventName
-                                                    : `Event ${war.eventId}`}
+                                            <Link to={`/${this.props.region}/event/${war.eventId}`}>
+                                                {war.eventName !== "" ? war.eventName : `Event ${war.eventId}`}
                                             </Link>
                                         ) : (
                                             ""

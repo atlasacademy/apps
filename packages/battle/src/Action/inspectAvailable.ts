@@ -1,6 +1,6 @@
-import {Battle} from "../Battle";
-import {BattleTeam} from "../Enum/BattleTeam";
-import {BattleCommandAction, BattleCommandActionFactory} from "./BattleCommandAction";
+import { Battle } from "../Battle";
+import { BattleTeam } from "../Enum/BattleTeam";
+import { BattleCommandAction, BattleCommandActionFactory } from "./BattleCommandAction";
 
 const targetAllyMap = new Map<number, BattleCommandAction>([
         [1, BattleCommandAction.TARGET_ALLY_1],
@@ -30,52 +30,50 @@ const targetAllyMap = new Map<number, BattleCommandAction>([
 
 export default function (battle: Battle): BattleCommandAction[] {
     const available: BattleCommandAction[] = [],
-        allyPositions = battle.actors()
+        allyPositions = battle
+            .actors()
             .aliveActorsByTeam(BattleTeam.PLAYER)
-            .map(actor => actor.position()),
-        enemyPositions = battle.actors()
+            .map((actor) => actor.position()),
+        enemyPositions = battle
+            .actors()
             .aliveActorsByTeam(BattleTeam.ENEMY)
-            .map(actor => actor.position());
+            .map((actor) => actor.position());
 
-    allyPositions.forEach(position => {
+    allyPositions.forEach((position) => {
         let action;
 
         action = targetAllyMap.get(position);
-        if (action)
-            available.push(action);
+        if (action) available.push(action);
 
         action = targetAllySelectMap.get(position);
-        if (action)
-            available.push(action);
+        if (action) available.push(action);
 
         action = targetAllyReserveMap.get(position);
-        if (action)
-            available.push(action);
+        if (action) available.push(action);
     });
 
-    enemyPositions.forEach(position => {
+    enemyPositions.forEach((position) => {
         let action;
 
         action = targetEnemyMap.get(position);
-        if (action)
-            available.push(action);
+        if (action) available.push(action);
 
         action = targetEnemySelectMap.get(position);
-        if (action)
-            available.push(action);
+        if (action) available.push(action);
     });
 
-    battle.actors().activeActorsByTeam(BattleTeam.PLAYER).forEach(actor => {
-        for (let pos = 1; pos <= 3; pos++) {
-            const skill = actor.skill(pos);
-            if (!skill || !skill.available())
-                continue;
+    battle
+        .actors()
+        .activeActorsByTeam(BattleTeam.PLAYER)
+        .forEach((actor) => {
+            for (let pos = 1; pos <= 3; pos++) {
+                const skill = actor.skill(pos);
+                if (!skill || !skill.available()) continue;
 
-            const action = BattleCommandActionFactory.servantSkillAction(actor.position(), pos);
-            if (action)
-                available.push(action);
-        }
-    });
+                const action = BattleCommandActionFactory.servantSkillAction(actor.position(), pos);
+                if (action) available.push(action);
+            }
+        });
 
     return available.sort((a, b) => {
         return a > b ? 1 : -1;

@@ -1,4 +1,5 @@
 import { Region, Profile, CondType } from "@atlasacademy/api-connector";
+
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import QuestDescriptor from "./QuestDescriptor";
 
@@ -14,8 +15,7 @@ const ProfileCommentAddDescriptor = ({
         case CondType.QUEST_CLEAR:
             return (
                 <>
-                    <QuestDescriptor region={region} questId={condValue} />{" "}
-                    Cleared
+                    <QuestDescriptor region={region} questId={condValue} /> Cleared
                 </>
             );
         case CondType.SVT_LIMIT:
@@ -23,11 +23,7 @@ const ProfileCommentAddDescriptor = ({
         case CondType.SVT_GET:
             return (
                 <>
-                    Summoned{" "}
-                    <EntityReferenceDescriptor
-                        region={region}
-                        svtId={condValue}
-                    />{" "}
+                    Summoned <EntityReferenceDescriptor region={region} svtId={condValue} />{" "}
                 </>
             );
         case CondType.SVT_FRIENDSHIP:
@@ -37,8 +33,7 @@ const ProfileCommentAddDescriptor = ({
         default:
             return (
                 <>
-                    condType {commentAdd.condType} condValues{" "}
-                    {commentAdd.condValues}
+                    condType {commentAdd.condType} condValues {commentAdd.condValues}
                 </>
             );
     }
@@ -55,10 +50,7 @@ const ProfileCommentAddsDescriptor = ({
         <>
             {commentAdds.map((commentAdd) => (
                 <div key={commentAdd.idx}>
-                    <ProfileCommentAddDescriptor
-                        region={region}
-                        commentAdd={commentAdd}
-                    />
+                    <ProfileCommentAddDescriptor region={region} commentAdd={commentAdd} />
                     <br />
                 </div>
             ))}

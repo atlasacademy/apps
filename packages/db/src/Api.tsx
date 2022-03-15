@@ -1,4 +1,3 @@
-import Manager from "./Setting/Manager";
 import {
     Ai,
     ApiConnector,
@@ -33,6 +32,8 @@ import {
     MasterMission,
     Script,
 } from "@atlasacademy/api-connector";
+
+import Manager from "./Setting/Manager";
 
 export const Host = "https://api.atlasacademy.io";
 export const AssetHost = "https://static.atlasacademy.io";
@@ -99,9 +100,7 @@ class Api {
         return apiConnector.craftEssence(id, true, cacheDuration);
     }
 
-    static craftEssenceBasic(
-        id: number
-    ): Promise<CraftEssence.CraftEssenceBasic> {
+    static craftEssenceBasic(id: number): Promise<CraftEssence.CraftEssenceBasic> {
         return apiConnector.craftEssenceBasic(id, cacheDuration);
     }
 
@@ -125,9 +124,7 @@ class Api {
         return apiConnector.eventList();
     }
 
-    static async masterMission(
-        id: number
-    ): Promise<MasterMission.MasterMission> {
+    static async masterMission(id: number): Promise<MasterMission.MasterMission> {
         return apiConnector.masterMission(id, cacheDuration);
     }
 
@@ -184,9 +181,7 @@ class Api {
         return apiConnector.noblePhantasm(id, reverse, cacheDuration);
     }
 
-    static noblePhantasmBasic(
-        id: number
-    ): Promise<NoblePhantasm.NoblePhantasmBasic> {
+    static noblePhantasmBasic(id: number): Promise<NoblePhantasm.NoblePhantasmBasic> {
         return apiConnector.noblePhantasmBasic(id, undefined, cacheDuration);
     }
 
@@ -269,10 +264,7 @@ class Api {
         background?: Item.ItemBackgroundType[],
         use?: Item.ItemUse[]
     ): Promise<Item.Item[]> {
-        return apiConnector.searchItem(
-            { name, individuality, type, background, use },
-            cacheDuration
-        );
+        return apiConnector.searchItem({ name, individuality, type, background, use }, cacheDuration);
     }
 
     static searchBuff(

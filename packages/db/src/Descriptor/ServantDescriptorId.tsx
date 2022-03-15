@@ -1,4 +1,5 @@
 import { Region, Servant } from "@atlasacademy/api-connector";
+
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import { ServantLink } from "./ServantDescriptor";
 

@@ -1,4 +1,5 @@
 import { Typeahead } from "react-bootstrap-typeahead";
+
 import "./SearchableSelect.css";
 
 interface Option<T> {
@@ -19,11 +20,7 @@ interface IProps<T> {
     maxResults?: number;
 }
 
-function getDescription<T>(
-    value: T,
-    labels: Map<T, string>,
-    disableLabelStyling?: boolean
-): string {
+function getDescription<T>(value: T, labels: Map<T, string>, disableLabelStyling?: boolean): string {
     const description = labels.get(value);
 
     if (disableLabelStyling) {
@@ -34,11 +31,7 @@ function getDescription<T>(
     return description ? `${description} - ${value}` : `(${value})`;
 }
 
-function getOptions<T>(
-    options: T[],
-    labels: Map<T, string>,
-    disableLabelStyling?: boolean
-): Option<T>[] {
+function getOptions<T>(options: T[], labels: Map<T, string>, disableLabelStyling?: boolean): Option<T>[] {
     return options.map((value) => {
         const label = getDescription(value, labels, disableLabelStyling);
         return { label, value };
@@ -47,20 +40,14 @@ function getOptions<T>(
 
 export default function SearchableSelect<T>(props: IProps<T>) {
     const options = getOptions(
-        props.hideSelected
-            ? props.options.filter((option) => option !== props.selected)
-            : props.options,
+        props.hideSelected ? props.options.filter((option) => option !== props.selected) : props.options,
         props.labels,
         props.disableLabelStyling
     );
 
     let selectedOptions: Option<T>[] = [];
     if (props.selected) {
-        selectedOptions = getOptions(
-            [props.selected],
-            props.labels,
-            props.disableLabelStyling
-        );
+        selectedOptions = getOptions([props.selected], props.labels, props.disableLabelStyling);
     }
 
     return (
@@ -68,13 +55,9 @@ export default function SearchableSelect<T>(props: IProps<T>) {
             <Typeahead
                 id="basic-typeahead-single"
                 options={options}
-                selected={
-                    props.selectedAsPlaceholder ? undefined : selectedOptions
-                }
+                selected={props.selectedAsPlaceholder ? undefined : selectedOptions}
                 placeholder={
-                    props.selectedAsPlaceholder && selectedOptions.length > 0
-                        ? selectedOptions[0].label
-                        : "All"
+                    props.selectedAsPlaceholder && selectedOptions.length > 0 ? selectedOptions[0].label : "All"
                 }
                 clearButton={props.hideReset ? !props.hideReset : true}
                 maxResults={props.maxResults ?? 1000}

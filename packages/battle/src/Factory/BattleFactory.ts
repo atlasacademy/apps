@@ -1,7 +1,8 @@
-import {ApiConnector, Language, Region} from "@atlasacademy/api-connector";
-import {BattleActor} from "../Actor/BattleActor";
-import {Battle} from "../Battle";
-import createServantActor, {BattleServantActorProps} from "./createServantActor";
+import { ApiConnector, Language, Region } from "@atlasacademy/api-connector";
+
+import { BattleActor } from "../Actor/BattleActor";
+import { Battle } from "../Battle";
+import createServantActor, { BattleServantActorProps } from "./createServantActor";
 
 export default class BattleFactory {
     private currentPhase = 1;
@@ -38,7 +39,7 @@ export default class BattleFactory {
     setRegion(region: Region, language: Language = Language.DEFAULT) {
         this.battle.state.api = new ApiConnector({
             region,
-            language
+            language,
         });
 
         this.region = region;
@@ -51,5 +52,4 @@ export default class BattleFactory {
 
         return actorId;
     }
-
 }

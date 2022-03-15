@@ -1,5 +1,5 @@
-import {Entity, EntityBasic, EntityType} from "./Entity";
-import {Profile} from "./Profile";
+import { Entity, EntityBasic, EntityType } from "./Entity";
+import { Profile } from "./Profile";
 
 export interface CraftEssence extends Entity {
     type: EntityType.SERVANT_EQUIP;

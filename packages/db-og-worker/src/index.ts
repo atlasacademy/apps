@@ -1,7 +1,4 @@
-import {
-    getAssetFromKV,
-    mapRequestToAsset,
-} from "@cloudflare/kv-asset-handler";
+import { getAssetFromKV, mapRequestToAsset } from "@cloudflare/kv-asset-handler";
 
 const DEBUG = false;
 
@@ -19,10 +16,7 @@ class Handler {
         this.content = content || this.content;
     }
     element(elem: Element) {
-        elem.setAttribute(
-            "content",
-            this.content || elem.getAttribute("content")!
-        );
+        elem.setAttribute("content", this.content || elem.getAttribute("content")!);
     }
 }
 
@@ -57,15 +51,8 @@ function toTitleCase(value: string): string {
     return words.join(" ");
 }
 
-async function fetchApi(
-    region: string,
-    endpoint: string,
-    target: string,
-    language: "jp" | "en" = "en"
-) {
-    const dataType = ["item", "function", "bgm", "mm"].includes(endpoint)
-        ? "nice"
-        : "basic";
+async function fetchApi(region: string, endpoint: string, target: string, language: "jp" | "en" = "en") {
+    const dataType = ["item", "function", "bgm", "mm"].includes(endpoint) ? "nice" : "basic";
     const url = `https://api.atlasacademy.io/${dataType}/${region}/${endpoint}/${target}?lang=${language}`;
     return fetch(url, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
 }
@@ -77,12 +64,8 @@ function overwrite(
     description?: string
 ) {
     const defaultDescription = "Atlas Academy DB - FGO Game Data Navigator";
-    const metaCustomDesc =
-        (description ?? title) !== undefined
-            ? `${description ?? title} - `
-            : "";
-    const metaDescription =
-        metaCustomDesc + `${defaultDescription} - without any of the fluffs.`;
+    const metaCustomDesc = (description ?? title) !== undefined ? `${description ?? title} - ` : "";
+    const metaDescription = metaCustomDesc + `${defaultDescription} - without any of the fluffs.`;
     const ogDescription = description ?? defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
@@ -95,10 +78,7 @@ function overwrite(
 
     return titleRewriter
         .on('[property="og:image"]', new Handler(image))
-        .on(
-            '[property="og:image:alt"]',
-            new Handler(`${title ?? "Atlas Academy"} icon`)
-        )
+        .on('[property="og:image:alt"]', new Handler(`${title ?? "Atlas Academy"} icon`))
         .transform(response.response);
 }
 
@@ -151,10 +131,7 @@ const tabTitles = new Map([
 
 async function handleDBEvent(event: FetchEvent) {
     const { pathname } = new URL(event.request.url),
-        [region, subpage, target, ...paths] = pathname
-            .replace("/db", "")
-            .split("/")
-            .filter(Boolean);
+        [region, subpage, target, ...paths] = pathname.replace("/db", "").split("/").filter(Boolean);
 
     const response = await getAssetFromKV(event, {
         mapRequestToAsset: (request) => serveSinglePageApp(request, "db"),
@@ -186,11 +163,7 @@ async function handleDBEvent(event: FetchEvent) {
         return overwrite(responseDetail, title);
     }
 
-    const language = ["JP", "TW", "CN"].includes(
-        event.request.cf?.country ?? ""
-    )
-        ? "jp"
-        : "en";
+    const language = ["JP", "TW", "CN"].includes(event.request.cf?.country ?? "") ? "jp" : "en";
 
     const itemPage = itemPageTitles.get(subpage);
     if (itemPage !== undefined) {
@@ -199,15 +172,12 @@ async function handleDBEvent(event: FetchEvent) {
             const title = `[${region}] ${itemPage.itemType} - ${target}`;
             return overwrite(responseDetail, title);
         }
-        const { name, longName, face, icon, rarity, className } =
-            await res.json();
+        const { name, longName, face, icon, rarity, className } = await res.json();
 
         let title = `[${region}] ${itemPage.itemType} - ${name}`;
         switch (subpage) {
             case "servant":
-                title = `[${region}] ${rarity}★ ${toTitleCase(
-                    className
-                )} - ${name}`;
+                title = `[${region}] ${rarity}★ ${toTitleCase(className)} - ${name}`;
                 break;
             case "craft-essence":
                 title = `[${region}] ${rarity}★ Craft Essence - ${name}`;
@@ -242,10 +212,7 @@ async function handleDBEvent(event: FetchEvent) {
                 return overwrite(responseDetail, title);
             }
             const { funcId, funcPopupText } = await res.json();
-            const funcTitle =
-                funcPopupText === ""
-                    ? `Function: ${funcId}`
-                    : `Function ${funcId}: ${funcPopupText}`;
+            const funcTitle = funcPopupText === "" ? `Function: ${funcId}` : `Function ${funcId}: ${funcPopupText}`;
             const title = `[${region}] ${funcTitle}`;
             return overwrite(responseDetail, title);
         }
@@ -306,25 +273,16 @@ async function handleEvent(event: FetchEvent) {
         if (pathname.startsWith("/db")) {
             return handleDBEvent(event);
         }
-        for (const basePath of [
-            "drop-lookup",
-            "paper-moon",
-            "drop-serializer",
-            "bingo",
-        ]) {
+        for (const basePath of ["drop-lookup", "paper-moon", "drop-serializer", "bingo"]) {
             if (pathname === `/${basePath}`) {
-                return Response.redirect(
-                    `${protocol}//${host}/${basePath}/`,
-                    301
-                );
+                return Response.redirect(`${protocol}//${host}/${basePath}/`, 301);
             }
         }
         return await getAssetFromKV(event, {
             cacheControl: { edgeTTL: KV_EDGE_TTL, bypassCache: DEBUG },
         });
     } catch (e) {
-        if (DEBUG && e instanceof Error)
-            return new Response(e.message || e.toString(), { status: 500 });
+        if (DEBUG && e instanceof Error) return new Response(e.message || e.toString(), { status: 500 });
 
         return new Response(`"${pathname}" not found`, {
             status: 404,

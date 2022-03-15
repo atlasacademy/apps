@@ -1,18 +1,13 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "declaration": true,
-    "declarationMap": true,
-    "moduleResolution": "Node",
-    "outDir": "./dist",
-    "strict": true
-  },
-  "include": [
-    "src/**/*"
-  ]
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "lib": ["esnext", "dom"],
+        "declaration": true,
+        "declarationMap": true,
+        "moduleResolution": "Node",
+        "outDir": "./dist",
+        "strict": true
+    },
+    "include": ["src/**/*"]
 }

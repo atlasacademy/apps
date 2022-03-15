@@ -1,4 +1,4 @@
-import {BasePartial, ParticlePartial} from "./Descriptor";
+import { BasePartial, ParticlePartial } from "./Descriptor";
 
 export function insertParticles(partials: BasePartial[], particle: string): BasePartial[] {
     const newPartialList: BasePartial[] = [];
@@ -16,14 +16,13 @@ export function insertParticles(partials: BasePartial[], particle: string): Base
 
 export function toTitleCase(value: string): string {
     const matches = value.match(/[A-Z]*[a-z0-9]*/g);
-    if (!matches || !matches.length)
-        return value;
+    if (!matches || !matches.length) return value;
 
     const words = matches
-        .filter(word => word.length > 0)
-        .map(word => {
+        .filter((word) => word.length > 0)
+        .map((word) => {
             return word.charAt(0).toUpperCase() + word.slice(1);
         });
 
-    return words.join(' ');
+    return words.join(" ");
 }

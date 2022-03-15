@@ -1,8 +1,10 @@
-import {DataVal, Func, Region} from "@atlasacademy/api-connector";
-import {faShare} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import React, {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
+import { DataVal, Func, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import {
     getDataValList,
@@ -10,20 +12,20 @@ import {
     getStaticFieldValues,
     getTargetFollowerVersionValues,
     getTargetVersionValues,
-    hasFollowerDataVals
+    hasFollowerDataVals,
 } from "../Helper/FuncHelper";
-import {joinElements, Renderable} from "../Helper/OutputHelper";
-import {FuncDescriptorSections} from "./Func/FuncDescriptorSections";
+import { joinElements, Renderable } from "../Helper/OutputHelper";
+import { FuncDescriptorSections } from "./Func/FuncDescriptorSections";
 import handleActionSection from "./Func/handleActionSection";
 import handleAffectsSection from "./Func/handleAffectsSection";
 import handleAmountSection from "./Func/handleAmountSection";
 import handleChanceSection from "./Func/handleChanceSection";
+import handleConditionSection from "./Func/handleConditionSection";
 import handleDurationSection from "./Func/handleDurationSection";
+import handleOnFieldSection from "./Func/handleOnFieldSection";
 import handleScalingSection from "./Func/handleScalingSection";
 import handleTargetSection from "./Func/handleTargetSection";
 import handleTeamSection from "./Func/handleTeamSection";
-import handleOnFieldSection from "./Func/handleOnFieldSection";
-import handleConditionSection from "./Func/handleConditionSection";
 
 interface IProps {
     region: Region;
@@ -43,7 +45,7 @@ class FuncDescriptor extends React.Component<IProps> {
             const dataVals = getDataValList(func);
 
             if (this.props.levels) {
-                return getStaticFieldValues(this.props.levels.map(i => dataVals[i - 1]))
+                return getStaticFieldValues(this.props.levels.map((i) => dataVals[i - 1]));
             } else {
                 return getStaticFieldValues(dataVals);
             }
@@ -53,8 +55,7 @@ class FuncDescriptor extends React.Component<IProps> {
     getFollowerDataVal(): DataVal.DataVal | undefined {
         const func = this.props.func;
 
-        if (!hasFollowerDataVals(func))
-            return undefined;
+        if (!hasFollowerDataVals(func)) return undefined;
 
         if (this.props.level) {
             return getTargetFollowerVersionValues(func, this.props.level) ?? {};
@@ -89,23 +90,21 @@ class FuncDescriptor extends React.Component<IProps> {
 
         let parts: Renderable[] = [];
 
-        Object.values(sections).forEach(section => {
-            if (!section.showing)
-                return;
+        Object.values(sections).forEach((section) => {
+            if (!section.showing) return;
 
-            if (section.preposition)
-                parts.push(section.preposition);
+            if (section.preposition) parts.push(section.preposition);
 
             parts = parts.concat(section.parts);
         });
 
         parts.push(
             <Link to={`/${region}/func/${func.funcId}`}>
-                <FontAwesomeIcon icon={faShare} title={`Go to ${region} function ${func.funcId}`}/>
+                <FontAwesomeIcon icon={faShare} title={`Go to ${region} function ${func.funcId}`} />
             </Link>
         );
 
-        parts = joinElements(parts, ' ');
+        parts = joinElements(parts, " ");
 
         return (
             <span>
@@ -119,7 +118,7 @@ class FuncDescriptor extends React.Component<IProps> {
 
 export default FuncDescriptor;
 
-export function FuncDescriptorId (props: {
+export function FuncDescriptorId(props: {
     region: Region;
     funcId: number;
     level?: number;
@@ -140,7 +139,6 @@ export function FuncDescriptorId (props: {
                 overcharge={props.overcharge}
             />
         );
-
     } else {
         return null;
     }

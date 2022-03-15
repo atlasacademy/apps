@@ -1,46 +1,41 @@
-import { Quest, Script } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
+
+import { Quest, Script } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import { dedupe } from "../Helper/ArrayHelper";
 import { flatten } from "../Helper/PolyFill";
 
 interface useNavigationScriptsProps {
-    scriptData: Script.Script,
-    scriptId: string,
+    scriptData: Script.Script;
+    scriptId: string;
 }
-
 
 const getQuestSortedScriptIds = (quest: Quest.Quest) => {
     const phaseScripts = quest.phaseScripts.sort((a, b) => a.phase - b.phase);
     const scriptIds = flatten(
-        phaseScripts.map((phase) =>
-            phase.scripts.sort((a, b) =>
-                a.scriptId.localeCompare(b.scriptId, "en")
-            )
-        )
+        phaseScripts.map((phase) => phase.scripts.sort((a, b) => a.scriptId.localeCompare(b.scriptId, "en")))
     ).map((script) => script.scriptId);
 
     return dedupe(scriptIds);
 };
 
 export default function useNavigationScripts({ scriptData, scriptId }: useNavigationScriptsProps) {
-    const [previousScript, setPreviousScript] = useState<string | undefined>(
-        undefined
-    );
+    const [previousScript, setPreviousScript] = useState<string | undefined>(undefined);
     const [nextScript, setNextScript] = useState<string | undefined>(undefined);
     const [firstScriptInWar, setFirstScriptInWar] = useState<boolean>(false);
     const [lastScriptInWar, setLastScriptInWar] = useState<boolean>(false);
-    
+
     useEffect(() => {
         setPreviousScript(undefined);
         setNextScript(undefined);
         setFirstScriptInWar(false);
         setLastScriptInWar(false);
-        
+
         if (scriptData.quests.length > 0) {
             const quest = scriptData.quests[0];
 
-            let foundPrevious = false
+            let foundPrevious = false;
             let foundNext = false;
 
             const scriptIds = getQuestSortedScriptIds(quest);
@@ -63,19 +58,15 @@ export default function useNavigationScripts({ scriptData, scriptId }: useNaviga
             ];
 
             if (!WARS_WITHOUT_MAIN_QUESTS.includes(quest.warId) && (!foundPrevious || !foundNext)) {
-                
                 Api.war(quest.warId).then((war) => {
-
-                    const warSpots = war.spots.map((spot) => 
+                    const warSpots = war.spots.map((spot) =>
                         spot.quests.filter((quest) => quest.type === Quest.QuestType.MAIN)
                     );
-                
-                    const warQuests = flatten(warSpots)
-                        .sort((a, b) => a.id - b.id);
 
-                    const warQuestsSortedScripts = warQuests
-                        .map((quest) => getQuestSortedScriptIds(quest))
-                    
+                    const warQuests = flatten(warSpots).sort((a, b) => a.id - b.id);
+
+                    const warQuestsSortedScripts = warQuests.map((quest) => getQuestSortedScriptIds(quest));
+
                     const warScriptIds = dedupe(flatten(warQuestsSortedScripts));
 
                     const warScriptIndex = warScriptIds.indexOf(scriptId);
@@ -102,5 +93,5 @@ export default function useNavigationScripts({ scriptData, scriptId }: useNaviga
         }
     }, [scriptData, scriptId]);
 
-    return {nextScript, firstScriptInWar, previousScript, lastScriptInWar}
+    return { nextScript, firstScriptInWar, previousScript, lastScriptInWar };
 }

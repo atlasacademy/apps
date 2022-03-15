@@ -1,6 +1,8 @@
-import {Card, Region} from "@atlasacademy/api-connector";
-import {CardDescriptor} from "@atlasacademy/api-descriptor";
 import React from "react";
+
+import { Card, Region } from "@atlasacademy/api-connector";
+import { CardDescriptor } from "@atlasacademy/api-descriptor";
+
 import Description from "./Description";
 
 interface IProps {
@@ -18,11 +20,12 @@ class CardDescription extends React.Component<IProps> {
     render() {
         const descriptor = CardDescriptor.describe(this.props.card);
 
-        return <span>
-            [
-            <Description region={this.props.region} descriptor={descriptor}/>
-            ]
-        </span>;
+        return (
+            <span>
+                [
+                <Description region={this.props.region} descriptor={descriptor} />]
+            </span>
+        );
     }
 }
 

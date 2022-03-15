@@ -44,30 +44,19 @@ export enum BattleCommandAction {
 }
 
 export class BattleCommandActionFactory {
-
     static servantSkillAction(actorPosition: number, skillPosition: number): BattleCommandAction | undefined {
-        if (actorPosition === 1 && skillPosition === 1)
-            return BattleCommandAction.SERVANT_1_SKILL_1;
-        if (actorPosition === 1 && skillPosition === 2)
-            return BattleCommandAction.SERVANT_1_SKILL_2;
-        if (actorPosition === 1 && skillPosition === 3)
-            return BattleCommandAction.SERVANT_1_SKILL_3;
+        if (actorPosition === 1 && skillPosition === 1) return BattleCommandAction.SERVANT_1_SKILL_1;
+        if (actorPosition === 1 && skillPosition === 2) return BattleCommandAction.SERVANT_1_SKILL_2;
+        if (actorPosition === 1 && skillPosition === 3) return BattleCommandAction.SERVANT_1_SKILL_3;
 
-        if (actorPosition === 2 && skillPosition === 1)
-            return BattleCommandAction.SERVANT_2_SKILL_1;
-        if (actorPosition === 2 && skillPosition === 2)
-            return BattleCommandAction.SERVANT_2_SKILL_2;
-        if (actorPosition === 2 && skillPosition === 3)
-            return BattleCommandAction.SERVANT_2_SKILL_3;
+        if (actorPosition === 2 && skillPosition === 1) return BattleCommandAction.SERVANT_2_SKILL_1;
+        if (actorPosition === 2 && skillPosition === 2) return BattleCommandAction.SERVANT_2_SKILL_2;
+        if (actorPosition === 2 && skillPosition === 3) return BattleCommandAction.SERVANT_2_SKILL_3;
 
-        if (actorPosition === 3 && skillPosition === 1)
-            return BattleCommandAction.SERVANT_3_SKILL_1;
-        if (actorPosition === 3 && skillPosition === 2)
-            return BattleCommandAction.SERVANT_3_SKILL_2;
-        if (actorPosition === 3 && skillPosition === 3)
-            return BattleCommandAction.SERVANT_3_SKILL_3;
+        if (actorPosition === 3 && skillPosition === 1) return BattleCommandAction.SERVANT_3_SKILL_1;
+        if (actorPosition === 3 && skillPosition === 2) return BattleCommandAction.SERVANT_3_SKILL_2;
+        if (actorPosition === 3 && skillPosition === 3) return BattleCommandAction.SERVANT_3_SKILL_3;
 
         return undefined;
     }
-
 }

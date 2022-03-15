@@ -1,5 +1,7 @@
-import { CraftEssence, Region } from "@atlasacademy/api-connector";
 import React from "react";
+
+import { CraftEssence, Region } from "@atlasacademy/api-connector";
+
 import { Host } from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
@@ -31,18 +33,12 @@ class CraftEssenceMainData extends React.Component<IProps> {
 
         if (craftEssence.bondEquipOwner)
             craftEssenceData["Bond CE's Owner"] = (
-                <EntityReferenceDescriptor
-                    region={this.props.region}
-                    svtId={craftEssence.bondEquipOwner}
-                />
+                <EntityReferenceDescriptor region={this.props.region} svtId={craftEssence.bondEquipOwner} />
             );
 
         if (craftEssence.valentineEquipOwner)
             craftEssenceData["Valentine CE's Owner"] = (
-                <EntityReferenceDescriptor
-                    region={this.props.region}
-                    svtId={craftEssence.valentineEquipOwner}
-                />
+                <EntityReferenceDescriptor region={this.props.region} svtId={craftEssence.valentineEquipOwner} />
             );
 
         if (craftEssence.valentineScript.length > 0) {

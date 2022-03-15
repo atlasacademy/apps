@@ -1,5 +1,3 @@
-import { Buff, Region, Trait } from "@atlasacademy/api-connector";
-import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -7,6 +5,10 @@ import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+
+import { Buff, Region, Trait } from "@atlasacademy/api-connector";
+import { BuffDescriptor } from "@atlasacademy/api-descriptor";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -65,8 +67,7 @@ class BuffsPage extends React.Component<IProps, IState> {
         let state: IState = defaultState;
         if (props.location.search !== "") {
             const searchParams = new URLSearchParams(props.location.search);
-            const getQueryNums = (param: string) =>
-                searchParams.getAll(param).map((num) => parseInt(num));
+            const getQueryNums = (param: string) => searchParams.getAll(param).map((num) => parseInt(num));
             state = {
                 ...defaultState,
                 name: searchParams.get("name") ?? undefined,
@@ -122,9 +123,7 @@ class BuffsPage extends React.Component<IProps, IState> {
     }
 
     setQueryURL() {
-        this.props.history.replace(
-            `/${this.props.region}/${this.props.path}?${this.getQueryString()}`
-        );
+        this.props.history.replace(`/${this.props.region}/${this.props.path}?${this.getQueryString()}`);
     }
 
     private search() {
@@ -153,13 +152,15 @@ class BuffsPage extends React.Component<IProps, IState> {
             this.state.tvals,
             this.state.ckSelfIndv,
             this.state.ckOpIndv
-        ).then((buffs) => {
-            this.setQueryURL();
-            this.setState({ buffs, searched: true, searching: false });
-        }).catch((error) => {
-            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
-            this.setState({ error });
-        });
+        )
+            .then((buffs) => {
+                this.setQueryURL();
+                this.setState({ buffs, searched: true, searching: false });
+            })
+            .catch((error) => {
+                this.props.history.replace(`/${this.props.region}/${this.props.path}`);
+                this.setState({ error });
+            });
     }
 
     render() {
@@ -197,17 +198,9 @@ class BuffsPage extends React.Component<IProps, IState> {
                             <tr key={buff.id}>
                                 <td>{buff.id}</td>
                                 <td>
-                                    <BuffDescription
-                                        region={this.props.region}
-                                        buff={buff}
-                                    />
+                                    <BuffDescription region={this.props.region} buff={buff} />
                                 </td>
-                                <td>
-                                    {
-                                        (buff.reverse?.basic?.function ?? [])
-                                            .length
-                                    }
-                                </td>
+                                <td>{(buff.reverse?.basic?.function ?? []).length}</td>
                             </tr>
                         );
                     })}
@@ -242,9 +235,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             id="select-BuffType"
                             options={Object.values(Buff.BuffType)}
                             labels={buffDescriptions}
-                            selected={
-                                this.state.type ? this.state.type[0] : undefined
-                            }
+                            selected={this.state.type ? this.state.type[0] : undefined}
                             onChange={(value?: Buff.BuffType) => {
                                 this.setState({ type: value ? [value] : [] });
                             }}

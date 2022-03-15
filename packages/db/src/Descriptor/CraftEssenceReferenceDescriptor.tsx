@@ -1,8 +1,10 @@
-import {CraftEssence, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import { CraftEssence, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
-import {BasicCraftEssenceDescriptor} from "./CraftEssenceDescriptor";
+import { BasicCraftEssenceDescriptor } from "./CraftEssenceDescriptor";
 
 interface IProps {
     region: Region;
@@ -21,8 +23,7 @@ class CraftEssenceReferenceDescriptor extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        Api.craftEssenceBasic(this.props.id)
-            .then(craftEssence => this.setState({craftEssence}));
+        Api.craftEssenceBasic(this.props.id).then((craftEssence) => this.setState({ craftEssence }));
     }
 
     render() {
@@ -32,9 +33,7 @@ class CraftEssenceReferenceDescriptor extends React.Component<IProps, IState> {
             return <Link to={route}>[Craft Essence: {this.props.id}]</Link>;
         }
 
-        return (
-            <BasicCraftEssenceDescriptor region={this.props.region} craftEssence={this.state.craftEssence}/>
-        );
+        return <BasicCraftEssenceDescriptor region={this.props.region} craftEssence={this.state.craftEssence} />;
     }
 }
 

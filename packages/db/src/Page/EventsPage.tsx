@@ -1,20 +1,14 @@
-import { Event, Region } from "@atlasacademy/api-connector";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
 import escapeStringRegexp from "escape-string-regexp";
 import React from "react";
-import {
-    Col,
-    Form,
-    Pagination,
-    Row,
-    Table,
-    ButtonGroup,
-    Button,
-} from "react-bootstrap";
+import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import { Event, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -63,17 +57,13 @@ class EventsPage extends React.Component<IProps, IState> {
     private toggleEventTypeFilter(eventType: Event.EventType): void {
         if (this.state.activeEventTypeFilters.includes(eventType)) {
             this.setState({
-                activeEventTypeFilters:
-                    this.state.activeEventTypeFilters.filter(
-                        (activeType) => activeType !== eventType
-                    ),
+                activeEventTypeFilters: this.state.activeEventTypeFilters.filter(
+                    (activeType) => activeType !== eventType
+                ),
             });
         } else {
             this.setState({
-                activeEventTypeFilters: [
-                    ...this.state.activeEventTypeFilters,
-                    eventType,
-                ],
+                activeEventTypeFilters: [...this.state.activeEventTypeFilters, eventType],
             });
         }
     }
@@ -82,9 +72,7 @@ class EventsPage extends React.Component<IProps, IState> {
         let list = this.state.events.sort((a, b) => b.startedAt - a.startedAt);
 
         if (this.state.activeEventTypeFilters.length > 0) {
-            list = list.filter((event) =>
-                this.state.activeEventTypeFilters.includes(event.type)
-            );
+            list = list.filter((event) => this.state.activeEventTypeFilters.includes(event.type));
         }
 
         if (this.state.search) {
@@ -96,9 +84,7 @@ class EventsPage extends React.Component<IProps, IState> {
                 .join(".*");
 
             list = list.filter((entity) => {
-                const normalizedName = diacritics.remove(
-                    entity.name.toLowerCase()
-                );
+                const normalizedName = diacritics.remove(entity.name.toLowerCase());
                 const searchName = `${entity.id} ${normalizedName}`;
 
                 return searchName.match(new RegExp(glob, "g"));
@@ -108,29 +94,13 @@ class EventsPage extends React.Component<IProps, IState> {
         return list;
     }
 
-    private pageItem(
-        label: string,
-        page: number,
-        key: string | number,
-        active: boolean,
-        disabled: boolean
-    ) {
+    private pageItem(label: string, page: number, key: string | number, active: boolean, disabled: boolean) {
         return (
-            <li
-                key={key}
-                className={
-                    "page-item" +
-                    (active ? " active" : "") +
-                    (disabled ? " disabled" : "")
-                }
-            >
+            <li key={key} className={"page-item" + (active ? " active" : "") + (disabled ? " disabled" : "")}>
                 {disabled ? (
                     <span className={"page-link"}>{label}</span>
                 ) : (
-                    <button
-                        className={"page-link"}
-                        onClick={() => this.setPage(page)}
-                    >
+                    <button className={"page-link"} onClick={() => this.setPage(page)}>
                         {label}
                     </button>
                 )}
@@ -168,15 +138,7 @@ class EventsPage extends React.Component<IProps, IState> {
 
         const pages = nearbyPrev.concat([this.state.page], nearbyNext);
 
-        items.push(
-            this.pageItem(
-                "<",
-                this.state.page - 1,
-                "prev",
-                false,
-                this.state.page <= 0
-            )
-        );
+        items.push(this.pageItem("<", this.state.page - 1, "prev", false, this.state.page <= 0));
 
         if (pages[0] > 0) {
             items.push(this.pageItem("1", 0, "first", false, false));
@@ -188,56 +150,20 @@ class EventsPage extends React.Component<IProps, IState> {
             }
         }
 
-        items.push(
-            ...pages.map((i) =>
-                this.pageItem(
-                    (i + 1).toString(),
-                    i,
-                    i,
-                    i === this.state.page,
-                    false
-                )
-            )
-        );
+        items.push(...pages.map((i) => this.pageItem((i + 1).toString(), i, i, i === this.state.page, false)));
 
         const lastNearbyPage = pages[pages.length - 1];
         if (lastNearbyPage < maxPage) {
             if (lastNearbyPage === maxPage - 2) {
-                items.push(
-                    this.pageItem(
-                        maxPage.toString(),
-                        maxPage - 1,
-                        maxPage - 1,
-                        false,
-                        false
-                    )
-                );
+                items.push(this.pageItem(maxPage.toString(), maxPage - 1, maxPage - 1, false, false));
             } else if (lastNearbyPage < maxPage - 2) {
-                items.push(
-                    this.pageItem("…", maxPage, "lastEllipsis", false, true)
-                );
+                items.push(this.pageItem("…", maxPage, "lastEllipsis", false, true));
             }
 
-            items.push(
-                this.pageItem(
-                    (maxPage + 1).toString(),
-                    maxPage,
-                    "last",
-                    false,
-                    false
-                )
-            );
+            items.push(this.pageItem((maxPage + 1).toString(), maxPage, "last", false, false));
         }
 
-        items.push(
-            this.pageItem(
-                ">",
-                this.state.page + 1,
-                "next",
-                false,
-                this.state.page >= maxPage
-            )
-        );
+        items.push(this.pageItem(">", this.state.page + 1, "next", false, this.state.page >= maxPage));
 
         return (
             <div className="page-navigator">
@@ -256,10 +182,7 @@ class EventsPage extends React.Component<IProps, IState> {
         if (this.state.loading) return <Loading />;
 
         const events = this.events(),
-            results = events.slice(
-                this.state.perPage * this.state.page,
-                this.state.perPage * (this.state.page + 1)
-            );
+            results = events.slice(this.state.perPage * this.state.page, this.state.perPage * (this.state.page + 1));
 
         const pageNavigator = this.paginator(events.length);
 
@@ -272,32 +195,20 @@ class EventsPage extends React.Component<IProps, IState> {
                         <ButtonGroup>
                             {[
                                 [Event.EventType.EVENT_QUEST, "Event"],
-                                [
-                                    Event.EventType.COMBINE_CAMPAIGN,
-                                    "Servant Lvl Up",
-                                ],
-                                [
-                                    Event.EventType.SVTEQUIP_COMBINE_CAMPAIGN,
-                                    "CE Lvl Up",
-                                ],
+                                [Event.EventType.COMBINE_CAMPAIGN, "Servant Lvl Up"],
+                                [Event.EventType.SVTEQUIP_COMBINE_CAMPAIGN, "CE Lvl Up"],
                                 [Event.EventType.QUEST_CAMPAIGN, "AP Cost"],
                                 [Event.EventType.WAR_BOARD, "Grail Front"],
                             ].map(([eventType, buttonText]) => {
                                 return (
                                     <Button
                                         variant={
-                                            this.state.activeEventTypeFilters.includes(
-                                                eventType as Event.EventType
-                                            )
+                                            this.state.activeEventTypeFilters.includes(eventType as Event.EventType)
                                                 ? "success"
                                                 : "outline-dark"
                                         }
                                         key={eventType}
-                                        onClick={(_) =>
-                                            this.toggleEventTypeFilter(
-                                                eventType as Event.EventType
-                                            )
-                                        }
+                                        onClick={(_) => this.toggleEventTypeFilter(eventType as Event.EventType)}
                                     >
                                         {buttonText}
                                     </Button>
@@ -336,9 +247,7 @@ class EventsPage extends React.Component<IProps, IState> {
                     <tbody>
                         {results.map((event) => {
                             const route = `/${this.props.region}/event/${event.id}`;
-                            const isOngoing =
-                                currentTimestamp >= event.startedAt &&
-                                currentTimestamp <= event.endedAt;
+                            const isOngoing = currentTimestamp >= event.startedAt && currentTimestamp <= event.endedAt;
 
                             return (
                                 <tr key={event.id}>

@@ -22,8 +22,8 @@ import * as Entity from "./Schema/Entity";
 import * as Event from "./Schema/Event";
 import * as Func from "./Schema/Func";
 import * as Gift from "./Schema/Gift";
-import * as Item from "./Schema/Item";
 import { Illustrator } from "./Schema/Illustrator";
+import * as Item from "./Schema/Item";
 import * as Master from "./Schema/Master";
 import * as MasterMission from "./Schema/MasterMission";
 import * as Mission from "./Schema/Mission";
@@ -35,9 +35,9 @@ import * as Quest from "./Schema/Quest";
 import * as QuestEnemy from "./Schema/QuestEnemy";
 import * as Script from "./Schema/Script";
 import * as Servant from "./Schema/Servant";
-import * as SupportServant from "./Schema/SupportServant";
 import * as Shop from "./Schema/Shop";
 import * as Skill from "./Schema/Skill";
+import * as SupportServant from "./Schema/SupportServant";
 import * as Trait from "./Schema/Trait";
 import * as War from "./Schema/War";
 
@@ -46,7 +46,6 @@ export {
     ReverseDepth,
     ReverseData,
     EnumList,
-
     Attribute,
     Card,
     Change,
@@ -55,7 +54,6 @@ export {
     Language,
     Region,
     ProfileVoiceType,
-
     Ai,
     Bgm,
     Buff,
@@ -89,5 +87,4 @@ export {
     Skill,
     Trait,
     War,
-}
-
+};

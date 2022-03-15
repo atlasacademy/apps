@@ -1,4 +1,5 @@
 import { Profile, Region, Servant } from "@atlasacademy/api-connector";
+
 import { mergeElements } from "../Helper/OutputHelper";
 import CondTargetValueDescriptor from "./CondTargetValueDescriptor";
 
@@ -39,9 +40,7 @@ function AllVoicePlayGroups(props: {
                     <li key={group}>
                         <VoicePlayGroup
                             region={props.region}
-                            playConds={props.playConds.filter(
-                                (playCond) => playCond.condGroup === group
-                            )}
+                            playConds={props.playConds.filter((playCond) => playCond.condGroup === group)}
                             servants={props.servants}
                         />
                     </li>
@@ -55,9 +54,7 @@ function AllVoicePlayGroups(props: {
                     <VoicePlayGroup
                         key={group}
                         region={props.region}
-                        playConds={props.playConds.filter(
-                            (playCond) => playCond.condGroup === group
-                        )}
+                        playConds={props.playConds.filter((playCond) => playCond.condGroup === group)}
                         servants={props.servants}
                     />
                 ))}
@@ -71,9 +68,7 @@ export default function VoicePlayCondDescriptor(props: {
     playConds: Profile.VoicePlayCond[];
     servants: Map<number, Servant.ServantBasic>;
 }) {
-    const groups = Array.from(
-        new Set(props.playConds.map((playCond) => playCond.condGroup))
-    );
+    const groups = Array.from(new Set(props.playConds.map((playCond) => playCond.condGroup)));
     if (props.playConds.length > 0) {
         return (
             <>

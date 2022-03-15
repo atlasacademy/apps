@@ -1,21 +1,21 @@
 export enum PartialType {
-    PARTICLE = 'particle',
-    REFERENCE = 'reference',
-    TEXT = 'text',
-    VALUE = 'value',
+    PARTICLE = "particle",
+    REFERENCE = "reference",
+    TEXT = "text",
+    VALUE = "value",
 }
 
 export enum ReferenceType {
-    BUFF = 'buff',
-    CARD = 'card',
-    SKILL = 'skill',
-    TRAIT = 'trait',
+    BUFF = "buff",
+    CARD = "card",
+    SKILL = "skill",
+    TRAIT = "trait",
 }
 
 export enum ValueType {
-    NUMBER = 'number',
-    PERCENT = 'percent',
-    UNKNOWN = 'unknown',
+    NUMBER = "number",
+    PERCENT = "percent",
+    UNKNOWN = "unknown",
 }
 
 export abstract class BasePartial {
@@ -70,9 +70,6 @@ export class Descriptor {
     }
 
     references() {
-        return this
-            ._partials
-            .filter(partial => partial.type === PartialType.REFERENCE);
+        return this._partials.filter((partial) => partial.type === PartialType.REFERENCE);
     }
 }
-

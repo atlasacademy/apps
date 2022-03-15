@@ -5,6 +5,7 @@ import copy from "copy-to-clipboard";
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
 import ReactJson, { ThemeKeys } from "react-json-view";
+
 import Manager from "../Setting/Manager";
 import { Theme } from "../Setting/Theme";
 
@@ -76,11 +77,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                     <FontAwesomeIcon icon={faSearchPlus} />
                 </Button>
 
-                <Modal
-                    size={"lg"}
-                    show={this.state.showing}
-                    onHide={() => this.hide()}
-                >
+                <Modal size={"lg"} show={this.state.showing} onHide={() => this.hide()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Raw Data Viewer</Modal.Title>
                     </Modal.Header>
@@ -90,10 +87,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                                 style={{ wordBreak: "break-all" }}
                                 src={this.state.data}
                                 collapsed={1}
-                                theme={
-                                    viewerTheme.get(Manager.theme()) ??
-                                    "rjv-default"
-                                }
+                                theme={viewerTheme.get(Manager.theme()) ?? "rjv-default"}
                                 enableClipboard={(clipboard) => {
                                     if (typeof clipboard.src === "string") {
                                         copy(clipboard.src);

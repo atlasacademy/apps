@@ -1,19 +1,13 @@
-import {
-    Mission,
-    Quest,
-    Region,
-    Servant,
-    Item,
-    EnumList,
-    CondType,
-} from "@atlasacademy/api-connector";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+
+import { Mission, Quest, Region, Servant, Item, EnumList, CondType } from "@atlasacademy/api-connector";
+
+import { CollapsibleLight } from "../Component/CollapsibleContent";
+import { getURLSearchParams } from "../Helper/StringHelper";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
 import QuestSearchDescriptor from "./QuestSearchDescriptor";
-import { getURLSearchParams } from "../Helper/StringHelper";
-import { CollapsibleLight } from "../Component/CollapsibleContent";
 
 import "../Helper/StringHelper.css";
 
@@ -74,8 +68,7 @@ export default function MissionConditionDescriptor(props: {
                                 enemyTrait: cond.detail.targetIds,
                             }).toString()}`}
                         >
-                            Search applicable quests{" "}
-                            <FontAwesomeIcon icon={faShare} />
+                            Search applicable quests <FontAwesomeIcon icon={faShare} />
                         </Link>
                     ) : (
                         <CollapsibleLight

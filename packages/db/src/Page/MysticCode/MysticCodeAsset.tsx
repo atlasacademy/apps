@@ -21,20 +21,12 @@ const MCImages = ({
     </>
 );
 
-const MysticCodeAssets = ({
-    mysticCode,
-}: {
-    mysticCode: MysticCode.MysticCode;
-}) => {
+const MysticCodeAssets = ({ mysticCode }: { mysticCode: MysticCode.MysticCode }) => {
     const mcName = `${mysticCode.name} Mystic Code`;
     return (
         <>
             <h3>Figures</h3>
-            <MCImages
-                mcAssets={mysticCode.extraAssets.masterFigure}
-                mcName={mcName}
-                assetType="Face"
-            />
+            <MCImages mcAssets={mysticCode.extraAssets.masterFigure} mcName={mcName} assetType="Face" />
             {mysticCode.costumes.map((costume) => (
                 <MCImages
                     key={costume.id}
@@ -46,28 +38,15 @@ const MysticCodeAssets = ({
             <hr />
 
             <h3>Faces</h3>
-            <MCImages
-                mcAssets={mysticCode.extraAssets.masterFace}
-                mcName={mcName}
-                assetType="Face"
-            />
+            <MCImages mcAssets={mysticCode.extraAssets.masterFace} mcName={mcName} assetType="Face" />
             {mysticCode.costumes.map((costume) => (
-                <MCImages
-                    key={costume.id}
-                    mcAssets={costume.extraAssets.masterFace}
-                    mcName={mcName}
-                    assetType="Face"
-                />
+                <MCImages key={costume.id} mcAssets={costume.extraAssets.masterFace} mcName={mcName} assetType="Face" />
             ))}
 
             <hr />
 
             <h3>Items</h3>
-            <MCImages
-                mcAssets={mysticCode.extraAssets.item}
-                mcName={mcName}
-                assetType="Item"
-            />
+            <MCImages mcAssets={mysticCode.extraAssets.item} mcName={mcName} assetType="Item" />
         </>
     );
 };

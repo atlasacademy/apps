@@ -1,4 +1,3 @@
-import { Region, Skill } from "@atlasacademy/api-connector";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -6,12 +5,15 @@ import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+
+import { Region, Skill } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
-import { entityDescriptorTable } from "../Descriptor/EntityDescriptor";
 import TraitsSelector from "../Component/TraitsSelector";
+import { entityDescriptorTable } from "../Descriptor/EntityDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
@@ -58,8 +60,7 @@ class SkillsPage extends React.Component<IProps, IState> {
         let state: IState = defaultState;
         if (props.location.search !== "") {
             const searchParams = new URLSearchParams(props.location.search);
-            const getQueryNums = (param: string) =>
-                searchParams.getAll(param).map((num) => parseInt(num));
+            const getQueryNums = (param: string) => searchParams.getAll(param).map((num) => parseInt(num));
             state = {
                 ...defaultState,
                 name: searchParams.get("name") ?? undefined,
@@ -82,9 +83,7 @@ class SkillsPage extends React.Component<IProps, IState> {
     }
 
     setQueryURL() {
-        this.props.history.replace(
-            `/${this.props.region}/${this.props.path}?${this.getQueryString()}`
-        );
+        this.props.history.replace(`/${this.props.region}/${this.props.path}?${this.getQueryString()}`);
     }
 
     async componentDidMount() {
@@ -128,9 +127,7 @@ class SkillsPage extends React.Component<IProps, IState> {
             this.state.numFunctions.length === 0
         ) {
             this.setState({ skills: [] });
-            this.props.history.replace(
-                `/${this.props.region}/${this.props.path}`
-            );
+            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
             alert("Please refine the results before searching");
             return;
         }
@@ -138,14 +135,14 @@ class SkillsPage extends React.Component<IProps, IState> {
         this.setState({ searching: true, skills: [] });
 
         Api.searchSkill(
-                this.state.name,
-                this.state.type,
-                this.state.num,
-                this.state.priority,
-                this.state.strengthStatus,
-                this.state.lvl1coolDown,
-                this.state.numFunctions
-            )
+            this.state.name,
+            this.state.type,
+            this.state.num,
+            this.state.priority,
+            this.state.strengthStatus,
+            this.state.lvl1coolDown,
+            this.state.numFunctions
+        )
             .then((skills) => {
                 this.setQueryURL();
                 this.setState({ skills, searched: true, searching: false });
@@ -156,15 +153,7 @@ class SkillsPage extends React.Component<IProps, IState> {
             });
     }
 
-    getNumberForm(
-        stateVar:
-            | "num"
-            | "priority"
-            | "strengthStatus"
-            | "lvl1coolDown"
-            | "numFunctions",
-        label: string
-    ) {
+    getNumberForm(stateVar: "num" | "priority" | "strengthStatus" | "lvl1coolDown" | "numFunctions", label: string) {
         return (
             <Form.Group>
                 <Form.Label>{label}</Form.Label>
@@ -173,10 +162,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                     traitList={[]}
                     initialTraits={this.state[stateVar]}
                     onUpdate={(trait) => {
-                        this.setState({ [stateVar]: trait } as Pick<
-                            IState,
-                            typeof stateVar
-                        >);
+                        this.setState({ [stateVar]: trait } as Pick<IState, typeof stateVar>);
                     }}
                     customPlaceHolder="Add a positive integer"
                     emptyLabel=""
@@ -220,21 +206,11 @@ class SkillsPage extends React.Component<IProps, IState> {
                             <tr key={skill.id}>
                                 <td>{skill.id}</td>
                                 <td>
-                                    <SkillDescriptor
-                                        region={this.props.region}
-                                        skill={skill}
-                                        iconHeight={25}
-                                    />
+                                    <SkillDescriptor region={this.props.region} skill={skill} iconHeight={25} />
                                 </td>
                                 <td>
-                                    {(
-                                        skill.reverse?.basic?.servant ?? []
-                                    ).map((entity, index) =>
-                                        entityDescriptorTable(
-                                            this.props.region,
-                                            entity,
-                                            index
-                                        )
+                                    {(skill.reverse?.basic?.servant ?? []).map((entity, index) =>
+                                        entityDescriptorTable(this.props.region, entity, index)
                                     )}
                                 </td>
                             </tr>
@@ -280,9 +256,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                                     [Skill.SkillType.PASSIVE, "Passive"],
                                 ])
                             }
-                            selected={
-                                this.state.type ? this.state.type[0] : undefined
-                            }
+                            selected={this.state.type ? this.state.type[0] : undefined}
                             onChange={(value?: Skill.SkillType) => {
                                 this.setState({ type: value ? [value] : [] });
                             }}

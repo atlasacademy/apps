@@ -1,18 +1,19 @@
-import {Skill} from "@atlasacademy/api-connector";
-import {Battle} from "../Battle";
+import { Skill } from "@atlasacademy/api-connector";
+
+import { Battle } from "../Battle";
 import BattleEvent from "../Event/BattleEvent";
 import BattleSkillFunc from "./BattleSkillFunc";
 
 export interface BattleSkillProps {
-    actorId: number,
-    id: number,
-    skill: Skill.Skill,
-    level: number,
+    actorId: number;
+    id: number;
+    skill: Skill.Skill;
+    level: number;
 }
 
 export interface BattleSkillState {
-    cooldown: number,
-    funcs: BattleSkillFunc[],
+    cooldown: number;
+    funcs: BattleSkillFunc[];
 }
 
 export default class BattleSkill {
@@ -22,16 +23,20 @@ export default class BattleSkill {
         this.state = state ?? {
             cooldown: 0,
             funcs: props.skill.functions.map((func, i) => {
-                return new BattleSkillFunc({
-                    actorId: props.actorId,
-                    func,
-                    level: props.level,
-                    passive: false,
-                }, null, this);
-            })
+                return new BattleSkillFunc(
+                    {
+                        actorId: props.actorId,
+                        func,
+                        level: props.level,
+                        passive: false,
+                    },
+                    null,
+                    this
+                );
+            }),
         };
 
-        this.state.funcs.forEach(func => func.parent = this);
+        this.state.funcs.forEach((func) => (func.parent = this));
     }
 
     async activate(battle: Battle): Promise<BattleEvent[]> {
@@ -41,7 +46,7 @@ export default class BattleSkill {
         for (let i = 0; i < this.state.funcs.length; i++) {
             const func = this.state.funcs[i];
 
-            events.push(...await func.execute(battle));
+            events.push(...(await func.execute(battle)));
         }
 
         return events;
@@ -52,8 +57,8 @@ export default class BattleSkill {
     }
 
     clone(): BattleSkill {
-        const skill = new BattleSkill(this.props, {...this.state});
-        skill.state.funcs = skill.state.funcs.map(func => func.clone(skill));
+        const skill = new BattleSkill(this.props, { ...this.state });
+        skill.state.funcs = skill.state.funcs.map((func) => func.clone(skill));
 
         return skill;
     }
@@ -77,5 +82,4 @@ export default class BattleSkill {
     name(): string {
         return this.props.skill.name;
     }
-
 }

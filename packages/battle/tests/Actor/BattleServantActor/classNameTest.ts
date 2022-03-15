@@ -1,11 +1,13 @@
-import {Card, ClassName} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../src";
-import {BattleAttackActionList} from "../../../src/Action/BattleAttackAction";
-import {buff, createBattle, servant} from "../../helpers";
+import { expect } from "chai";
 
-describe('BattleServantActor className', () => {
-    it('normal', () => {
+import { Card, ClassName } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../src";
+import { BattleAttackActionList } from "../../../src/Action/BattleAttackAction";
+import { buff, createBattle, servant } from "../../helpers";
+
+describe("BattleServantActor className", () => {
+    it("normal", () => {
         let battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
@@ -23,18 +25,12 @@ describe('BattleServantActor className', () => {
         expect(actor.className(actions.get(1), target)).to.equal(ClassName.SABER);
     });
 
-    it('override', () => {
+    it("override", () => {
         let battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             actions: BattleAttackActionList,
-            overrideClassBuff = buff(
-                542,
-                {Value: 5},
-                false,
-                false,
-                null
-            );
+            overrideClassBuff = buff(542, { Value: 5 }, false, false, null);
 
         battle.addActor(actor);
         battle.addActor(target);

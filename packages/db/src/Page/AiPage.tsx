@@ -1,9 +1,11 @@
-import { Ai, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+
+import { Ai, Region } from "@atlasacademy/api-connector";
+
 import Api, { Host } from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -64,12 +66,7 @@ class AiPage extends React.Component<IProps, IState> {
                 this.setState({
                     aiCollection: ai,
                     loading: false,
-                    refs: new Map(
-                        [...ai.mainAis, ...ai.relatedAis].map((ai) => [
-                            ai.id,
-                            React.createRef(),
-                        ])
-                    ),
+                    refs: new Map([...ai.mainAis, ...ai.relatedAis].map((ai) => [ai.id, React.createRef()])),
                 });
             })
             .catch((error) => this.setState({ error }));
@@ -87,9 +84,7 @@ class AiPage extends React.Component<IProps, IState> {
 
         const scrollToAiId = (id: number) => {
             let elementRef = this.state.refs.get(id);
-            (
-                elementRef as React.RefObject<HTMLDivElement>
-            )?.current?.scrollIntoView({ behavior: "smooth" });
+            (elementRef as React.RefObject<HTMLDivElement>)?.current?.scrollIntoView({ behavior: "smooth" });
         };
 
         const relatedQuests =
@@ -106,10 +101,7 @@ class AiPage extends React.Component<IProps, IState> {
                     <br />
                 )
             ) : (
-                <QuestSearchDescriptor
-                    region={this.props.region}
-                    enemySvtAiId={this.props.id}
-                />
+                <QuestSearchDescriptor region={this.props.region} enemySvtAiId={this.props.id} />
             );
 
         return (
@@ -120,18 +112,12 @@ class AiPage extends React.Component<IProps, IState> {
 
                 <DataTable
                     data={{
-                        "Parent AIs": AiDescriptor.renderParentAiLinks(
-                            this.props.region,
-                            mainAi.parentAis
-                        ),
+                        "Parent AIs": AiDescriptor.renderParentAiLinks(this.props.region, mainAi.parentAis),
                         "Related Quests": relatedQuests,
                         Raw: (
                             <Row>
                                 <Col>
-                                    <RawDataViewer
-                                        text="Nice"
-                                        data={this.state.aiCollection}
-                                    />
+                                    <RawDataViewer text="Nice" data={this.state.aiCollection} />
                                 </Col>
                                 <Col>
                                     <RawDataViewer text="Raw" data={rawUrl} />
@@ -141,10 +127,7 @@ class AiPage extends React.Component<IProps, IState> {
                     }}
                 />
 
-                <AiGraph
-                    aiCol={this.state.aiCollection}
-                    handleNavigateAiId={scrollToAiId}
-                />
+                <AiGraph aiCol={this.state.aiCollection} handleNavigateAiId={scrollToAiId} />
                 <div ref={this.state.refs.get(aiCollection.mainAis[0].id)}>
                     <AiTable
                         region={this.props.region}
@@ -156,16 +139,12 @@ class AiPage extends React.Component<IProps, IState> {
                         skillId3={this.state.skillId3}
                     />
                 </div>
-                {Array.from(
-                    new Set(aiCollection.relatedAis.map((ai) => ai.id))
-                ).map((aiId) => (
+                {Array.from(new Set(aiCollection.relatedAis.map((ai) => ai.id))).map((aiId) => (
                     <div ref={this.state.refs.get(aiId)}>
                         <AiTable
                             region={this.props.region}
                             aiType={this.props.aiType}
-                            ais={aiCollection.relatedAis.filter(
-                                (ai) => ai.id === aiId
-                            )}
+                            ais={aiCollection.relatedAis.filter((ai) => ai.id === aiId)}
                             handleNavigateAiId={scrollToAiId}
                             skillId1={this.state.skillId1}
                             skillId2={this.state.skillId2}

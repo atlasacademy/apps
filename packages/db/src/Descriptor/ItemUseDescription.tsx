@@ -1,11 +1,13 @@
-import {Item, Region} from "@atlasacademy/api-connector";
-import {ItemDescriptor} from "@atlasacademy/api-descriptor";
 import React from "react";
-import {mergeElements} from "../Helper/OutputHelper";
+
+import { Item, Region } from "@atlasacademy/api-connector";
+import { ItemDescriptor } from "@atlasacademy/api-descriptor";
+
+import { mergeElements } from "../Helper/OutputHelper";
 
 interface IProps {
     region: Region;
-    item: Item.Item
+    item: Item.Item;
 }
 
 class ItemUseDescription extends React.Component<IProps> {
@@ -17,19 +19,16 @@ class ItemUseDescription extends React.Component<IProps> {
                 itemUseDescriptions.push(ItemDescriptor.describeUse("skill & ascension"));
                 continue;
             }
-            if (use === Item.ItemUse.ASCENSION && uses.includes(Item.ItemUse.SKILL))
-                continue;
+            if (use === Item.ItemUse.ASCENSION && uses.includes(Item.ItemUse.SKILL)) continue;
 
             itemUseDescriptions.push(ItemDescriptor.describeUse(use));
         }
         return (
             <div>
                 {mergeElements(
-                    itemUseDescriptions.map(use => (
-                        <span>{use}</span>
-                    )),
-                    ', ')
-                }
+                    itemUseDescriptions.map((use) => <span>{use}</span>),
+                    ", "
+                )}
             </div>
         );
     }

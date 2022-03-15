@@ -1,12 +1,11 @@
-import {CommandCode, Region} from "@atlasacademy/api-connector";
 import React from "react";
-import {FormControl} from "react-bootstrap";
-import {withRouter} from "react-router";
-import {RouteComponentProps} from "react-router-dom";
+import { FormControl } from "react-bootstrap";
+import { withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 
-interface Event extends React.ChangeEvent<HTMLInputElement> {
+import { CommandCode, Region } from "@atlasacademy/api-connector";
 
-}
+interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -23,11 +22,14 @@ class CommandCodePicker extends React.Component<IProps> {
         return (
             <div>
                 Jump to:
-                <FormControl as={"select"} custom
-                             onChange={(ev: Event) => {
-                                 this.changeCommandCode(parseInt(ev.target.value));
-                             }}
-                             value={this.props.id}>
+                <FormControl
+                    as={"select"}
+                    custom
+                    onChange={(ev: Event) => {
+                        this.changeCommandCode(parseInt(ev.target.value));
+                    }}
+                    value={this.props.id}
+                >
                     {this.props.commandCodes
                         .slice()
                         .reverse()
@@ -37,8 +39,7 @@ class CommandCodePicker extends React.Component<IProps> {
                                     {commandCode.name}
                                 </option>
                             );
-                        })
-                    }
+                        })}
                 </FormControl>
             </div>
         );

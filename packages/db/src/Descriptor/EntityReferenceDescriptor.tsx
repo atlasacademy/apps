@@ -1,5 +1,7 @@
-import { Entity, Region } from "@atlasacademy/api-connector";
 import React, { useEffect, useState } from "react";
+
+import { Entity, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import EntityDescriptor from "./EntityDescriptor";
 
@@ -14,15 +16,7 @@ export default function EntityReferenceDescriptor(props: {
         Api.entityBasic(props.svtId).then((s) => setEntity(s));
     }, [props.region, props.svtId]);
     if (entity !== null) {
-        return (
-            <EntityDescriptor
-                region={props.region}
-                entity={entity}
-                iconHeight={props.iconHeight}
-                tab={props.tab}
-            />
-        );
-
+        return <EntityDescriptor region={props.region} entity={entity} iconHeight={props.iconHeight} tab={props.tab} />;
     } else {
         return null;
     }

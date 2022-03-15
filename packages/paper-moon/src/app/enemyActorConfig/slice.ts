@@ -1,5 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {EnemyActorConfigServantOptions, EnemyActorConfigState} from "./types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { EnemyActorConfigServantOptions, EnemyActorConfigState } from "./types";
 
 const initialState: EnemyActorConfigState = {
     open: false,
@@ -7,7 +8,7 @@ const initialState: EnemyActorConfigState = {
 };
 
 export const enemyActorConfigSlice = createSlice({
-    name: 'enemyActorConfig',
+    name: "enemyActorConfig",
     initialState,
     reducers: {
         setLoading: (state, action: PayloadAction<boolean>) => {
@@ -22,5 +23,5 @@ export const enemyActorConfigSlice = createSlice({
         setServantOptions: (state, action: PayloadAction<EnemyActorConfigServantOptions | undefined>) => {
             state.servantOptions = action.payload;
         },
-    }
-})
+    },
+});

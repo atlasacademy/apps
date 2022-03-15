@@ -1,12 +1,11 @@
-import { Region, War } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { Region, War } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 
-export default function WarDescriptor(props: {
-    region: Region;
-    war: War.WarBasic;
-}) {
+export default function WarDescriptor(props: { region: Region; war: War.WarBasic }) {
     const war = props.war;
     return <Link to={`/${props.region}/war/${war.id}`}>{war.longName}</Link>;
 }

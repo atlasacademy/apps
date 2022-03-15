@@ -1,5 +1,6 @@
-import { Region } from "@atlasacademy/api-connector";
 import { Link } from "react-router-dom";
+
+import { Region } from "@atlasacademy/api-connector";
 
 const getOrder = (scriptId: string) => {
     const lastDigit = scriptId.slice(scriptId.length - 1, scriptId.length);
@@ -42,26 +43,15 @@ export const getScriptType = (scriptId: string) => {
     }
 };
 
-const ScriptDescriptor = (props: {
-    region: Region;
-    scriptId: string;
-    scriptName?: string;
-    scriptType?: string;
-}) => {
+const ScriptDescriptor = (props: { region: Region; scriptId: string; scriptName?: string; scriptType?: string }) => {
     const defaultScriptType = getScriptType(props.scriptId);
     if (props.scriptType === "") {
-        return (
-            <Link to={`/${props.region}/script/${props.scriptId}`}>
-                {props.scriptName ?? props.scriptId}
-            </Link>
-        );
+        return <Link to={`/${props.region}/script/${props.scriptId}`}>{props.scriptName ?? props.scriptId}</Link>;
     }
     return (
         <>
             {props.scriptType ?? defaultScriptType}:&nbsp;
-            <Link to={`/${props.region}/script/${props.scriptId}`}>
-                {props.scriptName ?? props.scriptId}
-            </Link>
+            <Link to={`/${props.region}/script/${props.scriptId}`}>{props.scriptName ?? props.scriptId}</Link>
         </>
     );
 };

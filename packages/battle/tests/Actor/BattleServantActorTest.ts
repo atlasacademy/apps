@@ -1,11 +1,13 @@
-import {Card, ClassName} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../src";
-import {BattleAttackActionList} from "../../src/Action/BattleAttackAction";
-import {createBattle, servant} from "../helpers";
+import { expect } from "chai";
 
-describe('BattleServantActor', () => {
-    it('defaults', async () => {
+import { Card, ClassName } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../src";
+import { BattleAttackActionList } from "../../src/Action/BattleAttackAction";
+import { createBattle, servant } from "../helpers";
+
+describe("BattleServantActor", () => {
+    it("defaults", async () => {
         const actor = servant(2, BattleTeam.PLAYER), // artoria
             battle = createBattle();
 
@@ -31,7 +33,7 @@ describe('BattleServantActor', () => {
         expect(actor.attack()).to.equal(14421);
     });
 
-    it('mash default', () => {
+    it("mash default", () => {
         const actor = servant(1, BattleTeam.PLAYER), // mash
             battle = createBattle();
 
@@ -40,7 +42,7 @@ describe('BattleServantActor', () => {
         expect(actor.baseAttack()).to.equal(8587);
     });
 
-    it('autoAttack', () => {
+    it("autoAttack", () => {
         const battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER), // artoria
             target = servant(17, BattleTeam.ENEMY); // cu
@@ -60,6 +62,5 @@ describe('BattleServantActor', () => {
         // actor.autoAttack(battle, target, actions, 2);
         // actor.autoAttack(battle, target, actions, 3);
         // actor.autoAttack(battle, target, actions, 4);
-
     });
 });

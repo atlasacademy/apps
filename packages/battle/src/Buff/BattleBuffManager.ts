@@ -1,7 +1,8 @@
-import {Buff, Trait} from "@atlasacademy/api-connector";
-import {BattleActorLogic} from "../Actor/BattleActor";
-import {Battle} from "../Battle";
-import {BattleBuff} from "./BattleBuff";
+import { Buff, Trait } from "@atlasacademy/api-connector";
+
+import { BattleActorLogic } from "../Actor/BattleActor";
+import { Battle } from "../Battle";
+import { BattleBuff } from "./BattleBuff";
 
 export default class BattleBuffManager {
     public logic: BattleActorLogic = BattleActorLogic.NORMAL;
@@ -12,7 +13,7 @@ export default class BattleBuffManager {
     }
 
     public clone(): BattleBuffManager {
-        return new BattleBuffManager(this.list.map(buff => buff.clone()));
+        return new BattleBuffManager(this.list.map((buff) => buff.clone()));
     }
 
     add(buff: BattleBuff) {
@@ -20,12 +21,11 @@ export default class BattleBuffManager {
     }
 
     all(activeOnly: boolean): BattleBuff[] {
-        return this.list.filter(buff => !activeOnly || !buff.props.passive);
+        return this.list.filter((buff) => !activeOnly || !buff.props.passive);
     }
 
     battle(): Battle {
-        if (this._battle === undefined)
-            throw new Error('BATTLE NOT SET');
+        if (this._battle === undefined) throw new Error("BATTLE NOT SET");
 
         return this._battle;
     }
@@ -50,8 +50,7 @@ export default class BattleBuffManager {
         checkTrait: boolean = false
     ): BattleBuff[] {
         const buffConstant = this.battle().constants().buffConstants(group);
-        if (!buffConstant)
-            throw new Error(`UNKNOWN BUFF GROUP ${group}`);
+        if (!buffConstant) throw new Error(`UNKNOWN BUFF GROUP ${group}`);
 
         const buffs = [],
             applicableTypes = plus ? buffConstant.plusTypes : buffConstant.minusTypes;
@@ -72,8 +71,7 @@ export default class BattleBuffManager {
         const buffs = this.getBuffs(group, traits, targetTraits, true);
         for (let buff of buffs) {
             const buffValue = buff.value(traits, targetTraits);
-            if (buffValue !== undefined)
-                return buffValue;
+            if (buffValue !== undefined) return buffValue;
         }
 
         return undefined;
@@ -87,19 +85,17 @@ export default class BattleBuffManager {
         const buffs = this.getBuffs(group, traits, targetTraits, true);
         for (let buff of buffs) {
             const buffValue = buff.value(traits, targetTraits);
-            if (buffValue !== undefined)
-                buffValues.push(buffValue);
+            if (buffValue !== undefined) buffValues.push(buffValue);
         }
 
         return buffValues;
     }
 
-
     hasTrait(trait: Trait.Trait | number, activeOnly: boolean) {
         const traitId: number = typeof trait === "number" ? trait : trait.id,
             traits = this.traits(activeOnly);
 
-        return traits.filter(_trait => _trait.id === traitId).length > 0;
+        return traits.filter((_trait) => _trait.id === traitId).length > 0;
     }
 
     /**
@@ -107,28 +103,24 @@ export default class BattleBuffManager {
      */
     netBuffs(group: Buff.BuffAction, traits: Trait.Trait[], targetTraits: Trait.Trait[]): number {
         const buffConstant = this.battle().constants().buffConstants(group);
-        if (!buffConstant)
-            throw new Error(`UNKNOWN BUFF GROUP ${group}`);
+        if (!buffConstant) throw new Error(`UNKNOWN BUFF GROUP ${group}`);
 
         let value = buffConstant.baseParam,
             upperLimit = buffConstant.baseParam;
 
-        this.getBuffs(group, traits, targetTraits, true, true).forEach(buff => {
-            if (upperLimit < buff.props.buff.maxRate)
-                upperLimit = buff.props.buff.maxRate;
+        this.getBuffs(group, traits, targetTraits, true, true).forEach((buff) => {
+            if (upperLimit < buff.props.buff.maxRate) upperLimit = buff.props.buff.maxRate;
 
             value += Math.floor(buff.value(traits, targetTraits) ?? 0);
         });
 
-        this.getBuffs(group, traits, targetTraits, false, true).forEach(buff => {
-            if (upperLimit < buff.props.buff.maxRate)
-                upperLimit = buff.props.buff.maxRate;
+        this.getBuffs(group, traits, targetTraits, false, true).forEach((buff) => {
+            if (upperLimit < buff.props.buff.maxRate) upperLimit = buff.props.buff.maxRate;
 
             value -= Math.floor(buff.value(traits, targetTraits) ?? 0);
         });
 
-        if ([Buff.BuffLimit.LOWER, Buff.BuffLimit.NORMAL].includes(buffConstant.limit))
-            value = Math.max(value, 0);
+        if ([Buff.BuffLimit.LOWER, Buff.BuffLimit.NORMAL].includes(buffConstant.limit)) value = Math.max(value, 0);
 
         value -= buffConstant.baseValue;
 
@@ -153,8 +145,8 @@ export default class BattleBuffManager {
         const traits: Trait.Trait[] = [];
 
         this.list
-            .filter(buff => !activeOnly || !buff.passive())
-            .forEach(buff => {
+            .filter((buff) => !activeOnly || !buff.passive())
+            .forEach((buff) => {
                 traits.push(...buff.traits());
             });
 
@@ -163,12 +155,10 @@ export default class BattleBuffManager {
 
     updateList(callback: (buff: BattleBuff) => boolean, reverse: boolean = false) {
         let list = this.list;
-        if (reverse)
-            list = list.reverse();
+        if (reverse) list = list.reverse();
 
         list = list.filter(callback);
-        if (reverse)
-            list = list.reverse();
+        if (reverse) list = list.reverse();
 
         this.list = list;
     }
@@ -179,16 +169,16 @@ export default class BattleBuffManager {
         targetTraits: Trait.Trait[],
         checkTrait: boolean = false
     ): BattleBuff[] {
-        return this.list.filter(buff => {
-            if (buff.props.buff.type !== type)
-                return false;
+        return this.list.filter((buff) => {
+            if (buff.props.buff.type !== type) return false;
 
-            if (!checkTrait)
-                return true;
+            if (!checkTrait) return true;
 
             switch (this.logic) {
-                case BattleActorLogic.PERFECT: return true;
-                case BattleActorLogic.NEUTRAL: return false;
+                case BattleActorLogic.PERFECT:
+                    return true;
+                case BattleActorLogic.NEUTRAL:
+                    return false;
             }
 
             return buff.checkTrait(traits, targetTraits) && buff.checkSuccessful();

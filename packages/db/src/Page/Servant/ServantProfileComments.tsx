@@ -1,7 +1,9 @@
-import { Region } from "@atlasacademy/api-connector";
-import { ProfileComment } from "@atlasacademy/api-connector/dist/Schema/Profile";
 import React from "react";
 import { Table } from "react-bootstrap";
+
+import { Region } from "@atlasacademy/api-connector";
+import { ProfileComment } from "@atlasacademy/api-connector/dist/Schema/Profile";
+
 import ProfileCommentAddsDescriptor from "../../Descriptor/ProfileConditionAddDescriptor";
 import ProfileConditionDescriptor from "../../Descriptor/ProfileConditionDescriptor";
 import { replacePUACodePoints } from "../../Helper/StringHelper";
@@ -32,18 +34,13 @@ class ServantProfileComments extends React.Component<IProps> {
                             return (
                                 <tr key={`${comment.id}-${comment.priority}`}>
                                     <td className="profile-condition">
-                                        <ProfileConditionDescriptor
-                                            region={this.props.region}
-                                            comment={comment}
-                                        />
+                                        <ProfileConditionDescriptor region={this.props.region} comment={comment} />
                                         <ProfileCommentAddsDescriptor
                                             region={this.props.region}
                                             commentAdds={comment.additionalConds}
                                         />
                                     </td>
-                                    <td className="newline">
-                                        {replacePUACodePoints(comment.comment)}
-                                    </td>
+                                    <td className="newline">{replacePUACodePoints(comment.comment)}</td>
                                 </tr>
                             );
                         })}

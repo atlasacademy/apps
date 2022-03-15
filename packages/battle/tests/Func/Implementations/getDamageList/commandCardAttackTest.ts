@@ -1,12 +1,14 @@
-import {Card} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../../src";
-import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {commandCardAttack} from "../../../../src/Func/Implementations/getDamageList";
-import {createBattle, servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList commandCardAttack', () => {
-    it('no bonus', () => {
+import { Card } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../../src";
+import { BattleAttackActionList } from "../../../../src/Action/BattleAttackAction";
+import { commandCardAttack } from "../../../../src/Func/Implementations/getDamageList";
+import { createBattle, servant } from "../../../helpers";
+
+describe("getDamageList commandCardAttack", () => {
+    it("no bonus", () => {
         const actor = servant(153, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -25,7 +27,7 @@ describe('getDamageList commandCardAttack', () => {
         expect(commandCardAttack(battle, actions.get(4), actor, target).value()).to.equal(1);
     });
 
-    it('bonus - musashi mana burst', async () => {
+    it("bonus - musashi mana burst", async () => {
         const actor = servant(153, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();

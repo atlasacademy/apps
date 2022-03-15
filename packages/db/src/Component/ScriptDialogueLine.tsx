@@ -1,21 +1,16 @@
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+
 import { Region } from "@atlasacademy/api-connector";
-import { OverlayTrigger, Tooltip } from "react-bootstrap"
+
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
-import {
-    DialogueBasicComponent,
-    DialogueChildComponent,
-    ScriptComponentType,
-} from "./Script";
+import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";
 
 import "../Helper/StringHelper.css";
 import "./ScriptDialogueLine.css";
 
-const DialogueBasic = (props: {
-    component: DialogueBasicComponent;
-    index?: number;
-}) => {
+const DialogueBasic = (props: { component: DialogueBasicComponent; index?: number }) => {
     const component = props.component;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_NEW_LINE:
@@ -64,31 +59,16 @@ const DialogueBasic = (props: {
             return <>{replacePUACodePoints(component.trueName)}</>;
         case ScriptComponentType.DIALOGUE_TEXT:
             const replacedPUA = replacePUACodePoints(component.text);
-            const sizeClass =
-                component.size !== undefined
-                    ? `scriptDialogueText-${component.size}`
-                    : "";
+            const sizeClass = component.size !== undefined ? `scriptDialogueText-${component.size}` : "";
 
-            return (
-                <span className={`newline ${sizeClass}`}>{replacedPUA}</span>
-            );
+            return <span className={`newline ${sizeClass}`}>{replacedPUA}</span>;
         case ScriptComponentType.DIALOGUE_TEXT_IMAGE:
             if (component.ruby === undefined)
-                return (
-                    <img
-                        src={component.imageAsset}
-                        alt="Berserker Text"
-                        className="dialogueTextImage"
-                    />
-                );
+                return <img src={component.imageAsset} alt="Berserker Text" className="dialogueTextImage" />;
 
             return (
                 <ruby>
-                    <img
-                        src={component.imageAsset}
-                        alt="Berserker Text"
-                        className="dialogueTextImage"
-                    />
+                    <img src={component.imageAsset} alt="Berserker Text" className="dialogueTextImage" />
                     <rt className="dialogueTextImageRuby">{component.ruby}</rt>
                 </ruby>
             );
@@ -97,10 +77,7 @@ const DialogueBasic = (props: {
     }
 };
 
-const DialoguePopover = (props: {
-    children: Renderable[];
-    tooltipComponent: Renderable[]
-}) => {
+const DialoguePopover = (props: { children: Renderable[]; tooltipComponent: Renderable[] }) => {
     const { children, tooltipComponent } = props;
 
     const maleToolTip = (props: any) => (
@@ -110,25 +87,15 @@ const DialoguePopover = (props: {
     );
 
     return (
-        <OverlayTrigger
-            placement="top"
-            delay={{ show: 250, hide: 400 }}
-            overlay={maleToolTip}
-        >
-            <span style={{textDecoration: "underline"}}>
-                {mergeElements(children, "")}
-            </span>
+        <OverlayTrigger placement="top" delay={{ show: 250, hide: 400 }} overlay={maleToolTip}>
+            <span style={{ textDecoration: "underline" }}>{mergeElements(children, "")}</span>
         </OverlayTrigger>
-    )
-}
+    );
+};
 
-export const DialogueChild = ({ component, index }: {
-    component: DialogueChildComponent;
-    index?: number;
-}) => {
+export const DialogueChild = ({ component, index }: { component: DialogueChildComponent; index?: number }) => {
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
-
             const femaleComponents = component.female.map((component, i) => (
                 <DialogueBasic key={i} component={component} />
             ));
@@ -137,11 +104,7 @@ export const DialogueChild = ({ component, index }: {
                 <DialogueBasic key={i} component={component} />
             ));
 
-            return (
-                <DialoguePopover tooltipComponent={femaleComponents}>
-                    {maleComponents}
-                </DialoguePopover>
-            )
+            return <DialoguePopover tooltipComponent={femaleComponents}>{maleComponents}</DialoguePopover>;
         case ScriptComponentType.DIALOGUE_NEW_LINE:
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
         case ScriptComponentType.DIALOGUE_LINE:
@@ -154,12 +117,8 @@ export const DialogueChild = ({ component, index }: {
     }
 };
 
-const ScriptDialogueLine = (props: {
-    components: DialogueChildComponent[];
-}) => {
-    const childDialogue = props.components.map((component, i) => (
-        <DialogueChild component={component} index={i} />
-    ));
+const ScriptDialogueLine = (props: { components: DialogueChildComponent[] }) => {
+    const childDialogue = props.components.map((component, i) => <DialogueChild component={component} index={i} />);
     return <>{mergeElements(childDialogue, "")}</>;
 };
 

@@ -1,5 +1,6 @@
-import {AxiosError} from "axios";
+import { AxiosError } from "axios";
 import React from "react";
+
 import figure_016 from "../Assets/figure_016.png";
 import figure_074 from "../Assets/figure_074.png";
 import figure_127 from "../Assets/figure_127.png";
@@ -29,38 +30,38 @@ interface IProps {
 }
 
 interface ErrorDetail {
-    loc: [string, string, number],
-    msg: string,
-    type: string,
+    loc: [string, string, number];
+    msg: string;
+    type: string;
 }
 
 class ErrorStatus extends React.Component<IProps> {
     render() {
-        document.title = 'Error - Atlas Academy DB'
+        document.title = "Error - Atlas Academy DB";
         let message: string;
 
         if (this.props.error === undefined || this.props.error.response === undefined) {
-            message = 'Not Found';
+            message = "Not Found";
         } else if (this.props.error.response.status === 500) {
-            message = 'Server Error';
+            message = "Server Error";
         } else if (this.props.error.response.status === 404) {
-            message = 'Not Found';
+            message = "Not Found";
         } else {
-            message = 'Code: ' + this.props.error.response.status;
+            message = "Code: " + this.props.error.response.status;
         }
 
         if (
-            typeof this.props.error?.response?.data === "object"
-            && this.props.error.response.data !== null
-            && typeof (this.props.error.response.data as any).detail === "string"
+            typeof this.props.error?.response?.data === "object" &&
+            this.props.error.response.data !== null &&
+            typeof (this.props.error.response.data as any).detail === "string"
         ) {
             message = (this.props.error.response.data as any).detail;
         }
 
         if (
-            typeof this.props.error?.response?.data === "object"
-            && this.props.error.response.data !== null
-            && typeof (this.props.error.response.data as any).detail === "object"
+            typeof this.props.error?.response?.data === "object" &&
+            this.props.error.response.data !== null &&
+            typeof (this.props.error.response.data as any).detail === "object"
         ) {
             const value_errors: string[] = (this.props.error.response.data as any).detail.map((detail: ErrorDetail) => {
                 if (detail.type.startsWith("value_error.number")) {
@@ -70,28 +71,30 @@ class ErrorStatus extends React.Component<IProps> {
                 }
             });
 
-            if (value_errors.length > 0)
-                message = "Ensure " + value_errors.join(" and ")
+            if (value_errors.length > 0) message = "Ensure " + value_errors.join(" and ");
         }
 
         const random = Math.floor(Math.random() * images.length),
             image = images[random];
 
         return (
-            <div id={'error-status'}>
-                <img alt={'Error'} src={image} style={{
-                    display: "block",
-                    height: 300,
-                    margin: '0 auto',
-                }}/>
+            <div id={"error-status"}>
+                <img
+                    alt={"Error"}
+                    src={image}
+                    style={{
+                        display: "block",
+                        height: 300,
+                        margin: "0 auto",
+                    }}
+                />
 
-                <p className={'text-center'} style={{margin: 50}}>
+                <p className={"text-center"} style={{ margin: 50 }}>
                     <strong>ERROR: {message}</strong>
                 </p>
             </div>
         );
     }
-
 }
 
 export default ErrorStatus;

@@ -1,5 +1,7 @@
-import { Region, Servant } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
+
+import { Region, Servant } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ServantDescriptor from "./ServantDescriptor";
 
@@ -17,9 +19,7 @@ export default function CostumeDescriptor(props: {
     if (servant !== null) {
         let costume = undefined;
         if (servant.profile !== undefined) {
-            costume = Object.values(servant.profile.costume).find(
-                (costume) => costume.id === props.costumeLimit
-            );
+            costume = Object.values(servant.profile.costume).find((costume) => costume.id === props.costumeLimit);
         }
         return (
             <>

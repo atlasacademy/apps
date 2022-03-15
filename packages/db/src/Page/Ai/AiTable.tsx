@@ -1,12 +1,15 @@
+import { Button, Table } from "react-bootstrap";
+
 import { Ai, Region, Skill, Trait } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
-import { Button, Table } from "react-bootstrap";
+
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import AiDescriptor from "../../Descriptor/AiDescriptor";
 import { BuffIdDescriptor } from "../../Descriptor/BuffDescription";
 import SkillPopover, { SkillPopOverId } from "../../Descriptor/SkillPopover";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
+
 import "../../Component/MoveButton.css";
 import "./AiTable.css";
 
@@ -39,17 +42,8 @@ const AI_SUBJECT_PLURAL = new Map<SUBJECT, boolean>([
     [SUBJECT.PT_ALL, true],
 ]);
 
-function AiCondition(props: {
-    region: Region;
-    cond: Ai.AiCond;
-    condNegative: boolean;
-    vals: number[];
-}) {
-    const [cond, condNegative, vals] = [
-        props.cond,
-        props.condNegative,
-        props.vals,
-    ];
+function AiCondition(props: { region: Region; cond: Ai.AiCond; condNegative: boolean; vals: number[] }) {
+    const [cond, condNegative, vals] = [props.cond, props.condNegative, props.vals];
     let subject = AI_COND_SUBJECT.get(cond);
     let have = "";
     if (subject !== undefined && AI_SUBJECT_PLURAL.get(subject)) {
@@ -83,12 +77,7 @@ function AiCondition(props: {
                     {[subject, have].join(" ")}
                     &nbsp;{vals.length > 1 ? "buffs" : "buff"}&nbsp;
                     {mergeElements(
-                        vals.map((val) => (
-                            <BuffIdDescriptor
-                                region={props.region}
-                                buffId={val}
-                            />
-                        )),
+                        vals.map((val) => <BuffIdDescriptor region={props.region} buffId={val} />),
                         ", "
                     )}
                 </>
@@ -102,12 +91,7 @@ function AiCondition(props: {
                     {[subject, have].join(" ")}
                     &nbsp;
                     {mergeElements(
-                        vals.map((val) => (
-                            <TraitDescription
-                                region={props.region}
-                                trait={val}
-                            />
-                        )),
+                        vals.map((val) => <TraitDescription region={props.region} trait={val} />),
                         ", "
                     )}
                 </>
@@ -122,12 +106,7 @@ function AiCondition(props: {
                     &nbsp;
                     {mergeElements(
                         vals.map((val) => (
-                            <TraitDescription
-                                region={props.region}
-                                trait={val}
-                                owner="buffs"
-                                ownerParameter="vals"
-                            />
+                            <TraitDescription region={props.region} trait={val} owner="buffs" ownerParameter="vals" />
                         )),
                         ", "
                     )}
@@ -145,8 +124,7 @@ function AiCondition(props: {
         case Ai.AiCond.CHECK_OPPONENT_HEIGHT_NPGAUGE:
             return (
                 <>
-                    Any opponent's NP gauge {condNegative ? "<" : "≥"}{" "}
-                    {vals[0] / 100}%
+                    Any opponent's NP gauge {condNegative ? "<" : "≥"} {vals[0] / 100}%
                 </>
             );
         case Ai.AiCond.CHECK_SELF_NPTURN:
@@ -182,25 +160,19 @@ function AiActType(props: {
             return <>Random skill</>;
         case Ai.AiActType.SKILL1:
             if (props.skillId1 !== undefined) {
-                return (
-                    <SkillPopOverId region={region} skillId={props.skillId1} />
-                );
+                return <SkillPopOverId region={region} skillId={props.skillId1} />;
             } else {
                 return <>Skill 1</>;
             }
         case Ai.AiActType.SKILL2:
             if (props.skillId2 !== undefined) {
-                return (
-                    <SkillPopOverId region={region} skillId={props.skillId2} />
-                );
+                return <SkillPopOverId region={region} skillId={props.skillId2} />;
             } else {
                 return <>Skill 2</>;
             }
         case Ai.AiActType.SKILL3:
             if (props.skillId3 !== undefined) {
-                return (
-                    <SkillPopOverId region={region} skillId={props.skillId3} />
-                );
+                return <SkillPopOverId region={region} skillId={props.skillId3} />;
             } else {
                 return <>Skill 3</>;
             }
@@ -220,20 +192,14 @@ function ActTarget(props: {
             {toTitleCase(props.target)}
             {props.targetIndividuality.length > 0 ? " - " : ""}
             {mergeElements(
-                props.targetIndividuality.map((trait) => (
-                    <TraitDescription region={props.region} trait={trait} />
-                )),
+                props.targetIndividuality.map((trait) => <TraitDescription region={props.region} trait={trait} />),
                 " "
             )}
         </>
     );
 }
 
-function ActSkill(props: {
-    region: Region;
-    skill?: Skill.Skill;
-    skillLv?: number;
-}) {
+function ActSkill(props: { region: Region; skill?: Skill.Skill; skillLv?: number }) {
     if (props.skill && props.skillLv) {
         return (
             <>
@@ -254,11 +220,7 @@ function NextAi(props: {
 }) {
     if (props.avals.length >= 2 && props.avals[0] !== 0) {
         return (
-            <Button
-                variant="link"
-                className="move-button"
-                onClick={() => props.handleNavigateAiId?.(props.avals[0])}
-            >
+            <Button variant="link" className="move-button" onClick={() => props.handleNavigateAiId?.(props.avals[0])}>
                 {AiDescriptor.renderAsString(props.aiType, props.avals[0])}
             </Button>
         );
@@ -278,12 +240,7 @@ export default function AiTable(props: {
 }) {
     const ais = props.ais;
     const outputTable = (
-        <Table
-            responsive
-            className={"ai-info"}
-            style={{ whiteSpace: "nowrap" }}
-            key={props.ais[0].id}
-        >
+        <Table responsive className={"ai-info"} style={{ whiteSpace: "nowrap" }} key={props.ais[0].id}>
             <thead>
                 <tr>
                     <th>AI Sub ID</th>
@@ -300,9 +257,7 @@ export default function AiTable(props: {
                     <td>Act Num</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
-                            {ai.actNum === Ai.AiActNum.UNKNOWN
-                                ? ai.actNumInt
-                                : toTitleCase(ai.actNum)}
+                            {ai.actNum === Ai.AiActNum.UNKNOWN ? ai.actNumInt : toTitleCase(ai.actNum)}
                         </td>
                     ))}
                 </tr>
@@ -348,9 +303,7 @@ export default function AiTable(props: {
                             <ActTarget
                                 region={props.region}
                                 target={ai.aiAct.target}
-                                targetIndividuality={
-                                    ai.aiAct.targetIndividuality
-                                }
+                                targetIndividuality={ai.aiAct.targetIndividuality}
                             />
                         </td>
                     ))}
@@ -359,11 +312,7 @@ export default function AiTable(props: {
                     <td>Act Skill</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
-                            <ActSkill
-                                region={props.region}
-                                skill={ai.aiAct.skill}
-                                skillLv={ai.aiAct.skillLv}
-                            />
+                            <ActSkill region={props.region} skill={ai.aiAct.skill} skillLv={ai.aiAct.skillLv} />
                         </td>
                     ))}
                 </tr>

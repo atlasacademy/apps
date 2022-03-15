@@ -1,7 +1,7 @@
-import describe from "./describe";
 import TraitReferencePartial from "./TraitReferencePartial";
+import describe from "./describe";
 
 export default {
     describe,
-    TraitReferencePartial
+    TraitReferencePartial,
 };

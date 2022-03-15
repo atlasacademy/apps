@@ -1,5 +1,7 @@
-import { Ai } from "@atlasacademy/api-connector";
 import CytoscapeComponent from "react-cytoscapejs";
+
+import { Ai } from "@atlasacademy/api-connector";
+
 import useWindowDimensions from "../../Helper/WindowHelper";
 
 function getCytoscapeElements(aiCol: Ai.AiCollection) {
@@ -65,10 +67,7 @@ function getGraphSize(windowWidth: number, windowHeight: number) {
     return { graphWidth, graphHeight };
 }
 
-export default function AiGraph(props: {
-    aiCol: Ai.AiCollection;
-    handleNavigateAiId?: (id: number) => void;
-}) {
+export default function AiGraph(props: { aiCol: Ai.AiCollection; handleNavigateAiId?: (id: number) => void }) {
     const { windowWidth, windowHeight } = useWindowDimensions(),
         { graphWidth, graphHeight } = getGraphSize(windowWidth, windowHeight),
         elements = getCytoscapeElements(props.aiCol);
@@ -119,9 +118,7 @@ export default function AiGraph(props: {
             ]}
             cy={(cytoscape) =>
                 cytoscape.on("tap", "node", (cytoscapeEvent) =>
-                    props.handleNavigateAiId?.(
-                        +cytoscapeEvent.target.id().split("-")[0]
-                    )
+                    props.handleNavigateAiId?.(+cytoscapeEvent.target.id().split("-")[0])
                 )
             }
         />

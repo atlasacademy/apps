@@ -1,5 +1,7 @@
-import { Event, Item, Region } from "@atlasacademy/api-connector";
 import { Table } from "react-bootstrap";
+
+import { Event, Item, Region } from "@atlasacademy/api-connector";
+
 import CommonConsumeDescriptor from "../../Descriptor/CommonConsumeDescriptor";
 import { MultipleGifts } from "../../Descriptor/MultipleDescriptors";
 
@@ -28,11 +30,7 @@ const TreasureBoxGiftTable = ({
                         <tr key={`${boxGift.id}-${boxGift.idx}`}>
                             <td className="col-center">{boxGift.idx}</td>
                             <td>
-                                <MultipleGifts
-                                    region={region}
-                                    gifts={boxGift.gifts}
-                                    itemMap={itemMap}
-                                />
+                                <MultipleGifts region={region} gifts={boxGift.gifts} itemMap={itemMap} />
                             </td>
                         </tr>
                     );
@@ -55,10 +53,7 @@ const TreasureBox = ({
         <>
             <h4>Treasure Box {treasureBox.idx}</h4>
             <ul>
-                <li>
-                    Maximum number of draws at once:{" "}
-                    {treasureBox.maxDrawNumOnce}
-                </li>
+                <li>Maximum number of draws at once: {treasureBox.maxDrawNumOnce}</li>
                 <li>
                     Draw Cost:{" "}
                     <CommonConsumeDescriptor
@@ -69,18 +64,10 @@ const TreasureBox = ({
                 </li>
                 <li>
                     Extra Gifts per box:{" "}
-                    <MultipleGifts
-                        region={region}
-                        gifts={treasureBox.extraGifts}
-                        itemMap={itemMap}
-                    />
+                    <MultipleGifts region={region} gifts={treasureBox.extraGifts} itemMap={itemMap} />
                 </li>
             </ul>
-            <TreasureBoxGiftTable
-                region={region}
-                treasureBoxGifts={treasureBox.treasureBoxGifts}
-                itemMap={itemMap}
-            />
+            <TreasureBoxGiftTable region={region} treasureBoxGifts={treasureBox.treasureBoxGifts} itemMap={itemMap} />
         </>
     );
 };

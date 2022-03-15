@@ -1,3 +1,5 @@
+import React from "react";
+
 import Region from "@atlasacademy/api-connector/dist/Enum/Region";
 import {
     Descriptor,
@@ -7,17 +9,17 @@ import {
     ReferenceType,
     TextPartial,
     ValuePartial,
-    ValueType
+    ValueType,
 } from "@atlasacademy/api-descriptor";
-import React from "react";
+
 import CardDescription from "./CardDescription";
 import SkillDescriptor from "./SkillDescriptor";
 import SkillReferenceDescriptor from "./SkillReferenceDescriptor";
 import TraitDescription from "./TraitDescription";
 
 interface IProps {
-    region: Region,
-    descriptor: Descriptor,
+    region: Region;
+    descriptor: Descriptor;
 }
 
 class Description extends React.Component<IProps> {
@@ -47,7 +49,7 @@ class Description extends React.Component<IProps> {
 
     private static renderValue(partial: ValuePartial): string {
         if (partial.valueType === ValueType.PERCENT) {
-            return partial.value.toString() + '%';
+            return partial.value.toString() + "%";
         }
 
         return partial.value.toString();
@@ -73,20 +75,20 @@ class Description extends React.Component<IProps> {
             }
         }
 
-        return fragments.join('');
+        return fragments.join("");
     }
 
     private renderReference(partial: ReferencePartial, key: number) {
         if (partial.referenceType === ReferenceType.CARD) {
-            return <CardDescription key={key} region={this.props.region} card={partial.value}/>;
+            return <CardDescription key={key} region={this.props.region} card={partial.value} />;
         } else if (partial.referenceType === ReferenceType.SKILL) {
             if (typeof partial.value === "number") {
-                return <SkillReferenceDescriptor key={key} region={this.props.region} id={partial.value}/>;
+                return <SkillReferenceDescriptor key={key} region={this.props.region} id={partial.value} />;
             } else {
-                return <SkillDescriptor key={key} region={this.props.region} skill={partial.value}/>;
+                return <SkillDescriptor key={key} region={this.props.region} skill={partial.value} />;
             }
         } else if (partial.referenceType === ReferenceType.TRAIT) {
-            return <TraitDescription key={key} region={this.props.region} trait={partial.value}/>
+            return <TraitDescription key={key} region={this.props.region} trait={partial.value} />;
         }
 
         return partial.value.toString();
@@ -114,7 +116,6 @@ class Description extends React.Component<IProps> {
 
         return <React.Fragment>{fragments}</React.Fragment>;
     }
-
 }
 
 export default Description;

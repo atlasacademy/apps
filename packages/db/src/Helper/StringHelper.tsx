@@ -1,7 +1,8 @@
-import {Region} from "@atlasacademy/api-connector";
+import { Region } from "@atlasacademy/api-connector";
+
 import { parseDialogueLine } from "../Component/Script";
 import { DialogueChild } from "../Component/ScriptDialogueLine";
-import {mergeElements, Renderable} from "./OutputHelper";
+import { mergeElements, Renderable } from "./OutputHelper";
 
 import "./StringHelper.css";
 
@@ -27,7 +28,7 @@ export function makeRubyText(text: string, ruby: string, splitRank = false): Ren
                 <rt>{replacePUACodePoints(ruby)}</rt>
                 <rp>)</rp>&nbsp;{rank}
             </ruby>
-        )
+        );
     } else {
         return (
             <ruby>
@@ -36,17 +37,17 @@ export function makeRubyText(text: string, ruby: string, splitRank = false): Ren
                 <rt>{replacePUACodePoints(ruby)}</rt>
                 <rp>)</rp>
             </ruby>
-        )
+        );
     }
 }
 
 export function joinNumbers(numbers: number[]): string {
     if (numbers.length === 0) {
-        return '';
+        return "";
     } else if (numbers.length === 1) {
         return numbers[0].toString();
     } else {
-        return numbers.slice(0, -1).join(', ') + ' and ' + numbers[numbers.length - 1];
+        return numbers.slice(0, -1).join(", ") + " and " + numbers[numbers.length - 1];
     }
 }
 
@@ -63,7 +64,7 @@ export function getURLSearchParams(options: SearchOptions) {
                 searchParams.append(key, item.toString());
             }
         } else if (value !== undefined) {
-            searchParams.append(key, value.toString())
+            searchParams.append(key, value.toString());
         }
     }
     return searchParams;
@@ -72,7 +73,6 @@ export function getURLSearchParams(options: SearchOptions) {
 export function isPositiveInteger(str: string) {
     return /^\d+$/.test(str);
 }
-
 
 const OrdinalSuperscript = new Map([
     [1, "st"],
@@ -93,26 +93,24 @@ export const ordinalNumeral = (index: number) => {
 export const colorString = (inputString: string) => {
     // Can't use the given colors since they might look bad on different db themes
     return inputString.replace(/\[[a-zA-z0-9-]+\]/g, "");
-}
+};
 
 export const interpolateString = (inputString: string, variables: any[]) => {
     for (let i = 0; i < variables.length; i++) {
-        inputString = inputString.replace(`{${i}}`, variables[i].toString())
+        inputString = inputString.replace(`{${i}}`, variables[i].toString());
     }
     return inputString;
 };
 
 const unicodeFromHex = (hex: string) => String.fromCharCode(parseInt(hex.slice(1), 16));
 
-export const replacePUACodePoints = (
-    inputString: string
-): Renderable => {
+export const replacePUACodePoints = (inputString: string): Renderable => {
     const unicodeReplaced = inputString.replace(/u[0-9A-Z]{4}/g, unicodeFromHex);
     const elements: Renderable[] = [];
     let normalText = "";
     for (const char of unicodeReplaced) {
         const codePoint = char.charCodeAt(0);
-        if ((codePoint >= 0xe000 && codePoint <= 0xf8ff) || ([0x9bd6].includes(codePoint))) {
+        if ((codePoint >= 0xe000 && codePoint <= 0xf8ff) || [0x9bd6].includes(codePoint)) {
             elements.push(normalText);
             normalText = "";
             switch (codePoint) {
@@ -146,16 +144,22 @@ export const removeSuffix = (inputString: string, suffix: string) => {
         return inputString.slice(0, -suffix.length);
     }
     return inputString;
-}
+};
 
-export const VoiceSubtitleFormat = ({region, inputString}: {region: Region, inputString: string}) => {
+export const VoiceSubtitleFormat = ({ region, inputString }: { region: Region; inputString: string }) => {
     const components = parseDialogueLine(region, inputString.replace("\n", "[r]"), {
         choice: false,
         dialogue: false,
-        assetSetMap: new Map()
+        assetSetMap: new Map(),
     });
-    return <>{components.map((component, i) => <DialogueChild key={i} component={component} index={i}/>)}</>;
-}
+    return (
+        <>
+            {components.map((component, i) => (
+                <DialogueChild key={i} component={component} index={i} />
+            ))}
+        </>
+    );
+};
 
 /**
  * Return a list of the words in the string, using sep as the delimiter string.
@@ -176,4 +180,4 @@ export const splitString = (inputString: string, sep: string, maxsplit?: number)
         }
         return splitted.slice(0, maxsplit).concat(splitted.slice(maxsplit).join(sep));
     }
-}
+};

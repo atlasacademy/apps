@@ -1,8 +1,10 @@
-import { Quest, Region } from "@atlasacademy/api-connector";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { Quest, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 
 export function QuestDescriptionNoApi(props: {
@@ -58,11 +60,10 @@ export function QuestDescriptionNoApi(props: {
         const stageUri = props.questStage ? `/stage-${props.questStage}` : "";
         const phase = props.showPhase ? ` – phase ${props.questPhase}` : "";
         return (
-            <Link
-                to={`/${props.region}/quest/${quest.id}/${props.questPhase}${stageUri}`}
-            >
+            <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}${stageUri}`}>
                 {showType && type !== "" ? `${type} ` : ""}
-                {quest.name}{phase} <FontAwesomeIcon icon={faShare} />
+                {quest.name}
+                {phase} <FontAwesomeIcon icon={faShare} />
             </Link>
         );
     }
@@ -96,13 +97,7 @@ export default function QuestDescriptor(props: IProps) {
             />
         );
     } else {
-        return (
-            <>
-                {props.text !== ""
-                    ? props.text
-                    : `Unknown Quest ${props.questId} `}
-            </>
-        );
+        return <>{props.text !== "" ? props.text : `Unknown Quest ${props.questId} `}</>;
     }
 }
 
@@ -164,11 +159,7 @@ export function QuestDescriptorMap(props: {
         );
     } else {
         return (
-            <Link
-                to={`/${props.region}/quest/${props.questId}/${
-                    props.questPhase ?? 1
-                }`}
-            >
+            <Link to={`/${props.region}/quest/${props.questId}/${props.questPhase ?? 1}`}>
                 Quest {props.questId} <FontAwesomeIcon icon={faShare} />
             </Link>
         );

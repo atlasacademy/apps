@@ -1,18 +1,20 @@
-import {DataVal, Func} from "@atlasacademy/api-connector";
-import {default as describeBuffValue} from "../Buff/describeValue";
-import {BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType} from "../Descriptor";
+import { DataVal, Func } from "@atlasacademy/api-connector";
+
+import { default as describeBuffValue } from "../Buff/describeValue";
+import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor";
 import describeGainHpFromTargetsValue from "./Value/describeGainHpFromTargetsValue";
 import describeGainNpFromTargets from "./Value/describeGainNpFromTargets";
 import describeNpAbsorbValue from "./Value/describeNpAbsorbValue";
 
-export default function (func: Func.BasicFunc,
-                         staticDataVal: DataVal.DataVal,
-                         dataVal: DataVal.DataVal,
-                         ignoreRate?: boolean): Descriptor | undefined {
+export default function (
+    func: Func.BasicFunc,
+    staticDataVal: DataVal.DataVal,
+    dataVal: DataVal.DataVal,
+    ignoreRate?: boolean
+): Descriptor | undefined {
     const partials: BasePartial[] = [],
         addPartials = (additional: BasePartial[]) => {
-            if (partials.length && additional.length)
-                partials.push(new ParticlePartial(' + '));
+            if (partials.length && additional.length) partials.push(new ParticlePartial(" + "));
 
             partials.push(...additional);
         };
@@ -21,25 +23,19 @@ export default function (func: Func.BasicFunc,
         if (dataVal.Count !== undefined) {
             addPartials([
                 new ValuePartial(ValueType.NUMBER, dataVal.Count),
-                new TextPartial(' Time' + (dataVal.Count > 1 ? 's' : ''))
+                new TextPartial(" Time" + (dataVal.Count > 1 ? "s" : "")),
             ]);
         }
-    }
+    };
 
     const addPartialUseRate = () => {
         if (dataVal.UseRate !== undefined) {
-            addPartials([
-                new TextPartial('Chance: '),
-                new ValuePartial(ValueType.PERCENT, dataVal.UseRate / 10)
-            ]);
+            addPartials([new TextPartial("Chance: "), new ValuePartial(ValueType.PERCENT, dataVal.UseRate / 10)]);
         }
-    }
+    };
 
     if (!ignoreRate && dataVal.Rate !== undefined) {
-        partials.push(
-            new ValuePartial(ValueType.PERCENT, dataVal.Rate / 10),
-            new TextPartial(' Chance')
-        );
+        partials.push(new ValuePartial(ValueType.PERCENT, dataVal.Rate / 10), new TextPartial(" Chance"));
     }
 
     if (func.funcType === Func.FuncType.ADD_STATE || func.funcType === Func.FuncType.ADD_STATE_SHORT) {
@@ -69,28 +65,22 @@ export default function (func: Func.BasicFunc,
                 case Func.FuncType.DAMAGE_NP_COUNTER:
                 case Func.FuncType.GAIN_HP_PER:
                 case Func.FuncType.QP_DROP_UP:
-                    addPartials([
-                        new ValuePartial(ValueType.PERCENT, dataVal.Value / 10)
-                    ]);
+                    addPartials([new ValuePartial(ValueType.PERCENT, dataVal.Value / 10)]);
                     break;
                 case Func.FuncType.GAIN_NP:
                 case Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM:
                 case Func.FuncType.LOSS_NP:
-                    addPartials([
-                        new ValuePartial(ValueType.PERCENT, dataVal.Value / 100)
-                    ]);
+                    addPartials([new ValuePartial(ValueType.PERCENT, dataVal.Value / 100)]);
                     break;
                 default:
-                    addPartials([
-                        new ValuePartial(ValueType.NUMBER, dataVal.Value)
-                    ]);
+                    addPartials([new ValuePartial(ValueType.NUMBER, dataVal.Value)]);
             }
         }
 
         if (dataVal.Value2 !== undefined) {
             switch (func.funcType) {
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
-                    let preposition = dataVal.Value ? '' : 'with';
+                    let preposition = dataVal.Value ? "" : "with";
                     addPartials([
                         new TextPartial(` ${preposition} supereffective damage of `),
                         new ValuePartial(ValueType.PERCENT, dataVal.Value2 / 10),
@@ -106,38 +96,32 @@ export default function (func: Func.BasicFunc,
                     if (dataVal.Rate !== undefined) {
                         // Full detailed in NP page
                         addPartials([
-                            new TextPartial('supereffective damage of '),
-                            new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10)
+                            new TextPartial("supereffective damage of "),
+                            new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10),
                         ]);
                     } else {
                         // Summary table values
-                        addPartials([
-                            new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10),
-                        ]);
+                        addPartials([new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10)]);
                     }
                     break;
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                     if (dataVal.Correction !== 0) {
                         addPartials([
-                            new TextPartial('additional '),
+                            new TextPartial("additional "),
                             new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10),
-                            new TextPartial(' SE '),
+                            new TextPartial(" SE "),
                         ]);
                     }
                     break;
                 default:
-                    addPartials([
-                        new ValuePartial(ValueType.NUMBER, dataVal.Correction)
-                    ]);
+                    addPartials([new ValuePartial(ValueType.NUMBER, dataVal.Correction)]);
             }
         }
 
         if (dataVal.Target !== undefined) {
             switch (func.funcType) {
                 case Func.FuncType.DAMAGE_NP_HPRATIO_LOW:
-                    addPartials([
-                        new ValuePartial(ValueType.PERCENT, dataVal.Target / 10)
-                    ]);
+                    addPartials([new ValuePartial(ValueType.PERCENT, dataVal.Target / 10)]);
                     break;
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
                 case Func.FuncType.DAMAGE_NP_RARE:
@@ -146,16 +130,12 @@ export default function (func: Func.BasicFunc,
                 case Func.FuncType.SERVANT_FRIENDSHIP_UP:
                     break;
                 default:
-                    addPartials([
-                        new ValuePartial(ValueType.UNKNOWN, dataVal.Target)
-                    ]);
+                    addPartials([new ValuePartial(ValueType.UNKNOWN, dataVal.Target)]);
             }
         }
 
         if (dataVal.AddCount !== undefined) {
-            addPartials([
-                new ValuePartial(ValueType.NUMBER, dataVal.AddCount)
-            ]);
+            addPartials([new ValuePartial(ValueType.NUMBER, dataVal.AddCount)]);
         }
 
         addPartialUseRate();
@@ -166,21 +146,15 @@ export default function (func: Func.BasicFunc,
                 case Func.FuncType.SERVANT_FRIENDSHIP_UP:
                 case Func.FuncType.USER_EQUIP_EXP_UP:
                 case Func.FuncType.EXP_UP:
-                    addPartials([
-                        new ValuePartial(ValueType.PERCENT, dataVal.RateCount / 10)
-                    ]);
+                    addPartials([new ValuePartial(ValueType.PERCENT, dataVal.RateCount / 10)]);
                     break;
                 default:
-                    addPartials([
-                        new ValuePartial(ValueType.UNKNOWN, dataVal.RateCount)
-                    ]);
+                    addPartials([new ValuePartial(ValueType.UNKNOWN, dataVal.RateCount)]);
             }
         }
 
         if (dataVal.DropRateCount !== undefined) {
-            addPartials([
-                new ValuePartial(ValueType.PERCENT, dataVal.DropRateCount / 10)
-            ]);
+            addPartials([new ValuePartial(ValueType.PERCENT, dataVal.DropRateCount / 10)]);
         }
 
         addPartialCount();

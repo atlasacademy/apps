@@ -1,7 +1,8 @@
-import {Func} from "@atlasacademy/api-connector";
-import {Battle} from "../Battle";
-import {BattleTeam} from "../Enum/BattleTeam";
-import {BattleActor} from "./BattleActor";
+import { Func } from "@atlasacademy/api-connector";
+
+import { Battle } from "../Battle";
+import { BattleTeam } from "../Enum/BattleTeam";
+import { BattleActor } from "./BattleActor";
 
 export enum BattleSelectType {
     ACTIVE,
@@ -10,12 +11,12 @@ export enum BattleSelectType {
 }
 
 export interface BattleActorManagerState {
-    actors: BattleActor[],
-    enemySelect: number,
-    enemyTarget: number,
-    playerSelect: number,
-    playerSelectReserve: number,
-    playerTarget: number,
+    actors: BattleActor[];
+    enemySelect: number;
+    enemyTarget: number;
+    playerSelect: number;
+    playerSelectReserve: number;
+    playerTarget: number;
 }
 
 export default class BattleActorManager {
@@ -35,25 +36,27 @@ export default class BattleActorManager {
     clone(): BattleActorManager {
         return new BattleActorManager({
             ...this.state,
-            actors: this.state.actors.map(actor => actor.clone()),
+            actors: this.state.actors.map((actor) => actor.clone()),
         });
     }
 
     activeActorsByTeam(team: BattleTeam): BattleActor[] {
-        return this.aliveActorsByTeam(team).filter(actor => actor.state.position > 0 && actor.state.position <= 3);
+        return this.aliveActorsByTeam(team).filter((actor) => actor.state.position > 0 && actor.state.position <= 3);
     }
 
     actorById(id: number): BattleActor | undefined {
-        return this.state.actors.filter(actor => actor.props.id === id).shift();
+        return this.state.actors.filter((actor) => actor.props.id === id).shift();
     }
 
     actorByPosition(team: BattleTeam, position: number): BattleActor | undefined {
-        return this.aliveActorsByTeam(team).filter(actor => actor.state.position === position).shift();
+        return this.aliveActorsByTeam(team)
+            .filter((actor) => actor.state.position === position)
+            .shift();
     }
 
     actorsByTeam(team: BattleTeam): BattleActor[] {
         return this.state.actors
-            .filter(actor => actor.props.team === team)
+            .filter((actor) => actor.props.team === team)
             .sort((a, b) => a.state.position - b.state.position);
     }
 
@@ -70,7 +73,7 @@ export default class BattleActorManager {
     }
 
     aliveActorsByTeam(team: BattleTeam): BattleActor[] {
-        return this.actorsByTeam(team).filter(actor => actor.isAlive());
+        return this.actorsByTeam(team).filter((actor) => actor.isAlive());
     }
 
     getActiveTarget(actor: BattleActor): BattleActor | undefined {
@@ -125,97 +128,83 @@ export default class BattleActorManager {
                 targets.push(...this.aliveActorsByTeam(opponentTeam));
                 break;
             case Func.FuncTargetType.PT_OTHER:
-                targets.push(
-                    ...this
-                        .activeActorsByTeam(team)
-                        .filter(_actor => _actor.props.id !== actor.props.id)
-                );
+                targets.push(...this.activeActorsByTeam(team).filter((_actor) => _actor.props.id !== actor.props.id));
                 break;
             case Func.FuncTargetType.PT_ONE_OTHER:
                 targets.push(
-                    ...this
-                        .activeActorsByTeam(team)
-                        .filter(_actor => _actor.props.id !== targetAllyActor?.props.id)
+                    ...this.activeActorsByTeam(team).filter((_actor) => _actor.props.id !== targetAllyActor?.props.id)
                 );
                 break;
             case Func.FuncTargetType.ENEMY_OTHER:
                 targets.push(
-                    ...this
-                        .activeActorsByTeam(team)
-                        .filter(_actor => _actor.props.id !== targetOpponentActor?.props.id)
+                    ...this.activeActorsByTeam(team).filter(
+                        (_actor) => _actor.props.id !== targetOpponentActor?.props.id
+                    )
                 );
                 break;
             case Func.FuncTargetType.PT_OTHER_FULL:
-                targets.push(
-                    ...this
-                        .aliveActorsByTeam(team)
-                        .filter(_actor => _actor.props.id !== actor.props.id)
-                );
+                targets.push(...this.aliveActorsByTeam(team).filter((_actor) => _actor.props.id !== actor.props.id));
                 break;
             case Func.FuncTargetType.ENEMY_OTHER_FULL:
                 targets.push(
-                    ...this
-                        .aliveActorsByTeam(opponentTeam)
-                        .filter(_actor => _actor.props.id !== targetOpponentActor?.props.id)
+                    ...this.aliveActorsByTeam(opponentTeam).filter(
+                        (_actor) => _actor.props.id !== targetOpponentActor?.props.id
+                    )
                 );
                 break;
             case Func.FuncTargetType.PTSELECT_ONE_SUB:
-                if (targetAllyActor && targetAllySubActor)
-                    targets.push(targetAllyActor, targetAllySubActor);
+                if (targetAllyActor && targetAllySubActor) targets.push(targetAllyActor, targetAllySubActor);
                 break;
             case Func.FuncTargetType.PTSELECT_SUB:
                 targets.push(targetAllySubActor);
                 break;
             case Func.FuncTargetType.PT_SELF_ANOTHER_FIRST:
                 targets.push(
-                    this
-                        .activeActorsByTeam(team)
-                        .filter(_actor => _actor.props.id !== actor.props.id)
+                    this.activeActorsByTeam(team)
+                        .filter((_actor) => _actor.props.id !== actor.props.id)
                         .shift()
                 );
                 break;
             case Func.FuncTargetType.PT_SELF_ANOTHER_LAST:
                 targets.push(
-                    this
-                        .activeActorsByTeam(team)
-                        .filter(_actor => _actor.props.id !== actor.props.id)
+                    this.activeActorsByTeam(team)
+                        .filter((_actor) => _actor.props.id !== actor.props.id)
                         .pop()
                 );
                 break;
             default:
-                throw new Error('UNHANDLED FuncTargetType: ' + targetType);
+                throw new Error("UNHANDLED FuncTargetType: " + targetType);
         }
 
         const validTargets: BattleActor[] = [];
 
-        targets.forEach(target => {
-            if (target !== undefined)
-                validTargets.push(target);
+        targets.forEach((target) => {
+            if (target !== undefined) validTargets.push(target);
         });
 
         return validTargets;
     }
 
     phase(): number {
-        const enemies = this.state.actors.filter(actor => actor.props.team === BattleTeam.ENEMY)
+        const enemies = this.state.actors
+                .filter((actor) => actor.props.team === BattleTeam.ENEMY)
                 .sort((a, b) => a.props.phase - b.props.phase),
-            remainingEnemy = enemies.filter(enemy => enemy.isAlive())[0],
+            remainingEnemy = enemies.filter((enemy) => enemy.isAlive())[0],
             lastEnemy = enemies[enemies.length - 1];
 
-        if (!lastEnemy)
-            return 0;
+        if (!lastEnemy) return 0;
 
         return remainingEnemy ? remainingEnemy.props.phase : lastEnemy.props.phase;
     }
 
     reserveActorsByTeam(team: BattleTeam, phase: number): BattleActor[] {
         return this.aliveActorsByTeam(team)
-            .filter(actor => actor.props.phase === phase)
-            .filter(actor => actor.state.position > 3);
+            .filter((actor) => actor.props.phase === phase)
+            .filter((actor) => actor.state.position > 3);
     }
 
     setBattle(battle: Battle) {
-        this.state.actors.forEach(actor => actor.setBattle(battle));
+        this.state.actors.forEach((actor) => actor.setBattle(battle));
     }
 
     targetEnemy(position: number, type: BattleSelectType) {
@@ -256,18 +245,15 @@ export default class BattleActorManager {
 
             let activeActors: BattleActor[] = this.activeActorsByTeam(team),
                 reserveActors: BattleActor[] = this.reserveActorsByTeam(team, phase),
-                activeActorPositions = activeActors.map(actor => actor.state.position);
+                activeActorPositions = activeActors.map((actor) => actor.state.position);
 
-            if (activeActors.length >= 3 || reserveActors.length === 0)
-                continue;
+            if (activeActors.length >= 3 || reserveActors.length === 0) continue;
 
             for (let position = 1; position <= 3; position++) {
-                if (activeActorPositions.includes(position))
-                    continue;
+                if (activeActorPositions.includes(position)) continue;
 
                 let nextActor = reserveActors.shift();
-                if (!nextActor)
-                    continue;
+                if (!nextActor) continue;
 
                 nextActor.state.position = position;
                 for (let j = 0; j < reserveActors.length; j++) {
@@ -278,13 +264,9 @@ export default class BattleActorManager {
     }
 
     private resetSelection() {
-        const enemyPositions = this
-                .activeActorsByTeam(BattleTeam.ENEMY)
-                .map(actor => actor.state.position),
+        const enemyPositions = this.activeActorsByTeam(BattleTeam.ENEMY).map((actor) => actor.state.position),
             newEnemyPosition = enemyPositions[0],
-            playerPositions = this
-                .activeActorsByTeam(BattleTeam.PLAYER)
-                .map(actor => actor.state.position),
+            playerPositions = this.activeActorsByTeam(BattleTeam.PLAYER).map((actor) => actor.state.position),
             newPlayerPosition = playerPositions[0];
 
         if (!this.state.enemySelect || !enemyPositions.includes(this.state.enemySelect))
@@ -298,8 +280,7 @@ export default class BattleActorManager {
 
         if (this.state.playerSelectReserve) {
             const actor = this.actorByPosition(BattleTeam.PLAYER, this.state.playerSelectReserve);
-            if (!actor)
-                this.state.playerSelectReserve = 0;
+            if (!actor) this.state.playerSelectReserve = 0;
         }
 
         if (!this.state.playerSelectReserve && this.actorByPosition(BattleTeam.PLAYER, 4)) {

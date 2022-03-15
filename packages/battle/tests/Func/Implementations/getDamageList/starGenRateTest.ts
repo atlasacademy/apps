@@ -1,12 +1,14 @@
-import {Card} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../../src";
-import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {starGenRate} from "../../../../src/Func/Implementations/getDamageList";
-import {createBattle, servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList starGenRate', () => {
-    it('card types and first card bonus', async () => {
+import { Card } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../../src";
+import { BattleAttackActionList } from "../../../../src/Action/BattleAttackAction";
+import { starGenRate } from "../../../../src/Func/Implementations/getDamageList";
+import { createBattle, servant } from "../../../helpers";
+
+describe("getDamageList starGenRate", () => {
+    it("card types and first card bonus", async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -47,7 +49,7 @@ describe('getDamageList starGenRate', () => {
         expect(starGenRate(actions.get(3), actor, target).value()).to.equal(279);
     });
 
-    it('card up bonus', async () => {
+    it("card up bonus", async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -78,7 +80,7 @@ describe('getDamageList starGenRate', () => {
         expect(starGenRate(actions.get(1), actor, target).value()).to.equal(1479);
     });
 
-    it('server mod check', async () => {
+    it("server mod check", async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -120,7 +122,7 @@ describe('getDamageList starGenRate', () => {
         expect(starGenRate(actions.get(1), actor, target).value()).to.equal(79);
     });
 
-    it('star gen bonus', async () => {
+    it("star gen bonus", async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -151,7 +153,7 @@ describe('getDamageList starGenRate', () => {
         expect(starGenRate(actions.get(1), actor, target).value()).to.equal(2079);
     });
 
-    it('star gen critical bonus', async () => {
+    it("star gen critical bonus", async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();

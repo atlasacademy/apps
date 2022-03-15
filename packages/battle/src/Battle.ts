@@ -1,24 +1,25 @@
-import {ApiConnector, Func, Trait} from "@atlasacademy/api-connector";
-import {BattleCommandAction} from "./Action/BattleCommandAction";
+import { ApiConnector, Func, Trait } from "@atlasacademy/api-connector";
+
+import { BattleCommandAction } from "./Action/BattleCommandAction";
 import inspectAvailable from "./Action/inspectAvailable";
-import {BattleActor} from "./Actor/BattleActor";
+import { BattleActor } from "./Actor/BattleActor";
 import BattleActorManager from "./Actor/BattleActorManager";
-import {BattleRandom, BattleRandomType} from "./BattleRandom";
-import {BattleTeam} from "./Enum/BattleTeam";
+import { BattleRandom, BattleRandomType } from "./BattleRandom";
+import { BattleTeam } from "./Enum/BattleTeam";
 import BattleEvent from "./Event/BattleEvent";
 import GameConstantManager from "./Game/GameConstantManager";
 
 export interface BattleState {
-    actors: BattleActorManager,
-    api: ApiConnector,
-    constants: GameConstantManager,
-    control: BattleTeam,
-    events: BattleEvent[],
-    random: BattleRandom,
-    selectExtra: number,
-    stars: number,
-    traits: Trait.Trait[],
-    turn: number,
+    actors: BattleActorManager;
+    api: ApiConnector;
+    constants: GameConstantManager;
+    control: BattleTeam;
+    events: BattleEvent[];
+    random: BattleRandom;
+    selectExtra: number;
+    stars: number;
+    traits: Trait.Trait[];
+    turn: number;
 }
 
 export class Battle {
@@ -125,5 +126,4 @@ export class Battle {
     traits(): Trait.Trait[] {
         return this.state.traits;
     }
-
 }

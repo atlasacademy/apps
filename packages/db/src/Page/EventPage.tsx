@@ -1,14 +1,3 @@
-import {
-    Event,
-    Item,
-    Region,
-    Mission,
-    Quest,
-    Servant,
-    EnumList,
-    War,
-    Gift,
-} from "@atlasacademy/api-connector";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -17,6 +6,9 @@ import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
+
+import { Event, Item, Region, Mission, Quest, Servant, EnumList, War, Gift } from "@atlasacademy/api-connector";
+
 import Api, { Host } from "../Api";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
@@ -30,13 +22,13 @@ import PointBuffDescriptor from "../Descriptor/PointBuffDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import { colorString, interpolateString, replacePUACodePoints } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
 import { getEventStatus } from "../Helper/TimeHelper";
+import Manager from "../Setting/Manager";
 import ShopTab from "./Event/Shop";
 import TreasureBoxes from "./Event/TreasureBoxes";
 
-import "./EventPage.css";
 import "../Helper/StringHelper.css";
+import "./EventPage.css";
 
 interface TabInfo {
     type: "ladder" | "shop" | "mission" | "tower" | "lottery" | "treasureBox";
@@ -93,9 +85,7 @@ class EventPage extends React.Component<IProps, IState> {
     loadServantMap() {
         Api.servantList().then((servantList) => {
             this.setState({
-                servantCache: new Map(
-                    servantList.map((servant) => [servant.id, servant])
-                ),
+                servantCache: new Map(servantList.map((servant) => [servant.id, servant])),
             });
         });
     }
@@ -132,12 +122,7 @@ class EventPage extends React.Component<IProps, IState> {
                 this.setState({
                     event: event,
                     loading: false,
-                    missionRefs: new Map(
-                        event.missions.map((mission) => [
-                            mission.id,
-                            React.createRef(),
-                        ])
-                    ),
+                    missionRefs: new Map(event.missions.map((mission) => [mission.id, React.createRef()])),
                 });
                 if (
                     event.towers.length > 0 ||
@@ -169,38 +154,32 @@ class EventPage extends React.Component<IProps, IState> {
         enums?: EnumList
     ) {
         const scrollToMissions = (id: number) => {
-            let elementRef = this.state.missionRefs.get(
-                id
-            ) as React.RefObject<HTMLDivElement>;
+            let elementRef = this.state.missionRefs.get(id) as React.RefObject<HTMLDivElement>;
             elementRef?.current?.scrollIntoView({ behavior: "smooth" });
         };
-        return [
-            Mission.ProgressType.OPEN_CONDITION,
-            Mission.ProgressType.START,
-            Mission.ProgressType.CLEAR,
-        ].map((progressType) => {
-            const conds = mission.conds.filter(
-                (cond) => cond.missionProgressType === progressType
-            );
-            if (conds.length > 0) {
-                return (
-                    <MissionConditionDescriptor
-                        key={conds[0].id}
-                        region={region}
-                        cond={conds[0]}
-                        quests={questCache}
-                        servants={servantCache}
-                        missions={missionMap}
-                        items={itemCache}
-                        enums={enums}
-                        warIds={warIds}
-                        handleNavigateMissionId={scrollToMissions}
-                    />
-                );
-            } else {
-                return null;
+        return [Mission.ProgressType.OPEN_CONDITION, Mission.ProgressType.START, Mission.ProgressType.CLEAR].map(
+            (progressType) => {
+                const conds = mission.conds.filter((cond) => cond.missionProgressType === progressType);
+                if (conds.length > 0) {
+                    return (
+                        <MissionConditionDescriptor
+                            key={conds[0].id}
+                            region={region}
+                            cond={conds[0]}
+                            quests={questCache}
+                            servants={servantCache}
+                            missions={missionMap}
+                            items={itemCache}
+                            enums={enums}
+                            warIds={warIds}
+                            handleNavigateMissionId={scrollToMissions}
+                        />
+                    );
+                } else {
+                    return null;
+                }
             }
-        });
+        );
     }
 
     renderMissionRow(
@@ -216,11 +195,7 @@ class EventPage extends React.Component<IProps, IState> {
     ) {
         return (
             <>
-                <th
-                    scope="row"
-                    style={{ textAlign: "center" }}
-                    ref={this.state.missionRefs.get(mission.id)}
-                >
+                <th scope="row" style={{ textAlign: "center" }} ref={this.state.missionRefs.get(mission.id)}>
                     {mission.dispNo}
                 </th>
                 <td>
@@ -240,12 +215,7 @@ class EventPage extends React.Component<IProps, IState> {
                 <td>
                     {mission.gifts.map((gift) => (
                         <div key={`${gift.objectId}-${gift.priority}`}>
-                            <GiftDescriptor
-                                region={region}
-                                gift={gift}
-                                servants={servantCache}
-                                items={itemMap}
-                            />
+                            <GiftDescriptor region={region} gift={gift} servants={servantCache} items={itemMap} />
                             <br />
                         </div>
                     ))}
@@ -264,9 +234,7 @@ class EventPage extends React.Component<IProps, IState> {
         warIds?: number[],
         enums?: EnumList
     ) {
-        const missionMap = new Map(
-            missions.map((mission) => [mission.id, mission])
-        );
+        const missionMap = new Map(missions.map((mission) => [mission.id, mission]));
         return (
             <Table hover responsive>
                 <thead>
@@ -307,12 +275,8 @@ class EventPage extends React.Component<IProps, IState> {
         allPointBuffs: Event.EventPointBuff[],
         itemMap: Map<number, Item.Item>
     ) {
-        const pointBuffMap = new Map(
-            allPointBuffs.map((pointBuff) => [pointBuff.id, pointBuff])
-        );
-        const pointBuffPointMap = new Map(
-            allPointBuffs.map((pointBuff) => [pointBuff.eventPoint, pointBuff])
-        );
+        const pointBuffMap = new Map(allPointBuffs.map((pointBuff) => [pointBuff.id, pointBuff]));
+        const pointBuffPointMap = new Map(allPointBuffs.map((pointBuff) => [pointBuff.eventPoint, pointBuff]));
         return (
             <Table hover responsive>
                 <thead>
@@ -327,11 +291,7 @@ class EventPage extends React.Component<IProps, IState> {
                         let pointBuffDescription = null;
                         if (pointBuff !== undefined) {
                             const pointBuffGifts = reward.gifts
-                                .filter(
-                                    (gift) =>
-                                        gift.type ===
-                                        Gift.GiftType.EVENT_POINT_BUFF
-                                )
+                                .filter((gift) => gift.type === Gift.GiftType.EVENT_POINT_BUFF)
                                 .map((gift) => gift.objectId);
                             // In Oniland, point buffs are listed as rewards but in MIXA event, they aren't.
                             // If point buffs are rewards, Gift Descriptor can handle them.
@@ -340,19 +300,14 @@ class EventPage extends React.Component<IProps, IState> {
                                 pointBuffDescription = (
                                     <>
                                         <br />
-                                        <PointBuffDescriptor
-                                            region={region}
-                                            pointBuff={pointBuff}
-                                        />
+                                        <PointBuffDescriptor region={region} pointBuff={pointBuff} />
                                     </>
                                 );
                             }
                         }
                         return (
                             <tr key={reward.point}>
-                                <th scope="row">
-                                    {reward.point.toLocaleString()}
-                                </th>
+                                <th scope="row">{reward.point.toLocaleString()}</th>
                                 <td>
                                     {mergeElements(
                                         reward.gifts.map((gift) => (
@@ -376,11 +331,7 @@ class EventPage extends React.Component<IProps, IState> {
         );
     }
 
-    renderRewardTower(
-        region: Region,
-        tower: Event.EventTower,
-        itemMap: Map<number, Item.Item>
-    ) {
+    renderRewardTower(region: Region, tower: Event.EventTower, itemMap: Map<number, Item.Item>) {
         return (
             <Table hover responsive>
                 <thead>
@@ -397,13 +348,7 @@ class EventPage extends React.Component<IProps, IState> {
                                 <th scope="row" style={{ textAlign: "center" }}>
                                     {reward.floor}
                                 </th>
-                                <td>
-                                    {colorString(
-                                        interpolateString(reward.boardMessage, [
-                                            reward.floor,
-                                        ])
-                                    )}
-                                </td>
+                                <td>{colorString(interpolateString(reward.boardMessage, [reward.floor]))}</td>
                                 <td>
                                     {mergeElements(
                                         reward.gifts.map((gift) => (
@@ -425,11 +370,7 @@ class EventPage extends React.Component<IProps, IState> {
         );
     }
 
-    renderLotteryBox(
-        region: Region,
-        boxes: Event.EventLotteryBox[],
-        itemMap: Map<number, Item.Item>
-    ) {
+    renderLotteryBox(region: Region, boxes: Event.EventLotteryBox[], itemMap: Map<number, Item.Item>) {
         return (
             <Table hover responsive>
                 <thead>
@@ -467,9 +408,7 @@ class EventPage extends React.Component<IProps, IState> {
                                         ", "
                                     )}
                                 </td>
-                                <td style={{ textAlign: "center" }}>
-                                    {box.maxNum}
-                                </td>
+                                <td style={{ textAlign: "center" }}>{box.maxNum}</td>
                             </tr>
                         );
                     })}
@@ -478,45 +417,26 @@ class EventPage extends React.Component<IProps, IState> {
         );
     }
 
-    renderLotteryTab(
-        region: Region,
-        lottery: Event.EventLottery,
-        itemMap: Map<number, Item.Item>
-    ) {
-        const boxIndexes = Array.from(
-            new Set(lottery.boxes.map((box) => box.boxIndex))
-        ).sort((a, b) => a - b);
+    renderLotteryTab(region: Region, lottery: Event.EventLottery, itemMap: Map<number, Item.Item>) {
+        const boxIndexes = Array.from(new Set(lottery.boxes.map((box) => box.boxIndex))).sort((a, b) => a - b);
 
         return (
             <>
                 <div style={{ margin: "1em 0" }}>
                     <b>Cost of 1 roll:</b>{" "}
                     <Link to={`/${region}/item/${lottery.cost.item.id}`}>
-                        <ItemIcon
-                            region={region}
-                            item={lottery.cost.item}
-                            height={40}
-                        />{" "}
-                        {lottery.cost.item.name}
+                        <ItemIcon region={region} item={lottery.cost.item} height={40} /> {lottery.cost.item.name}
                     </Link>{" "}
                     x{lottery.cost.amount}
                 </div>
                 {boxIndexes.map((boxIndex) => {
-                    const boxes = lottery.boxes
-                        .filter((box) => box.boxIndex === boxIndex)
-                        .sort((a, b) => a.no - b.no);
+                    const boxes = lottery.boxes.filter((box) => box.boxIndex === boxIndex).sort((a, b) => a.no - b.no);
 
                     const title = `Box ${boxIndex + 1}${
-                        boxIndex === Math.max(...boxIndexes) && !lottery.limited
-                            ? "+"
-                            : ""
+                        boxIndex === Math.max(...boxIndexes) && !lottery.limited ? "+" : ""
                     }`;
 
-                    const boxTable = this.renderLotteryBox(
-                        region,
-                        boxes,
-                        itemMap
-                    );
+                    const boxTable = this.renderLotteryBox(region, boxes, itemMap);
 
                     return renderCollapsibleContent({
                         title: title,
@@ -541,9 +461,7 @@ class EventPage extends React.Component<IProps, IState> {
     ) {
         switch (tab.type) {
             case "tower":
-                const tower = event.towers.find(
-                    (tower) => tower.towerId === tab.id
-                );
+                const tower = event.towers.find((tower) => tower.towerId === tab.id);
                 if (tower !== undefined) {
                     return this.renderRewardTower(region, tower, itemMap);
                 } else {
@@ -561,9 +479,7 @@ class EventPage extends React.Component<IProps, IState> {
                 return (
                     <ShopTab
                         region={region}
-                        shops={event.shop.filter(
-                            (shop) => shop.slot === tab.id
-                        )}
+                        shops={event.shop.filter((shop) => shop.slot === tab.id)}
                         itemMap={itemMap}
                         filters={shopFilters.get(tab.id) ?? new Map()}
                         onChange={(records) => {
@@ -584,21 +500,11 @@ class EventPage extends React.Component<IProps, IState> {
                     enums
                 );
             case "lottery":
-                const lottery = event.lotteries.filter(
-                    (lottery) => lottery.id === tab.id
-                )[0];
+                const lottery = event.lotteries.filter((lottery) => lottery.id === tab.id)[0];
                 return this.renderLotteryTab(region, lottery, itemMap);
             case "treasureBox":
-                const treasureBoxes = event.treasureBoxes.filter(
-                    (tb) => tb.slot === tab.id
-                );
-                return (
-                    <TreasureBoxes
-                        region={region}
-                        treasureBoxes={treasureBoxes}
-                        itemCache={itemCache}
-                    />
-                );
+                const treasureBoxes = event.treasureBoxes.filter((tb) => tb.slot === tab.id);
+                return <TreasureBoxes region={region} treasureBoxes={treasureBoxes} itemCache={itemCache} />;
         }
     }
 
@@ -629,10 +535,7 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "lottery",
                         id: lottery.id,
-                        title:
-                            lotteries.size === 1
-                                ? "Lottery"
-                                : `Lottery ${lottery.id}`,
+                        title: lotteries.size === 1 ? "Lottery" : `Lottery ${lottery.id}`,
                         tabKey: `lottery-${lottery.id}`,
                     };
                 })
@@ -653,12 +556,7 @@ class EventPage extends React.Component<IProps, IState> {
                 })
         );
 
-        const pointGroupMap = new Map(
-            event.pointGroups.map((pointGroup) => [
-                pointGroup.groupId,
-                pointGroup,
-            ])
-        );
+        const pointGroupMap = new Map(event.pointGroups.map((pointGroup) => [pointGroup.groupId, pointGroup]));
 
         tabs = tabs.concat(
             Array.from(new Set(event.rewards.map((reward) => reward.groupId)))
@@ -689,9 +587,7 @@ class EventPage extends React.Component<IProps, IState> {
                 })
         );
 
-        const treasureBoxSlots = Array.from(
-            new Set(event.treasureBoxes.map((tb) => tb.slot))
-        );
+        const treasureBoxSlots = Array.from(new Set(event.treasureBoxes.map((tb) => tb.slot)));
 
         tabs = tabs.concat(
             treasureBoxSlots
@@ -700,18 +596,13 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "treasureBox",
                         id: slot,
-                        title:
-                            treasureBoxSlots.length === 1
-                                ? "Treasure Box"
-                                : `Treasure Box ${slot}`,
+                        title: treasureBoxSlots.length === 1 ? "Treasure Box" : `Treasure Box ${slot}`,
                         tabKey: `treasure-box-${slot}`,
                     };
                 })
         );
 
-        const shopSlots = Array.from(
-            new Set(event.shop.map((shop) => shop.slot))
-        );
+        const shopSlots = Array.from(new Set(event.shop.map((shop) => shop.slot)));
 
         tabs = tabs.concat(
             shopSlots
@@ -720,19 +611,14 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "shop",
                         id: shopSlot,
-                        title:
-                            shopSlots.length === 1
-                                ? "Shop"
-                                : `Shop ${shopSlot}`,
+                        title: shopSlots.length === 1 ? "Shop" : `Shop ${shopSlot}`,
                         tabKey: `shop-${shopSlot}`,
                     };
                 })
         );
 
         const wars = mergeElements(
-            this.state.wars.map((war) => (
-                <WarDescriptor region={this.props.region} war={war} />
-            )),
+            this.state.wars.map((war) => <WarDescriptor region={this.props.region} war={war} />),
             ", "
         );
 
@@ -747,23 +633,13 @@ class EventPage extends React.Component<IProps, IState> {
                             ID: event.id,
                             Name: replacePUACodePoints(event.name),
                             Wars: wars,
-                            Status: getEventStatus(
-                                event.startedAt,
-                                event.endedAt
-                            ),
-                            Start: new Date(
-                                event.startedAt * 1000
-                            ).toLocaleString(),
-                            End: new Date(
-                                event.endedAt * 1000
-                            ).toLocaleString(),
+                            Status: getEventStatus(event.startedAt, event.endedAt),
+                            Start: new Date(event.startedAt * 1000).toLocaleString(),
+                            End: new Date(event.endedAt * 1000).toLocaleString(),
                             Raw: (
                                 <Row>
                                     <Col>
-                                        <RawDataViewer
-                                            text="Nice"
-                                            data={event}
-                                        />
+                                        <RawDataViewer text="Nice" data={event} />
                                     </Col>
                                     <Col>
                                         <RawDataViewer
@@ -779,24 +655,15 @@ class EventPage extends React.Component<IProps, IState> {
 
                 <Tabs
                     id={"event-reward-tabs"}
-                    defaultActiveKey={
-                        this.props.tab ??
-                        (tabs.length > 0 ? tabs[0].tabKey : undefined)
-                    }
+                    defaultActiveKey={this.props.tab ?? (tabs.length > 0 ? tabs[0].tabKey : undefined)}
                     mountOnEnter={true}
                     onSelect={(key: string | null) => {
-                        this.props.history.replace(
-                            `/${this.props.region}/event/${this.props.eventId}/${key}`
-                        );
+                        this.props.history.replace(`/${this.props.region}/event/${this.props.eventId}/${key}`);
                     }}
                 >
                     {tabs.map((tab) => {
                         return (
-                            <Tab
-                                key={tab.tabKey}
-                                eventKey={tab.tabKey}
-                                title={tab.title}
-                            >
+                            <Tab key={tab.tabKey} eventKey={tab.tabKey} title={tab.title}>
                                 {this.renderTab(
                                     this.props.region,
                                     event,

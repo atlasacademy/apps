@@ -1,9 +1,10 @@
-import {Buff, Trait} from "@atlasacademy/api-connector";
-import {BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType} from "../Descriptor";
-import {insertParticles, toTitleCase} from "../Helpers";
+import { Buff, Trait } from "@atlasacademy/api-connector";
+
+import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor";
+import { insertParticles, toTitleCase } from "../Helpers";
 import TraitReferencePartial from "../Trait/TraitReferencePartial";
-import {getTraitDescription, getUpDownBuffType} from "./BuffHelpers";
-import {buffTriggerTypes, buffTypeDescriptions} from "./BuffTypes";
+import { getTraitDescription, getUpDownBuffType } from "./BuffHelpers";
+import { buffTriggerTypes, buffTypeDescriptions } from "./BuffTypes";
 
 function appendTraitFilters(
     selfTraits: Trait.Trait[],
@@ -34,9 +35,10 @@ function appendTraitFilters(
 }
 
 function traitReferences(traits: Trait.Trait[], checkIndvType?: number): BasePartial[] {
-    const joinWord = checkIndvType === 1 ? ' and ' : ' or ';
+    const joinWord = checkIndvType === 1 ? " and " : " or ";
     return insertParticles(
-        traits.map(trait => new TraitReferencePartial(trait)), joinWord
+        traits.map((trait) => new TraitReferencePartial(trait)),
+        joinWord
     );
 }
 
@@ -68,19 +70,19 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         partials.push(new TextPartial(typeDescription));
         partials.push(...appendTraitFilters(buff.ckSelfIndv, buff.ckOpIndv, buff.script.checkIndvType));
     } else if (triggerType && triggerType.counterNp) {
-        partials.push(new TextPartial('NP Counter'));
+        partials.push(new TextPartial("NP Counter"));
     } else if (triggerType) {
-        partials.push(new TextPartial('Trigger Skill'));
-        partials.push(new ParticlePartial(triggerType.after ? ' on ' : ' before '));
+        partials.push(new TextPartial("Trigger Skill"));
+        partials.push(new ParticlePartial(triggerType.after ? " on " : " before "));
 
         if (triggerType.when) {
             partials.push(new TextPartial(triggerType.when));
-            partials.push(new ParticlePartial(' '));
+            partials.push(new ParticlePartial(" "));
         }
 
         if (buff.ckSelfIndv.length) {
             partials.push(...traitReferences(buff.ckSelfIndv));
-            partials.push(new ParticlePartial(' '));
+            partials.push(new ParticlePartial(" "));
         }
 
         partials.push(new TextPartial(triggerType.event));
@@ -92,17 +94,17 @@ export default function (buff: Buff.BasicBuff): Descriptor {
     }
 
     if (buff.script.INDIVIDUALITIE !== undefined) {
-        partials.push(new TextPartial(' if owner has '));
+        partials.push(new TextPartial(" if owner has "));
         partials.push(...traitReferences([buff.script.INDIVIDUALITIE]));
     }
 
     if (buff.type === Buff.BuffType.BUFF_RATE && buff.script.UpBuffRateBuffIndiv !== undefined) {
-        partials.push(new TextPartial(' for '));
+        partials.push(new TextPartial(" for "));
         partials.push(...traitReferences(buff.script.UpBuffRateBuffIndiv, 0));
     }
 
     if (buff.script.HP_LOWER !== undefined) {
-        partials.push(new TextPartial(' if HP is below '));
+        partials.push(new TextPartial(" if HP is below "));
         partials.push(new ValuePartial(ValueType.PERCENT, buff.script.HP_LOWER / 10));
     }
 

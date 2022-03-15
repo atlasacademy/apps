@@ -23,7 +23,7 @@
     left: 40%;
 }
 
-.mystic-code-portrait>img {
+.mystic-code-portrait > img {
     display: block;
     object-fit: cover;
     width: 100%;

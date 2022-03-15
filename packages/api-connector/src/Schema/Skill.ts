@@ -1,10 +1,10 @@
+import { AiType } from "./Ai";
 import { CommandCodeBasic, CommandCode } from "./CommandCode";
+import { CommonRelease } from "./CommonRelease";
 import { EntityBasic, Entity } from "./Entity";
 import { Func } from "./Func";
 import { MysticCodeBasic, MysticCode } from "./MysticCode";
 import { Trait } from "./Trait";
-import { AiType } from "./Ai";
-import { CommonRelease } from "./CommonRelease";
 
 export enum SkillType {
     ACTIVE = "active",

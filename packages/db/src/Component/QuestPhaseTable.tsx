@@ -1,15 +1,11 @@
-import { Quest, Region } from "@atlasacademy/api-connector";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import { Quest, Region } from "@atlasacademy/api-connector";
+
 import { QuestTypeDescription } from "../Page/QuestPage";
 
-const QuestPhaseTable = ({
-    region,
-    quests,
-}: {
-    region: Region;
-    quests: Quest.QuestPhaseBasic[];
-}) => {
+const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.QuestPhaseBasic[] }) => {
     return (
         <Table responsive>
             <thead>
@@ -37,9 +33,7 @@ const QuestPhaseTable = ({
                             <td>
                                 <Link to={questLink}>{quest.name}</Link>
                             </td>
-                            <td className="col-center">
-                                {QuestTypeDescription.get(quest.type)}
-                            </td>
+                            <td className="col-center">{QuestTypeDescription.get(quest.type)}</td>
                             <td className="col-center">
                                 <Link to={warLink}>{quest.warId}</Link>
                             </td>

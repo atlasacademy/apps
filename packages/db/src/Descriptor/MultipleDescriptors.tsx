@@ -1,20 +1,14 @@
-import {
-    ClassName,
-    Gift,
-    Item,
-    Quest,
-    Region,
-    Servant,
-} from "@atlasacademy/api-connector";
+import { ClassName, Gift, Item, Quest, Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
+
+import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { areIdenticalArrays, isSubset } from "../Helper/ArrayHelper";
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
+import GiftDescriptor from "./GiftDescriptor";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 import TraitDescription from "./TraitDescription";
-import { CollapsibleLight } from "../Component/CollapsibleContent";
-import GiftDescriptor from "./GiftDescriptor";
 
 export const missionRange = (missions: number[]) => {
     const max = Math.max(...missions);
@@ -50,17 +44,13 @@ export const missionRange = (missions: number[]) => {
         .join(", ");
 };
 
-export const MergeElementsOr = (props: {
-    elements: Renderable[];
-    lastJoinWord: string;
-}) => {
+export const MergeElementsOr = (props: { elements: Renderable[]; lastJoinWord: string }) => {
     const { elements, lastJoinWord } = props;
     if (elements.length === 1) return <>{elements[0]}</>;
 
     return (
         <>
-            {mergeElements(elements.slice(0, elements.length - 1), ", ")}{" "}
-            {lastJoinWord} {elements[elements.length - 1]}
+            {mergeElements(elements.slice(0, elements.length - 1), ", ")} {lastJoinWord} {elements[elements.length - 1]}
         </>
     );
 };
@@ -114,10 +104,7 @@ export const MultipleQuests = (props: {
     }
 };
 
-export const MultipleTraits = (props: {
-    region: Region;
-    traitIds: number[];
-}) => {
+export const MultipleTraits = (props: { region: Region; traitIds: number[] }) => {
     const renderedTraits = props.traitIds.map((traitId) => (
         <TraitDescription key={traitId} region={props.region} trait={traitId} />
     ));
@@ -153,40 +140,23 @@ const shortItemNames = [
     },
 ];
 
-export const MultipleItems = (props: {
-    region: Region;
-    itemIds: number[];
-    items?: Map<number, Item.Item>;
-}) => {
+export const MultipleItems = (props: { region: Region; itemIds: number[]; items?: Map<number, Item.Item> }) => {
     let toRenderItemIds = props.itemIds;
     const shortNames: Renderable[] = [];
     for (const shortItemName of shortItemNames) {
         if (isSubset(props.itemIds, shortItemName.ids)) {
             shortNames.push(shortItemName.name);
-            toRenderItemIds = toRenderItemIds.filter(
-                (itemId) => !shortItemName.ids.includes(itemId)
-            );
+            toRenderItemIds = toRenderItemIds.filter((itemId) => !shortItemName.ids.includes(itemId));
         }
     }
     const renderedItems = toRenderItemIds.map((itemId) => {
         if (props.items !== undefined) {
-            return (
-                <IconDescriptorMap
-                    region={props.region}
-                    itemId={itemId}
-                    items={props.items}
-                />
-            );
+            return <IconDescriptorMap region={props.region} itemId={itemId} items={props.items} />;
         } else {
             return <ItemDescriptorId region={props.region} itemId={itemId} />;
         }
     });
-    return (
-        <MergeElementsOr
-            elements={shortNames.concat(renderedItems)}
-            lastJoinWord="or"
-        />
-    );
+    return <MergeElementsOr elements={shortNames.concat(renderedItems)} lastJoinWord="or" />;
 };
 
 export const MultipleServants = (props: {
@@ -195,12 +165,7 @@ export const MultipleServants = (props: {
     servants?: Map<number, Servant.ServantBasic>;
 }) => {
     const renderedServants = props.servantIds.map((servantId) => (
-        <ServantDescriptorId
-            key={servantId}
-            region={props.region}
-            id={servantId}
-            servants={props.servants}
-        />
+        <ServantDescriptorId key={servantId} region={props.region} id={servantId} servants={props.servants} />
     ));
     return <MergeElementsOr elements={renderedServants} lastJoinWord="or" />;
 };
@@ -219,8 +184,7 @@ const EMBER_IDS = [
     { svtIds: [9770400, 9770300, 9770200, 9770100], class: ClassName.ALL },
 ];
 
-const ALL_EMBERS_STRING =
-    "Blaze of Wisdom, Fire of Wisdom, Light of Wisdom, or Ember of Wisdom";
+const ALL_EMBERS_STRING = "Blaze of Wisdom, Fire of Wisdom, Light of Wisdom, or Ember of Wisdom";
 
 export const MultipleEmbers = (props: { region: Region; svtIds: number[] }) => {
     const { region, svtIds } = props;
@@ -235,28 +199,20 @@ export const MultipleEmbers = (props: { region: Region; svtIds: number[] }) => {
     }
     if (svtIds.length === 4 * emberClasses.length) {
         const classNames = emberClasses.map((className) =>
-            className === ClassName.ALL
-                ? "All"
-                : toTitleCase(className.toString()) + "s"
+            className === ClassName.ALL ? "All" : toTitleCase(className.toString()) + "s"
         );
         return (
             <>
-                {ALL_EMBERS_STRING} of{" "}
-                <MergeElementsOr elements={classNames} lastJoinWord="or" />
+                {ALL_EMBERS_STRING} of <MergeElementsOr elements={classNames} lastJoinWord="or" />
             </>
         );
     }
     return <MultipleServants region={region} servantIds={svtIds} />;
 };
 
-export const MultipleClasses = (props: {
-    classIds: number[];
-    classes?: { [key: string]: ClassName };
-}) => {
+export const MultipleClasses = (props: { classIds: number[]; classes?: { [key: string]: ClassName } }) => {
     const classNames = props.classIds.map((classId) => {
-        const className = props.classes
-            ? props.classes[classId.toString()]?.toString()
-            : undefined;
+        const className = props.classes ? props.classes[classId.toString()]?.toString() : undefined;
         return toTitleCase(className ?? classId.toString());
     });
     return (
@@ -293,9 +249,7 @@ export const MultipleClassLevels = (props: {
     for (let i = 0; i < targetIds.length; i += 2) {
         const classId = targetIds[i],
             level = targetIds[i + 1],
-            className = classes
-                ? classes[classId.toString()]?.toString()
-                : undefined,
+            className = classes ? classes[classId.toString()]?.toString() : undefined,
             classString = toTitleCase(className ?? classId.toString());
         classLevels.push(`Lv. ${level} ${classString}${pluralSuffix}`);
     }
@@ -338,24 +292,19 @@ export const MultipleClassLimits = (props: {
 
     if (limits.size === 1) {
         const classNames = classIds.map((classId) => {
-            const className = classes
-                ? classes[classId.toString()]?.toString()
-                : undefined;
+            const className = classes ? classes[classId.toString()]?.toString() : undefined;
             return toTitleCase(className ?? classId.toString()) + pluralSuffix;
         });
 
         return (
             <>
-                <MergeElementsOr elements={classNames} lastJoinWord="or" /> to
-                ascension {firstClassLimit}
+                <MergeElementsOr elements={classNames} lastJoinWord="or" /> to ascension {firstClassLimit}
             </>
         );
     }
 
     const classLimits = parsedTargets.map((target) => {
-        const className = classes
-                ? classes[target.classId.toString()]?.toString()
-                : undefined,
+        const className = classes ? classes[target.classId.toString()]?.toString() : undefined,
             classString = toTitleCase(className ?? target.classId.toString());
         return `Ascension ${target.limit} ${classString}${pluralSuffix}`;
     });
@@ -363,10 +312,7 @@ export const MultipleClassLimits = (props: {
     return <MergeElementsOr elements={classLimits} lastJoinWord="or" />;
 };
 
-export const MultipleEquipRarityLevel = (props: {
-    targetIds: number[];
-    plural?: boolean;
-}) => {
+export const MultipleEquipRarityLevel = (props: { targetIds: number[]; plural?: boolean }) => {
     const { targetIds, plural } = props;
     const pluralSuffix = plural ? "s" : "";
 
@@ -393,16 +339,13 @@ export const MultipleEquipRarityLevel = (props: {
 
         return (
             <>
-                <MergeElementsOr elements={rarityStrings} lastJoinWord="or" />{" "}
-                CE
+                <MergeElementsOr elements={rarityStrings} lastJoinWord="or" /> CE
                 {pluralSuffix} to level {firstLevel}
             </>
         );
     }
 
-    const classLimits = parsedTargets.map(
-        (target) => `Lv. ${target.level} ${target.rarity}★`
-    );
+    const classLimits = parsedTargets.map((target) => `Lv. ${target.level} ${target.rarity}★`);
 
     return (
         <>

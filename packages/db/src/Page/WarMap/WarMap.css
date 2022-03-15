@@ -20,8 +20,8 @@
 .spot-name {
     display: inline-block;
     position: absolute;
-    background-color: rgba(0,0,24,0.8);
-    color: #FFF;
+    background-color: rgba(0, 0, 24, 0.8);
+    color: #fff;
     white-space: nowrap;
     padding-left: 5px;
     padding-right: 5px;

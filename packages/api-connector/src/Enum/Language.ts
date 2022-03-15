@@ -1,6 +1,6 @@
 enum Language {
-    DEFAULT = 'Default',
-    ENGLISH = 'English'
+    DEFAULT = "Default",
+    ENGLISH = "English",
 }
 
 export default Language;

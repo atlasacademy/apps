@@ -1,8 +1,14 @@
-import {DataVal, Func, Region} from "@atlasacademy/api-connector";
-import {funcUpdatesByLevel, funcUpdatesByOvercharge} from "../../Helper/FuncHelper";
-import {FuncDescriptorSections} from "./FuncDescriptorSections";
+import { DataVal, Func, Region } from "@atlasacademy/api-connector";
 
-export default function handleScalingSection(region: Region, sections: FuncDescriptorSections, func: Func.BasicFunc, dataVal: DataVal.DataVal): void {
+import { funcUpdatesByLevel, funcUpdatesByOvercharge } from "../../Helper/FuncHelper";
+import { FuncDescriptorSections } from "./FuncDescriptorSections";
+
+export default function handleScalingSection(
+    region: Region,
+    sections: FuncDescriptorSections,
+    func: Func.BasicFunc,
+    dataVal: DataVal.DataVal
+): void {
     const section = sections.scaling,
         parts = section.parts,
         isLevel = funcUpdatesByLevel(func),
@@ -14,10 +20,10 @@ export default function handleScalingSection(region: Region, sections: FuncDescr
     }
 
     if (isLevel) {
-        parts.push('<LEVEL>');
+        parts.push("<LEVEL>");
     }
 
     if (isOvercharge) {
-        parts.push('<OVERCHARGE>');
+        parts.push("<OVERCHARGE>");
     }
 }

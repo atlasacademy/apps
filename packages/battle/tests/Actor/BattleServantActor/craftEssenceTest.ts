@@ -1,9 +1,10 @@
-import {BattleTeam} from "../../../src";
-import {craftEssence, createBattle, servant} from "../../helpers";
-import {expect} from 'chai';
+import { expect } from "chai";
 
-describe('BattleServantActor craftEssence', () => {
-    it('effects are added on init', async () => {
+import { BattleTeam } from "../../../src";
+import { craftEssence, createBattle, servant } from "../../helpers";
+
+describe("BattleServantActor craftEssence", () => {
+    it("effects are added on init", async () => {
         let battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER, {
                 craftEssence: craftEssence(34),
@@ -17,7 +18,7 @@ describe('BattleServantActor craftEssence', () => {
         expect(actor.gaugePercent()).to.equal(0.8);
     });
 
-    it('effects use limit break conditions', async () => {
+    it("effects use limit break conditions", async () => {
         let battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER, {
                 craftEssence: craftEssence(34),
@@ -31,7 +32,7 @@ describe('BattleServantActor craftEssence', () => {
         expect(actor.gaugePercent()).to.equal(0);
     });
 
-    it('stats are added to servant', async () => {
+    it("stats are added to servant", async () => {
         let battle = createBattle(),
             artoria = servant(2, BattleTeam.PLAYER, {
                 craftEssence: craftEssence(34),

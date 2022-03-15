@@ -1,10 +1,8 @@
 import { Region } from "@atlasacademy/api-connector";
+
 import QuestDescriptor from "../../Descriptor/QuestDescriptor";
 
-const ServantRelatedQuests = (props: {
-    region: Region;
-    questIds: number[];
-}) => {
+const ServantRelatedQuests = (props: { region: Region; questIds: number[] }) => {
     if (props.questIds.length > 0) {
         return (
             <>
@@ -12,10 +10,7 @@ const ServantRelatedQuests = (props: {
                 <ul>
                     {props.questIds.map((questId) => (
                         <li key={questId}>
-                            <QuestDescriptor
-                                region={props.region}
-                                questId={questId}
-                            />
+                            <QuestDescriptor region={props.region} questId={questId} />
                         </li>
                     ))}
                 </ul>

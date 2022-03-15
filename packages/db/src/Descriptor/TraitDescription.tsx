@@ -1,7 +1,9 @@
-import { Region, Trait } from "@atlasacademy/api-connector";
-import { TraitDescriptor } from "@atlasacademy/api-descriptor";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import { Region, Trait } from "@atlasacademy/api-connector";
+import { TraitDescriptor } from "@atlasacademy/api-descriptor";
+
 import Api from "../Api";
 import Description from "./Description";
 
@@ -61,14 +63,9 @@ class TraitDescription extends React.Component<IProps, IState> {
     }
 
     private getDescription(trait: Trait.Trait | number) {
-        const descriptor = TraitDescriptor.describe(
-            trait,
-            this.props.overrideTraits
-        );
+        const descriptor = TraitDescriptor.describe(trait, this.props.overrideTraits);
 
-        return (
-            <Description region={this.props.region} descriptor={descriptor} />
-        );
+        return <Description region={this.props.region} descriptor={descriptor} />;
     }
 
     private getLocation(): string {

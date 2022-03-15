@@ -24,8 +24,7 @@ const bondIconImage = new Map([
 
 let BondIcon = (props: { level: number }) => {
     let { level } = props;
-    if (1 <= level && level <= 10)
-        return <img alt={`Bond level ${level}`} src={bondIconImage.get(level)} />;
+    if (1 <= level && level <= 10) return <img alt={`Bond level ${level}`} src={bondIconImage.get(level)} />;
     else return null;
 };
 

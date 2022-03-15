@@ -1,7 +1,8 @@
-import {Item} from "@atlasacademy/api-connector";
-import {toTitleCase} from "../Helpers";
+import { Item } from "@atlasacademy/api-connector";
 
-export default function (use: (Item.ItemUse | string)): string {
+import { toTitleCase } from "../Helpers";
+
+export default function (use: Item.ItemUse | string): string {
     switch (use) {
         case "skill & ascension":
             return "Skill Up & Ascension Material";

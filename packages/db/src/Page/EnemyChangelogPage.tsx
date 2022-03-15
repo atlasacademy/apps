@@ -1,13 +1,15 @@
-import { Quest, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+
+import { Quest, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import QuestPhaseTable from "../Component/QuestPhaseTable";
 import Manager from "../Setting/Manager";
 
-import './ListingPage.css';
+import "./ListingPage.css";
 
 const EnemyChangelogPage = ({ region }: { region: Region }) => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -17,7 +19,10 @@ const EnemyChangelogPage = ({ region }: { region: Region }) => {
     useEffect(() => {
         Manager.setRegion(region);
         Api.questEnemyChangelog()
-            .then((quests) => {setQuests(quests); setLoading(false);})
+            .then((quests) => {
+                setQuests(quests);
+                setLoading(false);
+            })
             .catch((error) => setError(error));
     }, [region]);
 

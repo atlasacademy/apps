@@ -1,4 +1,5 @@
 import { DataVal, Func, Region } from "@atlasacademy/api-connector";
+
 import { FuncDescriptorSections } from "./FuncDescriptorSections";
 
 export default function handleConditionSection(
@@ -10,8 +11,5 @@ export default function handleConditionSection(
     const section = sections.condition,
         parts = section.parts;
 
-    if (dataVal.StarHigher !== undefined)
-        parts.push(
-            `[${dataVal.StarHigher}+ Critical Stars]`
-        );
+    if (dataVal.StarHigher !== undefined) parts.push(`[${dataVal.StarHigher}+ Critical Stars]`);
 }

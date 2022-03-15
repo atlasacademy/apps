@@ -3,7 +3,7 @@
     margin-bottom: 20px;
 }
 
-#servant-portrait>.arrow {
+#servant-portrait > .arrow {
     cursor: pointer;
     height: 10%;
     position: absolute;
@@ -13,7 +13,7 @@
     top: 50%;
 }
 
-#servant-portrait>.arrow.back {
+#servant-portrait > .arrow.back {
     left: -15px;
     right: auto;
     transform: scaleX(-1) translateY(-50%);

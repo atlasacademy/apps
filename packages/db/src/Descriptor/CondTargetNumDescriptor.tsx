@@ -1,17 +1,9 @@
 import { Button } from "react-bootstrap";
+
+import { CondType, Mission, Quest, Region, Servant, Item, EnumList } from "@atlasacademy/api-connector";
+
 import CondMissionDetailDescriptor from "./CondMissionDetailDescriptor";
 import EventDescriptor from "./EventDescriptor";
-import { QuestDescriptorId } from "./QuestDescriptor";
-import ServantDescriptorId from "./ServantDescriptorId";
-import {
-    CondType,
-    Mission,
-    Quest,
-    Region,
-    Servant,
-    Item,
-    EnumList,
-} from "@atlasacademy/api-connector";
 import {
     missionRange,
     MultipleQuests,
@@ -20,6 +12,9 @@ import {
     MultipleClassLimits,
     MultipleEquipRarityLevel,
 } from "./MultipleDescriptors";
+import { QuestDescriptorId } from "./QuestDescriptor";
+import ServantDescriptorId from "./ServantDescriptorId";
+
 import "../Component/MoveButton.css";
 
 export default function CondTargetNumDescriptor(props: {
@@ -46,16 +41,8 @@ export default function CondTargetNumDescriptor(props: {
                 <>
                     {num === targets.length
                         ? `Clear ${num === 1 ? "" : "all of "}`
-                        : `Clear ${num} ${
-                              num !== 1
-                                  ? "different quests from "
-                                  : "quest from "
-                          }`}
-                    <MultipleQuests
-                        region={region}
-                        questIds={targets}
-                        quests={props.quests}
-                    />
+                        : `Clear ${num} ${num !== 1 ? "different quests from " : "quest from "}`}
+                    <MultipleQuests region={region} questIds={targets} quests={props.quests} />
                 </>
             );
         case CondType.QUEST_CLEAR_PHASE:
@@ -74,64 +61,40 @@ export default function CondTargetNumDescriptor(props: {
         case CondType.QUEST_CLEAR_NUM:
             return (
                 <>
-                    {num} runs of{" "}
-                    <MultipleQuests
-                        region={region}
-                        questIds={targets}
-                        quests={props.quests}
-                    />
+                    {num} runs of <MultipleQuests region={region} questIds={targets} quests={props.quests} />
                 </>
             );
         case CondType.SVT_LIMIT:
             return (
                 <>
-                    <MultipleServants
-                        region={region}
-                        servantIds={targets}
-                        servants={props.servants}
-                    />{" "}
-                    at ascension {num}
+                    <MultipleServants region={region} servantIds={targets} servants={props.servants} /> at ascension{" "}
+                    {num}
                 </>
             );
         case CondType.SVT_FRIENDSHIP:
             return (
                 <>
-                    <MultipleServants
-                        region={region}
-                        servantIds={targets}
-                        servants={props.servants}
-                    />{" "}
-                    at bond level {num}
+                    <MultipleServants region={region} servantIds={targets} servants={props.servants} /> at bond level{" "}
+                    {num}
                 </>
             );
         case CondType.SVT_GET:
             return (
                 <>
-                    <ServantDescriptorId
-                        region={region}
-                        id={targets[0]}
-                        servants={props.servants}
-                    />{" "}
-                    in Spirit Origin Collection
+                    <ServantDescriptorId region={region} id={targets[0]} servants={props.servants} /> in Spirit Origin
+                    Collection
                 </>
             );
         case CondType.EVENT_END:
             return (
                 <>
-                    Event{" "}
-                    <EventDescriptor region={region} eventId={targets[0]} /> has
-                    ended
+                    Event <EventDescriptor region={region} eventId={targets[0]} /> has ended
                 </>
             );
         case CondType.SVT_HAVING:
             return (
                 <>
-                    Presense of{" "}
-                    <ServantDescriptorId
-                        region={region}
-                        id={targets[0]}
-                        servants={props.servants}
-                    />
+                    Presense of <ServantDescriptorId region={region} id={targets[0]} servants={props.servants} />
                 </>
             );
         case CondType.SVT_RECOVERD:
@@ -139,55 +102,35 @@ export default function CondTargetNumDescriptor(props: {
         case CondType.LIMIT_COUNT_ABOVE:
             return (
                 <>
-                    <ServantDescriptorId
-                        region={region}
-                        id={targets[0]}
-                        servants={props.servants}
-                    />{" "}
-                    at ascension &ge; {num}
+                    <ServantDescriptorId region={region} id={targets[0]} servants={props.servants} /> at ascension &ge;{" "}
+                    {num}
                 </>
             );
         case CondType.LIMIT_COUNT_BELOW:
             return (
                 <>
-                    <ServantDescriptorId
-                        region={region}
-                        id={targets[0]}
-                        servants={props.servants}
-                    />{" "}
-                    at ascension &le; {num}
+                    <ServantDescriptorId region={region} id={targets[0]} servants={props.servants} /> at ascension &le;{" "}
+                    {num}
                 </>
             );
         case CondType.SVT_LEVEL_CLASS_NUM:
             return (
                 <>
                     Raise {num}{" "}
-                    <MultipleClassLevels
-                        targetIds={targets}
-                        classes={props.enums?.SvtClass}
-                        plural={num > 1}
-                    />
+                    <MultipleClassLevels targetIds={targets} classes={props.enums?.SvtClass} plural={num > 1} />
                 </>
             );
         case CondType.SVT_LIMIT_CLASS_NUM:
             return (
                 <>
                     Raise {num}{" "}
-                    <MultipleClassLimits
-                        targetIds={targets}
-                        classes={props.enums?.SvtClass}
-                        plural={num > 1}
-                    />
+                    <MultipleClassLimits targetIds={targets} classes={props.enums?.SvtClass} plural={num > 1} />
                 </>
             );
         case CondType.SVT_EQUIP_RARITY_LEVEL_NUM:
             return (
                 <>
-                    Raise {num}{" "}
-                    <MultipleEquipRarityLevel
-                        targetIds={targets}
-                        plural={num > 1}
-                    />
+                    Raise {num} <MultipleEquipRarityLevel targetIds={targets} plural={num > 1} />
                 </>
             );
         case CondType.EVENT_MISSION_ACHIEVE:
@@ -200,9 +143,7 @@ export default function CondTargetNumDescriptor(props: {
                     <Button
                         variant="link"
                         className="move-button"
-                        onClick={() =>
-                            props.handleNavigateMissionId?.(targets[0])
-                        }
+                        onClick={() => props.handleNavigateMissionId?.(targets[0])}
                     >
                         {missionDispNo}: {missionName}
                     </Button>

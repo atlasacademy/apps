@@ -1,6 +1,8 @@
-import { Region, Skill } from "@atlasacademy/api-connector";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { Region, Skill } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import getRubyText from "../Helper/StringHelper";
@@ -22,33 +24,17 @@ class SkillDescriptor extends React.Component<IProps> {
     }
 
     render() {
-        const textWhiteSpace = this.props.whiteSpace
-            ? this.props.whiteSpace
-            : "normal";
+        const textWhiteSpace = this.props.whiteSpace ? this.props.whiteSpace : "normal";
         return (
-            <Link
-                to={`/${this.props.region}/skill/${this.props.skill.id}`}
-                className="descriptor-link"
-            >
+            <Link to={`/${this.props.region}/skill/${this.props.skill.id}`} className="descriptor-link">
                 {this.props.skill.icon ? (
-                    <BuffIcon
-                        location={this.props.skill.icon}
-                        height={this.props.iconHeight}
-                    />
+                    <BuffIcon location={this.props.skill.icon} height={this.props.iconHeight} />
                 ) : undefined}
                 {this.props.skill.icon ? " " : undefined}
-                <span
-                    className="hover-text"
-                    style={{ whiteSpace: textWhiteSpace }}
-                >
+                <span className="hover-text" style={{ whiteSpace: textWhiteSpace }}>
                     [
                     {this.props.skill.name
-                        ? getRubyText(
-                              this.props.region,
-                              this.props.skill.name,
-                              this.props.skill.ruby,
-                              true
-                          )
+                        ? getRubyText(this.props.region, this.props.skill.name, this.props.skill.ruby, true)
                         : `Skill: ${this.props.skill.id}`}
                     ]
                 </span>

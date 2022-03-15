@@ -1,13 +1,8 @@
 // Thanks to crunker by jackedgson
 // https://github.com/jackedgson/crunker/blob/master/src/crunker.js
-
 import axios from "axios";
 
-const padAudio = (
-    audioContext: AudioContext,
-    buffer: AudioBuffer,
-    delay: number
-) => {
+const padAudio = (audioContext: AudioContext, buffer: AudioBuffer, delay: number) => {
     if (delay === 0) {
         return buffer;
     }
@@ -20,46 +15,28 @@ const padAudio = (
         buffer.sampleRate
     );
 
-    for (
-        let channelNumber = 0;
-        channelNumber < buffer.numberOfChannels;
-        channelNumber += 1
-    ) {
-        newBuffer
-            .getChannelData(channelNumber)
-            .set(buffer.getChannelData(channelNumber), delaySamples);
+    for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+        newBuffer.getChannelData(channelNumber).set(buffer.getChannelData(channelNumber), delaySamples);
     }
 
     return newBuffer;
 };
 
 const concatAudios = (context: AudioContext, buffers: AudioBuffer[]) => {
-    const maxNumberOfChannels = Math.max(
-        ...buffers.map((buffer) => buffer.numberOfChannels)
-    );
+    const maxNumberOfChannels = Math.max(...buffers.map((buffer) => buffer.numberOfChannels));
 
     let totalLength = 0;
     for (let i = 0; i < buffers.length; i++) {
         totalLength += buffers[i].length;
     }
 
-    const output = context.createBuffer(
-        maxNumberOfChannels,
-        totalLength,
-        buffers[0].sampleRate
-    );
+    const output = context.createBuffer(maxNumberOfChannels, totalLength, buffers[0].sampleRate);
 
     let offset = 0;
     for (let i = 0; i < buffers.length; i++) {
         const buffer = buffers[i];
-        for (
-            let channelNumber = 0;
-            channelNumber < buffer.numberOfChannels;
-            channelNumber += 1
-        ) {
-            output
-                .getChannelData(channelNumber)
-                .set(buffer.getChannelData(channelNumber), offset);
+        for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+            output.getChannelData(channelNumber).set(buffer.getChannelData(channelNumber), offset);
         }
 
         offset += buffer.length;
@@ -94,8 +71,7 @@ const writeWav = (buffer: AudioBuffer) => {
     const wavNumberOfChannels = buffer.numberOfChannels;
     const wavSampleRate = buffer.sampleRate;
     const wavBitsPerSample = 16;
-    const wavSamplesPerSec =
-        wavSampleRate * (wavBitsPerSample / 8) * wavNumberOfChannels;
+    const wavSamplesPerSec = wavSampleRate * (wavBitsPerSample / 8) * wavNumberOfChannels;
     const wavSamplingSizeInBytes = (wavBitsPerSample / 8) * wavNumberOfChannels;
     const wavDataSizeInBytes = pcmData.length * (wavBitsPerSample / 8);
 
@@ -125,11 +101,7 @@ const writeWav = (buffer: AudioBuffer) => {
     return view;
 };
 
-const mergeVoiceLine = async (
-    audioAssetUrls: string[],
-    delay: number[],
-    fileName?: string
-) => {
+const mergeVoiceLine = async (audioAssetUrls: string[], delay: number[], fileName?: string) => {
     let AudioContext =
         window.AudioContext || // Default
         (window as any).webkitAudioContext || // Safari and old versions of Chrome
@@ -147,24 +119,17 @@ const mergeVoiceLine = async (
                     // Safari doesn't support Promise-based syntax of decodeAudioData
                     // https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData#browser_compatibility
                     return new Promise<AudioBuffer>((res) => {
-                        audioContext.decodeAudioData(buffer.data, (buffer) =>
-                            res(buffer)
-                        );
+                        audioContext.decodeAudioData(buffer.data, (buffer) => res(buffer));
                     });
                 })
             );
 
             let paddedAudioBuffers = [] as AudioBuffer[];
             for (let i = 0; i < audioBuffers.length; i++) {
-                paddedAudioBuffers.push(
-                    padAudio(audioContext, audioBuffers[i], delay[i])
-                );
+                paddedAudioBuffers.push(padAudio(audioContext, audioBuffers[i], delay[i]));
             }
 
-            const combinedAudio = concatAudios(
-                audioContext,
-                paddedAudioBuffers
-            );
+            const combinedAudio = concatAudios(audioContext, paddedAudioBuffers);
             const audioDataView = writeWav(combinedAudio);
             const audioBlob = new Blob([audioDataView], { type: "audio/wav" });
 

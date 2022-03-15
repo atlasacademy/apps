@@ -1,12 +1,14 @@
-import {Card} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../../src";
-import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {attackNpGainRate} from "../../../../src/Func/Implementations/getDamageList";
-import {buff, createBattle, servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList attackNpGainRate', () => {
-    it('card types and first card bonus', async () => {
+import { Card } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../../src";
+import { BattleAttackActionList } from "../../../../src/Action/BattleAttackAction";
+import { attackNpGainRate } from "../../../../src/Func/Implementations/getDamageList";
+import { buff, createBattle, servant } from "../../../helpers";
+
+describe("getDamageList attackNpGainRate", () => {
+    it("card types and first card bonus", async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -47,7 +49,7 @@ describe('getDamageList attackNpGainRate', () => {
         expect(attackNpGainRate(actions.get(3), actor, target).value()).to.equal(258);
     });
 
-    it('card up bonus', async () => {
+    it("card up bonus", async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -78,7 +80,7 @@ describe('getDamageList attackNpGainRate', () => {
         expect(attackNpGainRate(actions.get(1), actor, target).value()).to.equal(76);
     });
 
-    it('server mod check', async () => {
+    it("server mod check", async () => {
         const actor = servant(11, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -120,7 +122,7 @@ describe('getDamageList attackNpGainRate', () => {
         expect(attackNpGainRate(actions.get(1), actor, target).value()).to.equal(102);
     });
 
-    it('np gain bonus', async () => {
+    it("np gain bonus", async () => {
         const actor = servant(12, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -151,7 +153,7 @@ describe('getDamageList attackNpGainRate', () => {
         expect(attackNpGainRate(actions.get(1), actor, target).value()).to.equal(51);
     });
 
-    it('np gain critical bonus', async () => {
+    it("np gain critical bonus", async () => {
         const actor = servant(12, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -190,13 +192,7 @@ describe('getDamageList attackNpGainRate', () => {
         battle.addActor(actor);
         battle.addActor(target);
 
-        const quickBuff = buff(
-            100,
-            {Value: 1880},
-            false,
-            false,
-            null
-        );
+        const quickBuff = buff(100, { Value: 1880 }, false, false, null);
 
         actor.addBuff(quickBuff);
 
@@ -218,21 +214,9 @@ describe('getDamageList attackNpGainRate', () => {
         battle.addActor(actor);
         battle.addActor(target);
 
-        const artsBuff = buff(
-            101,
-            {Value: 800},
-            false,
-            false,
-            null
-        );
+        const artsBuff = buff(101, { Value: 800 }, false, false, null);
 
-        const npGainBuff = buff(
-            140,
-            {Value: 300},
-            false,
-            false,
-            null
-        );
+        const npGainBuff = buff(140, { Value: 300 }, false, false, null);
 
         actor.addBuff(artsBuff);
         actor.addBuff(npGainBuff);

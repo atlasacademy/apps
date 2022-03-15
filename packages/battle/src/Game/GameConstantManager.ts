@@ -9,8 +9,8 @@ import {
     Language,
     Region,
 } from "@atlasacademy/api-connector";
-import {CardConstant, CardConstantMap} from "@atlasacademy/api-connector/dist/Enum/Card";
-import {ClassAffinityMap, ClassAttackRateMap} from "@atlasacademy/api-connector/dist/Enum/ClassName";
+import { CardConstant, CardConstantMap } from "@atlasacademy/api-connector/dist/Enum/Card";
+import { ClassAffinityMap, ClassAttackRateMap } from "@atlasacademy/api-connector/dist/Enum/ClassName";
 
 export default class GameConstantManager {
     private host: string = "https://api.atlasacademy.io";
@@ -63,13 +63,13 @@ export default class GameConstantManager {
         });
 
         await Promise.all([
-            (async () => this.attributeAffinityMap = await api.attributeConstant())(),
-            (async () => this.buffConstantMap = await api.buffConstant())(),
-            (async () => this.cardConstantMap = await api.cardConstant())(),
-            (async () => this.classAffinityMap = await api.classAffinityConstant())(),
-            (async () => this.classAttackRates = await api.classAttackConstant())(),
-            (async () => this.constants = await api.constant())(),
-            (async () => this.enumMap = await api.enumList())(),
+            (async () => (this.attributeAffinityMap = await api.attributeConstant()))(),
+            (async () => (this.buffConstantMap = await api.buffConstant()))(),
+            (async () => (this.cardConstantMap = await api.cardConstant()))(),
+            (async () => (this.classAffinityMap = await api.classAffinityConstant()))(),
+            (async () => (this.classAttackRates = await api.classAttackConstant()))(),
+            (async () => (this.constants = await api.constant()))(),
+            (async () => (this.enumMap = await api.enumList()))(),
         ]);
 
         this.loaded = true;
@@ -125,7 +125,7 @@ export default class GameConstantManager {
     }
 
     className(classId: number): ClassName | undefined {
-        return this.enumMap?.SvtClass[classId.toString()]
+        return this.enumMap?.SvtClass[classId.toString()];
     }
 
     getValue(key: Constant.Constant): number {

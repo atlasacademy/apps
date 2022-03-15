@@ -1,8 +1,10 @@
-import { Buff, Region } from "@atlasacademy/api-connector";
-import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 import { useEffect, useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import { Buff, Region } from "@atlasacademy/api-connector";
+import { BuffDescriptor } from "@atlasacademy/api-descriptor";
+
 import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import Description from "./Description";
@@ -26,9 +28,7 @@ class BuffDescription extends React.Component<IProps> {
 
         return (
             <Link to={`/${this.props.region}/buff/${buff.id}`}>
-                [{buff.icon
-                    ? <BuffIcon location={buff.icon} passiveFrame={this.props.passiveFrame}/>
-                    : undefined}
+                [{buff.icon ? <BuffIcon location={buff.icon} passiveFrame={this.props.passiveFrame} /> : undefined}
                 {buff.icon ? " " : undefined}
                 {Description.renderAsString(descriptor)}]
             </Link>

@@ -1,6 +1,7 @@
-import {DataVal, Func} from "@atlasacademy/api-connector";
-import {Descriptor} from "../Descriptor";
-import {Breakdown} from "./Breakdown";
+import { DataVal, Func } from "@atlasacademy/api-connector";
+
+import { Descriptor } from "../Descriptor";
+import { Breakdown } from "./Breakdown";
 import describe from "./describe";
 import describeValue from "./describeValue";
 import getMutatingDataVal from "./getMutatingDataVal";
@@ -19,24 +20,30 @@ export default function (func: Func.Func): Breakdown[] {
         const breakdowns: Breakdown[] = [];
 
         for (let level = 1; level <= levels; level++) {
-            const mutatingDataVal = Array(overchargeLevels).fill(null).map((_, overcharge) => {
-                return getMutatingDataVal(func, level, overcharge);
-            });
+            const mutatingDataVal = Array(overchargeLevels)
+                .fill(null)
+                .map((_, overcharge) => {
+                    return getMutatingDataVal(func, level, overcharge);
+                });
 
             breakdowns.push(breakdownFunc(func, level, staticDataVal, mutatingDataVal));
         }
 
         return breakdowns;
     } else if (levelScaling) {
-        const mutatingDataVal = Array(levels).fill(null).map((_, level) => {
-            return getMutatingDataVal(func, level);
-        });
+        const mutatingDataVal = Array(levels)
+            .fill(null)
+            .map((_, level) => {
+                return getMutatingDataVal(func, level);
+            });
 
         return [breakdownFunc(func, undefined, staticDataVal, mutatingDataVal)];
     } else if (overchargeScaling) {
-        const mutatingDataVal = Array(overchargeLevels).fill(null).map((_, overcharge) => {
-            return getMutatingDataVal(func, 1, overcharge);
-        });
+        const mutatingDataVal = Array(overchargeLevels)
+            .fill(null)
+            .map((_, overcharge) => {
+                return getMutatingDataVal(func, 1, overcharge);
+            });
 
         return [breakdownFunc(func, undefined, staticDataVal, mutatingDataVal)];
     } else {
@@ -44,21 +51,25 @@ export default function (func: Func.Func): Breakdown[] {
     }
 }
 
-function breakdownFunc(func: Func.Func, level: number | undefined, staticVal: DataVal.DataVal, mutatingVals: DataVal.DataVal[]): Breakdown {
+function breakdownFunc(
+    func: Func.Func,
+    level: number | undefined,
+    staticVal: DataVal.DataVal,
+    mutatingVals: DataVal.DataVal[]
+): Breakdown {
     const dataVals = getValList(func, level),
         followerDataVals = func.followerVals,
         descriptor = describe(func, dataVals, followerDataVals, level),
         relatedSkillIds = getRelatedSkillIds(func, dataVals),
         mutatorDescriptors: Descriptor[] = [];
 
-    mutatingVals.forEach(mutatingVal => {
+    mutatingVals.forEach((mutatingVal) => {
         const mutatorDescriptor = describeValue(func, staticVal, mutatingVal);
 
-        if (mutatorDescriptor !== undefined)
-            mutatorDescriptors.push(mutatorDescriptor);
+        if (mutatorDescriptor !== undefined) mutatorDescriptors.push(mutatorDescriptor);
     });
 
-    return {descriptor, mutatorDescriptors, relatedSkillIds};
+    return { descriptor, mutatorDescriptors, relatedSkillIds };
 }
 
 function getLevels(func: Func.Func): number {
@@ -68,14 +79,10 @@ function getLevels(func: Func.Func): number {
 function getOverchargeLevels(func: Func.Func): number {
     let levels = 1;
 
-    if (func.svals2 !== undefined)
-        levels++;
-    if (func.svals3 !== undefined)
-        levels++;
-    if (func.svals4 !== undefined)
-        levels++;
-    if (func.svals5 !== undefined)
-        levels++;
+    if (func.svals2 !== undefined) levels++;
+    if (func.svals3 !== undefined) levels++;
+    if (func.svals4 !== undefined) levels++;
+    if (func.svals5 !== undefined) levels++;
 
     return levels;
 }

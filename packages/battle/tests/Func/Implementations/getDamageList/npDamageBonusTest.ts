@@ -1,12 +1,13 @@
-import {expect} from 'chai';
-import {BattleTeam} from "../../../../src";
-import {npDamageBonus} from "../../../../src/Func/Implementations/getDamageList";
-import {Variable} from "../../../../src/Game/Variable";
-import BattleNoblePhantasmFunc from "../../../../src/NoblePhantasm/BattleNoblePhantasmFunc";
-import {servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList npDamageBonus', () => {
-    it('no bonus', () => {
+import { BattleTeam } from "../../../../src";
+import { npDamageBonus } from "../../../../src/Func/Implementations/getDamageList";
+import { Variable } from "../../../../src/Game/Variable";
+import BattleNoblePhantasmFunc from "../../../../src/NoblePhantasm/BattleNoblePhantasmFunc";
+import { servant } from "../../../helpers";
+
+describe("getDamageList npDamageBonus", () => {
+    it("no bonus", () => {
         const actor = servant(2, BattleTeam.PLAYER),
             func = actor.noblePhantasm().func(1);
 
@@ -16,7 +17,7 @@ describe('getDamageList npDamageBonus', () => {
         expect(bonus.value()).to.equal(0);
     });
 
-    it('low hp bonus - hijikata overcharge 1', () => {
+    it("low hp bonus - hijikata overcharge 1", () => {
         let actor = servant(161, BattleTeam.PLAYER),
             func = actor.noblePhantasm().func(1),
             bonus: Variable;
@@ -43,7 +44,7 @@ describe('getDamageList npDamageBonus', () => {
         expect(bonus.value()).to.be.greaterThan(7999);
     });
 
-    it('low hp bonus - hijikata overcharge 2', () => {
+    it("low hp bonus - hijikata overcharge 2", () => {
         let actor = servant(161, BattleTeam.PLAYER),
             func = actor.noblePhantasm().func(1),
             bonus: Variable;
@@ -71,7 +72,7 @@ describe('getDamageList npDamageBonus', () => {
         expect(bonus.value()).to.be.greaterThan(8999);
     });
 
-    it('low hp bonus - hijikata overcharge 5', () => {
+    it("low hp bonus - hijikata overcharge 5", () => {
         let actor = servant(161, BattleTeam.PLAYER),
             func = actor.noblePhantasm().func(1),
             bonus: Variable;

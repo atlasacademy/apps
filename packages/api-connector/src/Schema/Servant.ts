@@ -9,19 +9,13 @@ export interface ServantScript {
 }
 
 export interface Servant extends Entity {
-    type:
-        | EntityType.NORMAL
-        | EntityType.HEROINE
-        | EntityType.ENEMY_COLLECTION_DETAIL;
+    type: EntityType.NORMAL | EntityType.HEROINE | EntityType.ENEMY_COLLECTION_DETAIL;
     script: ServantScript;
     profile?: Profile;
 }
 
 export interface ServantBasic extends EntityBasic {
-    type:
-        | EntityType.NORMAL
-        | EntityType.HEROINE
-        | EntityType.ENEMY_COLLECTION_DETAIL;
+    type: EntityType.NORMAL | EntityType.HEROINE | EntityType.ENEMY_COLLECTION_DETAIL;
 }
 
 export enum ServantFrameType {

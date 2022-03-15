@@ -1,18 +1,19 @@
-import {expect} from 'chai';
-import {Func} from "../../../api-connector";
-import BattleDamageEvent from "../../src/Event/BattleDamageEvent";
-import {BattleTeam} from "../../src/Enum/BattleTeam";
-import {createBattle, servant} from "../helpers";
+import { expect } from "chai";
 
-describe('BattleNoblePhantasmTest', () => {
-    it('hits', () => {
+import { Func } from "../../../api-connector";
+import { BattleTeam } from "../../src/Enum/BattleTeam";
+import BattleDamageEvent from "../../src/Event/BattleDamageEvent";
+import { createBattle, servant } from "../helpers";
+
+describe("BattleNoblePhantasmTest", () => {
+    it("hits", () => {
         const actor = servant(11, BattleTeam.PLAYER),
             noblePhantasm = actor.noblePhantasm();
 
         expect(noblePhantasm.hits()).to.eql([3, 3, 5, 7, 8, 10, 12, 14, 16, 22]);
     });
 
-    it('deals damage', async () => {
+    it("deals damage", async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();

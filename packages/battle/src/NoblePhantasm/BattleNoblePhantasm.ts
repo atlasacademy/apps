@@ -1,41 +1,44 @@
-import {Card, NoblePhantasm, Trait} from "@atlasacademy/api-connector";
-import {BattleAttackAction} from "../Action/BattleAttackAction";
-import {BattleActor} from "../Actor/BattleActor";
-import {Battle} from "../Battle";
+import { Card, NoblePhantasm, Trait } from "@atlasacademy/api-connector";
+
+import { BattleAttackAction } from "../Action/BattleAttackAction";
+import { BattleActor } from "../Actor/BattleActor";
+import { Battle } from "../Battle";
 import BattleEvent from "../Event/BattleEvent";
 import BattleNoblePhantasmFunc from "./BattleNoblePhantasmFunc";
 
 export interface BattleNoblePhantasmProps {
-    actorId: number,
-    np: NoblePhantasm.NoblePhantasm,
-    level: number,
+    actorId: number;
+    np: NoblePhantasm.NoblePhantasm;
+    level: number;
 }
 
 export interface BattleNoblePhantasmState {
-    funcs: BattleNoblePhantasmFunc[],
+    funcs: BattleNoblePhantasmFunc[];
 }
 
 export default class BattleNoblePhantasm {
-
     public state: BattleNoblePhantasmState;
 
-    constructor(public props: BattleNoblePhantasmProps,
-                state: BattleNoblePhantasmState | null) {
+    constructor(public props: BattleNoblePhantasmProps, state: BattleNoblePhantasmState | null) {
         this.state = state ?? {
-            funcs: this.props.np.functions.map(func => {
-                return new BattleNoblePhantasmFunc({
-                    actorId: this.props.actorId,
-                    func,
-                    level: this.props.level,
-                    passive: false,
-                }, null, this);
+            funcs: this.props.np.functions.map((func) => {
+                return new BattleNoblePhantasmFunc(
+                    {
+                        actorId: this.props.actorId,
+                        func,
+                        level: this.props.level,
+                        passive: false,
+                    },
+                    null,
+                    this
+                );
             }),
         };
     }
 
     clone(): BattleNoblePhantasm {
         return new BattleNoblePhantasm(this.props, {
-            ...this.state
+            ...this.state,
         });
     }
 
@@ -44,7 +47,7 @@ export default class BattleNoblePhantasm {
         for (let i = 0; i < this.state.funcs.length; i++) {
             const func = this.state.funcs[i];
 
-            events.push(...await func.execute(battle));
+            events.push(...(await func.execute(battle)));
         }
 
         return events;
@@ -105,14 +108,6 @@ export default class BattleNoblePhantasm {
     }
 
     action(actor: BattleActor): BattleAttackAction {
-        return new BattleAttackAction(
-            actor,
-            this.props.np.card,
-            false,
-            Card.NONE,
-            false,
-            true,
-            1
-        );
+        return new BattleAttackAction(actor, this.props.np.card, false, Card.NONE, false, true, 1);
     }
 }

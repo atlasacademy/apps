@@ -1,39 +1,40 @@
-import {Buff, DataVal, Trait} from "@atlasacademy/api-connector";
-import {checkAllTrait} from "../Trait/checkAllTrait";
-import {checkTrait} from "../Trait/checkTrait";
+import { Buff, DataVal, Trait } from "@atlasacademy/api-connector";
+
+import { checkAllTrait } from "../Trait/checkAllTrait";
+import { checkTrait } from "../Trait/checkTrait";
 
 export interface BattleBuffProps {
-    buff: Buff.Buff,
-    dataVal: DataVal.DataVal,
-    passive: boolean,
-    short: boolean,
+    buff: Buff.Buff;
+    dataVal: DataVal.DataVal;
+    passive: boolean;
+    short: boolean;
 }
 
 export interface BattleBuffState {
-    count: number,
-    phases: number,
-    turns: number,
+    count: number;
+    phases: number;
+    turns: number;
 }
 
 export class BattleBuff {
     public state: BattleBuffState;
 
-    constructor(public props: BattleBuffProps,
-                state: BattleBuffState | null) {
+    constructor(public props: BattleBuffProps, state: BattleBuffState | null) {
         const turns = props.dataVal.Turn ?? -1,
-            phases = turns === -1 ? -1 : ((turns * 2) + (props.short ? -1 : 0));
+            phases = turns === -1 ? -1 : turns * 2 + (props.short ? -1 : 0);
 
         this.state = state ?? {
             count: props.dataVal.Count ?? -1,
-            phases, turns,
+            phases,
+            turns,
         };
     }
 
     clone(): BattleBuff {
-        return new BattleBuff(this.props, {...this.state});
+        return new BattleBuff(this.props, { ...this.state });
     }
 
-    checkBuffTrait <T extends Trait.Trait | Buff.BuffType>(self: T[], target: T[]): boolean {
+    checkBuffTrait<T extends Trait.Trait | Buff.BuffType>(self: T[], target: T[]): boolean {
         switch (this.props.buff.script.checkIndvType) {
             case undefined:
                 return checkTrait(self, target);
@@ -42,7 +43,7 @@ export class BattleBuff {
             // case 2:
             // case 3:
             default:
-                throw new Error('Unknown buff checkIndvType');
+                throw new Error("Unknown buff checkIndvType");
         }
     }
 
@@ -81,8 +82,7 @@ export class BattleBuff {
     }
 
     value(self: Trait.Trait[], target: Trait.Trait[]): number | undefined {
-        if (this.checkTrait(self, target) && this.checkSuccessful())
-            return this.props.dataVal.Value;
+        if (this.checkTrait(self, target) && this.checkSuccessful()) return this.props.dataVal.Value;
 
         return undefined;
     }

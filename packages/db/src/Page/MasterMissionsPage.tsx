@@ -1,15 +1,17 @@
-import { MasterMission, Region } from "@atlasacademy/api-connector";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+import { MasterMission, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import { Link } from "react-router-dom";
-import Manager from "../Setting/Manager";
 import { getCurrentTimestamp, getTimeString } from "../Helper/TimeHelper";
+import Manager from "../Setting/Manager";
 
 import "./ListingPage.css";
 
@@ -17,14 +19,15 @@ const MasterMissionsPage = (props: { region: Region }) => {
     const { region } = props;
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | undefined>(undefined);
-    const [masterMissions, setMasterMissions] = useState<
-        MasterMission.MasterMission[]
-    >([]);
+    const [masterMissions, setMasterMissions] = useState<MasterMission.MasterMission[]>([]);
 
     useEffect(() => {
         Manager.setRegion(region);
         Api.masterMissionList()
-            .then((r) => {setMasterMissions(r); setLoading(false);})
+            .then((r) => {
+                setMasterMissions(r);
+                setLoading(false);
+            })
             .catch((e) => setError(e));
     }, [region]);
 
@@ -51,8 +54,7 @@ const MasterMissionsPage = (props: { region: Region }) => {
                     {masterMissions.map((masterMission) => {
                         const route = `/${region}/master-mission/${masterMission.id}`;
                         const isOngoing =
-                            currentTimestamp >= masterMission.startedAt &&
-                            currentTimestamp <= masterMission.endedAt;
+                            currentTimestamp >= masterMission.startedAt && currentTimestamp <= masterMission.endedAt;
 
                         return (
                             <tr key={masterMission.id}>
@@ -67,9 +69,7 @@ const MasterMissionsPage = (props: { region: Region }) => {
                                         />
                                     ) : null}
                                 </td>
-                                <td>
-                                    {getTimeString(masterMission.startedAt)}
-                                </td>
+                                <td>{getTimeString(masterMission.startedAt)}</td>
                                 <td>{getTimeString(masterMission.endedAt)}</td>
                             </tr>
                         );

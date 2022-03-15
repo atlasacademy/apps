@@ -1,18 +1,12 @@
-import { Bgm, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import diacritics from "diacritics";
 import escapeStringRegexp from "escape-string-regexp";
 import React from "react";
-import {
-    Col,
-    Form,
-    Pagination,
-    Row,
-    Table,
-    Button,
-    ButtonGroup,
-} from "react-bootstrap";
+import { Col, Form, Pagination, Row, Table, Button, ButtonGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import { Bgm, Region } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -78,11 +72,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
             list = list.filter((bgm) => {
                 const normalizedName = diacritics
-                    .remove(
-                        bgm.name !== "" && bgm.name !== "0"
-                            ? `${bgm.name} ${bgm.fileName}`
-                            : bgm.fileName
-                    )
+                    .remove(bgm.name !== "" && bgm.name !== "0" ? `${bgm.name} ${bgm.fileName}` : bgm.fileName)
                     .toLowerCase();
                 const searchName = `${bgm.id} ${normalizedName}`;
 
@@ -93,29 +83,13 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         return list;
     }
 
-    private pageItem(
-        label: string,
-        page: number,
-        key: string | number,
-        active: boolean,
-        disabled: boolean
-    ) {
+    private pageItem(label: string, page: number, key: string | number, active: boolean, disabled: boolean) {
         return (
-            <li
-                key={key}
-                className={
-                    "page-item" +
-                    (active ? " active" : "") +
-                    (disabled ? " disabled" : "")
-                }
-            >
+            <li key={key} className={"page-item" + (active ? " active" : "") + (disabled ? " disabled" : "")}>
                 {disabled ? (
                     <span className={"page-link"}>{label}</span>
                 ) : (
-                    <button
-                        className={"page-link"}
-                        onClick={() => this.setPage(page)}
-                    >
+                    <button className={"page-link"} onClick={() => this.setPage(page)}>
                         {label}
                     </button>
                 )}
@@ -157,15 +131,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
         const pages = nearbyPrev.concat([this.state.page], nearbyNext);
 
-        items.push(
-            this.pageItem(
-                "<",
-                this.state.page - 1,
-                "prev",
-                false,
-                this.state.page <= 0
-            )
-        );
+        items.push(this.pageItem("<", this.state.page - 1, "prev", false, this.state.page <= 0));
 
         if (pages[0] > 0) {
             items.push(this.pageItem("1", 0, "first", false, false));
@@ -177,56 +143,20 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             }
         }
 
-        items.push(
-            ...pages.map((i) =>
-                this.pageItem(
-                    (i + 1).toString(),
-                    i,
-                    i,
-                    i === this.state.page,
-                    false
-                )
-            )
-        );
+        items.push(...pages.map((i) => this.pageItem((i + 1).toString(), i, i, i === this.state.page, false)));
 
         const lastNearbyPage = pages[pages.length - 1];
         if (lastNearbyPage < maxPage) {
             if (lastNearbyPage === maxPage - 2) {
-                items.push(
-                    this.pageItem(
-                        maxPage.toString(),
-                        maxPage - 1,
-                        maxPage - 1,
-                        false,
-                        false
-                    )
-                );
+                items.push(this.pageItem(maxPage.toString(), maxPage - 1, maxPage - 1, false, false));
             } else if (lastNearbyPage < maxPage - 2) {
-                items.push(
-                    this.pageItem("…", maxPage, "lastEllipsis", false, true)
-                );
+                items.push(this.pageItem("…", maxPage, "lastEllipsis", false, true));
             }
 
-            items.push(
-                this.pageItem(
-                    (maxPage + 1).toString(),
-                    maxPage,
-                    "last",
-                    false,
-                    false
-                )
-            );
+            items.push(this.pageItem((maxPage + 1).toString(), maxPage, "last", false, false));
         }
 
-        items.push(
-            this.pageItem(
-                ">",
-                this.state.page + 1,
-                "next",
-                false,
-                this.state.page >= maxPage
-            )
-        );
+        items.push(this.pageItem(">", this.state.page + 1, "next", false, this.state.page >= maxPage));
 
         return (
             <div className="page-navigator">
@@ -245,10 +175,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         if (this.state.loading) return <Loading />;
 
         const bgms = this.bgms(),
-            results = bgms.slice(
-                this.state.perPage * this.state.page,
-                this.state.perPage * (this.state.page + 1)
-            );
+            results = bgms.slice(this.state.perPage * this.state.page, this.state.perPage * (this.state.page + 1));
 
         const pageNavigator = this.paginator(bgms.length);
 
@@ -258,11 +185,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     <Col md={12} lg={3} id="item-type">
                         <ButtonGroup>
                             <Button
-                                variant={
-                                    this.state.releaseOnlyFilter
-                                        ? "success"
-                                        : "outline-dark"
-                                }
+                                variant={this.state.releaseOnlyFilter ? "success" : "outline-dark"}
                                 onClick={(_) => this.toggleReleaseOnlyFilter()}
                             >
                                 Can be bought in my room
@@ -306,11 +229,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
                             const shopDetail = bgm.shop ? (
                                 <>
-                                    <ItemDescriptor
-                                        region={this.props.region}
-                                        item={bgm.shop.cost.item}
-                                    />{" "}
-                                    x{bgm.shop.cost.amount}
+                                    <ItemDescriptor region={this.props.region} item={bgm.shop.cost.item} /> x
+                                    {bgm.shop.cost.amount}
                                 </>
                             ) : null;
 
@@ -321,30 +241,19 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                     </td>
                                     <td className="col-center">
                                         <Link to={route}>
-                                            <img
-                                                src={bgm.logo}
-                                                style={{ height: "1.5em" }}
-                                                alt="BGM Logo"
-                                            />
+                                            <img src={bgm.logo} style={{ height: "1.5em" }} alt="BGM Logo" />
                                         </Link>
                                     </td>
                                     <td
                                         style={{
-                                            whiteSpace:
-                                                Manager.showingJapaneseText()
-                                                    ? "pre-wrap"
-                                                    : "normal",
+                                            whiteSpace: Manager.showingJapaneseText() ? "pre-wrap" : "normal",
                                         }}
                                     >
                                         <Link to={route}>{showName}</Link>
                                     </td>
                                     <td>{shopDetail}</td>
                                     <td>
-                                        <BgmDescriptor
-                                            region={this.props.region}
-                                            bgm={bgm}
-                                            showName="Download"
-                                        />
+                                        <BgmDescriptor region={this.props.region} bgm={bgm} showName="Download" />
                                     </td>
                                 </tr>
                             );

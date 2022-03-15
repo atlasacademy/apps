@@ -1,5 +1,6 @@
-import { Entity } from "@atlasacademy/api-connector";
 import React from "react";
+
+import { Entity } from "@atlasacademy/api-connector";
 
 interface IProps {
     type?: Entity.EntityType;

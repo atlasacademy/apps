@@ -1,9 +1,3 @@
-import {
-    Region,
-    Card,
-    NoblePhantasm,
-    Trait,
-} from "@atlasacademy/api-connector";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -11,15 +5,18 @@ import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+
+import { Region, Card, NoblePhantasm, Trait } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
-import NumberSelector from "../Component/NumberSelector";
 import Loading from "../Component/Loading";
+import NumberSelector from "../Component/NumberSelector";
 import SearchableSelect from "../Component/SearchableSelect";
+import TraitsSelector from "../Component/TraitsSelector";
 import { entityDescriptorTable } from "../Descriptor/EntityDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
-import TraitsSelector from "../Component/TraitsSelector";
 import Manager from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
@@ -66,8 +63,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
         let state: IState = defaultState;
         if (props.location.search !== "") {
             const searchParams = new URLSearchParams(props.location.search);
-            const getQueryNums = (param: string) =>
-                searchParams.getAll(param).map((num) => parseInt(num));
+            const getQueryNums = (param: string) => searchParams.getAll(param).map((num) => parseInt(num));
             state = {
                 ...defaultState,
                 name: searchParams.get("name") ?? undefined,
@@ -78,11 +74,9 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                 numFunctions: getQueryNums("numFunctions"),
             };
             const minNpQueryValue = searchParams.get("minNpNpGain");
-            if (minNpQueryValue !== null)
-                state.minNpNpGain = parseInt(minNpQueryValue);
+            if (minNpQueryValue !== null) state.minNpNpGain = parseInt(minNpQueryValue);
             const maxNpQueryValue = searchParams.get("maxNpNpGain");
-            if (maxNpQueryValue !== null)
-                state.maxNpNpGain = parseInt(maxNpQueryValue);
+            if (maxNpQueryValue !== null) state.maxNpNpGain = parseInt(maxNpQueryValue);
         } else {
             state = stateCache.get(props.region) ?? defaultState;
         }
@@ -95,9 +89,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
     }
 
     setQueryURL() {
-        this.props.history.replace(
-            `/${this.props.region}/${this.props.path}?${this.getQueryString()}`
-        );
+        this.props.history.replace(`/${this.props.region}/${this.props.path}?${this.getQueryString()}`);
     }
 
     async componentDidMount() {
@@ -147,9 +139,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
             this.state.maxNpNpGain !== undefined
         ) {
             this.setState({ noblePhantasms: [] });
-            this.props.history.replace(
-                `/${this.props.region}/${this.props.path}`
-            );
+            this.props.history.replace(`/${this.props.region}/${this.props.path}`);
             alert("Please refine the results before searching");
             return;
         }
@@ -157,15 +147,15 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
         this.setState({ searching: true, noblePhantasms: [] });
 
         Api.searchNoblePhantasm(
-                this.state.name,
-                this.state.card,
-                this.state.individuality,
-                this.state.hits,
-                this.state.strengthStatus,
-                this.state.numFunctions,
-                this.state.minNpNpGain,
-                this.state.maxNpNpGain
-            )
+            this.state.name,
+            this.state.card,
+            this.state.individuality,
+            this.state.hits,
+            this.state.strengthStatus,
+            this.state.numFunctions,
+            this.state.minNpNpGain,
+            this.state.maxNpNpGain
+        )
             .then((noblePhantasms) => {
                 this.setQueryURL();
                 this.setState({ noblePhantasms, searched: true, searching: false });
@@ -176,10 +166,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
             });
     }
 
-    getNumberForm(
-        stateVar: "hits" | "strengthStatus" | "numFunctions",
-        label: string
-    ) {
+    getNumberForm(stateVar: "hits" | "strengthStatus" | "numFunctions", label: string) {
         return (
             <Form.Group>
                 <Form.Label>{label}</Form.Label>
@@ -188,10 +175,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                     traitList={[]}
                     initialTraits={this.state[stateVar]}
                     onUpdate={(trait) => {
-                        this.setState({ [stateVar]: trait } as Pick<
-                            IState,
-                            typeof stateVar
-                        >);
+                        this.setState({ [stateVar]: trait } as Pick<IState, typeof stateVar>);
                     }}
                     customPlaceHolder="Add a positive integer"
                     emptyLabel=""
@@ -235,21 +219,11 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                             <tr key={noblePhantasm.id}>
                                 <td>{noblePhantasm.id}</td>
                                 <td>
-                                    <NoblePhantasmDescriptor
-                                        region={this.props.region}
-                                        noblePhantasm={noblePhantasm}
-                                    />
+                                    <NoblePhantasmDescriptor region={this.props.region} noblePhantasm={noblePhantasm} />
                                 </td>
                                 <td>
-                                    {(
-                                        noblePhantasm.reverse?.basic?.servant ??
-                                        []
-                                    ).map((entity, index) =>
-                                        entityDescriptorTable(
-                                            this.props.region,
-                                            entity,
-                                            index
-                                        )
+                                    {(noblePhantasm.reverse?.basic?.servant ?? []).map((entity, index) =>
+                                        entityDescriptorTable(this.props.region, entity, index)
                                     )}
                                 </td>
                             </tr>
@@ -296,9 +270,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                                     [Card.QUICK, "Quick"],
                                 ])
                             }
-                            selected={
-                                this.state.card ? this.state.card[0] : undefined
-                            }
+                            selected={this.state.card ? this.state.card[0] : undefined}
                             onChange={(value?: Card) => {
                                 this.setState({ card: value ? [value] : [] });
                             }}
@@ -323,10 +295,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                         <NumberSelector
                             value={this.state.minNpNpGain ?? ""}
                             onChange={(ev: ChangeEvent) => {
-                                if (
-                                    ev.target.value === "0" ||
-                                    isPositiveInteger(ev.target.value)
-                                ) {
+                                if (ev.target.value === "0" || isPositiveInteger(ev.target.value)) {
                                     this.setState({
                                         minNpNpGain: parseInt(ev.target.value),
                                     });
@@ -343,10 +312,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                         <NumberSelector
                             value={this.state.maxNpNpGain ?? ""}
                             onChange={(ev: ChangeEvent) => {
-                                if (
-                                    ev.target.value === "0" ||
-                                    isPositiveInteger(ev.target.value)
-                                ) {
+                                if (ev.target.value === "0" || isPositiveInteger(ev.target.value)) {
                                     this.setState({
                                         maxNpNpGain: parseInt(ev.target.value),
                                     });

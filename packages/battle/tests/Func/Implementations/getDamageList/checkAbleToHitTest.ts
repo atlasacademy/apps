@@ -1,12 +1,14 @@
-import {Card} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../../src";
-import {BattleAttackActionList} from "../../../../src/Action/BattleAttackAction";
-import {checkAbleToHit} from "../../../../src/Func/Implementations/getDamageList";
-import {createBattle, servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('getDamageList checkAbleToHit', () => {
-    it('no buffs', async () => {
+import { Card } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../../src";
+import { BattleAttackActionList } from "../../../../src/Action/BattleAttackAction";
+import { checkAbleToHit } from "../../../../src/Func/Implementations/getDamageList";
+import { createBattle, servant } from "../../../helpers";
+
+describe("getDamageList checkAbleToHit", () => {
+    it("no buffs", async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -22,7 +24,7 @@ describe('getDamageList checkAbleToHit', () => {
         expect(checkAbleToHit(actions.get(1), actor, target)).to.be.true;
     });
 
-    it('evade', async () => {
+    it("evade", async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
             battle = createBattle();
@@ -41,7 +43,7 @@ describe('getDamageList checkAbleToHit', () => {
         expect(checkAbleToHit(actions.get(1), actor, target)).to.be.false;
     });
 
-    it('sure hit', async () => {
+    it("sure hit", async () => {
         const actor = servant(17, BattleTeam.PLAYER),
             target = servant(11, BattleTeam.ENEMY),
             battle = createBattle();
@@ -66,7 +68,7 @@ describe('getDamageList checkAbleToHit', () => {
         expect(checkAbleToHit(actions.get(1), actor, target)).to.be.true;
     });
 
-    it('invincibility', async () => {
+    it("invincibility", async () => {
         const actor = servant(17, BattleTeam.PLAYER),
             target = servant(150, BattleTeam.ENEMY),
             battle = createBattle();
@@ -91,7 +93,7 @@ describe('getDamageList checkAbleToHit', () => {
         expect(checkAbleToHit(actions.get(1), actor, target)).to.be.false;
     });
 
-    it('pierce invincibility', async () => {
+    it("pierce invincibility", async () => {
         const actor = servant(65, BattleTeam.PLAYER),
             cuTarget = servant(17, BattleTeam.ENEMY),
             merlinTarget = servant(150, BattleTeam.ENEMY),
@@ -122,5 +124,5 @@ describe('getDamageList checkAbleToHit', () => {
         // merlin pops invincibility
         await merlinTarget.skill(2)?.activate(battle);
         expect(checkAbleToHit(actions.get(1), actor, merlinTarget)).to.be.true;
-    })
+    });
 });

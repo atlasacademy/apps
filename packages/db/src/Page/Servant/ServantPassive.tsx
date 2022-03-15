@@ -1,34 +1,22 @@
-import Api from "../../Api";
-import SkillBreakdown from "../../Breakdown/SkillBreakdown";
-import { mergeElements } from "../../Helper/OutputHelper";
-import ExtraPassive from "./ExtraPassive";
-import {
-    Buff,
-    ConstantStr,
-    Region,
-    Servant,
-} from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const ServantScriptPassive = ({
-    region,
-    servant,
-}: {
-    region: Region;
-    servant: Servant.Servant;
-}) => {
+import { Buff, ConstantStr, Region, Servant } from "@atlasacademy/api-connector";
+
+import Api from "../../Api";
+import SkillBreakdown from "../../Breakdown/SkillBreakdown";
+import { mergeElements } from "../../Helper/OutputHelper";
+import ExtraPassive from "./ExtraPassive";
+
+const ServantScriptPassive = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
     const [buffTypes, setBuffTypes] = useState<string[] | undefined>(undefined);
-    const [buffNames, setBuffNames] = useState<
-        Map<string, Buff.BuffType> | undefined
-    >(undefined);
+    const [buffNames, setBuffNames] = useState<Map<string, Buff.BuffType> | undefined>(undefined);
 
     useEffect(() => {
         if (servant.script.svtBuffTurnExtend) {
             Api.constantStrs().then((constantStrs) => {
-                const buffTurnExtendTypes =
-                    constantStrs[ConstantStr.ConstantStr.EXTEND_TURN_BUFF_TYPE];
+                const buffTurnExtendTypes = constantStrs[ConstantStr.ConstantStr.EXTEND_TURN_BUFF_TYPE];
                 if (buffTurnExtendTypes !== undefined) {
                     setBuffTypes(buffTurnExtendTypes.split(","));
                 }
@@ -44,19 +32,14 @@ const ServantScriptPassive = ({
             <>
                 <h3>Extend Attack Buff Duration</h3>
                 <p>
-                    Extend attack buff duration from end of player turn to end
-                    of enemy turn.
+                    Extend attack buff duration from end of player turn to end of enemy turn.
                     {buffTypes !== undefined && buffNames !== undefined ? (
                         <>
                             <br />
                             Applies to:{" "}
                             {mergeElements(
                                 buffTypes.map((buff) => (
-                                    <Link
-                                        to={`/${region}/buffs?type=${buffNames.get(
-                                            buff
-                                        )}`}
-                                    >
+                                    <Link to={`/${region}/buffs?type=${buffNames.get(buff)}`}>
                                         {buffNames.get(buff)}
                                     </Link>
                                 )),
@@ -73,28 +56,14 @@ const ServantScriptPassive = ({
     return <></>;
 };
 
-const ServantPassive = ({
-    region,
-    servant,
-}: {
-    region: Region;
-    servant: Servant.Servant;
-}) => {
+const ServantPassive = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
     return (
         <>
             <Row>
                 {servant.classPassive.map((skill) => {
                     return (
-                        <Col
-                            xs={12}
-                            lg={(servant.classPassive.length ?? 1) > 1 ? 6 : 12}
-                            key={skill.id}
-                        >
-                            <SkillBreakdown
-                                region={region}
-                                skill={skill}
-                                cooldowns={false}
-                            />
+                        <Col xs={12} lg={(servant.classPassive.length ?? 1) > 1 ? 6 : 12} key={skill.id}>
+                            <SkillBreakdown region={region} skill={skill} cooldowns={false} />
                         </Col>
                     );
                 })}
@@ -124,10 +93,7 @@ const ServantPassive = ({
             {servant.extraPassive.length > 0 ? (
                 <>
                     <h3 className="my-4">Extra Passive</h3>
-                    <ExtraPassive
-                        region={region}
-                        skills={servant.extraPassive}
-                    />
+                    <ExtraPassive region={region} skills={servant.extraPassive} />
                 </>
             ) : null}
         </>

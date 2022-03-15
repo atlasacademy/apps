@@ -1,4 +1,3 @@
-import { Func, Region, Trait } from "@atlasacademy/api-connector";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
@@ -6,6 +5,9 @@ import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+
+import { Func, Region, Trait } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -58,18 +60,13 @@ class FuncsPage extends React.Component<IProps, IState> {
         let state: IState = defaultState;
         if (props.location.search !== "") {
             const searchParams = new URLSearchParams(props.location.search);
-            const getQueryNums = (param: string) =>
-                searchParams.getAll(param).map((num) => parseInt(num));
+            const getQueryNums = (param: string) => searchParams.getAll(param).map((num) => parseInt(num));
             state = {
                 ...defaultState,
                 popupText: searchParams.get("popupText") ?? undefined,
                 type: searchParams.getAll("type") as Func.FuncType[],
-                targetType: searchParams.getAll(
-                    "targetType"
-                ) as Func.FuncTargetType[],
-                targetTeam: searchParams.getAll(
-                    "targetTeam"
-                ) as Func.FuncTargetTeam[],
+                targetType: searchParams.getAll("targetType") as Func.FuncTargetType[],
+                targetTeam: searchParams.getAll("targetTeam") as Func.FuncTargetTeam[],
                 vals: getQueryNums("vals"),
                 tvals: getQueryNums("tvals"),
                 questTvals: getQueryNums("questTvals"),
@@ -121,9 +118,7 @@ class FuncsPage extends React.Component<IProps, IState> {
     }
 
     setQueryURL() {
-        this.props.history.replace(
-            `/${this.props.region}/${this.props.path}?${this.getQueryString()}`
-        );
+        this.props.history.replace(`/${this.props.region}/${this.props.path}?${this.getQueryString()}`);
     }
 
     private search() {
@@ -146,14 +141,14 @@ class FuncsPage extends React.Component<IProps, IState> {
         this.setState({ searching: true, funcs: [] });
 
         Api.searchFunc(
-                this.state.popupText,
-                this.state.type,
-                this.state.targetType,
-                this.state.targetTeam,
-                this.state.vals,
-                this.state.tvals,
-                this.state.questTvals
-            )
+            this.state.popupText,
+            this.state.type,
+            this.state.targetType,
+            this.state.targetTeam,
+            this.state.vals,
+            this.state.tvals,
+            this.state.questTvals
+        )
             .then((funcs) => {
                 this.setQueryURL();
                 this.setState({ funcs, searched: true, searching: false });
@@ -199,15 +194,10 @@ class FuncsPage extends React.Component<IProps, IState> {
                             <tr key={func.funcId}>
                                 <td>{func.funcId}</td>
                                 <td>
-                                    <FuncDescriptor
-                                        region={this.props.region}
-                                        func={func}
-                                    />
+                                    <FuncDescriptor region={this.props.region} func={func} />
                                 </td>
                                 <td>
-                                    {(func.reverse?.basic?.NP ?? []).length +
-                                        (func.reverse?.basic?.skill ?? [])
-                                            .length}
+                                    {(func.reverse?.basic?.NP ?? []).length + (func.reverse?.basic?.skill ?? []).length}
                                 </td>
                             </tr>
                         );
@@ -243,9 +233,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             id="select-FuncType"
                             options={Object.values(Func.FuncType)}
                             labels={funcDescriptions}
-                            selected={
-                                this.state.type ? this.state.type[0] : undefined
-                            }
+                            selected={this.state.type ? this.state.type[0] : undefined}
                             onChange={(value?: Func.FuncType) => {
                                 this.setState({ type: value ? [value] : [] });
                             }}
@@ -257,11 +245,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             id="select-FuncTargetType"
                             options={Object.values(Func.FuncTargetType)}
                             labels={targetDescriptions}
-                            selected={
-                                this.state.targetType
-                                    ? this.state.targetType[0]
-                                    : undefined
-                            }
+                            selected={this.state.targetType ? this.state.targetType[0] : undefined}
                             onChange={(value?: Func.FuncTargetType) => {
                                 this.setState({
                                     targetType: value ? [value] : [],
@@ -276,22 +260,12 @@ class FuncsPage extends React.Component<IProps, IState> {
                             options={Object.values(Func.FuncTargetTeam)}
                             labels={
                                 new Map<Func.FuncTargetTeam, string>([
-                                    [
-                                        Func.FuncTargetTeam.PLAYER_AND_ENEMY,
-                                        "Players and Enemies",
-                                    ],
-                                    [
-                                        Func.FuncTargetTeam.PLAYER,
-                                        "Players only",
-                                    ],
+                                    [Func.FuncTargetTeam.PLAYER_AND_ENEMY, "Players and Enemies"],
+                                    [Func.FuncTargetTeam.PLAYER, "Players only"],
                                     [Func.FuncTargetTeam.ENEMY, "Enemies only"],
                                 ])
                             }
-                            selected={
-                                this.state.targetTeam
-                                    ? this.state.targetTeam[0]
-                                    : undefined
-                            }
+                            selected={this.state.targetTeam ? this.state.targetTeam[0] : undefined}
                             onChange={(value?: Func.FuncTargetTeam) => {
                                 this.setState({
                                     targetTeam: value ? [value] : [],

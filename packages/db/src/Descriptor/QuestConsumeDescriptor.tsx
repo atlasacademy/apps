@@ -1,4 +1,5 @@
 import { Item, Quest, Region } from "@atlasacademy/api-connector";
+
 import { mergeElements } from "../Helper/OutputHelper";
 import ItemDescriptor from "./ItemDescriptor";
 
@@ -22,11 +23,7 @@ export default function QuestConsumeDescriptor(props: {
                     {mergeElements(
                         props.consumeItem.map((item) => (
                             <>
-                                <ItemDescriptor
-                                    region={props.region}
-                                    item={item.item}
-                                />{" "}
-                                x{item.amount}
+                                <ItemDescriptor region={props.region} item={item.item} /> x{item.amount}
                             </>
                         )),
                         ", "
@@ -40,11 +37,7 @@ export default function QuestConsumeDescriptor(props: {
                     {mergeElements(
                         props.consumeItem.map((item) => (
                             <>
-                                <ItemDescriptor
-                                    region={props.region}
-                                    item={item.item}
-                                />{" "}
-                                x{item.amount}
+                                <ItemDescriptor region={props.region} item={item.item} /> x{item.amount}
                             </>
                         )),
                         ", "

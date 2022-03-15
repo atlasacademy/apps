@@ -1,22 +1,25 @@
-import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
+
+import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
+
 import Api, { Host } from "../Api";
 import ClassIcon from "../Component/ClassIcon";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import QuestStage from "../Component/QuestStage";
-import SupportServantTables from "../Component/SupportServant";
-import RawDataViewer from "../Component/RawDataViewer";
 import { QuestDropDescriptor } from "../Component/QuestEnemy";
+import QuestStage from "../Component/QuestStage";
+import RawDataViewer from "../Component/RawDataViewer";
+import SupportServantTables from "../Component/SupportServant";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
+import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
@@ -24,7 +27,6 @@ import { colorString } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
-import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 
 export const QuestTypeDescription = new Map([
     [Quest.QuestType.MAIN, "Main"],
@@ -119,26 +121,18 @@ const QuestMainData = (props: {
                     <>
                         {quest.gifts.map((gift) => (
                             <div key={`${gift.objectId}-${gift.priority}`}>
-                                <GiftDescriptor
-                                    region={props.region}
-                                    gift={gift}
-                                />
+                                <GiftDescriptor region={props.region} gift={gift} />
                                 <br />
                             </div>
                         ))}
                     </>
                 ),
                 Repeatable:
-                    quest.afterClear ===
-                        Quest.QuestAfterClearType.REPEAT_LAST &&
+                    quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST &&
                     props.phase === Math.max(...quest.phases)
                         ? "True"
                         : "False",
-                War: (
-                    <Link to={`/${props.region}/war/${quest.warId}`}>
-                        {quest.warLongName}
-                    </Link>
-                ),
+                War: <Link to={`/${props.region}/war/${quest.warId}`}>{quest.warLongName}</Link>,
                 Spot: quest.spotName,
                 Open: new Date(quest.openedAt * 1000).toLocaleString(),
                 Close: new Date(quest.closedAt * 1000).toLocaleString(),
@@ -147,13 +141,7 @@ const QuestMainData = (props: {
     );
 };
 
-const QuestSubData = ({
-    region,
-    quest,
-}: {
-    region: Region;
-    quest: Quest.QuestPhase;
-}) => {
+const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPhase }) => {
     return (
         <DataTable
             data={{
@@ -163,12 +151,8 @@ const QuestSubData = ({
                 "Unlock Condition": (
                     <>
                         {quest.releaseConditions.map((cond) => (
-                            <div
-                                key={`${cond.type}-${cond.targetId}-${cond.value}`}
-                            >
-                                {cond.closedMessage !== ""
-                                    ? `${cond.closedMessage} — `
-                                    : ""}
+                            <div key={`${cond.type}-${cond.targetId}-${cond.value}`}>
+                                {cond.closedMessage !== "" ? `${cond.closedMessage} — ` : ""}
                                 <CondTargetValueDescriptor
                                     region={region}
                                     cond={cond.type}
@@ -191,27 +175,15 @@ const QuestSubData = ({
                     ", "
                 ),
                 "Enemy Classes": mergeElements(
-                    quest.className.map((className) => (
-                        <ClassIcon className={className} />
-                    )),
+                    quest.className.map((className) => <ClassIcon className={className} />),
                     " "
                 ),
                 "Recommended Level": quest.recommendLv,
-                "Battle BG ID": (
-                    <Link
-                        to={`/${region}/quests?battleBgId=${quest.battleBgId}`}
-                    >
-                        {quest.battleBgId}
-                    </Link>
-                ),
+                "Battle BG ID": <Link to={`/${region}/quests?battleBgId=${quest.battleBgId}`}>{quest.battleBgId}</Link>,
                 Raw: (
                     <Row>
                         <Col>
-                            <RawDataViewer
-                                key={`${region}-${quest.id}-${quest.phase}`}
-                                text="Nice"
-                                data={quest}
-                            />
+                            <RawDataViewer key={`${region}-${quest.id}-${quest.phase}`} text="Nice" data={quest} />
                         </Col>
                         <Col>
                             <RawDataViewer
@@ -227,23 +199,12 @@ const QuestSubData = ({
     );
 };
 
-const QuestDrops = ({
-    region,
-    drops,
-}: {
-    region: Region;
-    drops: QuestEnemy.EnemyDrop[];
-}) => {
+const QuestDrops = ({ region, drops }: { region: Region; drops: QuestEnemy.EnemyDrop[] }) => {
     if (drops.length === 0) {
         return <></>;
     }
 
-    drops.sort(
-        (a, b) =>
-            a.type.localeCompare(b.type) ||
-            a.objectId - b.objectId ||
-            a.num - b.num
-    );
+    drops.sort((a, b) => a.type.localeCompare(b.type) || a.objectId - b.objectId || a.num - b.num);
 
     return <QuestDropDescriptor region={region} drops={drops} />;
 };
@@ -263,14 +224,8 @@ class QuestPage extends React.Component<IProps, IState> {
         this.loadQuest(this.props.phase);
     }
 
-    componentDidUpdate(
-        prevProps: Readonly<IProps>,
-        prevState: Readonly<IState>
-    ) {
-        if (
-            this.props.id !== prevProps.id ||
-            this.state.phase !== prevState.phase
-        ) {
+    componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>) {
+        if (this.props.id !== prevProps.id || this.state.phase !== prevState.phase) {
             this.loadQuest(this.state.phase);
             const url = `/${this.props.region}/quest/${this.props.id}/${this.state.phase}`;
             this.props.history.push(url);
@@ -310,10 +265,7 @@ class QuestPage extends React.Component<IProps, IState> {
                         />
                     </Col>
                     <Col xs={{ span: 12 }} lg={{ span: 6 }}>
-                        <QuestSubData
-                            region={this.props.region}
-                            quest={quest}
-                        />
+                        <QuestSubData region={this.props.region} quest={quest} />
                     </Col>
                 </Row>
                 {quest.messages.length > 0 ? (
@@ -321,9 +273,7 @@ class QuestPage extends React.Component<IProps, IState> {
                         {quest.messages.length > 1 ? (
                             <ul className="mb-0">
                                 {quest.messages.map((message) => (
-                                    <li key={message.idx}>
-                                        {colorString(message.message)}
-                                    </li>
+                                    <li key={message.idx}>{colorString(message.message)}</li>
                                 ))}
                             </ul>
                         ) : (
@@ -335,32 +285,20 @@ class QuestPage extends React.Component<IProps, IState> {
                     <Alert variant="success">
                         {quest.scripts.length > 1 ? (
                             <ul className="mb-0">
-                                {sortScript(
-                                    quest.scripts.map(
-                                        (script) => script.scriptId
-                                    )
-                                ).map((scriptId) => (
+                                {sortScript(quest.scripts.map((script) => script.scriptId)).map((scriptId) => (
                                     <li key={scriptId}>
-                                        <ScriptDescriptor
-                                            region={this.props.region}
-                                            scriptId={scriptId}
-                                        />
+                                        <ScriptDescriptor region={this.props.region} scriptId={scriptId} />
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            <ScriptDescriptor
-                                region={this.props.region}
-                                scriptId={quest.scripts[0].scriptId}
-                            />
+                            <ScriptDescriptor region={this.props.region} scriptId={quest.scripts[0].scriptId} />
                         )}
                     </Alert>
                 ) : null}
                 {quest.extraDetail.questSelect !== undefined ? (
                     <Alert variant="success">
-                        {quest.extraDetail.questSelect.filter(
-                            (questId) => questId !== this.props.id
-                        ).length > 1
+                        {quest.extraDetail.questSelect.filter((questId) => questId !== this.props.id).length > 1
                             ? "Other versions"
                             : "Another version"}{" "}
                         this quest:
@@ -384,9 +322,7 @@ class QuestPage extends React.Component<IProps, IState> {
                 {quest.supportServants.length > 0 ? (
                     <>
                         {renderCollapsibleContent({
-                            title: `Support Servant${
-                                quest.supportServants.length > 1 ? "s" : ""
-                            }`,
+                            title: `Support Servant${quest.supportServants.length > 1 ? "s" : ""}`,
                             content: (
                                 <SupportServantTables
                                     region={this.props.region}
@@ -400,11 +336,7 @@ class QuestPage extends React.Component<IProps, IState> {
                 ) : null}
                 {quest.stages.length > 0 ? (
                     <Tabs
-                        defaultActiveKey={
-                            this.props.stage !== undefined
-                                ? this.props.stage
-                                : 1
-                        }
+                        defaultActiveKey={this.props.stage !== undefined ? this.props.stage : 1}
                         onSelect={(key: string | null) => {
                             this.props.history.replace(
                                 `/${this.props.region}/quest/${this.props.id}/${this.state.phase}` +
@@ -413,15 +345,8 @@ class QuestPage extends React.Component<IProps, IState> {
                         }}
                     >
                         {quest.stages.map((stage) => (
-                            <Tab
-                                key={stage.wave}
-                                eventKey={stage.wave}
-                                title={`Stage ${stage.wave}`}
-                            >
-                                <QuestStage
-                                    region={this.props.region}
-                                    stage={stage}
-                                />
+                            <Tab key={stage.wave} eventKey={stage.wave} title={`Stage ${stage.wave}`}>
+                                <QuestStage region={this.props.region} stage={stage} />
                             </Tab>
                         ))}
                     </Tabs>

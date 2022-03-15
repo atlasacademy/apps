@@ -1,8 +1,9 @@
-import {expect} from 'chai';
-import {BattleRandom, BattleRandomType} from "../src/BattleRandom";
+import { expect } from "chai";
 
-describe('BattleRandom', () => {
-    it('generate', async () => {
+import { BattleRandom, BattleRandomType } from "../src/BattleRandom";
+
+describe("BattleRandom", () => {
+    it("generate", async () => {
         const random = new BattleRandom(BattleRandomType.LOW);
         expect(await random.generate(0, 1000)).to.equal(0);
         expect(await random.generate(-1000, 1000)).to.equal(-1000);

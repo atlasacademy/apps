@@ -1,5 +1,6 @@
-import {CraftEssence} from "@atlasacademy/api-connector";
 import React from "react";
+
+import { CraftEssence } from "@atlasacademy/api-connector";
 
 import "./CraftEssencePortrait.css";
 
@@ -8,11 +9,9 @@ interface IProps {
 }
 
 class CraftEssencePortrait extends React.Component<IProps> {
-
     private asset(): string | undefined {
         const assetMap = this.props.craftEssence.extraAssets.charaGraph.equip;
-        if (!assetMap)
-            return undefined;
+        if (!assetMap) return undefined;
 
         return Object.values(assetMap).shift();
     }
@@ -22,11 +21,13 @@ class CraftEssencePortrait extends React.Component<IProps> {
 
         return (
             <div>
-                <img alt={this.props.craftEssence.name}
-                     id={'craft-essence-portrait'}
-                     width={512}
-                     height={875}
-                     src={asset}/>
+                <img
+                    alt={this.props.craftEssence.name}
+                    id={"craft-essence-portrait"}
+                    width={512}
+                    height={875}
+                    src={asset}
+                />
             </div>
         );
     }

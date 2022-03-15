@@ -9,9 +9,7 @@ export default function NumberSelector(props: {
     max?: number;
     placeholder?: string;
 }) {
-    const placeholder = props.placeholder
-        ? props.placeholder
-        : "Enter a positive integer";
+    const placeholder = props.placeholder ? props.placeholder : "Enter a positive integer";
     return (
         <Form.Control
             placeholder={placeholder}

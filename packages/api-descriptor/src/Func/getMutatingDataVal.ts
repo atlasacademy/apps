@@ -1,4 +1,5 @@
-import {DataVal, Func} from "@atlasacademy/api-connector";
+import { DataVal, Func } from "@atlasacademy/api-connector";
+
 import getStaticDataValFields from "./extractStaticDataValFields";
 
 export default function (func: Func.Func, level: number, overcharge?: number): DataVal.DataVal {
@@ -7,9 +8,8 @@ export default function (func: Func.Func, level: number, overcharge?: number): D
         dataValFields = Object.keys(dataVal),
         mutatingDataVal: DataVal.DataVal = {};
 
-    dataValFields.forEach(field => {
-        if (staticFields.indexOf(field as DataVal.DataValField) !== -1)
-            return;
+    dataValFields.forEach((field) => {
+        if (staticFields.indexOf(field as DataVal.DataValField) !== -1) return;
 
         // @ts-ignore
         mutatingDataVal[field] = dataVal[field];
@@ -23,11 +23,10 @@ function getStaticFields(func: Func.Func): DataVal.DataValField[] {
         func.svals2 ?? [],
         func.svals3 ?? [],
         func.svals4 ?? [],
-        func.svals5 ?? [],
+        func.svals5 ?? []
     );
 
-    if (!vals.length)
-        return [];
+    if (!vals.length) return [];
 
     return getStaticDataValFields(vals);
 }

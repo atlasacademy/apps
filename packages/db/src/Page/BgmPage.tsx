@@ -1,20 +1,22 @@
-import { Region } from "@atlasacademy/api-connector";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
+
+import { Region } from "@atlasacademy/api-connector";
+import { BgmEntity } from "@atlasacademy/api-connector/dist/Schema/Bgm";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
+
 import Api, { Host } from "../Api";
+import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import Manager from "../Setting/Manager";
-import { BgmEntity } from "@atlasacademy/api-connector/dist/Schema/Bgm";
-import DataTable from "../Component/DataTable";
-import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
-import { toTitleCase } from "@atlasacademy/api-descriptor";
-import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import RawDataViewer from "../Component/RawDataViewer";
-import { Col, Row } from "react-bootstrap";
+import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
+import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
-import { mergeElements } from "../Helper/OutputHelper";
 import QuestSearchDescriptor from "../Descriptor/QuestSearchDescriptor";
+import { mergeElements } from "../Helper/OutputHelper";
+import Manager from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
 
@@ -27,7 +29,10 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
     useEffect(() => {
         Manager.setRegion(region);
         Api.bgm(bgmId)
-            .then((bgm) => {setBgm(bgm); setLoading(false);})
+            .then((bgm) => {
+                setBgm(bgm);
+                setLoading(false);
+            })
             .catch((e) => setError(e));
     }, [region, bgmId]);
 
@@ -43,8 +48,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
 
     const shopDetail = bgm.shop ? (
         <>
-            <ItemDescriptor region={region} item={bgm.shop.cost.item} /> x
-            {bgm.shop.cost.amount}
+            <ItemDescriptor region={region} item={bgm.shop.cost.item} /> x{bgm.shop.cost.amount}
         </>
     ) : (
         ""
@@ -54,9 +58,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
             {mergeElements(
                 bgm.releaseConditions.map((release) => (
                     <div key={release.id}>
-                        {release.closedMessage !== ""
-                            ? `${release.closedMessage} — `
-                            : ""}
+                        {release.closedMessage !== "" ? `${release.closedMessage} — ` : ""}
                         Cleared{" "}
                         {mergeElements(
                             release.targetIds.map((questId) => (
@@ -80,42 +82,25 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
     return (
         <>
             <h1>
-                <img
-                    src={bgm.logo}
-                    style={{ height: "1.5em" }}
-                    alt="BGM Logo"
-                />
+                <img src={bgm.logo} style={{ height: "1.5em" }} alt="BGM Logo" />
                 <span className="newline">{showName}</span>
             </h1>
             <DataTable
                 data={{
                     ID: bgm.id,
                     Name: <span className="newline">{showName}</span>,
-                    "Available to Buy": toTitleCase(
-                        (!bgm.notReleased).toString()
-                    ),
-                    Player: (
-                        <BgmDescriptor
-                            region={region}
-                            bgm={bgm}
-                            showName="Download"
-                        />
-                    ),
+                    "Available to Buy": toTitleCase((!bgm.notReleased).toString()),
+                    Player: <BgmDescriptor region={region} bgm={bgm} showName="Download" />,
                     "Unlock Condition": bgmRelease,
                     "Unlock Cost": shopDetail,
-                    Quests: (
-                        <QuestSearchDescriptor region={region} bgmId={bgm.id} />
-                    ),
+                    Quests: <QuestSearchDescriptor region={region} bgmId={bgm.id} />,
                     Raw: (
                         <Row>
                             <Col>
                                 <RawDataViewer text="Nice" data={bgm} />
                             </Col>
                             <Col>
-                                <RawDataViewer
-                                    text="Raw"
-                                    data={`${Host}/raw/${props.region}/bgm/${bgm.id}`}
-                                />
+                                <RawDataViewer text="Raw" data={`${Host}/raw/${props.region}/bgm/${bgm.id}`} />
                             </Col>
                         </Row>
                     ),

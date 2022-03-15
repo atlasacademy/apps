@@ -1,10 +1,10 @@
 export interface EnemyActorConfigServantOptions {
-    name: string,
+    name: string;
 }
 
 export interface EnemyActorConfigState {
-    open: boolean,
-    loading: boolean,
-    servant?: number,
-    servantOptions?: EnemyActorConfigServantOptions,
+    open: boolean;
+    loading: boolean;
+    servant?: number;
+    servantOptions?: EnemyActorConfigServantOptions;
 }

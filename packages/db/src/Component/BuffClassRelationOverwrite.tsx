@@ -1,32 +1,21 @@
-import Api from "../Api";
-import "./BuffClassRelationOverwrite.css";
-import ClassIcon from "./ClassIcon";
-import { Buff, ClassName } from "@atlasacademy/api-connector";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 
-const OverwriteIcon = ({
-    overwriteType,
-}: {
-    overwriteType: Buff.ClassRelationOverwriteType;
-}) => {
+import { Buff, ClassName } from "@atlasacademy/api-connector";
+
+import Api from "../Api";
+import ClassIcon from "./ClassIcon";
+
+import "./BuffClassRelationOverwrite.css";
+
+const OverwriteIcon = ({ overwriteType }: { overwriteType: Buff.ClassRelationOverwriteType }) => {
     switch (overwriteType) {
         case Buff.ClassRelationOverwriteType.OVERWRITE_MORE_THAN_TARGET:
-            return (
-                <FontAwesomeIcon
-                    icon={faArrowUp}
-                    title="OVERWRITE_MORE_THAN_TARGET"
-                />
-            );
+            return <FontAwesomeIcon icon={faArrowUp} title="OVERWRITE_MORE_THAN_TARGET" />;
         case Buff.ClassRelationOverwriteType.OVERWRITE_LESS_THAN_TARGET:
-            return (
-                <FontAwesomeIcon
-                    icon={faArrowDown}
-                    title="OVERWRITE_LESS_THAN_TARGET"
-                />
-            );
+            return <FontAwesomeIcon icon={faArrowDown} title="OVERWRITE_LESS_THAN_TARGET" />;
         default:
             return <></>;
     }
@@ -36,10 +25,7 @@ const SideRelationOverwrite = ({
     sideRelations,
     classIds,
 }: {
-    sideRelations: Record<
-        ClassName,
-        Record<ClassName, Buff.RelationOverwriteDetail>
-    >;
+    sideRelations: Record<ClassName, Record<ClassName, Buff.RelationOverwriteDetail>>;
     classIds: Map<ClassName, number>;
 }) => {
     if (Object.keys(sideRelations).length === 0) {
@@ -54,8 +40,7 @@ const SideRelationOverwrite = ({
         }
     }
     const defenders = Array.from(defenderSet);
-    const sortByClassId = (a: ClassName, b: ClassName) =>
-        (classIds.get(a) ?? 1) - (classIds.get(b) ?? 0);
+    const sortByClassId = (a: ClassName, b: ClassName) => (classIds.get(a) ?? 1) - (classIds.get(b) ?? 0);
     attackers.sort(sortByClassId);
     defenders.sort(sortByClassId);
 
@@ -71,10 +56,7 @@ const SideRelationOverwrite = ({
                         </td>
                         {attackers.map((attacker) => (
                             <td key={attacker}>
-                                <ClassIcon
-                                    className={attacker}
-                                    textFallback={true}
-                                />
+                                <ClassIcon className={attacker} textFallback={true} />
                             </td>
                         ))}
                     </tr>
@@ -83,10 +65,7 @@ const SideRelationOverwrite = ({
                     {defenders.map((defender) => (
                         <tr key={defender}>
                             <td>
-                                <ClassIcon
-                                    className={defender}
-                                    textFallback={true}
-                                />
+                                <ClassIcon className={defender} textFallback={true} />
                             </td>
                             {attackers.map((attacker) => {
                                 const attackerRel = sideRelations[attacker];
@@ -96,11 +75,7 @@ const SideRelationOverwrite = ({
                                         return (
                                             <td key={attacker}>
                                                 {defenderRel.damageRate / 1000}
-                                                <OverwriteIcon
-                                                    overwriteType={
-                                                        defenderRel.type
-                                                    }
-                                                />
+                                                <OverwriteIcon overwriteType={defenderRel.type} />
                                             </td>
                                         );
                                     }
@@ -115,11 +90,7 @@ const SideRelationOverwrite = ({
     );
 };
 
-const BuffClassRelationOverwrite = ({
-    relations,
-}: {
-    relations: Buff.BuffRelationOverwrite;
-}) => {
+const BuffClassRelationOverwrite = ({ relations }: { relations: Buff.BuffRelationOverwrite }) => {
     const [classIds, setClassIds] = useState<Map<ClassName, number>>(new Map());
 
     useEffect(() => {
@@ -136,16 +107,10 @@ const BuffClassRelationOverwrite = ({
         <>
             <h4>Class Affinity Change</h4>
             <b>When attacking:</b>
-            <SideRelationOverwrite
-                sideRelations={relations.atkSide}
-                classIds={classIds}
-            />
+            <SideRelationOverwrite sideRelations={relations.atkSide} classIds={classIds} />
             <br />
             <b>When defending:</b>
-            <SideRelationOverwrite
-                sideRelations={relations.defSide}
-                classIds={classIds}
-            />
+            <SideRelationOverwrite sideRelations={relations.defSide} classIds={classIds} />
         </>
     );
 };

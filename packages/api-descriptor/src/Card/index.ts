@@ -3,5 +3,5 @@ import describe from "./describe";
 
 export default {
     describe,
-    CardReferencePartial
-}
+    CardReferencePartial,
+};

@@ -1,15 +1,16 @@
 import React from "react";
-import {Table} from "react-bootstrap";
+import { Table } from "react-bootstrap";
+
+import { Renderable } from "../Helper/OutputHelper";
 
 import "./DataTable.css";
-import {Renderable} from "../Helper/OutputHelper";
 
 interface IProp {
-    header?: JSX.Element | string,
-    responsive?: boolean,
+    header?: JSX.Element | string;
+    responsive?: boolean;
     data: {
         [key: string]: Renderable | object;
-    }
+    };
 }
 
 class DataTable extends React.Component<IProp> {
@@ -29,22 +30,18 @@ class DataTable extends React.Component<IProp> {
     render() {
         return (
             <div>
-                {this.props.header ? (
-                    <div className={'data-header'}>
-                        {this.props.header}
-                    </div>
-                ) : null}
+                {this.props.header ? <div className={"data-header"}>{this.props.header}</div> : null}
 
-                <Table bordered hover className={'data-table'} responsive={this.props.responsive}>
+                <Table bordered hover className={"data-table"} responsive={this.props.responsive}>
                     <tbody>
-                    {Object.keys(this.props.data).map((key, index) => {
-                        return (
-                            <tr key={index}>
-                                <th>{key}</th>
-                                <td>{DataTable.dumpValue(this.props.data[key])}</td>
-                            </tr>
-                        );
-                    })}
+                        {Object.keys(this.props.data).map((key, index) => {
+                            return (
+                                <tr key={index}>
+                                    <th>{key}</th>
+                                    <td>{DataTable.dumpValue(this.props.data[key])}</td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </Table>
             </div>

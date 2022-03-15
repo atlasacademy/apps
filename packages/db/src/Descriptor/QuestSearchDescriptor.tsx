@@ -1,8 +1,10 @@
-import { Quest, Region, ClassName } from "@atlasacademy/api-connector";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { Quest, Region, ClassName } from "@atlasacademy/api-connector";
+
 import Api from "../Api";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import { QuestDescriptionNoApi } from "./QuestDescriptor";
@@ -63,9 +65,7 @@ export default function QuestSearchDescriptor(props: IProps) {
         return null;
     }
 
-    const maxShowResults = props.hideSearchLink
-            ? quests.length
-            : props.maxNumQuestsShown ?? 10,
+    const maxShowResults = props.hideSearchLink ? quests.length : props.maxNumQuestsShown ?? 10,
         remainingCount = quests.length - maxShowResults,
         queryString = getURLSearchParams({
             name: props.name,
@@ -84,13 +84,7 @@ export default function QuestSearchDescriptor(props: IProps) {
 
     const questDescriptions = quests
         .slice(0, maxShowResults)
-        .map((quest) => (
-            <QuestDescriptionNoApi
-                region={props.region}
-                quest={quest}
-                questPhase={quest.phase}
-            />
-        ));
+        .map((quest) => <QuestDescriptionNoApi region={props.region} quest={quest} questPhase={quest.phase} />);
 
     return (
         <>
@@ -113,8 +107,7 @@ export default function QuestSearchDescriptor(props: IProps) {
             {remainingCount > 0 ? `and ${remainingCount} other quests. ` : ""}
             {props.hideSearchLink ? null : (
                 <Link to={`/${props.region}/quests?${queryString}`}>
-                    Go to the quest search page{" "}
-                    <FontAwesomeIcon icon={faShare} />
+                    Go to the quest search page <FontAwesomeIcon icon={faShare} />
                 </Link>
             )}
         </>
