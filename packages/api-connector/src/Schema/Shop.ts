@@ -1,3 +1,4 @@
+import CondType from "../Enum/Cond";
 import { Item } from "./Item";
 
 export enum ShopType {
@@ -66,10 +67,22 @@ export interface ItemSet {
     setNum: number;
 }
 
+export interface ShopRelease {
+    condValues: number[];
+    shopId: number;
+    condType: CondType;
+    condNum: number;
+    priority: number;
+    isClosedDisp: boolean;
+    closedMessage: string;
+    closedItemName: string;
+}
+
 export interface Shop {
     id: number;
     baseShopId: number;
     shopType: ShopType;
+    releaseConditions: ShopRelease[];
     eventId: number;
     slot: number;
     priority: number;

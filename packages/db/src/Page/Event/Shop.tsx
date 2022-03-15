@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Item, Region, Shop } from "@atlasacademy/api-connector";
 
 import ItemIcon from "../../Component/ItemIcon";
+import CondTargetNumDescriptor from "../../Descriptor/CondTargetNumDescriptor";
 import { gemIds, magicGemIds, secretGemIds, monumentIds, pieceIds } from "../../Descriptor/MultipleDescriptors";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import ShopPurchaseDescriptor from "../../Descriptor/ShopPurchaseDescriptor";
@@ -185,6 +186,7 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange }: IProps) => {
                         </th>
                         <th>Cost</th>
                         <th>Item</th>
+                        <th>Release Conditions</th>
                         <th>Set</th>
                         <th>Limit</th>
                         {shopEnabled && <th>Target</th>}
@@ -230,6 +232,24 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange }: IProps) => {
                                     </td>
                                     <td>
                                         <ShopPurchaseDescriptor region={region} shop={shop} itemMap={itemMap} />
+                                    </td>
+                                    <td style={{ textAlign: "center" }}>
+                                        {shop.releaseConditions.map((cond, index) => (
+                                            <div key={`${cond.condType}-${cond.condValues[0]}-${cond.condValues[0]}`}>
+                                                {!["Unable to exchange, requirements not met", ""].includes(
+                                                    cond.closedMessage
+                                                )
+                                                    ? `${cond.closedMessage} — `
+                                                    : ""}
+                                                <CondTargetNumDescriptor
+                                                    region={region}
+                                                    cond={cond.condType}
+                                                    targets={cond.condValues}
+                                                    num={cond.condNum}
+                                                />
+                                                {index !== shop.releaseConditions.length - 1 ? "," : ""}
+                                            </div>
+                                        ))}
                                     </td>
                                     <td style={{ textAlign: "center" }}>{shop.setNum.toLocaleString()}</td>
                                     <td style={{ textAlign: "center" }}>
