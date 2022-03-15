@@ -1,3 +1,9 @@
 .shopTable > thead > tr > th {
     vertical-align: baseline;
 }
+ul.condition-list {
+    text-align: left;
+    margin: 0 0 0 1rem;
+    padding: 0;
+    font-size: 0.8rem;
+}

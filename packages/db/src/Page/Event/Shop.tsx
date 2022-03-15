@@ -186,7 +186,6 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange }: IProps) => {
                         </th>
                         <th>Cost</th>
                         <th>Item</th>
-                        <th>Release Conditions</th>
                         <th>Set</th>
                         <th>Limit</th>
                         {shopEnabled && <th>Target</th>}
@@ -220,6 +219,27 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange }: IProps) => {
                                         <div style={{ fontSize: "0.75rem" }} className="newline">
                                             {colorString(shop.detail)}
                                             <ScriptLink region={region} shop={shop} />
+                                            <br />
+                                            <div>
+                                                {shop.releaseConditions.length ? (
+                                                    <ul className="condition-list">
+                                                        {shop.releaseConditions.map((cond, index) => (
+                                                            <li key={index} style={{ fontSize: "0.75rem" }}>
+                                                                {cond.closedMessage && `${cond.closedMessage} — `}
+                                                                <CondTargetNumDescriptor
+                                                                    region={region}
+                                                                    cond={cond.condType}
+                                                                    targets={cond.condValues}
+                                                                    num={cond.condNum}
+                                                                />
+                                                                {/* {index !== shop.releaseConditions.length - 1 ? ",\n" : null} */}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
                                         </div>
                                     </td>
                                     <td style={{ textAlign: "center" }}>
@@ -232,24 +252,6 @@ const ShopTab = ({ region, shops, itemMap, filters, onChange }: IProps) => {
                                     </td>
                                     <td>
                                         <ShopPurchaseDescriptor region={region} shop={shop} itemMap={itemMap} />
-                                    </td>
-                                    <td style={{ textAlign: "center" }}>
-                                        {shop.releaseConditions.map((cond, index) => (
-                                            <div key={`${cond.condType}-${cond.condValues[0]}-${cond.condValues[0]}`}>
-                                                {!["Unable to exchange, requirements not met", ""].includes(
-                                                    cond.closedMessage
-                                                )
-                                                    ? `${cond.closedMessage} — `
-                                                    : ""}
-                                                <CondTargetNumDescriptor
-                                                    region={region}
-                                                    cond={cond.condType}
-                                                    targets={cond.condValues}
-                                                    num={cond.condNum}
-                                                />
-                                                {index !== shop.releaseConditions.length - 1 ? "," : ""}
-                                            </div>
-                                        ))}
                                     </td>
                                     <td style={{ textAlign: "center" }}>{shop.setNum.toLocaleString()}</td>
                                     <td style={{ textAlign: "center" }}>
