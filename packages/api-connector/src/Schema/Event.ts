@@ -29,6 +29,7 @@ export enum EventType {
     WAR_BOARD = "warBoard",
     COMBINE_COSUTUME_ITEM = "combineCosutumeItem",
     MYROOM_MULTIPLE_VIEW_CAMPAIGN = "myroomMultipleViewCampaign",
+    RELAXED_QUEST_REQUIREMENT_CAMPAIGN = "relaxedQuestRequirementCampaign",
 }
 
 export interface EventReward {

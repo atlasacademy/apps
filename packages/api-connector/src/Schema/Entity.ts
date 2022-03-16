@@ -132,6 +132,30 @@ export interface EntityTraitAdd {
     condNum?: number;
 }
 
+export interface EntityChange {
+    beforeTreasureDeviceIds: number[];
+    afterTreasureDeviceIds: number[];
+    svtId: number;
+    priority: number;
+    condType: CondType;
+    condTargetId: number;
+    condValue: number;
+    name: string;
+    svtVoiceId: number;
+    limitCount: number;
+    flag: number;
+    battleSvtId: number;
+}
+
+export interface EntityLimitImage {
+    limitCount: number;
+    priority: number;
+    defaultLimitCount: number;
+    condType: CondType;
+    condTargetId: number;
+    condNum: number;
+}
+
 export interface Entity {
     id: number;
     collectionNo: number;
@@ -185,6 +209,8 @@ export interface Entity {
     valentineScript: ValentineScript[];
     ascensionAdd: ServantAscensionAdditions;
     traitAdd: EntityTraitAdd[];
+    svtChange: EntityChange[];
+    ascensionImage: EntityLimitImage[];
     ascensionMaterials: EntityLevelUpMaterialProgression;
     skillMaterials: EntityLevelUpMaterialProgression;
     appendSkillMaterials: EntityLevelUpMaterialProgression;

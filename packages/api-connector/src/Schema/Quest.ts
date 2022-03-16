@@ -29,6 +29,7 @@ export enum QuestAfterClearType {
     REPEAT_FIRST = "repeatFirst",
     REPEAT_LAST = "repeatLast",
     RESET_INTERVAL = "resetInterval",
+    CLOSE_DISP = "closeDisp",
 }
 
 export interface QuestRelease {

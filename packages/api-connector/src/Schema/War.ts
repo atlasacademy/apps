@@ -75,6 +75,7 @@ export interface SpotRoad {
     id: number;
     warId: number;
     mapId: number;
+    image: string;
     srcSpotId: number;
     dstSpotId: number;
     dispCondType: Cond;

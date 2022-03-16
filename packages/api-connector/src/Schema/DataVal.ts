@@ -101,6 +101,9 @@ interface BaseDataVal {
     CounterOc?: number;
     UseTreasureDevice?: number;
     SkillReaction?: number;
+    BehaveAsFamilyBuff?: number;
+    UnSubStateWhileLinkedToOthers?: number;
+    NotAccompanyWhenLinkedTargetMoveState?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -210,4 +213,7 @@ export enum DataValField {
     COUNTER_OC = "CounterOc",
     USE_TREASURE_DEVICE = "UseTreasureDevice",
     SKILL_REACTION = "SkillReaction",
+    BEHAVE_AS_FAMILY_BUFF = "BehaveAsFamilyBuff",
+    UNSUBSTATE_WHILE_LINKED_TO_OTHERS = "UnSubStateWhileLinkedToOthers",
+    NOT_ACCOMPANY_WHEN_LINKED_TARGET_MOVE_STATE = "NotAccompanyWhenLinkedTargetMoveState",
 }
