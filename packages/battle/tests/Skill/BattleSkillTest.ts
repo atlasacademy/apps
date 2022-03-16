@@ -1,10 +1,11 @@
-import {expect} from 'chai';
-import {BattleTeam} from "../../src";
-import BattleSkill from "../../src/Skill/BattleSkill";
-import {createBattle, servant} from "../helpers";
+import { expect } from "chai";
 
-describe('BattleSkill', () => {
-    it('cooldown', async () => {
+import { BattleTeam } from "../../src";
+import BattleSkill from "../../src/Skill/BattleSkill";
+import { createBattle, servant } from "../helpers";
+
+describe("BattleSkill", () => {
+    it("cooldown", async () => {
         const battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER),
             charisma = <BattleSkill>actor.skill(1);
@@ -21,10 +22,10 @@ describe('BattleSkill', () => {
         expect(charisma.cooldown()).to.equal(5);
     });
 
-    it('cooldown is level dependant', async () => {
+    it("cooldown is level dependant", async () => {
         const battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER, {
-                skillLevels: [1]
+                skillLevels: [1],
             }),
             charisma = <BattleSkill>actor.skill(1);
 

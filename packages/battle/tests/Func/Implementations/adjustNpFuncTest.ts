@@ -1,10 +1,11 @@
-import {expect} from 'chai';
-import {BattleTeam} from "../../../src";
-import BattleSkill from "../../../src/Skill/BattleSkill";
-import {createBattle, servant} from "../../helpers";
+import { expect } from "chai";
 
-describe('adjustNpFunc', () => {
-    it('artoria skill 3', async () => {
+import { BattleTeam } from "../../../src";
+import BattleSkill from "../../../src/Skill/BattleSkill";
+import { createBattle, servant } from "../../helpers";
+
+describe("adjustNpFunc", () => {
+    it("artoria skill 3", async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             battle = createBattle(),
             charge = <BattleSkill>actor.skill(3);
@@ -17,7 +18,7 @@ describe('adjustNpFunc', () => {
         expect(actor.gaugePercent()).to.equal(0.3);
     });
 
-    it('shiki saber skill 3', async () => {
+    it("shiki saber skill 3", async () => {
         const shiki = servant(91, BattleTeam.PLAYER),
             waver = servant(37, BattleTeam.PLAYER),
             battle = createBattle();

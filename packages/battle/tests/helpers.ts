@@ -1,34 +1,37 @@
-import {Buff, CraftEssence, DataVal, EnumList, Servant} from "@atlasacademy/api-connector";
 import * as fs from "fs";
-import {Battle, BattleTeam} from "../src";
-import {BattleActor, BattleActorState} from "../src/Actor/BattleActor";
-import {BattleState} from "../src/Battle";
-import {BattleBuff, BattleBuffState} from "../src/Buff/BattleBuff";
-import createServantActor, {BattleServantActorProps} from "../src/Factory/createServantActor";
-import enums from "./../test-data/data/nice_enums.json";
+
+import { Buff, CraftEssence, DataVal, EnumList, Servant } from "@atlasacademy/api-connector";
+
+import { Battle, BattleTeam } from "../src";
+import { BattleActor, BattleActorState } from "../src/Actor/BattleActor";
+import { BattleState } from "../src/Battle";
+import { BattleBuff, BattleBuffState } from "../src/Buff/BattleBuff";
+import createServantActor, { BattleServantActorProps } from "../src/Factory/createServantActor";
 import attributeAffinity from "./../test-data/data/NiceAttributeRelation.json";
 import buffConstants from "./../test-data/data/NiceBuffList.ActionList.json";
 import cards from "./../test-data/data/NiceCard.json";
 import classAttackRates from "./../test-data/data/NiceClassAttackRate.json";
 import classAffinity from "./../test-data/data/NiceClassRelation.json";
 import constants from "./../test-data/data/NiceConstant.json";
+import enums from "./../test-data/data/nice_enums.json";
 
 const testDataPath = "./test-data/data",
     buffCache = new Map<number, Buff.Buff>(),
     craftEssenceCache = new Map<number, CraftEssence.CraftEssence>(),
     servantCache = new Map<number, Servant.Servant>();
 
-export function buff(id: number,
-                     dataVal: DataVal.DataVal,
-                     passive: boolean,
-                     short: boolean,
-                     state: BattleBuffState | null): BattleBuff {
+export function buff(
+    id: number,
+    dataVal: DataVal.DataVal,
+    passive: boolean,
+    short: boolean,
+    state: BattleBuffState | null
+): BattleBuff {
     let data = buffCache.get(id);
 
     if (data === undefined) {
         const filePath = `${testDataPath}/buffs/${id}.json`;
-        if (!fs.existsSync(filePath))
-            throw new Error('FAILED TO FIND BUFF: ' + id);
+        if (!fs.existsSync(filePath)) throw new Error("FAILED TO FIND BUFF: " + id);
 
         const raw = fs.readFileSync(filePath).toString();
 
@@ -36,12 +39,15 @@ export function buff(id: number,
         buffCache.set(id, data);
     }
 
-    return new BattleBuff({
-        buff: <Buff.Buff>data,
-        dataVal,
-        passive,
-        short,
-    }, state);
+    return new BattleBuff(
+        {
+            buff: <Buff.Buff>data,
+            dataVal,
+            passive,
+            short,
+        },
+        state
+    );
 }
 
 export function craftEssence(id: number): CraftEssence.CraftEssence {
@@ -49,8 +55,7 @@ export function craftEssence(id: number): CraftEssence.CraftEssence {
 
     if (data === undefined) {
         const filePath = `${testDataPath}/craft_essences/${id}.json`;
-        if (!fs.existsSync(filePath))
-            throw new Error('FAILED TO FIND CRAFT ESSENCE: ' + id);
+        if (!fs.existsSync(filePath)) throw new Error("FAILED TO FIND CRAFT ESSENCE: " + id);
 
         const raw = fs.readFileSync(filePath).toString();
 
@@ -68,16 +73,17 @@ export function createBattle(state?: Partial<BattleState>): Battle {
     return battle;
 }
 
-export function servant(id: number,
-                        team: BattleTeam,
-                        props?: Partial<BattleServantActorProps>,
-                        state?: BattleActorState | null): BattleActor {
+export function servant(
+    id: number,
+    team: BattleTeam,
+    props?: Partial<BattleServantActorProps>,
+    state?: BattleActorState | null
+): BattleActor {
     let data = servantCache.get(id);
 
     if (data === undefined) {
         const filePath = `${testDataPath}/servants/${id}.json`;
-        if (!fs.existsSync(filePath))
-            throw new Error('FAILED TO FIND SERVANT: ' + id);
+        if (!fs.existsSync(filePath)) throw new Error("FAILED TO FIND SERVANT: " + id);
 
         const raw = fs.readFileSync(filePath).toString();
 
@@ -88,7 +94,7 @@ export function servant(id: number,
     const actor = createServantActor(id, 1, {
         servant: <Servant.Servant>data,
         team,
-        ...props
+        ...props,
     });
 
     actor.state = state ?? actor.state;
@@ -97,13 +103,15 @@ export function servant(id: number,
 }
 
 export function setupTestData(battle: Battle) {
-    battle.constants().initManually(
-        constants,
-        attributeAffinity,
-        <Buff.BuffConstantMap>buffConstants,
-        cards,
-        classAffinity,
-        classAttackRates,
-        <EnumList>enums
-    )
+    battle
+        .constants()
+        .initManually(
+            constants,
+            attributeAffinity,
+            <Buff.BuffConstantMap>buffConstants,
+            cards,
+            classAffinity,
+            classAttackRates,
+            <EnumList>enums
+        );
 }

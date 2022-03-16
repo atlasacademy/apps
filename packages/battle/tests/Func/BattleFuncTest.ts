@@ -1,10 +1,11 @@
-import {expect} from "chai";
-import {BattleTeam} from "../../src";
-import BattleSkillFunc from "../../src/Skill/BattleSkillFunc";
-import {createBattle, servant} from "../helpers";
+import { expect } from "chai";
 
-describe('BattleFunc', () => {
-    it('applicableToTarget vs no required trait', async () => {
+import { BattleTeam } from "../../src";
+import BattleSkillFunc from "../../src/Skill/BattleSkillFunc";
+import { createBattle, servant } from "../helpers";
+
+describe("BattleFunc", () => {
+    it("applicableToTarget vs no required trait", async () => {
         const actor = servant(15, BattleTeam.PLAYER),
             emiya = servant(11, BattleTeam.ENEMY),
             artoria = servant(2, BattleTeam.ENEMY),
@@ -20,7 +21,7 @@ describe('BattleFunc', () => {
         expect(drain.applicableToTarget(artoria)).to.be.true;
     });
 
-    it('applicableToTarget vs innate trait', async () => {
+    it("applicableToTarget vs innate trait", async () => {
         const actor = servant(15, BattleTeam.PLAYER),
             emiya = servant(11, BattleTeam.ENEMY),
             artoria = servant(2, BattleTeam.ENEMY),
@@ -36,7 +37,7 @@ describe('BattleFunc', () => {
         expect(charm.applicableToTarget(artoria)).to.be.false;
     });
 
-    it('applicableToTarget vs dynamic trait', async () => {
+    it("applicableToTarget vs dynamic trait", async () => {
         const actor = servant(156, BattleTeam.PLAYER),
             artoria = servant(2, BattleTeam.PLAYER),
             battle = createBattle(),

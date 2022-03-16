@@ -1,12 +1,13 @@
-import {expect} from 'chai';
-import {BattleTeam} from "../../src";
-import {BattleCommandAction} from "../../src/Action/BattleCommandAction";
+import { expect } from "chai";
+
+import { BattleTeam } from "../../src";
+import { BattleCommandAction } from "../../src/Action/BattleCommandAction";
 import inspectAvailable from "../../src/Action/inspectAvailable";
 import BattleSkill from "../../src/Skill/BattleSkill";
-import {createBattle, servant} from "../helpers";
+import { createBattle, servant } from "../helpers";
 
-describe('inspectAvailable', () => {
-    it('returns available skills', async () => {
+describe("inspectAvailable", () => {
+    it("returns available skills", async () => {
         const battle = createBattle(),
             actor = servant(2, BattleTeam.PLAYER),
             manaBurst = <BattleSkill>actor.skill(2);

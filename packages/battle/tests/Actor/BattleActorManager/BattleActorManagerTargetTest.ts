@@ -1,19 +1,21 @@
-import {Card} from "@atlasacademy/api-connector";
-import {expect} from 'chai';
-import {BattleTeam} from "../../../src";
-import {BattleAttackActionList} from "../../../src/Action/BattleAttackAction";
-import {BattleSelectType} from "../../../src/Actor/BattleActorManager";
+import { expect } from "chai";
+
+import { Card } from "@atlasacademy/api-connector";
+
+import { BattleTeam } from "../../../src";
+import { BattleAttackActionList } from "../../../src/Action/BattleAttackAction";
+import { BattleSelectType } from "../../../src/Actor/BattleActorManager";
 import BattleEvent from "../../../src/Event/BattleEvent";
 import BattleSkillFunc from "../../../src/Skill/BattleSkillFunc";
-import {createBattle, servant} from "../../helpers";
+import { createBattle, servant } from "../../helpers";
 
-describe('BattleActorManager Target', () => {
-    it('ally skill follow target', async () => {
+describe("BattleActorManager Target", () => {
+    it("ally skill follow target", async () => {
         let battle = createBattle(),
             waver = servant(37, BattleTeam.PLAYER),
             artoria = servant(2, BattleTeam.PLAYER),
             target = servant(17, BattleTeam.ENEMY),
-            func = <BattleSkillFunc> waver.skill(1)?.func(1),
+            func = <BattleSkillFunc>waver.skill(1)?.func(1),
             events: BattleEvent[];
 
         battle.addActor(waver);
@@ -35,11 +37,11 @@ describe('BattleActorManager Target', () => {
         expect(events[0].target?.props.id).to.equal(waver.props.id);
     });
 
-    it('ally target resets on position change', async () => {
+    it("ally target resets on position change", async () => {
         //todo
     });
 
-    it('ally attacks follow target', async () => {
+    it("ally attacks follow target", async () => {
         let battle = createBattle(),
             artoria = servant(2, BattleTeam.PLAYER),
             cu = servant(17, BattleTeam.ENEMY),

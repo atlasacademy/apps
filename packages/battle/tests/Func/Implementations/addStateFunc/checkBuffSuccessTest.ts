@@ -1,12 +1,13 @@
-import {expect} from "chai";
-import {Battle, BattleTeam} from "../../../../src";
-import {BattleRandomType} from "../../../../src/BattleRandom";
-import {checkBuffSuccess, createBuffFromFunc} from "../../../../src/Func/Implementations/addStateFunc";
-import BattleSkillFunc from "../../../../src/Skill/BattleSkillFunc";
-import {createBattle, servant} from "../../../helpers";
+import { expect } from "chai";
 
-describe('addStateFunc checkBuffSuccess', () => {
-    it('ozy imperial privilege', async () => {
+import { Battle, BattleTeam } from "../../../../src";
+import { BattleRandomType } from "../../../../src/BattleRandom";
+import { checkBuffSuccess, createBuffFromFunc } from "../../../../src/Func/Implementations/addStateFunc";
+import BattleSkillFunc from "../../../../src/Skill/BattleSkillFunc";
+import { createBattle, servant } from "../../../helpers";
+
+describe("addStateFunc checkBuffSuccess", () => {
+    it("ozy imperial privilege", async () => {
         const actor = servant(118, BattleTeam.PLAYER),
             battle = createBattle(),
             func = <BattleSkillFunc>actor.skill(2)?.func(1),
@@ -29,7 +30,7 @@ describe('addStateFunc checkBuffSuccess', () => {
         expect(await checkBuffSuccess(battle, func, buff, actor, actor)).to.be.true;
     });
 
-    it('oxy imperial privilege after buff chance', async () => {
+    it("oxy imperial privilege after buff chance", async () => {
         const actor = servant(118, BattleTeam.PLAYER),
             battle = createBattle(),
             func = <BattleSkillFunc>actor.skill(2)?.func(1),
@@ -46,7 +47,7 @@ describe('addStateFunc checkBuffSuccess', () => {
         expect(await checkBuffSuccess(battle, func, buff, actor, actor)).to.be.true;
     });
 
-    it('robin poison interacts with buff resist', async () => {
+    it("robin poison interacts with buff resist", async () => {
         const actor = servant(13, BattleTeam.PLAYER),
             target = servant(2, BattleTeam.ENEMY),
             battle = createBattle(),
@@ -72,7 +73,7 @@ describe('addStateFunc checkBuffSuccess', () => {
         expect(await checkBuffSuccess(battle, func, buff, actor, actor)).to.be.true;
     });
 
-    it('debuff resist should not affect buffs', async () => {
+    it("debuff resist should not affect buffs", async () => {
         const actor = servant(2, BattleTeam.PLAYER),
             battle = createBattle(),
             func = <BattleSkillFunc>actor.skill(1)?.func(1),
@@ -88,5 +89,4 @@ describe('addStateFunc checkBuffSuccess', () => {
         battle.random().setType(BattleRandomType.HIGH);
         expect(await checkBuffSuccess(battle, func, buff, actor, actor)).to.be.true;
     });
-
 });

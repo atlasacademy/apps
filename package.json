@@ -3,9 +3,11 @@
     "private": true,
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^3.2.0",
-        "lerna": "^3.22.1"
+        "lerna": "^3.22.1",
+        "prettier": "^2.5.1"
     },
     "scripts": {
+        "format": "prettier --write packages/",
         "watch": "lerna run watch --stream --no-sort --concurrency 99",
         "start:db": "lerna run start --scope=@atlasacademy/db --stream",
         "start:db-win": "lerna run start-win --scope=@atlasacademy/db --stream",

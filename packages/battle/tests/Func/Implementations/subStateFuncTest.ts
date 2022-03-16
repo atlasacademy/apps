@@ -1,12 +1,13 @@
-import {expect} from 'chai';
-import {BattleTeam} from "../../../src";
+import { expect } from "chai";
+
+import { BattleTeam } from "../../../src";
 import BattleRemoveBuffEvent from "../../../src/Event/BattleRemoveBuffEvent";
 import subStateFunc from "../../../src/Func/Implementations/subStateFunc";
 import BattleSkillFunc from "../../../src/Skill/BattleSkillFunc";
-import {createBattle, servant} from "../../helpers";
+import { createBattle, servant } from "../../helpers";
 
-describe('subStateFunc', () => {
-    it('fails when no matching buffs', async () => {
+describe("subStateFunc", () => {
+    it("fails when no matching buffs", async () => {
         const actor = servant(17, BattleTeam.PLAYER),
             battle = createBattle(),
             cleanse = <BattleSkillFunc>actor.skill(3)?.func(1);
@@ -19,7 +20,7 @@ describe('subStateFunc', () => {
         expect(events[0].success).to.be.false;
     });
 
-    it('is able to cleanse debuffs', async () => {
+    it("is able to cleanse debuffs", async () => {
         const actor = servant(17, BattleTeam.PLAYER),
             enemy = servant(13, BattleTeam.ENEMY),
             battle = createBattle(),
@@ -41,7 +42,7 @@ describe('subStateFunc', () => {
         expect(actor.buffs().hasTrait(3011, true)).to.be.false;
     });
 
-    it('is only cleanses applicable buffs', async () => {
+    it("is only cleanses applicable buffs", async () => {
         const actor = servant(17, BattleTeam.PLAYER),
             enemy = servant(13, BattleTeam.ENEMY),
             battle = createBattle(),

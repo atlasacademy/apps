@@ -2,7 +2,6 @@
 
 A library to interface with https://api.atlasacademy.io
 
-
 ## Example
 
 ```typescript
