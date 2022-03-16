@@ -5,6 +5,7 @@ import { Entity, Region, Servant } from "@atlasacademy/api-connector";
 
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
+import ServantLimitImage from "./ServantLimitImage";
 import ServantModelViewer from "./ServantModelViewer";
 
 import "./ServantAssets.css";
@@ -130,6 +131,7 @@ class ServantAssets extends React.Component<IProps> {
                     />
                 </Alert>
                 <ServantModelViewer servant={this.props.servant} />
+                <ServantLimitImage region={this.props.region} servant={this.props.servant} />
                 {content.map((content) => (
                     <div key={content.title}>{renderCollapsibleContent(content)}</div>
                 ))}

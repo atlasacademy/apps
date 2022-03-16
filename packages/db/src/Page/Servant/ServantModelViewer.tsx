@@ -8,8 +8,6 @@ import { MergeElementsOr } from "../../Descriptor/MultipleDescriptors";
 import { isSubset } from "../../Helper/ArrayHelper";
 import { ordinalNumeral } from "../../Helper/StringHelper";
 
-import "./ServantModelViewer.css";
-
 const VIEWER_URL = "https://katboi01.github.io/FateViewer/?id=";
 
 interface AssetMap {
@@ -121,9 +119,9 @@ const ServantModelViewer = ({ servant }: { servant: Servant.Servant }) => {
     }
 
     return (
-        <Alert variant="success" className="servant-model-links">
+        <Alert variant="success">
             Sprite Model:
-            <ul>
+            <ul className="mb-0">
                 {spriteModel.ascension !== undefined ? (
                     <li>
                         Base Model:
