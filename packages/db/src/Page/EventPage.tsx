@@ -134,7 +134,7 @@ class EventPage extends React.Component<IProps, IState> {
                 ) {
                     this.loadItemMap();
                 }
-                this.loadWars(event.warIds, event.missions.length > 0);
+                this.loadWars(event.warIds, event.missions.length > 0 || event.shop.length > 0);
                 if (event.missions.length > 0) {
                     this.loadServantMap();
                     this.loadEnums();
@@ -185,7 +185,6 @@ class EventPage extends React.Component<IProps, IState> {
     renderMissionRow(
         region: Region,
         mission: Mission.Mission,
-        itemMap: Map<number, Item.Item>,
         missionMap: Map<number, Mission.Mission>,
         servantCache: Map<number, Servant.ServantBasic>,
         itemCache: Map<number, Item.Item>,
@@ -215,7 +214,7 @@ class EventPage extends React.Component<IProps, IState> {
                 <td>
                     {mission.gifts.map((gift) => (
                         <div key={`${gift.objectId}-${gift.priority}`}>
-                            <GiftDescriptor region={region} gift={gift} servants={servantCache} items={itemMap} />
+                            <GiftDescriptor region={region} gift={gift} servants={servantCache} items={itemCache} />
                             <br />
                         </div>
                     ))}
@@ -227,7 +226,6 @@ class EventPage extends React.Component<IProps, IState> {
     renderMissionTab(
         region: Region,
         missions: Mission.Mission[],
-        itemMap: Map<number, Item.Item>,
         servantCache: Map<number, Servant.ServantBasic>,
         itemCache: Map<number, Item.Item>,
         questCache: Map<number, Quest.Quest>,
@@ -253,7 +251,6 @@ class EventPage extends React.Component<IProps, IState> {
                                     {this.renderMissionRow(
                                         region,
                                         mission,
-                                        itemMap,
                                         missionMap,
                                         servantCache,
                                         itemCache,
@@ -453,7 +450,6 @@ class EventPage extends React.Component<IProps, IState> {
         region: Region,
         event: Event.Event,
         tab: TabInfo,
-        itemMap: Map<number, Item.Item>,
         servantCache: Map<number, Servant.ServantBasic>,
         itemCache: Map<number, Item.Item>,
         questCache: Map<number, Quest.Quest>,
@@ -463,7 +459,7 @@ class EventPage extends React.Component<IProps, IState> {
             case "tower":
                 const tower = event.towers.find((tower) => tower.towerId === tab.id);
                 if (tower !== undefined) {
-                    return this.renderRewardTower(region, tower, itemMap);
+                    return this.renderRewardTower(region, tower, itemCache);
                 } else {
                     return null;
                 }
@@ -472,7 +468,7 @@ class EventPage extends React.Component<IProps, IState> {
                     region,
                     event.rewards.filter((reward) => reward.groupId === tab.id),
                     event.pointBuffs,
-                    itemMap
+                    itemCache
                 );
             case "shop":
                 let { shopFilters } = this.state;
@@ -480,19 +476,19 @@ class EventPage extends React.Component<IProps, IState> {
                     <ShopTab
                         region={region}
                         shops={event.shop.filter((shop) => shop.slot === tab.id)}
-                        itemMap={itemMap}
+                        itemCache={itemCache}
                         filters={shopFilters.get(tab.id) ?? new Map()}
                         onChange={(records) => {
                             shopFilters.set(tab.id, records);
                             this.setState({ shopFilters });
                         }}
+                        questCache={questCache}
                     />
                 );
             case "mission":
                 return this.renderMissionTab(
                     region,
                     event.missions,
-                    itemMap,
                     servantCache,
                     itemCache,
                     questCache,
@@ -501,7 +497,7 @@ class EventPage extends React.Component<IProps, IState> {
                 );
             case "lottery":
                 const lottery = event.lotteries.filter((lottery) => lottery.id === tab.id)[0];
-                return this.renderLotteryTab(region, lottery, itemMap);
+                return this.renderLotteryTab(region, lottery, itemCache);
             case "treasureBox":
                 const treasureBoxes = event.treasureBoxes.filter((tb) => tb.slot === tab.id);
                 return <TreasureBoxes region={region} treasureBoxes={treasureBoxes} itemCache={itemCache} />;
@@ -668,7 +664,6 @@ class EventPage extends React.Component<IProps, IState> {
                                     this.props.region,
                                     event,
                                     tab,
-                                    this.state.itemCache,
                                     this.state.servantCache,
                                     this.state.itemCache,
                                     this.state.questCache,
