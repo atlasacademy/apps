@@ -11,7 +11,6 @@
         "watch": "lerna run watch --stream --no-sort --concurrency 99",
         "start:db": "lerna run start --scope=@atlasacademy/db --stream",
         "start:db-win": "lerna run start-win --scope=@atlasacademy/db --stream",
-        "start:paper-moon": "lerna run start --scope=paper-moon --stream",
-        "version": "lerna clean --yes && lerna exec --scope=@atlasacademy/db \"npm update @atlasacademy/api-connector @atlasacademy/api-descriptor\" && lerna exec --scope=paper-moon \"npm update @atlasacademy/api-connector\" && git add *"
+        "start:paper-moon": "lerna run start --scope=paper-moon --stream"
     }
 }
