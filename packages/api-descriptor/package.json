@@ -1,6 +1,6 @@
 {
     "name": "@atlasacademy/api-descriptor",
-    "version": "1.0.107",
+    "version": "1.0.108",
     "description": "Library to describe entities from api.atlasacademy.io",
     "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/api-descriptor",
     "main": "dist/index.js",
@@ -20,7 +20,7 @@
         "typescript": "^4.5.5"
     },
     "dependencies": {
-        "@atlasacademy/api-connector": "^3.0.98",
+        "@atlasacademy/api-connector": "^3.0.99",
         "install": "^0.13.0",
         "only": "0.0.2"
     },
