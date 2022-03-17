@@ -613,10 +613,18 @@ class EventPage extends React.Component<IProps, IState> {
                 })
         );
 
-        const wars = mergeElements(
-            this.state.wars.map((war) => <WarDescriptor region={this.props.region} war={war} />),
-            ", "
-        );
+        const wars =
+            this.state.wars.length === 1 ? (
+                <WarDescriptor region={this.props.region} war={this.state.wars[0]} />
+            ) : (
+                <ul className="mb-0">
+                    {this.state.wars.map((war) => (
+                        <li key={war.id}>
+                            <WarDescriptor region={this.props.region} war={war} />
+                        </li>
+                    ))}
+                </ul>
+            );
 
         return (
             <div>
