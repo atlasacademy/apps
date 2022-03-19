@@ -1,3 +1,27 @@
 #app {
     margin-bottom: 100px;
 }
+
+/* Chrome Scrollbar */
+::-webkit-scrollbar {
+  background: transparent;
+  width: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  padding: 0 4px;
+  border-right:4px solid transparent;
+  border-left:4px solid transparent;
+  background: #606060;
+  background-clip: padding-box;
+  border-radius: 1rem;
+}
+body {
+    overflow: overlay;
+}
+
+/* Firefox Scrollbar */
+html {
+    scrollbar-color: #606060 transparent;
+    scrollbar-width: thin;
+}

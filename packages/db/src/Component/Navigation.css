@@ -1,5 +1,6 @@
 #navigation {
     z-index: 10;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
 #navigation .icons {
@@ -8,7 +9,7 @@
 }
 
 #navigation .icons .flag {
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 5px;
     box-sizing: border-box;
 }
