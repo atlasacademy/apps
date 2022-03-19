@@ -77,7 +77,7 @@ class Navigation extends React.Component<IProps, IState> {
     render() {
         return (
             <>
-                <Navbar id={"navigation"} bg={"dark"} variant={"dark"} expand={"lg"}>
+                <Navbar id={"navigation"} bg={"light"} variant={"light"} expand={"lg"}>
                     <Container fluid>
                         <Navbar.Brand as={Link} to="/" title="Atlas Academy Database">
                             Atlas Academy DB
