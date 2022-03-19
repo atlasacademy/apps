@@ -9,7 +9,7 @@
 }
 
 #navigation .icons .flag {
-    border: 1px solid black;
+    border: 1px solid var(--dark);
     border-radius: 5px;
     box-sizing: border-box;
 }
