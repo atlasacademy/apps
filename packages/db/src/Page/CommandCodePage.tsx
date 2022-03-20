@@ -11,6 +11,7 @@ import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import Manager from "../Setting/Manager";
+import CommandCodeAsset from "./CommandCode/CommandCodeAsset";
 import CommandCodeMainData from "./CommandCode/CommandCodeMainData";
 import CommandCodePicker from "./CommandCode/CommandCodePicker";
 import CommandCodePortrait from "./CommandCode/CommandCodePortrait";
@@ -103,6 +104,11 @@ class CommandCodePage extends React.Component<IProps, IState> {
                                 />
                             );
                         })}
+                    </Tab>
+
+                    <Tab eventKey={"assets"} title={"Assets"}>
+                        <br />
+                        <CommandCodeAsset region={this.props.region} commandCode={commandCode} />
                     </Tab>
                 </Tabs>
             </div>
