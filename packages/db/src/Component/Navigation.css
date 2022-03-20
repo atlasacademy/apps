@@ -16,7 +16,7 @@
 
 #navigation .icons .flag.inactive {
     border: 0;
-    opacity: 0.5;
+    /* opacity: 0.5; */
 }
 
 #navigation .icons .flag > svg {
