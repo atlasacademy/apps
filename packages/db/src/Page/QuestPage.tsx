@@ -220,7 +220,6 @@ const QuestMainData = (props: {
 };
 
 const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPhase }) => {
-    console.log(quest);
     return (
         <DataTable
             data={{
