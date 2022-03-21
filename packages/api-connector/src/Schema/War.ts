@@ -28,6 +28,28 @@ export enum WarOverwriteType {
     NOTICE_DIALOG_TEXT = "noticeDialogText",
 }
 
+export enum WarFlag {
+    WITH_MAP = "withMap",
+    SHOW_ON_MATERIAL = "showOnMaterial",
+    FOLDER_SORT_PRIOR = "folderSortPrior",
+    STORY_SHORTCUT = "storyShortcut",
+    IS_EVENT = "isEvent",
+    CLOSE_AFTER_CLEAR = "closeAfterClear",
+    MAIN_SCENARIO = "mainScenario",
+    IS_WAR_ICON_LEFT = "isWarIconLeft",
+    CLEARED_RETURN_TO_TITLE = "clearedReturnToTitle",
+    NO_CLEAR_MARK_WITH_CLEAR = "noClearMarkWithClear",
+    NO_CLEAR_MARK_WITH_COMPLETE = "noClearMarkWithComplete",
+    NOT_ENTRY_BANNER_ACTIVE = "notEntryBannerActive",
+    SHOP = "shop",
+    BLACK_MARK_WITH_CLEAR = "blackMarkWithClear",
+    DISP_FIRST_QUEST = "dispFirstQuest",
+    EFFECT_DISAPPEAR_BANNER = "effectDisappearBanner",
+    WHITE_MARK_WITH_CLEAR = "whiteMarkWithClear",
+    WHITE_MARK_UNDER_BOARD = "whiteMarkUnderBoard",
+    SUB_FOLDER = "subFolder",
+}
+
 export interface Map {
     id: number;
     mapImage?: string;
@@ -95,6 +117,7 @@ export interface War {
     age: string;
     name: string;
     longName: string;
+    flags: WarFlag[];
     banner?: string;
     headerImage?: string;
     priority: number;

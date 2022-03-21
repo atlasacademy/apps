@@ -30,7 +30,7 @@ import { DetailCondLinkType, MissionType, ProgressType, RewardType } from "./Sch
 import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode";
 import { NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm";
 import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile";
-import { Quest, QuestBasic, QuestConsumeType, QuestPhase, QuestPhaseBasic, QuestType } from "./Schema/Quest";
+import { Quest, QuestBasic, QuestConsumeType, QuestFlag, QuestPhase, QuestPhaseBasic, QuestType } from "./Schema/Quest";
 import { Script, ScriptSearchResult, SvtScript } from "./Schema/Script";
 import { GrailCostInfoMap, Servant, ServantBasic } from "./Schema/Servant";
 import { PayType, PurchaseType, ShopType } from "./Schema/Shop";
@@ -137,6 +137,7 @@ type QuestPhaseSearchOptions = {
     spotName?: string;
     warId?: number[];
     type?: QuestType[];
+    flag?: QuestFlag[];
     fieldIndividuality?: number[];
     battleBgId?: number;
     bgmId?: number;
