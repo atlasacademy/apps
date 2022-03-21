@@ -24,6 +24,67 @@ export enum QuestType {
     WAR_BOARD = "warBoard",
 }
 
+export enum QuestFlag {
+    NONE = "none",
+    NO_BATTLE = "noBattle",
+    RAID = "raid",
+    RAID_CONNECTION = "raidConnection",
+    NO_CONTINUE = "noContinue",
+    NO_DISPLAY_REMAIN = "noDisplayRemain",
+    RAID_LAST_DAY = "raidLastDay",
+    CLOSED_HIDE_COST_ITEM = "closedHideCostItem",
+    CLOSED_HIDE_COST_NUM = "closedHideCostNum",
+    CLOSED_HIDE_PROGRESS = "closedHideProgress",
+    CLOSED_HIDE_RECOMMEND_LV = "closedHideRecommendLv",
+    CLOSED_HIDE_TREND_CLASS = "closedHideTrendClass",
+    CLOSED_HIDE_REWARD = "closedHideReward",
+    NO_DISPLAY_CONSUME = "noDisplayConsume",
+    SUPER_BOSS = "superBoss",
+    NO_DISPLAY_MISSION_NOTIFY = "noDisplayMissionNotify",
+    HIDE_PROGRESS = "hideProgress",
+    DROP_FIRST_TIME_ONLY = "dropFirstTimeOnly",
+    CHAPTER_SUB_ID_JAPANESE_NUMERALS = "chapterSubIdJapaneseNumerals",
+    SUPPORT_ONLY_FORCE_BATTLE = "supportOnlyForceBattle",
+    EVENT_DECK_NO_SUPPORT = "eventDeckNoSupport",
+    FATIGUE_BATTLE = "fatigueBattle",
+    SUPPORT_SELECT_AFTER_SCRIPT = "supportSelectAfterScript",
+    BRANCH = "branch",
+    USER_EVENT_DECK = "userEventDeck",
+    NO_DISPLAY_RAID_REMAIN = "noDisplayRaidRemain",
+    QUEST_MAX_DAMAGE_RECORD = "questMaxDamageRecord",
+    ENABLE_FOLLOW_QUEST = "enableFollowQuest",
+    SUPPORT_SVT_MULTIPLE_SET = "supportSvtMultipleSet",
+    SUPPORT_ONLY_BATTLE = "supportOnlyBattle",
+    ACT_CONSUME_BATTLE_WIN = "actConsumeBattleWin",
+    VOTE = "vote",
+    HIDE_MASTER = "hideMaster",
+    DISABLE_MASTER_SKILL = "disableMasterSkill",
+    DISABLE_COMMAND_SPELL = "disableCommandSpeel",
+    SUPPORT_SVT_EDITABLE_POSITION = "supportSvtEditablePosition",
+    BRANCH_SCENARIO = "branchScenario",
+    QUEST_KNOCKDOWN_RECORD = "questKnockdownRecord",
+    NOT_RETRIEVABLE = "notRetrievable",
+    DISPLAY_LOOPMARK = "displayLoopmark",
+    BOOST_ITEM_CONSUME_BATTLE_WIN = "boostItemConsumeBattleWin",
+    PLAY_SCENARIO_WITH_MAPSCREEN = "playScenarioWithMapscreen",
+    BATTLE_RETREAT_QUEST_CLEAR = "battleRetreatQuestClear",
+    BATTLE_RESULT_LOSE_QUEST_CLEAR = "battleResultLoseQuestClear",
+    BRANCH_HAVING = "branchHaving",
+    NO_DISPLAY_NEXT_ICON = "noDisplayNextIcon",
+    WINDOW_ONLY = "windowOnly",
+    CHANGE_MASTERS = "changeMasters",
+    NOT_DISPLAY_RESULT_GET_POINT = "notDisplayResultGetPoint",
+    FORCE_TO_NO_DROP = "forceToNoDrop",
+    DISPLAY_CONSUME_ICON = "displayConsumeIcon",
+    HARVEST = "harvest",
+    RECONSTRUCTION = "reconstruction",
+    ENEMY_IMMEDIATE_APPEAR = "enemyImmediateAppear",
+    NO_SUPPORT_LIST = "noSupportList",
+    LIVE = "live",
+    FORCE_DISPLAY_ENEMY_INFO = "forceDisplayEnemyInfo",
+    ALLOUT_BATTLE = "alloutBattle",
+}
+
 export enum QuestAfterClearType {
     CLOSE = "close",
     REPEAT_FIRST = "repeatFirst",
@@ -99,6 +160,7 @@ export interface Quest {
     id: number;
     name: string;
     type: QuestType;
+    flag: QuestFlag;
     consumeType: QuestConsumeType;
     consume: number;
     consumeItem: { item: Item; amount: number }[];
