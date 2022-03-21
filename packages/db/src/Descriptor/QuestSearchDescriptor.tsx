@@ -15,6 +15,7 @@ interface IProps {
     hideSearchLink?: boolean;
     returnList?: boolean;
     name?: string;
+    flag?: Quest.QuestFlag[];
     spotName?: string;
     warId?: number[];
     type?: Quest.QuestType[];
@@ -36,6 +37,7 @@ export default function QuestSearchDescriptor(props: IProps) {
             props.spotName,
             props.warId,
             props.type,
+            props.flag,
             props.fieldIndividuality,
             props.battleBgId,
             props.bgmId,
@@ -52,6 +54,7 @@ export default function QuestSearchDescriptor(props: IProps) {
         props.spotName,
         props.warId,
         props.type,
+        props.flag,
         props.fieldIndividuality,
         props.battleBgId,
         props.bgmId,
@@ -72,6 +75,7 @@ export default function QuestSearchDescriptor(props: IProps) {
             spotName: props.spotName,
             warId: props.warId,
             type: props.type,
+            flag: props.flag,
             fieldIndividuality: props.fieldIndividuality,
             battleBgId: props.battleBgId,
             bgmId: props.bgmId,

@@ -160,7 +160,7 @@ export interface Quest {
     id: number;
     name: string;
     type: QuestType;
-    flag: QuestFlag;
+    flag: QuestFlag; // To Search
     consumeType: QuestConsumeType;
     consume: number;
     consumeItem: { item: Item; amount: number }[];
@@ -190,6 +190,7 @@ export interface QuestPhase extends Quest {
     individuality: Trait[];
     qp: number;
     exp: number;
+    flags: QuestFlag[];
     bond: number;
     battleBgId: number;
     extraDetail: QuestPhaseExtraDetail;
