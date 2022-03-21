@@ -22,11 +22,11 @@ const CommnadCodeAsset = ({ commandCode, region }: { commandCode: CommandCode.Co
         return assets;
     };
 
-    const displayAssets = (assetMap: Entity.EntityAssetMap | undefined) => {
+    const displayAssets = (assetMap: Entity.EntityAssetMap | undefined, altName: string) => {
         const assets = flattenAssets(assetMap);
 
         return mergeElements(
-            assets.map((asset) => <Image url={asset} alt={commandCode.name + " Portrait"} />),
+            assets.map((asset) => <Image url={asset} alt={commandCode.name + " " + altName} />),
             ""
         );
     };
@@ -37,12 +37,12 @@ const CommnadCodeAsset = ({ commandCode, region }: { commandCode: CommandCode.Co
             </Alert>
 
             <h3>Potraits</h3>
-            <div>{displayAssets(commandCode.extraAssets.charaGraph)}</div>
+            <div>{displayAssets(commandCode.extraAssets.charaGraph, "Potrait")}</div>
 
             <hr />
 
-            <h3>Face</h3>
-            <div>{displayAssets(commandCode.extraAssets.faces)}</div>
+            <h3>Faces</h3>
+            <div>{displayAssets(commandCode.extraAssets.faces, "Face")}</div>
         </>
     );
 };
