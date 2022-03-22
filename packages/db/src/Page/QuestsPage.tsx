@@ -16,7 +16,7 @@ import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
-import { QuestTypeDescription } from "./QuestPage";
+import { QuestTypeDescription, QuestFlagDescription } from "./QuestPage";
 
 import "./ListingPage.css";
 
@@ -38,6 +38,7 @@ interface IState {
     name?: string;
     spotName?: string;
     warId?: number;
+    flag?: Quest.QuestFlag;
     type?: Quest.QuestType;
     fieldIndividuality: number[];
     battleBgId?: number;
@@ -82,6 +83,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                 spotName: searchParams.get("spotName") ?? undefined,
                 warId: getQueryNum("warId"),
                 type: (searchParams.get("type") as Quest.QuestType) ?? undefined,
+                flag: (searchParams.get("flag") as Quest.QuestFlag) ?? undefined,
                 fieldIndividuality: getQueryNums("fieldIndividuality"),
                 battleBgId: getQueryNum("battleBgId"),
                 bgmId: getQueryNum("bgmId"),
@@ -131,6 +133,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             spotName: this.state.spotName,
             warId: this.state.warId,
             type: this.state.type,
+            flag: this.state.flag,
             fieldIndividuality: this.state.fieldIndividuality,
             battleBgId: this.state.battleBgId,
             bgmId: this.state.bgmId,
@@ -153,6 +156,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             this.state.spotName === undefined &&
             this.state.warId === undefined &&
             this.state.type === undefined &&
+            this.state.flag === undefined &&
             this.state.fieldIndividuality.length === 0 &&
             this.state.battleBgId === undefined &&
             this.state.bgmId === undefined &&
@@ -175,6 +179,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             this.state.spotName,
             this.state.warId ? [this.state.warId] : undefined,
             this.state.type ? [this.state.type] : undefined,
+            this.state.flag ? [this.state.flag] : undefined,
             this.state.fieldIndividuality,
             this.state.battleBgId,
             this.state.bgmId,
@@ -284,6 +289,18 @@ class QuestsPage extends React.Component<IProps, IState> {
                             selected={this.state.type}
                             onChange={(value?: Quest.QuestType) => {
                                 this.setState({ type: value });
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Quest Flags</Form.Label>
+                        <SearchableSelect<Quest.QuestFlag>
+                            id="select-QuestFlag"
+                            options={Object.values(Quest.QuestFlag)}
+                            labels={QuestFlagDescription}
+                            selected={this.state.flag}
+                            onChange={(value?: Quest.QuestFlag) => {
+                                this.setState({ flag: value });
                             }}
                         />
                     </Form.Group>

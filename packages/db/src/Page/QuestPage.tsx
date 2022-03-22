@@ -1,10 +1,11 @@
 import { AxiosError } from "axios";
 import React from "react";
-import { Alert, Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
+import { Alert, Col, Pagination, Row, Tab, Tabs, Badge } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
 import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";
 import ClassIcon from "../Component/ClassIcon";
@@ -36,6 +37,8 @@ export const QuestTypeDescription = new Map([
     [Quest.QuestType.HERO_BALLAD, "Hero Ballad"],
     [Quest.QuestType.WAR_BOARD, "War Board"],
 ]);
+
+export const QuestFlagDescription = new Map([[Quest.QuestFlag.NONE, "None"]]);
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -95,6 +98,7 @@ const QuestMainData = (props: {
     setPhase: (phase: number) => void;
 }) => {
     const quest = props.quest;
+
     return (
         <DataTable
             responsive
@@ -148,6 +152,19 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                 "QP Reward": quest.qp.toLocaleString(),
                 EXP: quest.exp.toLocaleString(),
                 Bond: quest.bond.toLocaleString(),
+                Flags: (
+                    <>
+                        {quest.flags.length > 0
+                            ? quest.flags.map((flag) => (
+                                  <Link to={`/${region}/quests?flag=${flag}`} key={flag}>
+                                      <Badge style={{ marginRight: 5, background: "green", color: "white" }}>
+                                          {QuestFlagDescription.get(flag) ?? toTitleCase(flag)}
+                                      </Badge>
+                                  </Link>
+                              ))
+                            : "This quest has no flag"}
+                    </>
+                ),
                 "Unlock Condition": (
                     <>
                         {quest.releaseConditions.map((cond) => (
