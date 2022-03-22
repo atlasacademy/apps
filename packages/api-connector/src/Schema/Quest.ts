@@ -67,7 +67,7 @@ export enum QuestFlag {
     VOTE = "vote",
     HIDE_MASTER = "hideMaster",
     DISABLE_MASTER_SKILL = "disableMasterSkill",
-    DISABLE_COMMAND_SPELL = "disableCommandSpeel",
+    DISABLE_COMMAND_SPEEL = "disableCommandSpeel",
     SUPPORT_SVT_EDITABLE_POSITION = "supportSvtEditablePosition",
     BRANCH_SCENARIO = "branchScenario",
     QUEST_KNOCKDOWN_RECORD = "questKnockdownRecord",
