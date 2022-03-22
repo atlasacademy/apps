@@ -18,6 +18,7 @@ CI=false \
 && curl -L -o bingo.tar.gz https://github.com/atlasacademy/bingo/archive/master.tar.gz \
 && tar -zxvf bingo.tar.gz \
 && cd ../ && cp -r ./src/bingo-master app/bingo \
+&& cd src \
 && curl -L -o fgo-chargers.tar.gz https://github.com/atlasacademy/fgo-chargers/archive/main.tar.gz \
 && tar -zxvf fgo-chargers.tar.gz \
 && cd fgo-chargers-main && npm ci && npm run build \
