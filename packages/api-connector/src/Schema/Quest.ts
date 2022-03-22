@@ -24,6 +24,14 @@ export enum QuestType {
     WAR_BOARD = "warBoard",
 }
 
+export enum QuestAfterClearType {
+    CLOSE = "close",
+    REPEAT_FIRST = "repeatFirst",
+    REPEAT_LAST = "repeatLast",
+    RESET_INTERVAL = "resetInterval",
+    CLOSE_DISP = "closeDisp",
+}
+
 export enum QuestFlag {
     NONE = "none",
     NO_BATTLE = "noBattle",
@@ -83,14 +91,6 @@ export enum QuestFlag {
     LIVE = "live",
     FORCE_DISPLAY_ENEMY_INFO = "forceDisplayEnemyInfo",
     ALLOUT_BATTLE = "alloutBattle",
-}
-
-export enum QuestAfterClearType {
-    CLOSE = "close",
-    REPEAT_FIRST = "repeatFirst",
-    REPEAT_LAST = "repeatLast",
-    RESET_INTERVAL = "resetInterval",
-    CLOSE_DISP = "closeDisp",
 }
 
 export interface QuestRelease {
@@ -160,7 +160,7 @@ export interface Quest {
     id: number;
     name: string;
     type: QuestType;
-    flag: QuestFlag; // To Search
+    flags: QuestFlag[];
     consumeType: QuestConsumeType;
     consume: number;
     consumeItem: { item: Item; amount: number }[];
