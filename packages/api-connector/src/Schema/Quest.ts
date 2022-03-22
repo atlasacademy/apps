@@ -190,7 +190,6 @@ export interface QuestPhase extends Quest {
     individuality: Trait[];
     qp: number;
     exp: number;
-    flags: QuestFlag[];
     bond: number;
     battleBgId: number;
     extraDetail: QuestPhaseExtraDetail;
