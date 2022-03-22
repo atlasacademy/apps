@@ -5,6 +5,7 @@ import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
 import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";
 import ClassIcon from "../Component/ClassIcon";
@@ -37,66 +38,7 @@ export const QuestTypeDescription = new Map([
     [Quest.QuestType.WAR_BOARD, "War Board"],
 ]);
 
-export const QuestFlagDescription = new Map([
-    [Quest.QuestFlag.NONE, "None"],
-    [Quest.QuestFlag.NO_BATTLE, "No Battle"],
-    [Quest.QuestFlag.RAID, "Raid"],
-    [Quest.QuestFlag.RAID_CONNECTION, "Raid Connection"],
-    [Quest.QuestFlag.NO_CONTINUE, "No Continue"],
-    [Quest.QuestFlag.NO_DISPLAY_REMAIN, "No Display Remain"],
-    [Quest.QuestFlag.RAID_LAST_DAY, "Raid Last Day"],
-    [Quest.QuestFlag.CLOSED_HIDE_COST_ITEM, "Closed Hide Cost Item"],
-    [Quest.QuestFlag.CLOSED_HIDE_COST_NUM, "Closed Hide Cost Num"],
-    [Quest.QuestFlag.CLOSED_HIDE_PROGRESS, "Closed Hide Progress"],
-    [Quest.QuestFlag.CLOSED_HIDE_RECOMMEND_LV, "Closed Hide Recommend Lv"],
-    [Quest.QuestFlag.CLOSED_HIDE_TREND_CLASS, "Closed Hide Trend Class"],
-    [Quest.QuestFlag.CLOSED_HIDE_REWARD, "Closed Hide Reward"],
-    [Quest.QuestFlag.NO_DISPLAY_CONSUME, "No Display Consume"],
-    [Quest.QuestFlag.SUPER_BOSS, "Super Boss"],
-    [Quest.QuestFlag.NO_DISPLAY_MISSION_NOTIFY, "No Display Mission Notify"],
-    [Quest.QuestFlag.HIDE_PROGRESS, "Hide Progress"],
-    [Quest.QuestFlag.DROP_FIRST_TIME_ONLY, "Drop First Time Only"],
-    [Quest.QuestFlag.CHAPTER_SUB_ID_JAPANESE_NUMERALS, "Chapter Sub Id Japanese Numerals"],
-    [Quest.QuestFlag.SUPPORT_ONLY_FORCE_BATTLE, "Support Only Force Battle"],
-    [Quest.QuestFlag.EVENT_DECK_NO_SUPPORT, "Event Deck No Support"],
-    [Quest.QuestFlag.FATIGUE_BATTLE, "Fatigue Battle"],
-    [Quest.QuestFlag.SUPPORT_SELECT_AFTER_SCRIPT, "Support Select After Script"],
-    [Quest.QuestFlag.BRANCH, "Branch"],
-    [Quest.QuestFlag.USER_EVENT_DECK, "User Event Deck"],
-    [Quest.QuestFlag.NO_DISPLAY_RAID_REMAIN, "No Display Raid Remain"],
-    [Quest.QuestFlag.QUEST_MAX_DAMAGE_RECORD, "Quest Max Damage Record"],
-    [Quest.QuestFlag.ENABLE_FOLLOW_QUEST, "Enable Follow Quest"],
-    [Quest.QuestFlag.SUPPORT_SVT_MULTIPLE_SET, "Support Svt Multiple Set"],
-    [Quest.QuestFlag.SUPPORT_ONLY_BATTLE, "Support Only Battle"],
-    [Quest.QuestFlag.ACT_CONSUME_BATTLE_WIN, "Act Consume Battle Win"],
-    [Quest.QuestFlag.VOTE, "Vote"],
-    [Quest.QuestFlag.HIDE_MASTER, "Hide Master"],
-    [Quest.QuestFlag.DISABLE_MASTER_SKILL, "Disable Master Skill"],
-    [Quest.QuestFlag.DISABLE_COMMAND_SPELL, "Disable Command Spell"],
-    [Quest.QuestFlag.SUPPORT_SVT_EDITABLE_POSITION, "Support Svt Editable Position"],
-    [Quest.QuestFlag.BRANCH_SCENARIO, "Branch Scenario"],
-    [Quest.QuestFlag.QUEST_KNOCKDOWN_RECORD, "Quest Knockdown Record"],
-    [Quest.QuestFlag.NOT_RETRIEVABLE, "Not Retrievable"],
-    [Quest.QuestFlag.DISPLAY_LOOPMARK, "Display Loopmark"],
-    [Quest.QuestFlag.BOOST_ITEM_CONSUME_BATTLE_WIN, "Boost Item Consume Battle Win"],
-    [Quest.QuestFlag.PLAY_SCENARIO_WITH_MAPSCREEN, "Play Scenario With Mapscreen"],
-    [Quest.QuestFlag.BATTLE_RETREAT_QUEST_CLEAR, "Battle Retreat Quest Clear"],
-    [Quest.QuestFlag.BATTLE_RESULT_LOSE_QUEST_CLEAR, "Battle Result Lose Quest Clear"],
-    [Quest.QuestFlag.BRANCH_HAVING, "Branch Having"],
-    [Quest.QuestFlag.NO_DISPLAY_NEXT_ICON, "No Display Next Icon"],
-    [Quest.QuestFlag.WINDOW_ONLY, "Window Only"],
-    [Quest.QuestFlag.CHANGE_MASTERS, "Change Masters"],
-    [Quest.QuestFlag.NOT_DISPLAY_RESULT_GET_POINT, "Not Display Result Get Point"],
-    [Quest.QuestFlag.FORCE_TO_NO_DROP, "Force To No Drop"],
-    [Quest.QuestFlag.DISPLAY_CONSUME_ICON, "Display Consume Icon"],
-    [Quest.QuestFlag.HARVEST, "Harvest"],
-    [Quest.QuestFlag.RECONSTRUCTION, "Reconstruction"],
-    [Quest.QuestFlag.ENEMY_IMMEDIATE_APPEAR, "Enemy Immediate Appear"],
-    [Quest.QuestFlag.NO_SUPPORT_LIST, "No Support List"],
-    [Quest.QuestFlag.LIVE, "Live"],
-    [Quest.QuestFlag.FORCE_DISPLAY_ENEMY_INFO, "Force Display Enemy Info"],
-    [Quest.QuestFlag.ALLOUT_BATTLE, "Allout Battle"],
-]);
+export const QuestFlagDescription = new Map([[Quest.QuestFlag.NONE, "None"]]);
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -171,22 +113,6 @@ const QuestMainData = (props: {
                     />
                 ),
                 Type: QuestTypeDescription.get(quest.type) ?? quest.type,
-                Flags: (
-                    <>
-                        {quest.flags.length > 0
-                            ? quest.flags.map((flag, index) => (
-                                  <Link to={`/${props.region}/quests?flag=${flag}`}>
-                                      <Badge
-                                          key={index}
-                                          style={{ marginRight: 5, background: "green", color: "white" }}
-                                      >
-                                          {QuestFlagDescription.get(flag) ?? flag}
-                                      </Badge>
-                                  </Link>
-                              ))
-                            : "This quest has no flags."}
-                    </>
-                ),
                 Cost: (
                     <QuestConsumeDescriptor
                         region={props.region}
@@ -226,6 +152,19 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                 "QP Reward": quest.qp.toLocaleString(),
                 EXP: quest.exp.toLocaleString(),
                 Bond: quest.bond.toLocaleString(),
+                Flags: (
+                    <>
+                        {quest.flags.length > 0
+                            ? quest.flags.map((flag) => (
+                                  <Link to={`/${region}/quests?flag=${flag}`} key={flag}>
+                                      <Badge style={{ marginRight: 5, background: "green", color: "white" }}>
+                                          {QuestFlagDescription.get(flag) ?? toTitleCase(flag)}
+                                      </Badge>
+                                  </Link>
+                              ))
+                            : "This quest has no flag"}
+                    </>
+                ),
                 "Unlock Condition": (
                     <>
                         {quest.releaseConditions.map((cond) => (
