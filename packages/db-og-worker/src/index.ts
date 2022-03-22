@@ -273,6 +273,14 @@ async function handleEvent(event: FetchEvent) {
         if (pathname.startsWith("/db")) {
             return handleDBEvent(event);
         }
+        if (pathname.startsWith("/chargers")) {
+            const chargerUrl = new URL(event.request.url);
+            chargerUrl.hostname = "atlasacademy.github.io";
+            if (pathname === "/chargers") {
+                chargerUrl.pathname = "/chargers/";
+            }
+            return fetch(chargerUrl.href, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
+        }
         for (const basePath of ["drop-lookup", "paper-moon", "drop-serializer", "bingo"]) {
             if (pathname === `/${basePath}`) {
                 return Response.redirect(`${protocol}//${host}/${basePath}/`, 301);
