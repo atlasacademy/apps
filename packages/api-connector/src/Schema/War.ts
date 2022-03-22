@@ -26,6 +26,7 @@ export enum WarOverwriteType {
     WAR_FORCE_HIDE = "warForceHide",
     START_TYPE = "startType",
     NOTICE_DIALOG_TEXT = "noticeDialogText",
+    CLEAR_MARK = "clearMark",
 }
 
 export enum WarFlag {
