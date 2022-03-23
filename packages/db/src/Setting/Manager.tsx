@@ -9,6 +9,7 @@ const languageKey = "language",
     changelogLocalTime = "changelog.localTime",
     shopPlannerEnabled = "shop.planner.enabled",
     scriptSceneEnabled = "script.scene.enabled",
+    scriptRawEnabled = "script.raw.enabled",
     hideEnemyFunction = "aa-db.function.enemy.hide";
 
 const callbacks: Function[] = [];
@@ -120,6 +121,15 @@ class Manager {
 
     static setScriptSceneEnabled(sceneEnabled: boolean) {
         window.localStorage.setItem(scriptSceneEnabled, `${+!!sceneEnabled}`);
+        Manager.triggerCallbacks();
+    }
+
+    static scriptRawEnabled(): boolean {
+        return !!+(window.localStorage.getItem(scriptRawEnabled) ?? 1);
+    }
+
+    static setScriptRawEnabled(rawEnabled: boolean) {
+        window.localStorage.setItem(scriptRawEnabled, `${+!!rawEnabled}`);
         Manager.triggerCallbacks();
     }
 

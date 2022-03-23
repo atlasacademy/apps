@@ -30,6 +30,10 @@ class SettingForm extends React.Component<IProps> {
         Manager.setScriptSceneEnabled(value);
     }
 
+    updateScriptRawEnabled(value: boolean) {
+        Manager.setScriptRawEnabled(value);
+    }
+
     updateHideEnemyFunction(value: boolean) {
         Manager.setHideEnemyFunctions(value);
     }
@@ -81,6 +85,14 @@ class SettingForm extends React.Component<IProps> {
                         onClick={() => this.updateScriptSceneEnabled(!Manager.scriptSceneEnabled())}
                     >
                         Script Scene: {Manager.scriptSceneEnabled() ? "Enabled" : "Disabled"}
+                    </Button>
+                </ButtonGroup>
+                <ButtonGroup style={{ width: "100%", marginBottom: "1em" }}>
+                    <Button
+                        variant={Manager.scriptRawEnabled() ? "success" : "secondary"}
+                        onClick={() => this.updateScriptRawEnabled(!Manager.scriptRawEnabled())}
+                    >
+                        Raw Script: {Manager.scriptRawEnabled() ? "Enabled" : "Disabled"}
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup style={{ width: "100%" }}>

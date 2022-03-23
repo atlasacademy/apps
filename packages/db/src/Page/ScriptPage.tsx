@@ -38,7 +38,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [script, setScript] = useState<string>("");
     const [scriptData, setScriptData] = useState<Script.Script | undefined>(undefined);
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
-    const [enableRawScript, setEnableRawScript] = useState<boolean>(false);
+    const [enableRawScript, setEnableRawScript] = useState<boolean>(Manager.scriptRawEnabled());
 
     useEffect(() => {
         Manager.setRegion(region);
