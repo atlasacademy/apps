@@ -26,18 +26,26 @@ import ScriptDialogueLine from "./ScriptDialogueLine";
 
 type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>>;
 
-const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: RowBgmRefMap }) => {
+const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: RowBgmRefMap; showRaw: boolean }) => {
     const dialogueVoice = props.dialogue.voice ? (
         <BgmDescriptor region={props.region} bgm={props.dialogue.voice} style={{ display: "block" }} />
     ) : null;
     return (
         <tr ref={props.refs.get(props.dialogue.voice?.audioAsset)}>
             <td>
-                <ScriptDialogueLine components={props.dialogue.speaker?.components ?? []} />
+                {props.showRaw ? (
+                    <span className="newline">{props.dialogue.speaker?.name}</span>
+                ) : (
+                    <ScriptDialogueLine components={props.dialogue.speaker?.components ?? []} />
+                )}
             </td>
             <td>
                 {dialogueVoice}
-                <ScriptDialogueLine components={flatten(props.dialogue.components)} />
+                {props.showRaw ? (
+                    <p>{props.dialogue.lines}</p>
+                ) : (
+                    <ScriptDialogueLine components={flatten(props.dialogue.components)} />
+                )}
             </td>
         </tr>
     );
@@ -47,6 +55,7 @@ const ChoiceComponentsTable = (props: {
     region: Region;
     choiceComponents: (ScriptBracketComponent | ScriptDialogue)[];
     refs: RowBgmRefMap;
+    showRaw: boolean;
 }) => {
     if (props.choiceComponents.length === 0) return null;
     return (
@@ -55,7 +64,15 @@ const ChoiceComponentsTable = (props: {
                 {props.choiceComponents.map((c, i) => {
                     switch (c.type) {
                         case ScriptComponentType.DIALOGUE:
-                            return <DialogueRow key={i} region={props.region} dialogue={c} refs={props.refs} />;
+                            return (
+                                <DialogueRow
+                                    showRaw={props.showRaw}
+                                    key={i}
+                                    region={props.region}
+                                    dialogue={c}
+                                    refs={props.refs}
+                                />
+                            );
                         default:
                             return <ScriptBracketRow key={i} region={props.region} component={c} refs={props.refs} />;
                     }
@@ -283,11 +300,11 @@ const ChoiceRouteInfo = ({ routeInfo }: { routeInfo?: ScriptChoiceRouteInfo }) =
     return null;
 };
 
-const ScriptRow = (props: { region: Region; component: ScriptComponent; refs: RowBgmRefMap }) => {
-    const { region, component, refs } = props;
+const ScriptRow = (props: { region: Region; component: ScriptComponent; refs: RowBgmRefMap; showRaw: boolean }) => {
+    const { region, component, refs, showRaw } = props;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
-            return <DialogueRow region={region} dialogue={component} refs={refs} />;
+            return <DialogueRow showRaw={showRaw} region={region} dialogue={component} refs={refs} />;
         case ScriptComponentType.CHOICES:
             return (
                 <tr>
@@ -299,6 +316,7 @@ const ScriptRow = (props: { region: Region; component: ScriptComponent; refs: Ro
                                     <ChoiceRouteInfo routeInfo={choice.routeInfo} />
                                     <ScriptDialogueLine components={choice.option} />
                                     <ChoiceComponentsTable
+                                        showRaw={showRaw}
                                         region={region}
                                         choiceComponents={choice.results}
                                         refs={refs}
@@ -314,7 +332,13 @@ const ScriptRow = (props: { region: Region; component: ScriptComponent; refs: Ro
     }
 };
 
-const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: boolean; refs: RowBgmRefMap }) => {
+const ScriptTable = (props: {
+    region: Region;
+    script: ScriptInfo;
+    showScene?: boolean;
+    showRaw: boolean;
+    refs: RowBgmRefMap;
+}) => {
     let backgroundComponent: ScriptBackground | undefined,
         figureComponent: ScriptCharaFace | undefined,
         charaFadeIn: ScriptCharaFadeIn | undefined,
@@ -389,7 +413,12 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                     return (
                         <React.Fragment key={i}>
                             {props.showScene === false ? null : sceneRow}
-                            <ScriptRow region={props.region} component={component} refs={props.refs} />
+                            <ScriptRow
+                                showRaw={props.showRaw}
+                                region={props.region}
+                                component={component}
+                                refs={props.refs}
+                            />
                         </React.Fragment>
                     );
                 })}

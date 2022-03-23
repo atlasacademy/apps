@@ -38,6 +38,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [script, setScript] = useState<string>("");
     const [scriptData, setScriptData] = useState<Script.Script | undefined>(undefined);
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
+    const [enableRawScript, setEnableRawScript] = useState<boolean>(false);
 
     useEffect(() => {
         Manager.setRegion(region);
@@ -140,9 +141,21 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                     >
                         Scene {enableScene ? "Enabled" : "Disabled"}
                     </Button>
+                    <Button
+                        variant={enableRawScript ? "success" : "secondary"}
+                        onClick={() => setEnableRawScript(!enableRawScript)}
+                    >
+                        Scene {enableRawScript ? "Parsed" : "Raw"}
+                    </Button>
                     <RawDataViewer text="Parsed Script" data={fromEntries(showRawData)} block={false} />
                 </ButtonGroup>
-                <ScriptTable region={region} script={parsedScript} showScene={enableScene} refs={scrollRefs} />
+                <ScriptTable
+                    region={region}
+                    script={parsedScript}
+                    showRaw={enableRawScript}
+                    showScene={enableScene}
+                    refs={scrollRefs}
+                />
             </ScriptMainData>
         </>
     );
