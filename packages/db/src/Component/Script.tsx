@@ -57,6 +57,11 @@ export type ScriptSound = {
     audioAsset: string;
 };
 
+export type ScriptLine = {
+    content: string;
+    lineNumber: number;
+};
+
 export type DialogueTextSize = "small" | "medium" | "large" | "x-large";
 
 export type DialogueText = {
@@ -135,7 +140,7 @@ export type DialogueSpeaker = {
 export type ScriptDialogue = {
     type: ScriptComponentType.DIALOGUE;
     speaker?: DialogueSpeaker;
-    lines: string[];
+    lines: ScriptLine[];
     components: DialogueChildComponent[][];
     voice?: ScriptSound;
 };
@@ -450,9 +455,10 @@ export type ScriptChoices = {
 };
 
 export type ScriptComponent = ScriptBracketComponent | ScriptDialogue | ScriptChoices;
+export type ScriptComponentWrapper = { content: ScriptComponent; lineNumber?: number };
 
 export type ScriptInfo = {
-    components: ScriptComponent[];
+    components: ScriptComponentWrapper[];
 };
 
 type ParserState = {
@@ -953,7 +959,7 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
 }
 
 export function parseScript(region: Region, script: string): ScriptInfo {
-    let components = [] as ScriptComponent[];
+    let components = [] as ScriptComponentWrapper[];
 
     let dialogue: ScriptDialogue = {
         type: ScriptComponentType.DIALOGUE,
@@ -987,14 +993,17 @@ export function parseScript(region: Region, script: string): ScriptInfo {
         choice.results = [];
     };
     const finalizeDialogueComponent = () => {
-        dialogue.components = [parseDialogueLine(region, dialogue.lines.join(""), parserState)];
+        dialogue.components = [parseDialogueLine(region, dialogue.lines.map((l) => l.content).join(""), parserState)];
         // dialogue.components = dialogue.lines.map((line) =>
         //     parseDialogueLine(region, line, parserState)
         // );
         if (parserState.choice) {
             choice.results.push({ ...dialogue });
         } else {
-            components.push({ ...dialogue });
+            components.push({
+                content: { ...dialogue },
+                lineNumber: dialogue.lines[0]?.lineNumber,
+            });
         }
 
         parserState.dialogue = false;
@@ -1003,14 +1012,19 @@ export function parseScript(region: Region, script: string): ScriptInfo {
 
     const lineEnding = script.includes("\r\n") ? "\r\n" : "\n";
 
-    for (const line of script.split(lineEnding)) {
+    for (const [index, line] of script.split(lineEnding).entries()) {
         if (line.startsWith("//")) continue;
         if (line.includes("wait voiceCancel")) {
             const dialogueChildComponents = parseDialogueLine(region, line, parserState);
             const dialogueComponent = {
                 type: ScriptComponentType.DIALOGUE,
                 speaker: undefined,
-                lines: [line],
+                lines: [
+                    {
+                        content: line,
+                        lineNumber: index,
+                    },
+                ],
                 components: [dialogueChildComponents],
                 voice: undefined,
             } as ScriptDialogue;
@@ -1019,7 +1033,10 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                     dialogueComponent.voice = component.voice;
                 }
             }
-            components.push(dialogueComponent);
+            components.push({
+                content: dialogueComponent,
+                lineNumber: index,
+            });
         }
         switch (line[0]) {
             case "＄":
@@ -1041,7 +1058,10 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         break;
                     default:
                         if (parserState.dialogue) {
-                            dialogue.lines.push(line);
+                            dialogue.lines.push({
+                                content: line,
+                                lineNumber: index,
+                            });
                             if (line.endsWith("[k]")) {
                                 finalizeDialogueComponent();
                             }
@@ -1051,7 +1071,10 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                             if (parserState.choice) {
                                 choice.results.push(parsedComponent);
                             } else {
-                                components.push(parsedComponent);
+                                components.push({
+                                    content: parsedComponent,
+                                    lineNumber: index,
+                                });
                             }
                         }
                 }
@@ -1064,8 +1087,11 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 if (line[1] === "！") {
                     choices.push({ ...choice });
                     components.push({
-                        type: ScriptComponentType.CHOICES,
-                        choices,
+                        content: {
+                            type: ScriptComponentType.CHOICES,
+                            choices,
+                        },
+                        lineNumber: index,
                     });
                     resetChoiceVariables();
                     choices = [];
@@ -1105,7 +1131,10 @@ export function parseScript(region: Region, script: string): ScriptInfo {
             case undefined:
                 break;
             default:
-                dialogue.lines.push(line);
+                dialogue.lines.push({
+                    content: line,
+                    lineNumber: index,
+                });
                 // Hacky way to do this. The proper way is to parse by characters.
                 if (line.endsWith("[k]")) {
                     finalizeDialogueComponent();

@@ -83,6 +83,14 @@ class SettingForm extends React.Component<IProps> {
                         Script Scene: {Manager.scriptSceneEnabled() ? "Enabled" : "Disabled"}
                     </Button>
                 </ButtonGroup>
+                <ButtonGroup style={{ width: "100%", marginBottom: "1em" }}>
+                    <Button
+                        variant={Manager.showScriptLine() ? "success" : "secondary"}
+                        onClick={() => Manager.setShowScriptLine(!Manager.showScriptLine())}
+                    >
+                        Original line number in scripts: {Manager.showScriptLine() ? "Shown" : "Hidden"}
+                    </Button>
+                </ButtonGroup>
                 <ButtonGroup style={{ width: "100%" }}>
                     <Button
                         variant={Manager.hideEnemyFunctions() ? "success" : "secondary"}

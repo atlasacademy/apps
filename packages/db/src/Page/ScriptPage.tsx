@@ -8,12 +8,19 @@ import Api, { AssetHost } from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
-import { countWord, parseScript, ScriptComponent, ScriptComponentType } from "../Component/Script";
+import {
+    countWord,
+    parseScript,
+    ScriptComponent,
+    ScriptComponentWrapper,
+    ScriptComponentType,
+} from "../Component/Script";
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
 import { fromEntries } from "../Helper/PolyFill";
 import Manager from "../Setting/Manager";
 import ScriptMainData from "./Script/ScriptMainData";
+import ShowScriptLineContext from "./Script/ShowScriptLineContext";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
@@ -33,6 +40,7 @@ const getScriptAssetURL = (region: Region, scriptId: string) => {
 
 const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const { region, scriptId } = props;
+    const showScriptLine = Manager.showScriptLine();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | undefined>(undefined);
     const [script, setScript] = useState<string>("");
@@ -75,7 +83,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         }
     };
 
-    for (const component of parsedScript.components) {
+    for (const { content: component } of parsedScript.components) {
         switch (component.type) {
             case ScriptComponentType.CHOICES:
                 for (const choice of component.choices) {
@@ -90,7 +98,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     }
 
     const scrollRefs = new Map(audioUrls.map((url) => [url, createRef<HTMLTableRowElement>()]));
-    for (const component of parsedScript.components) {
+    for (const { content: component } of parsedScript.components) {
         if (component.type === ScriptComponentType.LABEL) {
             scrollRefs.set(component.name, createRef<HTMLTableRowElement>());
         }
@@ -103,9 +111,9 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         }
     };
 
-    const showRawData = new Map<string, ScriptComponent[]>();
+    const showRawData = new Map<string, ScriptComponentWrapper[]>();
     for (const component of parsedScript.components) {
-        const typeName = ScriptComponentType[component.type],
+        const typeName = ScriptComponentType[component.content.type],
             mapEntry = showRawData.get(typeName);
         if (mapEntry !== undefined) {
             mapEntry.push(component);
@@ -122,7 +130,10 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
             <ScriptMainData
                 region={region}
                 scriptData={scriptData}
-                wordCount={countWord(region, parsedScript.components)}
+                wordCount={countWord(
+                    region,
+                    parsedScript.components.map((c) => c.content)
+                )}
             >
                 <ButtonGroup style={{ margin: "1em 0" }}>
                     {hasDialogueLines ? (
@@ -140,9 +151,17 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                     >
                         Scene {enableScene ? "Enabled" : "Disabled"}
                     </Button>
+                    <Button
+                        variant={showScriptLine ? "success" : "secondary"}
+                        onClick={() => Manager.setShowScriptLine(!showScriptLine)}
+                    >
+                        Line number {showScriptLine ? "shown" : "hidden"}
+                    </Button>
                     <RawDataViewer text="Parsed Script" data={fromEntries(showRawData)} block={false} />
                 </ButtonGroup>
-                <ScriptTable region={region} script={parsedScript} showScene={enableScene} refs={scrollRefs} />
+                <ShowScriptLineContext.Provider value={showScriptLine}>
+                    <ScriptTable region={region} script={parsedScript} showScene={enableScene} refs={scrollRefs} />
+                </ShowScriptLineContext.Provider>
             </ScriptMainData>
         </>
     );
