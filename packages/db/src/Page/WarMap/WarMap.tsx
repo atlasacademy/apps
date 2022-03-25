@@ -49,8 +49,24 @@ class WarMap extends React.Component<IProps, IState> {
         };
         this.mapImage = this.props.map.mapImage ?? "";
     }
+    getOlympusMapGimmickImages() {
+        return (
+            <>
+                {["01", "11", "12", "13"].map((num) => (
+                    <img
+                        className="warmap"
+                        src={`https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter0306/QMap_Cap0306_Atlas/gimmick_0306${num}.png`}
+                        alt=""
+                        style={{
+                            aspectRatio: `${this.props.map.mapImageW}/${this.props.map.mapImageH}`,
+                        }}
+                    />
+                ))}
+            </>
+        );
+    }
     overrideMap(mapId: number) {
-        let mapImage;
+        let mapImage = "";
         switch (mapId) {
             case 9010: // fallthrough: corresponding map images are same across reruns of the same event
             case 9053:
@@ -93,29 +109,30 @@ class WarMap extends React.Component<IProps, IState> {
             case 9084:
                 mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9056_9060/QMap_Cap9056_9060_Atlas_merged.png`;
                 break;
-
-            default:
-                mapImage = "";
-                break;
         }
         this.mapImage = mapImage;
     }
     render() {
-        let mapImageElement = null;
+        let mapImageElement = <></>;
         if (overrideMaps.includes(this.props.map.id)) {
             this.overrideMap(this.props.map.id);
         }
         mapImageElement = (
-            <img
-                className="warmap"
-                alt={`${this.props.warName} map ${this.props.map.id}`}
-                src={this.mapImage}
-                onError={() => {
-                    this.setState({ isMapLoaded: false });
-                    console.log("error");
-                }}
-                style={{ aspectRatio: `${this.props.map.mapImageW}/${this.props.map.mapImageH}` }}
-            />
+            <>
+                <img
+                    className="warmap"
+                    alt={`${this.props.warName} map ${this.props.map.id}`}
+                    src={this.mapImage}
+                    onError={() => {
+                        this.setState({ isMapLoaded: false });
+                    }}
+                    style={{
+                        aspectRatio: `${this.props.map.mapImageW}/${this.props.map.mapImageH}`,
+                        position: "relative",
+                    }}
+                />
+                {this.props.warId === 306 ? this.getOlympusMapGimmickImages() : null}
+            </>
         );
         return (
             <div className="warmap-parent">

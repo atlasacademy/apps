@@ -7,6 +7,9 @@
     overflow: hidden;
 }
 .warmap {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
 }
 .warspot-fig {
