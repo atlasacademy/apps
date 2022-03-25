@@ -9,7 +9,8 @@ const languageKey = "language",
     changelogLocalTime = "changelog.localTime",
     shopPlannerEnabled = "shop.planner.enabled",
     scriptSceneEnabled = "script.scene.enabled",
-    hideEnemyFunction = "aa-db.function.enemy.hide";
+    hideEnemyFunction = "aa-db.function.enemy.hide",
+    scriptShowLine = "aa-db.script.showLine";
 
 const callbacks: Function[] = [];
 
@@ -31,6 +32,15 @@ class Manager {
 
     static setChangelogLocalTimestamp(local: boolean) {
         window.localStorage.setItem(changelogLocalTime, `${+!!local}`);
+        Manager.triggerCallbacks();
+    }
+
+    static showScriptLine(): boolean {
+        return !!+(window.localStorage.getItem(scriptShowLine) ?? 0);
+    }
+
+    static setShowScriptLine(show: boolean) {
+        window.localStorage.setItem(scriptShowLine, `${+!!show}`);
         Manager.triggerCallbacks();
     }
 

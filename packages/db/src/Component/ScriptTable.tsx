@@ -1,6 +1,6 @@
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Table } from "react-bootstrap";
 
 import { Region } from "@atlasacademy/api-connector";
@@ -9,6 +9,7 @@ import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import { flatten } from "../Helper/PolyFill";
 import useWindowDimensions from "../Helper/WindowHelper";
+import ShowScriptLineContext from "../Page/Script/ShowScriptLineContext";
 import Scene from "./Scene";
 import {
     ScriptBackground,
@@ -17,7 +18,7 @@ import {
     ScriptCharaFadeIn,
     ScriptChoiceRouteInfo,
     ScriptChoiceRouteType,
-    ScriptComponent,
+    ScriptComponentWrapper,
     ScriptComponentType,
     ScriptDialogue,
     ScriptInfo,
@@ -26,10 +27,11 @@ import ScriptDialogueLine from "./ScriptDialogueLine";
 
 type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>>;
 
-const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: RowBgmRefMap }) => {
+const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: RowBgmRefMap; lineNumber?: number }) => {
     const dialogueVoice = props.dialogue.voice ? (
         <BgmDescriptor region={props.region} bgm={props.dialogue.voice} style={{ display: "block" }} />
     ) : null;
+    const showScriptLine = useContext(ShowScriptLineContext);
     return (
         <tr ref={props.refs.get(props.dialogue.voice?.audioAsset)}>
             <td>
@@ -39,6 +41,7 @@ const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: Ro
                 {dialogueVoice}
                 <ScriptDialogueLine components={flatten(props.dialogue.components)} />
             </td>
+            {showScriptLine && <td>{props.lineNumber}</td>}
         </tr>
     );
 };
@@ -82,6 +85,7 @@ const SceneRow = (props: {
     figure?: ScriptCharaFace;
     charaFadeIn?: ScriptCharaFadeIn;
     wideScreen: boolean;
+    lineNumber?: number;
 }) => {
     const resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
         { windowWidth, windowHeight } = useWindowDimensions(),
@@ -90,6 +94,7 @@ const SceneRow = (props: {
         width = (props.wideScreen ? 1344 : 1024) / sceneScale,
         background = props.background ? { asset: props.background.backgroundAsset } : undefined;
 
+    const showScriptLine = useContext(ShowScriptLineContext);
     let figure = undefined;
     if (props.figure !== undefined && props.figure.assetSet !== undefined) {
         switch (props.figure.assetSet.type) {
@@ -143,6 +148,7 @@ const SceneRow = (props: {
                         ) : null}
                     </div>
                 </td>
+                {showScriptLine && <td>{props.lineNumber}</td>}
             </tr>
         );
     }
@@ -168,12 +174,19 @@ const SceneRow = (props: {
                     ) : null}
                 </div>
             </td>
+            {showScriptLine && <td>{props.lineNumber}</td>}
         </tr>
     );
 };
 
-const ScriptBracketRow = (props: { region: Region; component: ScriptBracketComponent; refs: RowBgmRefMap }) => {
-    const { region, component, refs } = props;
+const ScriptBracketRow = (props: {
+    region: Region;
+    component: ScriptBracketComponent;
+    refs: RowBgmRefMap;
+    lineNumber?: number;
+}) => {
+    const { region, component, refs, lineNumber } = props;
+    const showScriptLine = useContext(ShowScriptLineContext);
     const getGoToLabel = (labelName: string) => {
         return (
             <Button
@@ -200,6 +213,7 @@ const ScriptBracketRow = (props: { region: Region; component: ScriptBracketCompo
                     <td>
                         <BgmDescriptor region={region} bgm={component.bgm} />
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.SOUND_EFFECT:
@@ -209,6 +223,7 @@ const ScriptBracketRow = (props: { region: Region; component: ScriptBracketCompo
                     <td>
                         <BgmDescriptor region={region} bgm={component.soundEffect} />
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.FLAG:
@@ -218,6 +233,7 @@ const ScriptBracketRow = (props: { region: Region; component: ScriptBracketCompo
                     <td>
                         Set flag <code>{component.name}</code> to <code>{component.value}</code>
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.BRANCH:
@@ -235,6 +251,7 @@ const ScriptBracketRow = (props: { region: Region; component: ScriptBracketCompo
                         Go to label <code>{component.labelName}</code>
                         {condition} {getGoToLabel(component.labelName)}
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.BRANCH_QUEST_NOT_CLEAR:
@@ -246,6 +263,7 @@ const ScriptBracketRow = (props: { region: Region; component: ScriptBracketCompo
                         <QuestDescriptor region={region} questId={component.questId} /> hasn't been cleared{" "}
                         {getGoToLabel(component.labelName)}
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.BRANCH_MASTER_GENDER:
@@ -257,6 +275,7 @@ const ScriptBracketRow = (props: { region: Region; component: ScriptBracketCompo
                         chosen gender is male or <code>{component.femaleLabelName}</code>{" "}
                         {getGoToLabel(component.femaleLabelName)} if female
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.LABEL:
@@ -266,6 +285,7 @@ const ScriptBracketRow = (props: { region: Region; component: ScriptBracketCompo
                     <td>
                         <code>{component.name}</code>
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         default:
@@ -283,11 +303,13 @@ const ChoiceRouteInfo = ({ routeInfo }: { routeInfo?: ScriptChoiceRouteInfo }) =
     return null;
 };
 
-const ScriptRow = (props: { region: Region; component: ScriptComponent; refs: RowBgmRefMap }) => {
-    const { region, component, refs } = props;
+const ScriptRow = (props: { region: Region; wrapper: ScriptComponentWrapper; refs: RowBgmRefMap }) => {
+    const { region, wrapper, refs } = props;
+    const { content: component, lineNumber } = wrapper;
+    const showScriptLine = useContext(ShowScriptLineContext);
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
-            return <DialogueRow region={region} dialogue={component} refs={refs} />;
+            return <DialogueRow region={region} dialogue={component} refs={refs} lineNumber={lineNumber} />;
         case ScriptComponentType.CHOICES:
             return (
                 <tr>
@@ -307,10 +329,11 @@ const ScriptRow = (props: { region: Region; component: ScriptComponent; refs: Ro
                             ))}
                         </ul>
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         default:
-            return <ScriptBracketRow region={region} component={component} refs={refs} />;
+            return <ScriptBracketRow region={region} component={component} refs={refs} lineNumber={lineNumber} />;
     }
 };
 
@@ -321,12 +344,14 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         wideScreen = false,
         sceneDisplayed = false;
 
+    const showScriptLine = useContext(ShowScriptLineContext);
     return (
         <Table hover responsive>
             <thead>
                 <tr>
                     <th style={{ textAlign: "center", width: "10%" }}>Speaker</th>
                     <th style={{ textAlign: "center" }}>Text</th>
+                    {showScriptLine && <th style={{ textAlign: "center" }}>Line</th>}
                 </tr>
             </thead>
             <tbody>
@@ -338,48 +363,49 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 figure={figureComponent}
                                 charaFadeIn={charaFadeIn}
                                 wideScreen={wideScreen}
+                                lineNumber={component.lineNumber}
                             />
                         );
 
-                    if (component.type === ScriptComponentType.ENABLE_FULL_SCREEN) {
+                    if (component.content.type === ScriptComponentType.ENABLE_FULL_SCREEN) {
                         wideScreen = true;
-                    } else if (component.type === ScriptComponentType.BACKGROUND) {
+                    } else if (component.content.type === ScriptComponentType.BACKGROUND) {
                         if (backgroundComponent && !sceneDisplayed) sceneRow = renderScene();
 
-                        backgroundComponent = component;
+                        backgroundComponent = component.content;
                         figureComponent = undefined;
                         sceneDisplayed = false;
-                    } else if (component.type === ScriptComponentType.CHARA_FACE) {
+                    } else if (component.content.type === ScriptComponentType.CHARA_FACE) {
                         if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
 
-                        figureComponent = component;
+                        figureComponent = component.content;
                         sceneDisplayed = false;
-                    } else if (component.type === ScriptComponentType.CHARA_FADE_IN) {
+                    } else if (component.content.type === ScriptComponentType.CHARA_FADE_IN) {
                         if (
-                            component?.assetSet?.type !== ScriptComponentType.CHARA_SET &&
-                            component?.assetSet?.type !== ScriptComponentType.CHARA_CHANGE
+                            component.content?.assetSet?.type !== ScriptComponentType.CHARA_SET &&
+                            component.content?.assetSet?.type !== ScriptComponentType.CHARA_CHANGE
                         ) {
-                            charaFadeIn = component;
+                            charaFadeIn = component.content;
                             sceneRow = renderScene();
                             charaFadeIn = undefined;
                         }
                     } else if (
-                        component.type === ScriptComponentType.BRANCH ||
-                        component.type === ScriptComponentType.LABEL
+                        component.content.type === ScriptComponentType.BRANCH ||
+                        component.content.type === ScriptComponentType.LABEL
                     ) {
                         if (backgroundComponent && !sceneDisplayed) {
                             sceneRow = renderScene();
                             sceneDisplayed = true;
                         }
                     } else if (!sceneDisplayed) {
-                        switch (component.type) {
+                        switch (component.content.type) {
                             case ScriptComponentType.DIALOGUE:
                             case ScriptComponentType.CHOICES:
                                 sceneRow = renderScene();
                                 sceneDisplayed = true;
                         }
-                    } else if (component.type === ScriptComponentType.CHOICES) {
-                        flatten(component.choices.map((choice) => choice.results)).forEach((childChoice) => {
+                    } else if (component.content.type === ScriptComponentType.CHOICES) {
+                        flatten(component.content.choices.map((choice) => choice.results)).forEach((childChoice) => {
                             if (childChoice.type === ScriptComponentType.BACKGROUND) {
                                 backgroundComponent = childChoice;
                             }
@@ -389,7 +415,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                     return (
                         <React.Fragment key={i}>
                             {props.showScene === false ? null : sceneRow}
-                            <ScriptRow region={props.region} component={component} refs={props.refs} />
+                            <ScriptRow region={props.region} wrapper={component} refs={props.refs} />
                         </React.Fragment>
                     );
                 })}
