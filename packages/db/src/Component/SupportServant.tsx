@@ -24,7 +24,7 @@ const SupportCraftEssenseLink = (props: { region: Region; craftEssence: CraftEss
                 : undefined,
             title = `Story Support CE ${craftEssence.id}`;
         return (
-            <Link to={`/${region}/enemy/${craftEssence.id}`} className="descriptor-link">
+            <Link to={`/${region}/craft-essence/${craftEssence.id}`} className="descriptor-link">
                 {faceUrl !== undefined ? (
                     <>
                         <img src={faceUrl} style={{ height: "1.5em" }} alt={title} />{" "}
