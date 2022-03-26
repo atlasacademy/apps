@@ -72,7 +72,7 @@ const TreasureBox = ({
     );
 };
 
-const TreasureBoxes = ({
+const EventTreasureBoxes = ({
     region,
     treasureBoxes,
     itemCache,
@@ -96,4 +96,4 @@ const TreasureBoxes = ({
     );
 };
 
-export default TreasureBoxes;
+export default EventTreasureBoxes;

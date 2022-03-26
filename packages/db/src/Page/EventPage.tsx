@@ -1,31 +1,27 @@
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
-import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 
-import { Event, Item, Region, Mission, Quest, Servant, EnumList, War, Gift } from "@atlasacademy/api-connector";
+import { Event, Item, Region, Mission, Quest, Servant, EnumList, War } from "@atlasacademy/api-connector";
 
 import Api, { Host } from "../Api";
-import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
-import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
-import PointBuffDescriptor from "../Descriptor/PointBuffDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
-import { mergeElements } from "../Helper/OutputHelper";
-import { colorString, interpolateString, replacePUACodePoints } from "../Helper/StringHelper";
+import { replacePUACodePoints } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
 import Manager from "../Setting/Manager";
+import EventLottery from "./Event/EventLottery";
+import EventReward from "./Event/EventReward";
+import EventRewardTower from "./Event/EventRewardTower";
+import EventTreasureBoxes from "./Event/EventTreasureBoxes";
 import ShopTab from "./Event/Shop";
-import TreasureBoxes from "./Event/TreasureBoxes";
 
 import "../Helper/StringHelper.css";
 import "./EventPage.css";
@@ -266,186 +262,6 @@ class EventPage extends React.Component<IProps, IState> {
         );
     }
 
-    renderRewardTab(
-        region: Region,
-        rewards: Event.EventReward[],
-        allPointBuffs: Event.EventPointBuff[],
-        itemMap: Map<number, Item.Item>
-    ) {
-        const pointBuffMap = new Map(allPointBuffs.map((pointBuff) => [pointBuff.id, pointBuff]));
-        const pointBuffPointMap = new Map(allPointBuffs.map((pointBuff) => [pointBuff.eventPoint, pointBuff]));
-        return (
-            <Table hover responsive>
-                <thead>
-                    <tr>
-                        <th>Point</th>
-                        <th>Reward</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rewards.map((reward) => {
-                        const pointBuff = pointBuffPointMap.get(reward.point);
-                        let pointBuffDescription = null;
-                        if (pointBuff !== undefined) {
-                            const pointBuffGifts = reward.gifts
-                                .filter((gift) => gift.type === Gift.GiftType.EVENT_POINT_BUFF)
-                                .map((gift) => gift.objectId);
-                            // In Oniland, point buffs are listed as rewards but in MIXA event, they aren't.
-                            // If point buffs are rewards, Gift Descriptor can handle them.
-                            // Otherwise, pointBuffDescription is used.
-                            if (!pointBuffGifts.includes(pointBuff.id)) {
-                                pointBuffDescription = (
-                                    <>
-                                        <br />
-                                        <PointBuffDescriptor region={region} pointBuff={pointBuff} />
-                                    </>
-                                );
-                            }
-                        }
-                        return (
-                            <tr key={reward.point}>
-                                <th scope="row">{reward.point.toLocaleString()}</th>
-                                <td>
-                                    {mergeElements(
-                                        reward.gifts.map((gift) => (
-                                            <GiftDescriptor
-                                                key={`${gift.objectId}-${gift.priority}`}
-                                                region={region}
-                                                gift={gift}
-                                                items={itemMap}
-                                                pointBuffs={pointBuffMap}
-                                            />
-                                        )),
-                                        ", "
-                                    )}
-                                    {pointBuffDescription}
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </Table>
-        );
-    }
-
-    renderRewardTower(region: Region, tower: Event.EventTower, itemMap: Map<number, Item.Item>) {
-        return (
-            <Table hover responsive>
-                <thead>
-                    <tr>
-                        <th style={{ textAlign: "center" }}>Floor</th>
-                        <th>Message</th>
-                        <th>Reward</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tower.rewards.map((reward) => {
-                        return (
-                            <tr key={reward.floor}>
-                                <th scope="row" style={{ textAlign: "center" }}>
-                                    {reward.floor}
-                                </th>
-                                <td>{colorString(interpolateString(reward.boardMessage, [reward.floor]))}</td>
-                                <td>
-                                    {mergeElements(
-                                        reward.gifts.map((gift) => (
-                                            <GiftDescriptor
-                                                key={`${gift.objectId}-${gift.priority}`}
-                                                region={region}
-                                                gift={gift}
-                                                items={itemMap}
-                                            />
-                                        )),
-                                        ", "
-                                    )}
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </Table>
-        );
-    }
-
-    renderLotteryBox(region: Region, boxes: Event.EventLotteryBox[], itemMap: Map<number, Item.Item>) {
-        return (
-            <Table hover responsive>
-                <thead>
-                    <tr>
-                        <th style={{ textAlign: "center" }}>#</th>
-                        <th>Detail</th>
-                        <th>Reward</th>
-                        <th style={{ textAlign: "center" }}>Limit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {boxes.map((box) => {
-                        return (
-                            <tr key={box.no}>
-                                <th scope="row" style={{ textAlign: "center" }}>
-                                    {box.no}
-                                    {box.isRare ? (
-                                        <>
-                                            {" "}
-                                            <FontAwesomeIcon icon={faStar} />
-                                        </>
-                                    ) : null}
-                                </th>
-                                <td>{box.detail}</td>
-                                <td>
-                                    {mergeElements(
-                                        box.gifts.map((gift) => (
-                                            <GiftDescriptor
-                                                key={`${gift.objectId}-${gift.priority}`}
-                                                region={region}
-                                                gift={gift}
-                                                items={itemMap}
-                                            />
-                                        )),
-                                        ", "
-                                    )}
-                                </td>
-                                <td style={{ textAlign: "center" }}>{box.maxNum}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </Table>
-        );
-    }
-
-    renderLotteryTab(region: Region, lottery: Event.EventLottery, itemMap: Map<number, Item.Item>) {
-        const boxIndexes = Array.from(new Set(lottery.boxes.map((box) => box.boxIndex))).sort((a, b) => a - b);
-
-        return (
-            <>
-                <div style={{ margin: "1em 0" }}>
-                    <b>Cost of 1 roll:</b>{" "}
-                    <Link to={`/${region}/item/${lottery.cost.item.id}`}>
-                        <ItemIcon region={region} item={lottery.cost.item} height={40} /> {lottery.cost.item.name}
-                    </Link>{" "}
-                    x{lottery.cost.amount}
-                </div>
-                {boxIndexes.map((boxIndex) => {
-                    const boxes = lottery.boxes.filter((box) => box.boxIndex === boxIndex).sort((a, b) => a.no - b.no);
-
-                    const title = `Box ${boxIndex + 1}${
-                        boxIndex === Math.max(...boxIndexes) && !lottery.limited ? "+" : ""
-                    }`;
-
-                    const boxTable = this.renderLotteryBox(region, boxes, itemMap);
-
-                    return renderCollapsibleContent({
-                        title: title,
-                        content: boxTable,
-                        subheader: true,
-                        initialOpen: false,
-                    });
-                })}
-            </>
-        );
-    }
-
     renderTab(
         region: Region,
         event: Event.Event,
@@ -459,16 +275,18 @@ class EventPage extends React.Component<IProps, IState> {
             case "tower":
                 const tower = event.towers.find((tower) => tower.towerId === tab.id);
                 if (tower !== undefined) {
-                    return this.renderRewardTower(region, tower, itemCache);
+                    return <EventRewardTower region={region} tower={tower} itemMap={itemCache} />;
                 } else {
                     return null;
                 }
             case "ladder":
-                return this.renderRewardTab(
-                    region,
-                    event.rewards.filter((reward) => reward.groupId === tab.id),
-                    event.pointBuffs,
-                    itemCache
+                return (
+                    <EventReward
+                        region={region}
+                        rewards={event.rewards.filter((reward) => reward.groupId === tab.id)}
+                        allPointBuffs={event.pointBuffs}
+                        itemMap={itemCache}
+                    />
                 );
             case "shop":
                 let { shopFilters } = this.state;
@@ -496,11 +314,11 @@ class EventPage extends React.Component<IProps, IState> {
                     enums
                 );
             case "lottery":
-                const lottery = event.lotteries.filter((lottery) => lottery.id === tab.id)[0];
-                return this.renderLotteryTab(region, lottery, itemCache);
+                const lottery = event.lotteries.find((lottery) => lottery.id === tab.id)!;
+                return <EventLottery region={region} lottery={lottery} itemMap={itemCache} />;
             case "treasureBox":
                 const treasureBoxes = event.treasureBoxes.filter((tb) => tb.slot === tab.id);
-                return <TreasureBoxes region={region} treasureBoxes={treasureBoxes} itemCache={itemCache} />;
+                return <EventTreasureBoxes region={region} treasureBoxes={treasureBoxes} itemCache={itemCache} />;
         }
     }
 
