@@ -25,7 +25,7 @@ const overrideMaps = [
 const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
     const firstFreeQuestId = spot.quests.find((quest) => quest.afterClear === "repeatLast")!.id;
     return spot.x < 99999 && spot.y < 99999 ? (
-        <Link to={`/${region}/quest/${firstFreeQuestId}`}>
+        <Link to={`/${region}/quest/${firstFreeQuestId}/3`}>
             <figure
                 className="warspot-fig"
                 style={{
@@ -33,7 +33,7 @@ const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: Wa
                     left: `${(100 * (spot.x + spot.questOfsX + spot.nameOfsX)) / map.mapImageW - 2}%`,
                 }}
             >
-                <img alt={spot.name} src={spot.image} className="warspot-img" />
+                <img title={spot.name} alt={spot.name} src={spot.image} className="warspot-img" />
                 <figcaption className="spot-name"> {spot.name} </figcaption>
             </figure>
         </Link>
