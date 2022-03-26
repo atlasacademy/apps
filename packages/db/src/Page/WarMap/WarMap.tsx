@@ -23,9 +23,9 @@ const overrideMaps = [
 ];
 
 const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
-    const firstFreeQuestId = spot.quests.find((quest) => quest.afterClear === "repeatLast")!.id;
+    const firstFreeQuest = spot.quests.find((quest) => quest.afterClear === "repeatLast")!;
     return spot.x < 99999 && spot.y < 99999 ? (
-        <Link to={`/${region}/quest/${firstFreeQuestId}/3`}>
+        <Link to={`/${region}/quest/${firstFreeQuest.id}/${firstFreeQuest.phases.at(-1)}`}>
             <figure
                 className="warspot-fig"
                 style={{
