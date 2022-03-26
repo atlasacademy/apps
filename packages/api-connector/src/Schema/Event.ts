@@ -1,7 +1,10 @@
+import CondType from "../Enum/Cond";
+import { BgmEntity } from "./Bgm";
 import { CommonConsume } from "./CommonConsume";
 import { Gift } from "./Gift";
 import { Item, ItemBackgroundType } from "./Item";
 import { Mission } from "./Mission";
+import { VoiceGroup, VoiceLine } from "./Profile";
 import { PayType, Shop } from "./Shop";
 
 export enum EventType {
@@ -76,6 +79,7 @@ export interface EventTower {
 export interface EventLotteryBox {
     id: number;
     boxIndex: number;
+    talkId: number;
     no: number;
     type: number;
     gifts: Gift[];
@@ -87,6 +91,15 @@ export interface EventLotteryBox {
     banner: string;
 }
 
+export interface EventLotteryTalk {
+    talkId: number;
+    no: number;
+    guideImageId: number;
+    beforeVoiceLines: VoiceLine[];
+    afterVoiceLines: VoiceLine[];
+    isRare: boolean;
+}
+
 export interface EventLottery {
     id: number;
     slot: number;
@@ -95,6 +108,7 @@ export interface EventLottery {
     priority: number;
     limited: boolean;
     boxes: EventLotteryBox[];
+    talks: EventLotteryTalk[];
 }
 
 export interface EventTreasureBoxGift {
@@ -112,6 +126,48 @@ export interface EventTreasureBox {
     maxDrawNumOnce: number;
     extraGifts: Gift[];
     commonConsume: CommonConsume;
+}
+
+export interface EventRewardSceneGuide {
+    imageId: number;
+    limitCount: number;
+    image: string;
+    faceId?: number;
+    displayName?: string;
+    weight?: number;
+    unselectedMax?: number;
+}
+
+export enum EventRewardSceneFlag {
+    NPC_GUIDE = "npcGuide",
+    IS_CHANGE_SVT_BY_CHANGED_TAB = "isChangeSvtByChangedTab",
+    IS_HIDE_TAB = "isHideTab",
+}
+
+export interface EventRewardScene {
+    slot: number;
+    groupId: number;
+    type: number;
+    guides: EventRewardSceneGuide[];
+    tabOnImage: string;
+    tabOffImage: string;
+    image?: string;
+    bg: string;
+    bgm: BgmEntity;
+    afterBgm: BgmEntity;
+    flags: EventRewardSceneFlag[];
+}
+
+export interface EventVoicePlay {
+    slot: number;
+    idx: number;
+    guideImageId: number;
+    voiceLines: VoiceLine[];
+    confirmVoiceLines: VoiceLine[];
+    condType: CondType;
+    condValue: number;
+    startedAt: number;
+    endedAt: number;
 }
 
 export interface EventBasic {
@@ -144,10 +200,13 @@ export interface Event {
     warIds: number[];
     shop: Shop[];
     rewards: EventReward[];
+    rewardScenes: EventRewardScene[];
     pointGroups: EventPointGroup[];
     pointBuffs: EventPointBuff[];
     missions: Mission[];
     towers: EventTower[];
     lotteries: EventLottery[];
     treasureBoxes: EventTreasureBox[];
+    voicePlays: EventVoicePlay[];
+    voices: VoiceGroup[];
 }

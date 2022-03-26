@@ -21,6 +21,7 @@ import EventLottery from "./Event/EventLottery";
 import EventReward from "./Event/EventReward";
 import EventRewardTower from "./Event/EventRewardTower";
 import EventTreasureBoxes from "./Event/EventTreasureBoxes";
+import EventVoices from "./Event/EventVoices";
 import ShopTab from "./Event/Shop";
 
 import "../Helper/StringHelper.css";
@@ -131,8 +132,10 @@ class EventPage extends React.Component<IProps, IState> {
                     this.loadItemMap();
                 }
                 this.loadWars(event.warIds, event.missions.length > 0 || event.shop.length > 0);
-                if (event.missions.length > 0) {
+                if (event.missions.length > 0 || event.voices.length > 0) {
                     this.loadServantMap();
+                }
+                if (event.missions.length > 0) {
                     this.loadEnums();
                 }
             })
@@ -498,6 +501,16 @@ class EventPage extends React.Component<IProps, IState> {
                             </Tab>
                         );
                     })}
+                    {event.voices.length > 0 && (
+                        <Tab eventKey="voices" title="Voices">
+                            <EventVoices
+                                region={this.props.region}
+                                voiceGroups={event.voices}
+                                servants={this.state.servantCache}
+                                eventRewardScenes={this.state.event.rewardScenes}
+                            />
+                        </Tab>
+                    )}
                 </Tabs>
             </div>
         );

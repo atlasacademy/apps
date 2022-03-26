@@ -87,6 +87,37 @@ export interface CostumeDetail {
     priority: number;
 }
 
+export interface VoiceLine {
+    name?: string;
+    condType?: CondType;
+    condValue?: number;
+    priority?: number;
+    svtVoiceType?: ProfileVoiceType;
+    overwriteName: string;
+    summonScript?: PhaseScript;
+    id: string[];
+    audioAssets: string[];
+    delay: number[];
+    face: number[];
+    form: number[];
+    text: string[];
+    subtitle: string;
+    conds: {
+        condType: VoiceCondType;
+        value: number;
+        valueList: number[];
+        eventId: number;
+    }[];
+    playConds: VoicePlayCond[];
+}
+
+export interface VoiceGroup {
+    svtId: number;
+    voicePrefix: number;
+    type: ProfileVoiceType;
+    voiceLines: VoiceLine[];
+}
+
 export interface Profile {
     cv: string;
     illustrator: string;
@@ -100,34 +131,7 @@ export interface Profile {
         deity: string;
     };
     comments: ProfileComment[];
-    voices: {
-        svtId: number;
-        voicePrefix: number;
-        type: ProfileVoiceType;
-        voiceLines: {
-            name?: string;
-            condType?: CondType;
-            condValue?: number;
-            priority?: number;
-            svtVoiceType?: ProfileVoiceType;
-            overwriteName: string;
-            summonScript?: PhaseScript;
-            id: string[];
-            audioAssets: string[];
-            delay: number[];
-            face: number[];
-            form: number[];
-            text: string[];
-            subtitle: string;
-            conds: {
-                condType: VoiceCondType;
-                value: number;
-                valueList: number[];
-                eventId: number;
-            }[];
-            playConds: VoicePlayCond[];
-        }[];
-    }[];
+    voices: VoiceGroup[];
     costume: {
         [key: string]: CostumeDetail;
     };
