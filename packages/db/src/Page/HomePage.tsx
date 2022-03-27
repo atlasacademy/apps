@@ -86,6 +86,18 @@ class HomePage extends React.Component<IProps> {
                         </a>{" "}
                         (MaxAkito#0096)
                     </li>
+                    <li>
+                        <a href="https://twitter.com/gakiloroth" target="_blank" rel="noreferrer">
+                            gakiloroth
+                        </a>
+                    </li>
+                    <li>
+                        VladtheImpala (
+                        <a href="https://github.com/boyonthebeach2k" target="_blank" rel="noreferrer">
+                            boyonthebeach2k
+                        </a>
+                        )
+                    </li>
                 </ul>
             </div>
         );
