@@ -14,6 +14,7 @@ const Scene = (props: {
         asset: string;
         face: number;
         charaGraphId?: number;
+        equipAssetId?: string;
     };
     resolution: {
         height: number;
@@ -29,7 +30,8 @@ const Scene = (props: {
         figureWrapperWidth = 1024 * scale,
         figureWrapperLeft = ((props.resolution.width - 1024) / 2 + (script ? script.offsetX : 0)) * scale,
         figureWrapperTop = (script ? -script.offsetY : 0) * scale,
-        faceElement = null;
+        faceElement = null,
+        equipElement = null;
 
     if (props.figure !== undefined && props.figure.charaGraphId !== undefined) {
         Api.svtScript(props.figure.charaGraphId).then((script) => {
@@ -74,6 +76,34 @@ const Scene = (props: {
         );
     }
 
+    if (props.figure && props.figure.equipAssetId) {
+        const figureWidth = 250,
+            left = 400 * scale,
+            maxWidth = figureWidth * scale,
+            maxHeight = (1024 * scale) / 2.4,
+            top = 50 * scale,
+            height = 1024 * scale,
+            width = 1024 * scale,
+            backgroundSize: number | string = scale * figureWidth;
+
+        equipElement = (
+            <div
+                style={{
+                    backgroundImage: `url("${props.figure.asset}")`,
+                    backgroundSize,
+                    maxWidth,
+                    maxHeight,
+                    height,
+                    left,
+                    top,
+                    width,
+                    borderRadius: "0.5rem",
+                }}
+                className="scene-figure-face"
+            />
+        );
+    }
+
     return (
         <div className="scene-wrapper" style={{ height: props.height, width: props.width }}>
             {props.background ? (
@@ -90,9 +120,10 @@ const Scene = (props: {
                 className="scene-figure-wrapper"
                 style={{ left: figureWrapperLeft, top: figureWrapperTop, width: figureWrapperWidth }}
             >
-                {props.figure ? (
+                {props.figure && !equipElement ? (
                     <div style={{ backgroundImage: `url("${props.figure.asset}")` }} className="scene-figure" />
                 ) : null}
+                {equipElement}
                 {faceElement}
             </div>
         </div>

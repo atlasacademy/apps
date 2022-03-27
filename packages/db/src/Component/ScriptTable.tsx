@@ -10,6 +10,7 @@ import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import { flatten } from "../Helper/PolyFill";
 import useWindowDimensions from "../Helper/WindowHelper";
 import ShowScriptLineContext from "../Page/Script/ShowScriptLineContext";
+import Manager from "../Setting/Manager";
 import Scene from "./Scene";
 import {
     ScriptBackground,
@@ -111,6 +112,13 @@ const SceneRow = (props: {
                     asset: props.figure.assetSet.imageAsset,
                     face: props.figure.face,
                 };
+                break;
+            case ScriptComponentType.EQUIP_SET:
+                figure = {
+                    asset: props.figure.assetSet.equipAsset,
+                    face: props.figure.face,
+                    equipAssetId: props.figure.assetSet.equipId,
+                };
         }
     }
 
@@ -170,6 +178,16 @@ const SceneRow = (props: {
                         props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE) ? (
                         <a href={props.figure.assetSet?.charaGraphAsset} target="_blank" rel="noreferrer">
                             [Figure]
+                        </a>
+                    ) : null}
+                    &nbsp;
+                    {props.figure && props.figure.assetSet?.type === ScriptComponentType.EQUIP_SET ? (
+                        <a
+                            href={`/db/${Manager.region()}/craft-essence/${props.figure.assetSet.equipId}`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            [Craft Essence]
                         </a>
                     ) : null}
                 </div>
