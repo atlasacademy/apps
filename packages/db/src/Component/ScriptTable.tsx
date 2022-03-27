@@ -136,22 +136,35 @@ const SceneRow = (props: {
                     face: 0,
                 };
                 break;
+            case ScriptComponentType.EQUIP_SET:
+                figure = {
+                    asset: props.charaFadeIn.assetSet.equipAsset,
+                    face: 0,
+                    equipAssetId: props.charaFadeIn.assetSet.equipId,
+                };
+                break;
         }
+
+        const bg = props.charaFadeIn.assetSet?.type === ScriptComponentType.EQUIP_SET ? background : undefined;
+
         return (
             <tr>
                 <td />
                 <td>
-                    <Scene
-                        background={undefined}
-                        figure={figure}
-                        resolution={resolution}
-                        height={height}
-                        width={width}
-                    />
+                    <Scene background={bg} figure={figure} resolution={resolution} height={height} width={width} />
                     <div>
                         {figure !== undefined ? (
                             <a href={figure.asset} target="_blank" rel="noreferrer">
                                 [Figure]
+                            </a>
+                        ) : null}{" "}
+                        {figure?.equipAssetId !== undefined ? (
+                            <a
+                                href={`/db/${Manager.region()}/craft-essence/${figure.equipAssetId}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                [Craft Essence]
                             </a>
                         ) : null}
                     </div>
