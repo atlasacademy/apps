@@ -1,5 +1,8 @@
 import { AxiosError } from "axios";
 import React from "react";
+import { Link } from "react-router-dom";
+
+import { Region } from "@atlasacademy/api-connector";
 
 import figure_016 from "../Assets/figure_016.png";
 import figure_074 from "../Assets/figure_074.png";
@@ -27,14 +30,27 @@ const images = [
 
 interface IProps {
     error?: AxiosError;
+    endpoint?: string;
+    region?: Region;
 }
 
 class ErrorStatus extends React.Component<IProps> {
     render() {
         document.title = "Error - Atlas Academy DB";
-        let message: string;
+        let message: string | JSX.Element;
 
-        if (this.props.error === undefined || this.props.error.response === undefined) {
+        if (this.props.endpoint !== undefined && this.props.region !== undefined) {
+            const endpoint = this.props.endpoint;
+            message = (
+                <>
+                    {"Route not found."}
+                    <br />
+                    {`You can view all ${endpoint}s `}
+                    <Link to={`/${this.props.region}/${endpoint}s`}>{"here"}</Link>
+                    {"."}
+                </>
+            );
+        } else if (this.props.error === undefined || this.props.error.response === undefined) {
             message = "Not Found";
         } else if (this.props.error.response.status === 500) {
             message = "Server Error";
@@ -49,7 +65,20 @@ class ErrorStatus extends React.Component<IProps> {
             this.props.error.response.data !== null &&
             typeof (this.props.error.response.data as any).detail === "string"
         ) {
-            message = (this.props.error.response.data as any).detail;
+            const [, , region, endpoint] = this.props.error.response.config
+                    .url!.match(/\/nice\/(NA|JP)\/.*(?=\/)/)![0]
+                    .split("/"),
+                errorDetail = (this.props.error.response.data as any).detail;
+
+            message = (
+                <>
+                    {errorDetail}
+                    <br />
+                    {`You can view all ${endpoint}s `}
+                    <Link to={`/${region}/${endpoint}s`}>{"here"}</Link>
+                    {"."}
+                </>
+            );
         }
 
         const random = Math.floor(Math.random() * images.length),
@@ -66,7 +95,6 @@ class ErrorStatus extends React.Component<IProps> {
                         margin: "0 auto",
                     }}
                 />
-
                 <p className={"text-center"} style={{ margin: 50 }}>
                     <strong>ERROR: {message}</strong>
                 </p>

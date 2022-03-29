@@ -9,7 +9,6 @@ import Api from "./Api";
 import ErrorStatus from "./Component/ErrorStatus";
 import Loading from "./Component/Loading";
 import Navigation from "./Component/Navigation";
-import RedirectPage from "./Component/RedirectPage";
 import HomePage from "./Page/HomePage";
 import Manager from "./Setting/Manager";
 import { Theme } from "./Setting/Theme";
@@ -673,11 +672,7 @@ class App extends React.Component<any, IState> {
                                     const { region, endpoint } = props.match.params;
                                     return (
                                         <Suspense fallback={<Loading />}>
-                                            <RedirectPage
-                                                basename={BASE_NAME}
-                                                endpoint={endpoint}
-                                                region={region as Region}
-                                            />
+                                            <ErrorStatus endpoint={endpoint} region={region as Region} />
                                         </Suspense>
                                     );
                                 }}
