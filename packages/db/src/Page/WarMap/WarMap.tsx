@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { War, Region } from "@atlasacademy/api-connector";
 
+import { AssetHost } from "../../Api";
+
 import "./WarMap.css";
 
 interface IProps {
@@ -54,46 +56,46 @@ class WarMap extends React.Component<IProps, IState> {
     overrideMap(mapId: number) {
         let mapImage = "";
         switch (mapId) {
-            case 9010: // fallthrough: corresponding map images are same across reruns of the same event
+            case 9010:
             case 9053:
             case 9088:
-                mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901001_00.png`;
+                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901001_00.png`;
                 break;
 
-            case 9011: // fallthrough: corresponding map images are same across reruns of the same event
+            case 9011:
             case 9054:
             case 9089:
-                mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901003_00.png`;
+                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901003_00.png`;
                 break;
 
-            case 9012: // fallthrough: corresponding map images are same across reruns of the same event
+            case 9012:
             case 9055:
             case 9090:
-                mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901008_00.png`;
+                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901008_00.png`;
                 break;
-            case 9056: // fallthrough: corresponding map images are same across reruns of the same event
+            case 9056:
             case 9080:
-                mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9056_9056/QMap_Cap9056_9056_Atlas_merged.png`;
+                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9056/QMap_Cap9056_9056_Atlas_merged.png`;
                 break;
 
-            case 9057: // fallthrough: corresponding map images are same across reruns of the same event
+            case 9057:
             case 9081:
-                mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9056_9057/QMap_Cap9056_9057_Atlas_merged.png`;
+                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9057/QMap_Cap9056_9057_Atlas_merged.png`;
                 break;
 
-            case 9058: // fallthrough: corresponding map images are same across reruns of the same event
+            case 9058:
             case 9082:
-                mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9056_9058/QMap_Cap9056_9058_Atlas_merged.png`;
+                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9058/QMap_Cap9056_9058_Atlas_merged.png`;
                 break;
 
-            case 9059: // fallthrough: corresponding map images are same across reruns of the same event
+            case 9059:
             case 9083:
-                mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9056_9059/QMap_Cap9056_9059_Atlas_merged.png`;
+                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9059/QMap_Cap9056_9059_Atlas_merged.png`;
                 break;
 
-            case 9060: // fallthrough: corresponding map images are same across reruns of the same event
+            case 9060:
             case 9084:
-                mapImage = `https://static.atlasacademy.io/${this.props.region}/Terminal/QuestMap/Capter9056_9060/QMap_Cap9056_9060_Atlas_merged.png`;
+                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9060/QMap_Cap9056_9060_Atlas_merged.png`;
                 break;
         }
         this.mapImage = mapImage;
@@ -131,7 +133,7 @@ class WarMap extends React.Component<IProps, IState> {
         return (
             <div className="warmap-parent">
                 <div className="warmap-container">
-                    {this.state.isMapLoaded ? mapImageElement : <p> {"Map unavailable for this war."} </p>}
+                    {this.state.isMapLoaded ? mapImageElement : <p>Map unavailable for this war.</p>}
                     {this.state.isMapLoaded
                         ? this.props.spots.map((spot) => (
                               <WarSpot key={spot.id} map={this.props.map} region={this.props.region} spot={spot} />
