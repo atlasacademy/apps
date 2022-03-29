@@ -9,6 +9,7 @@ import Api from "./Api";
 import ErrorStatus from "./Component/ErrorStatus";
 import Loading from "./Component/Loading";
 import Navigation from "./Component/Navigation";
+import RedirectPage from "./Component/RedirectPage";
 import HomePage from "./Page/HomePage";
 import Manager from "./Setting/Manager";
 import { Theme } from "./Setting/Theme";
@@ -661,6 +662,22 @@ class App extends React.Component<any, IState> {
                                     return (
                                         <Suspense fallback={<Loading />}>
                                             <FaqPage region={region as Region} />
+                                        </Suspense>
+                                    );
+                                }}
+                            />
+                            <Route
+                                exact={true}
+                                path="/:region(JP|NA|CN|KR|TW)/:endpoint(bgm|buff|command-code|craft-essence|func|item|master-mission|mystic-code|noble-phantasm|quest|script|servant|skill|event|war)"
+                                render={(props) => {
+                                    const { region, endpoint } = props.match.params;
+                                    return (
+                                        <Suspense fallback={<Loading />}>
+                                            <RedirectPage
+                                                basename={BASE_NAME}
+                                                endpoint={endpoint}
+                                                region={region as Region}
+                                            />
                                         </Suspense>
                                     );
                                 }}
