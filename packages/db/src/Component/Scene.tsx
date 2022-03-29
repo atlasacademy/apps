@@ -19,6 +19,10 @@ const Scene = (props: {
         asset: string;
         equipAssetId: string;
     };
+    offsetsFigure?: {
+        charaGraphId?: number;
+        y?: number;
+    };
     resolution: {
         height: number;
         width: number;
@@ -28,11 +32,15 @@ const Scene = (props: {
 }) => {
     const [script, setScript] = useState<Script.SvtScript | undefined>(undefined);
 
+    let fixOffsets = {
+        y: props.offsetsFigure?.charaGraphId === props.figure?.charaGraphId ? props.offsetsFigure?.y : 0,
+    };
+
     let scale = props.width / props.resolution.width,
         backgroundTop = 25 * scale * -1,
         figureWrapperWidth = 1024 * scale,
         figureWrapperLeft = ((props.resolution.width - 1024) / 2 + (script ? script.offsetX : 0)) * scale,
-        figureWrapperTop = (script ? -script.offsetY : 0) * scale,
+        figureWrapperTop = (script ? -script.offsetY + -(fixOffsets.y ?? 0) : 0) * scale,
         faceElement = null,
         equipElement = null;
 

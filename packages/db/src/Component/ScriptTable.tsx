@@ -85,6 +85,12 @@ const SceneRow = (props: {
     background?: ScriptBackground;
     figure?: ScriptCharaFace;
     charaFadeIn?: ScriptCharaFadeIn;
+    offsets?: {
+        y?: number;
+        asset?: {
+            charaGraphId?: number;
+        };
+    };
     wideScreen: boolean;
     lineNumber?: number;
 }) => {
@@ -99,6 +105,7 @@ const SceneRow = (props: {
 
     let figure = undefined;
     let equip = undefined;
+    let offsets = undefined;
 
     if (props.figure !== undefined && props.figure.assetSet !== undefined) {
         switch (props.figure.assetSet.type) {
@@ -108,6 +115,11 @@ const SceneRow = (props: {
                     asset: props.figure.assetSet.charaGraphAsset,
                     face: props.figure.face,
                     charaGraphId: props.figure.assetSet.charaGraphId,
+                };
+
+                offsets = {
+                    y: props.offsets?.y ?? 0,
+                    charaGraphId: props.offsets?.asset?.charaGraphId,
                 };
                 break;
             case ScriptComponentType.IMAGE_SET:
@@ -153,6 +165,7 @@ const SceneRow = (props: {
                 <td>
                     <Scene
                         background={undefined}
+                        offsetsFigure={offsets}
                         equip={equip}
                         figure={figure}
                         resolution={resolution}
@@ -187,6 +200,7 @@ const SceneRow = (props: {
             <td>
                 <Scene
                     background={background}
+                    offsetsFigure={offsets}
                     equip={equip}
                     figure={figure}
                     resolution={resolution}
@@ -387,7 +401,8 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         figureComponent: ScriptCharaFace | undefined,
         charaFadeIn: ScriptCharaFadeIn | undefined,
         wideScreen = false,
-        sceneDisplayed = false;
+        sceneDisplayed = false,
+        offsets: Object | undefined = undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
     return (
@@ -404,6 +419,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                     let sceneRow,
                         renderScene = () => (
                             <SceneRow
+                                offsets={offsets}
                                 background={backgroundComponent}
                                 figure={figureComponent}
                                 charaFadeIn={charaFadeIn}
@@ -433,6 +449,13 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             charaFadeIn = component.content;
                             sceneRow = renderScene();
                             charaFadeIn = undefined;
+                        }
+
+                        if (component.content.position && component.content.position.y !== 0) {
+                            offsets = {
+                                asset: component.content.assetSet,
+                                y: component.content.position.y,
+                            };
                         }
                     } else if (
                         component.content.type === ScriptComponentType.BRANCH ||
@@ -464,10 +487,16 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         </React.Fragment>
                     );
                 })}
+
                 {props.showScene !== false &&
                 (figureComponent !== undefined || backgroundComponent !== undefined) &&
                 !sceneDisplayed ? (
-                    <SceneRow background={backgroundComponent} figure={figureComponent} wideScreen={wideScreen} />
+                    <SceneRow
+                        offsets={offsets}
+                        background={backgroundComponent}
+                        figure={figureComponent}
+                        wideScreen={wideScreen}
+                    />
                 ) : null}
             </tbody>
         </Table>
