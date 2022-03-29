@@ -678,6 +678,22 @@ class App extends React.Component<any, IState> {
                                 }}
                             />
                             <Route
+                                exact={true}
+                                path="/:region(JP|NA|CN|KR|TW)/:endpoint(bgms|buffs|command-codes|craft-essences|funcs|items|master-missions|mystic-codes|noble-phantasms|quests|scripts|servants|skills|events|wars)/:id([0-9]+)"
+                                render={(props) => {
+                                    const { region, endpoint } = props.match.params;
+                                    return (
+                                        <Suspense fallback={<Loading />}>
+                                            <ErrorStatus
+                                                endpoint={endpoint.slice(0, endpoint.length - 1)}
+                                                region={region as Region}
+                                            />
+                                        </Suspense>
+                                    );
+                                }}
+                            />
+
+                            <Route
                                 path="/:region(JP|NA|CN|KR|TW)"
                                 exact={true}
                                 render={(props) => {
