@@ -24,7 +24,7 @@ const overrideMaps = [
     9010, 9011, 9012, 9053, 9054, 9088, 9089, 9090, 9056, 9057, 9058, 9059, 9060, 9080, 9081, 9082, 9083, 9084,
 ];
 
-const overrideGimmicks = [103, 105, 106, 202, 204, 303, 304, 305, 307, 308];
+const overrideGimmicks = [103, 105, 106, 202, 204, 303, 304, 305, 307, 308, 9101];
 
 const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
     const firstFreeQuest = spot.quests.find((quest) => quest.afterClear === "repeatLast")!;
