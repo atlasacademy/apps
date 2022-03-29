@@ -27,7 +27,7 @@ const overrideGimmicks = [103, 105, 106, 202, 204, 303, 304, 305, 307, 308];
 const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
     const firstFreeQuest = spot.quests.find((quest) => quest.afterClear === "repeatLast")!;
     return spot.x < 99999 && spot.y < 99999 ? (
-        <Link to={`/${region}/quest/${firstFreeQuest.id}/${firstFreeQuest.phases.at(-1)}`}>
+        <Link to={`/${region}/quest/${firstFreeQuest.id}/${Math.max(...firstFreeQuest.phases)}`}>
             <figure
                 className="warspot-fig"
                 style={{
