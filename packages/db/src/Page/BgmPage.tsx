@@ -36,9 +36,9 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
             .catch((e) => setError(e));
     }, [region, bgmId]);
 
-    if (loading) return <Loading />;
-
     if (error !== undefined) return <ErrorStatus error={error} />;
+
+    if (loading) return <Loading />;
 
     if (bgm === undefined) return null;
 
