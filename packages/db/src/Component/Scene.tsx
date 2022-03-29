@@ -14,7 +14,10 @@ const Scene = (props: {
         asset: string;
         face: number;
         charaGraphId?: number;
-        equipAssetId?: string;
+    };
+    equip?: {
+        asset: string;
+        equipAssetId: string;
     };
     resolution: {
         height: number;
@@ -76,12 +79,12 @@ const Scene = (props: {
         );
     }
 
-    if (props.figure && props.figure.equipAssetId) {
+    if (props.equip) {
         const figureWidth = 250,
             left = 400 * scale,
             maxWidth = figureWidth * scale,
             maxHeight = (1024 * scale) / 2.4,
-            top = 50 * scale,
+            top = (props.figure !== undefined ? 250 : 50) * scale,
             height = 1024 * scale,
             width = 1024 * scale,
             backgroundSize: number | string = scale * figureWidth;
@@ -89,7 +92,7 @@ const Scene = (props: {
         equipElement = (
             <div
                 style={{
-                    backgroundImage: `url("${props.figure.asset}")`,
+                    backgroundImage: `url("${props.equip.asset}")`,
                     backgroundSize,
                     maxWidth,
                     maxHeight,
@@ -98,8 +101,9 @@ const Scene = (props: {
                     top,
                     width,
                     borderRadius: "0.5rem",
+                    zIndex: 20,
                 }}
-                className="scene-figure-face"
+                className="scene-equip"
             />
         );
     }
@@ -120,7 +124,7 @@ const Scene = (props: {
                 className="scene-figure-wrapper"
                 style={{ left: figureWrapperLeft, top: figureWrapperTop, width: figureWrapperWidth }}
             >
-                {props.figure && !equipElement ? (
+                {props.figure ? (
                     <div style={{ backgroundImage: `url("${props.figure.asset}")` }} className="scene-figure" />
                 ) : null}
                 {equipElement}

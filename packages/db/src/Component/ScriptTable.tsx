@@ -96,7 +96,10 @@ const SceneRow = (props: {
         background = props.background ? { asset: props.background.backgroundAsset } : undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
+
     let figure = undefined;
+    let equip = undefined;
+
     if (props.figure !== undefined && props.figure.assetSet !== undefined) {
         switch (props.figure.assetSet.type) {
             case ScriptComponentType.CHARA_SET:
@@ -114,9 +117,8 @@ const SceneRow = (props: {
                 };
                 break;
             case ScriptComponentType.EQUIP_SET:
-                figure = {
+                equip = {
                     asset: props.figure.assetSet.equipAsset,
-                    face: props.figure.face,
                     equipAssetId: props.figure.assetSet.equipId,
                 };
         }
@@ -131,36 +133,41 @@ const SceneRow = (props: {
                 };
                 break;
             case ScriptComponentType.IMAGE_SET:
+            case ScriptComponentType.VERTICAL_IMAGE_SET:
                 figure = {
                     asset: props.charaFadeIn.assetSet.imageAsset,
                     face: 0,
                 };
                 break;
             case ScriptComponentType.EQUIP_SET:
-                figure = {
+                equip = {
                     asset: props.charaFadeIn.assetSet.equipAsset,
-                    face: 0,
                     equipAssetId: props.charaFadeIn.assetSet.equipId,
                 };
                 break;
         }
 
-        const bg = props.charaFadeIn.assetSet?.type === ScriptComponentType.EQUIP_SET ? background : undefined;
-
         return (
             <tr>
                 <td />
                 <td>
-                    <Scene background={bg} figure={figure} resolution={resolution} height={height} width={width} />
+                    <Scene
+                        background={undefined}
+                        equip={equip}
+                        figure={figure}
+                        resolution={resolution}
+                        height={height}
+                        width={width}
+                    />
                     <div>
                         {figure !== undefined ? (
                             <a href={figure.asset} target="_blank" rel="noreferrer">
                                 [Figure]
                             </a>
                         ) : null}{" "}
-                        {figure?.equipAssetId !== undefined ? (
+                        {equip !== undefined ? (
                             <a
-                                href={`/db/${Manager.region()}/craft-essence/${figure.equipAssetId}`}
+                                href={`/db/${Manager.region()}/craft-essence/${equip.equipAssetId}`}
                                 target="_blank"
                                 rel="noreferrer"
                             >
@@ -178,7 +185,14 @@ const SceneRow = (props: {
         <tr>
             <td />
             <td>
-                <Scene background={background} figure={figure} resolution={resolution} height={height} width={width} />
+                <Scene
+                    background={background}
+                    equip={equip}
+                    figure={figure}
+                    resolution={resolution}
+                    height={height}
+                    width={width}
+                />
                 <div>
                     {props.background ? (
                         <a href={props.background.backgroundAsset} target="_blank" rel="noreferrer">
