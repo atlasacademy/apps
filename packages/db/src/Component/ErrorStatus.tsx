@@ -34,6 +34,18 @@ interface IProps {
     region?: Region;
 }
 
+const getSanitizedEndpoint = (endpoint: string) => {
+    const rawToNiceEndpoint = {
+        CC: "command-code",
+        MC: "mystic-code",
+        equip: "craft-essence",
+        mm: "master-mission",
+        NP: "noble-phantasm",
+        function: "func",
+    };
+    return endpoint in rawToNiceEndpoint ? rawToNiceEndpoint[endpoint as keyof typeof rawToNiceEndpoint] : endpoint;
+};
+
 class ErrorStatus extends React.Component<IProps> {
     render() {
         document.title = "Error - Atlas Academy DB";
@@ -65,17 +77,17 @@ class ErrorStatus extends React.Component<IProps> {
             this.props.error.response.data !== null &&
             typeof (this.props.error.response.data as any).detail === "string"
         ) {
-            const [, , region, endpoint] = this.props.error.response.config
+            const [, , region, rawEndpoint] = this.props.error.response.config
                     .url!.match(/\/nice\/(NA|JP)\/.*(?=\/)/)![0]
                     .split("/"),
-                errorDetail = (this.props.error.response.data as any).detail;
+                niceEndpoint = getSanitizedEndpoint(rawEndpoint);
 
             message = (
                 <>
-                    {errorDetail}
+                    {niceEndpoint.replace("-", " ") + " not found."}
                     <br />
-                    {`You can view all ${endpoint}s `}
-                    <Link to={`/${region}/${endpoint}s`}>{"here"}</Link>
+                    {`You can view all ${niceEndpoint.replace("-", " ")}s `}
+                    <Link to={`/${region}/${getSanitizedEndpoint(niceEndpoint)}s`}>{"here"}</Link>
                     {"."}
                 </>
             );
