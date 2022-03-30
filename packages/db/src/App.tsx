@@ -705,6 +705,17 @@ class App extends React.Component<any, IState> {
                                 }}
                             />
                             <Route
+                                path="/"
+                                exact={true}
+                                render={({ location }) => {
+                                    return location.hash.includes("#") ? (
+                                        <Redirect to={location.hash.replace("#", "")} />
+                                    ) : (
+                                        <HomePage />
+                                    );
+                                }}
+                            />
+                            <Route
                                 path="/:region(JP|NA|CN|KR|TW)?/:endpoint(\w*)?/:id([0-9]+)?"
                                 exact={true}
                                 render={(props) => {
@@ -719,17 +730,6 @@ class App extends React.Component<any, IState> {
                                                 region={region as Region}
                                             />
                                         </Suspense>
-                                    );
-                                }}
-                            />
-                            <Route
-                                path="/"
-                                exact={true}
-                                render={({ location }) => {
-                                    return location.hash.includes("#") ? (
-                                        <Redirect to={location.hash.replace("#", "")} />
-                                    ) : (
-                                        <HomePage />
                                     );
                                 }}
                             />
