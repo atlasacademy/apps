@@ -276,6 +276,11 @@ const getPosition = (positionString: string) => {
         : positionList[parseInt(positionString)];
 };
 
+export type ScriptOffsets = {
+    charaGraphId: number;
+    y?: number;
+};
+
 export type ScriptCharaFadeIn = {
     type: ScriptComponentType.CHARA_FADE_IN;
     speakerCode: string;

@@ -23,6 +23,7 @@ import {
     ScriptComponentType,
     ScriptDialogue,
     ScriptInfo,
+    ScriptOffsets,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 
@@ -85,12 +86,7 @@ const SceneRow = (props: {
     background?: ScriptBackground;
     figure?: ScriptCharaFace;
     charaFadeIn?: ScriptCharaFadeIn;
-    offsets?: {
-        y?: number;
-        asset?: {
-            charaGraphId?: number;
-        };
-    };
+    offsets?: ScriptOffsets;
     wideScreen: boolean;
     lineNumber?: number;
 }) => {
@@ -119,7 +115,7 @@ const SceneRow = (props: {
 
                 offsets = {
                     y: props.offsets?.y ?? 0,
-                    charaGraphId: props.offsets?.asset?.charaGraphId,
+                    charaGraphId: props.offsets?.charaGraphId ?? 0,
                 };
                 break;
             case ScriptComponentType.IMAGE_SET:
@@ -402,7 +398,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         charaFadeIn: ScriptCharaFadeIn | undefined,
         wideScreen = false,
         sceneDisplayed = false,
-        offsets: Object | undefined = undefined;
+        offsets: ScriptOffsets | undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
     return (
@@ -452,10 +448,16 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         }
 
                         if (component.content.position && component.content.position.y !== 0) {
-                            offsets = {
-                                asset: component.content.assetSet,
-                                y: component.content.position.y,
-                            };
+                            const assetSet = component.content.assetSet;
+
+                            switch (assetSet?.type) {
+                                case ScriptComponentType.CHARA_SET:
+                                case ScriptComponentType.CHARA_CHANGE:
+                                    offsets = {
+                                        charaGraphId: assetSet.charaGraphId,
+                                        y: component.content.position.y,
+                                    };
+                            }
                         }
                     } else if (
                         component.content.type === ScriptComponentType.BRANCH ||
