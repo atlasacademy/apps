@@ -10,6 +10,7 @@ import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import { flatten } from "../Helper/PolyFill";
 import useWindowDimensions from "../Helper/WindowHelper";
 import ShowScriptLineContext from "../Page/Script/ShowScriptLineContext";
+import Manager from "../Setting/Manager";
 import Scene from "./Scene";
 import {
     ScriptBackground,
@@ -22,6 +23,7 @@ import {
     ScriptComponentType,
     ScriptDialogue,
     ScriptInfo,
+    ScriptOffsets,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 
@@ -84,6 +86,7 @@ const SceneRow = (props: {
     background?: ScriptBackground;
     figure?: ScriptCharaFace;
     charaFadeIn?: ScriptCharaFadeIn;
+    offsets?: ScriptOffsets;
     wideScreen: boolean;
     lineNumber?: number;
 }) => {
@@ -95,7 +98,11 @@ const SceneRow = (props: {
         background = props.background ? { asset: props.background.backgroundAsset } : undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
+
     let figure = undefined;
+    let equip = undefined;
+    let offsets = undefined;
+
     if (props.figure !== undefined && props.figure.assetSet !== undefined) {
         switch (props.figure.assetSet.type) {
             case ScriptComponentType.CHARA_SET:
@@ -105,11 +112,22 @@ const SceneRow = (props: {
                     face: props.figure.face,
                     charaGraphId: props.figure.assetSet.charaGraphId,
                 };
+
+                offsets = {
+                    y: props.offsets?.y ?? 0,
+                    charaGraphId: props.offsets?.charaGraphId ?? 0,
+                };
                 break;
             case ScriptComponentType.IMAGE_SET:
                 figure = {
                     asset: props.figure.assetSet.imageAsset,
                     face: props.figure.face,
+                };
+                break;
+            case ScriptComponentType.EQUIP_SET:
+                equip = {
+                    asset: props.figure.assetSet.equipAsset,
+                    equipAssetId: props.figure.assetSet.equipId,
                 };
         }
     }
@@ -123,18 +141,28 @@ const SceneRow = (props: {
                 };
                 break;
             case ScriptComponentType.IMAGE_SET:
+            case ScriptComponentType.VERTICAL_IMAGE_SET:
                 figure = {
                     asset: props.charaFadeIn.assetSet.imageAsset,
                     face: 0,
                 };
                 break;
+            case ScriptComponentType.EQUIP_SET:
+                equip = {
+                    asset: props.charaFadeIn.assetSet.equipAsset,
+                    equipAssetId: props.charaFadeIn.assetSet.equipId,
+                };
+                break;
         }
+
         return (
             <tr>
                 <td />
                 <td>
                     <Scene
                         background={undefined}
+                        offsetsFigure={offsets}
+                        equip={equip}
                         figure={figure}
                         resolution={resolution}
                         height={height}
@@ -144,6 +172,15 @@ const SceneRow = (props: {
                         {figure !== undefined ? (
                             <a href={figure.asset} target="_blank" rel="noreferrer">
                                 [Figure]
+                            </a>
+                        ) : null}{" "}
+                        {equip !== undefined ? (
+                            <a
+                                href={`/db/${Manager.region()}/craft-essence/${equip.equipAssetId}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                [Craft Essence]
                             </a>
                         ) : null}
                     </div>
@@ -157,7 +194,15 @@ const SceneRow = (props: {
         <tr>
             <td />
             <td>
-                <Scene background={background} figure={figure} resolution={resolution} height={height} width={width} />
+                <Scene
+                    background={background}
+                    offsetsFigure={offsets}
+                    equip={equip}
+                    figure={figure}
+                    resolution={resolution}
+                    height={height}
+                    width={width}
+                />
                 <div>
                     {props.background ? (
                         <a href={props.background.backgroundAsset} target="_blank" rel="noreferrer">
@@ -170,6 +215,16 @@ const SceneRow = (props: {
                         props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE) ? (
                         <a href={props.figure.assetSet?.charaGraphAsset} target="_blank" rel="noreferrer">
                             [Figure]
+                        </a>
+                    ) : null}
+                    &nbsp;
+                    {props.figure && props.figure.assetSet?.type === ScriptComponentType.EQUIP_SET ? (
+                        <a
+                            href={`/db/${Manager.region()}/craft-essence/${props.figure.assetSet.equipId}`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            [Craft Essence]
                         </a>
                     ) : null}
                 </div>
@@ -342,7 +397,8 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         figureComponent: ScriptCharaFace | undefined,
         charaFadeIn: ScriptCharaFadeIn | undefined,
         wideScreen = false,
-        sceneDisplayed = false;
+        sceneDisplayed = false,
+        offsets: ScriptOffsets | undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
     return (
@@ -359,6 +415,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                     let sceneRow,
                         renderScene = () => (
                             <SceneRow
+                                offsets={offsets}
                                 background={backgroundComponent}
                                 figure={figureComponent}
                                 charaFadeIn={charaFadeIn}
@@ -388,6 +445,19 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             charaFadeIn = component.content;
                             sceneRow = renderScene();
                             charaFadeIn = undefined;
+                        }
+
+                        if (component.content.position && component.content.position.y !== 0) {
+                            const assetSet = component.content.assetSet;
+
+                            switch (assetSet?.type) {
+                                case ScriptComponentType.CHARA_SET:
+                                case ScriptComponentType.CHARA_CHANGE:
+                                    offsets = {
+                                        charaGraphId: assetSet.charaGraphId,
+                                        y: component.content.position.y,
+                                    };
+                            }
                         }
                     } else if (
                         component.content.type === ScriptComponentType.BRANCH ||
@@ -419,10 +489,16 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         </React.Fragment>
                     );
                 })}
+
                 {props.showScene !== false &&
                 (figureComponent !== undefined || backgroundComponent !== undefined) &&
                 !sceneDisplayed ? (
-                    <SceneRow background={backgroundComponent} figure={figureComponent} wideScreen={wideScreen} />
+                    <SceneRow
+                        offsets={offsets}
+                        background={backgroundComponent}
+                        figure={figureComponent}
+                        wideScreen={wideScreen}
+                    />
                 ) : null}
             </tbody>
         </Table>
