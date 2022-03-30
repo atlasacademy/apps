@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import React from "react";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { Region } from "@atlasacademy/api-connector";
@@ -49,27 +50,39 @@ const getSanitizedEndpoint = (endpoint: string) => {
 class ErrorStatus extends React.Component<IProps> {
     render() {
         document.title = "Error - Atlas Academy DB";
-        let message: string | JSX.Element;
+        let message: string;
+
+        const links = [
+            <Link to={`/`}>
+                <Button variant="primary" style={{ minWidth: "130px" }}>
+                    {"DB Home"}
+                </Button>
+            </Link>,
+            <Button variant="primary" style={{ minWidth: "130px" }} onClick={() => window.history.back()}>
+                {"Previous Page"}
+            </Button>,
+        ];
 
         if (this.props.endpoint !== undefined && this.props.region !== undefined) {
             const endpoint = this.props.endpoint;
-            message = (
-                <>
-                    {"Route not found."}
-                    <br />
-                    {`You can view all ${endpoint}s `}
-                    <Link to={`/${this.props.region}/${endpoint}s`}>{"here"}</Link>
-                    {"."}
-                </>
+            message = "This page does not exist.";
+            links.splice(
+                links.length - 1,
+                0,
+                <Link to={`/${this.props.region}/${endpoint}s`}>
+                    <Button variant="primary" style={{ minWidth: "130px" }}>{`${endpoint
+                        .replace(/(^|-)./g, (match) => match.toUpperCase())
+                        .replace("-", " ")}s`}</Button>
+                </Link>
             );
         } else if (this.props.error === undefined || this.props.error.response === undefined) {
-            message = "Not Found";
+            message = "This page does not exist.";
         } else if (this.props.error.response.status === 500) {
             message = "Server Error";
         } else if (this.props.error.response.status === 404) {
             message = "Not Found";
         } else {
-            message = "Code: " + this.props.error.response.status;
+            message = "Code " + this.props.error.response.status;
         }
 
         if (
@@ -80,16 +93,19 @@ class ErrorStatus extends React.Component<IProps> {
             const [, , region, rawEndpoint] = this.props.error.response.config
                     .url!.match(/\/nice\/(NA|JP)\/.*(?=\/)/)![0]
                     .split("/"),
-                niceEndpoint = getSanitizedEndpoint(rawEndpoint);
+                niceEndpoint = getSanitizedEndpoint(rawEndpoint).replace(/(^|-)./g, (match) => match.toUpperCase());
 
-            message = (
-                <>
-                    {niceEndpoint.replace("-", " ") + " not found."}
-                    <br />
-                    {`You can view all ${niceEndpoint.replace("-", " ")}s `}
-                    <Link to={`/${region}/${getSanitizedEndpoint(niceEndpoint)}s`}>{"here"}</Link>
-                    {"."}
-                </>
+            message = niceEndpoint.replace("-", " ") + " not found.";
+
+            links.splice(
+                links.length - 1,
+                0,
+                <Link to={`/${region}/${niceEndpoint.toLowerCase()}s`}>
+                    <Button variant="primary" style={{ minWidth: "130px" }}>
+                        {`${niceEndpoint.replace("-", " ")}`}
+                        {"s"}
+                    </Button>
+                </Link>
             );
         }
 
@@ -97,7 +113,7 @@ class ErrorStatus extends React.Component<IProps> {
             image = images[random];
 
         return (
-            <div id={"error-status"}>
+            <div id={"error-status"} style={{ maxWidth: "1000px" }}>
                 <img
                     alt={"Error"}
                     src={image}
@@ -107,9 +123,23 @@ class ErrorStatus extends React.Component<IProps> {
                         margin: "0 auto",
                     }}
                 />
-                <p className={"text-center"} style={{ margin: 50 }}>
+                <p style={{ width: "fit-content", margin: "0 auto", padding: "10px" }}>
                     <strong>ERROR: {message}</strong>
                 </p>
+                <ul
+                    style={{
+                        width: "fit-content",
+                        listStyleType: "none",
+                        margin: "0 auto",
+                        padding: 0,
+                    }}
+                >
+                    {links.map((link, idx) => (
+                        <li key={idx} className="d-inline my-0 mx-1">
+                            {link}
+                        </li>
+                    ))}
+                </ul>
             </div>
         );
     }
