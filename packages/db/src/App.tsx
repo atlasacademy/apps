@@ -693,13 +693,32 @@ class App extends React.Component<any, IState> {
                                 }}
                             />
                             <Route
-                                path="/:region(JP|NA|CN|KR|TW)"
+                                path="/:region(JP|NA|CN|KR|TW)/:slash(/)*"
                                 exact={true}
                                 render={(props) => {
                                     const { region } = props.match.params;
                                     return (
                                         <Suspense fallback={<Loading />}>
                                             <HomePage key={region} region={region as Region} />
+                                        </Suspense>
+                                    );
+                                }}
+                            />
+                            <Route
+                                path="/:region(JP|NA|CN|KR|TW)?/:endpoint(\w*)?/:id([0-9]+)?"
+                                exact={true}
+                                render={(props) => {
+                                    const { endpoint, id, region } = props.match.params as typeof props.match.params & {
+                                        [key: string]: string | undefined;
+                                    };
+                                    console.log(region, endpoint, id);
+                                    return (
+                                        <Suspense fallback={<Loading />}>
+                                            <ErrorStatus
+                                                endpoint={endpoint && endpoint.slice(0, endpoint.length - 1)}
+                                                id={id as any as number}
+                                                region={region as Region}
+                                            />
                                         </Suspense>
                                     );
                                 }}
@@ -715,23 +734,7 @@ class App extends React.Component<any, IState> {
                                     );
                                 }}
                             />
-                            <Route
-                                path="/:region(JP|NA|CN|KR|TW)/:endpoint(\w*)/:id([0-9]+)"
-                                exact={true}
-                                render={(props) => {
-                                    const { endpoint, id, region } = props.match.params;
-                                    console.log(region, endpoint, id);
-                                    return (
-                                        <Suspense fallback={<Loading />}>
-                                            <ErrorStatus
-                                                endpoint={endpoint.slice(0, endpoint.length - 1)}
-                                                id={id as any as number}
-                                                region={region as Region}
-                                            />
-                                        </Suspense>
-                                    );
-                                }}
-                            />
+                            <Route path="*" exact={true} component={ErrorStatus} />
                         </Switch>
                     </Container>
                 </Router>

@@ -69,7 +69,7 @@ const getSanitisedEndpoint = (endpoint: string) => {
     };
     return endpoint in rawToNiceEndpoint
         ? rawToNiceEndpoint[endpoint as keyof typeof rawToNiceEndpoint]
-        : { name: endpoint, display: endpoint };
+        : { name: endpoint, display: endpoint.replace(/(^|-)./g, (match) => match.toUpperCase()).replace("-", " ") };
 };
 
 class ErrorStatus extends React.Component<IProps> {
@@ -107,17 +107,22 @@ class ErrorStatus extends React.Component<IProps> {
                 );
             }
         } else if (this.props.endpoint !== undefined && this.props.region !== undefined) {
-            const endpoint = this.props.endpoint;
             message = "This page does not exist.";
-            links.splice(
-                links.length - 1,
-                0,
-                <Link to={`/${this.props.region}/${endpoint}s`}>
-                    <Button variant="primary" style={{ minWidth: "130px" }}>{`${endpoint
-                        .replace(/(^|-)./g, (match) => match.toUpperCase())
-                        .replace("-", " ")}s`}</Button>
-                </Link>
-            );
+            if (this.props.endpoint.length) {
+                const endpoint = fuseEndpoints.search(this.props.endpoint)?.[0]?.item ?? "";
+                if (endpoint.length) {
+                    message += ` Maybe you meant to view all ${getSanitisedEndpoint(endpoint).display}s?`;
+                    links.splice(
+                        links.length - 1,
+                        0,
+                        <Link to={`/${this.props.region}/${getSanitisedEndpoint(endpoint).name}s`}>
+                            <Button variant="primary" style={{ minWidth: "130px" }}>{`${
+                                getSanitisedEndpoint(endpoint).display
+                            }s`}</Button>
+                        </Link>
+                    );
+                }
+            }
         } else if (this.props.error === undefined || this.props.error.response === undefined) {
             message = "This page does not exist";
         } else if (this.props.error.response.status === 500) {
@@ -134,7 +139,7 @@ class ErrorStatus extends React.Component<IProps> {
             typeof (this.props.error.response.data as any).detail === "string"
         ) {
             const [, , region, rawEndpoint] = this.props.error.response.config
-                    .url!.match(/\/nice\/(NA|JP)\/.*(?=\/)/)![0]
+                    .url!.match(/\/nice\/(NA|JP|CN|KR|TW)\/.*(?=\/)/)![0]
                     .split("/"),
                 niceEndpoint = getSanitisedEndpoint(rawEndpoint);
 
