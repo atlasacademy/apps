@@ -692,7 +692,6 @@ class App extends React.Component<any, IState> {
                                     );
                                 }}
                             />
-
                             <Route
                                 path="/:region(JP|NA|CN|KR|TW)"
                                 exact={true}
@@ -716,7 +715,23 @@ class App extends React.Component<any, IState> {
                                     );
                                 }}
                             />
-                            <Route path="*" exact={true} component={ErrorStatus} />
+                            <Route
+                                path="/:region(JP|NA|CN|KR|TW)/:endpoint(\w*)/:id([0-9]+)"
+                                exact={true}
+                                render={(props) => {
+                                    const { endpoint, id, region } = props.match.params;
+                                    console.log(region, endpoint, id);
+                                    return (
+                                        <Suspense fallback={<Loading />}>
+                                            <ErrorStatus
+                                                endpoint={endpoint.slice(0, endpoint.length - 1)}
+                                                id={id as any as number}
+                                                region={region as Region}
+                                            />
+                                        </Suspense>
+                                    );
+                                }}
+                            />
                         </Switch>
                     </Container>
                 </Router>

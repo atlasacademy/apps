@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import Fuse from "fuse.js";
 import React from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -30,27 +31,51 @@ const images = [
 ];
 
 interface IProps {
-    error?: AxiosError;
     endpoint?: string;
+    error?: AxiosError;
+    id?: number;
     region?: Region;
 }
 
-const getSanitizedEndpoint = (endpoint: string) => {
+const endpoints = [
+    "bgm",
+    "buff",
+    "command-code",
+    "craft-essence",
+    "func",
+    "item",
+    "master-mission",
+    "mystic-code",
+    "noble-phantasm",
+    "quest",
+    "script",
+    "servant",
+    "skill",
+    "event",
+    "war",
+];
+
+const fuseEndpoints = new Fuse(endpoints, { includeScore: true });
+
+const getSanitisedEndpoint = (endpoint: string) => {
     const rawToNiceEndpoint = {
-        CC: "command-code",
-        MC: "mystic-code",
-        equip: "craft-essence",
-        mm: "master-mission",
-        NP: "noble-phantasm",
-        function: "func",
+        CC: { name: "command-code", display: "CC" },
+        MC: { name: "mystic-code", display: "MC" },
+        equip: { name: "craft-essence", display: "CE" },
+        mm: { name: "master-mission", display: "MM" },
+        NP: { name: "noble-phantasm", display: "NP" },
+        function: { name: "func", display: "function" },
+        bgm: { name: "bgm", display: "BGM" },
     };
-    return endpoint in rawToNiceEndpoint ? rawToNiceEndpoint[endpoint as keyof typeof rawToNiceEndpoint] : endpoint;
+    return endpoint in rawToNiceEndpoint
+        ? rawToNiceEndpoint[endpoint as keyof typeof rawToNiceEndpoint]
+        : { name: endpoint, display: endpoint };
 };
 
 class ErrorStatus extends React.Component<IProps> {
     render() {
         document.title = "Error - Atlas Academy DB";
-        let message: string;
+        let message: string | JSX.Element;
 
         const links = [
             <Link to={`/`}>
@@ -63,7 +88,25 @@ class ErrorStatus extends React.Component<IProps> {
             </Button>,
         ];
 
-        if (this.props.endpoint !== undefined && this.props.region !== undefined) {
+        if (this.props.endpoint !== undefined && this.props.region !== undefined && this.props.id !== undefined) {
+            const { region, endpoint, id } = this.props;
+            message = "This page does not exist. ";
+            const searchResults = fuseEndpoints.search(endpoint);
+
+            if (searchResults.length) {
+                const match = searchResults[0].item;
+
+                message = (
+                    <>
+                        {`This page does not exist.`}
+                        <br />
+                        {`Maybe you meant to go to `}
+                        <Link to={`/${region}/${match}/${id}`}>{`${match}/${id}`}</Link>
+                        {" instead?"}
+                    </>
+                );
+            }
+        } else if (this.props.endpoint !== undefined && this.props.region !== undefined) {
             const endpoint = this.props.endpoint;
             message = "This page does not exist.";
             links.splice(
@@ -76,7 +119,7 @@ class ErrorStatus extends React.Component<IProps> {
                 </Link>
             );
         } else if (this.props.error === undefined || this.props.error.response === undefined) {
-            message = "This page does not exist.";
+            message = "This page does not exist";
         } else if (this.props.error.response.status === 500) {
             message = "Server Error";
         } else if (this.props.error.response.status === 404) {
@@ -93,16 +136,16 @@ class ErrorStatus extends React.Component<IProps> {
             const [, , region, rawEndpoint] = this.props.error.response.config
                     .url!.match(/\/nice\/(NA|JP)\/.*(?=\/)/)![0]
                     .split("/"),
-                niceEndpoint = getSanitizedEndpoint(rawEndpoint).replace(/(^|-)./g, (match) => match.toUpperCase());
+                niceEndpoint = getSanitisedEndpoint(rawEndpoint);
 
-            message = niceEndpoint.replace("-", " ") + " not found.";
+            message = `${niceEndpoint.display} not found.`;
 
             links.splice(
                 links.length - 1,
                 0,
-                <Link to={`/${region}/${niceEndpoint.toLowerCase()}s`}>
+                <Link to={`/${region}/${niceEndpoint.name}s`}>
                     <Button variant="primary" style={{ minWidth: "130px" }}>
-                        {`${niceEndpoint.replace("-", " ")}`}
+                        {niceEndpoint.display}
                         {"s"}
                     </Button>
                 </Link>
