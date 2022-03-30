@@ -711,7 +711,6 @@ class App extends React.Component<any, IState> {
                                     const { endpoint, id, region } = props.match.params as typeof props.match.params & {
                                         [key: string]: string | undefined;
                                     };
-                                    console.log(region, endpoint, id);
                                     return (
                                         <Suspense fallback={<Loading />}>
                                             <ErrorStatus
