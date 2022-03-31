@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
-import diacritics from "diacritics";
-import escapeStringRegexp from "escape-string-regexp";
+import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -12,6 +11,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
+import { fuseGetFn } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -38,6 +38,7 @@ interface IState {
     perPage: number;
     page: number;
     search?: string;
+    fuse: Fuse<CraftEssence.CraftEssenceBasic>;
 }
 
 class CraftEssencesPage extends React.Component<IProps, IState> {
@@ -51,6 +52,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             activeCETypeFilters: [],
             perPage: 100,
             page: 0,
+            fuse: new Fuse([]),
         };
     }
 
@@ -58,7 +60,18 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Craft Essences - Atlas Academy DB`;
         Api.craftEssenceList()
-            .then((craftEssences) => this.setState({ craftEssences, loading: false }))
+            .then((craftEssences) =>
+                this.setState({
+                    craftEssences,
+                    loading: false,
+                    fuse: new Fuse(craftEssences, {
+                        keys: ["id", "collectionNo", "name"],
+                        threshold: 0.2,
+                        getFn: fuseGetFn,
+                        ignoreLocation: true,
+                    }),
+                })
+            )
             .catch((error) => this.setState({ error }));
     }
 
@@ -120,19 +133,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const glob = diacritics
-                .remove(this.state.search.toLowerCase())
-                .split(" ")
-                .filter((word) => word)
-                .map((word) => escapeStringRegexp(word))
-                .join(".*");
-
-            list = list.filter((entity) => {
-                const normalizedName = diacritics.remove(entity.name.toLowerCase());
-                const searchName = `${entity.id} ${entity.collectionNo} ${normalizedName}`;
-
-                return searchName.match(new RegExp(glob, "g"));
-            });
+            const matchedFuzzyIds = new Set(this.state.fuse.search(this.state.search).map((doc) => doc.item.id));
+            list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 
         return list;

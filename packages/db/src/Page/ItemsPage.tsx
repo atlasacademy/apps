@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
-import diacritics from "diacritics";
-import escapeStringRegexp from "escape-string-regexp";
+import Fuse from "fuse.js";
 import React from "react";
 import { Form, Pagination, Table, Tab, Tabs, Row, Col } from "react-bootstrap";
 import { withRouter } from "react-router";
@@ -12,6 +11,7 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
+import { fuseGetFn } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ItemsPage.css";
@@ -32,6 +32,7 @@ interface IState {
     page: number;
     search?: string;
     tabs: PaginatedTab[];
+    fuse: Fuse<Item.Item>;
 }
 
 interface PaginatedTab {
@@ -58,6 +59,7 @@ class ItemsPage extends React.Component<IProps, IState> {
             perPage: 100,
             tabs: [],
             page: 0,
+            fuse: new Fuse([]),
         };
     }
 
@@ -71,6 +73,12 @@ class ItemsPage extends React.Component<IProps, IState> {
                     itemList,
                     tabs: this.createTabs(itemList),
                     loading: false,
+                    fuse: new Fuse(itemList, {
+                        keys: ["id", "name"],
+                        threshold: 0.2,
+                        getFn: fuseGetFn,
+                        ignoreLocation: true,
+                    }),
                 })
             )
             .catch((error) => this.setState({ error }));
@@ -195,19 +203,8 @@ class ItemsPage extends React.Component<IProps, IState> {
     private applySearch(items: Item.Item[], searchTerm?: string): Item.Item[] {
         let list = items;
         if (searchTerm) {
-            const glob = diacritics
-                .remove(searchTerm.toLowerCase())
-                .split(" ")
-                .filter((word) => word)
-                .map((word) => escapeStringRegexp(word))
-                .join(".*");
-
-            list = list.filter((entity) => {
-                const normalizedName = diacritics.remove(entity.name.toLowerCase());
-                const searchName = `${entity.id} ${normalizedName}`;
-
-                return searchName.match(new RegExp(glob, "g"));
-            });
+            const matchedFuzzyIds = new Set(this.state.fuse.search(searchTerm).map((item) => item.item.id));
+            list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
         return list;
     }
