@@ -23,11 +23,12 @@ import {
     ScriptComponentType,
     ScriptDialogue,
     ScriptInfo,
-    ScriptOffsets,
+    ScriptCharaFilter,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 
 type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>>;
+type ScriptOffsets = { charaGraphId: number; y?: number };
 
 const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: RowBgmRefMap; lineNumber?: number }) => {
     const dialogueVoice = props.dialogue.voice ? (
@@ -89,6 +90,7 @@ const SceneRow = (props: {
     offsets?: ScriptOffsets;
     wideScreen: boolean;
     lineNumber?: number;
+    silhouette?: ScriptCharaFilter[];
 }) => {
     const resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
         { windowWidth, windowHeight } = useWindowDimensions(),
@@ -103,6 +105,8 @@ const SceneRow = (props: {
     let equip = undefined;
     let offsets = undefined;
 
+    const isSilhouette = (speakerCode: string) => props.silhouette?.some((s) => s.speakerCode === speakerCode) ?? false;
+
     if (props.figure !== undefined && props.figure.assetSet !== undefined) {
         switch (props.figure.assetSet.type) {
             case ScriptComponentType.CHARA_SET:
@@ -111,6 +115,7 @@ const SceneRow = (props: {
                     asset: props.figure.assetSet.charaGraphAsset,
                     face: props.figure.face,
                     charaGraphId: props.figure.assetSet.charaGraphId,
+                    silhouette: isSilhouette(props.figure.speakerCode),
                 };
 
                 offsets = {
@@ -214,7 +219,7 @@ const SceneRow = (props: {
                     (props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ||
                         props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE) ? (
                         <a href={props.figure.assetSet?.charaGraphAsset} target="_blank" rel="noreferrer">
-                            [Figure]
+                            {isSilhouette(props.figure.speakerCode) ? "[Figure (Spoiler)]" : "[Figure]"}
                         </a>
                     ) : null}
                     &nbsp;
@@ -393,6 +398,8 @@ const ScriptRow = (props: { region: Region; wrapper: ScriptComponentWrapper; ref
 };
 
 const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: boolean; refs: RowBgmRefMap }) => {
+    const scriptComponents = props.script.components;
+
     let backgroundComponent: ScriptBackground | undefined,
         figureComponent: ScriptCharaFace | undefined,
         charaFadeIn: ScriptCharaFadeIn | undefined,
@@ -401,6 +408,11 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         offsets: ScriptOffsets | undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
+
+    const figureSilhouette = scriptComponents
+        .filter(({ content }) => content.type === ScriptComponentType.CHARA_FILTER)
+        .map(({ content }) => content as ScriptCharaFilter);
+
     return (
         <Table hover responsive>
             <thead>
@@ -411,10 +423,11 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                 </tr>
             </thead>
             <tbody>
-                {props.script.components.map((component, i) => {
+                {scriptComponents.map((component, i) => {
                     let sceneRow,
                         renderScene = () => (
                             <SceneRow
+                                silhouette={figureSilhouette}
                                 offsets={offsets}
                                 background={backgroundComponent}
                                 figure={figureComponent}
@@ -494,6 +507,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                 (figureComponent !== undefined || backgroundComponent !== undefined) &&
                 !sceneDisplayed ? (
                     <SceneRow
+                        silhouette={figureSilhouette}
                         offsets={offsets}
                         background={backgroundComponent}
                         figure={figureComponent}
