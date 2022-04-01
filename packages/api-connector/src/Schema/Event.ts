@@ -186,6 +186,7 @@ export interface Event {
     id: number;
     type: EventType;
     name: string;
+    originalName: string;
     shortName: string;
     detail: string;
     noticeBanner?: string;

@@ -160,6 +160,7 @@ export interface Entity {
     id: number;
     collectionNo: number;
     name: string;
+    originalName?: string;
     ruby: string;
     className: ClassName;
     type: EntityType;

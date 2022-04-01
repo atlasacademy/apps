@@ -4,6 +4,7 @@ import { Shop } from "./Shop";
 export interface Bgm {
     id: number;
     name: string;
+    originalName: string;
     fileName: string;
     notReleased: boolean;
     audioAsset?: string;

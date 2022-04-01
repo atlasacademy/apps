@@ -99,6 +99,7 @@ export interface Spot {
     joinSpotIds: number[];
     mapId: number;
     name: string;
+    originalName: string;
     image?: string;
     x: number;
     y: number;
@@ -137,7 +138,9 @@ export interface War {
     coordinates: number[][];
     age: string;
     name: string;
+    originalName: string;
     longName: string;
+    originalLongName: string;
     flags: WarFlag[];
     banner?: string;
     headerImage?: string;

@@ -34,6 +34,7 @@ export interface MysticCodeCostume {
 export interface MysticCode {
     id: number;
     name: string;
+    originalName: string;
     detail: string;
     maxLv: number;
     extraAssets: MysticCodeAssets;

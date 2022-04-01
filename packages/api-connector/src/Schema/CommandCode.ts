@@ -23,6 +23,7 @@ export interface CommandCode {
     id: number;
     collectionNo: number;
     name: string;
+    originalName: string;
     rarity: number;
     extraAssets: CommandCodeAssets;
     skills: Skill[];
