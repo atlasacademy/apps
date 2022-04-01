@@ -457,6 +457,7 @@ class EventPage extends React.Component<IProps, IState> {
                         data={{
                             ID: event.id,
                             Name: replacePUACodePoints(event.name),
+                            ...(event.name !== event.originalName && { "Original Name": event.originalName }),
                             Wars: wars,
                             Status: getEventStatus(event.startedAt, event.endedAt),
                             Start: new Date(event.startedAt * 1000).toLocaleString(),

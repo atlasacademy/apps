@@ -89,6 +89,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                 data={{
                     ID: bgm.id,
                     Name: <span className="newline">{showName}</span>,
+                    ...(bgm.name !== bgm.originalName && { "Original Name": bgm.originalName }),
                     "Available to Buy": toTitleCase((!bgm.notReleased).toString()),
                     Player: <BgmDescriptor region={region} bgm={bgm} showName="Download" />,
                     "Unlock Condition": bgmRelease,

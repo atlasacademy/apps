@@ -473,6 +473,7 @@ class WarPage extends React.Component<IProps, IState> {
                         data={{
                             ID: war.id,
                             Name: <span className="newline">{war.longName}</span>,
+                            ...(war.longName !== war.originalLongName && { "Original Name": war.originalLongName }),
                             Age: war.age,
                             Event: event,
                             "Opening Script": openingScript,
