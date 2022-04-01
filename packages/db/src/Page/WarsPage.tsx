@@ -11,7 +11,7 @@ import { Region, War } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import { fuseGetFn } from "../Helper/StringHelper";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -67,7 +67,7 @@ class WarsPage extends React.Component<IProps, IState> {
                 this.setState({
                     wars,
                     loading: false,
-                    fuse: new Fuse(wars, {
+                    fuse: new Fuse([...wars], {
                         keys: ["id", "name", "longName", "eventName"],
                         threshold: 0.2,
                         getFn: fuseGetFn,
@@ -106,7 +106,9 @@ class WarsPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const matchedFuzzyIds = new Set(this.state.fuse.search(this.state.search).map((doc) => doc.item.id));
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
+            );
             list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 

@@ -11,7 +11,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
-import { fuseGetFn } from "../Helper/StringHelper";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -55,7 +55,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                 this.setState({
                     bgms,
                     loading: false,
-                    fuse: new Fuse(bgms, {
+                    fuse: new Fuse([...bgms], {
                         keys: ["id", "name", "fileName"],
                         threshold: 0.2,
                         getFn: fuseGetFn,
@@ -76,7 +76,9 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search !== undefined && this.state.search !== "") {
-            const matchedFuzzyIds = new Set(this.state.fuse.search(this.state.search).map((doc) => doc.item.id));
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
+            );
             list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 

@@ -11,7 +11,7 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
-import { fuseGetFn } from "../Helper/StringHelper";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ItemsPage.css";
@@ -73,7 +73,7 @@ class ItemsPage extends React.Component<IProps, IState> {
                     itemList,
                     tabs: this.createTabs(itemList),
                     loading: false,
-                    fuse: new Fuse(itemList, {
+                    fuse: new Fuse([...itemList], {
                         keys: ["id", "name"],
                         threshold: 0.2,
                         getFn: fuseGetFn,
@@ -203,7 +203,9 @@ class ItemsPage extends React.Component<IProps, IState> {
     private applySearch(items: Item.Item[], searchTerm?: string): Item.Item[] {
         let list = items;
         if (searchTerm) {
-            const matchedFuzzyIds = new Set(this.state.fuse.search(searchTerm).map((item) => item.item.id));
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(searchTerm)).map((item) => item.item.id)
+            );
             list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
         return list;

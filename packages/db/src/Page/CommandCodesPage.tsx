@@ -11,7 +11,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
-import { fuseGetFn } from "../Helper/StringHelper";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -51,7 +51,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                 this.setState({
                     commandCodes,
                     loading: false,
-                    fuse: new Fuse(commandCodes, {
+                    fuse: new Fuse([...commandCodes], {
                         keys: ["id", "collectionNo", "name"],
                         threshold: 0.2,
                         getFn: fuseGetFn,
@@ -84,7 +84,9 @@ class CommandCodesPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const matchedFuzzyIds = new Set(this.state.fuse.search(this.state.search).map((doc) => doc.item.id));
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
+            );
             list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 

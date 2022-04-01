@@ -11,7 +11,7 @@ import { Event, Region } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import { fuseGetFn } from "../Helper/StringHelper";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import { getCurrentTimestamp } from "../Helper/TimeHelper";
 import Manager from "../Setting/Manager";
 
@@ -56,7 +56,7 @@ class EventsPage extends React.Component<IProps, IState> {
                 this.setState({
                     events,
                     loading: false,
-                    fuse: new Fuse(events, {
+                    fuse: new Fuse([...events], {
                         keys: ["id", "name"],
                         threshold: 0.2,
                         getFn: fuseGetFn,
@@ -89,7 +89,9 @@ class EventsPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const matchedFuzzyIds = new Set(this.state.fuse.search(this.state.search).map((doc) => doc.item.id));
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
+            );
             list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 
