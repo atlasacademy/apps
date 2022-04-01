@@ -49,7 +49,7 @@ export enum ItemUse {
 export interface Item {
     id: number;
     name: string;
-    originalName: string;
+    originalName?: string;
     type: ItemType;
     uses: ItemUse[];
     detail: string;
