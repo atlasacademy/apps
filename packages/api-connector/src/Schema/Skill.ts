@@ -63,6 +63,7 @@ export interface Skill extends SkillBasic {
     id: number;
     num?: number;
     name: string;
+    originalName: string;
     ruby: string;
     detail?: string;
     type: SkillType;
