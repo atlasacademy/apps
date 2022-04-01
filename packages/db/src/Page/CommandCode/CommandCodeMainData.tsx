@@ -28,6 +28,9 @@ class CommandCodeMainData extends React.Component<IProps> {
                         ID: commandCode.id,
                         Collection: commandCode.collectionNo,
                         Name: commandCode.name,
+                        ...(commandCode.name !== commandCode.originalName && {
+                            "Original Name": commandCode.originalName,
+                        }),
                         Rarity: <RarityDescriptor rarity={commandCode.rarity} />,
                         Illustrator: (
                             <IllustratorDescriptor
