@@ -424,6 +424,8 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
             </thead>
             <tbody>
                 {scriptComponents.map((component, i) => {
+                    const { content } = component;
+
                     let sceneRow,
                         renderScene = () => (
                             <SceneRow
@@ -437,62 +439,71 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             />
                         );
 
-                    if (component.content.type === ScriptComponentType.ENABLE_FULL_SCREEN) {
-                        wideScreen = true;
-                    } else if (component.content.type === ScriptComponentType.BACKGROUND) {
-                        if (backgroundComponent && !sceneDisplayed) sceneRow = renderScene();
+                    switch (content.type) {
+                        case ScriptComponentType.ENABLE_FULL_SCREEN:
+                            wideScreen = true;
+                            break;
 
-                        backgroundComponent = component.content;
-                        figureComponent = undefined;
-                        sceneDisplayed = false;
-                    } else if (component.content.type === ScriptComponentType.CHARA_FACE) {
-                        if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
+                        case ScriptComponentType.BACKGROUND:
+                            if (backgroundComponent && !sceneDisplayed) sceneRow = renderScene();
 
-                        figureComponent = component.content;
-                        sceneDisplayed = false;
-                    } else if (component.content.type === ScriptComponentType.CHARA_FADE_IN) {
-                        if (
-                            component.content?.assetSet?.type !== ScriptComponentType.CHARA_SET &&
-                            component.content?.assetSet?.type !== ScriptComponentType.CHARA_CHANGE
-                        ) {
-                            charaFadeIn = component.content;
-                            sceneRow = renderScene();
-                            charaFadeIn = undefined;
-                        }
+                            backgroundComponent = content;
+                            figureComponent = undefined;
+                            sceneDisplayed = false;
+                            break;
 
-                        if (component.content.position && component.content.position.y !== 0) {
-                            const assetSet = component.content.assetSet;
+                        case ScriptComponentType.CHARA_FACE:
+                            if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
 
-                            switch (assetSet?.type) {
-                                case ScriptComponentType.CHARA_SET:
-                                case ScriptComponentType.CHARA_CHANGE:
-                                    offsets = {
-                                        charaGraphId: assetSet.charaGraphId,
-                                        y: component.content.position.y,
-                                    };
+                            figureComponent = content;
+                            sceneDisplayed = false;
+                            break;
+
+                        case ScriptComponentType.CHARA_FADE_IN:
+                            const { assetSet } = content;
+
+                            const assetsTypes = [ScriptComponentType.CHARA_SET, ScriptComponentType.CHARA_CHANGE];
+
+                            if (assetSet && !assetsTypes.includes(assetSet.type)) {
+                                charaFadeIn = content;
+                                sceneRow = renderScene();
+                                charaFadeIn = undefined;
                             }
-                        }
-                    } else if (
-                        component.content.type === ScriptComponentType.BRANCH ||
-                        component.content.type === ScriptComponentType.LABEL
-                    ) {
-                        if (backgroundComponent && !sceneDisplayed) {
-                            sceneRow = renderScene();
-                            sceneDisplayed = true;
-                        }
-                    } else if (!sceneDisplayed) {
-                        switch (component.content.type) {
+
+                            if (content.position && content.position.y > 0) {
+                                switch (assetSet?.type) {
+                                    case ScriptComponentType.CHARA_SET:
+                                    case ScriptComponentType.CHARA_CHANGE:
+                                        offsets = {
+                                            charaGraphId: assetSet.charaGraphId,
+                                            y: content.position.y,
+                                        };
+                                }
+                            }
+                            break;
+                        case ScriptComponentType.BRANCH:
+                        case ScriptComponentType.LABEL:
+                            if (backgroundComponent && !sceneDisplayed) {
+                                sceneRow = renderScene();
+                                sceneDisplayed = true;
+                            }
+                            break;
+                        case ScriptComponentType.CHOICES:
+                            flatten(content.choices.map((choice) => choice.results)).forEach((childChoice) => {
+                                if (childChoice.type === ScriptComponentType.BACKGROUND) {
+                                    backgroundComponent = childChoice;
+                                }
+                            });
+                            break;
+                    }
+
+                    if (!sceneDisplayed) {
+                        switch (content.type) {
                             case ScriptComponentType.DIALOGUE:
                             case ScriptComponentType.CHOICES:
                                 sceneRow = renderScene();
                                 sceneDisplayed = true;
                         }
-                    } else if (component.content.type === ScriptComponentType.CHOICES) {
-                        flatten(component.content.choices.map((choice) => choice.results)).forEach((childChoice) => {
-                            if (childChoice.type === ScriptComponentType.BACKGROUND) {
-                                backgroundComponent = childChoice;
-                            }
-                        });
                     }
 
                     return (
