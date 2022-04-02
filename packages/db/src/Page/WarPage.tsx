@@ -325,7 +325,7 @@ const WarMapList = (props: {
     const mapsById = groupBy(props.maps, (map) => `${map.id}`);
     let last = false;
     const warMaps = (
-        <Tabs /* defaultAciveKey={`${mapsById[Object.keys(mapsById)[0]]}`} */ id="war-maps-tabs" className="mb-3">
+        <Tabs id="war-maps-tabs" className="mb-3">
             {Object.keys(mapsById).map((mapId, index, array) => {
                 let mapSpots = props.spots
                     .filter((spot) => spot.mapId === +mapId)
