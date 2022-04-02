@@ -325,7 +325,7 @@ const WarMapList = (props: {
     const mapsById = groupBy(props.maps, (map) => `${map.id}`);
     let last = false;
     const warMaps = (
-        <Tabs /* defaultAciveKey={`${mapsById[Object.keys(mapsById)[0]]}`} */ id="war-maps-tabs" className="mb-3">
+        <Tabs id="war-maps-tabs" className="mb-3">
             {Object.keys(mapsById).map((mapId, index, array) => {
                 let mapSpots = props.spots
                     .filter((spot) => spot.mapId === +mapId)
@@ -473,6 +473,7 @@ class WarPage extends React.Component<IProps, IState> {
                         data={{
                             ID: war.id,
                             Name: <span className="newline">{war.longName}</span>,
+                            ...(war.longName !== war.originalLongName && { "Original Name": war.originalLongName }),
                             Age: war.age,
                             Event: event,
                             "Opening Script": openingScript,

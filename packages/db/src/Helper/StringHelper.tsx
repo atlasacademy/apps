@@ -1,3 +1,5 @@
+import Fuse from "fuse.js";
+
 import { Region } from "@atlasacademy/api-connector";
 
 import { parseDialogueLine } from "../Component/Script";
@@ -179,5 +181,18 @@ export const splitString = (inputString: string, sep: string, maxsplit?: number)
             return splitted;
         }
         return splitted.slice(0, maxsplit).concat(splitted.slice(maxsplit).join(sep));
+    }
+};
+
+// https://stackoverflow.com/a/51874002/10241289
+export const removeDiacriticalMarks = (inputString: string) =>
+    inputString.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+export const fuseGetFn = <T,>(obj: T, path: string | string[]) => {
+    const value = Fuse.config.getFn(obj, path);
+    if (typeof value === "string") {
+        return removeDiacriticalMarks(value);
+    } else {
+        return value.map((el) => removeDiacriticalMarks(el));
     }
 };

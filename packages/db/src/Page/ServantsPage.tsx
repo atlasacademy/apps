@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
-import diacritics from "diacritics";
-import escapeStringRegexp from "escape-string-regexp";
+import Fuse from "fuse.js";
 import React from "react";
 import { Button, ButtonGroup, Col, Form, Pagination, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -12,6 +11,7 @@ import ClassIcon from "../Component/ClassIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -70,6 +70,7 @@ interface IState {
     perPage: number;
     page: number;
     search?: string;
+    fuse: Fuse<Servant.ServantBasic>;
 }
 
 class ServantsPage extends React.Component<IProps, IState> {
@@ -83,6 +84,7 @@ class ServantsPage extends React.Component<IProps, IState> {
             activeRarityFilters: [],
             perPage: 50,
             page: 0,
+            fuse: new Fuse([]),
         };
     }
 
@@ -90,7 +92,18 @@ class ServantsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Servants - Atlas Academy DB`;
         Api.servantList()
-            .then((servants) => this.setState({ servants, loading: false }))
+            .then((servants) => {
+                this.setState({
+                    servants,
+                    loading: false,
+                    fuse: new Fuse([...servants], {
+                        keys: ["id", "collectionNo", "name"],
+                        threshold: 0.2,
+                        getFn: fuseGetFn,
+                        ignoreLocation: true,
+                    }),
+                });
+            })
             .catch((error) => this.setState({ error }));
     }
 
@@ -252,19 +265,10 @@ class ServantsPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const glob = diacritics
-                .remove(this.state.search.toLowerCase())
-                .split(" ")
-                .filter((word) => word)
-                .map((word) => escapeStringRegexp(word))
-                .join(".*");
-
-            list = list.filter((entity) => {
-                const normalizedName = diacritics.remove(entity.name.toLowerCase());
-                const searchName = `${entity.id} ${entity.collectionNo} ${normalizedName}`;
-
-                return searchName.match(new RegExp(glob, "g"));
-            });
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
+            );
+            list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 
         return list;

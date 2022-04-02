@@ -122,6 +122,11 @@ const SceneRow = (props: {
                     y: props.offsets?.y ?? 0,
                     charaGraphId: props.offsets?.charaGraphId ?? 0,
                 };
+
+                offsets = {
+                    y: props.offsets?.y ?? 0,
+                    charaGraphId: props.offsets?.charaGraphId ?? 0,
+                };
                 break;
             case ScriptComponentType.IMAGE_SET:
                 figure = {
@@ -220,6 +225,16 @@ const SceneRow = (props: {
                         props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE) ? (
                         <a href={props.figure.assetSet?.charaGraphAsset} target="_blank" rel="noreferrer">
                             {isSilhouette(props.figure.speakerCode) ? "[Figure (Spoiler)]" : "[Figure]"}
+                        </a>
+                    ) : null}
+                    &nbsp;
+                    {props.figure && props.figure.assetSet?.type === ScriptComponentType.EQUIP_SET ? (
+                        <a
+                            href={`/db/${Manager.region()}/craft-essence/${props.figure.assetSet.equipId}`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            [Craft Essence]
                         </a>
                     ) : null}
                     &nbsp;

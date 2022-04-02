@@ -22,6 +22,7 @@ class CraftEssenceMainData extends React.Component<IProps> {
             ID: craftEssence.id,
             Collection: craftEssence.collectionNo,
             Name: craftEssence.name,
+            ...(craftEssence.name !== craftEssence.originalName && { "Original Name": craftEssence.originalName }),
             Rarity: <RarityDescriptor rarity={craftEssence.rarity} />,
             Cost: craftEssence.cost,
             "Max Lv.": craftEssence.lvMax,

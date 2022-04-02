@@ -24,6 +24,14 @@ const Scene = (props: {
         charaGraphId?: number;
         y?: number;
     };
+    equip?: {
+        asset: string;
+        equipAssetId: string;
+    };
+    offsetsFigure?: {
+        charaGraphId?: number;
+        y?: number;
+    };
     resolution: {
         height: number;
         width: number;

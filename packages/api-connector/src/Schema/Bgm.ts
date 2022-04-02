@@ -22,6 +22,7 @@ export interface BgmRelease {
 export interface BgmEntity {
     id: number;
     name: string;
+    originalName: string;
     fileName: string;
     audioAsset?: string;
     priority: number;

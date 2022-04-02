@@ -26,6 +26,7 @@ class EnemyMainData extends React.Component<IProps> {
                         data={{
                             ID: enemy.id,
                             Name: enemy.name,
+                            ...(enemy.name !== enemy.originalName && { "Original Name": enemy.originalName }),
                             Class: toTitleCase(enemy.className),
                             Rarity: <RarityDescriptor rarity={enemy.rarity} />,
                             Attribute: toTitleCase(enemy.attribute),

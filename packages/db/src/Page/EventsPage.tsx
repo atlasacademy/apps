@@ -1,8 +1,7 @@
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
-import diacritics from "diacritics";
-import escapeStringRegexp from "escape-string-regexp";
+import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -12,6 +11,7 @@ import { Event, Region } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import { getCurrentTimestamp } from "../Helper/TimeHelper";
 import Manager from "../Setting/Manager";
 
@@ -31,6 +31,7 @@ interface IState {
     perPage: number;
     page: number;
     search?: string;
+    fuse: Fuse<Event.EventBasic>;
 }
 
 class EventsPage extends React.Component<IProps, IState> {
@@ -43,6 +44,7 @@ class EventsPage extends React.Component<IProps, IState> {
             activeEventTypeFilters: [],
             perPage: 50,
             page: 0,
+            fuse: new Fuse([]),
         };
     }
 
@@ -50,7 +52,18 @@ class EventsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Events - Atlas Academy DB`;
         Api.eventList()
-            .then((events) => this.setState({ events, loading: false }))
+            .then((events) =>
+                this.setState({
+                    events,
+                    loading: false,
+                    fuse: new Fuse([...events], {
+                        keys: ["id", "name"],
+                        threshold: 0.2,
+                        getFn: fuseGetFn,
+                        ignoreLocation: true,
+                    }),
+                })
+            )
             .catch((error) => this.setState({ error }));
     }
 
@@ -76,19 +89,10 @@ class EventsPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const glob = diacritics
-                .remove(this.state.search.toLowerCase())
-                .split(" ")
-                .filter((word) => word)
-                .map((word) => escapeStringRegexp(word))
-                .join(".*");
-
-            list = list.filter((entity) => {
-                const normalizedName = diacritics.remove(entity.name.toLowerCase());
-                const searchName = `${entity.id} ${normalizedName}`;
-
-                return searchName.match(new RegExp(glob, "g"));
-            });
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
+            );
+            list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 
         return list;

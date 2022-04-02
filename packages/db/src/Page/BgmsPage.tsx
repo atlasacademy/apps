@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
-import diacritics from "diacritics";
-import escapeStringRegexp from "escape-string-regexp";
+import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, Button, ButtonGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -12,6 +11,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -30,6 +30,7 @@ interface IState {
     perPage: number;
     page: number;
     search?: string;
+    fuse: Fuse<Bgm.BgmEntity>;
 }
 
 class CraftEssencesPage extends React.Component<IProps, IState> {
@@ -42,6 +43,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             releaseOnlyFilter: false,
             perPage: 50,
             page: 0,
+            fuse: new Fuse([]),
         };
     }
 
@@ -49,7 +51,18 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] BGMs - Atlas Academy DB`;
         Api.bgmList()
-            .then((bgms) => this.setState({ bgms, loading: false }))
+            .then((bgms) =>
+                this.setState({
+                    bgms,
+                    loading: false,
+                    fuse: new Fuse([...bgms], {
+                        keys: ["id", "name", "fileName"],
+                        threshold: 0.2,
+                        getFn: fuseGetFn,
+                        ignoreLocation: true,
+                    }),
+                })
+            )
             .catch((error) => this.setState({ error }));
     }
 
@@ -63,21 +76,10 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search !== undefined && this.state.search !== "") {
-            const glob = diacritics
-                .remove(this.state.search.toLowerCase())
-                .split(" ")
-                .filter((word) => word)
-                .map((word) => escapeStringRegexp(word))
-                .join(".*");
-
-            list = list.filter((bgm) => {
-                const normalizedName = diacritics
-                    .remove(bgm.name !== "" && bgm.name !== "0" ? `${bgm.name} ${bgm.fileName}` : bgm.fileName)
-                    .toLowerCase();
-                const searchName = `${bgm.id} ${normalizedName}`;
-
-                return searchName.match(new RegExp(glob, "g"));
-            });
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
+            );
+            list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 
         return list;

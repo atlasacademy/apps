@@ -2,6 +2,7 @@ import Card from "../Enum/Card";
 import ClassName from "../Enum/ClassName";
 import CondType from "../Enum/Cond";
 import { Attribute } from "./Attribute";
+import { CommonRelease } from "./CommonRelease";
 import { Item } from "./Item";
 import { NoblePhantasm } from "./NoblePhantasm";
 import { Skill } from "./Skill";
@@ -69,6 +70,9 @@ export interface EntityAssets {
     status: EntityAssetMap;
     image: EntityAssetMap;
     spriteModel: EntityAssetMap;
+    charaGraphChange: EntityAssetMap;
+    narrowFigureChange: EntityAssetMap;
+    facesChange: EntityAssetMap;
 }
 
 export interface CardDetail {
@@ -114,6 +118,10 @@ export interface ServantAscensionAdditions {
     overWriteTDFileName: ServantAscensionAdditionDetails<string>;
     overWriteTDRank: ServantAscensionAdditionDetails<string>;
     overWriteTDTypeText: ServantAscensionAdditionDetails<string>;
+    charaGraphChange: ServantAscensionAdditionDetails<string>;
+    charaGraphChangeCommonRelease: ServantAscensionAdditionDetails<CommonRelease[]>;
+    faceChange: ServantAscensionAdditionDetails<string>;
+    faceChangeCommonRelease: ServantAscensionAdditionDetails<CommonRelease[]>;
 }
 
 export interface AppendPassive {
@@ -160,6 +168,7 @@ export interface Entity {
     id: number;
     collectionNo: number;
     name: string;
+    originalName?: string;
     ruby: string;
     className: ClassName;
     type: EntityType;

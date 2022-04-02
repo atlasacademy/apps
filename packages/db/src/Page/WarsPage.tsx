@@ -1,7 +1,7 @@
 import { faSortNumericDown, faSortNumericDownAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
-import diacritics from "diacritics";
+import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import { Region, War } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -41,6 +42,7 @@ interface IState {
     page: number;
     search?: string;
     sort?: SortingOrder;
+    fuse: Fuse<War.WarBasic>;
 }
 
 class WarsPage extends React.Component<IProps, IState> {
@@ -53,6 +55,7 @@ class WarsPage extends React.Component<IProps, IState> {
             activeWarTypeFilters: [],
             perPage: 50,
             page: 0,
+            fuse: new Fuse([]),
         };
     }
 
@@ -60,7 +63,18 @@ class WarsPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Wars - Atlas Academy DB`;
         Api.warList()
-            .then((wars) => this.setState({ wars, loading: false }))
+            .then((wars) =>
+                this.setState({
+                    wars,
+                    loading: false,
+                    fuse: new Fuse([...wars], {
+                        keys: ["id", "name", "longName", "eventName"],
+                        threshold: 0.2,
+                        getFn: fuseGetFn,
+                        ignoreLocation: true,
+                    }),
+                })
+            )
             .catch((error) => this.setState({ error }));
     }
 
@@ -92,20 +106,10 @@ class WarsPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const glob = diacritics
-                .remove(this.state.search.toLowerCase())
-                .split(" ")
-                .filter((word) => word)
-                .join("*");
-
-            list = list.filter((war) => {
-                const normalizedName = diacritics.remove(
-                    `${war.name} ${war.longName} ${war.eventName}`.replace("\n", " ").toLowerCase()
-                );
-                const searchName = `${war.id} ${normalizedName}`;
-
-                return searchName.match(new RegExp(glob, "g"));
-            });
+            const matchedFuzzyIds = new Set(
+                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
+            );
+            list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 
         return list;

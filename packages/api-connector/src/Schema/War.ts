@@ -1,4 +1,4 @@
-import Cond from "../Enum/Cond";
+import Cond, { CondType } from "../Enum/Cond";
 import { Bgm } from "./Bgm";
 import { Quest } from "./Quest";
 
@@ -56,8 +56,28 @@ export interface Map {
     mapImage?: string;
     mapImageW: number;
     mapImageH: number;
+    mapGimmicks: MapGimmick[];
     headerImage?: string;
     bgm: Bgm;
+}
+
+export interface MapGimmick {
+    id: number;
+    image: string;
+    x: number;
+    y: number;
+    depthOffset: number;
+    scale: number;
+    dispCondType: CondType;
+    dispTargetId: number;
+    dispTargetValue: number;
+    dispCondType2: CondType;
+    dispTargetId2: number;
+    dispTargetValue2: number;
+    actionAnimTime: number;
+    actionEffectId: number;
+    startedAt: number;
+    endedAt: number;
 }
 
 export interface WarAdd {
@@ -79,6 +99,7 @@ export interface Spot {
     joinSpotIds: number[];
     mapId: number;
     name: string;
+    originalName: string;
     image?: string;
     x: number;
     y: number;
@@ -117,7 +138,9 @@ export interface War {
     coordinates: number[][];
     age: string;
     name: string;
+    originalName: string;
     longName: string;
+    originalLongName: string;
     flags: WarFlag[];
     banner?: string;
     headerImage?: string;

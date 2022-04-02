@@ -419,8 +419,8 @@ class Api {
         });
     }
 
-    static searchScript(query: string): Promise<Script.ScriptSearchResult[]> {
-        return apiConnector.searchScript({ query });
+    static searchScript(query: string, scriptFileName?: string): Promise<Script.ScriptSearchResult[]> {
+        return apiConnector.searchScript({ query, scriptFileName });
     }
 }
 

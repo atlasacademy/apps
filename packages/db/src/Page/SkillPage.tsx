@@ -114,6 +114,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     data={{
                         ID: skill.id,
                         Name: <span className="newline">{replacePUACodePoints(skill.name)}</span>,
+                        ...(skill.name !== skill.originalName && { "Original Name": skill.originalName }),
                         Ruby: skill.ruby,
                         Detail: <span className="newline">{skill.detail}</span>,
                         "Skill Add": skillAdd,
