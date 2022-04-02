@@ -95,15 +95,21 @@ class ServantAssets extends React.Component<IProps> {
             </>
         );
 
-        const portraits = (
-            <>
-                {this.displayAssets(this.props.servant.extraAssets.charaGraph, { width: 512, height: 724 })}
-                {this.displayAssets(this.props.servant.extraAssets.charaGraphEx, { width: 512, height: 724 })}
-            </>
-        );
+        const charaGraphSize = { width: 512, height: 724 };
+        const narrowFigureSize = { width: 148, height: 375 };
+        const faceSize = { width: 128, height: 128 };
 
         const content = [
-            { title: "Portraits", content: portraits },
+            {
+                title: "Portraits",
+                content: (
+                    <>
+                        {this.displayAssets(this.props.servant.extraAssets.charaGraph, charaGraphSize)}
+                        {this.displayAssets(this.props.servant.extraAssets.charaGraphEx, charaGraphSize)}
+                        {this.displayAssets(this.props.servant.extraAssets.charaGraphChange, charaGraphSize)}
+                    </>
+                ),
+            },
             {
                 title: "Status",
                 content: this.displayAssets(this.props.servant.extraAssets.status, { width: 256, height: 256 }),
@@ -114,11 +120,21 @@ class ServantAssets extends React.Component<IProps> {
             },
             {
                 title: "Formation",
-                content: this.displayAssets(this.props.servant.extraAssets.narrowFigure, { width: 148, height: 375 }),
+                content: (
+                    <>
+                        {this.displayAssets(this.props.servant.extraAssets.narrowFigure, narrowFigureSize)}
+                        {this.displayAssets(this.props.servant.extraAssets.narrowFigureChange, narrowFigureSize)}
+                    </>
+                ),
             },
             {
                 title: "Thumbnail",
-                content: this.displayAssets(this.props.servant.extraAssets.faces, { width: 128, height: 128 }),
+                content: (
+                    <>
+                        {this.displayAssets(this.props.servant.extraAssets.faces, faceSize)}
+                        {this.displayAssets(this.props.servant.extraAssets.facesChange, faceSize)}
+                    </>
+                ),
             },
             { title: "Figure", content: charaFigure },
         ].map((a) => Object.assign({}, a, { subheader: false }));
