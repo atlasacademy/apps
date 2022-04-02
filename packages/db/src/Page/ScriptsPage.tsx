@@ -48,7 +48,6 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         [searched, setSearched] = useState(thisStateCache?.searched ?? false);
 
     const search = (query: string, scriptFileName?: string) => {
-        console.log(scriptFileName);
         setSearching(true);
         Api.searchScript(query, scriptFileName)
             .then((r) => {
