@@ -14,6 +14,15 @@ const Scene = (props: {
         asset: string;
         face: number;
         charaGraphId?: number;
+        silhouette?: boolean;
+    };
+    equip?: {
+        asset: string;
+        equipAssetId: string;
+    };
+    offsetsFigure?: {
+        charaGraphId?: number;
+        y?: number;
     };
     equip?: {
         asset: string;
@@ -81,6 +90,7 @@ const Scene = (props: {
                     left,
                     top,
                     width,
+                    filter: props.figure.silhouette ? "brightness(0)" : "none",
                 }}
                 className="scene-figure-face"
             />
@@ -133,7 +143,13 @@ const Scene = (props: {
                 style={{ left: figureWrapperLeft, top: figureWrapperTop, width: figureWrapperWidth }}
             >
                 {props.figure ? (
-                    <div style={{ backgroundImage: `url("${props.figure.asset}")` }} className="scene-figure" />
+                    <div
+                        style={{
+                            backgroundImage: `url("${props.figure.asset}")`,
+                            filter: props.figure.silhouette ? "brightness(0)" : "none",
+                        }}
+                        className="scene-figure"
+                    />
                 ) : null}
                 {equipElement}
                 {faceElement}

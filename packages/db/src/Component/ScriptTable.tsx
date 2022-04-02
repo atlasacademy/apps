@@ -23,11 +23,12 @@ import {
     ScriptComponentType,
     ScriptDialogue,
     ScriptInfo,
-    ScriptOffsets,
+    ScriptCharaFilter,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 
 type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>>;
+type ScriptOffsets = { charaGraphId: number; y?: number };
 
 const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: RowBgmRefMap; lineNumber?: number }) => {
     const dialogueVoice = props.dialogue.voice ? (
@@ -89,6 +90,7 @@ const SceneRow = (props: {
     offsets?: ScriptOffsets;
     wideScreen: boolean;
     lineNumber?: number;
+    silhouette?: ScriptCharaFilter[];
 }) => {
     const resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
         { windowWidth, windowHeight } = useWindowDimensions(),
@@ -103,6 +105,8 @@ const SceneRow = (props: {
     let equip = undefined;
     let offsets = undefined;
 
+    const isSilhouette = (speakerCode: string) => props.silhouette?.some((s) => s.speakerCode === speakerCode) ?? false;
+
     if (props.figure !== undefined && props.figure.assetSet !== undefined) {
         switch (props.figure.assetSet.type) {
             case ScriptComponentType.CHARA_SET:
@@ -111,6 +115,12 @@ const SceneRow = (props: {
                     asset: props.figure.assetSet.charaGraphAsset,
                     face: props.figure.face,
                     charaGraphId: props.figure.assetSet.charaGraphId,
+                    silhouette: isSilhouette(props.figure.speakerCode),
+                };
+
+                offsets = {
+                    y: props.offsets?.y ?? 0,
+                    charaGraphId: props.offsets?.charaGraphId ?? 0,
                 };
 
                 offsets = {
@@ -214,7 +224,17 @@ const SceneRow = (props: {
                     (props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ||
                         props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE) ? (
                         <a href={props.figure.assetSet?.charaGraphAsset} target="_blank" rel="noreferrer">
-                            [Figure]
+                            {isSilhouette(props.figure.speakerCode) ? "[Figure (Spoiler)]" : "[Figure]"}
+                        </a>
+                    ) : null}
+                    &nbsp;
+                    {props.figure && props.figure.assetSet?.type === ScriptComponentType.EQUIP_SET ? (
+                        <a
+                            href={`/db/${Manager.region()}/craft-essence/${props.figure.assetSet.equipId}`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            [Craft Essence]
                         </a>
                     ) : null}
                     &nbsp;
@@ -393,6 +413,8 @@ const ScriptRow = (props: { region: Region; wrapper: ScriptComponentWrapper; ref
 };
 
 const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: boolean; refs: RowBgmRefMap }) => {
+    const scriptComponents = props.script.components;
+
     let backgroundComponent: ScriptBackground | undefined,
         figureComponent: ScriptCharaFace | undefined,
         charaFadeIn: ScriptCharaFadeIn | undefined,
@@ -401,6 +423,11 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         offsets: ScriptOffsets | undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
+
+    const figureSilhouette = scriptComponents
+        .filter(({ content }) => content.type === ScriptComponentType.CHARA_FILTER)
+        .map(({ content }) => content as ScriptCharaFilter);
+
     return (
         <Table hover responsive>
             <thead>
@@ -411,10 +438,13 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                 </tr>
             </thead>
             <tbody>
-                {props.script.components.map((component, i) => {
+                {scriptComponents.map((component, i) => {
+                    const { content } = component;
+
                     let sceneRow,
                         renderScene = () => (
                             <SceneRow
+                                silhouette={figureSilhouette}
                                 offsets={offsets}
                                 background={backgroundComponent}
                                 figure={figureComponent}
@@ -424,62 +454,71 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             />
                         );
 
-                    if (component.content.type === ScriptComponentType.ENABLE_FULL_SCREEN) {
-                        wideScreen = true;
-                    } else if (component.content.type === ScriptComponentType.BACKGROUND) {
-                        if (backgroundComponent && !sceneDisplayed) sceneRow = renderScene();
+                    switch (content.type) {
+                        case ScriptComponentType.ENABLE_FULL_SCREEN:
+                            wideScreen = true;
+                            break;
 
-                        backgroundComponent = component.content;
-                        figureComponent = undefined;
-                        sceneDisplayed = false;
-                    } else if (component.content.type === ScriptComponentType.CHARA_FACE) {
-                        if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
+                        case ScriptComponentType.BACKGROUND:
+                            if (backgroundComponent && !sceneDisplayed) sceneRow = renderScene();
 
-                        figureComponent = component.content;
-                        sceneDisplayed = false;
-                    } else if (component.content.type === ScriptComponentType.CHARA_FADE_IN) {
-                        if (
-                            component.content?.assetSet?.type !== ScriptComponentType.CHARA_SET &&
-                            component.content?.assetSet?.type !== ScriptComponentType.CHARA_CHANGE
-                        ) {
-                            charaFadeIn = component.content;
-                            sceneRow = renderScene();
-                            charaFadeIn = undefined;
-                        }
+                            backgroundComponent = content;
+                            figureComponent = undefined;
+                            sceneDisplayed = false;
+                            break;
 
-                        if (component.content.position && component.content.position.y !== 0) {
-                            const assetSet = component.content.assetSet;
+                        case ScriptComponentType.CHARA_FACE:
+                            if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
 
-                            switch (assetSet?.type) {
-                                case ScriptComponentType.CHARA_SET:
-                                case ScriptComponentType.CHARA_CHANGE:
-                                    offsets = {
-                                        charaGraphId: assetSet.charaGraphId,
-                                        y: component.content.position.y,
-                                    };
+                            figureComponent = content;
+                            sceneDisplayed = false;
+                            break;
+
+                        case ScriptComponentType.CHARA_FADE_IN:
+                            const { assetSet } = content;
+
+                            const assetsTypes = [ScriptComponentType.CHARA_SET, ScriptComponentType.CHARA_CHANGE];
+
+                            if (assetSet && !assetsTypes.includes(assetSet.type)) {
+                                charaFadeIn = content;
+                                sceneRow = renderScene();
+                                charaFadeIn = undefined;
                             }
-                        }
-                    } else if (
-                        component.content.type === ScriptComponentType.BRANCH ||
-                        component.content.type === ScriptComponentType.LABEL
-                    ) {
-                        if (backgroundComponent && !sceneDisplayed) {
-                            sceneRow = renderScene();
-                            sceneDisplayed = true;
-                        }
-                    } else if (!sceneDisplayed) {
-                        switch (component.content.type) {
+
+                            if (content.position && content.position.y > 0) {
+                                switch (assetSet?.type) {
+                                    case ScriptComponentType.CHARA_SET:
+                                    case ScriptComponentType.CHARA_CHANGE:
+                                        offsets = {
+                                            charaGraphId: assetSet.charaGraphId,
+                                            y: content.position.y,
+                                        };
+                                }
+                            }
+                            break;
+                        case ScriptComponentType.BRANCH:
+                        case ScriptComponentType.LABEL:
+                            if (backgroundComponent && !sceneDisplayed) {
+                                sceneRow = renderScene();
+                                sceneDisplayed = true;
+                            }
+                            break;
+                        case ScriptComponentType.CHOICES:
+                            flatten(content.choices.map((choice) => choice.results)).forEach((childChoice) => {
+                                if (childChoice.type === ScriptComponentType.BACKGROUND) {
+                                    backgroundComponent = childChoice;
+                                }
+                            });
+                            break;
+                    }
+
+                    if (!sceneDisplayed) {
+                        switch (content.type) {
                             case ScriptComponentType.DIALOGUE:
                             case ScriptComponentType.CHOICES:
                                 sceneRow = renderScene();
                                 sceneDisplayed = true;
                         }
-                    } else if (component.content.type === ScriptComponentType.CHOICES) {
-                        flatten(component.content.choices.map((choice) => choice.results)).forEach((childChoice) => {
-                            if (childChoice.type === ScriptComponentType.BACKGROUND) {
-                                backgroundComponent = childChoice;
-                            }
-                        });
                     }
 
                     return (
@@ -494,6 +533,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                 (figureComponent !== undefined || backgroundComponent !== undefined) &&
                 !sceneDisplayed ? (
                     <SceneRow
+                        silhouette={figureSilhouette}
                         offsets={offsets}
                         background={backgroundComponent}
                         figure={figureComponent}
