@@ -150,6 +150,7 @@ type QuestPhaseSearchOptions = {
 
 type ScriptSearchOptions = {
     query: string;
+    scriptFileName?: string;
 };
 
 export interface EnumList {

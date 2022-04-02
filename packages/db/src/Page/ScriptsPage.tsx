@@ -19,15 +19,17 @@ import "./ScriptsPage.css";
 const stateCache = new Map<
     Region,
     {
-        query: string | null;
+        query: string | undefined;
+        scriptFileName: string | undefined;
         scripts: Script.ScriptSearchResult[];
         searched: boolean;
     }
 >();
 
-const getQueryString = (query?: string | null) => {
+const getQueryString = (query?: string, scriptFileName?: string) => {
     return getURLSearchParams({
-        query: query ?? undefined,
+        query,
+        scriptFileName,
     }).toString();
 };
 
@@ -36,15 +38,19 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         location = useLocation(),
         searchParams = new URLSearchParams(location.search),
         thisStateCache = stateCache.get(region),
-        [query, setQuery] = useState(searchParams.get("query") ?? thisStateCache?.query ?? null),
+        [query, setQuery] = useState(searchParams.get("query") ?? thisStateCache?.query ?? undefined),
+        [scriptFileName, setScriptFileName] = useState(
+            searchParams.get("scriptFileName") ?? thisStateCache?.scriptFileName ?? undefined
+        ),
         [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(thisStateCache?.scripts ?? []),
         [error, setError] = useState<AxiosError | undefined>(undefined),
         [searching, setSearching] = useState(false),
         [searched, setSearched] = useState(thisStateCache?.searched ?? false);
 
-    const search = (query: string) => {
+    const search = (query: string, scriptFileName?: string) => {
+        console.log(scriptFileName);
         setSearching(true);
-        Api.searchScript(query)
+        Api.searchScript(query, scriptFileName)
             .then((r) => {
                 setSearched(true);
                 setScripts(r);
@@ -53,12 +59,12 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             .catch((e) => setError(e));
     };
 
-    const searchButton = (query: string | null) => {
-        if (query === null || query === "") {
+    const searchButton = (query?: string, scriptFileName?: string) => {
+        if (query === undefined || query === "") {
             alert("Please enter a query");
         } else {
-            search(query);
-            history.replace(`/${region}/${path}?${getQueryString(query)}`);
+            search(query, scriptFileName);
+            history.replace(`/${region}/${path}?${getQueryString(query, scriptFileName)}`);
         }
     };
 
@@ -72,15 +78,15 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     }, [region, path, history]);
 
     useEffect(() => {
-        if (!stateCache.has(region) && query !== null && query !== "") {
+        if (!stateCache.has(region) && query !== undefined && query !== "") {
             // for first run if URL query string is not empty
-            search(query);
+            search(query, scriptFileName);
         }
-    }, [region, query]);
+    }, [region, query, scriptFileName]);
 
     useEffect(() => {
-        stateCache.set(region, { query, scripts, searched });
-    }, [region, query, scripts, searched]);
+        stateCache.set(region, { query, scriptFileName, scripts, searched });
+    }, [region, query, scriptFileName, scripts, searched]);
 
     document.title = `[${region}] Scripts - Atlas Academy DB`;
 
@@ -142,11 +148,23 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     <Form.Control
                         value={query ?? ""}
                         onChange={(ev) => {
-                            setQuery(ev.target.value !== "" ? ev.target.value : null);
+                            setQuery(ev.target.value !== "" ? ev.target.value : undefined);
                         }}
                     />
                 </Form.Group>
-                <Button variant={"primary"} onClick={() => searchButton(query)}>
+                <Form.Group>
+                    <Form.Label>Script File Name</Form.Label>
+                    <Form.Control
+                        value={scriptFileName ?? ""}
+                        onChange={(ev) => {
+                            setScriptFileName(ev.target.value !== "" ? ev.target.value : undefined);
+                        }}
+                    />
+                    <Form.Text className="text-muted">
+                        The script ID should contain this string. For example 30001 for LB1, 94036 for Ooku.
+                    </Form.Text>
+                </Form.Group>
+                <Button variant={"primary"} onClick={() => searchButton(query, scriptFileName)}>
                     Search <FontAwesomeIcon icon={faSearch} />
                 </Button>{" "}
             </form>
