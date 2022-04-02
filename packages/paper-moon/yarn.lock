@@ -9,21 +9,21 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@atlasacademy/api-connector@^3.0.104":
-  "integrity" "sha512-VGav6D5Y+Zd74/zSJ9duFJHitOv42hVsuR/7lnRFEfbM3JfNln0VI8lbvri35hel5VtZAdaecziljrVhyDFQKA=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.104.tgz"
-  "version" "3.0.104"
+"@atlasacademy/api-connector@^3.0.105":
+  "integrity" "sha512-8oEsROYLEWzqCk9m6NuMFzYlX976bhLsUisjOgdbUvijyedX+76u2B5DB9Zy5HO+/bIdN78HDdts7NRFzkmRxQ=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.105.tgz"
+  "version" "3.0.105"
   dependencies:
     "axios" "^0.26.0"
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/battle@^0.4.43":
-  "integrity" "sha512-lYW7grNNYaazS3Sf3Lmf9rZU1tLxOFFaG6/a8w0Pv98DsBP3P4LdhmB9+NsdGQbV3KtyuXwhSIjj7tiarALOxA=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/battle/-/battle-0.4.43.tgz"
-  "version" "0.4.43"
+"@atlasacademy/battle@^0.4.44":
+  "integrity" "sha512-+HWuEh/0I1pH4J5qT1/eb+ESGLkFJW8mah4QlWMrd39anlQS6Yc7JWwspx+5dwpNrez2v5wMYEWjxVEr3xuKmg=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/battle/-/battle-0.4.44.tgz"
+  "version" "0.4.44"
   dependencies:
-    "@atlasacademy/api-connector" "^3.0.104"
+    "@atlasacademy/api-connector" "^3.0.105"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.16.7", "@babel/code-frame@^7.5.5":
   "integrity" "sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg=="
@@ -3291,9 +3291,9 @@
     "lodash.uniq" "^4.5.0"
 
 "caniuse-lite@^1.0.0", "caniuse-lite@^1.0.30000981", "caniuse-lite@^1.0.30001109", "caniuse-lite@^1.0.30001125", "caniuse-lite@^1.0.30001317":
-  "integrity" "sha512-e4BF2RlCVELKx8+RmklSEIVub1TWrmdhvA5kEUueummz1XyySW0DVk+3x9HyhU9MuWTa2BhqLgEuEmUwASAdCA=="
-  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001323.tgz"
-  "version" "1.0.30001323"
+  "integrity" "sha512-/eYp1J6zYh1alySQB4uzYFkLmxxI8tk0kxldbNHXp8+v+rdMKdUBNjRLz7T7fz6Iox+1lIdYpc7rq6ZcXfTukg=="
+  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001324.tgz"
+  "version" "1.0.30001324"
 
 "capture-exit@^2.0.0":
   "integrity" "sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g=="
@@ -6287,9 +6287,9 @@
   "version" "2.0.2"
 
 "is-number-object@^1.0.4":
-  "integrity" "sha512-bEVOqiRcvo3zO1+G2lVMy+gkkEm9Yh7cDMRusKKu5ZJKPUYSJwICTKZrNKHA2EbSP0Tu0+6B/emsYNHZyn6K8g=="
-  "resolved" "https://registry.npmjs.org/is-number-object/-/is-number-object-1.0.6.tgz"
-  "version" "1.0.6"
+  "integrity" "sha512-k1U0IRzLMo7ZlYIfzRu23Oh6MiIFasgpb9X76eqfFZAqwH44UI4KTBvBYIZ1dSL9ZzChTB9ShHfLkR4pdW5krQ=="
+  "resolved" "https://registry.npmjs.org/is-number-object/-/is-number-object-1.0.7.tgz"
+  "version" "1.0.7"
   dependencies:
     "has-tostringtag" "^1.0.0"
 
@@ -6375,9 +6375,11 @@
   "version" "2.1.0"
 
 "is-shared-array-buffer@^1.0.1":
-  "integrity" "sha512-IU0NmyknYZN0rChcKhRO1X8LYz5Isj/Fsqh8NJOSf+N/hCOTwy29F32Ik7a+QszE63IdvmwdTPDd6cZ5pg4cwA=="
-  "resolved" "https://registry.npmjs.org/is-shared-array-buffer/-/is-shared-array-buffer-1.0.1.tgz"
-  "version" "1.0.1"
+  "integrity" "sha512-sqN2UDu1/0y6uvXyStCOzyhAjCSlHceFoMKJW8W9EU9cvic/QdsZ0kEU93HEy3IUEFZIiH/3w+AH/UQbPHNdhA=="
+  "resolved" "https://registry.npmjs.org/is-shared-array-buffer/-/is-shared-array-buffer-1.0.2.tgz"
+  "version" "1.0.2"
+  dependencies:
+    "call-bind" "^1.0.2"
 
 "is-stream@^1.1.0":
   "integrity" "sha1-EtSj3U5o4Lec6428hBc66A2RykQ="
@@ -9519,9 +9521,9 @@
     "warning" "^4.0.3"
 
 "react-redux@^7.2.0", "react-redux@^7.2.1 || ^8.0.0-beta":
-  "integrity" "sha512-kpstUHhXgT5HOLwzoRhDr3AWHO7H5mgTN5pX1H02OuoIMaZiOLYlul8vgan2WE8eEttAEMew8Npgzd3C6Asdow=="
-  "resolved" "https://registry.npmjs.org/react-redux/-/react-redux-7.2.7.tgz"
-  "version" "7.2.7"
+  "integrity" "sha512-6+uDjhs3PSIclqoCk0kd6iX74gzrGc3W5zcAjbrFgEdIjRSQObdIwfx80unTkVUYvbQ95Y8Av3OvFHq1w5EOUw=="
+  "resolved" "https://registry.npmjs.org/react-redux/-/react-redux-7.2.8.tgz"
+  "version" "7.2.8"
   dependencies:
     "@babel/runtime" "^7.15.4"
     "@types/react-redux" "^7.1.20"
