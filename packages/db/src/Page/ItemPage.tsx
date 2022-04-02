@@ -479,7 +479,6 @@ class ItemPage extends React.Component<IProps, IState> {
                     data={{
                         ID: item.id,
                         Name: item.name,
-                        ...(item.name !== item.originalName && { "Original Name": item.originalName }),
                         Detail: <span className="newline">{item.detail}</span>,
                         Individuality: (
                             <div>

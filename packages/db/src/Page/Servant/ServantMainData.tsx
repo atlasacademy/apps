@@ -78,11 +78,6 @@ class ServantMainData extends React.Component<IProps> {
                             { title: "Rarity", content: <RarityDescriptor rarity={servant.rarity} /> },
                             { title: "Cost", content: servant.cost },
                         ])}
-                        {servant.name !== servant.originalName &&
-                            this.renderSpanningRow({
-                                title: "Original Name",
-                                content: <div>{servant.originalName}</div>,
-                            })}
                         {this.renderSpanningRow({
                             title: "HP",
                             content: (

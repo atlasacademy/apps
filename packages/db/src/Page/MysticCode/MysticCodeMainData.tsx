@@ -25,9 +25,6 @@ class MysticCodeMainData extends React.Component<IProps> {
                     data={{
                         ID: mysticCode.id,
                         Name: mysticCode.name,
-                        ...(mysticCode.name !== mysticCode.originalName && {
-                            "Original Name": mysticCode.originalName,
-                        }),
                         Detail: <span className="newline">{mysticCode.detail}</span>,
                     }}
                 />
