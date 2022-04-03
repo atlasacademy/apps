@@ -485,7 +485,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 charaFadeIn = undefined;
                             }
 
-                            if (content.position && content.position.y > 0) {
+                            if (content.position && content.position.y !== 0) {
                                 switch (assetSet?.type) {
                                     case ScriptComponentType.CHARA_SET:
                                     case ScriptComponentType.CHARA_CHANGE:
