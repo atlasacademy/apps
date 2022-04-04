@@ -9,12 +9,15 @@ import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceRefere
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import { Renderable, asPercent } from "../../Helper/OutputHelper";
 import { formatNumber, mergeElements } from "../../Helper/OutputHelper";
+import getRubyText from "../../Helper/StringHelper";
 
 import "./ServantMainData.css";
 
 interface IProps {
     region: Region;
     servant: Servant.Servant;
+    servantName?: string;
+    originalServantName?: string;
     assetType?: "ascension" | "costume";
     assetId?: number;
 }
@@ -60,7 +63,7 @@ class ServantMainData extends React.Component<IProps> {
     }
 
     render() {
-        const servant = this.props.servant;
+        const { servant, servantName, originalServantName } = this.props;
         const { buster, arts, quick, extra } = servant.hitsDistribution;
         return (
             <div>
@@ -78,10 +81,11 @@ class ServantMainData extends React.Component<IProps> {
                             { title: "Rarity", content: <RarityDescriptor rarity={servant.rarity} /> },
                             { title: "Cost", content: servant.cost },
                         ])}
-                        {servant.name !== servant.originalName &&
+                        {originalServantName !== undefined &&
+                            servantName !== originalServantName &&
                             this.renderSpanningRow({
                                 title: "Original Name",
-                                content: <div>{servant.originalName}</div>,
+                                content: <>{getRubyText(this.props.region, originalServantName, servant.ruby)}</>,
                             })}
                         {this.renderSpanningRow({
                             title: "HP",

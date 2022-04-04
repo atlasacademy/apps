@@ -126,8 +126,10 @@ class ServantPage extends React.Component<IProps, IState> {
         this.setState({ assetType, assetId, assetExpand });
     }
 
-    private getOverwriteName() {
-        const overWriteServantName = this.state.servant?.ascensionAdd.overWriteServantName;
+    private getOverwriteName(originalName?: boolean) {
+        const overWriteServantName = originalName
+            ? this.state.servant?.ascensionAdd.originalOverWriteServantName
+            : this.state.servant?.ascensionAdd.overWriteServantName;
         if (this.state.assetId && overWriteServantName) {
             const limit = this.state.assetId === 1 ? 0 : this.state.assetId;
             if (limit in overWriteServantName.ascension) {
@@ -136,7 +138,7 @@ class ServantPage extends React.Component<IProps, IState> {
                 return overWriteServantName.costume[limit];
             }
         }
-        return this.state.servant?.name;
+        return originalName ? this.state.servant?.originalName : this.state.servant?.name;
     }
 
     render() {
@@ -179,6 +181,8 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantMainData
                             region={this.props.region}
                             servant={this.state.servant}
+                            servantName={this.getOverwriteName()}
+                            originalServantName={this.getOverwriteName(true)}
                             assetType={this.state.assetType}
                             assetId={this.state.assetId}
                         />

@@ -12,6 +12,7 @@ import "./ServantMaterialBreakdown.css";
 const qpItem: Item.Item = {
     id: 1,
     name: "QP",
+    originalName: "QP",
     type: Item.ItemType.QP,
     uses: [],
     detail: '"Synthesis Resource"\nA Quantum Particle.\nA fluctuation in the spiritron that grants many possibilities.\nUsed as fuels to conduct all sorts of magecraft.',

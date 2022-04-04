@@ -112,8 +112,11 @@ export interface ServantAscensionAdditions {
     individuality: ServantAscensionAdditionDetails<Trait[]>;
     voicePrefix: ServantAscensionAdditionDetails<number>;
     overWriteServantName: ServantAscensionAdditionDetails<string>;
+    originalOverWriteServantName: ServantAscensionAdditionDetails<string>;
     overWriteServantBattleName: ServantAscensionAdditionDetails<string>;
+    originalOverWriteServantBattleName: ServantAscensionAdditionDetails<string>;
     overWriteTDName: ServantAscensionAdditionDetails<string>;
+    originalOverWriteTDName: ServantAscensionAdditionDetails<string>;
     overWriteTDRuby: ServantAscensionAdditionDetails<string>;
     overWriteTDFileName: ServantAscensionAdditionDetails<string>;
     overWriteTDRank: ServantAscensionAdditionDetails<string>;
@@ -168,7 +171,7 @@ export interface Entity {
     id: number;
     collectionNo: number;
     name: string;
-    originalName?: string;
+    originalName: string;
     ruby: string;
     className: ClassName;
     type: EntityType;

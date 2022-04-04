@@ -8,6 +8,7 @@ const PointBuffDescriptor = (props: { region: Region; pointBuff: Event.EventPoin
     const pointBuffItem = {
         id: pointBuff.id,
         name: pointBuff.name,
+        originalName: pointBuff.name,
         type: Item.ItemType.EVENT_ITEM,
         uses: [],
         detail: pointBuff.detail,
