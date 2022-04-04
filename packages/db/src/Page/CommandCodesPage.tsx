@@ -141,7 +141,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                             <th className="col-center">#</th>
                             <th className="col-center">Thumbnail</th>
                             <th>Name</th>
-                            <th>Rarity</th>
+                            <th className="rarity-col">Rarity</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -165,7 +165,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                                     <td>
                                         <Link to={route}>{commandCode.name}</Link>
                                     </td>
-                                    <td>
+                                    <td className="rarity-col">
                                         <RarityDescriptor rarity={commandCode.rarity} />
                                     </td>
                                 </tr>

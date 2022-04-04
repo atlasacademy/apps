@@ -364,7 +364,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                             <th className="col-center">Class</th>
                             <th className="col-center">Thumbnail</th>
                             <th>Name</th>
-                            <th className="col-center">Rarity</th>
+                            <th className="rarity-col">Rarity</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -398,7 +398,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                     <td style={{ whiteSpace: Manager.showingJapaneseText() ? "nowrap" : "normal" }}>
                                         <Link to={route}>{servant.name}</Link>
                                     </td>
-                                    <td className="col-center">
+                                    <td className="rarity-col">
                                         <RarityDescriptor rarity={servant.rarity} />
                                     </td>
                                 </tr>

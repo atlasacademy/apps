@@ -7,9 +7,18 @@
 }
 
 .listing-page .col-center,
-table.listing-table .col-center {
+table.listing-table .col-center,
+.listing-page .rarity-col,
+table.listing-table .rarity-col {
     text-align: center;
     width: 1px;
+}
+
+@media (min-width: 768px) {
+    .listing-page .rarity-col,
+    table.listing-table .rarity-col {
+        min-width: 10em;
+    }
 }
 
 .listing-page .listing-svtId {

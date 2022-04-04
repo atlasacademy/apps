@@ -308,7 +308,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                             <th className="col-center">#</th>
                             <th className="col-center">Thumbnail</th>
                             <th>Name</th>
-                            <th className="col-center">Rarity</th>
+                            <th className="rarity-col">Rarity</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -339,7 +339,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                     <td style={{ whiteSpace: Manager.showingJapaneseText() ? "pre-wrap" : "normal" }}>
                                         <Link to={route}>{craftEssence.name}</Link>
                                     </td>
-                                    <td className="col-center">
+                                    <td className="rarity-col">
                                         <RarityDescriptor rarity={craftEssence.rarity} />
                                     </td>
                                 </tr>
