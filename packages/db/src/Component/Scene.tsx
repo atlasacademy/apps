@@ -28,6 +28,9 @@ const Scene = (props: {
     background?: {
         asset: string;
     };
+    foreground?: {
+        frame: string;
+    };
     figure?: {
         asset: string;
         face: number;
@@ -167,6 +170,14 @@ const Scene = (props: {
                 {equipElement}
                 {faceElement}
             </div>
+            {props.foreground && props.foreground.frame && (
+                <div
+                    style={{
+                        backgroundImage: `url("${props.foreground.frame}")`,
+                    }}
+                    className="scene-foreground frame"
+                />
+            )}
         </div>
     );
 };

@@ -38,3 +38,22 @@
     display: block;
     position: absolute;
 }
+
+.scene-foreground {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+}
+
+/* Types foreground */
+.frame {
+    background-position: 0 -10px;
+}
+
+/* Mobile Fix - Foreground Types */
+@media (max-width: 767px) {
+    .frame {
+        background-position: 0 -7px;
+    }
+}
