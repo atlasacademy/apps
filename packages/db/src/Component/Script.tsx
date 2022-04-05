@@ -466,11 +466,17 @@ export type ScriptInfo = {
     components: ScriptComponentWrapper[];
 };
 
+type ParserStateConditionalJump = {
+    branch: Required<ScriptBranch> | ScriptBranchQuestNotClear;
+    branchStatus: boolean;
+};
+
 type ParserState = {
     choice: boolean;
     dialogue: boolean;
     assetSetMap: Map<string, ScriptAssetSet>;
     enableFullScreen?: boolean;
+    conditionalJump?: ParserStateConditionalJump;
 };
 
 type ParserDialogueState = { colorHex?: string; size?: DialogueTextSize };
@@ -724,6 +730,30 @@ function getVoiceLocation(scriptVoice: string): {
     return { folder, fileName };
 }
 
+const getConditionalSpeakerCode = (speakerCode: string, jumpDetail: ParserStateConditionalJump): string => {
+    switch (jumpDetail.branch.type) {
+        case ScriptComponentType.BRANCH:
+            return `${speakerCode} ${jumpDetail.branch.flag.name}=${jumpDetail.branch.flag.value} is ${jumpDetail.branchStatus}`;
+        case ScriptComponentType.BRANCH_QUEST_NOT_CLEAR:
+            return `${speakerCode} ${jumpDetail.branch.questId}=uncleared is ${jumpDetail.branchStatus}`;
+    }
+};
+
+const getAssetSet = (
+    assetSetMap: Map<string, ScriptAssetSet>,
+    speakerCode: string,
+    jumpDetail?: ParserStateConditionalJump
+) => {
+    if (jumpDetail !== undefined) {
+        const conditionalKey = getConditionalSpeakerCode(speakerCode, jumpDetail);
+        if (assetSetMap.has(conditionalKey)) {
+            return assetSetMap.get(conditionalKey);
+        }
+    }
+
+    return assetSetMap.get(speakerCode);
+};
+
 function parseBracketComponent(region: Region, parameters: string[], parserState: ParserState): ScriptBracketComponent {
     switch (parameters[0]) {
         case "charaSet":
@@ -736,6 +766,10 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 baseName: parameters[4],
             } as ScriptCharaSet;
             parserState.assetSetMap.set(parameters[1], charaSet);
+            if (parserState.conditionalJump !== undefined) {
+                const conditionalKey = getConditionalSpeakerCode(parameters[1], parserState.conditionalJump);
+                parserState.assetSetMap.set(conditionalKey, charaSet);
+            }
             return charaSet;
         case "imageSet":
         case "verticalImageSet":
@@ -803,14 +837,14 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
             return {
                 type: ScriptComponentType.CHARA_TALK,
                 speakerCode: parameters[1],
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaFace":
             return {
                 type: ScriptComponentType.CHARA_FACE,
                 speakerCode: parameters[1],
                 face: parseInt(parameters[2]),
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaFilter":
             return {
@@ -818,7 +852,7 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 speakerCode: parameters[1],
                 filter: parameters[2] as CharaFilterType,
                 colorHex: parameters[3],
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaFadein":
             return {
@@ -826,14 +860,14 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 speakerCode: parameters[1],
                 durationSec: parseFloat(parameters[2]),
                 position: parameters[3] !== undefined ? getPosition(parameters[3]) : undefined,
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaFadeout":
             return {
                 type: ScriptComponentType.CHARA_FADE_OUT,
                 speakerCode: parameters[1],
                 durationSec: parseFloat(parameters[2]),
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaFadeTime":
             return {
@@ -841,28 +875,28 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 speakerCode: parameters[1],
                 duration: parseFloat(parameters[2]),
                 alpha: parseFloat(parameters[3]),
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaPut":
             return {
                 type: ScriptComponentType.CHARA_PUT,
                 speakerCode: parameters[1],
                 position: getPosition(parameters[2]),
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaScale":
             return {
                 type: ScriptComponentType.CHARA_SCALE,
                 speakerCode: parameters[1],
                 scale: parseFloat(parameters[2]),
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaDepth":
             return {
                 type: ScriptComponentType.CHARA_DEPTH,
                 speakerCode: parameters[1],
                 depth: parseFloat(parameters[2]),
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaCutin":
         case "charaCutinPause":
@@ -873,7 +907,7 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 durationSec: parseFloat(parameters[3]),
                 mgd: parameters[4] !== undefined ? parseFloat(parameters[4]) : 0,
                 pause: parameters[0] === "charaCutinPause",
-                assetSet: parserState.assetSetMap.get(parameters[1]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "se":
             return {
@@ -886,20 +920,29 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 durationSec: parseFloat(parameters[1]),
             };
         case "label":
-            return {
+            const label = {
                 type: ScriptComponentType.LABEL,
                 name: parameters[1],
             };
+            if (
+                parserState.conditionalJump !== undefined &&
+                label.name === parserState.conditionalJump.branch.labelName
+            ) {
+                parserState.conditionalJump.branchStatus = true;
+            }
+            return label as ScriptLabel;
         case "branch":
             if (parameters[2] !== undefined && parameters[3] !== undefined) {
-                return {
+                const conditionalBranch = {
                     type: ScriptComponentType.BRANCH,
                     labelName: parameters[1],
                     flag: {
                         name: parameters[2],
                         value: parameters[3],
                     },
-                };
+                } as Required<ScriptBranch>;
+                parserState.conditionalJump = { branch: conditionalBranch, branchStatus: false };
+                return conditionalBranch;
             } else {
                 return {
                     type: ScriptComponentType.BRANCH,
@@ -907,11 +950,13 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 };
             }
         case "branchQuestNotClear":
-            return {
+            const branchQuestNotClear = {
                 type: ScriptComponentType.BRANCH_QUEST_NOT_CLEAR,
                 labelName: parameters[1],
                 questId: parseInt(parameters[2]),
-            };
+            } as ScriptBranchQuestNotClear;
+            parserState.conditionalJump = { branch: branchQuestNotClear, branchStatus: false };
+            return branchQuestNotClear;
         case "bgm":
             return {
                 type: ScriptComponentType.BGM,
