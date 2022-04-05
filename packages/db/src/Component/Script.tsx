@@ -29,6 +29,7 @@ export enum ScriptComponentType {
     DIALOGUE = "DIALOGUE",
     CHOICES = "CHOICES",
     SOUND_EFFECT = "SOUND_EFFECT",
+    PICTURE_FRAME = "PICTURE_FRAME",
     WAIT = "WAIT",
     LABEL = "LABEL",
     BRANCH = "BRANCH",
@@ -158,6 +159,11 @@ export type ScriptSoundEffect = {
 export type ScriptWait = {
     type: ScriptComponentType.WAIT;
     durationSec: number;
+};
+
+export type ScriptPictureFrame = {
+    type: ScriptComponentType.PICTURE_FRAME;
+    imageAsset?: string; // Turn off picture frame is asset is undefined
 };
 
 export type ScriptCharaSet = {
@@ -440,7 +446,8 @@ export type ScriptBracketComponent =
     | ScriptBgmStop
     | ScriptVoice
     | ScriptBackground
-    | ScriptFlag;
+    | ScriptFlag
+    | ScriptPictureFrame;
 
 export type ScriptChoiceChildComponent = ScriptBracketComponent | ScriptDialogue;
 
@@ -966,6 +973,14 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
             } as ScriptBranchQuestNotClear;
             parserState.conditionalJump = { branch: branchQuestNotClear, branchStatus: false };
             return branchQuestNotClear;
+        case "pictureFrame":
+            return {
+                type: ScriptComponentType.PICTURE_FRAME,
+                imageAsset:
+                    parameters[1] === undefined
+                        ? undefined
+                        : `${AssetHost}/${region}/Image/${parameters[1]}/${parameters[1]}.png`,
+            };
         case "bgm":
             return {
                 type: ScriptComponentType.BGM,
