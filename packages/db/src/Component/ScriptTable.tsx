@@ -90,9 +90,10 @@ const SceneRow = (props: {
     offsets?: ScriptOffsets;
     wideScreen: boolean;
     lineNumber?: number;
-    silhouette?: ScriptCharaFilter[];
+    filters: Map<string, { content: ScriptCharaFilter; lineNumber: number }[]>;
 }) => {
-    const resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
+    const { lineNumber } = props,
+        resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
         { windowWidth, windowHeight } = useWindowDimensions(),
         sceneScale = getSceneScale(windowWidth, windowHeight, props.wideScreen),
         height = (props.wideScreen ? 576 : 576) / sceneScale,
@@ -105,7 +106,26 @@ const SceneRow = (props: {
     let equip = undefined;
     let offsets = undefined;
 
-    const isSilhouette = (speakerCode: string) => props.silhouette?.some((s) => s.speakerCode === speakerCode) ?? false;
+    let isSilhouette = (figure: ScriptCharaFace) => {
+        if (figure.assetSet !== undefined && lineNumber !== undefined) {
+            switch (figure.assetSet.type) {
+                case ScriptComponentType.CHARA_SET:
+                case ScriptComponentType.CHARA_CHANGE:
+                    const filterKey = figure.assetSet.charaGraphId.toString();
+                    if (props.filters.has(filterKey)) {
+                        const thisCharaFilters = props.filters.get(filterKey)!;
+                        const beforeFilters = thisCharaFilters.filter((f) => f.lineNumber < lineNumber);
+                        if (beforeFilters[beforeFilters.length - 1].content.filter === "silhouette") {
+                            return true;
+                        }
+                    }
+                    return false;
+                default:
+                    return false;
+            }
+        }
+        return false;
+    };
 
     if (props.figure !== undefined && props.figure.assetSet !== undefined) {
         switch (props.figure.assetSet.type) {
@@ -115,7 +135,7 @@ const SceneRow = (props: {
                     asset: props.figure.assetSet.charaGraphAsset,
                     face: props.figure.face,
                     charaGraphId: props.figure.assetSet.charaGraphId,
-                    silhouette: isSilhouette(props.figure.speakerCode),
+                    silhouette: isSilhouette(props.figure),
                 };
 
                 offsets = {
@@ -224,7 +244,7 @@ const SceneRow = (props: {
                     (props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ||
                         props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE) ? (
                         <a href={props.figure.assetSet?.charaGraphAsset} target="_blank" rel="noreferrer">
-                            {isSilhouette(props.figure.speakerCode) ? "[Figure (Spoiler)]" : "[Figure]"}
+                            {isSilhouette(props.figure) ? "[Figure (Spoiler)]" : "[Figure]"}
                         </a>
                     ) : null}
                     &nbsp;
@@ -422,11 +442,9 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         sceneDisplayed = false,
         offsets: ScriptOffsets | undefined;
 
-    const showScriptLine = useContext(ShowScriptLineContext);
-
-    const figureSilhouette = scriptComponents
-        .filter(({ content }) => content.type === ScriptComponentType.CHARA_FILTER)
-        .map(({ content }) => content as ScriptCharaFilter);
+    const showScriptLine = useContext(ShowScriptLineContext),
+        filters: Map<string, { content: ScriptCharaFilter; lineNumber: number }[]> = new Map(),
+        figureAssetTypes = [ScriptComponentType.CHARA_SET, ScriptComponentType.CHARA_CHANGE];
 
     return (
         <Table hover responsive>
@@ -439,18 +457,18 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
             </thead>
             <tbody>
                 {scriptComponents.map((component, i) => {
-                    const { content } = component;
+                    const { content, lineNumber } = component;
 
                     let sceneRow,
                         renderScene = () => (
                             <SceneRow
-                                silhouette={figureSilhouette}
+                                filters={filters}
                                 offsets={offsets}
                                 background={backgroundComponent}
                                 figure={figureComponent}
                                 charaFadeIn={charaFadeIn}
                                 wideScreen={wideScreen}
-                                lineNumber={component.lineNumber}
+                                lineNumber={lineNumber}
                             />
                         );
 
@@ -477,9 +495,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         case ScriptComponentType.CHARA_FADE_IN:
                             const { assetSet } = content;
 
-                            const assetsTypes = [ScriptComponentType.CHARA_SET, ScriptComponentType.CHARA_CHANGE];
-
-                            if (assetSet && !assetsTypes.includes(assetSet.type)) {
+                            if (assetSet && !figureAssetTypes.includes(assetSet.type)) {
                                 charaFadeIn = content;
                                 sceneRow = renderScene();
                                 charaFadeIn = undefined;
@@ -493,6 +509,20 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                             charaGraphId: assetSet.charaGraphId,
                                             y: content.position.y,
                                         };
+                                }
+                            }
+                            break;
+                        case ScriptComponentType.CHARA_FILTER:
+                            if (lineNumber !== undefined && content.type === ScriptComponentType.CHARA_FILTER) {
+                                const filterKey =
+                                    content.assetSet?.type === ScriptComponentType.CHARA_SET ||
+                                    content.assetSet?.type === ScriptComponentType.CHARA_CHANGE
+                                        ? content.assetSet.charaGraphId.toString()
+                                        : content.speakerCode;
+                                if (filters.has(filterKey)) {
+                                    filters.get(filterKey)?.push({ content, lineNumber });
+                                } else {
+                                    filters.set(filterKey, [{ content, lineNumber }]);
                                 }
                             }
                             break;
@@ -533,7 +563,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                 (figureComponent !== undefined || backgroundComponent !== undefined) &&
                 !sceneDisplayed ? (
                     <SceneRow
-                        silhouette={figureSilhouette}
+                        filters={filters}
                         offsets={offsets}
                         background={backgroundComponent}
                         figure={figureComponent}
