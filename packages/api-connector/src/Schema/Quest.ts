@@ -191,6 +191,7 @@ export interface QuestPhase extends Quest {
     qp: number;
     exp: number;
     bond: number;
+    isNpcOnly: boolean;
     battleBgId: number;
     extraDetail: QuestPhaseExtraDetail;
     scripts: PhaseScript[];
