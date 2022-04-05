@@ -25,6 +25,7 @@ import {
     ScriptInfo,
     ScriptCharaFilter,
     CameraFilterType,
+    ScriptPictureFrame,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 
@@ -91,6 +92,7 @@ const SceneRow = (props: {
     offsets?: ScriptOffsets;
     wideScreen: boolean;
     lineNumber?: number;
+    foreground?: { frame?: ScriptPictureFrame };
     cameraFilter: CameraFilterType;
     filters: Map<string, { content: ScriptCharaFilter; lineNumber: number }[]>;
 }) => {
@@ -107,6 +109,7 @@ const SceneRow = (props: {
     let figure = undefined;
     let equip = undefined;
     let offsets = undefined;
+    let foreground = undefined;
 
     let isSilhouette = (figure: ScriptCharaFace) => {
         if (figure.assetSet !== undefined && lineNumber !== undefined) {
@@ -223,12 +226,23 @@ const SceneRow = (props: {
         );
     }
 
+    if (props.foreground !== undefined && props.foreground.frame !== undefined) {
+        const frameProps = props.foreground.frame;
+
+        if (frameProps.imageAsset !== undefined) {
+            foreground = {
+                frame: frameProps.imageAsset,
+            };
+        }
+    }
+
     return (
         <tr>
             <td />
             <td>
                 <Scene
                     background={background}
+                    foreground={foreground}
                     offsetsFigure={offsets}
                     equip={equip}
                     figure={figure}
@@ -445,7 +459,8 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         wideScreen = false,
         sceneDisplayed = false,
         offsets: ScriptOffsets | undefined,
-        cameraFilter: CameraFilterType = "normal";
+        cameraFilter: CameraFilterType = "normal",
+        foreground: { frame: ScriptPictureFrame | undefined } | undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext),
         filters: Map<string, { content: ScriptCharaFilter; lineNumber: number }[]> = new Map(),
@@ -468,6 +483,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         renderScene = () => (
                             <SceneRow
                                 filters={filters}
+                                foreground={foreground}
                                 cameraFilter={cameraFilter}
                                 offsets={offsets}
                                 background={backgroundComponent}
@@ -535,6 +551,11 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         case ScriptComponentType.CAMERA_FILTER:
                             cameraFilter = content.filter;
                             break;
+                        case ScriptComponentType.PICTURE_FRAME:
+                            foreground = {
+                                frame: content,
+                            };
+                            break;
                         case ScriptComponentType.BRANCH:
                         case ScriptComponentType.LABEL:
                             if (backgroundComponent && !sceneDisplayed) {
@@ -572,6 +593,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                 (figureComponent !== undefined || backgroundComponent !== undefined) &&
                 !sceneDisplayed ? (
                     <SceneRow
+                        foreground={foreground}
                         filters={filters}
                         cameraFilter={cameraFilter}
                         offsets={offsets}
