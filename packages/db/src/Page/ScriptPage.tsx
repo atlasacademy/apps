@@ -49,6 +49,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
 
     useEffect(() => {
         Manager.setRegion(region);
+        setError(undefined);
         setLoading(true);
         Promise.all([axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }), Api.script(scriptId)])
             .then(([rawScript, scriptData]) => {
