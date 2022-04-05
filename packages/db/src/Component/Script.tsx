@@ -7,6 +7,7 @@ import { splitString } from "../Helper/StringHelper";
 export enum ScriptComponentType {
     UNPARSED = "UNPARSED",
     ENABLE_FULL_SCREEN = "ENABLE_FULL_SCREEN",
+    CAMERA_FILTER = "CAMERA_FILTER",
     CHARA_SET = "CHARA_SET",
     CHARA_CHANGE = "CHARA_CHANGE",
     CHARA_TALK = "CHARA_TALK",
@@ -257,6 +258,13 @@ export type ScriptCharaFilter = {
     assetSet?: ScriptAssetSet;
 };
 
+export type CameraFilterType = "gray" | "normal" | "summon";
+
+export type ScriptCameraFilter = {
+    type: ScriptComponentType.CAMERA_FILTER;
+    filter: CameraFilterType;
+};
+
 const positionList = [
     { x: -256, y: 0 },
     { x: 0, y: 0 },
@@ -422,6 +430,7 @@ export type ScriptBracketComponent =
     | ScriptCharaScale
     | ScriptCharaDepth
     | ScriptCharaCutIn
+    | ScriptCameraFilter
     | ScriptWait
     | ScriptLabel
     | ScriptBranch
@@ -1000,6 +1009,8 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
         case "enableFullScreen":
             parserState.enableFullScreen = true;
             return { type: ScriptComponentType.ENABLE_FULL_SCREEN };
+        case "cameraFilter":
+            return { type: ScriptComponentType.CAMERA_FILTER, filter: parameters[1] as CameraFilterType };
         default:
             return {
                 type: ScriptComponentType.UNPARSED,

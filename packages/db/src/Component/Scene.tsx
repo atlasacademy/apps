@@ -3,8 +3,26 @@ import { useState } from "react";
 import { Script } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
+import { CameraFilterType } from "./Script";
 
 import "./Scene.css";
+
+const getFilter = ({ silhoeutte, cameraFilter }: { silhoeutte?: boolean; cameraFilter?: CameraFilterType }): string => {
+    const filters: string[] = [];
+
+    if (silhoeutte) {
+        filters.push("brightness(0)");
+    }
+    if (cameraFilter === "gray") {
+        filters.push("grayscale(1)");
+    }
+
+    if (filters.length === 0) {
+        return "none";
+    } else {
+        return filters.join(" ");
+    }
+};
 
 const Scene = (props: {
     background?: {
@@ -30,8 +48,10 @@ const Scene = (props: {
     };
     height: number;
     width: number;
+    cameraFilter?: CameraFilterType;
 }) => {
-    const [script, setScript] = useState<Script.SvtScript | undefined>(undefined);
+    const [script, setScript] = useState<Script.SvtScript | undefined>(undefined),
+        { cameraFilter } = props;
 
     let fixOffsets = {
         y: props.offsetsFigure?.charaGraphId === props.figure?.charaGraphId ? props.offsetsFigure?.y : 0,
@@ -82,7 +102,7 @@ const Scene = (props: {
                     left,
                     top,
                     width,
-                    filter: props.figure.silhouette ? "brightness(0)" : "none",
+                    filter: getFilter({ silhoeutte: props.figure.silhouette, cameraFilter }),
                 }}
                 className="scene-figure-face"
             />
@@ -126,6 +146,7 @@ const Scene = (props: {
                         backgroundImage: `url("${props.background.asset}")`,
                         backgroundPositionY: backgroundTop,
                         backgroundSize: "100%",
+                        filter: getFilter({ cameraFilter }),
                     }}
                     className="scene-background"
                 />
@@ -138,7 +159,7 @@ const Scene = (props: {
                     <div
                         style={{
                             backgroundImage: `url("${props.figure.asset}")`,
-                            filter: props.figure.silhouette ? "brightness(0)" : "none",
+                            filter: getFilter({ silhoeutte: props.figure.silhouette, cameraFilter }),
                         }}
                         className="scene-figure"
                     />

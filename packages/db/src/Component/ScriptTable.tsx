@@ -24,6 +24,7 @@ import {
     ScriptDialogue,
     ScriptInfo,
     ScriptCharaFilter,
+    CameraFilterType,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 
@@ -90,9 +91,10 @@ const SceneRow = (props: {
     offsets?: ScriptOffsets;
     wideScreen: boolean;
     lineNumber?: number;
+    cameraFilter: CameraFilterType;
     filters: Map<string, { content: ScriptCharaFilter; lineNumber: number }[]>;
 }) => {
-    const { lineNumber } = props,
+    const { lineNumber, cameraFilter } = props,
         resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
         { windowWidth, windowHeight } = useWindowDimensions(),
         sceneScale = getSceneScale(windowWidth, windowHeight, props.wideScreen),
@@ -197,6 +199,7 @@ const SceneRow = (props: {
                         resolution={resolution}
                         height={height}
                         width={width}
+                        cameraFilter={cameraFilter}
                     />
                     <div>
                         {figure !== undefined ? (
@@ -232,6 +235,7 @@ const SceneRow = (props: {
                     resolution={resolution}
                     height={height}
                     width={width}
+                    cameraFilter={cameraFilter}
                 />
                 <div>
                     {props.background ? (
@@ -440,7 +444,8 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         charaFadeIn: ScriptCharaFadeIn | undefined,
         wideScreen = false,
         sceneDisplayed = false,
-        offsets: ScriptOffsets | undefined;
+        offsets: ScriptOffsets | undefined,
+        cameraFilter: CameraFilterType = "normal";
 
     const showScriptLine = useContext(ShowScriptLineContext),
         filters: Map<string, { content: ScriptCharaFilter; lineNumber: number }[]> = new Map(),
@@ -463,6 +468,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         renderScene = () => (
                             <SceneRow
                                 filters={filters}
+                                cameraFilter={cameraFilter}
                                 offsets={offsets}
                                 background={backgroundComponent}
                                 figure={figureComponent}
@@ -526,6 +532,9 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 }
                             }
                             break;
+                        case ScriptComponentType.CAMERA_FILTER:
+                            cameraFilter = content.filter;
+                            break;
                         case ScriptComponentType.BRANCH:
                         case ScriptComponentType.LABEL:
                             if (backgroundComponent && !sceneDisplayed) {
@@ -564,6 +573,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                 !sceneDisplayed ? (
                     <SceneRow
                         filters={filters}
+                        cameraFilter={cameraFilter}
                         offsets={offsets}
                         background={backgroundComponent}
                         figure={figureComponent}
