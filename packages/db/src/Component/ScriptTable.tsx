@@ -170,10 +170,6 @@ const SceneRow = (props: {
     if (props.charaFadeIn !== undefined) {
         switch (props.charaFadeIn.assetSet?.type) {
             case ScriptComponentType.SCENE_SET:
-                figure = {
-                    asset: props.charaFadeIn.assetSet.backgroundAsset,
-                    face: 0,
-                };
                 break;
             case ScriptComponentType.IMAGE_SET:
             case ScriptComponentType.VERTICAL_IMAGE_SET:
@@ -195,7 +191,11 @@ const SceneRow = (props: {
                 <td />
                 <td>
                     <Scene
-                        background={undefined}
+                        background={
+                            props.charaFadeIn.assetSet?.type === ScriptComponentType.SCENE_SET
+                                ? { asset: props.charaFadeIn.assetSet.backgroundAsset }
+                                : undefined
+                        }
                         offsetsFigure={offsets}
                         equip={equip}
                         figure={figure}
@@ -205,6 +205,11 @@ const SceneRow = (props: {
                         cameraFilter={cameraFilter}
                     />
                     <div>
+                        {props.charaFadeIn.assetSet?.type === ScriptComponentType.SCENE_SET ? (
+                            <a href={props.charaFadeIn.assetSet.backgroundAsset} target="_blank" rel="noreferrer">
+                                [Background]
+                            </a>
+                        ) : null}
                         {figure !== undefined ? (
                             <a href={figure.asset} target="_blank" rel="noreferrer">
                                 [Figure]

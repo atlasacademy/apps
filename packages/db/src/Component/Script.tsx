@@ -826,7 +826,9 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 type: ScriptComponentType.SCENE_SET,
                 speakerCode: parameters[1],
                 backgroundId: parameters[2],
-                backgroundAsset: `${AssetHost}/${region}/Back/back${parameters[2]}.png`,
+                backgroundAsset: parserState.enableFullScreen
+                    ? `${AssetHost}/${region}/Back/back${parameters[2]}_1344_626.png`
+                    : `${AssetHost}/${region}/Back/back${parameters[2]}.png`,
                 baseFace: parseInt(parameters[3]),
             } as ScriptSceneSet;
             parserState.assetSetMap.set(parameters[1], sceneSet);
