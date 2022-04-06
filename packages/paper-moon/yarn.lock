@@ -9,21 +9,21 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@atlasacademy/api-connector@^3.0.107":
-  "integrity" "sha512-3wBd5jtO6OxFek2BhPiZB8mZopE0MhtLy3iAdH7ikB9dtPIbaVnQHlj180wBhs+rR9NKX9IbYUZz/AHQ8FZw3A=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.107.tgz"
-  "version" "3.0.107"
+"@atlasacademy/api-connector@^3.0.108":
+  "integrity" "sha512-o8VdSmpXp0FKCoOMKDtJmDaiedpJXeIogZ3zyACU8hNp5tmtE9tQ8Di5xFcOhvlCV9Qd0znth1QDVz11vbj3pQ=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.108.tgz"
+  "version" "3.0.108"
   dependencies:
     "axios" "^0.26.0"
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/battle@^0.4.46":
-  "integrity" "sha512-hGTUQNfbkVlD0CSi1HFyt0I3Sf39Rg/aREfOa+lTCU8+GyYMADXKbal3uzCG5bf98mDRL1JmmY7nkL/An2V+GA=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/battle/-/battle-0.4.46.tgz"
-  "version" "0.4.46"
+"@atlasacademy/battle@^0.4.47":
+  "integrity" "sha512-LoOC7zDXjgF6hkxCCtzbXDTcxDNaDbvrD1XxOJJGFSpVPZqtip898BN1pJp+ddnlz0V+VQmQbixqUQoKU4ed5Q=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/battle/-/battle-0.4.47.tgz"
+  "version" "0.4.47"
   dependencies:
-    "@atlasacademy/api-connector" "^3.0.107"
+    "@atlasacademy/api-connector" "^3.0.108"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.16.7", "@babel/code-frame@^7.5.5":
   "integrity" "sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg=="
