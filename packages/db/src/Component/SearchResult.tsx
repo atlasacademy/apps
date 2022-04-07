@@ -50,9 +50,9 @@ class SearchResults extends React.Component<IProps, IState> {
     }
 
     render() {
-        const matchedFuzzyServants = [
-            ...new Set(this.state.fuse.search(removeDiacriticalMarks(this.props.search)).map((doc) => doc.item)),
-        ];
+        const matchedFuzzyServants = this.state.fuse
+            .search(removeDiacriticalMarks(this.props.search))
+            .map((doc) => doc.item);
 
         const matchedFuzzyServant = matchedFuzzyServants[0] ?? { id: 0 };
 
