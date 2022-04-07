@@ -161,7 +161,7 @@ class ErrorStatus extends React.Component<IProps> {
             image = images[random];
 
         return (
-            <div id={"error-status"} style={{ maxWidth: "1000px" }}>
+            <div id={"error-status"} style={{ maxWidth: "1000px", margin: "0 auto" }}>
                 <img
                     alt={"Error"}
                     src={image}
