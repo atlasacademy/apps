@@ -60,7 +60,7 @@ class SearchResults extends React.Component<IProps, IState> {
             return <Loading />;
         }
         if (matchedFuzzyServant.id > 0) {
-            return <Redirect to={`/${this.props.region}/servant/${matchedFuzzyServant.id}`} />;
+            return <Redirect to={`/${this.props.region}/servant/${matchedFuzzyServant.collectionNo}`} />;
         } else {
             return <ErrorStatus endpoint="servant" region={this.props.region} />;
         }
