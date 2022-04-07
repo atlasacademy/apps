@@ -9,6 +9,7 @@ import Api from "./Api";
 import ErrorStatus from "./Component/ErrorStatus";
 import Loading from "./Component/Loading";
 import Navigation from "./Component/Navigation";
+import SearchResults from "./Component/SearchResult";
 import HomePage from "./Page/HomePage";
 import Manager from "./Setting/Manager";
 import { Theme } from "./Setting/Theme";
@@ -422,6 +423,22 @@ class App extends React.Component<any, IState> {
                                                 region={region as Region}
                                                 id={parseInt(id)}
                                                 tab={tab}
+                                            />
+                                        </Suspense>
+                                    );
+                                }}
+                            />
+                            <Route
+                                exact={true}
+                                path="/:region(JP|NA|CN|KR|TW)/servant/:query([\w\d\s]+)/:tab?"
+                                render={(props) => {
+                                    const { region, query, tab } = props.match.params;
+                                    return (
+                                        <Suspense fallback={<Loading />}>
+                                            <SearchResults
+                                                key={`${region}-${query}`}
+                                                region={region as Region}
+                                                search={query}
                                             />
                                         </Suspense>
                                     );
