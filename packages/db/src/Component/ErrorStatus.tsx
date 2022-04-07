@@ -17,6 +17,8 @@ import figure_198 from "../Assets/figure_198.png";
 import figure_241 from "../Assets/figure_241.png";
 import figure_253 from "../Assets/figure_253.png";
 
+import "./ErrorStatus.css";
+
 const images = [
     figure_016,
     figure_074,

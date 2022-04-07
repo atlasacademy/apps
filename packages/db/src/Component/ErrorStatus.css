@@ -1,0 +1,15 @@
+@media only screen and (max-width: 500px) {
+    #error-status li.d-inline {
+        display: block !important;
+        float: none;
+        margin-top: 10% !important;
+    }
+    #error-status button.btn.btn-primary {
+        height: 50px;
+        font-size: x-large;
+        width: 180px;
+    }
+    #error-status p {
+        margin: 0 20% !important;
+    }
+}
