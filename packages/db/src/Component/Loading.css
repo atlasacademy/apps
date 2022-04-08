@@ -23,12 +23,12 @@
 }
 #loading .fou.f3 {
     visibility: hidden;
-    animation-delay: 0.25s;
+    animation-delay: 0.5s;
     -webkit-animation-delay: 0.5s;
 }
 #loading .fou.f4 {
     visibility: hidden;
-    animation-delay: 0.25s;
+    animation-delay: 0.75s;
     -webkit-animation-delay: 0.75s;
 }
 
@@ -46,6 +46,105 @@
         visibility: hidden;
     }
     100% {
+        visibility: hidden;
+    }
+}
+
+#loading .kon {
+    position: absolute;
+    left: calc(50% - 22px);
+    visibility: hidden;
+    animation-duration: 2.5s;
+    animation-timing-function: steps(6);
+    animation-iteration-count: infinite;
+}
+
+#loading .kon.f1 {
+    top: 50%;
+    visibility: visible;
+    transform: rotate(-25deg);
+    z-index: 5;
+    animation: unset;
+}
+
+#loading .kon.f2 {
+    animation-name: kon-loading-animation-f2;
+    left: calc(50% + 5px - 22px);
+    top: calc(50% - 35px);
+    transform: rotate(20deg);
+    z-index: 4;
+}
+#loading .kon.f3 {
+    animation-name: kon-loading-animation-f3;
+    top: calc(50% - 70px);
+    transform: rotate(-15deg);
+    z-index: 3;
+}
+#loading .kon.f4 {
+    animation-name: kon-loading-animation-f4;
+    left: calc(50% + 10px - 22px);
+    top: calc(50% - 108px);
+    transform: rotate(18deg);
+    z-index: 2;
+}
+#loading .kon.f5 {
+    animation-name: kon-loading-animation-f5;
+    left: calc(50% - 5px - 22px);
+    top: calc(50% - 142px);
+    transform: rotate(-15deg);
+    z-index: 1;
+}
+
+@keyframes kon-loading-animation-f2 {
+    16.666667% {
+        visibility: visible;
+    }
+    83.333333% {
+        visibility: hidden;
+    }
+}
+
+@keyframes kon-loading-animation-f3 {
+    16.666667% {
+        visibility: hidden;
+    }
+    33.333333% {
+        visibility: visible;
+    }
+    83.333333% {
+        visibility: hidden;
+    }
+}
+
+@keyframes kon-loading-animation-f4 {
+    16.666667% {
+        visibility: hidden;
+    }
+    33.333333% {
+        visibility: hidden;
+    }
+    50.000000% {
+        visibility: visible;
+    }
+    83.333333% {
+        visibility: hidden;
+    }
+}
+
+@keyframes kon-loading-animation-f5 {
+    16.666667% {
+        visibility: hidden;
+    }
+    33.333333% {
+        visibility: hidden;
+    }
+    50.000000% {
+        visibility: hidden;
+    }
+    66.666667% {
+        visibility: visible;
+    }
+    83.333333% {
         visibility: hidden;
     }
 }
