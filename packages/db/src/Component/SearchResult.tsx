@@ -12,6 +12,7 @@ import Loading from "./Loading";
 interface IProps {
     region: Region;
     search: string;
+    tab?: string;
 }
 
 interface IState {
@@ -60,7 +61,13 @@ class SearchResults extends React.Component<IProps, IState> {
             return <Loading />;
         }
         if (matchedFuzzyServant.id > 0) {
-            return <Redirect to={`/${this.props.region}/servant/${matchedFuzzyServant.collectionNo}`} />;
+            return (
+                <Redirect
+                    to={`/${this.props.region}/servant/${matchedFuzzyServant.collectionNo}${
+                        this.props.tab ? "/" + this.props.tab : ""
+                    }`}
+                />
+            );
         } else {
             return <ErrorStatus endpoint="servant" region={this.props.region} />;
         }

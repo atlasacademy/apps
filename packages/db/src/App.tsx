@@ -439,6 +439,7 @@ class App extends React.Component<any, IState> {
                                                 key={`${region}-${query}`}
                                                 region={region as Region}
                                                 search={query}
+                                                tab={tab}
                                             />
                                         </Suspense>
                                     );
