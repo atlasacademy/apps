@@ -14,6 +14,7 @@
 .command-card-text-card,
 .command-card-text-np {
     height: 100%;
+    width: auto;
     left: 0;
     position: absolute;
     top: 0;

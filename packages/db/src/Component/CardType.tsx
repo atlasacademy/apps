@@ -29,7 +29,8 @@ class CardType extends React.Component<IProps> {
             classNames = ["card-type"];
 
         let icon = undefined,
-            txt = undefined;
+            txt = undefined,
+            txtSize = { width: 150, height: 73 };
 
         switch (this.props.card) {
             case Card.ARTS:
@@ -47,6 +48,7 @@ class CardType extends React.Component<IProps> {
             case Card.EXTRA:
                 classNames.push("extra");
                 txt = card_txt_extra;
+                txtSize = { width: 200, height: 100 };
                 break;
         }
 
@@ -57,8 +59,22 @@ class CardType extends React.Component<IProps> {
                     className={"card-type-ratio"}
                     src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
                 />
-                {icon ? <img alt={`${this.props.card} Card Icon`} className={"card-type-icon"} src={icon} /> : null}
-                <img alt={`${this.props.card} Card Text`} className={"card-type-text"} src={txt} />
+                {icon ? (
+                    <img
+                        alt={`${this.props.card} Card Icon`}
+                        className={"card-type-icon"}
+                        src={icon}
+                        width={185}
+                        height={133}
+                    />
+                ) : null}
+                <img
+                    alt={`${this.props.card} Card Text`}
+                    className={"card-type-text"}
+                    src={txt}
+                    width={txtSize.width}
+                    height={txtSize.height}
+                />
             </span>
         );
     }

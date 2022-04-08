@@ -6,12 +6,12 @@ import star3 from "../Assets/star3.png";
 import star4 from "../Assets/star4.png";
 import star5 from "../Assets/star5.png";
 
-const assetMap = new Map<number, string>([
-    [1, star1],
-    [2, star2],
-    [3, star3],
-    [4, star4],
-    [5, star5],
+const assetMap = new Map<number, { location: string; width: number; height: number }>([
+    [1, { location: star1, width: 21, height: 20 }],
+    [2, { location: star2, width: 33, height: 20 }],
+    [3, { location: star3, width: 45, height: 20 }],
+    [4, { location: star4, width: 57, height: 20 }],
+    [5, { location: star5, width: 69, height: 20 }],
 ]);
 
 interface IProps {
@@ -26,7 +26,9 @@ class RarityDescriptor extends React.Component<IProps> {
                 {assetMap.has(this.props.rarity) ? (
                     <img
                         alt={`${this.props.rarity} star(s)`}
-                        src={assetMap.get(this.props.rarity)}
+                        src={assetMap.get(this.props.rarity)!.location}
+                        width={assetMap.get(this.props.rarity)!.width}
+                        height={assetMap.get(this.props.rarity)!.height}
                         style={{ height: this.props.height ?? 18 }}
                     />
                 ) : null}

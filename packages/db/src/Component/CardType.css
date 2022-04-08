@@ -11,6 +11,7 @@
 .card-type-icon,
 .card-type-text {
     height: 100%;
+    width: auto;
     left: 0;
     position: absolute;
     top: 0;

@@ -103,15 +103,39 @@ class CommandCard extends React.Component<IProps> {
                     className={"command-card-ratio"}
                     src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
                 />
-                <img alt={`${this.props.card} Card Background`} className={"command-card-bg"} src={bg} />
-                <img alt="Servant Portrait" className={"command-card-portrait"} src={portrait} />
-                <img alt={`${this.props.card} Card Icon`} className={"command-card-icon"} src={icon} />
+                <img
+                    alt={`${this.props.card} Card Background`}
+                    className={"command-card-bg"}
+                    src={bg}
+                    width={133}
+                    height={170}
+                />
+                <img
+                    alt="Servant Portrait"
+                    className={"command-card-portrait"}
+                    src={portrait}
+                    width={256}
+                    height={256}
+                />
+                <img
+                    alt={`${this.props.card} Card Icon`}
+                    className={"command-card-icon"}
+                    src={icon}
+                    width={185}
+                    height={133}
+                />
                 {np ? (
                     <div className={"command-card-text-np" + (this.props.npTextBottom ? " bottom" : "")}>
-                        <img alt={`NP Name Text`} src={txt} />
+                        <img alt={`NP Name Text`} src={txt} width={200} height={200} />
                     </div>
                 ) : (
-                    <img className={"command-card-text-card"} alt={`${this.props.card} Card Text`} src={txt} />
+                    <img
+                        className={"command-card-text-card"}
+                        alt={`${this.props.card} Card Text`}
+                        src={txt}
+                        width={150}
+                        height={73}
+                    />
                 )}
             </span>
         );
