@@ -140,23 +140,26 @@ class ErrorStatus extends React.Component<IProps> {
             this.props.error.response.data !== null &&
             typeof (this.props.error.response.data as any).detail === "string"
         ) {
-            const [, , region, rawEndpoint] = this.props.error.response.config
-                    .url!.match(/\/nice\/(NA|JP|CN|KR|TW)\/.*(?=\/)/)![0]
-                    .split("/"),
-                niceEndpoint = getSanitisedEndpoint(rawEndpoint);
+            const [, , region, rawEndpoint] =
+                this.props.error.response.config.url!.match(/\/nice\/(NA|JP|CN|KR|TW)\/.*(?=\/)/)?.[0]?.split("/") ??
+                Array(4).fill("");
 
-            message = `${niceEndpoint.display} not found.`;
+            if (rawEndpoint) {
+                const niceEndpoint = getSanitisedEndpoint(rawEndpoint);
 
-            links.splice(
-                links.length - 1,
-                0,
-                <Link to={`/${region}/${niceEndpoint.name}s`}>
-                    <Button variant="primary" style={{ minWidth: "130px" }}>
-                        {niceEndpoint.display}
-                        {"s"}
-                    </Button>
-                </Link>
-            );
+                message = `${niceEndpoint.display} not found.`;
+
+                links.splice(
+                    links.length - 1,
+                    0,
+                    <Link to={`/${region}/${niceEndpoint.name}s`}>
+                        <Button variant="primary" style={{ minWidth: "130px" }}>
+                            {niceEndpoint.display}
+                            {"s"}
+                        </Button>
+                    </Link>
+                );
+            }
         }
 
         const random = Math.floor(Math.random() * images.length),
