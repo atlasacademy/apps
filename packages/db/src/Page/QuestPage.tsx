@@ -340,7 +340,7 @@ class QuestPage extends React.Component<IProps, IState> {
                 {quest.supportServants.length > 0 ? (
                     <>
                         {renderCollapsibleContent({
-                            title: `${quest.isNpcOnly && "Forced "}Support Servant${
+                            title: `${quest.isNpcOnly ? "Forced " : ""}Support Servant${
                                 quest.supportServants.length > 1 ? "s" : ""
                             }`,
                             content: (
