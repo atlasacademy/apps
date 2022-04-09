@@ -430,23 +430,6 @@ class App extends React.Component<any, IState> {
                             />
                             <Route
                                 exact={true}
-                                path="/:region(JP|NA|CN|KR|TW)/servant/:query([\w\d\s]+)/:tab?"
-                                render={(props) => {
-                                    const { region, query, tab } = props.match.params;
-                                    return (
-                                        <Suspense fallback={<Loading />}>
-                                            <SearchResults
-                                                key={`${region}-${query}`}
-                                                region={region as Region}
-                                                search={query}
-                                                tab={tab}
-                                            />
-                                        </Suspense>
-                                    );
-                                }}
-                            />
-                            <Route
-                                exact={true}
                                 path="/:region(JP|NA|CN|KR|TW)/skills"
                                 render={(props) => {
                                     const { region } = props.match.params;
@@ -601,6 +584,24 @@ class App extends React.Component<any, IState> {
                                                 key={`${region}-war-${id}`}
                                                 region={region as Region}
                                                 warId={parseInt(id)}
+                                            />
+                                        </Suspense>
+                                    );
+                                }}
+                            />
+                            <Route
+                                exact={true}
+                                path="/:region(JP|NA|CN|KR|TW)/:endpoint(bgm|command-code|craft-essence|item|mystic-code|event|servant|war)/:query([\w\d\s]+)/:tab?"
+                                render={(props) => {
+                                    const { endpoint, query, region, tab } = props.match.params;
+                                    return (
+                                        <Suspense fallback={<Loading />}>
+                                            <SearchResults
+                                                key={`${region}-${query}`}
+                                                endpoint={endpoint}
+                                                region={region as Region}
+                                                search={query}
+                                                tab={tab}
                                             />
                                         </Suspense>
                                     );
