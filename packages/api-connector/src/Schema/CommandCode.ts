@@ -23,6 +23,7 @@ export interface CommandCode {
     id: number;
     collectionNo: number;
     name: string;
+    ruby: string;
     originalName: string;
     rarity: number;
     extraAssets: CommandCodeAssets;

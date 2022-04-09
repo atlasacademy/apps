@@ -8,6 +8,7 @@ import RawDataViewer from "../../Component/RawDataViewer";
 import EntityReferenceDescriptor from "../../Descriptor/EntityReferenceDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
+import getRubyText from "../../Helper/StringHelper";
 
 interface IProps {
     region: Region;
@@ -22,7 +23,9 @@ class CraftEssenceMainData extends React.Component<IProps> {
             ID: craftEssence.id,
             Collection: craftEssence.collectionNo,
             Name: craftEssence.name,
-            ...(craftEssence.name !== craftEssence.originalName && { "Original Name": craftEssence.originalName }),
+            ...(craftEssence.name !== craftEssence.originalName && {
+                "Original Name": <>{getRubyText(this.props.region, craftEssence.originalName, craftEssence.ruby)}</>,
+            }),
             Rarity: <RarityDescriptor rarity={craftEssence.rarity} />,
             Cost: craftEssence.cost,
             "Max Lv.": craftEssence.lvMax,

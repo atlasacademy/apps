@@ -86,6 +86,9 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     data={{
                         ID: noblePhantasm.id,
                         Name: noblePhantasm.name,
+                        ...(noblePhantasm.name !== noblePhantasm.originalName && {
+                            "Original Name": noblePhantasm.originalName,
+                        }),
                         Ruby: noblePhantasm.ruby,
                         Detail: noblePhantasm.detail,
                         Rank: noblePhantasm.rank,

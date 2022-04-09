@@ -9,6 +9,7 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import { asPercent, formatNumber } from "../../Helper/OutputHelper";
+import getRubyText from "../../Helper/StringHelper";
 
 interface IProps {
     region: Region;
@@ -26,7 +27,9 @@ class EnemyMainData extends React.Component<IProps> {
                         data={{
                             ID: enemy.id,
                             Name: enemy.name,
-                            ...(enemy.name !== enemy.originalName && { "Original Name": enemy.originalName }),
+                            ...(enemy.name !== enemy.originalName && {
+                                "Original Name": <>{getRubyText(this.props.region, enemy.originalName, enemy.ruby)}</>,
+                            }),
                             Class: toTitleCase(enemy.className),
                             Rarity: <RarityDescriptor rarity={enemy.rarity} />,
                             Attribute: toTitleCase(enemy.attribute),

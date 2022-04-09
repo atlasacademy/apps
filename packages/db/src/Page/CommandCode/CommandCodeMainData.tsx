@@ -7,6 +7,7 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
+import getRubyText from "../../Helper/StringHelper";
 
 import "../../Helper/StringHelper.css";
 
@@ -29,7 +30,9 @@ class CommandCodeMainData extends React.Component<IProps> {
                         Collection: commandCode.collectionNo,
                         Name: commandCode.name,
                         ...(commandCode.name !== commandCode.originalName && {
-                            "Original Name": commandCode.originalName,
+                            "Original Name": (
+                                <>{getRubyText(this.props.region, commandCode.originalName, commandCode.ruby)}</>
+                            ),
                         }),
                         Rarity: <RarityDescriptor rarity={commandCode.rarity} />,
                         Illustrator: (
