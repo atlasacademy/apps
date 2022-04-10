@@ -120,7 +120,10 @@ const SceneRow = (props: {
                     if (props.filters.has(filterKey)) {
                         const thisCharaFilters = props.filters.get(filterKey)!;
                         const beforeFilters = thisCharaFilters.filter((f) => f.lineNumber < lineNumber);
-                        if (beforeFilters[beforeFilters.length - 1].content.filter === "silhouette") {
+                        if (
+                            beforeFilters.length > 0 &&
+                            beforeFilters[beforeFilters.length - 1].content.filter === "silhouette"
+                        ) {
                             return true;
                         }
                     }
