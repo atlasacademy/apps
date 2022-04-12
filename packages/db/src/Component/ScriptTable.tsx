@@ -283,16 +283,6 @@ const SceneRow = (props: {
                             [Craft Essence]
                         </a>
                     ) : null}
-                    &nbsp;
-                    {props.figure && props.figure.assetSet?.type === ScriptComponentType.EQUIP_SET ? (
-                        <a
-                            href={`/db/${Manager.region()}/craft-essence/${props.figure.assetSet.equipId}`}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            [Craft Essence]
-                        </a>
-                    ) : null}
                 </div>
             </td>
             {showScriptLine && <td>{props.lineNumber}</td>}
