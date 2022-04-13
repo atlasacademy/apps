@@ -251,6 +251,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                                 this.setState({ buffGroup: trait });
                             }}
                             customPlaceHolder="Add a positive integer"
+                            numericInput={true}
                         />
                     </Form.Group>
                     <Form.Group>

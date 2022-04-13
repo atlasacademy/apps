@@ -166,6 +166,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                     }}
                     customPlaceHolder="Add a positive integer"
                     emptyLabel=""
+                    numericInput={true}
                 />
             </Form.Group>
         );

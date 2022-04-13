@@ -41,6 +41,7 @@ export default function TraitSelector(props: {
     onUpdate: (traits: number[]) => void;
     customPlaceHolder?: string;
     emptyLabel?: string;
+    numericInput?: boolean;
 }) {
     const knownTraits = new Map(props.traitList.map((trait) => [trait.id, trait]));
 
@@ -48,23 +49,22 @@ export default function TraitSelector(props: {
     let selectedOptions = getOptionList(props.initialTraits, knownTraits);
 
     return (
-        <>
-            <Typeahead
-                id="trait-typeahead-multiple"
-                multiple
-                options={options}
-                placeholder={props.customPlaceHolder ? props.customPlaceHolder : "Add a Trait or a positive integer"}
-                emptyLabel={props.customPlaceHolder ? props.customPlaceHolder : "No trait found"}
-                allowNew
-                selected={selectedOptions}
-                onChange={(selected) => {
-                    const traitNums = selected
-                        .filter((sel) => !sel.customOption || isPositiveInteger(sel.label))
-                        .map((sel) => (sel.customOption ? parseInt(sel.label) : sel.value));
-                    props.onUpdate(traitNums);
-                    selectedOptions = getOptionList(traitNums, knownTraits);
-                }}
-            />
-        </>
+        <Typeahead
+            id="trait-typeahead-multiple"
+            multiple
+            options={options}
+            placeholder={props.customPlaceHolder ? props.customPlaceHolder : "Add a Trait or a positive integer"}
+            emptyLabel={props.customPlaceHolder ? props.customPlaceHolder : "No trait found"}
+            allowNew
+            selected={selectedOptions}
+            inputProps={props.numericInput ? { inputMode: "numeric", pattern: "[0-9]*" } : undefined}
+            onChange={(selected) => {
+                const traitNums = selected
+                    .filter((sel) => !sel.customOption || isPositiveInteger(sel.label))
+                    .map((sel) => (sel.customOption ? parseInt(sel.label) : sel.value));
+                props.onUpdate(traitNums);
+                selectedOptions = getOptionList(traitNums, knownTraits);
+            }}
+        />
     );
 }
