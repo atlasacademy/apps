@@ -1,11 +1,13 @@
 name = "db-site-worker"
-type = "webpack"
+type = "javascript"
 account_id = "fa227777c8b69f6569d4a4347a6cceb8"
 workers_dev = true
-webpack_config = "webpack.config.js"
-kv_namespaces = []
-compatibility_date = "2020-03-01"
+compatibility_date = "2022-04-01"
 
+[build]
+command = "npm install && npm run build"
+[build.upload]
+format = "service-worker"
 [site]
 bucket = "../../app"
 entry-point = "./dist"
