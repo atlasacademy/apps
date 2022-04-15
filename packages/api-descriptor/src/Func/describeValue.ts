@@ -118,19 +118,22 @@ export default function (
             }
         }
 
-        if (dataVal.Target !== undefined) {
-            switch (func.funcType) {
-                case Func.FuncType.DAMAGE_NP_HPRATIO_LOW:
-                    addPartials([new ValuePartial(ValueType.PERCENT, dataVal.Target / 10)]);
-                    break;
-                case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
-                case Func.FuncType.DAMAGE_NP_RARE:
-                case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
-                case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
-                case Func.FuncType.SERVANT_FRIENDSHIP_UP:
-                    break;
-                default:
-                    addPartials([new ValuePartial(ValueType.UNKNOWN, dataVal.Target)]);
+        for (const targetVal of [staticDataVal.Target, dataVal.Target]) {
+            if (targetVal !== undefined) {
+                switch (func.funcType) {
+                    case Func.FuncType.DAMAGE_NP_HPRATIO_LOW:
+                        addPartials([new ValuePartial(ValueType.PERCENT, targetVal / 10)]);
+                        break;
+                    case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
+                    case Func.FuncType.DAMAGE_NP_RARE:
+                    case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+                    case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
+                    case Func.FuncType.SERVANT_FRIENDSHIP_UP:
+                        break;
+                    default:
+                        addPartials([new ValuePartial(ValueType.UNKNOWN, targetVal)]);
+                }
+                break;
             }
         }
 
