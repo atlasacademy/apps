@@ -546,6 +546,30 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 }
                             }
                             break;
+                        case ScriptComponentType.CHARA_FADE_OUT:
+                            if (lineNumber !== undefined) {
+                                const filterKey =
+                                    content.assetSet?.type === ScriptComponentType.CHARA_SET ||
+                                    content.assetSet?.type === ScriptComponentType.CHARA_CHANGE
+                                        ? content.assetSet.charaGraphId.toString()
+                                        : content.speakerCode;
+
+                                let filterNone: ScriptCharaFilter = {
+                                    filter: "normal",
+                                    colorHex: "#000000",
+                                    speakerCode: content.speakerCode,
+                                    type: ScriptComponentType.CHARA_FILTER,
+                                    assetSet: content.assetSet,
+                                };
+
+                                if (filters.has(filterKey)) {
+                                    filters.get(filterKey)?.push({
+                                        content: filterNone,
+                                        lineNumber: lineNumber,
+                                    });
+                                }
+                            }
+                            break;
                         case ScriptComponentType.CAMERA_FILTER:
                             cameraFilter = content.filter;
                             break;
