@@ -30,7 +30,7 @@ class ServantProfileComments extends React.Component<IProps> {
                                     <Col sm={12} md={2} className="pl-0">
                                         Condition
                                     </Col>
-                                    <Col>Message</Col>
+                                    <Col className="pr-0">Message</Col>
                                 </Row>
                             </th>
                         </tr>
@@ -53,7 +53,7 @@ class ServantProfileComments extends React.Component<IProps> {
                                                     />
                                                 </b>
                                             </Col>
-                                            <Col className="newline">{replacePUACodePoints(comment.comment)}</Col>
+                                            <Col className="newline pr-0">{replacePUACodePoints(comment.comment)}</Col>
                                         </Row>
                                     </td>
                                 </tr>
