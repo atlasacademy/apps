@@ -94,7 +94,7 @@ const SceneRow = (props: {
     lineNumber?: number;
     foreground?: { frame?: ScriptPictureFrame };
     cameraFilter: CameraFilterType;
-    filters: Map<string, { content: ScriptCharaFilter; lineNumber: number }[]>;
+    filters: { content: ScriptCharaFilter; lineNumber?: number }[];
 }) => {
     const { lineNumber, cameraFilter } = props,
         resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
@@ -112,26 +112,20 @@ const SceneRow = (props: {
     let foreground = undefined;
 
     let isSilhouette = (figure: ScriptCharaFace) => {
-        if (figure.assetSet !== undefined && lineNumber !== undefined) {
-            switch (figure.assetSet.type) {
-                case ScriptComponentType.CHARA_SET:
-                case ScriptComponentType.CHARA_CHANGE:
-                    const filterKey = figure.assetSet.charaGraphId.toString();
-                    if (props.filters.has(filterKey)) {
-                        const thisCharaFilters = props.filters.get(filterKey)!;
-                        const beforeFilters = thisCharaFilters.filter((f) => f.lineNumber < lineNumber);
-                        if (
-                            beforeFilters.length > 0 &&
-                            beforeFilters[beforeFilters.length - 1].content.filter === "silhouette"
-                        ) {
-                            return true;
-                        }
-                    }
-                    return false;
-                default:
-                    return false;
-            }
+        const applicableFilters = props.filters.filter(
+            (f) =>
+                lineNumber !== undefined &&
+                f.lineNumber !== undefined &&
+                f.lineNumber < lineNumber &&
+                f.content.speakerCode === figure.speakerCode
+        );
+        if (
+            applicableFilters.length > 0 &&
+            applicableFilters[applicableFilters.length - 1].content.filter === "silhouette"
+        ) {
+            return true;
         }
+
         return false;
     };
 
@@ -461,8 +455,15 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         foreground: { frame: ScriptPictureFrame | undefined } | undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext),
-        filters: Map<string, { content: ScriptCharaFilter; lineNumber: number }[]> = new Map(),
+        filters: { content: ScriptCharaFilter; lineNumber?: number }[] = [],
         figureAssetTypes = [ScriptComponentType.CHARA_SET, ScriptComponentType.CHARA_CHANGE];
+
+    for (const component of scriptComponents) {
+        const { content, lineNumber } = component;
+        if (content.type === ScriptComponentType.CHARA_FILTER) {
+            filters.push({ content, lineNumber });
+        }
+    }
 
     return (
         <Table hover responsive>
@@ -529,44 +530,6 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                             charaGraphId: assetSet.charaGraphId,
                                             y: content.position.y,
                                         };
-                                }
-                            }
-                            break;
-                        case ScriptComponentType.CHARA_FILTER:
-                            if (lineNumber !== undefined && content.type === ScriptComponentType.CHARA_FILTER) {
-                                const filterKey =
-                                    content.assetSet?.type === ScriptComponentType.CHARA_SET ||
-                                    content.assetSet?.type === ScriptComponentType.CHARA_CHANGE
-                                        ? content.assetSet.charaGraphId.toString()
-                                        : content.speakerCode;
-                                if (filters.has(filterKey)) {
-                                    filters.get(filterKey)?.push({ content, lineNumber });
-                                } else {
-                                    filters.set(filterKey, [{ content, lineNumber }]);
-                                }
-                            }
-                            break;
-                        case ScriptComponentType.CHARA_FADE_OUT:
-                            if (lineNumber !== undefined) {
-                                const filterKey =
-                                    content.assetSet?.type === ScriptComponentType.CHARA_SET ||
-                                    content.assetSet?.type === ScriptComponentType.CHARA_CHANGE
-                                        ? content.assetSet.charaGraphId.toString()
-                                        : content.speakerCode;
-
-                                let filterNone: ScriptCharaFilter = {
-                                    filter: "normal",
-                                    colorHex: "#000000",
-                                    speakerCode: content.speakerCode,
-                                    type: ScriptComponentType.CHARA_FILTER,
-                                    assetSet: content.assetSet,
-                                };
-
-                                if (filters.has(filterKey)) {
-                                    filters.get(filterKey)?.push({
-                                        content: filterNone,
-                                        lineNumber: lineNumber,
-                                    });
                                 }
                             }
                             break;
