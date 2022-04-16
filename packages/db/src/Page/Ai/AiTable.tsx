@@ -239,9 +239,11 @@ export default function AiTable(props: {
     skillId3?: number;
 }) {
     const ais = props.ais;
+    ais.sort((a, b) => b.priority - a.priority || b.probability - a.probability || a.idx - b.idx);
+
     const outputTable = (
         <Table responsive className={"ai-info"} style={{ whiteSpace: "nowrap" }} key={props.ais[0].id}>
-            <thead>
+            <tbody>
                 <tr>
                     <th>AI Sub ID</th>
                     {ais.map((ai) => (
@@ -251,21 +253,11 @@ export default function AiTable(props: {
                         </td>
                     ))}
                 </tr>
-            </thead>
-            <tbody>
                 <tr>
                     <td>Act Num</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             {ai.actNum === Ai.AiActNum.UNKNOWN ? ai.actNumInt : toTitleCase(ai.actNum)}
-                        </td>
-                    ))}
-                </tr>
-                <tr>
-                    <td>Priority|Weight</td>
-                    {ais.map((ai) => (
-                        <td key={ai.idx}>
-                            {ai.priority}|{ai.probability}
                         </td>
                     ))}
                 </tr>
@@ -279,6 +271,14 @@ export default function AiTable(props: {
                                 condNegative={ai.condNegative}
                                 vals={ai.vals}
                             />
+                        </td>
+                    ))}
+                </tr>
+                <tr>
+                    <td>Priority|Weight</td>
+                    {ais.map((ai) => (
+                        <td key={ai.idx}>
+                            {ai.priority}|{ai.probability}
                         </td>
                     ))}
                 </tr>
