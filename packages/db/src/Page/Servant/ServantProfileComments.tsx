@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Row, Col, Table } from "react-bootstrap";
 
 import { Region } from "@atlasacademy/api-connector";
 import { ProfileComment } from "@atlasacademy/api-connector/dist/Schema/Profile";
@@ -23,24 +23,39 @@ class ServantProfileComments extends React.Component<IProps> {
                 <h3>Profile</h3>
 
                 <Table responsive className="servant-comments">
-                    <thead>
+                    <thead className="servant-comments-header">
                         <tr>
-                            <th>Condition</th>
-                            <th>Message</th>
+                            <th>
+                                <Row className="m-0">
+                                    <Col sm={12} md={2} className="pl-0">
+                                        Condition
+                                    </Col>
+                                    <Col>Message</Col>
+                                </Row>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.props.comments.map((comment) => {
                             return (
                                 <tr key={`${comment.id}-${comment.priority}`}>
-                                    <td className="profile-condition">
-                                        <ProfileConditionDescriptor region={this.props.region} comment={comment} />
-                                        <ProfileCommentAddsDescriptor
-                                            region={this.props.region}
-                                            commentAdds={comment.additionalConds}
-                                        />
+                                    <td>
+                                        <Row className="m-0">
+                                            <Col sm={12} md={2} className="pl-0">
+                                                <b>
+                                                    <ProfileConditionDescriptor
+                                                        region={this.props.region}
+                                                        comment={comment}
+                                                    />
+                                                    <ProfileCommentAddsDescriptor
+                                                        region={this.props.region}
+                                                        commentAdds={comment.additionalConds}
+                                                    />
+                                                </b>
+                                            </Col>
+                                            <Col className="newline">{replacePUACodePoints(comment.comment)}</Col>
+                                        </Row>
                                     </td>
-                                    <td className="newline">{replacePUACodePoints(comment.comment)}</td>
                                 </tr>
                             );
                         })}

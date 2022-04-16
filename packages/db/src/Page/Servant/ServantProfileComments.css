@@ -1,3 +1,9 @@
 table.servant-comments td.profile-condition {
     width: 15%;
 }
+
+@media (max-width: 768px) {
+    .servant-comments-header {
+        display: none;
+    }
+}
