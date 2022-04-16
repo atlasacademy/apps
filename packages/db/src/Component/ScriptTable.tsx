@@ -55,6 +55,7 @@ const ChoiceComponentsTable = (props: {
     region: Region;
     choiceComponents: (ScriptBracketComponent | ScriptDialogue)[];
     refs: RowBgmRefMap;
+    wideScreen?: boolean;
 }) => {
     if (props.choiceComponents.length === 0) return null;
     return (
@@ -65,7 +66,15 @@ const ChoiceComponentsTable = (props: {
                         case ScriptComponentType.DIALOGUE:
                             return <DialogueRow key={i} region={props.region} dialogue={c} refs={props.refs} />;
                         default:
-                            return <ScriptBracketRow key={i} region={props.region} component={c} refs={props.refs} />;
+                            return (
+                                <ScriptBracketRow
+                                    key={i}
+                                    region={props.region}
+                                    component={c}
+                                    refs={props.refs}
+                                    wideScreen={props.wideScreen}
+                                />
+                            );
                     }
                 })}
             </tbody>
@@ -284,14 +293,33 @@ const SceneRow = (props: {
     );
 };
 
+const getVideoWidth = (windowWidth: number, wideScreen?: boolean) => {
+    if (wideScreen) {
+        if (windowWidth >= 768) {
+            return 1344 / 2;
+        } else {
+            return 1344 / 4;
+        }
+    } else {
+        if (windowWidth >= 768) {
+            return 1024 / 2;
+        } else {
+            return 1024 / 3;
+        }
+    }
+};
+
 const ScriptBracketRow = (props: {
     region: Region;
     component: ScriptBracketComponent;
     refs: RowBgmRefMap;
     lineNumber?: number;
+    wideScreen?: boolean;
 }) => {
-    const { region, component, refs, lineNumber } = props;
-    const showScriptLine = useContext(ShowScriptLineContext);
+    const { region, component, refs, lineNumber, wideScreen } = props,
+        { windowWidth } = useWindowDimensions(),
+        showScriptLine = useContext(ShowScriptLineContext);
+
     const getGoToLabel = (labelName: string) => {
         return (
             <Button
@@ -319,6 +347,17 @@ const ScriptBracketRow = (props: {
                         <BgmDescriptor region={region} bgm={component.bgm} />
                     </td>
                     {showScriptLine && <td>{lineNumber}</td>}
+                </tr>
+            );
+        case ScriptComponentType.CRI_MOVIE:
+            return (
+                <tr>
+                    <td>Movie</td>
+                    <td>
+                        <video controls width={getVideoWidth(windowWidth, wideScreen)}>
+                            <source src={component.movieUrl} type="video/mp4" />
+                        </video>
+                    </td>
                 </tr>
             );
         case ScriptComponentType.SOUND_EFFECT:
@@ -408,8 +447,13 @@ const ChoiceRouteInfo = ({ routeInfo }: { routeInfo?: ScriptChoiceRouteInfo }) =
     return null;
 };
 
-const ScriptRow = (props: { region: Region; wrapper: ScriptComponentWrapper; refs: RowBgmRefMap }) => {
-    const { region, wrapper, refs } = props;
+const ScriptRow = (props: {
+    region: Region;
+    wrapper: ScriptComponentWrapper;
+    refs: RowBgmRefMap;
+    wideScreen?: boolean;
+}) => {
+    const { region, wrapper, refs, wideScreen } = props;
     const { content: component, lineNumber } = wrapper;
     const showScriptLine = useContext(ShowScriptLineContext);
     switch (component.type) {
@@ -429,6 +473,7 @@ const ScriptRow = (props: { region: Region; wrapper: ScriptComponentWrapper; ref
                                         region={region}
                                         choiceComponents={choice.results}
                                         refs={refs}
+                                        wideScreen={wideScreen}
                                     />
                                 </li>
                             ))}
@@ -438,7 +483,15 @@ const ScriptRow = (props: { region: Region; wrapper: ScriptComponentWrapper; ref
                 </tr>
             );
         default:
-            return <ScriptBracketRow region={region} component={component} refs={refs} lineNumber={lineNumber} />;
+            return (
+                <ScriptBracketRow
+                    region={region}
+                    component={component}
+                    refs={refs}
+                    lineNumber={lineNumber}
+                    wideScreen={wideScreen}
+                />
+            );
     }
 };
 
@@ -569,7 +622,12 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                     return (
                         <React.Fragment key={i}>
                             {props.showScene === false ? null : sceneRow}
-                            <ScriptRow region={props.region} wrapper={component} refs={props.refs} />
+                            <ScriptRow
+                                region={props.region}
+                                wrapper={component}
+                                refs={props.refs}
+                                wideScreen={wideScreen}
+                            />
                         </React.Fragment>
                     );
                 })}

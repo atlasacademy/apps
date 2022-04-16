@@ -38,6 +38,7 @@ export enum ScriptComponentType {
     BGM = "BGM",
     BGM_STOP = "BGM_STOP",
     VOICE = "VOICE",
+    CRI_MOVIE = "CRI_MOVIE",
     BACKGROUND = "BACKGROUND",
     FLAG = "FLAG",
     DIALOGUE_TEXT = "DIALOGUE_TEXT",
@@ -401,6 +402,12 @@ export type ScriptVoice = {
     voice: ScriptSound;
 };
 
+export type ScriptCriMovie = {
+    type: ScriptComponentType.CRI_MOVIE;
+    movieName: string;
+    movieUrl: string;
+};
+
 export type ScriptBackground = {
     type: ScriptComponentType.BACKGROUND;
     backgroundAsset: string;
@@ -445,6 +452,7 @@ export type ScriptBracketComponent =
     | ScriptBgm
     | ScriptBgmStop
     | ScriptVoice
+    | ScriptCriMovie
     | ScriptBackground
     | ScriptFlag
     | ScriptPictureFrame;
@@ -1002,6 +1010,15 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
             return {
                 type: ScriptComponentType.VOICE,
                 voice: getBgmObject(fileName, audioUrl),
+            };
+        case "criMovie":
+            return {
+                type: ScriptComponentType.CRI_MOVIE,
+                movieName: parameters[1],
+                movieUrl: `${AssetHost}/${region}/Movie/${parameters[1]}.mp4`,
+                // bgmPlay
+                // true/false
+                // seStop
             };
         case "scene":
             return {
