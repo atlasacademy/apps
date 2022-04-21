@@ -233,7 +233,7 @@ class EventPage extends React.Component<IProps, IState> {
     ) {
         const missionMap = new Map(missions.map((mission) => [mission.id, mission]));
         return (
-            <Table hover responsive>
+            <Table hover responsive className="mission-table">
                 <thead>
                     <tr>
                         <th style={{ textAlign: "center" }}>#</th>

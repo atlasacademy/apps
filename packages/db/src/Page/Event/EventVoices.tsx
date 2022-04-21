@@ -19,7 +19,7 @@ const EventVoices = ({
 }) => {
     return (
         <>
-            {voiceGroups.map((voiceGroup) => {
+            {voiceGroups.map((voiceGroup, i) => {
                 let guideName = `Guide ${voiceGroup.svtId}`;
 
                 for (const rewardScene of eventRewardScenes) {
@@ -55,6 +55,7 @@ const EventVoices = ({
                             content: voiceLineTable,
                             subheader: false,
                             accordionKey: voiceGroupKey,
+                            separator: i !== 0,
                         })}
                     </React.Fragment>
                 );
