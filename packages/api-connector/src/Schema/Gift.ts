@@ -1,3 +1,5 @@
+import CondType from "../Enum/Cond";
+
 export enum GiftType {
     SERVANT = "servant",
     ITEM = "item",
@@ -14,10 +16,23 @@ export enum GiftType {
     EVENT_BOARD_GAME_TOKEN = "eventBoardGameToken",
 }
 
-export interface Gift {
+export interface BaseGift {
     id: number;
     type: GiftType;
     objectId: number;
     priority: number;
     num: number;
+}
+
+export interface GiftAdd {
+    priority: number;
+    replacementGiftIcon: string;
+    condType: CondType;
+    targetId: number;
+    targetNum: number;
+    replacementGifts: BaseGift[];
+}
+
+export interface Gift extends BaseGift {
+    giftAdds: GiftAdd[];
 }

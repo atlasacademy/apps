@@ -2,6 +2,7 @@ import { Event, Gift, Item, Region, Servant } from "@atlasacademy/api-connector"
 
 import { AssetHost } from "../Api";
 import { CommandCodeDescriptorId } from "./CommandCodeDescriptor";
+import CondTargetValueDescriptor from "./CondTargetValueDescriptor";
 import CostumeDescriptor from "./CostumeDescriptor";
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
@@ -16,8 +17,69 @@ export default function GiftDescriptor(props: {
     servants?: Map<number, Servant.ServantBasic>;
     pointBuffs?: Map<number, Event.EventPointBuff>;
 }) {
-    const gift = props.gift,
-        region = props.region;
+    return (
+        <>
+            <BaseGiftDescriptor {...props} />
+            {props.gift.giftAdds.length > 0 ? (
+                <>
+                    <br />
+                    {props.gift.giftAdds.map((giftAdd) => (
+                        <GiftAddDescriptor key={giftAdd.priority} region={props.region} giftAdd={giftAdd} />
+                    ))}
+                </>
+            ) : null}
+        </>
+    );
+}
+
+export function GiftAddDescriptor({
+    region,
+    giftAdd,
+    items,
+    servants,
+    pointBuffs,
+}: {
+    region: Region;
+    giftAdd: Gift.GiftAdd;
+    items?: Map<number, Item.Item>;
+    servants?: Map<number, Servant.ServantBasic>;
+    pointBuffs?: Map<number, Event.EventPointBuff>;
+}) {
+    return (
+        <>
+            <img
+                src={giftAdd.replacementGiftIcon}
+                alt="Replacement reward if condition is satisfied"
+                style={{ height: "2em" }}
+            />{" "}
+            {giftAdd.replacementGifts.map((gift) => (
+                <BaseGiftDescriptor
+                    region={region}
+                    gift={gift}
+                    items={items}
+                    servants={servants}
+                    pointBuffs={pointBuffs}
+                />
+            ))}{" "}
+            —{" "}
+            <CondTargetValueDescriptor
+                region={region}
+                cond={giftAdd.condType}
+                target={giftAdd.targetId}
+                value={giftAdd.targetNum}
+            />
+        </>
+    );
+}
+
+export function BaseGiftDescriptor(props: {
+    region: Region;
+    gift: Gift.BaseGift;
+    items?: Map<number, Item.Item>;
+    servants?: Map<number, Servant.ServantBasic>;
+    pointBuffs?: Map<number, Event.EventPointBuff>;
+}) {
+    const { gift, region } = props;
     switch (gift.type) {
         case Gift.GiftType.SERVANT:
             return (

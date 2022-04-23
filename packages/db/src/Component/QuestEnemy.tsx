@@ -347,6 +347,7 @@ export const QuestDropDescriptor = ({ region, drops }: { region: Region; drops: 
                         ...drop,
                         id: 0,
                         priority: 0,
+                        giftAdds: [],
                     };
                     let ciText = <></>;
                     if (drop.runs > 1) {
