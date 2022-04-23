@@ -59,7 +59,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     };
 
     const searchButton = (query?: string, scriptFileName?: string) => {
-        if (query === undefined || query === "") {
+        if (query === undefined || query.trim() === "") {
             alert("Please enter a query");
         } else {
             search(query, scriptFileName);
@@ -111,7 +111,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         <>
             {searching ? <Loading /> : null}
             <h1>Scripts Search</h1>
-            <p>
+            <div className="my-3">
                 Supports
                 <ul>
                     <li>
@@ -135,7 +135,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     Syntax Reference
                 </a>{" "}
                 (Queries starting with <code>column:</code> are not supported).
-            </p>
+            </div>
             <form
                 onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
