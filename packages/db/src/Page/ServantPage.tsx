@@ -353,6 +353,11 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantBondGrowth bondGrowth={servant.bondGrowth} />
                         <ServantProfileStats region={this.props.region} profile={servant.profile} />
                         <ServantRelatedQuests region={this.props.region} questIds={servant.relateQuestIds} />
+                        <ServantRelatedQuests
+                            region={this.props.region}
+                            questIds={servant.trialQuestIds}
+                            title="Trial Quest"
+                        />
                         <ServantValentine region={this.props.region} servant={servant} />
                         <ServantCostumeDetails costumes={servant.profile?.costume} />
                         <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []} />
