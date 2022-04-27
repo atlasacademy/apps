@@ -1,6 +1,6 @@
 {
     "name": "@atlasacademy/battle",
-    "version": "0.4.49",
+    "version": "0.4.50",
     "description": "Library to run fgo battle simulations",
     "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/battle",
     "main": "dist/index.js",
@@ -34,7 +34,7 @@
         "typescript": "^4.1.3"
     },
     "dependencies": {
-        "@atlasacademy/api-connector": "^3.0.110"
+        "@atlasacademy/api-connector": "^3.0.111"
     },
     "prettier": {
         "tabWidth": 4,
