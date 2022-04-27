@@ -73,11 +73,11 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         partials.push(new TextPartial("NP Counter"));
     } else if (triggerType) {
         partials.push(new TextPartial("Trigger Skill"));
-        partials.push(new ParticlePartial(triggerType.after ? " on " : " before "));
 
         if (triggerType.when) {
-            partials.push(new TextPartial(triggerType.when));
-            partials.push(new ParticlePartial(" "));
+            partials.push(new TextPartial(` ${triggerType.when} `));
+        } else {
+            partials.push(new ParticlePartial(triggerType.after ? " on " : " before "));
         }
 
         if (buff.ckSelfIndv.length) {
@@ -86,7 +86,9 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         }
 
         partials.push(new TextPartial(triggerType.event));
-        partials.push(...appendTraitFilters([], buff.ckOpIndv, buff.script.checkIndvType));
+
+        const targetParticle = buff.type === Buff.BuffType.DEADATTACK_FUNCTION ? "with" : undefined;
+        partials.push(...appendTraitFilters([], buff.ckOpIndv, buff.script.checkIndvType, undefined, targetParticle));
     } else if (buff.name) {
         partials.push(new TextPartial(buff.name));
     } else {

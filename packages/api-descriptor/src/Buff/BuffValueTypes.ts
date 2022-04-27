@@ -78,6 +78,7 @@ export interface BuffValueTriggerType {
 export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType>([
     [Buff.BuffType.REFLECTION_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
     [Buff.BuffType.ATTACK_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [Buff.BuffType.DEADATTACK_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
     [
         Buff.BuffType.COMMANDATTACK_FUNCTION,
         {

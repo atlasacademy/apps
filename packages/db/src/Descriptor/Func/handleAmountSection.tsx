@@ -28,6 +28,7 @@ export default function handleAmountSection(
     } else if (
         (func.buffs[0]?.type === Buff.BuffType.ATTACK_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION ||
+            func.buffs[0]?.type === Buff.BuffType.DEADATTACK_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.COMMANDCODEATTACK_FUNCTION ||

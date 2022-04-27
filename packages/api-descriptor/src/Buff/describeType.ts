@@ -19,9 +19,9 @@ export default function (type: Buff.BuffType): string {
         return typeDescription;
     } else if (triggerType) {
         if (triggerType.counterNp) return "Counter NP";
-        return `Trigger Skill ${triggerType.after ? "on " : "before "}${
-            triggerType.when ? triggerType.when + " " : ""
-        }${triggerType.event}`;
+        return `Trigger Skill ${triggerType.when ? ` ${triggerType.when} ` : triggerType.after ? "on " : "before "}${
+            triggerType.event
+        }`;
     }
 
     return toTitleCase(type);
