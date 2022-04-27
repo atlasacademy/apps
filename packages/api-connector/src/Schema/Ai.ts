@@ -20,6 +20,8 @@ export enum AiActNum {
     REACTION_TURNSTART = "reactionTurnstart",
     REACTION_PLAYERACTIONSTART = "reactionPlayeractionstart",
     REACTION_ENTRY_UNIT = "reactionEntryUnit",
+    REACTION_BEFORE_RESURRECTION = "reactionBeforeResurrection",
+    REACTION_BEFORE_DEAD = "reactionBeforeDead",
     UNKNOWN = "unknown",
 }
 
@@ -197,6 +199,8 @@ export enum AiActType {
     SKILL_ID_CHECKBUFF = "skillIdCheckbuff",
     RESURRECTION = "resurrection",
     PLAY_MOTION = "playMotion",
+    MESSAGE = "message",
+    MESSAGE_GROUP = "messageGroup",
     NOBLE_PHANTASM = "noblePhantasm",
     BATTLE_END = "battleEnd",
     LOSE_END = "loseEnd",

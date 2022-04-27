@@ -20,6 +20,8 @@ export enum ProfileVoiceType {
     EVENT_DAILY_POINT = "eventDailyPoint",
     TDDAMAGE = "tddamage",
     TREASURE_BOX = "treasureBox",
+    WAR_BOARD = "warBoard",
+    EVENT_DIGGING = "eventDigging",
     SUM = "sum",
 }
 
