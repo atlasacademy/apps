@@ -1,6 +1,6 @@
 {
     "name": "paper-moon",
-    "version": "0.3.74",
+    "version": "0.3.75",
     "homepage": "/paper-moon",
     "private": true,
     "dependencies": {
