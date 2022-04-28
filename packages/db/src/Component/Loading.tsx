@@ -33,6 +33,6 @@ const FouLoading = () => {
     );
 };
 
-const Loading = () => (Math.random() > 0.5 ? <KonLoading /> : <FouLoading />);
+const Loading = Math.random() > 0.5 ? () => <KonLoading /> : () => <FouLoading />;
 
 export default Loading;
