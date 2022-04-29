@@ -26,7 +26,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     bgms: Bgm.BgmEntity[];
-    releaseOnlyFilter: boolean;
+    releaseOnlyFilter?: boolean;
     perPage: number;
     page: number;
     search?: string;
@@ -40,7 +40,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         this.state = {
             loading: true,
             bgms: [],
-            releaseOnlyFilter: false,
+            releaseOnlyFilter: undefined,
             perPage: 50,
             page: 0,
             fuse: new Fuse([]),
@@ -71,8 +71,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             .filter((bgm) => bgm.audioAsset && bgm.fileName !== "")
             .sort((a, b) => a.priority - b.priority);
 
-        if (this.state.releaseOnlyFilter) {
-            list = list.filter((bgm) => !bgm.notReleased);
+        if (this.state.releaseOnlyFilter !== undefined) {
+            list = list.filter((bgm) => bgm.notReleased === !this.state.releaseOnlyFilter);
         }
 
         if (this.state.search !== undefined && this.state.search !== "") {
@@ -99,8 +99,8 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         );
     }
 
-    private toggleReleaseOnlyFilter(): void {
-        this.setState({ releaseOnlyFilter: !this.state.releaseOnlyFilter });
+    private toggleReleaseOnlyFilter(buttonState: boolean): void {
+        this.setState({ releaseOnlyFilter: buttonState === this.state.releaseOnlyFilter ? undefined : buttonState });
     }
 
     private paginator(count: number): JSX.Element {
@@ -184,13 +184,19 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         return (
             <div id="bgms" className="listing-page">
                 <Row>
-                    <Col md={12} lg={3} id="item-type">
+                    <Col md={12} lg={6} id="item-type">
                         <ButtonGroup>
                             <Button
-                                variant={this.state.releaseOnlyFilter ? "success" : "outline-dark"}
-                                onClick={(_) => this.toggleReleaseOnlyFilter()}
+                                variant={this.state.releaseOnlyFilter === true ? "success" : "outline-dark"}
+                                onClick={(_) => this.toggleReleaseOnlyFilter(true)}
                             >
-                                Can be bought in my room
+                                Buyable in my room
+                            </Button>
+                            <Button
+                                variant={this.state.releaseOnlyFilter === false ? "success" : "outline-dark"}
+                                onClick={(_) => this.toggleReleaseOnlyFilter(false)}
+                            >
+                                Not buyable in my room
                             </Button>
                         </ButtonGroup>
                     </Col>
