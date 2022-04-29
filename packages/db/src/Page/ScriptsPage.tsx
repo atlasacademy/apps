@@ -1,4 +1,4 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSort, faSortDown, faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import { useState, useEffect } from "react";
@@ -33,6 +33,8 @@ const getQueryString = (query?: string, scriptFileName?: string) => {
     }).toString();
 };
 
+type ScriptResultSort = "Score" | "ScriptIdAscending" | "ScriptIdDescending";
+
 const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     const history = useHistory(),
         location = useLocation(),
@@ -45,7 +47,8 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(thisStateCache?.scripts ?? []),
         [error, setError] = useState<AxiosError | undefined>(undefined),
         [searching, setSearching] = useState(false),
-        [searched, setSearched] = useState(thisStateCache?.searched ?? false);
+        [searched, setSearched] = useState(thisStateCache?.searched ?? false),
+        [resultSort, setResultSort] = useState<ScriptResultSort>("Score");
 
     const search = (query: string, scriptFileName?: string) => {
         setSearching(true);
@@ -186,23 +189,73 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     <Table responsive>
                         <thead>
                             <tr>
-                                <th>Script ID</th>
+                                <th className="text-nowrap align-bottom">
+                                    <Button
+                                        variant=""
+                                        className="py-0 border-0 align-bottom"
+                                        onClick={() => {
+                                            switch (resultSort) {
+                                                case "Score":
+                                                    setResultSort("ScriptIdAscending");
+                                                    break;
+                                                case "ScriptIdAscending":
+                                                    setResultSort("ScriptIdDescending");
+                                                    break;
+                                                case "ScriptIdDescending":
+                                                    setResultSort("Score");
+                                                    break;
+                                            }
+                                        }}
+                                    >
+                                        {resultSort === "Score" ? (
+                                            <FontAwesomeIcon
+                                                icon={faSort}
+                                                title="Sorted by how many keywords are included"
+                                            />
+                                        ) : resultSort === "ScriptIdAscending" ? (
+                                            <FontAwesomeIcon icon={faSortUp} title="Sorted by Script ID (Ascending)" />
+                                        ) : (
+                                            <FontAwesomeIcon
+                                                icon={faSortDown}
+                                                title="Sorted by Script ID (Descending)"
+                                            />
+                                        )}
+                                    </Button>
+                                    Script ID
+                                </th>
                                 <th>Snippet</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {scripts.map((script) => (
-                                <tr key={script.scriptId}>
-                                    <td>
-                                        <ScriptDescriptor region={region} scriptId={script.scriptId} scriptType="" />
-                                    </td>
-                                    <td
-                                        dangerouslySetInnerHTML={{
-                                            __html: script.snippets[0],
-                                        }}
-                                    ></td>
-                                </tr>
-                            ))}
+                            {scripts
+                                .sort((a, b) => {
+                                    switch (resultSort) {
+                                        case "Score":
+                                            return b.score - a.score || a.scriptId.localeCompare(b.scriptId, "en");
+                                        case "ScriptIdAscending":
+                                            return a.scriptId.localeCompare(b.scriptId, "en");
+                                        case "ScriptIdDescending":
+                                            return b.scriptId.localeCompare(a.scriptId, "en");
+                                        default:
+                                            return 0;
+                                    }
+                                })
+                                .map((script) => (
+                                    <tr key={script.scriptId}>
+                                        <td>
+                                            <ScriptDescriptor
+                                                region={region}
+                                                scriptId={script.scriptId}
+                                                scriptType=""
+                                            />
+                                        </td>
+                                        <td
+                                            dangerouslySetInnerHTML={{
+                                                __html: script.snippets[0],
+                                            }}
+                                        ></td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </Table>
                 </>
