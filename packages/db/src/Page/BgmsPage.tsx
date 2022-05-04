@@ -100,7 +100,10 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
     }
 
     private toggleReleaseOnlyFilter(buttonState: boolean): void {
-        this.setState({ releaseOnlyFilter: buttonState === this.state.releaseOnlyFilter ? undefined : buttonState });
+        this.setState({
+            releaseOnlyFilter: buttonState === this.state.releaseOnlyFilter ? undefined : buttonState,
+            page: 0,
+        });
     }
 
     private paginator(count: number): JSX.Element {
