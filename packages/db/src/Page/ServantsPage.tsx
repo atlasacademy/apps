@@ -1,3 +1,5 @@
+import { faArrowDown19, faArrowDown91, faHashtag, faKey } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import Fuse from "fuse.js";
 import React from "react";
@@ -57,6 +59,10 @@ interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
 interface MouseEvent extends React.MouseEvent<HTMLInputElement> {}
 
+type SortDirection = "ascending" | "descending";
+
+type SortKey = "id" | "collectionNo";
+
 interface IProps {
     region: Region;
 }
@@ -69,6 +75,8 @@ interface IState {
     activeRarityFilters: number[];
     perPage: number;
     page: number;
+    sortDirection: SortDirection;
+    sortKey: SortKey;
     search?: string;
     fuse: Fuse<Servant.ServantBasic>;
 }
@@ -84,6 +92,8 @@ class ServantsPage extends React.Component<IProps, IState> {
             activeRarityFilters: [],
             perPage: 50,
             page: 0,
+            sortDirection: "descending",
+            sortKey: "collectionNo",
             fuse: new Fuse([]),
         };
     }
@@ -245,7 +255,12 @@ class ServantsPage extends React.Component<IProps, IState> {
     }
 
     private servants(): Servant.ServantBasic[] {
-        let list = this.state.servants.slice().reverse();
+        let list = this.state.servants.slice();
+
+        list.sort(
+            (a, b) =>
+                (this.state.sortDirection === "ascending" ? 1 : -1) * (a[this.state.sortKey] - b[this.state.sortKey])
+        );
 
         if (this.state.activeRarityFilters.length > 0) {
             list = list.filter((entity) => {
@@ -360,7 +375,39 @@ class ServantsPage extends React.Component<IProps, IState> {
                 <Table striped bordered hover responsive>
                     <thead>
                         <tr>
-                            <th className="col-center">#</th>
+                            <th className="col-center text-nowrap">
+                                <Button
+                                    variant=""
+                                    className="py-0 px-2 border-0 align-bottom"
+                                    onClick={() => {
+                                        this.setState({
+                                            sortKey: this.state.sortKey === "collectionNo" ? "id" : "collectionNo",
+                                        });
+                                    }}
+                                >
+                                    {this.state.sortKey === "collectionNo" ? (
+                                        <FontAwesomeIcon icon={faHashtag} title="Collection No" />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faKey} title="Servant ID" />
+                                    )}
+                                </Button>
+                                <Button
+                                    variant=""
+                                    className="py-0 px-2 border-0 align-bottom"
+                                    onClick={() => {
+                                        this.setState({
+                                            sortDirection:
+                                                this.state.sortDirection === "ascending" ? "descending" : "ascending",
+                                        });
+                                    }}
+                                >
+                                    {this.state.sortDirection === "ascending" ? (
+                                        <FontAwesomeIcon icon={faArrowDown19} title="Ascending" />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faArrowDown91} title="Descending" />
+                                    )}
+                                </Button>
+                            </th>
                             <th className="col-center">Class</th>
                             <th className="col-center">Thumbnail</th>
                             <th>Name</th>
