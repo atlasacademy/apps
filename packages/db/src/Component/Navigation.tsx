@@ -1,5 +1,5 @@
 import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faCog } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown } from "react-bootstrap";
@@ -188,8 +188,11 @@ class Navigation extends React.Component<IProps, IState> {
                 </Navbar>
 
                 <Modal show={this.state.showSettings} onHide={() => this.hideSettings()}>
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>Settings</Modal.Title>
+                        <button className="modal-close" onClick={() => this.hideSettings()}>
+                            <FontAwesomeIcon icon={faXmark} title="Close Settings" />
+                        </button>
                     </Modal.Header>
                     <Modal.Body>
                         <SettingForm language={this.props.language} theme={this.props.theme} />
