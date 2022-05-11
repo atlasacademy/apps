@@ -84,21 +84,21 @@ export function BaseGiftDescriptor(props: {
         case Gift.GiftType.SERVANT:
             return (
                 <>
-                    <EntityReferenceDescriptor region={region} svtId={gift.objectId} /> x{gift.num}
+                    <EntityReferenceDescriptor region={region} svtId={gift.objectId} /> ×{gift.num}
                 </>
             );
         case Gift.GiftType.ITEM:
             if (props.items !== undefined) {
                 return (
                     <>
-                        <IconDescriptorMap region={region} itemId={gift.objectId} items={props.items} /> x
+                        <IconDescriptorMap region={region} itemId={gift.objectId} items={props.items} /> ×
                         {gift.num.toLocaleString()}
                     </>
                 );
             } else {
                 return (
                     <>
-                        <ItemDescriptorId region={region} itemId={gift.objectId} /> x{gift.num.toLocaleString()}
+                        <ItemDescriptorId region={region} itemId={gift.objectId} /> ×{gift.num.toLocaleString()}
                     </>
                 );
             }
@@ -113,7 +113,7 @@ export function BaseGiftDescriptor(props: {
         case Gift.GiftType.EVENT_SVT_GET:
             return (
                 <>
-                    Get <ServantDescriptorId region={region} id={gift.objectId} servants={props.servants} /> x{gift.num}
+                    Get <ServantDescriptorId region={region} id={gift.objectId} servants={props.servants} /> ×{gift.num}
                 </>
             );
         case Gift.GiftType.QUEST_REWARD_ICON:

@@ -48,7 +48,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
 
     const shopDetail = bgm.shop ? (
         <>
-            <ItemDescriptor region={region} item={bgm.shop.cost.item} /> x{bgm.shop.cost.amount}
+            <ItemDescriptor region={region} item={bgm.shop.cost.item} /> ×{bgm.shop.cost.amount}
         </>
     ) : (
         ""

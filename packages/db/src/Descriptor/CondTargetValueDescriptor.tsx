@@ -145,13 +145,13 @@ export default function CondTargetValueDescriptor(props: {
         case CondType.ITEM_GET:
             return (
                 <>
-                    Has <ItemDescriptorId region={region} itemId={target} /> x{value}
+                    Has <ItemDescriptorId region={region} itemId={target} /> ×{value}
                 </>
             );
         case CondType.NOT_ITEM_GET:
             return (
                 <>
-                    Doesn't have <ItemDescriptorId region={region} itemId={target} /> x{value}
+                    Doesn't have <ItemDescriptorId region={region} itemId={target} /> ×{value}
                 </>
             );
         default:

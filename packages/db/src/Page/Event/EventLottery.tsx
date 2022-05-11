@@ -84,7 +84,7 @@ const EventLottery = ({
                 <Link to={`/${region}/item/${lottery.cost.item.id}`}>
                     <ItemIcon region={region} item={lottery.cost.item} height={40} /> {lottery.cost.item.name}
                 </Link>{" "}
-                x{lottery.cost.amount}
+                ×{lottery.cost.amount}
             </div>
             {boxIndexes.map((boxIndex) => {
                 const boxes = lottery.boxes.filter((box) => box.boxIndex === boxIndex).sort((a, b) => a.no - b.no);

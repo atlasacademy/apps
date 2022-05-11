@@ -240,7 +240,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
                             const shopDetail = bgm.shop ? (
                                 <>
-                                    <ItemDescriptor region={this.props.region} item={bgm.shop.cost.item} /> x
+                                    <ItemDescriptor region={this.props.region} item={bgm.shop.cost.item} /> ×
                                     {bgm.shop.cost.amount}
                                 </>
                             ) : null;

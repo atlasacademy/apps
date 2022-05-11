@@ -15,7 +15,7 @@ const CommonConsumeDescriptor = ({
         case CommonConsume.CommonConsumeType.ITEM:
             return (
                 <>
-                    <IconDescriptorMap region={region} itemId={commonConsume.objectId} items={itemMap} /> x
+                    <IconDescriptorMap region={region} itemId={commonConsume.objectId} items={itemMap} /> ×
                     {commonConsume.num}
                 </>
             );

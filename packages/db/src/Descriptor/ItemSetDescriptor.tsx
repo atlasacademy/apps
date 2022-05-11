@@ -10,14 +10,14 @@ const ItemSetDescriptor = (props: { region: Region; itemSet: Shop.ItemSet; itemM
         case Shop.PurchaseType.ITEM:
             return (
                 <>
-                    <IconDescriptorMap region={region} itemId={itemSet.targetId} height={40} items={props.itemMap} /> x
+                    <IconDescriptorMap region={region} itemId={itemSet.targetId} height={40} items={props.itemMap} /> ×
                     {itemSet.setNum}
                 </>
             );
         case Shop.PurchaseType.SERVANT:
             return (
                 <>
-                    <EntityReferenceDescriptor region={region} svtId={itemSet.targetId} /> x{itemSet.setNum}
+                    <EntityReferenceDescriptor region={region} svtId={itemSet.targetId} /> ×{itemSet.setNum}
                 </>
             );
         // case Shop.PurchaseType.EVENT_SHOP:

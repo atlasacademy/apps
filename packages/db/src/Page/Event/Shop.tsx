@@ -96,7 +96,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                         .map(([itemId, amount]) => (
                             <span style={{ whiteSpace: "nowrap", paddingRight: "1ch" }} key={itemId}>
                                 <IconLink region={region} item={items.get(itemId)!} />
-                                <b>x{amount.toLocaleString()}</b>
+                                <b>×{amount.toLocaleString()}</b>
                             </span>
                         ))}
                 </div>
