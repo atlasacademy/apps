@@ -9,21 +9,21 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@atlasacademy/api-connector@^3.0.111":
-  "integrity" "sha512-alg3bnnxnH0D2kLUeVbQW46pYA44JU3LtIVvQBpZM8xvJVwfcO53TrIVj0tSCtxf87qYvEsSHtci3QjSEiqCmg=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.111.tgz"
-  "version" "3.0.111"
+"@atlasacademy/api-connector@^3.0.112":
+  "integrity" "sha512-eCjCsD/AyKW2s6EatIX2UiHvPbU77W7kLNFO3lY4WrGBHfC993IfqODG7WvIvPPvB/lKd5Qds0wk0JTKWtO7Hg=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.112.tgz"
+  "version" "3.0.112"
   dependencies:
-    "axios" "^0.26.0"
+    "axios" "^0.27.2"
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/battle@^0.4.50":
-  "integrity" "sha512-vrpneninjg4sHdgvdwMlBxijc9a+vYqG9VYFv9pPMfumaEUI8Ouuosxjnh9x2izwl53NaUcUPtRIEwObGSIa2w=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/battle/-/battle-0.4.50.tgz"
-  "version" "0.4.50"
+"@atlasacademy/battle@^0.4.51":
+  "integrity" "sha512-jdr6rBMSPVYmEHy+zTG9BZVUlhPgFEg0hx2IKegv8IzYuz3E0414ctWfLN3t80Jt8F0TPCNC/rrxkho6pPTsKA=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/battle/-/battle-0.4.51.tgz"
+  "version" "0.4.51"
   dependencies:
-    "@atlasacademy/api-connector" "^3.0.111"
+    "@atlasacademy/api-connector" "^3.0.112"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.16.7", "@babel/code-frame@^7.5.5":
   "integrity" "sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg=="
@@ -2669,12 +2669,13 @@
   "resolved" "https://registry.npmjs.org/axe-core/-/axe-core-4.4.1.tgz"
   "version" "4.4.1"
 
-"axios@^0.26.0":
-  "integrity" "sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA=="
-  "resolved" "https://registry.npmjs.org/axios/-/axios-0.26.1.tgz"
-  "version" "0.26.1"
+"axios@^0.27.2":
+  "integrity" "sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-0.27.2.tgz"
+  "version" "0.27.2"
   dependencies:
-    "follow-redirects" "^1.14.8"
+    "follow-redirects" "^1.14.9"
+    "form-data" "^4.0.0"
 
 "axobject-query@^2.2.0":
   "integrity" "sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA=="
@@ -5312,7 +5313,7 @@
     "inherits" "^2.0.3"
     "readable-stream" "^2.3.6"
 
-"follow-redirects@^1.0.0", "follow-redirects@^1.14.8":
+"follow-redirects@^1.0.0", "follow-redirects@^1.14.9":
   "integrity" "sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w=="
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.9.tgz"
   "version" "1.14.9"
@@ -5339,6 +5340,15 @@
   "integrity" "sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg=="
   "resolved" "https://registry.npmjs.org/form-data/-/form-data-3.0.1.tgz"
   "version" "3.0.1"
+  dependencies:
+    "asynckit" "^0.4.0"
+    "combined-stream" "^1.0.8"
+    "mime-types" "^2.1.12"
+
+"form-data@^4.0.0":
+  "integrity" "sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww=="
+  "resolved" "https://registry.npmjs.org/form-data/-/form-data-4.0.0.tgz"
+  "version" "4.0.0"
   dependencies:
     "asynckit" "^0.4.0"
     "combined-stream" "^1.0.8"
