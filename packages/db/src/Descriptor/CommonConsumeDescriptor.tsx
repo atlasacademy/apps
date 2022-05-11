@@ -19,6 +19,8 @@ const CommonConsumeDescriptor = ({
                     {commonConsume.num}
                 </>
             );
+        case CommonConsume.CommonConsumeType.AP:
+            return <>{commonConsume.num} AP</>;
     }
 };
 
