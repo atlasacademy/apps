@@ -16,6 +16,7 @@ export enum ShopType {
     SVT_COSTUME = "svtCostume",
     START_UP_SUMMON = "startUpSummon",
     SHOP13 = "shop13",
+    TRADE_AP = "tradeAp",
 }
 
 export enum PayType {
@@ -32,6 +33,7 @@ export enum PayType {
     ITEM = "item",
     GRAIL_FRAGMENTS = "grailFragments",
     FREE = "free",
+    COMMON_CONSUME = "commonConsume",
 }
 
 export enum PurchaseType {

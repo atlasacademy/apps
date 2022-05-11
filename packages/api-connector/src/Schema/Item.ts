@@ -38,6 +38,7 @@ export enum ItemType {
     SVT_COIN = "svtCoin",
     FRIENDSHIP_UP_ITEM = "friendshipUpItem",
     PP = "pp",
+    TRADE_AP = "tradeAp",
 }
 
 export enum ItemUse {

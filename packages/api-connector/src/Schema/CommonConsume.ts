@@ -1,5 +1,6 @@
 export enum CommonConsumeType {
     ITEM = "item",
+    AP = "ap",
 }
 
 export interface CommonConsume {
