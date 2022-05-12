@@ -62,7 +62,7 @@ class HomePage extends React.Component<IProps> {
                     <li>
                         <a href="https://atlasacademy.io">Atlas Academy</a>
                         &nbsp; (
-                        <a href="https://discord.gg/TKJmuCR" target="_blank" rel="noopener noreferrer">
+                        <a href="https://atlasacademy.io/discord" target="_blank" rel="noopener noreferrer">
                             Discord
                         </a>
                         )

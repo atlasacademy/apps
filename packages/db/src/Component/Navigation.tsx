@@ -156,7 +156,11 @@ class Navigation extends React.Component<IProps, IState> {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Nav.Link href="https://discord.gg/TKJmuCR" target="_blank" rel="noreferrer">
+                                        <Nav.Link
+                                            href="https://atlasacademy.io/discord"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
                                             <FontAwesomeIcon icon={faDiscord} title="Atlas Academy Discord" />
                                         </Nav.Link>
                                     </Col>
