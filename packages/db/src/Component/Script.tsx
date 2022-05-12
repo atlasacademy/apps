@@ -19,6 +19,7 @@ export enum ScriptComponentType {
     CHARA_DEPTH = "CHARA_DEPTH",
     CHARA_CUT_IN = "CHARA_CUT_IN",
     CHARA_FACE = "CHARA_FACE",
+    CHARA_FACE_FADE = "CHARA_FACE_FADE",
     CHARA_FADE_TIME = "CHARA_FADE_TIME",
     CHARA_FADE_IN = "CHARA_FADE_IN",
     CHARA_FADE_OUT = "CHARA_FADE_OUT",
@@ -257,6 +258,14 @@ export type ScriptCharaFace = {
     assetSet?: ScriptAssetSet;
 };
 
+export type ScriptCharaFaceFade = {
+    type: ScriptComponentType.CHARA_FACE_FADE;
+    speakerCode: string;
+    face: number;
+    durationSec: number;
+    assetSet?: ScriptAssetSet;
+};
+
 export type CharaFilterType = "silhouette" | "normal";
 
 export type ScriptCharaFilter = {
@@ -466,6 +475,7 @@ export type ScriptBracketComponent =
     | ScriptCharaTalk
     | ScriptCharaTalkToggle
     | ScriptCharaFace
+    | ScriptCharaFaceFade
     | ScriptCharaFilter
     | ScriptCharaFadeIn
     | ScriptCharaFadeOut
@@ -903,6 +913,14 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 type: ScriptComponentType.CHARA_FACE,
                 speakerCode: parameters[1],
                 face: parseInt(parameters[2]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
+            };
+        case "charaFaceFade":
+            return {
+                type: ScriptComponentType.CHARA_FACE_FADE,
+                speakerCode: parameters[1],
+                face: parseInt(parameters[2]),
+                durationSec: parseFloat(parameters[3]),
                 assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaFilter":

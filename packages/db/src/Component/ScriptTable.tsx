@@ -26,6 +26,7 @@ import {
     ScriptCharaFilter,
     CameraFilterType,
     ScriptPictureFrame,
+    ScriptCharaFaceFade,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 
@@ -96,7 +97,7 @@ const getSceneScale = (windowWidth: number, windowHeight: number, wideScreen: bo
 
 const SceneRow = (props: {
     background?: ScriptBackground;
-    figure?: ScriptCharaFace;
+    figure?: ScriptCharaFace | ScriptCharaFaceFade;
     charaFadeIn?: ScriptCharaFadeIn;
     offsets?: ScriptOffsets;
     wideScreen: boolean;
@@ -121,7 +122,7 @@ const SceneRow = (props: {
     let offsets = undefined;
     let foreground = undefined;
 
-    let isSilhouette = (figure: ScriptCharaFace) => {
+    let isSilhouette = (figure: ScriptCharaFace | ScriptCharaFaceFade) => {
         const applicableFilters = props.filters.filter(
             (f) =>
                 lineNumber !== undefined &&
@@ -502,7 +503,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
     const scriptComponents = props.script.components;
 
     let backgroundComponent: ScriptBackground | undefined,
-        figureComponent: ScriptCharaFace | undefined,
+        figureComponent: ScriptCharaFace | ScriptCharaFaceFade | undefined,
         charaFadeIn: ScriptCharaFadeIn | undefined,
         wideScreen = false,
         sceneDisplayed = false,
@@ -565,6 +566,13 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             break;
 
                         case ScriptComponentType.CHARA_FACE:
+                            if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
+
+                            figureComponent = content;
+                            sceneDisplayed = false;
+                            break;
+
+                        case ScriptComponentType.CHARA_FACE_FADE:
                             if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
 
                             figureComponent = content;
@@ -648,7 +656,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                 })}
 
                 {props.showScene !== false &&
-                (figureComponent !== undefined || backgroundComponent !== undefined) &&
+                (figureComponent !== undefined || backgroundComponent !== undefined || charaFadeIn !== undefined) &&
                 !sceneDisplayed ? (
                     <SceneRow
                         foreground={foreground}
