@@ -7,6 +7,8 @@ import { splitString } from "../Helper/StringHelper";
 export enum ScriptComponentType {
     UNPARSED = "UNPARSED",
     ENABLE_FULL_SCREEN = "ENABLE_FULL_SCREEN",
+    EFFECT = "EFFECT",
+    EFFECT_STOP = "EFFECT_STOP",
     CAMERA_FILTER = "CAMERA_FILTER",
     CHARA_SET = "CHARA_SET",
     CHARA_CHANGE = "CHARA_CHANGE",
@@ -272,6 +274,8 @@ export type ScriptCameraFilter = {
     filter: CameraFilterType;
 };
 
+export type ScriptPosition = { x: number; y: number };
+
 const positionList = [
     { x: -256, y: 0 },
     { x: 0, y: 0 },
@@ -282,7 +286,7 @@ const positionList = [
     { x: 512, y: 0 },
 ];
 
-const getPosition = (positionString: string) => {
+const getPosition = (positionString: string): ScriptPosition => {
     return positionString.includes(",")
         ? {
               x: parseFloat(positionString.split(",")[0]),
@@ -291,16 +295,43 @@ const getPosition = (positionString: string) => {
         : positionList[parseInt(positionString)];
 };
 
-export type ScriptOffsets = {
-    charaGraphId: number;
-    y?: number;
+export enum ScriptEffectFlipType {
+    NORMAL,
+    HORIZONTAL,
+    VERTICAL,
+    FULL,
+}
+
+const getEffectFlipType = (flipString: string): ScriptEffectFlipType => {
+    switch (flipString) {
+        case "H":
+            return ScriptEffectFlipType.HORIZONTAL;
+        case "V":
+            return ScriptEffectFlipType.VERTICAL;
+        case "F":
+            return ScriptEffectFlipType.FULL;
+        default:
+            return ScriptEffectFlipType.NORMAL;
+    }
+};
+
+export type ScriptEffect = {
+    type: ScriptComponentType.EFFECT;
+    effect: string;
+    position?: ScriptPosition;
+    flipType?: ScriptEffectFlipType;
+};
+
+export type ScriptEffectStop = {
+    type: ScriptComponentType.EFFECT_STOP;
+    effect?: string;
 };
 
 export type ScriptCharaFadeIn = {
     type: ScriptComponentType.CHARA_FADE_IN;
     speakerCode: string;
     durationSec: number;
-    position?: { x: number; y: number };
+    position?: ScriptPosition;
     assetSet?: ScriptAssetSet;
 };
 
@@ -322,7 +353,7 @@ export type ScriptCharaFadeTime = {
 export type ScriptCharaPut = {
     type: ScriptComponentType.CHARA_PUT;
     speakerCode: string;
-    position: { x: number; y: number };
+    position: ScriptPosition;
     assetSet?: ScriptAssetSet;
 };
 
@@ -455,7 +486,9 @@ export type ScriptBracketComponent =
     | ScriptCriMovie
     | ScriptBackground
     | ScriptFlag
-    | ScriptPictureFrame;
+    | ScriptPictureFrame
+    | ScriptEffect
+    | ScriptEffectStop;
 
 export type ScriptChoiceChildComponent = ScriptBracketComponent | ScriptDialogue;
 
@@ -1045,6 +1078,15 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
             return { type: ScriptComponentType.ENABLE_FULL_SCREEN };
         case "cameraFilter":
             return { type: ScriptComponentType.CAMERA_FILTER, filter: parameters[1] as CameraFilterType };
+        case "effect":
+            return {
+                type: ScriptComponentType.EFFECT,
+                effect: parameters[1],
+                position: parameters[2] !== undefined ? getPosition(parameters[2]) : undefined,
+                flipType: parameters[3] !== undefined ? getEffectFlipType(parameters[3]) : undefined,
+            };
+        case "effectStop":
+            return { type: ScriptComponentType.EFFECT_STOP, effect: parameters[1] };
         default:
             return {
                 type: ScriptComponentType.UNPARSED,

@@ -103,9 +103,10 @@ const SceneRow = (props: {
     lineNumber?: number;
     foreground?: { frame?: ScriptPictureFrame };
     cameraFilter: CameraFilterType;
+    effects?: string[];
     filters: { content: ScriptCharaFilter; lineNumber?: number }[];
 }) => {
-    const { lineNumber, cameraFilter } = props,
+    const { lineNumber, cameraFilter, effects } = props,
         resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
         { windowWidth, windowHeight } = useWindowDimensions(),
         sceneScale = getSceneScale(windowWidth, windowHeight, props.wideScreen),
@@ -209,6 +210,7 @@ const SceneRow = (props: {
                         height={height}
                         width={width}
                         cameraFilter={cameraFilter}
+                        effects={effects}
                     />
                     <div>
                         {props.charaFadeIn.assetSet?.type === ScriptComponentType.SCENE_SET ? (
@@ -261,6 +263,7 @@ const SceneRow = (props: {
                     height={height}
                     width={width}
                     cameraFilter={cameraFilter}
+                    effects={effects}
                 />
                 <div>
                     {props.background ? (
@@ -505,7 +508,8 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         sceneDisplayed = false,
         offsets: ScriptOffsets | undefined,
         cameraFilter: CameraFilterType = "normal",
-        foreground: { frame: ScriptPictureFrame | undefined } | undefined;
+        foreground: { frame: ScriptPictureFrame | undefined } | undefined,
+        effects: string[] = [];
 
     const showScriptLine = useContext(ShowScriptLineContext),
         filters: { content: ScriptCharaFilter; lineNumber?: number }[] = [],
@@ -543,6 +547,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 charaFadeIn={charaFadeIn}
                                 wideScreen={wideScreen}
                                 lineNumber={lineNumber}
+                                effects={[...effects]}
                             />
                         );
 
@@ -588,6 +593,16 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             break;
                         case ScriptComponentType.CAMERA_FILTER:
                             cameraFilter = content.filter;
+                            break;
+                        case ScriptComponentType.EFFECT:
+                            effects.push(content.effect);
+                            break;
+                        case ScriptComponentType.EFFECT_STOP:
+                            if (content.effect === undefined) {
+                                effects = [];
+                            } else {
+                                effects = effects.filter((effect) => effect !== content.effect);
+                            }
                             break;
                         case ScriptComponentType.PICTURE_FRAME:
                             foreground = {
@@ -643,6 +658,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         background={backgroundComponent}
                         figure={figureComponent}
                         wideScreen={wideScreen}
+                        effects={[...effects]}
                     />
                 ) : null}
             </tbody>
