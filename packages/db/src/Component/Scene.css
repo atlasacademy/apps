@@ -57,3 +57,11 @@
         background-position: 0 -7px;
     }
 }
+
+.sepia-bg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(ellipse at center, #c1701f 0%, #512f0d 80%);
+    opacity: 0.55;
+}

@@ -24,9 +24,6 @@ const getFilter = ({
     if (cameraFilter === "gray") {
         filters.push("grayscale(1)");
     }
-    if (effects !== undefined && effects.includes("bit_sepia01")) {
-        filters.push("sepia(0.5)");
-    }
 
     if (filters.length === 0) {
         return "none";
@@ -190,6 +187,7 @@ const Scene = (props: {
                     className="scene-foreground frame"
                 />
             )}
+            {effects !== undefined && effects.includes("bit_sepia01") ? <div className="sepia-bg"></div> : null}
         </div>
     );
 };
