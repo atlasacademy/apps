@@ -185,25 +185,39 @@ const QuestTable = (props: {
                         </td>
                         {hasScript ? (
                             <td>
-                                {mergeElements(
-                                    quest.phaseScripts.map((scripts) => (
-                                        <span style={{ whiteSpace: "nowrap" }}>
-                                            {scripts.phase}:{" "}
-                                            {mergeElements(
-                                                scripts.scripts.map((script) => (
-                                                    <ScriptDescriptor
-                                                        region={region}
-                                                        scriptId={script.scriptId}
-                                                        scriptName={script.scriptId.slice(-2)}
-                                                        scriptType=""
-                                                    />
-                                                )),
-                                                ", "
-                                            )}
-                                        </span>
-                                    )),
-                                    <br />
-                                )}
+                                {quest.phaseScripts.length > 0
+                                    ? quest.phases.map((phase) => {
+                                          const phaseScript = quest.phaseScripts.find((ps) => ps.phase === phase);
+                                          if (phaseScript === undefined) {
+                                              return (
+                                                  <>
+                                                      {phase}
+                                                      <br />
+                                                  </>
+                                              );
+                                          } else {
+                                              return (
+                                                  <>
+                                                      <span style={{ whiteSpace: "nowrap" }}>
+                                                          {phaseScript.phase}:{" "}
+                                                          {mergeElements(
+                                                              phaseScript.scripts.map((script) => (
+                                                                  <ScriptDescriptor
+                                                                      region={region}
+                                                                      scriptId={script.scriptId}
+                                                                      scriptName={script.scriptId.slice(-2)}
+                                                                      scriptType=""
+                                                                  />
+                                                              )),
+                                                              ", "
+                                                          )}
+                                                      </span>
+                                                      <br />
+                                                  </>
+                                              );
+                                          }
+                                      })
+                                    : null}
                             </td>
                         ) : null}
                     </tr>
