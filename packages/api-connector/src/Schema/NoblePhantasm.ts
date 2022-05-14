@@ -4,6 +4,12 @@ import { Func } from "./Func";
 import { SkillScript } from "./Skill";
 import { Trait } from "./Trait";
 
+export enum NoblePhantasmEffectFlag {
+    SUPPORT = "support",
+    ATTACK_ENEMY_ALL = "attackEnemyAll",
+    ATTACK_ENEMY_ONE = "attackEnemyOne",
+}
+
 export interface NoblePhantasmGain {
     buster: number[];
     arts: number[];
@@ -34,6 +40,7 @@ export interface NoblePhantasm extends NoblePhantasmBasic {
     icon?: string;
     rank: string;
     type: string;
+    effectFlags: NoblePhantasmEffectFlag[];
     detail?: string;
     npGain: NoblePhantasmGain;
     npDistribution: number[];
