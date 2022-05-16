@@ -348,7 +348,9 @@ class Api {
         priority?: number[],
         strengthStatus?: number[],
         lvl1coolDown?: number[],
-        numFunctions?: number[]
+        numFunctions?: number[],
+        svalsContain?: string,
+        reverse?: boolean
     ): Promise<Skill.SkillBasic[]> {
         return apiConnector.searchSkill({
             name,
@@ -358,7 +360,8 @@ class Api {
             strengthStatus,
             lvl1coolDown,
             numFunctions,
-            reverse: true,
+            svalsContain,
+            reverse: reverse ?? true,
             reverseDepth: ReverseDepth.SERVANT,
         });
     }
@@ -371,7 +374,9 @@ class Api {
         strengthStatus?: number[],
         numFunctions?: number[],
         minNpNpGain?: number,
-        maxNpNpGain?: number
+        maxNpNpGain?: number,
+        svalsContain?: string,
+        reverse?: boolean
     ): Promise<NoblePhantasm.NoblePhantasmBasic[]> {
         return apiConnector.searchNP({
             name,
@@ -382,7 +387,8 @@ class Api {
             numFunctions,
             minNpNpGain,
             maxNpNpGain,
-            reverse: true,
+            svalsContain,
+            reverse: reverse ?? true,
             reverseDepth: ReverseDepth.SERVANT,
         });
     }

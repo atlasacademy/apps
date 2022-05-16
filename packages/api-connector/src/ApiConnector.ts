@@ -92,6 +92,7 @@ type SkillSearchOptions = {
     reverse?: boolean;
     reverseData?: ReverseData;
     reverseDepth?: ReverseDepth;
+    svalsContain?: string;
 };
 
 type NPSearchOptions = {
@@ -106,6 +107,7 @@ type NPSearchOptions = {
     reverse?: boolean;
     reverseData?: ReverseData;
     reverseDepth?: ReverseDepth;
+    svalsContain?: string;
 };
 
 type EntitySearchOptions = {

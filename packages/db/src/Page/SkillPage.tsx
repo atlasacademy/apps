@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Form } from "react-bootstrap";
 
-import { Region, Skill } from "@atlasacademy/api-connector";
+import { NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";
@@ -17,6 +17,8 @@ import CommandCodeDescriptor from "../Descriptor/CommandCodeDescriptor";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import { BasicMysticCodeDescriptor } from "../Descriptor/MysticCodeDescriptor";
+import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
+import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import getRubyText, { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
@@ -35,6 +37,8 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     skill?: Skill.Skill;
+    triggeringSkills: Skill.SkillBasic[];
+    triggeringNoblePhantasms: NoblePhantasm.NoblePhantasmBasic[];
     levels: number;
     level: number;
 }
@@ -47,6 +51,8 @@ class SkillPage extends React.Component<IProps, IState> {
             loading: true,
             levels: 1,
             level: 1,
+            triggeringSkills: [],
+            triggeringNoblePhantasms: [],
         };
     }
 
@@ -66,6 +72,34 @@ class SkillPage extends React.Component<IProps, IState> {
                 });
             })
             .catch((error) => this.setState({ error }));
+
+        Promise.all([
+            Api.searchSkill(
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                this.props.id.toString(),
+                false
+            ),
+            Api.searchNoblePhantasm(
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                this.props.id.toString(),
+                false
+            ),
+        ]).then(([triggeringSkills, triggeringNoblePhantasms]) => {
+            this.setState({ triggeringSkills, triggeringNoblePhantasms });
+        });
     }
 
     private changeLevel(level: number) {
@@ -149,6 +183,22 @@ class SkillPage extends React.Component<IProps, IState> {
                                         />
                                     );
                                 })}
+                            </>
+                        ),
+                        "Triggered by": (
+                            <>
+                                {this.state.triggeringSkills.map((skill) => (
+                                    <React.Fragment key={skill.id}>
+                                        <SkillDescriptor region={this.props.region} skill={skill} />
+                                        <br />
+                                    </React.Fragment>
+                                ))}
+                                {this.state.triggeringNoblePhantasms.map((np) => (
+                                    <React.Fragment key={skill.id}>
+                                        <NoblePhantasmDescriptor region={this.props.region} noblePhantasm={np} />
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                             </>
                         ),
                     }}
