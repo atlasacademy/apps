@@ -1040,6 +1040,8 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 imageAsset:
                     parameters[1] === undefined
                         ? undefined
+                        : parameters[1] === "cut063_cinema" && parserState.enableFullScreen
+                        ? `${AssetHost}/${region}/Image/cut063_cinema_fs/cut063_cinema_fs.png`
                         : `${AssetHost}/${region}/Image/${parameters[1]}/${parameters[1]}.png`,
             };
         case "bgm":

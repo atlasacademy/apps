@@ -21,16 +21,15 @@ export const targetDescriptions = new Map<Func.FuncTargetType, string>([
     [Func.FuncTargetType.ENEMY_OTHER_FULL, "other enemies (including reserve)"],
     [Func.FuncTargetType.PTSELECT_ONE_SUB, "active party member and reserve party member"],
     [Func.FuncTargetType.PTSELECT_SUB, "reserve party member"],
-    // PT_ONE_ANOTHER_RANDOM
-    [Func.FuncTargetType.PT_ONE_ANOTHER_RANDOM, "other random party member"],
-    [Func.FuncTargetType.PT_SELF_ANOTHER_RANDOM, "other random party member (except self)"],
+    [Func.FuncTargetType.PT_ONE_ANOTHER_RANDOM, "another random party member"],
+    [Func.FuncTargetType.PT_SELF_ANOTHER_RANDOM, "another random party member (except self)"],
     [Func.FuncTargetType.ENEMY_ONE_ANOTHER_RANDOM, "other random enemy"],
     [Func.FuncTargetType.PT_SELF_ANOTHER_FIRST, "first other party member (except self)"],
+    [Func.FuncTargetType.PT_SELF_ANOTHER_LAST, "last other party member (except self)"],
     [Func.FuncTargetType.PT_ONE_HP_LOWEST_VALUE, "party member with the lowest HP"],
     [Func.FuncTargetType.PT_ONE_HP_LOWEST_RATE, "party member with the lowest HP relative to their max HP"],
     // PT_SELF_BEFORE
     // PT_SELF_AFTER
-    // PT_SELF_ANOTHER_LAST
     [Func.FuncTargetType.COMMAND_TYPE_SELF_TREASURE_DEVICE, "target noble phantasm version"],
     [Func.FuncTargetType.FIELD_OTHER, "party and enemies except self"],
     [Func.FuncTargetType.ENEMY_ONE_NO_TARGET_NO_ACTION, "entity that last dealt damage to self"],
