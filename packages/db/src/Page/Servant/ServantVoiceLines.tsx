@@ -61,7 +61,7 @@ export const VoiceLinesTable = ({
     }
 
     return (
-        <Table bordered>
+        <Table bordered className="mb-0">
             <tbody>
                 {voiceLines.map((line, index) => (
                     <tr key={`line_${index}`}>
