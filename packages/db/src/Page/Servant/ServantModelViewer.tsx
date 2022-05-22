@@ -105,7 +105,9 @@ const CostumeModelViewer = ({
         <ul>
             {Object.keys(assetMap).map((battleCharaId) => (
                 <li key={battleCharaId}>
-                    <ViewerLink battleCharaId={battleCharaId}>{costumeDetails[battleCharaId].shortName}</ViewerLink>
+                    <ViewerLink battleCharaId={battleCharaId}>
+                        {costumeDetails[battleCharaId]?.shortName ?? battleCharaId}
+                    </ViewerLink>
                 </li>
             ))}
         </ul>
