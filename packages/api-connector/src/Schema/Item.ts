@@ -43,6 +43,7 @@ export enum ItemType {
 
 export enum ItemUse {
     SKILL = "skill",
+    APPEND_SKILL = "appendSkill",
     ASCENSION = "ascension",
     COSTUME = "costume",
 }

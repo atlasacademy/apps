@@ -212,6 +212,7 @@ function MaterialListingTable(props: {
 const itemIsMaterial = (item: Item.Item) => {
     return (
         item.uses.includes(Item.ItemUse.SKILL) ||
+        item.uses.includes(Item.ItemUse.APPEND_SKILL) ||
         (item.uses.includes(Item.ItemUse.ASCENSION) &&
             (item.type === Item.ItemType.TD_LV_UP || item.type === Item.ItemType.EVENT_ITEM))
     );
