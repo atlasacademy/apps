@@ -19,21 +19,21 @@
     "jsonpointer" "^5.0.0"
     "leven" "^3.1.0"
 
-"@atlasacademy/api-connector@^3.0.115":
-  "integrity" "sha512-2RcDT1KuQLB9cFOgHAPcGA/xWZhnptEgnpnPpk3YbTSf2AGnetRNw9ZWeqceO9Lmlc7XvUaWtoa5CyjCf49Qig=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.115.tgz"
-  "version" "3.0.115"
+"@atlasacademy/api-connector@^3.0.116":
+  "integrity" "sha512-isRc2MEkGqu6Dl2kxX+nLUGpkg4OLBYhIzynGESw0xRwGrEXW8VYIkF7ZkEbw+ol+yHhRJxq4F9cztrkk0Y7VQ=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.116.tgz"
+  "version" "3.0.116"
   dependencies:
     "axios" "^0.27.2"
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/api-descriptor@^1.0.127":
-  "integrity" "sha512-s7/PfBi3Eid+FjX30ZrdLEd7/aFBcfX4DLkUfQ7x2UQfmQ4Z0p3RE4M+BDhLyt2V8UZ4wpwEK1qDpG++Z3/m7Q=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.127.tgz"
-  "version" "1.0.127"
+"@atlasacademy/api-descriptor@^1.0.128":
+  "integrity" "sha512-KKIX87I/c3nHp1+TCdLMk37lkYOu1Jgi0mkjKzbwwRdOzTofyxXd9vmhl5hhkszn+n3x/HYrMzjk9yzQXrvkSQ=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.128.tgz"
+  "version" "1.0.128"
   dependencies:
-    "@atlasacademy/api-connector" "^3.0.115"
+    "@atlasacademy/api-connector" "^3.0.116"
     "install" "^0.13.0"
     "only" "0.0.2"
 
@@ -4918,22 +4918,22 @@
     "toggle-selection" "^1.0.6"
 
 "core-js-compat@^3.21.0", "core-js-compat@^3.22.1":
-  "integrity" "sha512-dQ/SxlHcuiywaPIoSUCU6Fx+Mk/H5TXENqd/ZJcK85ta0ZcQkbzHwblxPeL0hF5o+NsT2uK3q9ZOG5TboiVuWw=="
-  "resolved" "https://registry.npmjs.org/core-js-compat/-/core-js-compat-3.22.6.tgz"
-  "version" "3.22.6"
+  "integrity" "sha512-uI9DAQKKiiE/mclIC5g4AjRpio27g+VMRhe6rQoz+q4Wm4L6A/fJhiLtBw+sfOpDG9wZ3O0pxIw7GbfOlBgjOA=="
+  "resolved" "https://registry.npmjs.org/core-js-compat/-/core-js-compat-3.22.7.tgz"
+  "version" "3.22.7"
   dependencies:
     "browserslist" "^4.20.3"
     "semver" "7.0.0"
 
 "core-js-pure@^3.20.2", "core-js-pure@^3.8.1":
-  "integrity" "sha512-u5yG2VL6NKXz9BZHr9RAm6eWD1DTNjG7jJnJgLGR+Im0whdPcPXqwqxd+dcUrZvpvPan5KMgn/3pI+Q/aGqPOA=="
-  "resolved" "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.22.6.tgz"
-  "version" "3.22.6"
+  "integrity" "sha512-wTriFxiZI+C8msGeh7fJcbC/a0V8fdInN1oS2eK79DMBGs8iIJiXhtFJCiT3rBa8w6zroHWW3p8ArlujZ/Mz+w=="
+  "resolved" "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.22.7.tgz"
+  "version" "3.22.7"
 
 "core-js@^3.19.2":
-  "integrity" "sha512-2IGcGH00z9I4twgNWU4uGCNEsBFG1s2JudVQrgSCoVhOfwoTwQjxC8aMo9exrpTMOxvobggEpaHnGMmQY4cfBQ=="
-  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.22.6.tgz"
-  "version" "3.22.6"
+  "integrity" "sha512-Jt8SReuDKVNZnZEzyEQT5eK6T2RRCXkfTq7Lo09kpm+fHjgGewSbNjV+Wt4yZMhPDdzz2x1ulI5z/w4nxpBseg=="
+  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.22.7.tgz"
+  "version" "3.22.7"
 
 "core-util-is@~1.0.0":
   "integrity" "sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ=="
@@ -5545,9 +5545,9 @@
     "jake" "^10.8.5"
 
 "electron-to-chromium@^1.4.118":
-  "integrity" "sha512-0Rcpald12O11BUogJagX3HsCN3FE83DSqWjgXoHo5a72KUKMSfI39XBgJpgNNxS9fuGzytaFjE06kZkiVFy2qA=="
-  "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.137.tgz"
-  "version" "1.4.137"
+  "integrity" "sha512-IOyp2Seq3w4QLln+yZWcMF3VXhhduz4bwg9gfI+CnP5TkzwNXQ8FCZuwwPsnes73AfWdf5J2n2OXdUwDUspDPQ=="
+  "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.138.tgz"
+  "version" "1.4.138"
 
 "emittery@^0.10.2":
   "integrity" "sha512-aITqOwnLanpHLNXZJENbOgjUBeHocD+xsSJmNrjovKBW5HbSpW3d1pEls7GFQPUWXiwG9+0P4GtHfEqC/4M0Iw=="
@@ -8107,9 +8107,9 @@
   "version" "0.4.0"
 
 "node-releases@^2.0.3":
-  "integrity" "sha512-gbMzqQtTtDz/00jQzZ21PQzdI9PyLYqUSvD0p3naOhX4odFji0ZxYdnVwPTxmSwkmxhcFImpozceidSG+AgoPQ=="
-  "resolved" "https://registry.npmjs.org/node-releases/-/node-releases-2.0.4.tgz"
-  "version" "2.0.4"
+  "integrity" "sha512-U9h1NLROZTq9uE1SNffn6WuPDg8icmi3ns4rEl/oTfIle4iLjTliCzgTsbaIFMq/Xn078/lfY/BL0GWZ+psK4Q=="
+  "resolved" "https://registry.npmjs.org/node-releases/-/node-releases-2.0.5.tgz"
+  "version" "2.0.5"
 
 "normalize-path@^3.0.0", "normalize-path@~3.0.0":
   "integrity" "sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA=="
@@ -10667,10 +10667,10 @@
   dependencies:
     "is-typedarray" "^1.0.0"
 
-"typescript@^3.2.1 || ^4", "typescript@^4.6.4", "typescript@>= 2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta":
-  "integrity" "sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg=="
-  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.6.4.tgz"
-  "version" "4.6.4"
+"typescript@^3.2.1 || ^4", "typescript@^4.7.2", "typescript@>= 2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta":
+  "integrity" "sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A=="
+  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.7.2.tgz"
+  "version" "4.7.2"
 
 "ua-parser-js@^0.7.30":
   "integrity" "sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ=="
