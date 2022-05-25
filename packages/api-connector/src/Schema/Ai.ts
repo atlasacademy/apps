@@ -22,6 +22,8 @@ export enum AiActNum {
     REACTION_ENTRY_UNIT = "reactionEntryUnit",
     REACTION_BEFORE_RESURRECTION = "reactionBeforeResurrection",
     REACTION_BEFORE_DEAD = "reactionBeforeDead",
+    REACTION_ENEMY_TURN_START_PRIORITY = "reactionEnemyTurnStartPriority",
+    REACTION_ENEMY_TURN_END_PRIORITY = "reactionEnemyTurnEndPriority",
     UNKNOWN = "unknown",
 }
 
