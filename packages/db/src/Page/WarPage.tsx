@@ -123,9 +123,21 @@ const getQuestSection = (quest: Quest.Quest) => {
     return "";
 };
 
-const firstPhaseLink = (region: Region, quest: Quest.Quest) => {
-    const firstPhase = Math.min(...quest.phases);
-    return `/${region}/quest/${quest.id}/${firstPhase}`;
+const FirstPhaseLink = ({
+    region,
+    quest,
+    children,
+}: {
+    region: Region;
+    quest: Quest.Quest;
+    children: React.ReactNode;
+}) => {
+    if (quest.phases.length > 0) {
+        const firstPhase = Math.min(...quest.phases);
+        return <Link to={`/${region}/quest/${quest.id}/${firstPhase}`}>{children}</Link>;
+    } else {
+        return <>{children}</>;
+    }
 };
 
 const QuestTable = (props: {
@@ -158,10 +170,14 @@ const QuestTable = (props: {
                     <tr key={quest.id}>
                         {hasSection ? <td>{getQuestSection(quest)}</td> : null}
                         <td>
-                            <Link to={firstPhaseLink(region, quest)}>{quest.id}</Link>
+                            <FirstPhaseLink region={region} quest={quest}>
+                                {quest.id}
+                            </FirstPhaseLink>
                         </td>
                         <td style={{ maxWidth: "15em" }}>
-                            <Link to={firstPhaseLink(region, quest)}>{quest.name}</Link>
+                            <FirstPhaseLink region={region} quest={quest}>
+                                {quest.name}
+                            </FirstPhaseLink>
                         </td>
                         {props.spots !== undefined ? (
                             <td style={{ whiteSpace: "nowrap" }}>
