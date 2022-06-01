@@ -7,7 +7,7 @@ import { FuncDescriptorSections } from "./FuncDescriptorSections";
 export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.ABSORB_NPTURN, "Absorb NP Charge"],
     [Func.FuncType.ADD_STATE, "Apply Buff"],
-    [Func.FuncType.ADD_STATE_SHORT, "Apply Buff"],
+    [Func.FuncType.ADD_STATE_SHORT, "Apply Buff (short)"],
     [Func.FuncType.CARD_RESET, "Shuffle Cards"],
     [Func.FuncType.CHANGE_BGM_COSTUME, "Change BGM"],
     [Func.FuncType.DAMAGE_NP, "Deal Damage"],
@@ -67,7 +67,11 @@ function handleBuffActionSection(
     const section = sections.action,
         parts = section.parts;
 
-    parts.push("Apply");
+    if (func.funcType === Func.FuncType.ADD_STATE) {
+        parts.push("Apply");
+    } else if (func.funcType === Func.FuncType.ADD_STATE_SHORT) {
+        parts.push("Apply (short)");
+    }
     func.buffs.forEach((buff, index) => {
         if (index > 0) parts.push("&");
 

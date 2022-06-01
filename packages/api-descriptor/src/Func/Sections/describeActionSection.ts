@@ -7,7 +7,7 @@ import { default as describeTrait } from "../../Trait/describe";
 const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.ABSORB_NPTURN, "Absorb NP Charge"],
     [Func.FuncType.ADD_STATE, "Apply Buff"],
-    [Func.FuncType.ADD_STATE_SHORT, "Apply Buff"],
+    [Func.FuncType.ADD_STATE_SHORT, "Apply Buff (short)"],
     [Func.FuncType.CARD_RESET, "Shuffle Cards"],
     [Func.FuncType.CHANGE_BGM_COSTUME, "Change BGM"],
     [Func.FuncType.DAMAGE_NP, "Deal Damage"],
