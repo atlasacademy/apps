@@ -266,6 +266,7 @@ export enum BuffType {
     BUFF_RATE = "buffRate",
     INVISIBLE_BATTLE_CHARA = "invisibleBattleChara",
     COUNTER_FUNCTION = "counterFunction",
+    NOT_TARGET_SKILL = "notTargetSkill",
 }
 
 export enum ClassRelationOverwriteType {

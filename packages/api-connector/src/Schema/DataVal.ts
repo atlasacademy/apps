@@ -105,6 +105,7 @@ interface BaseDataVal {
     UnSubStateWhileLinkedToOthers?: number;
     NotAccompanyWhenLinkedTargetMoveState?: number;
     AllowSubBgmPlaying?: number;
+    NotTargetSkillIdArray?: number[];
 }
 
 export interface DataVal extends BaseDataVal {
@@ -218,4 +219,5 @@ export enum DataValField {
     UNSUBSTATE_WHILE_LINKED_TO_OTHERS = "UnSubStateWhileLinkedToOthers",
     NOT_ACCOMPANY_WHEN_LINKED_TARGET_MOVE_STATE = "NotAccompanyWhenLinkedTargetMoveState",
     ALLOW_SUB_BGM_PLAYING = "AllowSubBgmPlaying",
+    NOT_TARGET_SKILL_ID_ARRAY = "NotTargetSkillIdArray",
 }
