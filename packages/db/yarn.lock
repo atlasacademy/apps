@@ -28,10 +28,10 @@
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/api-descriptor@^1.0.129":
-  "integrity" "sha512-gZgFGN37nXs3yDNqbOTpV+fu9TOe2Y4LjbECZuCHjIt09+esxlWufcFimu1YVgA7/Ws+ZMtvOTZe6j3fkHNt/A=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.129.tgz"
-  "version" "1.0.129"
+"@atlasacademy/api-descriptor@^1.0.130":
+  "integrity" "sha512-yPcszQye0J/EFiYSxYZnG7ReFhtqOUFCo0i0x+2Db2zHlYj8WilEGvOj7jJd0Qu1ST0PujSr8dPo2cxu8HG5xg=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.130.tgz"
+  "version" "1.0.130"
   dependencies:
     "@atlasacademy/api-connector" "^3.0.117"
     "install" "^0.13.0"
