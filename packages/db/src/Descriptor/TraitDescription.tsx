@@ -12,6 +12,7 @@ interface IProps {
     trait: Trait.Trait | number;
     disableLink?: boolean;
     overrideTraits?: Trait.Trait[];
+    describeNegative?: boolean;
     owner?: "entities" | "funcs" | "buffs" | "noble-phantasms" | "quests";
     ownerParameter?:
         | "trait"
@@ -63,7 +64,7 @@ class TraitDescription extends React.Component<IProps, IState> {
     }
 
     private getDescription(trait: Trait.Trait | number) {
-        const descriptor = TraitDescriptor.describe(trait, this.props.overrideTraits);
+        const descriptor = TraitDescriptor.describe(trait, this.props.overrideTraits, this.props.describeNegative);
 
         return <Description region={this.props.region} descriptor={descriptor} />;
     }

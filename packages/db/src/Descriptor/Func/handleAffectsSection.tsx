@@ -144,18 +144,19 @@ export default function handleAffectsSection(
     }
 
     if (func.functvals.length > 0) {
+        const negativeTrait = func.functvals.length === 1 && (func.functvals[0].negative ?? false);
         if (func.funcTargetType === Func.FuncTargetType.SELF) {
-            parts.push("if self has");
+            parts.push(`if self ${negativeTrait ? "doesn't have" : "has"}`);
         } else if (func.funcType === Func.FuncType.GAIN_STAR && dataVal.MultipleGainStar === 1) {
-            parts.push("per target with");
+            parts.push(`per target ${negativeTrait ? "without" : "with"}`);
         } else {
-            parts.push("for targets with");
+            parts.push(`for targets ${negativeTrait ? "without" : "with"}`);
         }
 
         func.functvals.forEach((trait, index) => {
             if (index > 0) parts.push("or");
 
-            parts.push(<TraitDescription region={region} trait={trait} />);
+            parts.push(<TraitDescription region={region} trait={trait} describeNegative={false} />);
         });
     }
 

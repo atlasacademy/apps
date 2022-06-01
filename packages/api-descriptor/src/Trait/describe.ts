@@ -4,10 +4,14 @@ import { Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } fro
 import { toTitleCase } from "../Helpers";
 import TraitOverrideNames from "./TraitOverrideNames";
 
-export default function (trait: Trait.Trait | number, traitList?: Trait.Trait[]): Descriptor {
+export default function (
+    trait: Trait.Trait | number,
+    traitList?: Trait.Trait[],
+    describeNegative?: boolean
+): Descriptor {
     const id = typeof trait === "number" ? trait : trait.id;
     const negative = typeof trait === "number" ? trait < 0 : trait.negative;
-    const negativeText = negative ? "Not " : "";
+    const negativeText = (describeNegative ?? true) && negative ? "Not " : "";
 
     const overrideName = TraitOverrideNames.get(id);
     if (overrideName !== undefined) {
