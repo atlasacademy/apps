@@ -107,7 +107,14 @@ class ServantsPage extends React.Component<IProps, IState> {
                     servants,
                     loading: false,
                     fuse: new Fuse([...servants], {
-                        keys: ["id", "collectionNo", "name"],
+                        keys: [
+                            "id",
+                            "collectionNo",
+                            "name",
+                            "originalName",
+                            { name: "overwriteName", getFn: (svt) => svt.overwriteName ?? "" },
+                            { name: "originalOverwriteName", getFn: (svt) => svt.originalOverwriteName ?? "" },
+                        ],
                         threshold: 0.2,
                         getFn: fuseGetFn,
                         ignoreLocation: true,

@@ -247,6 +247,9 @@ export interface EntityBasic {
     id: number;
     collectionNo: number;
     name: string;
+    originalName: string;
+    overwriteName?: string;
+    originalOverwriteName?: string;
     type: EntityType;
     flag: EntityFlag;
     className: ClassName;

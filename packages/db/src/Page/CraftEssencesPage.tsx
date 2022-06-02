@@ -65,7 +65,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     craftEssences,
                     loading: false,
                     fuse: new Fuse([...craftEssences], {
-                        keys: ["id", "collectionNo", "name"],
+                        keys: ["id", "collectionNo", "name", "originalName"],
                         threshold: 0.2,
                         getFn: fuseGetFn,
                         ignoreLocation: true,
