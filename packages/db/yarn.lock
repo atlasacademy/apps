@@ -19,21 +19,21 @@
     "jsonpointer" "^5.0.0"
     "leven" "^3.1.0"
 
-"@atlasacademy/api-connector@^3.0.117":
-  "integrity" "sha512-b6j7wHLCwPDFwsNrr8I9mPDKV9RMc9pRxs7CvmU3uzu2tE3Bxrd8094E9Z84bV0pPQFDZAFzOI2H7V44beUfBA=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.117.tgz"
-  "version" "3.0.117"
+"@atlasacademy/api-connector@^3.0.118":
+  "integrity" "sha512-R6ZXhaaOmYCDHqbjmtkqnZqApijhyVhcn1oAgc/QZiby5c9QfcNvJkfY0eeU7G2+a3xNqv62PhACJ7Bz4zZNMg=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.118.tgz"
+  "version" "3.0.118"
   dependencies:
     "axios" "^0.27.2"
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/api-descriptor@^1.0.130":
-  "integrity" "sha512-yPcszQye0J/EFiYSxYZnG7ReFhtqOUFCo0i0x+2Db2zHlYj8WilEGvOj7jJd0Qu1ST0PujSr8dPo2cxu8HG5xg=="
-  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.130.tgz"
-  "version" "1.0.130"
+"@atlasacademy/api-descriptor@^1.0.131":
+  "integrity" "sha512-x0mztcnnynEkQFLdi3UQmt+jHx9MvZHKNZPGiwV7X172FjAE9EI3VOgILt5pAiWMcJ4gBxw6cMrvhIUMXH7hHQ=="
+  "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.131.tgz"
+  "version" "1.0.131"
   dependencies:
-    "@atlasacademy/api-connector" "^3.0.117"
+    "@atlasacademy/api-connector" "^3.0.118"
     "install" "^0.13.0"
     "only" "0.0.2"
 
