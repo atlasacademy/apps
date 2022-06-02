@@ -67,11 +67,7 @@ function handleBuffActionSection(
     const section = sections.action,
         parts = section.parts;
 
-    if (func.funcType === Func.FuncType.ADD_STATE) {
-        parts.push("Apply");
-    } else if (func.funcType === Func.FuncType.ADD_STATE_SHORT) {
-        parts.push("Apply (short)");
-    }
+    parts.push("Apply");
     func.buffs.forEach((buff, index) => {
         if (index > 0) parts.push("&");
 
