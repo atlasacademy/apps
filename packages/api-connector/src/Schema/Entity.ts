@@ -152,6 +152,8 @@ export interface EntityChange {
     condTargetId: number;
     condValue: number;
     name: string;
+    ruby: string;
+    battleName: string;
     svtVoiceId: number;
     limitCount: number;
     flag: number;
@@ -173,6 +175,7 @@ export interface Entity {
     name: string;
     originalName: string;
     ruby: string;
+    battleName: string;
     className: ClassName;
     type: EntityType;
     flag: EntityFlag;

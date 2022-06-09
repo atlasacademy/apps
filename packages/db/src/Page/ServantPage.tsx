@@ -18,6 +18,7 @@ import IllustratorDescriptor from "../Descriptor/IllustratorDescriptor";
 import VoiceActorDescriptor from "../Descriptor/VoiceActorDescriptor";
 import Manager from "../Setting/Manager";
 import ServantAssets from "./Servant/ServantAssets";
+import ServantBattleNames from "./Servant/ServantBattleNames";
 import ServantBondGrowth from "./Servant/ServantBondGrowth";
 import ServantCostumeDetails from "./Servant/ServantCostumeDetails";
 import ServantMainData from "./Servant/ServantMainData";
@@ -358,6 +359,7 @@ class ServantPage extends React.Component<IProps, IState> {
                             questIds={servant.trialQuestIds}
                             title="Trial Quest"
                         />
+                        <ServantBattleNames servant={servant} />
                         <ServantValentine region={this.props.region} servant={servant} />
                         <ServantCostumeDetails costumes={servant.profile?.costume} />
                         <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []} />

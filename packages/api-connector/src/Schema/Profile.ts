@@ -83,6 +83,7 @@ export interface VoicePlayCond {
 export interface CostumeDetail {
     id: number;
     costumeCollectionNo: number;
+    battleCharaId: number;
     name: string;
     shortName: string;
     detail: string;
