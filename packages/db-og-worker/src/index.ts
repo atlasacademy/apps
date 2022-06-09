@@ -63,15 +63,15 @@ function overwrite(
     image?: string,
     description?: string
 ) {
-    const defaultDescription = "Atlas Academy DB - FGO Game Data Navigator";
-    const metaCustomDesc = (description ?? title) !== undefined ? `${description ?? title} - ` : "";
-    const metaDescription = metaCustomDesc + `${defaultDescription} - without any of the fluffs.`;
-    const ogDescription = description ?? defaultDescription;
+    const defaultDescription = "Atlas Academy DB - FGO Game Data Navigator",
+        metaDescription = description ?? title ?? `${defaultDescription} - without any of the fluffs.`,
+        ogTitle = title ?? defaultDescription,
+        ogDescription = defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
         .on('[name="description"]', new Handler(metaDescription))
         .on('[property="og:url"]', new Handler(response.pageUrl))
-        .on('[property="og:title"]', new Handler(title ?? defaultDescription))
+        .on('[property="og:title"]', new Handler(ogTitle))
         .on('[property="og:description"]', new Handler(ogDescription));
 
     if (image === undefined) return titleRewriter.transform(response.response);
@@ -172,15 +172,39 @@ async function handleDBEvent(event: FetchEvent) {
             const title = `[${region}] ${itemPage.itemType} - ${target}`;
             return overwrite(responseDetail, title);
         }
-        const { name, longName, face, icon, rarity, className } = await res.json();
+        const {
+            id,
+            collectionNo,
+            name,
+            originalName,
+            longName,
+            face,
+            icon,
+            rarity,
+            className,
+            attribute,
+            atkMax,
+            hpMax,
+        } = await res.json();
 
-        let title = `[${region}] ${itemPage.itemType} - ${name}`;
+        let title = `[${region}] ${itemPage.itemType} - ${name}`,
+            description: string | undefined = undefined;
         switch (subpage) {
             case "servant":
                 title = `[${region}] ${rarity}★ ${toTitleCase(className)} - ${name}`;
+                description =
+                    `[${region}] ${rarity}★ ${toTitleCase(className)} ` +
+                    `${name}${originalName !== name ? " (" + originalName + ")" : ""}` +
+                    ". " +
+                    `ID: ${id}, Collection No: ${collectionNo}, Attribute: ${attribute}, Max ATK: ${atkMax}, Max HP: ${hpMax}.`;
                 break;
             case "craft-essence":
                 title = `[${region}] ${rarity}★ Craft Essence - ${name}`;
+                description =
+                    `[${region}] ${rarity}★ ${toTitleCase(className)} ` +
+                    `${name}${originalName !== name ? " (" + originalName + ")" : ""}` +
+                    ". " +
+                    `ID: ${id}, Collection No: ${collectionNo}, Max ATK: ${atkMax}, Max HP: ${hpMax}.`;
                 break;
             case "command-code":
                 title = `[${region}] ${rarity}★ Command Code - ${name}`;
@@ -201,7 +225,7 @@ async function handleDBEvent(event: FetchEvent) {
             title = `${title} - ${tabTitle}`;
         }
 
-        return overwrite(responseDetail, title, face ?? icon);
+        return overwrite(responseDetail, title, face ?? icon, description);
     }
 
     switch (subpage) {
