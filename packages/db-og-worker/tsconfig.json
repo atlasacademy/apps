@@ -1,29 +1,22 @@
 {
     "compilerOptions": {
-        "outDir": "./dist",
-        "module": "commonjs",
-        "target": "esnext",
+        "module": "es2022",
+        "target": "es2021",
         "lib": [
-            "esnext"
+            "es2021"
         ],
-        "alwaysStrict": true,
         "strict": true,
-        "preserveConstEnums": true,
         "moduleResolution": "node",
-        "sourceMap": true,
-        "esModuleInterop": true,
         "types": [
-            "@cloudflare/workers-types",
-            "@types/jest",
-            "@types/service-worker-mock"
-        ]
-    },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "test"
-    ]
+            "@cloudflare/workers-types"
+        ],
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+        "isolatedModules": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true
+    }
 }

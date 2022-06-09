@@ -1,13 +1,8 @@
 name = "db-site-worker"
-type = "javascript"
 account_id = "fa227777c8b69f6569d4a4347a6cceb8"
 workers_dev = true
-compatibility_date = "2022-04-01"
+compatibility_date = "2022-06-01"
+main = "./src/index.ts"
 
-[build]
-command = "npm install && npm run build && cp package*.json dist/"
-[build.upload]
-format = "service-worker"
 [site]
 bucket = "../../app"
-entry-point = "./dist"
