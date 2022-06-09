@@ -592,7 +592,10 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 switch (assetSet?.type) {
                                     case ScriptComponentType.CHARA_SET:
                                     case ScriptComponentType.CHARA_CHANGE:
-                                        if (assetSet.charaGraphId.toString().startsWith("98")) {
+                                        if (
+                                            assetSet.charaGraphId.toString().startsWith("98") ||
+                                            content.position.y < 0
+                                        ) {
                                             offsets = {
                                                 charaGraphId: assetSet.charaGraphId,
                                                 y: content.position.y,
