@@ -169,6 +169,7 @@ export interface WarBasic {
     age: string;
     name: string;
     longName: string;
+    flags: WarFlag[];
     eventId: number;
     eventName: string;
 }

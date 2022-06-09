@@ -11,6 +11,7 @@ import { Region, War } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import WarDescriptor from "../Descriptor/WarDescriptor";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
 
@@ -287,7 +288,7 @@ class WarsPage extends React.Component<IProps, IState> {
                                         <Link to={route}>{war.id}</Link>
                                     </td>
                                     <td>
-                                        <Link to={route}>{war.longName}</Link>
+                                        <WarDescriptor region={this.props.region} war={war} />
                                     </td>
                                     <td>
                                         {war.eventId !== 0 ? (

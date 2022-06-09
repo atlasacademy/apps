@@ -7,7 +7,8 @@ import Api from "../Api";
 
 export default function WarDescriptor(props: { region: Region; war: War.WarBasic }) {
     const war = props.war;
-    return <Link to={`/${props.region}/war/${war.id}`}>{war.longName}</Link>;
+    const name = war.flags.indexOf(War.WarFlag.SUB_FOLDER) === -1 ? war.longName : war.name;
+    return <Link to={`/${props.region}/war/${war.id}`}>{name}</Link>;
 }
 
 export function WarDescriptorId(props: { region: Region; warId: number }) {

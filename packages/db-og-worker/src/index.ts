@@ -185,6 +185,7 @@ async function handleDBEvent(event: FetchEvent) {
             attribute,
             atkMax,
             hpMax,
+            flags,
         } = await res.json();
 
         let title = `[${region}] ${itemPage.itemType} - ${name}`,
@@ -210,7 +211,7 @@ async function handleDBEvent(event: FetchEvent) {
                 title = `[${region}] ${rarity}★ Command Code - ${name}`;
                 break;
             case "war":
-                const warName = longName.replace("\n", " ");
+                const warName = (flags.indexOf("subFolder") === -1 ? longName : name).replace("\n", " ");
                 title = `[${region}] ${itemPage.itemType} - ${warName}`;
                 break;
         }

@@ -492,18 +492,20 @@ class WarPage extends React.Component<IProps, IState> {
             ) : (
                 <Link to={`/${this.props.region}/script/${war.scriptId}`}>{war.scriptId}</Link>
             );
+        const name = war.flags.indexOf(War.WarFlag.SUB_FOLDER) === -1 ? war.longName : war.name;
+        const originalName = war.flags.indexOf(War.WarFlag.SUB_FOLDER) === -1 ? war.originalLongName : war.originalName;
 
         return (
             <div>
                 <h1 style={{ marginBottom: "1em" }} className="newline">
-                    {war.longName}
+                    {name}
                 </h1>
                 <div style={{ marginBottom: "3%" }}>
                     <DataTable
                         data={{
                             ID: war.id,
-                            Name: <span className="newline">{war.longName}</span>,
-                            ...(war.longName !== war.originalLongName && { "Original Name": war.originalLongName }),
+                            Name: <span className="newline">{name}</span>,
+                            ...(name !== originalName && { "Original Name": originalName }),
                             Age: war.age,
                             Event: event,
                             "Opening Script": openingScript,
