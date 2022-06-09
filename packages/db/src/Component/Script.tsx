@@ -705,7 +705,7 @@ export function parseDialogueLine(region: Region, line: string, parserState: Par
         if (word[0] === "[") {
             const parameters = parseParameter(word);
 
-            const colorReg = parameters[0].match(/([0-9a-fA-F]{6})/);
+            const colorReg = (parameters[0] ?? "").match(/([0-9a-fA-F]{6})/);
             if (colorReg !== null) {
                 parserDialogueState.colorHex = colorReg[1];
                 parsed = true;
