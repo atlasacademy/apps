@@ -194,15 +194,16 @@ async function handleDBEvent(event: FetchEvent) {
             case "servant":
                 title = `[${region}] ${rarity}★ ${toTitleCase(className)} - ${name}`;
                 description =
-                    `[${region}] ${rarity}★ ${toTitleCase(className)} ` +
+                    `Fate/Grand Order [${region}] ${rarity}★ ${toTitleCase(className)} Servant ` +
                     `${name}${originalName !== name ? " (" + originalName + ")" : ""}` +
                     ". " +
-                    `ID: ${id}, Collection No: ${collectionNo}, Attribute: ${attribute}, Max ATK: ${atkMax}, Max HP: ${hpMax}.`;
+                    `ID: ${id}, Collection No: ${collectionNo}, ` +
+                    `Attribute: ${toTitleCase(attribute)}, Max ATK: ${atkMax}, Max HP: ${hpMax}.`;
                 break;
             case "craft-essence":
                 title = `[${region}] ${rarity}★ Craft Essence - ${name}`;
                 description =
-                    `[${region}] ${rarity}★ ${toTitleCase(className)} ` +
+                    `Fate/Grand Order [${region}] ${rarity}★ Craft Essence ` +
                     `${name}${originalName !== name ? " (" + originalName + ")" : ""}` +
                     ". " +
                     `ID: ${id}, Collection No: ${collectionNo}, Max ATK: ${atkMax}, Max HP: ${hpMax}.`;
