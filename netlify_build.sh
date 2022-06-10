@@ -23,9 +23,10 @@ CI=false \
 && tar -zxvf chargers.tar.gz \
 && cd chargers-main && npm ci && npm run build \
 && cd ../../ && cp -r src/chargers-main/out/ app/chargers \
-&& cd packages/db && npm ci && npm run build \
+&& lerna bootstrap --ci \
+&& cd packages/db && npm run build \
 && cd ../../ && cp -r packages/db/build/ app/db \
-&& cd packages/paper-moon && npm ci && npm run build \
+&& cd packages/paper-moon && npm run build \
 && cd ../../ && cp -r packages/paper-moon/build/ app/paper-moon \
 && cp build/index.html app/index.html \
 && cp build/_redirects app/_redirects \
