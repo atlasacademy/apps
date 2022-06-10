@@ -171,20 +171,20 @@ export const MultipleServants = (props: {
 };
 
 const EMBER_IDS = [
-    { svtIds: [9701400, 9701300, 9701200, 9701100], class: ClassName.SABER },
-    { svtIds: [9702400, 9702300, 9702200, 9702100], class: ClassName.LANCER },
-    { svtIds: [9703400, 9703300, 9703200, 9703100], class: ClassName.ARCHER },
-    { svtIds: [9704400, 9704300, 9704200, 9704100], class: ClassName.RIDER },
-    { svtIds: [9705400, 9705300, 9705200, 9705100], class: ClassName.CASTER },
-    { svtIds: [9706400, 9706300, 9706200, 9706100], class: ClassName.ASSASSIN },
+    { svtIds: [9701500, 9701400, 9701300, 9701200, 9701100], class: ClassName.SABER },
+    { svtIds: [9702500, 9702400, 9702300, 9702200, 9702100], class: ClassName.LANCER },
+    { svtIds: [9703500, 9703400, 9703300, 9703200, 9703100], class: ClassName.ARCHER },
+    { svtIds: [9704500, 9704400, 9704300, 9704200, 9704100], class: ClassName.RIDER },
+    { svtIds: [9705500, 9705400, 9705300, 9705200, 9705100], class: ClassName.CASTER },
+    { svtIds: [9706500, 9706400, 9706300, 9706200, 9706100], class: ClassName.ASSASSIN },
     {
-        svtIds: [9707400, 9707300, 9707200, 9707100],
+        svtIds: [9707500, 9707400, 9707300, 9707200, 9707100],
         class: ClassName.BERSERKER,
     },
-    { svtIds: [9770400, 9770300, 9770200, 9770100], class: ClassName.ALL },
+    { svtIds: [9770500, 9770400, 9770300, 9770200, 9770100], class: ClassName.ALL },
 ];
 
-const ALL_EMBERS_STRING = "Blaze of Wisdom, Fire of Wisdom, Light of Wisdom, or Ember of Wisdom";
+const ALL_EMBERS_STRING = "Hellfire of Wisdom, Blaze of Wisdom, Fire of Wisdom, Light of Wisdom, or Ember of Wisdom";
 
 export const MultipleEmbers = (props: { region: Region; svtIds: number[] }) => {
     const { region, svtIds } = props;
@@ -194,7 +194,10 @@ export const MultipleEmbers = (props: { region: Region; svtIds: number[] }) => {
             emberClasses.push(emberId.class);
         }
     }
-    if (emberClasses.length === EMBER_IDS.length) {
+    if (
+        emberClasses.length === EMBER_IDS.length &&
+        svtIds.length === EMBER_IDS.map((e) => e.svtIds.length).reduce((a, b) => a + b, 0)
+    ) {
         return <>{ALL_EMBERS_STRING}</>;
     }
     if (svtIds.length === 4 * emberClasses.length) {
