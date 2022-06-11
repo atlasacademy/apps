@@ -170,6 +170,32 @@ export interface EventVoicePlay {
     endedAt: number;
 }
 
+export interface EventDiggingBlock {
+    id: number;
+    eventId: number;
+    image: string;
+    commonConsume: CommonConsume;
+    objectId: number;
+    diggingEventPoint: number;
+    blockNum: number;
+}
+
+export interface EventDiggingReward {
+    id: number;
+    gifts: Gift[];
+    rewardSize: number;
+}
+
+export interface EventDigging {
+    sizeX: number;
+    sizeY: number;
+    bgImage: string;
+    eventPointItem: Item;
+    resettableDiggedNum: number;
+    blocks: EventDiggingBlock[];
+    rewards: EventDiggingReward[];
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -208,6 +234,7 @@ export interface Event {
     towers: EventTower[];
     lotteries: EventLottery[];
     treasureBoxes: EventTreasureBox[];
+    digging?: EventDigging;
     voicePlays: EventVoicePlay[];
     voices: VoiceGroup[];
 }
