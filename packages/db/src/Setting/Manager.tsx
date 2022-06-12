@@ -2,6 +2,7 @@ import { Language } from "@atlasacademy/api-connector";
 import Region from "@atlasacademy/api-connector/dist/Enum/Region";
 import { UILanguage } from "@atlasacademy/api-descriptor";
 
+import i18n from "../i18n";
 import { Theme } from "./Theme";
 
 const languageKey = "language",
@@ -70,7 +71,12 @@ class Manager {
 
     static setUiLanguage(value: UILanguage) {
         window.localStorage.setItem(uiLanguageKey, value);
+        Manager.updateUILanguage();
         Manager.triggerCallbacks();
+    }
+
+    static updateUILanguage() {
+        i18n.changeLanguage(this.uiLanguage());
     }
 
     static region(): Region {

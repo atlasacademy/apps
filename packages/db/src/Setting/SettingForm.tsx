@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, ButtonGroup, Form } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Language } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";
@@ -10,7 +9,7 @@ import { Theme } from "./Theme";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends WithTranslation {
+interface IProps {
     language: Language;
     theme: Theme;
 }
@@ -59,10 +58,7 @@ class SettingForm extends React.Component<IProps> {
                         <Form.Control
                             as={"select"}
                             value={Manager.uiLanguage()}
-                            onChange={(ev: Event) => {
-                                this.props.i18n.changeLanguage(ev.target.value);
-                                Manager.setUiLanguage(ev.target.value as UILanguage);
-                            }}
+                            onChange={(ev: Event) => Manager.setUiLanguage(ev.target.value as UILanguage)}
                         >
                             {Object.values(UILanguage).map((v) => (
                                 <option key={v} value={v}>
@@ -123,4 +119,4 @@ class SettingForm extends React.Component<IProps> {
     }
 }
 
-export default withTranslation()(SettingForm);
+export default SettingForm;
