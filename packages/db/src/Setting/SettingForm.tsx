@@ -1,14 +1,16 @@
 import React from "react";
 import { Button, ButtonGroup, Form } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Language } from "@atlasacademy/api-connector";
+import { UILanguage } from "@atlasacademy/api-descriptor";
 
 import Manager from "./Manager";
 import { Theme } from "./Theme";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     language: Language;
     theme: Theme;
 }
@@ -39,13 +41,30 @@ class SettingForm extends React.Component<IProps> {
             <div>
                 <Form>
                     <Form.Group>
-                        <Form.Label>Language</Form.Label>
+                        <Form.Label>Data Language</Form.Label>
                         <Form.Control
                             as={"select"}
                             value={this.props.language}
                             onChange={(ev: Event) => this.updateLanguage(ev.target.value)}
                         >
                             {Object.values(Language).map((v) => (
+                                <option key={v} value={v}>
+                                    {v}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>UI Language</Form.Label>
+                        <Form.Control
+                            as={"select"}
+                            value={Manager.uiLanguage()}
+                            onChange={(ev: Event) => {
+                                this.props.i18n.changeLanguage(ev.target.value);
+                                Manager.setUiLanguage(ev.target.value as UILanguage);
+                            }}
+                        >
+                            {Object.values(UILanguage).map((v) => (
                                 <option key={v} value={v}>
                                     {v}
                                 </option>
@@ -104,4 +123,4 @@ class SettingForm extends React.Component<IProps> {
     }
 }
 
-export default SettingForm;
+export default withTranslation()(SettingForm);

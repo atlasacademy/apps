@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
@@ -13,7 +14,7 @@ import getRubyText from "../../Helper/StringHelper";
 
 import "./ServantMainData.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     servant: Servant.Servant;
     servantName?: string;
@@ -63,7 +64,7 @@ class ServantMainData extends React.Component<IProps> {
     }
 
     render() {
-        const { servant, servantName, originalServantName } = this.props;
+        const { servant, servantName, originalServantName, t } = this.props;
         const { buster, arts, quick, extra } = servant.hitsDistribution;
         return (
             <div>
@@ -78,7 +79,7 @@ class ServantMainData extends React.Component<IProps> {
                             { title: "Attribute", content: toTitleCase(servant.attribute) },
                         ])}
                         {this.renderDoubleRow([
-                            { title: "Rarity", content: <RarityDescriptor rarity={servant.rarity} /> },
+                            { title: t("rarity"), content: <RarityDescriptor rarity={servant.rarity} /> },
                             { title: "Cost", content: servant.cost },
                         ])}
                         {originalServantName !== undefined &&
@@ -167,4 +168,4 @@ class ServantMainData extends React.Component<IProps> {
     }
 }
 
-export default ServantMainData;
+export default withTranslation()(ServantMainData);
