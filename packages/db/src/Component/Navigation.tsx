@@ -5,6 +5,7 @@ import React from "react";
 import { Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 import { Language, Region } from "@atlasacademy/api-connector";
 
@@ -30,18 +31,22 @@ interface IState {
 
 const NavPage = ({ path, description }: { path: string; description: string }) => {
     const route = `/${Manager.region()}/${path}`;
+    const { t } = useTranslation();
+    
     return (
         <Nav.Link as={Link} to={route} eventKey={route}>
-            {description}
+            {t(description)}
         </Nav.Link>
     );
 };
 
 const NavDropdownPage = ({ path, description }: { path: string; description: string }) => {
     const route = `/${Manager.region()}/${path}`;
+    const { t } = useTranslation();
+
     return (
         <NavDropdown.Item as={Link} to={route} eventKey={route}>
-            {description}
+            {t(description)}
         </NavDropdown.Item>
     );
 };
@@ -194,7 +199,7 @@ class Navigation extends React.Component<IProps, IState> {
                 <Modal show={this.state.showSettings} onHide={() => this.hideSettings()}>
                     <Modal.Header>
                         <Modal.Title>Settings</Modal.Title>
-                        <button className="modal-close" onClick={() => this.hideSettings()}>
+                        <button title="close settings" className="modal-close" onClick={() => this.hideSettings()}>
                             <FontAwesomeIcon icon={faXmark} title="Close Settings" />
                         </button>
                     </Modal.Header>
