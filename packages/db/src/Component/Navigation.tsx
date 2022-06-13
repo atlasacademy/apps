@@ -5,7 +5,7 @@ import React from "react";
 import { Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import { withTranslation, TFunction } from 'react-i18next';
 
 import { Language, Region } from "@atlasacademy/api-connector";
 
@@ -23,6 +23,7 @@ import "./Navigation.css";
 interface IProps extends RouteComponentProps {
     language: Language;
     theme: Theme;
+    t: TFunction;
 }
 
 interface IState {
@@ -31,25 +32,19 @@ interface IState {
 
 const NavPage = ({ path, description }: { path: string; description: string }) => {
     const route = `/${Manager.region()}/${path}`;
-    const descriptionLower = description.toLowerCase();
-    const { t } = useTranslation();
-    
     return (
         <Nav.Link as={Link} to={route} eventKey={route}>
-            {t(descriptionLower, description)}
+            {description}
         </Nav.Link>
     );
 };
 
 const NavDropdownPage = ({ path, description }: { path: string; description: string }) => {
     const route = `/${Manager.region()}/${path}`;
-    const descriptionLower = description.toLowerCase();
-    const { t } = useTranslation();
-
 
     return (
         <NavDropdown.Item as={Link} to={route} eventKey={route}>
-            {t(descriptionLower, description)}
+            {description}
         </NavDropdown.Item>
     );
 };
@@ -83,6 +78,8 @@ class Navigation extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
+
         return (
             <>
                 <Navbar id={"navigation"} bg={"dark"} variant={"dark"} expand={"lg"}>
@@ -94,29 +91,29 @@ class Navigation extends React.Component<IProps, IState> {
 
                         <Navbar.Collapse>
                             <Nav activeKey={this.props.location.pathname}>
-                                <NavPage path="servants" description="Servants" />
-                                <NavPage path="craft-essences" description="Craft Essences" />
-                                <NavPage path="wars" description="Wars" />
-                                <NavDropdown title="Other" id="dropdown-other">
-                                    <NavDropdownPage path="command-codes" description="Command Codes" />
-                                    <NavDropdownPage path="mystic-codes" description="Mystic Codes" />
-                                    <NavDropdownPage path="items" description="Materials" />
-                                    <NavDropdownPage path="events" description="Events" />
-                                    <NavDropdownPage path="bgms" description="BGMs" />
-                                    <NavDropdownPage path="master-missions" description="Master Missions" />
+                                <NavPage path="servants" description={t("Servants")} />
+                                <NavPage path="craft-essences" description={t("Craft Essences")} />
+                                <NavPage path="wars" description={t("Wars")} />
+                                <NavDropdown title={t("Other")} id="dropdown-other">
+                                    <NavDropdownPage path="command-codes" description={t("Command Codes")} />
+                                    <NavDropdownPage path="mystic-codes" description={t("Mystic Codes")} />
+                                    <NavDropdownPage path="items" description={t("Materials")} />
+                                    <NavDropdownPage path="events" description={t("Events")} />
+                                    <NavDropdownPage path="bgms" description={t("BGMs")} />
+                                    <NavDropdownPage path="master-missions" description={t("Master Missions")} />
                                 </NavDropdown>
                                 <NavDropdown title="Search" id="dropdown-search">
-                                    <NavDropdownPage path="entities" description="Entities" />
-                                    <NavDropdownPage path="skills" description="Skills" />
-                                    <NavDropdownPage path="noble-phantasms" description="Noble Phantasms" />
-                                    <NavDropdownPage path="funcs" description="Functions" />
-                                    <NavDropdownPage path="buffs" description="Buffs" />
-                                    <NavDropdownPage path="quests" description="Quests" />
-                                    <NavDropdownPage path="scripts" description="Scripts" />
+                                    <NavDropdownPage path="entities" description={t("Entities")} />
+                                    <NavDropdownPage path="skills" description={t("Skills")} />
+                                    <NavDropdownPage path="noble-phantasms" description={t("Noble Phantasms")} />
+                                    <NavDropdownPage path="funcs" description={t("Functions")} />
+                                    <NavDropdownPage path="buffs" description={t("Buffs")} />
+                                    <NavDropdownPage path="quests" description={t("Quests")} />
+                                    <NavDropdownPage path="scripts" description={t("Scripts")} />
                                 </NavDropdown>
                                 <NavDropdown title="Changelog" id="dropdown-search">
-                                    <NavDropdownPage path="changes" description="Master Data" />
-                                    <NavDropdownPage path="enemy-changes" description="Enemy Data" />
+                                    <NavDropdownPage path="changes" description={t("Master Data")} />
+                                    <NavDropdownPage path="enemy-changes" description={t("Enemy Data")} />
                                 </NavDropdown>
                             </Nav>
                             <Nav className={"ml-auto icons"} activeKey="">
