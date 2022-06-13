@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 
 import enTranslation from "./Translations/en-US/main.json";
 import zhTranslation from "./Translations/zh-CN/main.json";
+import zhTWTranslation from "./Translations/zh-TW/main.json";
 
 const resources = {
     "en-US": {
@@ -10,6 +11,9 @@ const resources = {
     },
     "zh-CN": {
         translation: zhTranslation,
+    },
+    "zh-TW": {
+        translation: zhTWTranslation,
     },
 };
 
