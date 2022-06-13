@@ -212,4 +212,4 @@ class Navigation extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(Navigation);
+export default withRouter(withTranslation()(Navigation));
