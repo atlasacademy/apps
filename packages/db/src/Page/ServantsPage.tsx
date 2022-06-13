@@ -5,6 +5,7 @@ import Fuse from "fuse.js";
 import React from "react";
 import { Button, ButtonGroup, Col, Form, Pagination, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { withTranslation, TFunction } from "react-i18next";
 
 import { ClassName, Region, Servant } from "@atlasacademy/api-connector";
 
@@ -65,6 +66,7 @@ type SortKey = "id" | "collectionNo";
 
 interface IProps {
     region: Region;
+    t: TFunction;
 }
 
 interface IState {
@@ -296,6 +298,12 @@ class ServantsPage extends React.Component<IProps, IState> {
         return list;
     }
 
+    private translate (t: TFunction, str: string, defaultStr?: string): string {
+        // Make lowers key for translate!
+        const strLower = str.toLowerCase();
+        return t(strLower, defaultStr ? defaultStr : str)
+    }
+
     render() {
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
 
@@ -303,7 +311,10 @@ class ServantsPage extends React.Component<IProps, IState> {
 
         const servants = this.servants(),
             hasPaginator = servants.length > this.state.perPage,
-            results = servants.slice(this.state.perPage * this.state.page, this.state.perPage * (this.state.page + 1));
+            results = servants.slice(this.state.perPage * this.state.page, this.state.perPage * (this.state.page + 1)),
+            t = this.props.t,
+            tl = this.translate;
+
 
         return (
             <div id="servants" className="listing-page">
@@ -344,7 +355,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                     <Col sm={12} lg={3} id="servant-search">
                         <Form>
                             <Form.Control
-                                placeholder={"Search"}
+                                placeholder={tl(t, "Search")}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({ search: ev.target.value });
@@ -415,10 +426,10 @@ class ServantsPage extends React.Component<IProps, IState> {
                                     )}
                                 </Button>
                             </th>
-                            <th className="col-center">Class</th>
-                            <th className="col-center">Thumbnail</th>
-                            <th>Name</th>
-                            <th className="rarity-col">Rarity</th>
+                            <th className="col-center">{tl(t, 'Class')}</th>
+                            <th className="col-center">{tl(t, 'Thumbnail')}</th>
+                            <th>{tl(t, 'Name')}</th>
+                            <th className="rarity-col">{tl(t, 'Rarity')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -467,4 +478,4 @@ class ServantsPage extends React.Component<IProps, IState> {
     }
 }
 
-export default ServantsPage;
+export default withTranslation()(ServantsPage);
