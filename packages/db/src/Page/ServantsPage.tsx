@@ -419,7 +419,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                     )}
                                 </Button>
                             </th>
-                            <th className="col-center">{t('Class')}</th>
+                            <th className="col-center">{t('class')}</th>
                             <th className="col-center">{t('Thumbnail')}</th>
                             <th>{t('Name')}</th>
                             <th className="rarity-col">{t('rarity')}</th>

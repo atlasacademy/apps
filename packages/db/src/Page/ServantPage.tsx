@@ -143,12 +143,6 @@ class ServantPage extends React.Component<IProps, IState> {
         }
         return originalName ? this.state.servant?.originalName : this.state.servant?.name;
     }
-
-    private translate(t: TFunction, str: string, defaultStr?: string): string {
-        const strLower = str.toLowerCase();
-        return t(strLower, defaultStr ? defaultStr : str);
-    }
-
     
     render() {
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
@@ -157,7 +151,6 @@ class ServantPage extends React.Component<IProps, IState> {
 
         const servant = this.state.servant;
         const t = this.props.t;
-        const tl = this.translate;
 
         document.title = `[${this.props.region}] Servant - ${this.getOverwriteName()} - Atlas Academy DB`;
 
@@ -230,7 +223,10 @@ class ServantPage extends React.Component<IProps, IState> {
                     }}
                 >
                     {[1, 2, 3].map((i) => (
-                        <Tab key={`skill-${i}`} eventKey={`skill-${i}`} title={tl(t, `Skill ${i}`)}>
+                        // t('Skill 1')
+                        // t('Skill 2')
+                        // t('Skill 3')
+                        <Tab key={`skill-${i}`} eventKey={`skill-${i}`} title={t(`Skill ${i}`)}>
                             {servant.skills
                                 .filter((skill) => skill.num === i)
                                 .sort((a, b) => b.id - a.id)
@@ -261,7 +257,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                 })}
                         </Tab>
                     ))}
-                    <Tab eventKey={"noble-phantasms"} title={tl(t, "NPs")}>
+                    <Tab eventKey={"noble-phantasms"} title={t("NPs")}>
                         {servant.noblePhantasms
                             .filter((noblePhantasm) => noblePhantasm.functions.length > 0)
                             // Card change NPs have 0 priority.
@@ -284,13 +280,13 @@ class ServantPage extends React.Component<IProps, IState> {
                                 );
                             })}
                     </Tab>
-                    <Tab eventKey={"passives"} title={tl(t, "Passives")}>
+                    <Tab eventKey={"passives"} title={t("Passives")}>
                         <ServantPassive region={this.props.region} servant={servant} />
                     </Tab>
-                    <Tab eventKey={"traits"} title={tl(t, "Traits")}>
+                    <Tab eventKey={"traits"} title={t("Traits")}>
                         <ServantTraits region={this.props.region} servant={this.state.servant} />
                     </Tab>
-                    <Tab eventKey={"materials"} title={tl(t, "Materials")}>
+                    <Tab eventKey={"materials"} title={t("Materials")}>
                         <Row>
                             <Col xs={12} lg={6}>
                                 <ServantMaterialBreakdown
@@ -336,7 +332,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                     <ServantMaterialBreakdown
                                         region={this.props.region}
                                         materials={servant.appendSkillMaterials}
-                                        title={tl(t, "Append Skill Level Up Materials")}
+                                        title={t("Append Skill Level Up Materials")}
                                         showNextLevelInDescription={true}
                                     />
                                 </Col>
@@ -351,10 +347,10 @@ class ServantPage extends React.Component<IProps, IState> {
                             />
                         ) : null}
                     </Tab>
-                    <Tab eventKey={"stat-growth"} title={tl(t, "Growth")}>
+                    <Tab eventKey={"stat-growth"} title={t("Growth")}>
                         <ServantStatGrowth region={this.props.region} servant={servant} />
                     </Tab>
-                    <Tab eventKey={"lore"} title={tl(t, "Profile")}>
+                    <Tab eventKey={"lore"} title={t("Profile")}>
                         <Alert variant="success" style={{ lineHeight: "2em" }}>
                             <IllustratorDescriptor
                                 region={this.props.region}
@@ -369,17 +365,17 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantRelatedQuests
                             region={this.props.region}
                             questIds={servant.trialQuestIds}
-                            title={tl(t, "Trial Quests")}
+                            title={t("Trial Quests")}
                         />
                         <ServantBattleNames servant={servant} />
                         <ServantValentine region={this.props.region} servant={servant} />
                         <ServantCostumeDetails costumes={servant.profile?.costume} />
                         <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []} />
                     </Tab>
-                    <Tab eventKey={"assets"} title={tl(t, "Assets")}>
+                    <Tab eventKey={"assets"} title={t("Assets")}>
                         <ServantAssets region={this.props.region} servant={servant} />
                     </Tab>
-                    <Tab eventKey={"voices"} title={tl(t, "Voices")}>
+                    <Tab eventKey={"voices"} title={t("Voices")}>
                         <ServantVoiceLines
                             region={this.props.region}
                             servants={new Map(this.state.servants.map((servant) => [servant.id, servant]))}
