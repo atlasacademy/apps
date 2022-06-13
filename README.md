@@ -21,16 +21,14 @@ git clone https://github.com/atlasacademy/apps.git
 git checkout dev && git pull
 
 # setup packages with local npm link
-lerna bootstrap --force-local
+lerna bootstrap --ci --force-local
 
 # run typescript watchers
 npm run watch
 
-# run dev db
+# run dev db on another terminal
 npm run start:db
-
-# or run this command on Windows
-npm run start:db-win
+# or run this command on Windows: npm run start:db-win
 
 # ... make changes
 
