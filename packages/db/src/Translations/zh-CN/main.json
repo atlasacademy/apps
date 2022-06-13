@@ -1,3 +1,13 @@
 {
-    "rarity": "稀有度"
+    "rarity": "稀有度",
+    "collection": "編號",
+    "class": "職階",
+    "attribute": "分類",
+    "originalName":"原始名稱",
+    "deck":"牌組",
+    "starWeight":"星星分配比重",
+    "starGen":"星星發生率",
+    "deathChance":"被即死率",
+    "bondCE":"羈絆禮裝",
+    "valentineCE":"情人節禮裝"
 }

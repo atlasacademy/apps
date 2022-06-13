@@ -1,3 +1,13 @@
 {
-    "rarity": "Rarity"
+    "rarity": "Rarity",
+    "collection": "Collection",
+    "class": "Class-Test",
+    "attribute": "Attribute",
+    "originalName":"Original Name",
+    "deck":"Deck",
+    "starWeight":"Star Weight",
+    "starGen":"Star Gen",
+    "deathChance":"Death Chance",
+    "bondCE":"Bond CE",
+    "valentineCE":"Valentine CE"
 }
