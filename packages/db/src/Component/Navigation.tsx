@@ -31,22 +31,25 @@ interface IState {
 
 const NavPage = ({ path, description }: { path: string; description: string }) => {
     const route = `/${Manager.region()}/${path}`;
+    const descriptionLower = description.toLowerCase();
     const { t } = useTranslation();
     
     return (
         <Nav.Link as={Link} to={route} eventKey={route}>
-            {t(description)}
+            {t(descriptionLower, description)}
         </Nav.Link>
     );
 };
 
 const NavDropdownPage = ({ path, description }: { path: string; description: string }) => {
     const route = `/${Manager.region()}/${path}`;
+    const descriptionLower = description.toLowerCase();
     const { t } = useTranslation();
+
 
     return (
         <NavDropdown.Item as={Link} to={route} eventKey={route}>
-            {t(description)}
+            {t(descriptionLower, description)}
         </NavDropdown.Item>
     );
 };

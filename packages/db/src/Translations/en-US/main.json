@@ -9,5 +9,10 @@
     "starGen":"Star Gen",
     "deathChance":"Death Chance",
     "bondCE":"Bond CE",
-    "valentineCE":"Valentine CE"
+    "valentineCE":"Valentine CE",
+
+    "servants": "Servants",
+    "craft essences": "Craft Essences",
+    "wars": "Wars",
+    "other": "Other"
 }
