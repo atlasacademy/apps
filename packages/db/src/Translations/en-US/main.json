@@ -17,5 +17,12 @@
     "other": "Other",
 
     "thumbnail": "Thumbnail-t",
-    "search": "search.t"
+    "search": "search.t",
+
+    "skill 1": "Skill 1 - Test",
+    "skill 2": "Skill 2 - Test",
+    "skill 3": "Skill 3 - Test",
+
+    "nps": "NPs - Test",
+    "append skill level up materials": "Append Skill Level Up Materials - Test"
 }

@@ -3,6 +3,7 @@ import React from "react";
 import { Alert, Col, Row, Tab, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import { TFunction, withTranslation } from "react-i18next";
 
 import { Region, Entity, Servant } from "@atlasacademy/api-connector";
 
@@ -42,6 +43,7 @@ interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
     tab?: string;
+    t: TFunction;
 }
 
 interface IState {
@@ -142,12 +144,21 @@ class ServantPage extends React.Component<IProps, IState> {
         return originalName ? this.state.servant?.originalName : this.state.servant?.name;
     }
 
+    private translate(t: TFunction, str: string, defaultStr?: string): string {
+        const strLower = str.toLowerCase();
+        return t(strLower, defaultStr ? defaultStr : str);
+    }
+
+    
     render() {
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
 
         if (this.state.loading || !this.state.servant) return <Loading />;
 
         const servant = this.state.servant;
+        const t = this.props.t;
+        const tl = this.translate;
+
         document.title = `[${this.props.region}] Servant - ${this.getOverwriteName()} - Atlas Academy DB`;
 
         let remappedCostumeMaterials: Entity.EntityLevelUpMaterialProgression = {};
@@ -160,6 +171,7 @@ class ServantPage extends React.Component<IProps, IState> {
         }
 
         const rawUrl = `${Host}/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
+        
         return (
             <div id={"servant"}>
                 <ServantPicker region={this.props.region} servants={this.state.servants} id={servant.collectionNo} />
@@ -218,7 +230,7 @@ class ServantPage extends React.Component<IProps, IState> {
                     }}
                 >
                     {[1, 2, 3].map((i) => (
-                        <Tab key={`skill-${i}`} eventKey={`skill-${i}`} title={`Skill ${i}`}>
+                        <Tab key={`skill-${i}`} eventKey={`skill-${i}`} title={tl(t, `Skill ${i}`)}>
                             {servant.skills
                                 .filter((skill) => skill.num === i)
                                 .sort((a, b) => b.id - a.id)
@@ -249,7 +261,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                 })}
                         </Tab>
                     ))}
-                    <Tab eventKey={"noble-phantasms"} title={"NPs"}>
+                    <Tab eventKey={"noble-phantasms"} title={tl(t, "NPs")}>
                         {servant.noblePhantasms
                             .filter((noblePhantasm) => noblePhantasm.functions.length > 0)
                             // Card change NPs have 0 priority.
@@ -272,13 +284,13 @@ class ServantPage extends React.Component<IProps, IState> {
                                 );
                             })}
                     </Tab>
-                    <Tab eventKey={"passives"} title={"Passives"}>
+                    <Tab eventKey={"passives"} title={tl(t, "Passives")}>
                         <ServantPassive region={this.props.region} servant={servant} />
                     </Tab>
-                    <Tab eventKey={"traits"} title={"Traits"}>
+                    <Tab eventKey={"traits"} title={tl(t, "Traits")}>
                         <ServantTraits region={this.props.region} servant={this.state.servant} />
                     </Tab>
-                    <Tab eventKey={"materials"} title={"Materials"}>
+                    <Tab eventKey={"materials"} title={tl(t, "Materials")}>
                         <Row>
                             <Col xs={12} lg={6}>
                                 <ServantMaterialBreakdown
@@ -324,7 +336,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                     <ServantMaterialBreakdown
                                         region={this.props.region}
                                         materials={servant.appendSkillMaterials}
-                                        title="Append Skill Level Up Materials"
+                                        title={tl(t, "Append Skill Level Up Materials")}
                                         showNextLevelInDescription={true}
                                     />
                                 </Col>
@@ -339,10 +351,10 @@ class ServantPage extends React.Component<IProps, IState> {
                             />
                         ) : null}
                     </Tab>
-                    <Tab eventKey={"stat-growth"} title={"Growth"}>
+                    <Tab eventKey={"stat-growth"} title={tl(t, "Growth")}>
                         <ServantStatGrowth region={this.props.region} servant={servant} />
                     </Tab>
-                    <Tab eventKey={"lore"} title={"Profile"}>
+                    <Tab eventKey={"lore"} title={tl(t, "Profile")}>
                         <Alert variant="success" style={{ lineHeight: "2em" }}>
                             <IllustratorDescriptor
                                 region={this.props.region}
@@ -357,17 +369,17 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantRelatedQuests
                             region={this.props.region}
                             questIds={servant.trialQuestIds}
-                            title="Trial Quest"
+                            title={tl(t, "Trial Quests")}
                         />
                         <ServantBattleNames servant={servant} />
                         <ServantValentine region={this.props.region} servant={servant} />
                         <ServantCostumeDetails costumes={servant.profile?.costume} />
                         <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []} />
                     </Tab>
-                    <Tab eventKey={"assets"} title={"Assets"}>
+                    <Tab eventKey={"assets"} title={tl(t, "Assets")}>
                         <ServantAssets region={this.props.region} servant={servant} />
                     </Tab>
-                    <Tab eventKey={"voices"} title={"Voices"}>
+                    <Tab eventKey={"voices"} title={tl(t, "Voices")}>
                         <ServantVoiceLines
                             region={this.props.region}
                             servants={new Map(this.state.servants.map((servant) => [servant.id, servant]))}
@@ -381,4 +393,4 @@ class ServantPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(ServantPage);
+export default withRouter(withTranslation()(ServantPage));
