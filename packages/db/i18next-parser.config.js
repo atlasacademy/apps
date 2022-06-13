@@ -2,10 +2,10 @@ module.exports = {
     contextSeparator: '_',
     // Key separator used in your translation keys
   
-    createOldCatalogs: true,
+    createOldCatalogs: false,
     // Save the \_old files
   
-    defaultNamespace: 'main',
+    defaultNamespace: 'common',
     // Default namespace used in your i18next config
   
     defaultValue: '',

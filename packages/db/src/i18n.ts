@@ -1,19 +1,19 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import enTranslation from "./Translations/en-US/main.json";
-import zhTranslation from "./Translations/zh-CN/main.json";
-import zhTWTranslation from "./Translations/zh-TW/main.json";
+import enCommon from "./Translations/en-US/common.json";
+import zhCommon from "./Translations/zh-CN/common.json";
+import zhTWCommon from "./Translations/zh-TW/common.json";
 
 const resources = {
     "en-US": {
-        translation: enTranslation,
+        common: enCommon,
     },
     "zh-CN": {
-        translation: zhTranslation,
+        common: zhCommon,
     },
     "zh-TW": {
-        translation: zhTWTranslation,
+        common: zhTWCommon,
     },
 };
 
@@ -21,6 +21,7 @@ i18n.use(initReactI18next).init({
     resources,
     lng: "en-US",
     fallbackLng: "en-US",
+    ns: ["common"],
     interpolation: {
         escapeValue: false,
     },
