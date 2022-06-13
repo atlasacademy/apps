@@ -30,6 +30,7 @@
         "highcharts": "^10.1.0",
         "highcharts-react-official": "^3.1.0",
         "i18next": "^21.8.9",
+        "i18next-parser": "^6.5.0",
         "react": "^17.0.1",
         "react-bootstrap": "^1.6.5",
         "react-bootstrap-typeahead": "^5.2.2",
@@ -49,7 +50,8 @@
         "build": "react-scripts build",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "i18n": "i18next 'src/**/*.{tsx,ts}'"
     },
     "eslintConfig": {
         "extends": "react-app",
