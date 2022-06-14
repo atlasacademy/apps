@@ -2,11 +2,11 @@ import { Language } from "@atlasacademy/api-connector";
 import Region from "@atlasacademy/api-connector/dist/Enum/Region";
 import { UILanguage } from "@atlasacademy/api-descriptor";
 
-import i18n from "../i18n";
+import i18n, { uiLangLocalStorageKey } from "../i18n";
 import { Theme } from "./Theme";
 
 const languageKey = "language",
-    uiLanguageKey = "aa-db.uiLanguage",
+    uiLanguageKey = uiLangLocalStorageKey,
     themeKey = "aa-db.theme",
     changelogVisibleOnly = "changelog.visibleOnly",
     changelogLocalTime = "changelog.localTime",

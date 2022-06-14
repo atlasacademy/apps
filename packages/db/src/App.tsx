@@ -83,7 +83,6 @@ class App extends React.Component<any, IState> {
         }
 
         Api.init(Manager.region(), Manager.language());
-        Manager.updateUILanguage();
     }
 
     componentDidMount() {
