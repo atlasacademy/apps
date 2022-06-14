@@ -72,20 +72,20 @@ class ServantMainData extends React.Component<IProps> {
                     <tbody>
                         {this.renderDoubleRow([
                             { title: "ID", content: servant.id },
-                            { title: t("collection"), content: servant.collectionNo },
+                            { title: t("Collection"), content: servant.collectionNo },
                         ])}
                         {this.renderDoubleRow([
-                            { title: t("class"), content: toTitleCase(servant.className) },
+                            { title: t("Class"), content: toTitleCase(servant.className) },
                             { title: t("attribute"), content: toTitleCase(servant.attribute) },
                         ])}
                         {this.renderDoubleRow([
-                            { title: t("rarity"), content: <RarityDescriptor rarity={servant.rarity} /> },
+                            { title: t("Rarity"), content: <RarityDescriptor rarity={servant.rarity} /> },
                             { title: "Cost", content: servant.cost },
                         ])}
                         {originalServantName !== undefined &&
                             servantName !== originalServantName &&
                             this.renderSpanningRow({
-                                title: t("originalName"),
+                                title: t("Original Name"),
                                 content: <>{getRubyText(this.props.region, originalServantName, servant.ruby)}</>,
                             })}
                         {this.renderSpanningRow({
@@ -107,7 +107,7 @@ class ServantMainData extends React.Component<IProps> {
                             ),
                         })}
                         {this.renderSpanningRow({
-                            title: t("deck"),
+                            title: t("Deck"),
                             content: (
                                 <div>
                                     {servant.cards.map((card, index) => {
@@ -130,15 +130,15 @@ class ServantMainData extends React.Component<IProps> {
                         {this.renderSpanningRow({ title: "Quick", content: this.showHits(quick) })}
                         {this.renderSpanningRow({ title: "Extra", content: this.showHits(extra) })}
                         {this.renderDoubleRow([
-                            { title: t("starWeight"), content: servant.starAbsorb },
-                            { title: t("starGen"), content: asPercent(servant.starGen, 1) },
+                            { title: t("Star Weight"), content: servant.starAbsorb },
+                            { title: t("Star Gen"), content: asPercent(servant.starGen, 1) },
                         ])}
                         {this.renderSpanningRow({
-                            title: t("deathChance"),
+                            title: t("Death Chance"),
                             content: asPercent(this.props.servant.instantDeathChance, 1),
                         })}
                         {this.renderSpanningRow({
-                            title: t("bondCE"),
+                            title: t("Bond CE"),
                             content: servant.bondEquip ? (
                                 <CraftEssenceReferenceDescriptor region={this.props.region} id={servant.bondEquip} />
                             ) : (
@@ -146,7 +146,7 @@ class ServantMainData extends React.Component<IProps> {
                             ),
                         })}
                         {this.renderSpanningRow({
-                            title: t("valentineCE") + (servant.valentineEquip.length > 1 ? "s" : ""),
+                            title: t("Valentine CE") + (servant.valentineEquip.length > 1 ? "s" : ""),
                             content:
                                 servant.valentineEquip.length > 0
                                     ? mergeElements(
