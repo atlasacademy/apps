@@ -1,9 +1,12 @@
 import { Language } from "@atlasacademy/api-connector";
 import Region from "@atlasacademy/api-connector/dist/Enum/Region";
+import { UILanguage } from "@atlasacademy/api-descriptor";
 
+import i18n, { uiLangLocalStorageKey } from "../i18n";
 import { Theme } from "./Theme";
 
 const languageKey = "language",
+    uiLanguageKey = uiLangLocalStorageKey,
     themeKey = "aa-db.theme",
     changelogVisibleOnly = "changelog.visibleOnly",
     changelogLocalTime = "changelog.localTime",
@@ -57,6 +60,23 @@ class Manager {
 
         window.localStorage.setItem(languageKey, language);
         Manager.triggerCallbacks();
+    }
+
+    static uiLanguage(): UILanguage {
+        const value = window.localStorage.getItem(uiLanguageKey),
+            language: UILanguage | undefined = Object.values(UILanguage).find((v) => v === value);
+
+        return language ?? UILanguage.EN_US;
+    }
+
+    static setUiLanguage(value: UILanguage) {
+        window.localStorage.setItem(uiLanguageKey, value);
+        Manager.updateUILanguage();
+        Manager.triggerCallbacks();
+    }
+
+    static updateUILanguage() {
+        i18n.changeLanguage(this.uiLanguage());
     }
 
     static region(): Region {

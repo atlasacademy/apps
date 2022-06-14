@@ -2,6 +2,7 @@ import React from "react";
 import { Button, ButtonGroup, Form } from "react-bootstrap";
 
 import { Language } from "@atlasacademy/api-connector";
+import { UILanguage } from "@atlasacademy/api-descriptor";
 
 import Manager from "./Manager";
 import { Theme } from "./Theme";
@@ -39,13 +40,27 @@ class SettingForm extends React.Component<IProps> {
             <div>
                 <Form>
                     <Form.Group>
-                        <Form.Label>Language</Form.Label>
+                        <Form.Label>Data Language</Form.Label>
                         <Form.Control
                             as={"select"}
                             value={this.props.language}
                             onChange={(ev: Event) => this.updateLanguage(ev.target.value)}
                         >
                             {Object.values(Language).map((v) => (
+                                <option key={v} value={v}>
+                                    {v}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>UI Language</Form.Label>
+                        <Form.Control
+                            as={"select"}
+                            value={Manager.uiLanguage()}
+                            onChange={(ev: Event) => Manager.setUiLanguage(ev.target.value as UILanguage)}
+                        >
+                            {Object.values(UILanguage).map((v) => (
                                 <option key={v} value={v}>
                                     {v}
                                 </option>

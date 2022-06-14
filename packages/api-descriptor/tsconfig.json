@@ -7,7 +7,9 @@
         "declarationMap": true,
         "moduleResolution": "Node",
         "outDir": "./dist",
-        "strict": true
+        "strict": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true
     },
     "include": ["src/**/*"]
 }
