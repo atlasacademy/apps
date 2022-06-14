@@ -3,9 +3,9 @@ import { faCog, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown } from "react-bootstrap";
+import { withTranslation, TFunction } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { withTranslation, TFunction } from 'react-i18next';
 
 import { Language, Region } from "@atlasacademy/api-connector";
 

@@ -4,8 +4,8 @@ import { AxiosError } from "axios";
 import Fuse from "fuse.js";
 import React from "react";
 import { Button, ButtonGroup, Col, Form, Pagination, Row, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { withTranslation, TFunction } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { ClassName, Region, Servant } from "@atlasacademy/api-connector";
 
@@ -308,7 +308,6 @@ class ServantsPage extends React.Component<IProps, IState> {
             results = servants.slice(this.state.perPage * this.state.page, this.state.perPage * (this.state.page + 1)),
             t = this.props.t;
 
-
         return (
             <div id="servants" className="listing-page">
                 <Row>
@@ -419,10 +418,10 @@ class ServantsPage extends React.Component<IProps, IState> {
                                     )}
                                 </Button>
                             </th>
-                            <th className="col-center">{t('class')}</th>
-                            <th className="col-center">{t('Thumbnail')}</th>
-                            <th>{t('Name')}</th>
-                            <th className="rarity-col">{t('rarity')}</th>
+                            <th className="col-center">{t("Class")}</th>
+                            <th className="col-center">{t("Thumbnail")}</th>
+                            <th>{t("Name")}</th>
+                            <th className="rarity-col">{t("Rarity")}</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Col, Row, Tab, Tabs } from "react-bootstrap";
+import { TFunction, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { TFunction, withTranslation } from "react-i18next";
 
 import { Region, Entity, Servant } from "@atlasacademy/api-connector";
 
@@ -143,7 +143,7 @@ class ServantPage extends React.Component<IProps, IState> {
         }
         return originalName ? this.state.servant?.originalName : this.state.servant?.name;
     }
-    
+
     render() {
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
 
@@ -164,7 +164,7 @@ class ServantPage extends React.Component<IProps, IState> {
         }
 
         const rawUrl = `${Host}/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
-        
+
         return (
             <div id={"servant"}>
                 <ServantPicker region={this.props.region} servants={this.state.servants} id={servant.collectionNo} />
