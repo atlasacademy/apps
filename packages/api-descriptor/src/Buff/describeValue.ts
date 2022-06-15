@@ -99,6 +99,16 @@ function describeDataVal(
         partials.push(new ParticlePartial("/Turn"));
     }
 
+    if (
+        dataVal.ParamAddValue !== undefined &&
+        dataVal.ParamAddSelfIndividuality === undefined &&
+        dataVal.ParamAddOpIndividuality === undefined &&
+        dataVal.ParamAddFieldIndividuality === undefined
+    ) {
+        partials.push(new ValuePartial(valueType, dataVal.ParamAddValue / base));
+        partials.push(new ParticlePartial(" /Stack"));
+    }
+
     return partials.length > 0 ? new Descriptor(partials) : undefined;
 }
 

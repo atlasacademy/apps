@@ -135,7 +135,12 @@ export default function handleAmountSection(
     } else if (func.buffs[0] !== undefined && dataVal.Value !== undefined) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal} />);
 
-        if (dataVal.ParamAddValue !== undefined) {
+        if (
+            dataVal.ParamAddValue !== undefined ||
+            dataVal.ParamAddSelfIndividuality !== undefined ||
+            dataVal.ParamAddOpIndividuality !== undefined ||
+            dataVal.ParamAddFieldIndividuality !== undefined
+        ) {
             let traitIds: number[] = [],
                 whoseTrait: string = "";
             if (dataVal.ParamAddSelfIndividuality !== undefined) {
@@ -166,13 +171,16 @@ export default function handleAmountSection(
                     ) : (
                         <></>
                     ),
-                stackValue = (
-                    <BuffValueDescription
-                        region={region}
-                        buff={func.buffs[0]}
-                        dataVal={{ Value: dataVal.ParamAddValue }}
-                    />
-                );
+                stackValue =
+                    dataVal.ParamAddValue !== undefined ? (
+                        <BuffValueDescription
+                            region={region}
+                            buff={func.buffs[0]}
+                            dataVal={{ Value: dataVal.ParamAddValue }}
+                        />
+                    ) : (
+                        "additional"
+                    );
 
             parts.push(
                 <span>

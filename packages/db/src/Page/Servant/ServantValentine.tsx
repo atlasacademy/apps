@@ -2,7 +2,6 @@ import { Region, Servant } from "@atlasacademy/api-connector";
 
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
-import { lang } from "../../Setting/Manager";
 
 const ServantValentine = (props: { region: Region; servant: Servant.Servant }) => {
     const { region, servant } = props;
