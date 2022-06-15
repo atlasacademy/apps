@@ -25,7 +25,7 @@ import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
 import { colorString } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
 
@@ -136,7 +136,11 @@ const QuestMainData = (props: {
                     props.phase === Math.max(...quest.phases)
                         ? "True"
                         : "False",
-                War: <Link to={`/${props.region}/war/${quest.warId}`}>{quest.warLongName}</Link>,
+                War: (
+                    <Link to={`/${props.region}/war/${quest.warId}`} lang={lang(props.region)}>
+                        {quest.warLongName}
+                    </Link>
+                ),
                 Spot: quest.spotName,
                 Open: new Date(quest.openedAt * 1000).toLocaleString(),
                 Close: new Date(quest.closedAt * 1000).toLocaleString(),
@@ -169,7 +173,11 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                     <>
                         {quest.releaseConditions.map((cond) => (
                             <div key={`${cond.type}-${cond.targetId}-${cond.value}`}>
-                                {cond.closedMessage !== "" ? `${cond.closedMessage} — ` : ""}
+                                {cond.closedMessage !== "" ? (
+                                    <span lang={lang(region)}>{cond.closedMessage} — </span>
+                                ) : (
+                                    ""
+                                )}
                                 <CondTargetValueDescriptor
                                     region={region}
                                     cond={cond.type}
@@ -267,7 +275,7 @@ class QuestPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1>{quest.name}</h1>
+                <h1 lang={lang(this.props.region)}>{quest.name}</h1>
 
                 <br />
                 <Row style={{ marginBottom: "3%" }}>
@@ -286,7 +294,7 @@ class QuestPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
                 {quest.messages.length > 0 ? (
-                    <Alert variant="success" className="newline">
+                    <Alert variant="success" className="newline" lang={lang(this.props.region)}>
                         {quest.messages.length > 1 ? (
                             <ul className="mb-0">
                                 {quest.messages.map((message) => (

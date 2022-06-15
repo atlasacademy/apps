@@ -6,6 +6,7 @@ import { Mission, Quest, Region, Servant, Item, EnumList, CondType } from "@atla
 
 import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { getURLSearchParams } from "../Helper/StringHelper";
+import { lang } from "../Setting/Manager";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
 import QuestSearchDescriptor from "./QuestSearchDescriptor";
 
@@ -39,7 +40,9 @@ export default function MissionConditionDescriptor(props: {
         <>
             <i>{progressType}:</i>
             <ul style={{ margin: 0 }}>
-                <li className="newline">{props.cond.conditionMessage}</li>
+                <li className="newline" lang={lang(props.region)}>
+                    {props.cond.conditionMessage}
+                </li>
                 <li>
                     <CondTargetNumDescriptor
                         region={props.region}

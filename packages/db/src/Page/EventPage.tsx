@@ -16,7 +16,7 @@ import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor
 import WarDescriptor from "../Descriptor/WarDescriptor";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import EventLottery from "./Event/EventLottery";
 import EventReward from "./Event/EventReward";
 import EventRewardTower from "./Event/EventRewardTower";
@@ -197,7 +197,9 @@ class EventPage extends React.Component<IProps, IState> {
                     {mission.dispNo}
                 </th>
                 <td>
-                    <b className="newline">{mission.name}</b>
+                    <b className="newline" lang={lang(region)}>
+                        {mission.name}
+                    </b>
                     <br />
                     {this.renderMissionConds(
                         region,
@@ -391,7 +393,7 @@ class EventPage extends React.Component<IProps, IState> {
                                     src={pointGroupInfo.icon}
                                     alt={`${pointGroupInfo.name} Icon`}
                                 />
-                                {pointGroupInfo.name}
+                                <span lang={lang(this.props.region)}>{pointGroupInfo.name}</span>
                             </>
                         );
                     }
@@ -449,15 +451,17 @@ class EventPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1>{replacePUACodePoints(event.name)}</h1>
+                <h1 lang={lang(this.props.region)}>{replacePUACodePoints(event.name)}</h1>
 
                 <br />
                 <div style={{ marginBottom: "3%" }}>
                     <DataTable
                         data={{
                             ID: event.id,
-                            Name: replacePUACodePoints(event.name),
-                            ...(event.name !== event.originalName && { "Original Name": event.originalName }),
+                            Name: <span lang={lang(this.props.region)}>{replacePUACodePoints(event.name)}</span>,
+                            ...(event.name !== event.originalName && {
+                                "Original Name": <span lang={lang(this.props.region)}>{event.originalName}</span>,
+                            }),
                             Wars: wars,
                             Status: getEventStatus(event.startedAt, event.endedAt),
                             Start: new Date(event.startedAt * 1000).toLocaleString(),
@@ -489,7 +493,11 @@ class EventPage extends React.Component<IProps, IState> {
                 >
                     {tabs.map((tab) => {
                         return (
-                            <Tab key={tab.tabKey} eventKey={tab.tabKey} title={tab.title}>
+                            <Tab
+                                key={tab.tabKey}
+                                eventKey={tab.tabKey}
+                                title={<span lang={lang(this.props.region)}>{tab.title}</span>}
+                            >
                                 {this.renderTab(
                                     this.props.region,
                                     event,

@@ -8,6 +8,7 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import BuffDescription from "../../Descriptor/BuffDescription";
 import TraitDescription from "../../Descriptor/TraitDescription";
+import { lang } from "../../Setting/Manager";
 
 interface IProps {
     region: Region;
@@ -27,7 +28,7 @@ class FuncMainData extends React.Component<IProps> {
                         Type: <Link to={`/${this.props.region}/funcs?type=${func.funcType}`}>{func.funcType}</Link>,
                         Target: func.funcTargetType,
                         "Affects Players/Enemies": func.funcTargetTeam,
-                        "Popup Text": func.funcPopupText,
+                        "Popup Text": <span lang={lang(this.props.region)}>{func.funcPopupText}</span>,
                         "Target Traits": (
                             <div>
                                 {func.functvals.map((trait) => {

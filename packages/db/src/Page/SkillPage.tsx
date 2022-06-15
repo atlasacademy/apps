@@ -21,7 +21,7 @@ import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import getRubyText, { replacePUACodePoints } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 
 import "../Helper/StringHelper.css";
@@ -139,7 +139,9 @@ class SkillPage extends React.Component<IProps, IState> {
                 <h1>
                     {skill.icon ? <BuffIcon location={skill.icon} height={48} /> : undefined}
                     {skill.icon ? " " : undefined}
-                    {getRubyText(this.props.region, skill.name, skill.ruby, true)}
+                    <span lang={lang(this.props.region)}>
+                        {getRubyText(this.props.region, skill.name, skill.ruby, true)}
+                    </span>
                 </h1>
 
                 <br />
@@ -147,10 +149,28 @@ class SkillPage extends React.Component<IProps, IState> {
                 <DataTable
                     data={{
                         ID: skill.id,
-                        Name: <span className="newline">{replacePUACodePoints(skill.name)}</span>,
-                        ...(skill.name !== skill.originalName && { "Original Name": skill.originalName }),
-                        Ruby: skill.ruby,
-                        Detail: <span className="newline">{skill.detail}</span>,
+                        Name: (
+                            <span className="newline" lang={lang(this.props.region)}>
+                                {replacePUACodePoints(skill.name)}
+                            </span>
+                        ),
+                        ...(skill.name !== skill.originalName && {
+                            "Original Name": (
+                                <span className="newline" lang={lang(this.props.region)}>
+                                    {skill.originalName}
+                                </span>
+                            ),
+                        }),
+                        Ruby: (
+                            <span className="newline" lang={lang(this.props.region)}>
+                                {skill.ruby}
+                            </span>
+                        ),
+                        Detail: (
+                            <span className="newline" lang={lang(this.props.region)}>
+                                {skill.detail}
+                            </span>
+                        ),
                         "Skill Add": skillAdd,
                         Type: toTitleCase(skill.type),
                         "Related AIs": AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),

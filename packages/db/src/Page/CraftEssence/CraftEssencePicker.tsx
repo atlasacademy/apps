@@ -6,6 +6,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { CraftEssence, Region } from "@atlasacademy/api-connector";
 
 import SearchableSelect from "../../Component/SearchableSelect";
+import { lang } from "../../Setting/Manager";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -34,6 +35,7 @@ class CraftEssencePicker extends React.Component<IProps> {
                         <Form.Label>Jump to:</Form.Label>
                         <SearchableSelect<number>
                             id="craftEssencePicker"
+                            lang={lang(this.props.region)}
                             options={craftEssences.map((craftEssence) => craftEssence.collectionNo)}
                             labels={craftEssenceLabels}
                             selected={this.props.id}

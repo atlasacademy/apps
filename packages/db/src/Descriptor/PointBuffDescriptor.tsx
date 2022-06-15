@@ -2,6 +2,7 @@ import { Event, Item, Region } from "@atlasacademy/api-connector";
 
 import ItemIcon from "../Component/ItemIcon";
 import { FuncDescriptorId } from "../Descriptor/FuncDescriptor";
+import { lang } from "../Setting/Manager";
 
 const PointBuffDescriptor = (props: { region: Region; pointBuff: Event.EventPointBuff }) => {
     const { region, pointBuff } = props;
@@ -21,9 +22,9 @@ const PointBuffDescriptor = (props: { region: Region; pointBuff: Event.EventPoin
     return (
         <>
             <ItemIcon region={region} item={pointBuffItem} />
-            <b>{pointBuff.name}</b>
+            <b lang={lang(region)}>{pointBuff.name}</b>
             <br />
-            <b>Detail:</b> {pointBuff.detail}
+            <b>Detail:</b> <span lang={lang(region)}>{pointBuff.detail}</span>
             <br />
             {pointBuff.funcIds.length > 0 ? (
                 <>

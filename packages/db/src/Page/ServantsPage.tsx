@@ -15,7 +15,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
 import "./ServantsPage.css";
@@ -352,6 +352,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({ search: ev.target.value });
                                 }}
+                                lang={lang(this.props.region)}
                             />
                         </Form>
                     </Col>
@@ -452,7 +453,10 @@ class ServantsPage extends React.Component<IProps, IState> {
                                             />
                                         </Link>
                                     </td>
-                                    <td style={{ whiteSpace: Manager.showingJapaneseText() ? "nowrap" : "normal" }}>
+                                    <td
+                                        style={{ whiteSpace: Manager.showingJapaneseText() ? "nowrap" : "normal" }}
+                                        lang={lang(this.props.region)}
+                                    >
                                         <Link to={route}>{servant.name}</Link>
                                     </td>
                                     <td className="rarity-col">

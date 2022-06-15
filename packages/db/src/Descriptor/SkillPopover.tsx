@@ -5,7 +5,6 @@ import { Region, Skill } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
-import Manager from "../Setting/Manager";
 import SkillDescriptor from "./SkillDescriptor";
 
 import "../Component/MoveButton.css";
@@ -15,7 +14,7 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
     const { region, skill } = props;
 
     const popOverContent = (
-        <Popover id={`skill-${skill.id}`} className="skill-popover" lang={Manager.lang()}>
+        <Popover id={`skill-${skill.id}`} className="skill-popover">
             <Popover.Title>
                 <SkillDescriptor region={region} skill={skill} />
             </Popover.Title>

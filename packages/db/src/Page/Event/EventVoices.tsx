@@ -4,6 +4,7 @@ import { Region, Profile, Servant, Event } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import { lang } from "../../Setting/Manager";
 import { VoiceLinesTable } from "../Servant/ServantVoiceLines";
 
 const EventVoices = ({
@@ -51,7 +52,7 @@ const EventVoices = ({
                 return (
                     <React.Fragment key={voiceGroupKey}>
                         {renderCollapsibleContent({
-                            title,
+                            title: <span lang={lang(region)}>{title}</span>,
                             content: voiceLineTable,
                             subheader: false,
                             accordionKey: voiceGroupKey,

@@ -12,7 +12,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ItemsPage.css";
 import "./ListingPage.css";
@@ -268,7 +268,9 @@ class ItemsPage extends React.Component<IProps, IState> {
                                         </Link>
                                     </td>
                                     <td>
-                                        <Link to={route}>{item.name}</Link>
+                                        <Link to={route} lang={lang(this.props.region)}>
+                                            {item.name}
+                                        </Link>
                                     </td>
                                 </tr>
                             );
@@ -305,6 +307,7 @@ class ItemsPage extends React.Component<IProps, IState> {
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({ search: ev.target.value });
                                 }}
+                                lang={lang(this.props.region)}
                             />
                         </Form>
                     </Col>

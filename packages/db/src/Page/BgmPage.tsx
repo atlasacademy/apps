@@ -16,7 +16,7 @@ import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import QuestSearchDescriptor from "../Descriptor/QuestSearchDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
 
@@ -58,7 +58,11 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
             {mergeElements(
                 bgm.releaseConditions.map((release) => (
                     <div key={release.id}>
-                        {release.closedMessage !== "" ? `${release.closedMessage} — ` : ""}
+                        {release.closedMessage !== "" ? (
+                            <span lang={lang(region)}>{release.closedMessage} — </span>
+                        ) : (
+                            ""
+                        )}
                         Cleared{" "}
                         {mergeElements(
                             release.targetIds.map((questId) => (
@@ -83,13 +87,21 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
         <>
             <h1>
                 <img src={bgm.logo} style={{ height: "1.5em" }} alt="BGM Logo" />
-                <span className="newline">{showName}</span>
+                <span className="newline" lang={lang(region)}>
+                    {showName}
+                </span>
             </h1>
             <DataTable
                 data={{
                     ID: bgm.id,
-                    Name: <span className="newline">{showName}</span>,
-                    ...(bgm.name !== bgm.originalName && { "Original Name": bgm.originalName }),
+                    Name: (
+                        <span className="newline" lang={lang(region)}>
+                            {showName}
+                        </span>
+                    ),
+                    ...(bgm.name !== bgm.originalName && {
+                        "Original Name": <span lang={lang(region)}>{bgm.originalName}</span>,
+                    }),
                     "Available to Buy": toTitleCase((!bgm.notReleased).toString()),
                     Player: <BgmDescriptor region={region} bgm={bgm} showName="Download" />,
                     "Unlock Condition": bgmRelease,

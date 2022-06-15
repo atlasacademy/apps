@@ -12,7 +12,7 @@ import Loading from "../Component/Loading";
 import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
 
@@ -214,6 +214,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                         page: 0,
                                     });
                                 }}
+                                lang={lang(this.props.region)}
                             />
                         </Form>
                     </Col>
@@ -259,6 +260,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                         style={{
                                             whiteSpace: Manager.showingJapaneseText() ? "pre-wrap" : "normal",
                                         }}
+                                        lang={lang(this.props.region)}
                                     >
                                         <Link to={route}>{showName}</Link>
                                     </td>

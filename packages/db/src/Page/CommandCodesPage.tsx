@@ -12,7 +12,7 @@ import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
 
@@ -128,6 +128,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({ search: ev.target.value });
                                 }}
+                                lang={lang(this.props.region)}
                             />
                         </Form>
                     </Col>
@@ -163,7 +164,9 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                                         </Link>
                                     </td>
                                     <td>
-                                        <Link to={route}>{commandCode.name}</Link>
+                                        <Link to={route} lang={lang(this.props.region)}>
+                                            {commandCode.name}
+                                        </Link>
                                     </td>
                                     <td className="rarity-col">
                                         <RarityDescriptor rarity={commandCode.rarity} />

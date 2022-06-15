@@ -12,7 +12,7 @@ import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
 
@@ -272,6 +272,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({ search: ev.target.value, page: 0 });
                                 }}
+                                lang={lang(this.props.region)}
                             />
                         </Form>
                     </Col>
@@ -336,7 +337,10 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                             />
                                         </Link>
                                     </td>
-                                    <td style={{ whiteSpace: Manager.showingJapaneseText() ? "pre-wrap" : "normal" }}>
+                                    <td
+                                        style={{ whiteSpace: Manager.showingJapaneseText() ? "pre-wrap" : "normal" }}
+                                        lang={lang(this.props.region)}
+                                    >
                                         <Link to={route}>{craftEssence.name}</Link>
                                     </td>
                                     <td className="rarity-col">

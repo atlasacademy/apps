@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Quest, Region } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
+import { lang } from "../Setting/Manager";
 
 export function QuestDescriptionNoApi(props: {
     region: Region;
@@ -20,7 +21,7 @@ export function QuestDescriptionNoApi(props: {
     if (props.text !== undefined && props.text !== "") {
         return (
             <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}`}>
-                {props.text} <FontAwesomeIcon icon={faShare} />
+                <span lang={lang(props.region)}>{props.text}</span> <FontAwesomeIcon icon={faShare} />
             </Link>
         );
     } else {
@@ -62,7 +63,7 @@ export function QuestDescriptionNoApi(props: {
         return (
             <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}${stageUri}`}>
                 {showType && type !== "" ? `${type} ` : ""}
-                {quest.name}
+                <span lang={lang(props.region)}>{quest.name}</span>
                 {phase} <FontAwesomeIcon icon={faShare} />
             </Link>
         );

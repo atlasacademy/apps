@@ -9,6 +9,7 @@ import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { asPercent, mergeElements } from "../Helper/OutputHelper";
+import { lang } from "../Setting/Manager";
 import EffectBreakdown from "./EffectBreakdown";
 
 import "../Helper/StringHelper.css";
@@ -110,7 +111,9 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                             </Alert>
                         ) : null}
 
-                        <p className="newline">{np.detail}</p>
+                        <p className="newline" lang={lang(this.props.region)}>
+                            {np.detail}
+                        </p>
 
                         <p style={{ lineHeight: "2em" }}>
                             {npRank !== "" ? (
@@ -121,7 +124,7 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                             ) : null}
                             {npType !== "" ? (
                                 <span>
-                                    <b>Type:</b> {npType}
+                                    <b>Type:</b> <span lang={lang(this.props.region)}>{npType}</span>
                                     <br />
                                 </span>
                             ) : null}

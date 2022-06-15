@@ -16,7 +16,7 @@ import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
 import BuffDescription from "../Descriptor/BuffDescription";
 import { getURLSearchParams } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
 
@@ -227,6 +227,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             onChange={(ev: ChangeEvent) => {
                                 this.setState({ name: ev.target.value });
                             }}
+                            lang={lang(this.props.region)}
                         />
                     </Form.Group>
                     <Form.Group>

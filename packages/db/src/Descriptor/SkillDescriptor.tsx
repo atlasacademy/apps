@@ -6,6 +6,7 @@ import { Region, Skill } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import getRubyText from "../Helper/StringHelper";
+import { lang } from "../Setting/Manager";
 
 import "./Descriptor.css";
 
@@ -31,7 +32,7 @@ class SkillDescriptor extends React.Component<IProps> {
                     <BuffIcon location={this.props.skill.icon} height={this.props.iconHeight} />
                 ) : undefined}
                 {this.props.skill.icon ? " " : undefined}
-                <span className="hover-text" style={{ whiteSpace: textWhiteSpace }}>
+                <span className="hover-text" style={{ whiteSpace: textWhiteSpace }} lang={lang(this.props.region)}>
                     [
                     {this.props.skill.name
                         ? getRubyText(this.props.region, this.props.skill.name, this.props.skill.ruby, true)

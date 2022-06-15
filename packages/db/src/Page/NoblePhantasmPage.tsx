@@ -15,7 +15,7 @@ import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { asPercent, mergeElements } from "../Helper/OutputHelper";
 import getRubyText from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
@@ -75,24 +75,25 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
 
         if (this.state.loading || !this.state.noblePhantasm) return <Loading />;
 
-        const noblePhantasm = this.state.noblePhantasm;
+        const noblePhantasm = this.state.noblePhantasm,
+            region = this.props.region;
 
         return (
             <div>
-                <h1>{getRubyText(this.props.region, noblePhantasm.name, noblePhantasm.ruby)}</h1>
+                <h1 lang={lang(region)}>{getRubyText(this.props.region, noblePhantasm.name, noblePhantasm.ruby)}</h1>
                 <br />
 
                 <DataTable
                     data={{
                         ID: noblePhantasm.id,
-                        Name: noblePhantasm.name,
+                        Name: <span lang={lang(region)}>{noblePhantasm.name}</span>,
                         ...(noblePhantasm.name !== noblePhantasm.originalName && {
-                            "Original Name": noblePhantasm.originalName,
+                            "Original Name": <span lang={lang(region)}>{noblePhantasm.originalName}</span>,
                         }),
-                        Ruby: noblePhantasm.ruby,
-                        Detail: noblePhantasm.detail,
+                        Ruby: <span lang={lang(region)}>{noblePhantasm.ruby}</span>,
+                        Detail: <span lang={lang(region)}>{noblePhantasm.detail}</span>,
                         Rank: noblePhantasm.rank,
-                        Type: noblePhantasm.type,
+                        Type: <span lang={lang(region)}>{noblePhantasm.type}</span>,
                         "Card Type": toTitleCase(noblePhantasm.card),
                         Hits: mergeElements(
                             noblePhantasm.npDistribution.map((hit) => asPercent(hit, 0)),

@@ -8,6 +8,7 @@ import RawDataViewer from "../../Component/RawDataViewer";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import getRubyText from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
 
@@ -22,16 +23,18 @@ class CommandCodeMainData extends React.Component<IProps> {
 
         return (
             <div>
-                <h1>{commandCode.name}</h1>
+                <h1 lang={lang(this.props.region)}>{commandCode.name}</h1>
 
                 <DataTable
                     data={{
                         ID: commandCode.id,
                         Collection: commandCode.collectionNo,
-                        Name: commandCode.name,
+                        Name: <span lang={lang(this.props.region)}>{commandCode.name}</span>,
                         ...(commandCode.name !== commandCode.originalName && {
                             "Original Name": (
-                                <>{getRubyText(this.props.region, commandCode.originalName, commandCode.ruby)}</>
+                                <span lang={lang(this.props.region)}>
+                                    {getRubyText(this.props.region, commandCode.originalName, commandCode.ruby)}
+                                </span>
                             ),
                         }),
                         Rarity: <RarityDescriptor rarity={commandCode.rarity} />,
@@ -42,7 +45,11 @@ class CommandCodeMainData extends React.Component<IProps> {
                                 hideTypeText={true}
                             />
                         ),
-                        Comment: <span className="newline">{commandCode.comment}</span>,
+                        Comment: (
+                            <span className="newline" lang={lang(this.props.region)}>
+                                {commandCode.comment}
+                            </span>
+                        ),
                     }}
                 />
                 <span>

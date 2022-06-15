@@ -16,7 +16,7 @@ import TraitsSelector from "../Component/TraitsSelector";
 import { entityDescriptorTable } from "../Descriptor/EntityDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
 
@@ -244,6 +244,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                                     this.setState({ name: undefined });
                                 }
                             }}
+                            lang={lang(this.props.region)}
                         />
                     </Form.Group>
                     <Form.Group>

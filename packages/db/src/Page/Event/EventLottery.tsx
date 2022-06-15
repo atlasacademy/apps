@@ -10,6 +10,7 @@ import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import ItemIcon from "../../Component/ItemIcon";
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
 import { mergeElements } from "../../Helper/OutputHelper";
+import { lang } from "../../Setting/Manager";
 
 const EventLotteryBox = ({
     region,
@@ -43,7 +44,7 @@ const EventLotteryBox = ({
                                     </>
                                 ) : null}
                             </th>
-                            <td>{box.detail}</td>
+                            <td lang={lang(region)}>{box.detail}</td>
                             <td>
                                 {mergeElements(
                                     box.gifts.map((gift) => (
@@ -82,7 +83,8 @@ const EventLottery = ({
             <div style={{ margin: "1em 0" }}>
                 <b>Cost of 1 roll:</b>{" "}
                 <Link to={`/${region}/item/${lottery.cost.item.id}`}>
-                    <ItemIcon region={region} item={lottery.cost.item} height={40} /> {lottery.cost.item.name}
+                    <ItemIcon region={region} item={lottery.cost.item} height={40} />{" "}
+                    <span lang={lang(region)}>{lottery.cost.item.name}</span>
                 </Link>{" "}
                 ×{lottery.cost.amount}
             </div>

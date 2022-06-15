@@ -19,7 +19,7 @@ import ItemUseDescription from "../Descriptor/ItemUseDescription";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
 import "./ItemPage.css";
@@ -471,7 +471,7 @@ class ItemPage extends React.Component<IProps, IState> {
                 <h1>
                     {item.icon ? <ItemIcon region={this.props.region} item={item} height={50} /> : undefined}
                     {item.icon ? " " : undefined}
-                    {item.name}
+                    <span lang={lang(this.props.region)}>{item.name}</span>
                 </h1>
 
                 <br />
@@ -479,9 +479,15 @@ class ItemPage extends React.Component<IProps, IState> {
                 <DataTable
                     data={{
                         ID: item.id,
-                        Name: item.name,
-                        ...(item.name !== item.originalName && { "Original Name": item.originalName }),
-                        Detail: <span className="newline">{item.detail}</span>,
+                        Name: <span lang={lang(this.props.region)}>{item.name}</span>,
+                        ...(item.name !== item.originalName && {
+                            "Original Name": <span lang={lang(this.props.region)}>{item.originalName}</span>,
+                        }),
+                        Detail: (
+                            <span className="newline" lang={lang(this.props.region)}>
+                                {item.detail}
+                            </span>
+                        ),
                         Individuality: (
                             <div>
                                 {mergeElements(

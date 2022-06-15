@@ -20,7 +20,7 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import { removeSuffix } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import { QuestTypeDescription } from "./QuestPage";
 import WarMap from "./WarMap/WarMap";
 
@@ -127,16 +127,22 @@ const FirstPhaseLink = ({
     region,
     quest,
     children,
+    lang,
 }: {
     region: Region;
     quest: Quest.Quest;
     children: React.ReactNode;
+    lang?: string;
 }) => {
     if (quest.phases.length > 0) {
         const firstPhase = Math.min(...quest.phases);
-        return <Link to={`/${region}/quest/${quest.id}/${firstPhase}`}>{children}</Link>;
+        return (
+            <Link to={`/${region}/quest/${quest.id}/${firstPhase}`} lang={lang}>
+                {children}
+            </Link>
+        );
     } else {
-        return <>{children}</>;
+        return <span lang={lang}>{children}</span>;
     }
 };
 
@@ -175,14 +181,16 @@ const QuestTable = (props: {
                             </FirstPhaseLink>
                         </td>
                         <td style={{ maxWidth: "15em" }}>
-                            <FirstPhaseLink region={region} quest={quest}>
+                            <FirstPhaseLink region={region} quest={quest} lang={lang(region)}>
                                 {quest.name}
                             </FirstPhaseLink>
                         </td>
                         {props.spots !== undefined ? (
                             <td style={{ whiteSpace: "nowrap" }}>
                                 <SpotImage src={props.spots[i].image} name={props.spots[i].name} height="2em" />{" "}
-                                <span style={{ whiteSpace: "normal" }}>{props.spots[i].name}</span>
+                                <span style={{ whiteSpace: "normal" }} lang={lang(region)}>
+                                    {props.spots[i].name}
+                                </span>
                             </td>
                         ) : null}
                         <td>
@@ -286,7 +294,7 @@ const Spot = (props: {
     if (filteredQuest.length === 0) return null;
 
     const title = (
-        <span>
+        <span lang={lang(props.region)}>
             <SpotImage src={spot.image} name={spot.name} height="1.5em" />
             {spot.name}
         </span>
@@ -495,7 +503,7 @@ class WarPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1 style={{ marginBottom: "1em" }} className="newline">
+                <h1 style={{ marginBottom: "1em" }} className="newline" lang={lang(this.props.region)}>
                     {war.flags.indexOf(War.WarFlag.SUB_FOLDER) === -1 ? war.longName : war.name}
                 </h1>
                 <div style={{ marginBottom: "3%" }}>
@@ -503,20 +511,20 @@ class WarPage extends React.Component<IProps, IState> {
                         data={{
                             ID: war.id,
                             Name: (
-                                <span className="newline">
+                                <span className="newline" lang={lang(this.props.region)}>
                                     {war.name}
                                     <br />
                                     {war.originalName === war.name || war.originalName}
                                 </span>
                             ),
                             "Long Name": (
-                                <span className="newline">
+                                <span className="newline" lang={lang(this.props.region)}>
                                     {war.longName}
                                     <br />
                                     {war.originalLongName === war.longName || war.originalLongName}
                                 </span>
                             ),
-                            Age: war.age,
+                            Age: <span lang={lang(this.props.region)}>{war.age}</span>,
                             Event: event,
                             "Opening Script": openingScript,
                             Banner: bannerImages,

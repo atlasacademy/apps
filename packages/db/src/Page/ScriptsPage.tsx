@@ -12,7 +12,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ScriptsPage.css";
 
@@ -152,6 +152,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                         onChange={(ev) => {
                             setQuery(ev.target.value !== "" ? ev.target.value : undefined);
                         }}
+                        lang={lang(region)}
                     />
                 </Form.Group>
                 <Form.Group>
@@ -253,6 +254,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                                             dangerouslySetInnerHTML={{
                                                 __html: script.snippets[0],
                                             }}
+                                            lang={lang(region)}
                                         ></td>
                                     </tr>
                                 ))}

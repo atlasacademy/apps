@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Quest, Region } from "@atlasacademy/api-connector";
 
 import { QuestTypeDescription } from "../Page/QuestPage";
+import { lang } from "../Setting/Manager";
 
 const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.QuestPhaseBasic[] }) => {
     return (
@@ -30,14 +31,14 @@ const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.Que
                             <td className="col-center">
                                 <Link to={questLink}>{quest.phase}</Link>
                             </td>
-                            <td>
+                            <td lang={lang(region)}>
                                 <Link to={questLink}>{quest.name}</Link>
                             </td>
                             <td className="col-center">{QuestTypeDescription.get(quest.type)}</td>
                             <td className="col-center">
                                 <Link to={warLink}>{quest.warId}</Link>
                             </td>
-                            <td>
+                            <td lang={lang(region)}>
                                 <Link to={warLink}>{quest.warLongName}</Link>
                             </td>
                         </tr>

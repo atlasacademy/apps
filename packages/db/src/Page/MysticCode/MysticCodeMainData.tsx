@@ -5,6 +5,7 @@ import { MysticCode, Region } from "@atlasacademy/api-connector";
 import { Host } from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
+import { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
 
@@ -19,16 +20,20 @@ class MysticCodeMainData extends React.Component<IProps> {
 
         return (
             <div>
-                <h1>{mysticCode.name}</h1>
+                <h1 lang={lang(this.props.region)}>{mysticCode.name}</h1>
 
                 <DataTable
                     data={{
                         ID: mysticCode.id,
-                        Name: mysticCode.name,
+                        Name: <span lang={lang(this.props.region)}>{mysticCode.name}</span>,
                         ...(mysticCode.name !== mysticCode.originalName && {
-                            "Original Name": mysticCode.originalName,
+                            "Original Name": <span lang={lang(this.props.region)}>{mysticCode.originalName}</span>,
                         }),
-                        Detail: <span className="newline">{mysticCode.detail}</span>,
+                        Detail: (
+                            <span className="newline" lang={lang(this.props.region)}>
+                                {mysticCode.detail}
+                            </span>
+                        ),
                     }}
                 />
                 <span>

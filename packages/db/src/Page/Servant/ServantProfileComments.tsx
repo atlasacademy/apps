@@ -7,6 +7,7 @@ import { ProfileComment } from "@atlasacademy/api-connector/dist/Schema/Profile"
 import ProfileCommentAddsDescriptor from "../../Descriptor/ProfileConditionAddDescriptor";
 import ProfileConditionDescriptor from "../../Descriptor/ProfileConditionDescriptor";
 import { replacePUACodePoints } from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
 import "./ServantProfileComments.css";
@@ -53,7 +54,9 @@ class ServantProfileComments extends React.Component<IProps> {
                                                     />
                                                 </b>
                                             </Col>
-                                            <Col className="newline pr-0">{replacePUACodePoints(comment.comment)}</Col>
+                                            <Col className="newline pr-0" lang={lang(this.props.region)}>
+                                                {replacePUACodePoints(comment.comment)}
+                                            </Col>
                                         </Row>
                                     </td>
                                 </tr>

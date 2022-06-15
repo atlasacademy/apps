@@ -15,7 +15,7 @@ import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
 import { getURLSearchParams } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 const attributeDescriptions = new Map<Attribute.Attribute, string>(),
     classNameDescriptions = new Map<ClassName, string>(),
@@ -236,6 +236,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             onChange={(ev: ChangeEvent) => {
                                 this.setState({ name: ev.target.value });
                             }}
+                            lang={lang(this.props.region)}
                         />
                     </Form.Group>
 
@@ -324,6 +325,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                 this.setState({ illustrator: value });
                             }}
                             disableLabelStyling={true}
+                            lang={lang(this.props.region)}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -337,6 +339,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                 this.setState({ cv: value });
                             }}
                             disableLabelStyling={true}
+                            lang={lang(this.props.region)}
                         />
                     </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
@@ -366,7 +369,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                     <td>
                                         <FaceIcon location={entity.face} mightNotExist={true} />
                                     </td>
-                                    <td>{entity.name}</td>
+                                    <td lang={lang(this.props.region)}>{entity.name}</td>
                                 </tr>
                             );
                         })}

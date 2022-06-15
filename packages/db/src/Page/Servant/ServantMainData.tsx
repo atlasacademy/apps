@@ -11,6 +11,7 @@ import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import { Renderable, asPercent } from "../../Helper/OutputHelper";
 import { formatNumber, mergeElements } from "../../Helper/OutputHelper";
 import getRubyText from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 
 import "./ServantMainData.css";
 
@@ -76,7 +77,7 @@ class ServantMainData extends React.Component<IProps> {
                         ])}
                         {this.renderDoubleRow([
                             { title: t("Class"), content: toTitleCase(servant.className) },
-                            { title: t("attribute"), content: toTitleCase(servant.attribute) },
+                            { title: t("Attribute"), content: toTitleCase(servant.attribute) },
                         ])}
                         {this.renderDoubleRow([
                             { title: t("Rarity"), content: <RarityDescriptor rarity={servant.rarity} /> },
@@ -86,7 +87,11 @@ class ServantMainData extends React.Component<IProps> {
                             servantName !== originalServantName &&
                             this.renderSpanningRow({
                                 title: t("Original Name"),
-                                content: <>{getRubyText(this.props.region, originalServantName, servant.ruby)}</>,
+                                content: (
+                                    <span lang={lang(this.props.region)}>
+                                        {getRubyText(this.props.region, originalServantName, servant.ruby)}
+                                    </span>
+                                ),
                             })}
                         {this.renderSpanningRow({
                             title: "HP",

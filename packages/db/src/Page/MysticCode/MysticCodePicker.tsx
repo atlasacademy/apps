@@ -5,6 +5,8 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { MysticCode, Region } from "@atlasacademy/api-connector";
 
+import { lang } from "../../Setting/Manager";
+
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
 interface IProps extends RouteComponentProps {
@@ -29,6 +31,8 @@ class MysticCodePicker extends React.Component<IProps> {
                         this.changeMysticCode(parseInt(ev.target.value));
                     }}
                     value={this.props.id}
+                    className="mt-2"
+                    lang={lang(this.props.region)}
                 >
                     {this.props.mysticCodes.map((mysticCode) => {
                         return (

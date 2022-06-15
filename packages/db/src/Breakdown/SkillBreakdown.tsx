@@ -11,7 +11,7 @@ import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { Renderable } from "../Helper/OutputHelper";
 import getRubyText from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import { lang } from "../Setting/Manager";
 import EffectBreakdown from "./EffectBreakdown";
 
 import "../Helper/StringHelper.css";
@@ -30,7 +30,7 @@ class SkillBreakdown extends React.Component<IProps> {
         const skill = this.props.skill;
         const skillAdd =
             this.props.skill.skillAdd.length > 0 ? (
-                <Tooltip id="skillAdd-tooltip" style={{ fontSize: "1em" }} lang={Manager.lang()}>
+                <Tooltip id="skillAdd-tooltip" style={{ fontSize: "1em" }} lang={lang(this.props.region)}>
                     {getRubyText(this.props.region, skill.skillAdd[0].name, skill.skillAdd[0].ruby, true)}
                 </Tooltip>
             ) : null;
@@ -68,7 +68,9 @@ class SkillBreakdown extends React.Component<IProps> {
                     </Alert>
                 ) : null}
 
-                <p className="newline">{skill.detail}</p>
+                <p className="newline" lang={lang(this.props.region)}>
+                    {skill.detail}
+                </p>
 
                 {this.props.extraPassiveCond && skill.extraPassive.length > 0 ? (
                     <>

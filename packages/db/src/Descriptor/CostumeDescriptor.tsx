@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Region, Servant } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
+import { lang } from "../Setting/Manager";
 import ServantDescriptor from "./ServantDescriptor";
 
 export default function CostumeDescriptor(props: {
@@ -29,7 +30,7 @@ export default function CostumeDescriptor(props: {
                     iconHeight={props.iconHeight}
                     tab={props.tab ?? "lore"}
                 />{" "}
-                costume: {costume ? costume.name : props.costumeLimit}
+                costume: {costume ? <span lang={lang(props.region)}>{costume.name}</span> : props.costumeLimit}
             </>
         );
     } else {

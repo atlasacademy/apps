@@ -5,6 +5,8 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { CommandCode, Region } from "@atlasacademy/api-connector";
 
+import { lang } from "../../Setting/Manager";
+
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
 interface IProps extends RouteComponentProps {
@@ -29,6 +31,8 @@ class CommandCodePicker extends React.Component<IProps> {
                         this.changeCommandCode(parseInt(ev.target.value));
                     }}
                     value={this.props.id}
+                    lang={lang(this.props.region)}
+                    className="mt-2"
                 >
                     {this.props.commandCodes
                         .slice()

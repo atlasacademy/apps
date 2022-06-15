@@ -13,7 +13,7 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import { getEventStatus, getTimeString } from "../Helper/TimeHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
 
@@ -131,7 +131,9 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
                                 {mission.dispNo}
                             </th>
                             <td>
-                                <b className="newline">{mission.name}</b>
+                                <b className="newline" lang={lang(region)}>
+                                    {mission.name}
+                                </b>
                                 <br />
                                 <MasterMissionCond
                                     region={region}

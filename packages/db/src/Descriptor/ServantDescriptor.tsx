@@ -5,6 +5,7 @@ import { Region, Servant } from "@atlasacademy/api-connector";
 
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
+import { lang } from "../Setting/Manager";
 
 import "./Descriptor.css";
 
@@ -31,7 +32,9 @@ function CommonServantDescriptor(props: IPropsCommon & { face?: string; tab?: st
                     height={props.iconHeight}
                 />
             )}{" "}
-            <span className="hover-text">{props.overwriteName ?? props.servant.name}</span>
+            <span className="hover-text" lang={lang(props.region)}>
+                {props.overwriteName ?? props.servant.name}
+            </span>
         </Link>
     );
 }

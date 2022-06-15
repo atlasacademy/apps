@@ -108,7 +108,7 @@ class App extends React.Component<any, IState> {
                     <Navigation language={this.state.language} theme={this.state.theme} />
                     <br />
 
-                    <Container fluid="xl" id={"app"} key={`${this.state.language}`} lang={Manager.lang()}>
+                    <Container fluid="xl" id={"app"} key={`${this.state.language}`} lang={Manager.uiLanguage()}>
                         <Helmet>
                             {this.state.theme === Theme.DEFAULT ? null : (
                                 <link

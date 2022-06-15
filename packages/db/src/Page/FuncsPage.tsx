@@ -17,7 +17,7 @@ import { funcDescriptions } from "../Descriptor/Func/handleActionSection";
 import { targetDescriptions } from "../Descriptor/Func/handleTargetSection";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
 
@@ -225,6 +225,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             onChange={(ev: ChangeEvent) => {
                                 this.setState({ popupText: ev.target.value });
                             }}
+                            lang={lang(this.props.region)}
                         />
                     </Form.Group>
                     <Form.Group>

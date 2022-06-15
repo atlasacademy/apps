@@ -10,7 +10,7 @@ import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import { flatten } from "../Helper/PolyFill";
 import useWindowDimensions from "../Helper/WindowHelper";
 import ShowScriptLineContext from "../Page/Script/ShowScriptLineContext";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import Scene from "./Scene";
 import {
     ScriptBackground,
@@ -532,7 +532,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                     {showScriptLine && <th style={{ textAlign: "center" }}>Line</th>}
                 </tr>
             </thead>
-            <tbody>
+            <tbody lang={lang(props.region)}>
                 {scriptComponents.map((component, i) => {
                     const { content, lineNumber } = component;
 

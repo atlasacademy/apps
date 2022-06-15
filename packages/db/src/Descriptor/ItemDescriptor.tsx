@@ -6,6 +6,7 @@ import { Item, Region } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import ItemIcon from "../Component/ItemIcon";
 import { mergeElements } from "../Helper/OutputHelper";
+import { lang } from "../Setting/Manager";
 import TraitDescription from "./TraitDescription";
 
 import "./Descriptor.css";
@@ -27,7 +28,9 @@ export default function ItemDescriptor(props: {
                     height={props.height}
                     quantityHeight={props.quantityHeight}
                 />
-                <span className="hover-text">{props.item.name}</span>
+                <span className="hover-text" lang={lang(props.region)}>
+                    {props.item.name}
+                </span>
             </Link>
         </>
     );

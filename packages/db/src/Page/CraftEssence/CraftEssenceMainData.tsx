@@ -9,6 +9,7 @@ import EntityReferenceDescriptor from "../../Descriptor/EntityReferenceDescripto
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import getRubyText from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 
 interface IProps {
     region: Region;
@@ -22,9 +23,13 @@ class CraftEssenceMainData extends React.Component<IProps> {
         let craftEssenceData: Record<string, string | number | JSX.Element> = {
             ID: craftEssence.id,
             Collection: craftEssence.collectionNo,
-            Name: craftEssence.name,
+            Name: <span lang={lang(this.props.region)}>{craftEssence.name}</span>,
             ...(craftEssence.name !== craftEssence.originalName && {
-                "Original Name": <>{getRubyText(this.props.region, craftEssence.originalName, craftEssence.ruby)}</>,
+                "Original Name": (
+                    <span lang={lang(this.props.region)}>
+                        {getRubyText(this.props.region, craftEssence.originalName, craftEssence.ruby)}
+                    </span>
+                ),
             }),
             Rarity: <RarityDescriptor rarity={craftEssence.rarity} />,
             Cost: craftEssence.cost,
@@ -59,7 +64,7 @@ class CraftEssenceMainData extends React.Component<IProps> {
 
         return (
             <div>
-                <h1>{craftEssence.name}</h1>
+                <h1 lang={lang(this.props.region)}>{craftEssence.name}</h1>
 
                 <DataTable data={craftEssenceData} />
                 <span>

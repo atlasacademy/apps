@@ -18,6 +18,7 @@ import VoicePlayCondDescriptor from "../../Descriptor/VoicePlayCondDescriptor";
 import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
 import { mergeElements } from "../../Helper/OutputHelper";
 import { VoiceSubtitleFormat } from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
 
@@ -66,9 +67,11 @@ export const VoiceLinesTable = ({
                 {voiceLines.map((line, index) => (
                     <tr key={`line_${index}`}>
                         <td style={{ verticalAlign: "middle" }}>
-                            <b className="newline">{voiceLineNames[index]}</b>
+                            <b className="newline" lang={lang(region)}>
+                                {voiceLineNames[index]}
+                            </b>
                             <br />
-                            <div className="newline">
+                            <div className="newline" lang={lang(region)}>
                                 {voiceTextField(region, voice.type) ? (
                                     line.text.map((line, i) => (
                                         <VoiceSubtitleFormat key={i} region={region} inputString={line} />

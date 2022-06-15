@@ -19,6 +19,23 @@ const callbacks: Function[] = [];
 
 let region: Region = Region.JP;
 
+export const lang = (region_?: Region): string => {
+    switch (region_ ?? region) {
+        case Region.JP:
+            return "ja-JP";
+        case Region.NA:
+            return "en-US";
+        case Region.CN:
+            return "zh-CN";
+        case Region.KR:
+            return "ko-KR";
+        case Region.TW:
+            return "zh-TW";
+        default:
+            return "en-US";
+    }
+};
+
 class Manager {
     static changelogVisibleOnly(): boolean {
         return !!+(window.localStorage.getItem(changelogVisibleOnly) ?? 0);
@@ -72,7 +89,6 @@ class Manager {
     static setUiLanguage(value: UILanguage) {
         window.localStorage.setItem(uiLanguageKey, value);
         Manager.updateUILanguage();
-        Manager.triggerCallbacks();
     }
 
     static updateUILanguage() {
@@ -87,23 +103,6 @@ class Manager {
         if (_region !== region) {
             region = _region;
             Manager.triggerCallbacks();
-        }
-    }
-
-    static lang(): string {
-        switch (this.region()) {
-            case Region.JP:
-                return "ja-JP";
-            case Region.NA:
-                return "en-US";
-            case Region.CN:
-                return "zh-CN";
-            case Region.KR:
-                return "ko-KR";
-            case Region.TW:
-                return "zh-TW";
-            default:
-                return "en-US";
         }
     }
 

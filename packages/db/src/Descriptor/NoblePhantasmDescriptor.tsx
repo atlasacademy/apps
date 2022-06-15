@@ -5,6 +5,7 @@ import { NoblePhantasm, Region } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import getRubyText from "../Helper/StringHelper";
+import { lang } from "../Setting/Manager";
 
 interface IProps {
     region: Region;
@@ -22,7 +23,10 @@ class NoblePhantasmDescriptor extends React.Component<IProps> {
             ruby = "Extra Attack";
         }
         return (
-            <Link to={`/${this.props.region}/noble-phantasm/${this.props.noblePhantasm.id}`}>
+            <Link
+                to={`/${this.props.region}/noble-phantasm/${this.props.noblePhantasm.id}`}
+                lang={lang(this.props.region)}
+            >
                 [{getRubyText(this.props.region, name, ruby)}]
             </Link>
         );

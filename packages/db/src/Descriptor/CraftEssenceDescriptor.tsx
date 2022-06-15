@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { CraftEssence, Entity, Region } from "@atlasacademy/api-connector";
 
 import FaceIcon from "../Component/FaceIcon";
+import { lang } from "../Setting/Manager";
 
 import "./Descriptor.css";
 
@@ -34,7 +35,9 @@ function CommonCraftEssenceDescriptor(props: IPropsCommon & { face?: string; tab
                 />
             ) : undefined}
             {props.face ? " " : undefined}
-            <span className="hover-text">{props.overwriteName ?? props.craftEssence.name}</span>{" "}
+            <span className="hover-text" lang={lang(props.region)}>
+                {props.overwriteName ?? props.craftEssence.name}
+            </span>{" "}
             <FontAwesomeIcon icon={faShare} />
         </Link>
     );

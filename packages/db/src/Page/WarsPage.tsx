@@ -13,7 +13,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import WarDescriptor from "../Descriptor/WarDescriptor";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
 
@@ -245,6 +245,7 @@ class WarsPage extends React.Component<IProps, IState> {
                                         page: 0,
                                     });
                                 }}
+                                lang={lang(this.props.region)}
                             />
                         </Form>
                     </Col>
@@ -293,7 +294,11 @@ class WarsPage extends React.Component<IProps, IState> {
                                     <td>
                                         {war.eventId !== 0 ? (
                                             <Link to={`/${this.props.region}/event/${war.eventId}`}>
-                                                {war.eventName !== "" ? war.eventName : `Event ${war.eventId}`}
+                                                {war.eventName !== "" ? (
+                                                    <span lang={lang(this.props.region)}>{war.eventName}</span>
+                                                ) : (
+                                                    `Event ${war.eventId}`
+                                                )}
                                             </Link>
                                         ) : (
                                             ""

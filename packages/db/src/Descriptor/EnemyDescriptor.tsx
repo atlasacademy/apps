@@ -5,6 +5,7 @@ import { Enemy, Region } from "@atlasacademy/api-connector";
 
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
+import { lang } from "../Setting/Manager";
 
 import "./Descriptor.css";
 
@@ -35,7 +36,9 @@ class EnemyDescriptor extends React.Component<IProps> {
                     height={this.props.iconHeight}
                     mightNotExist={true}
                 />{" "}
-                <span className="hover-text">[{this.props.overwriteName ?? this.props.enemy.name}]</span>
+                <span className="hover-text" lang={lang(this.props.region)}>
+                    [{this.props.overwriteName ?? this.props.enemy.name}]
+                </span>
             </Link>
         );
     }

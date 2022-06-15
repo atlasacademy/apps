@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import { Region, Bgm } from "@atlasacademy/api-connector";
 
+import { lang } from "../Setting/Manager";
 import VoiceLinePlayer from "./VoiceLinePlayer";
 
 export const getBgmName = (bgm: Bgm.Bgm) => {
@@ -23,7 +24,8 @@ export default function BgmDescriptor(props: {
     showLink?: boolean;
     style?: React.CSSProperties;
 }) {
-    const bgm = props.bgm;
+    const bgm = props.bgm,
+        region = props.region;
     if (bgm.id === 0) {
         return null;
     } else if (bgm.audioAsset !== undefined) {
@@ -37,11 +39,11 @@ export default function BgmDescriptor(props: {
         ) : null;
         const downloadButton = bgm.notReleased ? (
             <Button disabled variant="secondary" target="_blank" title={showName}>
-                {showName}
+                <span lang={lang(region)}>{showName}</span>
             </Button>
         ) : (
             <Button variant={"info"} href={bgm.audioAsset} target="_blank" title={`Download ${showName}`}>
-                {props.showName ?? showName}&nbsp;
+                {props.showName ?? <span lang={lang(region)}>{showName}</span>}&nbsp;
                 <FontAwesomeIcon icon={faFileAudio} />
             </Button>
         );
@@ -57,7 +59,7 @@ export default function BgmDescriptor(props: {
     } else {
         return (
             <Button variant={"info"} disabled style={props.style}>
-                {bgm.name}
+                <span lang={lang(region)}>{bgm.name}</span>
             </Button>
         );
     }

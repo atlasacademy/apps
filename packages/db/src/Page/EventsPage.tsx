@@ -13,7 +13,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import { getCurrentTimestamp } from "../Helper/TimeHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
 
@@ -231,6 +231,7 @@ class EventsPage extends React.Component<IProps, IState> {
                                         page: 0,
                                     });
                                 }}
+                                lang={lang(this.props.region)}
                             />
                         </Form>
                     </Col>
@@ -267,7 +268,9 @@ class EventsPage extends React.Component<IProps, IState> {
                                         ) : null}
                                     </td>
                                     <td>
-                                        <Link to={route}>{event.name}</Link>
+                                        <Link to={route} lang={lang(this.props.region)}>
+                                            {event.name}
+                                        </Link>
                                     </td>
                                 </tr>
                             );

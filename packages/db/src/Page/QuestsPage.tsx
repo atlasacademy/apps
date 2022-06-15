@@ -15,7 +15,7 @@ import QuestPhaseTable from "../Component/QuestPhaseTable";
 import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import { QuestTypeDescription, QuestFlagDescription } from "./QuestPage";
 
 import "./ListingPage.css";
@@ -266,6 +266,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                                     name: ev.target.value !== "" ? ev.target.value : undefined,
                                 });
                             }}
+                            lang={lang(this.props.region)}
                         />
                     </Form.Group>
                     <Form.Group>
@@ -277,6 +278,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                                     spotName: ev.target.value !== "" ? ev.target.value : undefined,
                                 });
                             }}
+                            lang={lang(this.props.region)}
                         />
                     </Form.Group>
                     {this.getNumberForm("warId", "War ID")}

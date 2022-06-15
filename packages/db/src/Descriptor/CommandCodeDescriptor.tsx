@@ -5,6 +5,7 @@ import { CommandCode, Region } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import FaceIcon from "../Component/FaceIcon";
+import { lang } from "../Setting/Manager";
 
 import "./Descriptor.css";
 
@@ -21,7 +22,9 @@ export default function CommandCodeDescriptor(props: {
                 location={props.commandCode.face}
                 height={props.iconHeight}
             />{" "}
-            <span className="hover-text">{props.commandCode.name}</span>
+            <span className="hover-text" lang={lang(props.region)}>
+                {props.commandCode.name}
+            </span>
         </Link>
     );
 }

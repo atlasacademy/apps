@@ -4,6 +4,7 @@ import { Quest, Region, Script } from "@atlasacademy/api-connector";
 
 import { QuestDescriptionNoApi } from "../../Descriptor/QuestDescriptor";
 import ScriptDescriptor, { getScriptType } from "../../Descriptor/ScriptDescriptor";
+import { lang } from "../../Setting/Manager";
 
 interface QuestWarDescriptorProps {
     region: Region;
@@ -15,7 +16,7 @@ const QuestWarDescriptor = ({ region, quest, questPhase }: QuestWarDescriptorPro
     return (
         <>
             <Link to={`/${region}/war/${quest.warId}`}>
-                War {quest.warId} {quest.warLongName}
+                War {quest.warId} <span lang={lang(region)}>{quest.warLongName}</span>
             </Link>
             {" — "}
             <QuestDescriptionNoApi region={region} quest={quest} questPhase={questPhase} showType={false} />

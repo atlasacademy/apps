@@ -2,6 +2,7 @@ import { Button } from "react-bootstrap";
 
 import { CondType, Mission, Quest, Region, Servant, Item, EnumList } from "@atlasacademy/api-connector";
 
+import { lang } from "../Setting/Manager";
 import CondMissionDetailDescriptor from "./CondMissionDetailDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import {
@@ -145,7 +146,7 @@ export default function CondTargetNumDescriptor(props: {
                         className="move-button"
                         onClick={() => props.handleNavigateMissionId?.(targets[0])}
                     >
-                        {missionDispNo}: {missionName}
+                        {missionDispNo}: <span lang={lang(region)}>{missionName}</span>
                     </Button>
                 </>
             );

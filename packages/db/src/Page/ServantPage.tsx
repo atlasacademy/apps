@@ -17,7 +17,7 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import IllustratorDescriptor from "../Descriptor/IllustratorDescriptor";
 import VoiceActorDescriptor from "../Descriptor/VoiceActorDescriptor";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import ServantAssets from "./Servant/ServantAssets";
 import ServantBattleNames from "./Servant/ServantBattleNames";
 import ServantBondGrowth from "./Servant/ServantBondGrowth";
@@ -171,7 +171,7 @@ class ServantPage extends React.Component<IProps, IState> {
                 <hr style={{ marginBottom: "1rem" }} />
 
                 <div style={{ display: "flex", flexDirection: "row", marginBottom: 3 }}>
-                    <h1 style={{ marginBottom: "1rem" }}>
+                    <h1 style={{ marginBottom: "1rem" }} lang={lang(this.props.region)}>
                         <ClassIcon className={servant.className} rarity={servant.rarity} height={50} />
                         &nbsp;
                         {this.getOverwriteName()}

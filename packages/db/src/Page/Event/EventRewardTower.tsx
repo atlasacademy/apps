@@ -5,6 +5,7 @@ import { Region, Event, Item } from "@atlasacademy/api-connector";
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
 import { mergeElements } from "../../Helper/OutputHelper";
 import { colorString, interpolateString } from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 
 const EventRewardTower = ({
     region,
@@ -31,7 +32,9 @@ const EventRewardTower = ({
                             <th scope="row" style={{ textAlign: "center" }}>
                                 {reward.floor}
                             </th>
-                            <td>{colorString(interpolateString(reward.boardMessage, [reward.floor]))}</td>
+                            <td lang={lang(region)}>
+                                {colorString(interpolateString(reward.boardMessage, [reward.floor]))}
+                            </td>
                             <td>
                                 {mergeElements(
                                     reward.gifts.map((gift) => (

@@ -12,7 +12,7 @@ import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ClassIcon from "../Component/ClassIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import EnemyMainData from "./Enemy/EnemyMainData";
 import EnemySubData from "./Enemy/EnemySubData";
 import ServantAssets from "./Servant/ServantAssets";
@@ -66,7 +66,7 @@ class EnemyPage extends React.Component<IProps, IState> {
                 <h1 style={{ marginBottom: "1rem" }}>
                     <ClassIcon className={enemy.className} rarity={enemy.rarity} height={50} />
                     &nbsp;
-                    {enemy.name}
+                    <span lang={lang(this.props.region)}>{enemy.name}</span>
                 </h1>
 
                 <Row

@@ -12,7 +12,7 @@ import { gemIds, magicGemIds, secretGemIds, monumentIds, pieceIds } from "../../
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import ShopPurchaseDescriptor from "../../Descriptor/ShopPurchaseDescriptor";
 import { colorString } from "../../Helper/StringHelper";
-import Manager from "../../Setting/Manager";
+import Manager, { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
 import "./Shop.css";
@@ -216,9 +216,9 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                             return (
                                 <tr key={shop.id}>
                                     <td style={{ minWidth: "10em" }}>
-                                        <b>{shop.name}</b>
+                                        <b lang={lang(region)}>{shop.name}</b>
                                         <div style={{ fontSize: "0.75rem" }} className="newline">
-                                            {colorString(shop.detail)}
+                                            <span lang={lang(region)}>{colorString(shop.detail)}</span>
                                             <ScriptLink region={region} shop={shop} />
                                             <br />
                                             <div>
@@ -226,7 +226,11 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                                     <ul className="condition-list">
                                                         {shop.releaseConditions.map((cond, index) => (
                                                             <li key={index} style={{ fontSize: "0.75rem" }}>
-                                                                {cond.closedMessage && `${cond.closedMessage} — `}
+                                                                {cond.closedMessage && (
+                                                                    <span lang={lang(region)}>
+                                                                        {cond.closedMessage} —{" "}
+                                                                    </span>
+                                                                )}
                                                                 <CondTargetNumDescriptor
                                                                     region={region}
                                                                     cond={cond.condType}

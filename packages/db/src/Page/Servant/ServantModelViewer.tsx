@@ -7,6 +7,7 @@ import { Profile, Servant } from "@atlasacademy/api-connector";
 import { MergeElementsOr } from "../../Descriptor/MultipleDescriptors";
 import { isSubset } from "../../Helper/ArrayHelper";
 import { ordinalNumeral } from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 
 const VIEWER_URL = "https://katboi01.github.io/FateViewer/?id=";
 
@@ -106,7 +107,7 @@ const CostumeModelViewer = ({
             {Object.keys(assetMap).map((battleCharaId) => (
                 <li key={battleCharaId}>
                     <ViewerLink battleCharaId={battleCharaId}>
-                        {costumeDetails[battleCharaId]?.shortName ?? battleCharaId}
+                        <span lang={lang()}>{costumeDetails[battleCharaId]?.shortName ?? battleCharaId}</span>
                     </ViewerLink>
                 </li>
             ))}

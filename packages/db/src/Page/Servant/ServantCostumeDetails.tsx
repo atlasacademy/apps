@@ -2,6 +2,8 @@ import { Table } from "react-bootstrap";
 
 import { Profile } from "@atlasacademy/api-connector";
 
+import { lang } from "../../Setting/Manager";
+
 import "../../Helper/StringHelper.css";
 
 const ServantCostumeDetails = (props: {
@@ -25,8 +27,12 @@ const ServantCostumeDetails = (props: {
                         {Object.values(props.costumes).map((costume) => (
                             <tr key={costume.id}>
                                 <th scope="row">{costume.costumeCollectionNo}</th>
-                                <td className="newline">{costume.name}</td>
-                                <td className="newline">{costume.detail}</td>
+                                <td className="newline" lang={lang()}>
+                                    {costume.name}
+                                </td>
+                                <td className="newline" lang={lang()}>
+                                    {costume.detail}
+                                </td>
                             </tr>
                         ))}
                     </tbody>

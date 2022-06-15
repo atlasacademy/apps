@@ -4,7 +4,7 @@ import { Region } from "@atlasacademy/api-connector";
 
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
 import { replacePUACodePoints } from "../Helper/StringHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";
 
 import "../Helper/StringHelper.css";
@@ -81,7 +81,7 @@ const DialoguePopover = (props: { children: Renderable[]; tooltipComponent: Rend
     const { children, tooltipComponent } = props;
 
     const maleToolTip = (props: any) => (
-        <Tooltip lang={Manager.lang()} {...props}>
+        <Tooltip lang={lang()} {...props}>
             {tooltipComponent}
         </Tooltip>
     );

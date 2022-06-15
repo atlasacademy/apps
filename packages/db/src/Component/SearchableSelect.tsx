@@ -18,6 +18,7 @@ interface IProps<T> {
     hideReset?: boolean;
     disableLabelStyling?: boolean;
     maxResults?: number;
+    lang?: string;
 }
 
 function getDescription<T>(value: T, labels: Map<T, string>, disableLabelStyling?: boolean): string {
@@ -51,7 +52,7 @@ export default function SearchableSelect<T>(props: IProps<T>) {
     }
 
     return (
-        <>
+        <div lang={props.lang}>
             <Typeahead
                 id="basic-typeahead-single"
                 options={options}
@@ -69,6 +70,6 @@ export default function SearchableSelect<T>(props: IProps<T>) {
                     }
                 }}
             />
-        </>
+        </div>
     );
 }

@@ -9,7 +9,7 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
 
@@ -72,7 +72,9 @@ class MysticCodesPage extends React.Component<IProps, IState> {
                                         </Link>
                                     </td>
                                     <td>
-                                        <Link to={route}>{mysticCode.name}</Link>
+                                        <Link to={route} lang={lang(this.props.region)}>
+                                            {mysticCode.name}
+                                        </Link>
                                     </td>
                                 </tr>
                             );

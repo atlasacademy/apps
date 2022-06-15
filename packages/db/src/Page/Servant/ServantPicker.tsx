@@ -7,6 +7,7 @@ import { Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import SearchableSelect from "../../Component/SearchableSelect";
+import { lang } from "../../Setting/Manager";
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -40,6 +41,7 @@ class ServantPicker extends React.Component<IProps> {
                         <Form.Label>Jump to:</Form.Label>
                         <SearchableSelect<number>
                             id="servantPicker"
+                            lang={lang(this.props.region)}
                             options={servants.map((servant) => servant.collectionNo)}
                             labels={servantLabels}
                             selected={this.props.id}

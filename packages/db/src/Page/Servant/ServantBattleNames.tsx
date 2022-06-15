@@ -1,15 +1,19 @@
 import { Servant } from "@atlasacademy/api-connector";
 
+import { lang } from "../../Setting/Manager";
+
 const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
     return (
         <>
             <h3>Battle Names</h3>
             <ul>
-                <li>Default Battle Name: {servant.battleName}</li>
+                <li>
+                    Default Battle Name: <span lang={lang()}>{servant.battleName}</span>
+                </li>
                 {Object.entries(servant.ascensionAdd.overWriteServantBattleName.ascension).map(
                     ([ascension, battleName]) => (
                         <li key={ascension}>
-                            Ascension {ascension}: {battleName}
+                            Ascension {ascension}: <span lang={lang()}>{battleName}</span>
                         </li>
                     )
                 )}
@@ -17,10 +21,12 @@ const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
                     ([battleCharaId, battleName]) => (
                         <li key={battleCharaId}>
                             Costume{" "}
-                            {Object.values(servant.profile?.costume ?? {}).find(
-                                (costume) => costume.id === parseInt(battleCharaId)
-                            )?.shortName ?? battleCharaId}
-                            : {battleName}
+                            <span lang={lang()}>
+                                {Object.values(servant.profile?.costume ?? {}).find(
+                                    (costume) => costume.id === parseInt(battleCharaId)
+                                )?.shortName ?? battleCharaId}
+                                : {battleName}
+                            </span>
                         </li>
                     )
                 )}

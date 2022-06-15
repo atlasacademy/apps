@@ -5,6 +5,7 @@ import { MysticCode, Region } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import FaceIcon from "../Component/FaceIcon";
+import { lang } from "../Setting/Manager";
 
 interface IPropsCommon {
     region: Region;
@@ -15,7 +16,7 @@ function CommonMysticCodeDescriptor(props: IPropsCommon & { item: { male: string
     return (
         <Link to={`/${props.region}/mystic-code/${props.mysticCode.id}`}>
             <FaceIcon location={props.item.male} />
-            <FaceIcon location={props.item.female} /> [{props.mysticCode.name}]
+            <FaceIcon location={props.item.female} /> [<span lang={lang(props.region)}>{props.mysticCode.name}</span>]
         </Link>
     );
 }
