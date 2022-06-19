@@ -191,6 +191,7 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                 Individuality: mergeElements(
                     quest.individuality.map((trait) => (
                         <TraitDescription
+                            key={trait.id}
                             region={region}
                             trait={trait}
                             owner="quests"
@@ -200,7 +201,7 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                     ", "
                 ),
                 "Enemy Classes": mergeElements(
-                    quest.className.map((className) => <ClassIcon className={className} />),
+                    quest.className.map((className) => <ClassIcon key={className} className={className} />),
                     " "
                 ),
                 "Recommended Level": quest.recommendLv,
