@@ -11,6 +11,7 @@ import { Event, Region } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import { preventDefault } from "../Helper/Form";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import { getCurrentTimestamp } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -221,7 +222,7 @@ class EventsPage extends React.Component<IProps, IState> {
                         </ButtonGroup>
                     </Col>
                     <Col md={12} lg={3} id="item-search">
-                        <Form inline>
+                        <Form inline onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={"Search"}
                                 value={this.state.search ?? ""}

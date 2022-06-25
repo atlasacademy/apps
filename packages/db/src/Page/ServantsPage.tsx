@@ -14,6 +14,7 @@ import ClassIcon from "../Component/ClassIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
+import { preventDefault } from "../Helper/Form";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -345,7 +346,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                         })}
                     </Col>
                     <Col sm={12} lg={3} id="servant-search">
-                        <Form>
+                        <Form onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={t("Search")}
                                 value={this.state.search ?? ""}

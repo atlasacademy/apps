@@ -11,6 +11,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
+import { preventDefault } from "../Helper/Form";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -121,7 +122,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                         </ButtonGroup>
                     </Col>
                     <Col sm={6} md={3} id="item-search">
-                        <Form inline>
+                        <Form inline onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={"Search"}
                                 value={this.state.search ?? ""}

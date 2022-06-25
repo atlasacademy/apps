@@ -11,6 +11,7 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
+import { preventDefault } from "../Helper/Form";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -300,7 +301,7 @@ class ItemsPage extends React.Component<IProps, IState> {
                         {hasPaginator && <div>{this.paginator(items.length)}</div>}
                     </Col>
                     <Col xs={12} sm={6} md={3} id="item-search">
-                        <Form inline>
+                        <Form inline onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={"Search"}
                                 value={this.state.search ?? ""}

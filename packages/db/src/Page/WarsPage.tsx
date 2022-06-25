@@ -12,6 +12,7 @@ import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import WarDescriptor from "../Descriptor/WarDescriptor";
+import { preventDefault } from "../Helper/Form";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -235,7 +236,7 @@ class WarsPage extends React.Component<IProps, IState> {
                         </ButtonGroup>
                     </Col>
                     <Col md={12} lg={3} id="item-search">
-                        <Form inline>
+                        <Form inline onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={"Search"}
                                 value={this.state.search ?? ""}
