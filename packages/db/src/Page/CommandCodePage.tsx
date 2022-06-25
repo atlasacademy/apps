@@ -67,7 +67,7 @@ class CommandCodePage extends React.Component<IProps, IState> {
                 <CommandCodePicker
                     region={this.props.region}
                     commandCodes={this.state.commandCodes}
-                    id={commandCode.id}
+                    id={commandCode.collectionNo}
                 />
                 <hr />
 
