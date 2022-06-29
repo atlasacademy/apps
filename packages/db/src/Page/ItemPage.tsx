@@ -15,6 +15,7 @@ import FaceIcon from "../Component/FaceIcon";
 import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
+import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import ItemUseDescription from "../Descriptor/ItemUseDescription";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
@@ -504,6 +505,23 @@ class ItemPage extends React.Component<IProps, IState> {
                                 <ItemUseDescription region={this.props.region} item={item} />
                             </div>
                         ),
+                        ...(item.itemSelects.length > 0 && {
+                            "Can be exchanged for": (
+                                <ul>
+                                    {item.itemSelects.map((itemSelect) => (
+                                        <li key={itemSelect.idx}>
+                                            {itemSelect.gifts.map((gift) => (
+                                                <GiftDescriptor
+                                                    key={`${gift.objectId}-${gift.priority}`}
+                                                    region={this.props.region}
+                                                    gift={gift}
+                                                />
+                                            ))}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ),
+                        }),
                     }}
                 />
 

@@ -1,3 +1,4 @@
+import { Gift } from "./Gift";
 import { Trait } from "./Trait";
 
 export enum ItemBackgroundType {
@@ -48,6 +49,13 @@ export enum ItemUse {
     COSTUME = "costume",
 }
 
+export interface ItemSelect {
+    idx: number;
+    gifts: Gift[];
+    requireNum: number;
+    detail: string;
+}
+
 export interface Item {
     id: number;
     name: string;
@@ -60,4 +68,5 @@ export interface Item {
     background: ItemBackgroundType;
     priority: number;
     dropPriority: number;
+    itemSelects: ItemSelect[];
 }

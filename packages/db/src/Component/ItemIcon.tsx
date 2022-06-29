@@ -21,7 +21,7 @@ const frameBgMap = new Map<Item.ItemBackgroundType, string>([
 
 interface IProps {
     region: Region;
-    item: Item.Item;
+    item: Pick<Item.Item, "background" | "name" | "icon">;
     quantity?: number;
     height?: string | number;
     quantityHeight?: string | number;

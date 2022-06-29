@@ -9,20 +9,6 @@ import ItemIcon from "../../Component/ItemIcon";
 
 import "./ServantMaterialBreakdown.css";
 
-const qpItem: Item.Item = {
-    id: 1,
-    name: "QP",
-    originalName: "QP",
-    type: Item.ItemType.QP,
-    uses: [],
-    detail: '"Synthesis Resource"\nA Quantum Particle.\nA fluctuation in the spiritron that grants many possibilities.\nUsed as fuels to conduct all sorts of magecraft.',
-    individuality: [],
-    icon: `${AssetHost}/NA/Items/5.png`,
-    background: Item.ItemBackgroundType.ZERO,
-    priority: 10,
-    dropPriority: 510,
-};
-
 const iconHeight = 75;
 
 interface IProps {
@@ -61,6 +47,12 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
 
     render() {
         const count = this.getMaxMaterialCount();
+
+        const qpItem = {
+            name: "QP",
+            icon: `${AssetHost}/${this.props.region}/Items/5.png`,
+            background: Item.ItemBackgroundType.ZERO,
+        };
 
         return (
             <div>
