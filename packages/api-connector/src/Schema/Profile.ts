@@ -22,6 +22,7 @@ export enum ProfileVoiceType {
     TREASURE_BOX = "treasureBox",
     WAR_BOARD = "warBoard",
     EVENT_DIGGING = "eventDigging",
+    EVENT_EXPEDITION = "eventExpedition",
     SUM = "sum",
 }
 
