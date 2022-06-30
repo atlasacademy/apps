@@ -37,6 +37,9 @@ class CommandCodeMainData extends React.Component<IProps> {
                                 </span>
                             ),
                         }),
+                        ...(commandCode.name === commandCode.originalName &&
+                            commandCode.name !== commandCode.ruby &&
+                            commandCode.ruby !== "-" && { Ruby: commandCode.ruby }),
                         Rarity: <RarityDescriptor rarity={commandCode.rarity} />,
                         Illustrator: (
                             <IllustratorDescriptor
