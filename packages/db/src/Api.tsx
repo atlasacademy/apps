@@ -425,8 +425,12 @@ class Api {
         });
     }
 
-    static searchScript(query: string, scriptFileName?: string): Promise<Script.ScriptSearchResult[]> {
-        return apiConnector.searchScript({ query, scriptFileName });
+    static searchScript(
+        query: string,
+        scriptFileName?: string,
+        warId?: number[]
+    ): Promise<Script.ScriptSearchResult[]> {
+        return apiConnector.searchScript({ query, scriptFileName, warId });
     }
 }
 

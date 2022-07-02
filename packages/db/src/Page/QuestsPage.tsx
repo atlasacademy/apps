@@ -15,6 +15,7 @@ import QuestPhaseTable from "../Component/QuestPhaseTable";
 import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
+import { getNumParam } from "../Helper/URLSearchParamsHelper";
 import Manager, { lang } from "../Setting/Manager";
 import { QuestTypeDescription, QuestFlagDescription } from "./QuestPage";
 
@@ -67,29 +68,20 @@ class QuestsPage extends React.Component<IProps, IState> {
         let state: IState = defaultState;
         if (props.location.search !== "") {
             const searchParams = new URLSearchParams(props.location.search);
-            const getQueryNums = (param: string) => searchParams.getAll(param).map((num) => parseInt(num)),
-                getQueryNum = (param: string) => {
-                    const num = searchParams.get(param);
-                    if (num !== null) {
-                        try {
-                            return parseInt(num);
-                        } catch {}
-                    }
-                    return undefined;
-                };
+            const getQueryNums = (param: string) => searchParams.getAll(param).map((num) => parseInt(num));
             state = {
                 ...defaultState,
                 name: searchParams.get("name") ?? undefined,
                 spotName: searchParams.get("spotName") ?? undefined,
-                warId: getQueryNum("warId"),
+                warId: getNumParam(searchParams, "warId"),
                 type: (searchParams.get("type") as Quest.QuestType) ?? undefined,
                 flag: (searchParams.get("flag") as Quest.QuestFlag) ?? undefined,
                 fieldIndividuality: getQueryNums("fieldIndividuality"),
-                battleBgId: getQueryNum("battleBgId"),
-                bgmId: getQueryNum("bgmId"),
-                fieldAiId: getQueryNum("fieldAiId"),
-                enemySvtId: getQueryNum("enemySvtId"),
-                enemySvtAiId: getQueryNum("enemySvtAiId"),
+                battleBgId: getNumParam(searchParams, "battleBgId"),
+                bgmId: getNumParam(searchParams, "bgmId"),
+                fieldAiId: getNumParam(searchParams, "fieldAiId"),
+                enemySvtId: getNumParam(searchParams, "enemySvtId"),
+                enemySvtAiId: getNumParam(searchParams, "enemySvtAiId"),
                 enemyTrait: getQueryNums("enemyTrait"),
                 enemyClassName: searchParams.getAll("enemyClassName") as ClassName[],
             };

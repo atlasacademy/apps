@@ -5,13 +5,16 @@ import { useState, useEffect } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { Region, Script } from "@atlasacademy/api-connector";
+import { Region, Script, War } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import SearchableSelect from "../Component/SearchableSelect";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
+import { getWarName } from "../Descriptor/WarDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
+import { getNumParam } from "../Helper/URLSearchParamsHelper";
 import Manager, { lang } from "../Setting/Manager";
 
 import "./ScriptsPage.css";
@@ -21,15 +24,17 @@ const stateCache = new Map<
     {
         query: string | undefined;
         scriptFileName: string | undefined;
+        warId: number | undefined;
         scripts: Script.ScriptSearchResult[];
         searched: boolean;
     }
 >();
 
-const getQueryString = (query?: string, scriptFileName?: string) => {
+const getQueryString = (query?: string, scriptFileName?: string, warId?: number) => {
     return getURLSearchParams({
         query,
         scriptFileName,
+        warId,
     }).toString();
 };
 
@@ -44,15 +49,17 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         [scriptFileName, setScriptFileName] = useState(
             searchParams.get("scriptFileName") ?? thisStateCache?.scriptFileName ?? undefined
         ),
+        [warId, setWarId] = useState(getNumParam(searchParams, "warId") ?? thisStateCache?.warId ?? undefined),
+        [wars, setWars] = useState([] as War.WarBasic[]),
         [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(thisStateCache?.scripts ?? []),
         [error, setError] = useState<AxiosError | undefined>(undefined),
         [searching, setSearching] = useState(false),
         [searched, setSearched] = useState(thisStateCache?.searched ?? false),
         [resultSort, setResultSort] = useState<ScriptResultSort>("Score");
 
-    const search = (query: string, scriptFileName?: string) => {
+    const search = (query: string, scriptFileName?: string, warId?: number) => {
         setSearching(true);
-        Api.searchScript(query, scriptFileName)
+        Api.searchScript(query, scriptFileName, warId !== undefined ? [warId] : undefined)
             .then((r) => {
                 setSearched(true);
                 setScripts(r);
@@ -61,12 +68,12 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             .catch((e) => setError(e));
     };
 
-    const searchButton = (query?: string, scriptFileName?: string) => {
+    const searchButton = (query?: string, scriptFileName?: string, warId?: number) => {
         if (query === undefined || query.trim() === "") {
             alert("Please enter a query");
         } else {
-            search(query, scriptFileName);
-            history.replace(`/${region}/${path}?${getQueryString(query, scriptFileName)}`);
+            search(query, scriptFileName, warId);
+            history.replace(`/${region}/${path}?${getQueryString(query, scriptFileName, warId)}`);
         }
     };
 
@@ -82,13 +89,17 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     useEffect(() => {
         if (!stateCache.has(region) && query !== undefined && query !== "") {
             // for first run if URL query string is not empty
-            search(query, scriptFileName);
+            search(query, scriptFileName, warId);
         }
-    }, [region, query, scriptFileName]);
+    }, [region, query, scriptFileName, warId]);
 
     useEffect(() => {
-        stateCache.set(region, { query, scriptFileName, scripts, searched });
-    }, [region, query, scriptFileName, scripts, searched]);
+        stateCache.set(region, { query, scriptFileName, warId, scripts, searched });
+    }, [region, query, scriptFileName, warId, scripts, searched]);
+
+    useEffect(() => {
+        Api.warList().then((r) => setWars(r));
+    }, []);
 
     document.title = `[${region}] Scripts - Atlas Academy DB`;
 
@@ -142,7 +153,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             <form
                 onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
-                    searchButton(query);
+                    searchButton(query, scriptFileName, warId);
                 }}
             >
                 <Form.Group>
@@ -151,6 +162,19 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                         value={query ?? ""}
                         onChange={(ev) => {
                             setQuery(ev.target.value !== "" ? ev.target.value : undefined);
+                        }}
+                        lang={lang(region)}
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>War</Form.Label>
+                    <SearchableSelect<number>
+                        id="select-warId"
+                        options={wars.map((war) => war.id)}
+                        labels={new Map(wars.map((war) => [war.id, getWarName(war).replace("\n", " ")]))}
+                        selected={warId}
+                        onChange={(value?: number) => {
+                            setWarId(value);
                         }}
                         lang={lang(region)}
                     />
@@ -167,7 +191,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                         The script ID should contain this string. For example 30001 for LB1, 94036 for Ooku.
                     </Form.Text>
                 </Form.Group>
-                <Button variant={"primary"} onClick={() => searchButton(query, scriptFileName)}>
+                <Button variant={"primary"} onClick={() => searchButton(query, scriptFileName, warId)}>
                     Search <FontAwesomeIcon icon={faSearch} />
                 </Button>{" "}
             </form>

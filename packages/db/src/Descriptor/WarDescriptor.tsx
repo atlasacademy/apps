@@ -6,12 +6,13 @@ import { Region, War } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import { lang } from "../Setting/Manager";
 
-export default function WarDescriptor(props: { region: Region; war: War.WarBasic }) {
-    const war = props.war;
-    const name = war.flags.indexOf(War.WarFlag.SUB_FOLDER) === -1 ? war.longName : war.name;
+export const getWarName = (war: War.WarBasic) =>
+    war.flags.indexOf(War.WarFlag.SUB_FOLDER) === -1 ? war.longName : war.name;
+
+export default function WarDescriptor({ region, war }: { region: Region; war: War.WarBasic }) {
     return (
-        <Link to={`/${props.region}/war/${war.id}`} lang={lang(props.region)}>
-            {name}
+        <Link to={`/${region}/war/${war.id}`} lang={lang(region)}>
+            {getWarName(war)}
         </Link>
     );
 }
