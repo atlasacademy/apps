@@ -126,7 +126,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
         stateCache.set(this.props.region, { ...this.state });
     }
 
-    private location(entity: Entity.EntityBasic): string | undefined {
+    private location(entity: Entity.EntityBasic) {
         switch (entity.type) {
             case Entity.EntityType.NORMAL:
             case Entity.EntityType.HEROINE:
@@ -135,13 +135,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     : `/${this.props.region}/servant/${entity.collectionNo}`;
             case Entity.EntityType.SERVANT_EQUIP:
                 return `/${this.props.region}/craft-essence/${entity.collectionNo}`;
-            case Entity.EntityType.ENEMY:
-            case Entity.EntityType.ENEMY_COLLECTION:
-            case Entity.EntityType.ENEMY_COLLECTION_DETAIL:
+            default:
                 return `/${this.props.region}/enemy/${entity.id}`;
         }
-
-        return undefined;
     }
 
     getQueryString(): string {
