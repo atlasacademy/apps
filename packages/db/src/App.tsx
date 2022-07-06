@@ -735,16 +735,6 @@ class App extends React.Component<any, IState> {
                                 }}
                             />
                             <Route
-                                path="/:region(jp|na|cn|kr|tw)/:tail(.*)?"
-                                exact={true}
-                                render={(props) => {
-                                    const { tail, region } = props.match.params as typeof props.match.params & {
-                                        [key: string]: string | undefined;
-                                    };
-                                    return <Redirect to={`/${region.toUpperCase()}/${tail}`} />;
-                                }}
-                            />
-                            <Route
                                 path="/:region(JP|NA|CN|KR|TW)?/:endpoint(\w*)?/:id([0-9]+)?"
                                 exact={true}
                                 render={(props) => {
