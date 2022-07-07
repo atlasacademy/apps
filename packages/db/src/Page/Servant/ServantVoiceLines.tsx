@@ -49,9 +49,6 @@ export const VoiceLinesTable = ({
     const voiceLineNames: string[] = [];
     const voiceNameCount: Record<string, number> = {};
     for (const line of voiceLines) {
-        line.conds = line.conds.filter(
-            (cond) => !(cond.condType === Profile.VoiceCondType.EVENT_END && cond.value === 0)
-        );
         let lineName = line.overwriteName || line.name || "";
         if (lineName in voiceNameCount) {
             voiceNameCount[lineName]++;
@@ -64,116 +61,121 @@ export const VoiceLinesTable = ({
     return (
         <Table bordered className="mb-0">
             <tbody>
-                {voiceLines.map((line, index) => (
-                    <tr key={`line_${index}`}>
-                        <td style={{ verticalAlign: "middle" }}>
-                            <b className="newline" lang={lang(region)}>
-                                {voiceLineNames[index]}
-                            </b>
-                            <br />
-                            <div className="newline" lang={lang(region)}>
-                                {voiceTextField(region, voice.type) ? (
-                                    line.text.map((line, i) => (
-                                        <VoiceSubtitleFormat key={i} region={region} inputString={line} />
-                                    ))
+                {voiceLines.map((line, index) => {
+                    const lineConds = line.conds.filter(
+                        (cond) => !(cond.condType === Profile.VoiceCondType.EVENT_END && cond.value === 0)
+                    );
+                    return (
+                        <tr key={`line_${index}`}>
+                            <td style={{ verticalAlign: "middle" }}>
+                                <b className="newline" lang={lang(region)}>
+                                    {voiceLineNames[index]}
+                                </b>
+                                <br />
+                                <div className="newline" lang={lang(region)}>
+                                    {voiceTextField(region, voice.type) ? (
+                                        line.text.map((line, i) => (
+                                            <VoiceSubtitleFormat key={i} region={region} inputString={line} />
+                                        ))
+                                    ) : (
+                                        <VoiceSubtitleFormat region={region} inputString={line.subtitle} />
+                                    )}
+                                </div>
+                                {lineConds || line.playConds || line.summonScript ? (
+                                    <>
+                                        <Alert variant="info" style={{ marginBottom: 0, marginTop: "1em" }}>
+                                            {line.summonScript === undefined ? null : (
+                                                <>
+                                                    Summoning Script:{" "}
+                                                    <ScriptDescriptor
+                                                        region={region}
+                                                        scriptId={line.summonScript.scriptId}
+                                                        scriptType=""
+                                                    />
+                                                </>
+                                            )}
+                                            {lineConds.length > 1 && (
+                                                <>
+                                                    <b>Unlock Requirements (all of the following):</b>
+                                                    <br />
+                                                    <ul style={{ marginBottom: 0 }}>
+                                                        {lineConds.map((cond, index) => (
+                                                            <li key={index}>
+                                                                <VoiceCondTypeDescriptor
+                                                                    region={region}
+                                                                    servants={servants}
+                                                                    costumes={costumes}
+                                                                    cond={cond}
+                                                                />
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </>
+                                            )}
+                                            {lineConds.length === 1 && (
+                                                <>
+                                                    <b>Unlock Requirement:</b>
+                                                    <br />
+                                                    <VoiceCondTypeDescriptor
+                                                        region={region}
+                                                        servants={servants}
+                                                        costumes={costumes}
+                                                        cond={lineConds[0]}
+                                                    />
+                                                    <br />
+                                                </>
+                                            )}
+                                            <VoicePlayCondDescriptor
+                                                region={region}
+                                                playConds={line.playConds}
+                                                servants={servants}
+                                            />
+                                        </Alert>
+                                    </>
                                 ) : (
-                                    <VoiceSubtitleFormat region={region} inputString={line.subtitle} />
+                                    ""
                                 )}
-                            </div>
-                            {line.conds.length || line.playConds.length || line.summonScript ? (
-                                <>
-                                    <Alert variant="info" style={{ marginBottom: 0, marginTop: "1em" }}>
-                                        {line.summonScript === undefined ? null : (
-                                            <>
-                                                Summoning Script:{" "}
-                                                <ScriptDescriptor
-                                                    region={region}
-                                                    scriptId={line.summonScript.scriptId}
-                                                    scriptType=""
-                                                />
-                                            </>
-                                        )}
-                                        {line.conds.length > 1 && (
-                                            <>
-                                                <b>Unlock Requirements (all of the following):</b>
-                                                <br />
-                                                <ul style={{ marginBottom: 0 }}>
-                                                    {line.conds.map((cond, index) => (
-                                                        <li key={index}>
-                                                            <VoiceCondTypeDescriptor
-                                                                region={region}
-                                                                servants={servants}
-                                                                costumes={costumes}
-                                                                cond={cond}
-                                                            />
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </>
-                                        )}
-                                        {line.conds.length === 1 && (
-                                            <>
-                                                <b>Unlock Requirement:</b>
-                                                <br />
-                                                <VoiceCondTypeDescriptor
-                                                    region={region}
-                                                    servants={servants}
-                                                    costumes={costumes}
-                                                    cond={line.conds[0]}
-                                                />
-                                                <br />
-                                            </>
-                                        )}
-                                        <VoicePlayCondDescriptor
-                                            region={region}
-                                            playConds={line.playConds}
-                                            servants={servants}
-                                        />
-                                    </Alert>
-                                </>
-                            ) : (
-                                ""
-                            )}
-                        </td>
-                        <td style={{ verticalAlign: "middle", width: "1px" }}>
-                            <ButtonGroup>
-                                <VoiceLinePlayer
-                                    audioAssetUrls={line.audioAssets}
-                                    delay={line.delay}
-                                    title={voiceLineNames[index]}
-                                />
-                                <Dropdown as={ButtonGroup}>
-                                    <Dropdown.Toggle variant={"info"} title={`Download ${voiceLineNames[index]}`}>
-                                        <FontAwesomeIcon icon={faFileAudio} />
-                                        &nbsp;
-                                    </Dropdown.Toggle>
+                            </td>
+                            <td style={{ verticalAlign: "middle", width: "1px" }}>
+                                <ButtonGroup>
+                                    <VoiceLinePlayer
+                                        audioAssetUrls={line.audioAssets}
+                                        delay={line.delay}
+                                        title={voiceLineNames[index]}
+                                    />
+                                    <Dropdown as={ButtonGroup}>
+                                        <Dropdown.Toggle variant={"info"} title={`Download ${voiceLineNames[index]}`}>
+                                            <FontAwesomeIcon icon={faFileAudio} />
+                                            &nbsp;
+                                        </Dropdown.Toggle>
 
-                                    <Dropdown.Menu title={`Download ${voiceLineNames[index]}`}>
-                                        <Dropdown.Item
-                                            title={`Download ${voiceLineNames[index]} merged file`}
-                                            onClick={() => {
-                                                const fileName = `${mergedDownloadNamePrefix} - ${voiceLineNames[index]}`;
-                                                mergeVoiceLine(line.audioAssets, line.delay, fileName);
-                                            }}
-                                        >
-                                            Merged
-                                        </Dropdown.Item>
-                                        {line.audioAssets.map((asset, i) => (
+                                        <Dropdown.Menu title={`Download ${voiceLineNames[index]}`}>
                                             <Dropdown.Item
-                                                key={i}
-                                                href={asset}
-                                                target="_blank"
-                                                title={`Download ${voiceLineNames[index]} part ${i + 1}`}
+                                                title={`Download ${voiceLineNames[index]} merged file`}
+                                                onClick={() => {
+                                                    const fileName = `${mergedDownloadNamePrefix} - ${voiceLineNames[index]}`;
+                                                    mergeVoiceLine(line.audioAssets, line.delay, fileName);
+                                                }}
                                             >
-                                                Part {i + 1}
+                                                Merged
                                             </Dropdown.Item>
-                                        ))}
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </ButtonGroup>
-                        </td>
-                    </tr>
-                ))}
+                                            {line.audioAssets.map((asset, i) => (
+                                                <Dropdown.Item
+                                                    key={i}
+                                                    href={asset}
+                                                    target="_blank"
+                                                    title={`Download ${voiceLineNames[index]} part ${i + 1}`}
+                                                >
+                                                    Part {i + 1}
+                                                </Dropdown.Item>
+                                            ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </ButtonGroup>
+                            </td>
+                        </tr>
+                    );
+                })}
             </tbody>
         </Table>
     );
