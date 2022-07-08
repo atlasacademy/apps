@@ -255,6 +255,7 @@ class ApiConnector {
         questPhaseBasic: new ResultCache<number, QuestPhaseBasic>(),
         searchQuestPhase: new ResultCache<string, QuestPhaseBasic[]>(),
         entityBasic: new ResultCache<number, EntityBasic>(),
+        entityList: new ResultCache<null, EntityBasic[]>(),
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
         servantListNice: new ResultCache<null, Servant[]>(),
@@ -777,6 +778,21 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.entityBasic.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    entityList(cacheDuration?: number): Promise<EntityBasic[]> {
+        let source: string;
+        if (this.showJPdataWithEnglishText()) {
+            source = `${this.host}/export/JP/basic_svt_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/basic_svt.json`;
+        }
+
+        const fetch = () => ApiConnector.fetch<EntityBasic[]>(source);
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.entityList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     servant(id: number, lore = false, cacheDuration?: number): Promise<Servant> {
