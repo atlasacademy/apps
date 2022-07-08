@@ -28,6 +28,7 @@ const attributeDescriptions = new Map<Attribute.Attribute, string>(),
         [Entity.EntityType.ENEMY_COLLECTION_DETAIL, "Boss"],
         [Entity.EntityType.SERVANT_EQUIP, "Craft Essence"],
         [Entity.EntityType.STATUS_UP, "Fou Card"],
+        [Entity.EntityType.SVT_MATERIAL_TD, "NP Enhancement Material"],
     ]),
     genderDescriptions = new Map<Entity.Gender, string>();
 
