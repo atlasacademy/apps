@@ -1,4 +1,5 @@
 import { Table, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Servant } from "@atlasacademy/api-connector";
 
@@ -28,6 +29,7 @@ function BondCell(props = { value: 0, span: 1, previous: NaN }) {
 }
 
 let ServantBondGrowth = (props: { bondGrowth: Servant.Servant["bondGrowth"] }) => {
+    const { t } = useTranslation();
     let { bondGrowth: bond } = props;
     const first10bonds = (
         <>
@@ -80,7 +82,7 @@ let ServantBondGrowth = (props: { bondGrowth: Servant.Servant["bondGrowth"] }) =
         ) : null;
     return (
         <>
-            <h3>Bond levels</h3>
+            <h3>{t("Bond levels")}</h3>
             <Table responsive striped bordered className={"servant-bond-table"}>
                 {first10bonds}
                 {last5bonds}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Region } from "@atlasacademy/api-connector";
 import { ProfileComment } from "@atlasacademy/api-connector/dist/Schema/Profile";
@@ -12,16 +13,17 @@ import { lang } from "../../Setting/Manager";
 import "../../Helper/StringHelper.css";
 import "./ServantProfileComments.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     comments: ProfileComment[];
 }
 
-class ServantProfileComments extends React.Component<IProps> {
+export class ServantProfileComments extends React.Component<IProps> {
     render() {
+        const { t } = this.props;
         return (
             <>
-                <h3>Profile</h3>
+                <h3>{t("Profile")}</h3>
 
                 <Table responsive className="servant-comments">
                     <thead className="servant-comments-header">
@@ -29,9 +31,9 @@ class ServantProfileComments extends React.Component<IProps> {
                             <th>
                                 <Row className="m-0">
                                     <Col sm={12} md={2} className="pl-0">
-                                        Condition
+                                        {t("Condition")}
                                     </Col>
-                                    <Col className="pr-0">Message</Col>
+                                    <Col className="pr-0">{t("Message")}</Col>
                                 </Row>
                             </th>
                         </tr>
@@ -69,4 +71,4 @@ class ServantProfileComments extends React.Component<IProps> {
     }
 }
 
-export default ServantProfileComments;
+export default withTranslation()(ServantProfileComments);

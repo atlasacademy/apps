@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Col, Row, Tab, Tabs } from "react-bootstrap";
-import { TFunction, withTranslation } from "react-i18next";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -39,11 +39,10 @@ import "./ServantPage.css";
 
 type AssetType = "ascension" | "costume";
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
     tab?: string;
-    t: TFunction;
 }
 
 interface IState {
@@ -145,12 +144,12 @@ class ServantPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
 
         if (this.state.loading || !this.state.servant) return <Loading />;
 
         const servant = this.state.servant;
-        const t = this.props.t;
 
         document.title = `[${this.props.region}] Servant - ${this.getOverwriteName()} - Atlas Academy DB`;
 
@@ -292,7 +291,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                 <ServantMaterialBreakdown
                                     region={this.props.region}
                                     materials={servant.ascensionMaterials}
-                                    title={"Ascension Materials"}
+                                    title={t("Ascension Materials")}
                                     showNextLevelInDescription={true}
                                 />
                             </Col>
@@ -300,7 +299,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                 <ServantMaterialBreakdown
                                     region={this.props.region}
                                     materials={servant.skillMaterials}
-                                    title={"Skill Materials"}
+                                    title={t("Skill Materials")}
                                     showNextLevelInDescription={true}
                                 />
                             </Col>
@@ -312,6 +311,7 @@ class ServantPage extends React.Component<IProps, IState> {
                                         region={this.props.region}
                                         materials={{
                                             "Summon Get": {
+                                                //t("Summon Get")
                                                 items: [
                                                     {
                                                         item: servant.coin.item,
@@ -321,11 +321,12 @@ class ServantPage extends React.Component<IProps, IState> {
                                                 qp: 0,
                                             },
                                             "Append Skill Unlock Cost": {
+                                                //t("Append Skill Unlock Cost")
                                                 items: servant.appendPassive[0].unlockMaterials,
                                                 qp: 0,
                                             },
                                         }}
-                                        title="Servant Coin"
+                                        title={t("Servant Coin")}
                                     />
                                 </Col>
                                 <Col xs={12} lg={6}>
@@ -342,7 +343,7 @@ class ServantPage extends React.Component<IProps, IState> {
                             <ServantMaterialBreakdown
                                 region={this.props.region}
                                 materials={remappedCostumeMaterials}
-                                title={"Costume Materials"}
+                                title={t("Costume Materials")}
                                 idMinWidth="10em"
                             />
                         ) : null}

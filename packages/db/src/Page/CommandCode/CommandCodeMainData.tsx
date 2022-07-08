@@ -1,4 +1,5 @@
 import React from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { CommandCode, Region } from "@atlasacademy/api-connector";
 
@@ -12,7 +13,7 @@ import { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     commandCode: CommandCode.CommandCode;
 }
@@ -28,9 +29,10 @@ class CommandCodeMainData extends React.Component<IProps> {
                 <DataTable
                     data={{
                         ID: commandCode.id,
-                        Collection: commandCode.collectionNo,
-                        Name: <span lang={lang(this.props.region)}>{commandCode.name}</span>,
+                        Collection: commandCode.collectionNo, //t("Collection")
+                        Name: <span lang={lang(this.props.region)}>{commandCode.name}</span>, //t("Name")
                         ...(commandCode.name !== commandCode.originalName && {
+                            //t("Original Name")
                             "Original Name": (
                                 <span lang={lang(this.props.region)}>
                                     {getRubyText(this.props.region, commandCode.originalName, commandCode.ruby)}
@@ -40,14 +42,15 @@ class CommandCodeMainData extends React.Component<IProps> {
                         ...(commandCode.name === commandCode.originalName &&
                             commandCode.name !== commandCode.ruby &&
                             commandCode.ruby !== "-" && { Ruby: commandCode.ruby }),
-                        Rarity: <RarityDescriptor rarity={commandCode.rarity} />,
+                        Rarity: <RarityDescriptor rarity={commandCode.rarity} />, //t("Rarity")
                         Illustrator: (
                             <IllustratorDescriptor
                                 region={this.props.region}
                                 illustrator={commandCode.illustrator}
                                 hideTypeText={true}
                             />
-                        ),
+                        ), //t("Illustrator")
+                        //t("Comment")
                         Comment: (
                             <span className="newline" lang={lang(this.props.region)}>
                                 {commandCode.comment}
@@ -67,4 +70,4 @@ class CommandCodeMainData extends React.Component<IProps> {
     }
 }
 
-export default CommandCodeMainData;
+export default withTranslation()(CommandCodeMainData);

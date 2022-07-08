@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -19,7 +20,7 @@ import Manager from "../Setting/Manager";
 import AiGraph from "./Ai/AiGraph";
 import AiTable from "./Ai/AiTable";
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     aiType: Ai.AiType;
     id: number;
@@ -112,8 +113,8 @@ class AiPage extends React.Component<IProps, IState> {
 
                 <DataTable
                     data={{
-                        "Parent AIs": AiDescriptor.renderParentAiLinks(this.props.region, mainAi.parentAis),
-                        "Related Quests": relatedQuests,
+                        "Parent AIs": AiDescriptor.renderParentAiLinks(this.props.region, mainAi.parentAis), //t("Parent AIs")
+                        "Related Quests": relatedQuests, //t("Related Quests")
                         Raw: (
                             <Row>
                                 <Col>
@@ -157,4 +158,4 @@ class AiPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(AiPage);
+export default withRouter(withTranslation()(AiPage));

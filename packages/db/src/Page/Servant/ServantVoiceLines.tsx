@@ -2,6 +2,7 @@ import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { Alert, ButtonGroup, Dropdown, Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Profile, ProfileVoiceType, Region, Entity, Servant, CraftEssence } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
@@ -45,6 +46,7 @@ export const VoiceLinesTable = ({
         [key: string]: Profile.CostumeDetail;
     };
 }) => {
+    const { t } = useTranslation();
     const voiceLines = voice.voiceLines.sort((a, b) => (b.priority || 0) - (a.priority || 0));
     const voiceLineNames: string[] = [];
     const voiceNameCount: Record<string, number> = {};
@@ -144,14 +146,17 @@ export const VoiceLinesTable = ({
                                         title={voiceLineNames[index]}
                                     />
                                     <Dropdown as={ButtonGroup}>
-                                        <Dropdown.Toggle variant={"info"} title={`Download ${voiceLineNames[index]}`}>
+                                        <Dropdown.Toggle
+                                            variant={"info"}
+                                            title={`${t("Download")} ${voiceLineNames[index]}`}
+                                        >
                                             <FontAwesomeIcon icon={faFileAudio} />
                                             &nbsp;
                                         </Dropdown.Toggle>
 
-                                        <Dropdown.Menu title={`Download ${voiceLineNames[index]}`}>
+                                        <Dropdown.Menu title={`${t("Download")} ${voiceLineNames[index]}`}>
                                             <Dropdown.Item
-                                                title={`Download ${voiceLineNames[index]} merged file`}
+                                                title={`${t("Download")} ${voiceLineNames[index]} merged file`}
                                                 onClick={() => {
                                                     const fileName = `${mergedDownloadNamePrefix} - ${voiceLineNames[index]}`;
                                                     mergeVoiceLine(line.audioAssets, line.delay, fileName);
@@ -164,7 +169,7 @@ export const VoiceLinesTable = ({
                                                     key={i}
                                                     href={asset}
                                                     target="_blank"
-                                                    title={`Download ${voiceLineNames[index]} part ${i + 1}`}
+                                                    title={`${t("Download")} ${voiceLineNames[index]} part ${i + 1}`}
                                                 >
                                                     Part {i + 1}
                                                 </Dropdown.Item>
@@ -187,6 +192,7 @@ export default function ServantVoiceLines(props: {
     servant: Servant.Servant | CraftEssence.CraftEssence;
     servantName?: string;
 }) {
+    const { t } = useTranslation();
     const [relatedVoiceSvts, setRelatedVoiceSvts] = useState<Entity.EntityBasic[] | null>(null);
     useEffect(() => {
         Api.searchEntityVoiceCondSvt([props.servant.collectionNo]).then((s) => setRelatedVoiceSvts(s));
@@ -257,11 +263,13 @@ export default function ServantVoiceLines(props: {
                 <Alert variant="success">
                     {relatedVoiceSvts !== null
                         ? relatedVoiceSvts.length > 0
-                            ? `Servants with voice lines about ${props.servantName ?? props.servant.name}: `
-                            : `There is no voice line about ${
-                                  props.servantName ?? props.servant.name
-                              } from other servants.`
-                        : "Fetching related voice line data ..."}
+                            ? `${t("RelatedVoiceSvtsBefore")} ${props.servantName ?? props.servant.name} ${t(
+                                  "RelatedVoiceSvtsAfter"
+                              )}: `
+                            : `${t("RelatedVoiceSvtsNoneBefore")} ${props.servantName ?? props.servant.name} ${t(
+                                  "RelatedVoiceSvtsNoneAfter"
+                              )}`
+                        : t("RelatedVoiceSvtsFetching")}
                     {relatedVoiceSvts !== null && relatedVoiceSvts.length > 0
                         ? mergeElements(
                               relatedVoiceSvts.map((svt) => (

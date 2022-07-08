@@ -1,5 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -9,7 +10,7 @@ import { toTitleCase } from "@atlasacademy/api-descriptor";
 import SearchableSelect from "../../Component/SearchableSelect";
 import { lang } from "../../Setting/Manager";
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
     servants: Servant.ServantBasic[];
@@ -21,6 +22,7 @@ class ServantPicker extends React.Component<IProps> {
     }
 
     render() {
+        const t = this.props.t;
         const getSelectString = (servant: Servant.ServantBasic) => {
             const classString = toTitleCase(servant.className);
             const selectString = `${servant.collectionNo.toString().padStart(3, "0")} - ${servant.name}`;
@@ -38,7 +40,7 @@ class ServantPicker extends React.Component<IProps> {
             <div>
                 <form>
                     <Form.Group>
-                        <Form.Label>Jump to:</Form.Label>
+                        <Form.Label>{t("Jump to")}:</Form.Label>
                         <SearchableSelect<number>
                             id="servantPicker"
                             lang={lang(this.props.region)}
@@ -63,4 +65,4 @@ class ServantPicker extends React.Component<IProps> {
     }
 }
 
-export default withRouter(ServantPicker);
+export default withRouter(withTranslation()(ServantPicker));

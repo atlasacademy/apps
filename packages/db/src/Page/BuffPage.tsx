@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Buff, Region } from "@atlasacademy/api-connector";
@@ -19,7 +20,7 @@ import Manager from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     id: number;
 }
@@ -58,6 +59,7 @@ class BuffPage extends React.Component<IProps, IState> {
 
         if (this.state.loading || !this.state.buff) return <Loading />;
 
+        const t = this.props.t;
         const buff = this.state.buff;
 
         return (
@@ -73,10 +75,11 @@ class BuffPage extends React.Component<IProps, IState> {
                 <DataTable
                     data={{
                         ID: buff.id,
-                        Name: buff.name,
-                        Detail: <span className="newline">{buff.detail}</span>,
-                        Type: <Link to={`/${this.props.region}/buffs?type=${buff.type}`}>{buff.type}</Link>,
-                        "Buff Group": buff.buffGroup,
+                        Name: buff.name, //t("Name")
+                        Detail: <span className="newline">{buff.detail}</span>, //t("Detail")
+                        Type: <Link to={`/${this.props.region}/buffs?type=${buff.type}`}>{buff.type}</Link>, //t("Type")
+                        "Buff Group": buff.buffGroup, //t("Buff Group")
+                        //t("Buff Traits")
                         "Buff Traits": (
                             <div>
                                 {mergeElements(
@@ -92,6 +95,7 @@ class BuffPage extends React.Component<IProps, IState> {
                                 )}
                             </div>
                         ),
+                        //t("Target Traits")
                         "Target Traits": (
                             <div>
                                 {mergeElements(
@@ -107,6 +111,7 @@ class BuffPage extends React.Component<IProps, IState> {
                                 )}
                             </div>
                         ),
+                        //t("Required Self Traits")
                         "Required Self Traits": (
                             <div>
                                 {mergeElements(
@@ -122,6 +127,7 @@ class BuffPage extends React.Component<IProps, IState> {
                                 )}
                             </div>
                         ),
+                        //t("Required Opponent Traits")
                         "Required Opponent Traits": (
                             <div>
                                 {mergeElements(
@@ -145,12 +151,12 @@ class BuffPage extends React.Component<IProps, IState> {
                     </Alert>
                 ) : undefined}
 
-                <h3>Related Functions</h3>
+                <h3>{t("Related Functions")}</h3>
                 <Table>
                     <thead>
                         <tr>
-                            <th>Function</th>
-                            <th>Usage Count</th>
+                            <th>{t("Function")}</th>
+                            <th>{t("Usage Count")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -176,4 +182,4 @@ class BuffPage extends React.Component<IProps, IState> {
     }
 }
 
-export default BuffPage;
+export default withTranslation()(BuffPage);

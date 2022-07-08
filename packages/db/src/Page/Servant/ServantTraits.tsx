@@ -1,4 +1,5 @@
 import React from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Region, Servant, Trait, CondType } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
@@ -14,7 +15,7 @@ interface TraitDiff {
     removedTraits: Trait.Trait[];
 }
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     servant: Servant.Servant;
 }
@@ -57,12 +58,13 @@ class ServantTraits extends React.Component<IProps> {
     }
 
     private describeDiff(diff: TraitDiff): string {
+        const { t } = this.props;
         if (diff.type === "Costume") {
             const costumes = this.props.servant.profile?.costume;
             if (costumes !== undefined) {
                 const costume = costumes[diff.id];
                 if (costume !== undefined) {
-                    return `Costume ${costume.name}`;
+                    return `${t("Costume")} ${costume.name}`;
                 }
             }
         }
@@ -70,9 +72,10 @@ class ServantTraits extends React.Component<IProps> {
     }
 
     render() {
+        const { t } = this.props;
         return (
             <div>
-                <h3>Basic Traits</h3>
+                <h3>{t("Basic Traits")}</h3>
                 <p>
                     {mergeElements(
                         this.props.servant.traits.map((trait) => (
@@ -90,7 +93,9 @@ class ServantTraits extends React.Component<IProps> {
                     <div key={i}>
                         {diffs.addedTraits.length > 0 ? (
                             <div>
-                                <h3>{this.describeDiff(diffs)} Additional Traits</h3>
+                                <h3>
+                                    {this.describeDiff(diffs)} {t("Additional Traits")}
+                                </h3>
                                 <p>
                                     {mergeElements(
                                         diffs.addedTraits.map((trait) => (
@@ -108,7 +113,9 @@ class ServantTraits extends React.Component<IProps> {
 
                         {diffs.removedTraits.length > 0 ? (
                             <div>
-                                <h3>{this.describeDiff(diffs)} Removed Traits</h3>
+                                <h3>
+                                    {this.describeDiff(diffs)} {t("Removed Traits")}
+                                </h3>
                                 <p>
                                     {mergeElements(
                                         diffs.removedTraits.map((trait) => (
@@ -128,7 +135,7 @@ class ServantTraits extends React.Component<IProps> {
 
                 {this.props.servant.traitAdd.length > 0 ? (
                     <>
-                        <h3>Extra Traits</h3>
+                        <h3>{t("Extra Traits")}</h3>
                         <ul>
                             {this.props.servant.traitAdd.map((traitAdd) => (
                                 <li key={traitAdd.idx}>
@@ -160,7 +167,7 @@ class ServantTraits extends React.Component<IProps> {
                     </>
                 ) : null}
 
-                <h3>Attack Traits</h3>
+                <h3>{t("Attack Traits")}</h3>
                 <ul>
                     {Object.entries(this.props.servant.cardDetails).map((value) => {
                         const [card, cardDetail] = value;
@@ -191,4 +198,4 @@ class ServantTraits extends React.Component<IProps> {
     }
 }
 
-export default ServantTraits;
+export default withTranslation()(ServantTraits);

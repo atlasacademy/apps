@@ -1,4 +1,5 @@
 import { Alert } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { CommandCode, Entity, Region } from "@atlasacademy/api-connector";
 
@@ -12,6 +13,7 @@ const Image = ({ url, alt }: { url: string; alt?: string }) => (
 );
 
 const CommnadCodeAsset = ({ commandCode, region }: { commandCode: CommandCode.CommandCode; region: Region }) => {
+    const { t } = useTranslation();
     const flattenAssets = (assetMap: Entity.EntityAssetMap | undefined): string[] => {
         if (!assetMap) return [];
 
@@ -36,12 +38,12 @@ const CommnadCodeAsset = ({ commandCode, region }: { commandCode: CommandCode.Co
                 <IllustratorDescriptor region={region} illustrator={commandCode.illustrator} />
             </Alert>
 
-            <h3>Potraits</h3>
+            <h3>{t("Portraits")}</h3>
             <div>{displayAssets(commandCode.extraAssets.charaGraph, "Potrait")}</div>
 
             <hr />
 
-            <h3>Faces</h3>
+            <h3>{t("Faces")}</h3>
             <div>{displayAssets(commandCode.extraAssets.faces, "Face")}</div>
         </>
     );

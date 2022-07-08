@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Buff, ConstantStr, Region, Servant } from "@atlasacademy/api-connector";
@@ -10,6 +11,7 @@ import { mergeElements } from "../../Helper/OutputHelper";
 import ExtraPassive from "./ExtraPassive";
 
 const ServantScriptPassive = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
+    const { t } = useTranslation();
     const [buffTypes, setBuffTypes] = useState<string[] | undefined>(undefined);
     const [buffNames, setBuffNames] = useState<Map<string, Buff.BuffType> | undefined>(undefined);
 
@@ -30,13 +32,13 @@ const ServantScriptPassive = ({ region, servant }: { region: Region; servant: Se
     if (servant.script.svtBuffTurnExtend) {
         return (
             <>
-                <h3>Extend Attack Buff Duration</h3>
+                <h3>{t("Extend Attack Buff Duration")}</h3>
                 <p>
-                    Extend attack buff duration from end of player turn to end of enemy turn.
+                    {t("Extend Attack Buff Duration Explain")}
                     {buffTypes !== undefined && buffNames !== undefined ? (
                         <>
                             <br />
-                            Applies to:{" "}
+                            {t("Applies to")}:{" "}
                             {mergeElements(
                                 buffTypes.map((buff) => (
                                     <Link to={`/${region}/buffs?type=${buffNames.get(buff)}`}>
@@ -57,6 +59,7 @@ const ServantScriptPassive = ({ region, servant }: { region: Region; servant: Se
 };
 
 const ServantPassive = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
+    const { t } = useTranslation();
     return (
         <>
             <Row>
@@ -71,7 +74,7 @@ const ServantPassive = ({ region, servant }: { region: Region; servant: Servant.
             <ServantScriptPassive region={region} servant={servant} />
             {servant.appendPassive.length > 0 ? (
                 <>
-                    <h3 className="my-4">Append Skills</h3>
+                    <h3 className="my-4">{t("Append Skills")}</h3>
                     <Row>
                         {servant.appendPassive
                             .sort((a, b) => a.num - b.num)
@@ -92,7 +95,7 @@ const ServantPassive = ({ region, servant }: { region: Region; servant: Servant.
             ) : null}
             {servant.extraPassive.length > 0 ? (
                 <>
-                    <h3 className="my-4">Extra Passive</h3>
+                    <h3 className="my-4">{t("Extra Passive")}</h3>
                     <ExtraPassive region={region} skills={servant.extraPassive} />
                 </>
             ) : null}

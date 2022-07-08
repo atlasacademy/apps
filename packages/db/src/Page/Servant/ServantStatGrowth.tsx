@@ -1,6 +1,7 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Region, Servant } from "@atlasacademy/api-connector";
 
@@ -8,13 +9,14 @@ import { formatNumber } from "../../Helper/OutputHelper";
 
 import "./ServantStatGrowth.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     servant: Servant.Servant;
 }
 
 class ServantStatGrowth extends React.Component<IProps> {
     render() {
+        const t = this.props.t;
         let { hpGrowth, lvMax, atkGrowth, growthCurve } = this.props.servant,
             growthCurveName: string;
         switch (growthCurve) {
@@ -24,43 +26,43 @@ class ServantStatGrowth extends React.Component<IProps> {
             case 4:
             case 5:
             case 9999:
-                growthCurveName = "Linear";
+                growthCurveName = t("Curve Linear");
                 break;
             case 6:
             case 7:
             case 8:
             case 9:
             case 10:
-                growthCurveName = "Reverse S";
+                growthCurveName = t("Curve Reverse S");
                 break;
             case 11:
             case 12:
             case 13:
             case 14:
             case 15:
-                growthCurveName = "S";
+                growthCurveName = t("Curve S");
                 break;
             case 21:
             case 22:
             case 23:
             case 24:
             case 25:
-                growthCurveName = "Semi Reverse S";
+                growthCurveName = t("Curve Semi Reverse S");
                 break;
             case 26:
             case 27:
             case 28:
             case 29:
             case 30:
-                growthCurveName = "Semi S";
+                growthCurveName = t("Curve Semi S");
                 break;
             default:
-                growthCurveName = "Unknown";
+                growthCurveName = t("Unknown");
         }
         return (
             <div>
                 <div className="growth-curve-name">
-                    <b>Growth Curve:</b> {growthCurveName}
+                    <b>{t("Growth Curve")}:</b> {growthCurveName}
                 </div>
                 <HighchartsReact
                     highcharts={Highcharts}
@@ -83,7 +85,9 @@ class ServantStatGrowth extends React.Component<IProps> {
                                     pointFormatter: function () {
                                         let { x, y } = this as any;
                                         return (
-                                            `HP: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : "") + `<br/>`
+                                            `HP: <b>${formatNumber(y)}</b>` +
+                                            (x > lvMax ? ` (${t("Grailed")})` : "") +
+                                            `<br/>`
                                         );
                                     },
                                 },
@@ -104,7 +108,9 @@ class ServantStatGrowth extends React.Component<IProps> {
                                     pointFormatter: function () {
                                         let { x, y } = this as any;
                                         return (
-                                            `ATK: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : "") + `<br/>`
+                                            `ATK: <b>${formatNumber(y)}</b>` +
+                                            (x > lvMax ? ` (${t("Grailed")})` : "") +
+                                            `<br/>`
                                         );
                                     },
                                 },
@@ -145,4 +151,4 @@ class ServantStatGrowth extends React.Component<IProps> {
     }
 }
 
-export default ServantStatGrowth;
+export default withTranslation()(ServantStatGrowth);

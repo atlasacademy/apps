@@ -1,4 +1,5 @@
 import React from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { CraftEssence, Region } from "@atlasacademy/api-connector";
 
@@ -11,20 +12,22 @@ import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import getRubyText from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     craftEssence: CraftEssence.CraftEssence;
 }
 
 class CraftEssenceMainData extends React.Component<IProps> {
     render() {
+        const t = this.props.t;
         const craftEssence = this.props.craftEssence;
 
         let craftEssenceData: Record<string, string | number | JSX.Element> = {
             ID: craftEssence.id,
-            Collection: craftEssence.collectionNo,
-            Name: <span lang={lang(this.props.region)}>{craftEssence.name}</span>,
+            Collection: craftEssence.collectionNo, //t("Collection")
+            Name: <span lang={lang(this.props.region)}>{craftEssence.name}</span>, //t("Name")
             ...(craftEssence.name !== craftEssence.originalName && {
+                //t("Original Name")
                 "Original Name": (
                     <span lang={lang(this.props.region)}>
                         {getRubyText(this.props.region, craftEssence.originalName, craftEssence.ruby)}
@@ -34,7 +37,7 @@ class CraftEssenceMainData extends React.Component<IProps> {
             ...(craftEssence.name === craftEssence.originalName &&
                 craftEssence.name !== craftEssence.ruby &&
                 craftEssence.ruby !== "-" && { Ruby: craftEssence.ruby }),
-            Rarity: <RarityDescriptor rarity={craftEssence.rarity} />,
+            Rarity: <RarityDescriptor rarity={craftEssence.rarity} />, //t("Rarity")
             Cost: craftEssence.cost,
             "Max Lv.": craftEssence.lvMax,
             "Base Hp": craftEssence.hpBase,
@@ -44,18 +47,18 @@ class CraftEssenceMainData extends React.Component<IProps> {
         };
 
         if (craftEssence.bondEquipOwner)
-            craftEssenceData["Bond CE's Owner"] = (
+            craftEssenceData[t("Bond CE's Owner")] = (
                 <EntityReferenceDescriptor region={this.props.region} svtId={craftEssence.bondEquipOwner} />
             );
 
         if (craftEssence.valentineEquipOwner)
-            craftEssenceData["Valentine CE's Owner"] = (
+            craftEssenceData[t("Valentine CE's Owner")] = (
                 <EntityReferenceDescriptor region={this.props.region} svtId={craftEssence.valentineEquipOwner} />
             );
 
         if (craftEssence.valentineScript.length > 0) {
             const valentineScript = craftEssence.valentineScript[0];
-            craftEssenceData["Valentine Script"] = (
+            craftEssenceData[t("Valentine Script")] = (
                 <ScriptDescriptor
                     region={this.props.region}
                     scriptId={valentineScript.scriptId}
@@ -82,4 +85,4 @@ class CraftEssenceMainData extends React.Component<IProps> {
     }
 }
 
-export default CraftEssenceMainData;
+export default withTranslation()(CraftEssenceMainData);

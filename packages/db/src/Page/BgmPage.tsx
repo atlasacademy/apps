@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Region } from "@atlasacademy/api-connector";
 import { BgmEntity } from "@atlasacademy/api-connector/dist/Schema/Bgm";
@@ -21,6 +22,7 @@ import Manager, { lang } from "../Setting/Manager";
 import "../Helper/StringHelper.css";
 
 const BgmPage = (props: { region: Region; bgmId: number }) => {
+    const { t } = useTranslation();
     const { region, bgmId } = props;
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | undefined>(undefined);
@@ -63,7 +65,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                         ) : (
                             ""
                         )}
-                        Cleared{" "}
+                        {t("Cleared")}{" "}
                         {mergeElements(
                             release.targetIds.map((questId) => (
                                 <QuestDescriptorId
@@ -94,18 +96,19 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
             <DataTable
                 data={{
                     ID: bgm.id,
+                    //t("Name")
                     Name: (
                         <span className="newline" lang={lang(region)}>
                             {showName}
                         </span>
                     ),
                     ...(bgm.name !== bgm.originalName && {
-                        "Original Name": <span lang={lang(region)}>{bgm.originalName}</span>,
+                        "Original Name": <span lang={lang(region)}>{bgm.originalName}</span>, //t("Original Name")
                     }),
-                    "Available to Buy": toTitleCase((!bgm.notReleased).toString()),
-                    Player: <BgmDescriptor region={region} bgm={bgm} showName="Download" />,
-                    "Unlock Condition": bgmRelease,
-                    "Unlock Cost": shopDetail,
+                    "Available to Buy": toTitleCase((!bgm.notReleased).toString()), //t("Available to Buy")
+                    Player: <BgmDescriptor region={region} bgm={bgm} showName="Download" />, //t("Player")
+                    "Unlock Condition": bgmRelease, //t("Unlock Condition")
+                    "Unlock Cost": shopDetail, //t("Unlock Cost")
                     Quests: <QuestSearchDescriptor region={region} bgmId={bgm.id} />,
                     Raw: (
                         <Row>

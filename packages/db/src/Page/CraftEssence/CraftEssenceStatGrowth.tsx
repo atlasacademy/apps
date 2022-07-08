@@ -1,18 +1,20 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { CraftEssence, Region } from "@atlasacademy/api-connector";
 
 import { formatNumber } from "../../Helper/OutputHelper";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     craftEssence: CraftEssence.CraftEssence;
 }
 
 class CraftEssenceStatGrowth extends React.Component<IProps> {
     render() {
+        const t = this.props.t;
         let { hpGrowth, lvMax, atkGrowth } = this.props.craftEssence;
         return (
             <div>
@@ -37,7 +39,9 @@ class CraftEssenceStatGrowth extends React.Component<IProps> {
                                     pointFormatter: function () {
                                         let { x, y } = this as any;
                                         return (
-                                            `HP: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : "") + `<br/>`
+                                            `HP: <b>${formatNumber(y)}</b>` +
+                                            (x > lvMax ? ` (${t("Grailed")})` : "") +
+                                            `<br/>`
                                         );
                                     },
                                 },
@@ -58,7 +62,9 @@ class CraftEssenceStatGrowth extends React.Component<IProps> {
                                     pointFormatter: function () {
                                         let { x, y } = this as any;
                                         return (
-                                            `ATK: <b>${formatNumber(y)}</b>` + (x > lvMax ? ` (grailed)` : "") + `<br/>`
+                                            `ATK: <b>${formatNumber(y)}</b>` +
+                                            (x > lvMax ? ` (${t("Grailed")})` : "") +
+                                            `<br/>`
                                         );
                                     },
                                 },
@@ -99,4 +105,4 @@ class CraftEssenceStatGrowth extends React.Component<IProps> {
     }
 }
 
-export default CraftEssenceStatGrowth;
+export default withTranslation()(CraftEssenceStatGrowth);

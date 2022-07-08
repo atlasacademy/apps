@@ -164,7 +164,7 @@ class ServantMainData extends React.Component<IProps> {
                                           )),
                                           <br></br>
                                       )
-                                    : "To Be Released",
+                                    : t("To Be Released"),
                         })}
                     </tbody>
                 </Table>

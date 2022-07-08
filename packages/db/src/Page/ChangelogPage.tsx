@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import React from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Change, CraftEssence, Region, Servant } from "@atlasacademy/api-connector";
@@ -16,7 +17,7 @@ import Settings from "./Changelog/Settings";
 
 import "./ChangelogPage.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     visibleOnly?: boolean;
     localTime?: boolean;
@@ -51,6 +52,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         const { changes, error, loading, servantList, ceList } = this.state;
         const { localTime, region, visibleOnly } = this.props;
         if (error) return <ErrorStatus error={this.state.error} />;
@@ -71,27 +73,27 @@ class ChangelogPage extends React.Component<IProps, IState> {
                         let key = changeEntry[0] as keyof typeof change["changes"];
                         switch (key) {
                             case "svt":
-                                title = "Servant";
+                                title = t("Servant");
                                 path = "servant";
                                 break;
                             case "ce":
-                                title = "Craft Essence";
+                                title = t("Craft Essence");
                                 path = "craft-essence";
                                 break;
                             case "buff":
-                                title = "Buff";
+                                title = t("Buff");
                                 path = "buff";
                                 break;
                             case "func":
-                                title = "Function";
+                                title = t("Function");
                                 path = "func";
                                 break;
                             case "skill":
-                                title = "Skill";
+                                title = t("Skill");
                                 path = "skill";
                                 break;
                             case "np":
-                                title = "Noble Phantasm";
+                                title = t("Noble Phantasm");
                                 path = "noble-phantasm";
                                 break;
                         }
@@ -170,7 +172,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
                             &nbsp;- {localTime ? timestamp.toString() : timestamp.toUTCString()}
                         </>
                     ),
-                    content: <>{hasChanges ? renderedChanges : "No visible changes found."}</>,
+                    content: <>{hasChanges ? renderedChanges : t("No visible changes found.")}</>,
                     subheader: true,
                     initialOpen: initialOpen,
                 });
@@ -186,10 +188,10 @@ class ChangelogPage extends React.Component<IProps, IState> {
                     localTime={Manager.changelogLocalTimestamp()}
                     updateLocalTime={Manager.setChangelogLocalTimestamp}
                 />
-                {content.length ? content : "No changes found on the server."}
+                {content.length ? content : t("No changes found on the server.")}
             </div>
         );
     }
 }
 
-export default ChangelogPage;
+export default withTranslation()(ChangelogPage);

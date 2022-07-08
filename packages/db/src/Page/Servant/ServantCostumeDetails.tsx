@@ -1,4 +1,5 @@
 import { Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Profile } from "@atlasacademy/api-connector";
 
@@ -11,16 +12,17 @@ const ServantCostumeDetails = (props: {
         [key: string]: Profile.CostumeDetail;
     };
 }) => {
+    const { t } = useTranslation();
     if (props.costumes !== undefined && Object.values(props.costumes).length > 0) {
         return (
             <>
-                <h3>Costumes</h3>
+                <h3>{t("Costumes")}</h3>
                 <Table responsive>
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Detail</th>
+                            <th>{t("Name")}</th>
+                            <th>{t("Detail")}</th>
                         </tr>
                     </thead>
                     <tbody>

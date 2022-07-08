@@ -1,5 +1,6 @@
 import React from "react";
 import { Alert } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Entity, Region, Servant } from "@atlasacademy/api-connector";
 
@@ -10,7 +11,7 @@ import ServantModelViewer from "./ServantModelViewer";
 
 import "./ServantAssets.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     servant: Servant.Servant;
 }
@@ -69,6 +70,7 @@ class ServantAssets extends React.Component<IProps> {
     }
 
     render() {
+        const t = this.props.t;
         const charaFigure = (
             <>
                 {this.displayAssets(this.props.servant.extraAssets.charaFigure)}
@@ -76,7 +78,7 @@ class ServantAssets extends React.Component<IProps> {
                 {Object.entries(this.props.servant.extraAssets.charaFigureForm).map(([form, assetMap]) => (
                     <div key={form}>
                         {renderCollapsibleContent({
-                            title: `Form ${form}`,
+                            title: `${t("Form")} ${form}`,
                             content: this.displayAssets(assetMap),
                             subheader: true,
                         })}
@@ -86,7 +88,7 @@ class ServantAssets extends React.Component<IProps> {
                 {Object.entries(this.props.servant.extraAssets.charaFigureMulti).map(([idx, assetMap]) => (
                     <div key={idx}>
                         {renderCollapsibleContent({
-                            title: `Character ${idx}`,
+                            title: `${t("Character")} ${idx}`,
                             content: this.displayAssets(assetMap),
                             subheader: true,
                         })}
@@ -101,7 +103,7 @@ class ServantAssets extends React.Component<IProps> {
 
         const content = [
             {
-                title: "Portraits",
+                title: t("Portraits"),
                 content: (
                     <>
                         {this.displayAssets(this.props.servant.extraAssets.charaGraph, charaGraphSize)}
@@ -111,15 +113,15 @@ class ServantAssets extends React.Component<IProps> {
                 ),
             },
             {
-                title: "Status",
+                title: t("Status"),
                 content: this.displayAssets(this.props.servant.extraAssets.status, { width: 256, height: 256 }),
             },
             {
-                title: "Command",
+                title: t("Command"),
                 content: this.displayAssets(this.props.servant.extraAssets.commands, { width: 256, height: 256 }),
             },
             {
-                title: "Formation",
+                title: t("Formation"),
                 content: (
                     <>
                         {this.displayAssets(this.props.servant.extraAssets.narrowFigure, narrowFigureSize)}
@@ -128,7 +130,7 @@ class ServantAssets extends React.Component<IProps> {
                 ),
             },
             {
-                title: "Thumbnail",
+                title: t("Thumbnail"),
                 content: (
                     <>
                         {this.displayAssets(this.props.servant.extraAssets.faces, faceSize)}
@@ -136,7 +138,7 @@ class ServantAssets extends React.Component<IProps> {
                     </>
                 ),
             },
-            { title: "Figure", content: charaFigure },
+            { title: t("Figure"), content: charaFigure },
         ].map((a) => Object.assign({}, a, { subheader: false }));
         return (
             <div>
@@ -153,7 +155,7 @@ class ServantAssets extends React.Component<IProps> {
                 ))}
                 {this.props.servant.extraAssets.charaFigure.story
                     ? renderCollapsibleContent({
-                          title: "Story Figure (May contain spoilers)",
+                          title: `${t("Story Figure")} (${t("May contain spoilers")})`,
                           content: (
                               <>
                                   {this.displayAssets(this.props.servant.extraAssets.charaFigure, undefined, true)}
@@ -169,7 +171,7 @@ class ServantAssets extends React.Component<IProps> {
                     <div key={form}>
                         {assetMap.story
                             ? renderCollapsibleContent({
-                                  title: `Story Figure Form ${form}`,
+                                  title: `${t("Story Figure")} ${t("Form")} ${form}`,
                                   content: this.displayAssets(assetMap, undefined, true),
                                   subheader: true,
                                   initialOpen: false,
@@ -182,4 +184,4 @@ class ServantAssets extends React.Component<IProps> {
     }
 }
 
-export default ServantAssets;
+export default withTranslation()(ServantAssets);

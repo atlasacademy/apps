@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, Button, ButtonGroup } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Bgm, Region } from "@atlasacademy/api-connector";
@@ -19,7 +20,7 @@ import "./ListingPage.css";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
 }
 
@@ -180,6 +181,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
 
         if (this.state.loading) return <Loading />;
 
+        const t = this.props.t;
         const bgms = this.bgms(),
             results = bgms.slice(this.state.perPage * this.state.page, this.state.perPage * (this.state.page + 1));
 
@@ -194,20 +196,20 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                                 variant={this.state.releaseOnlyFilter === true ? "success" : "outline-dark"}
                                 onClick={(_) => this.toggleReleaseOnlyFilter(true)}
                             >
-                                Buyable in my room
+                                {t("Buyable in my room")}
                             </Button>
                             <Button
                                 variant={this.state.releaseOnlyFilter === false ? "success" : "outline-dark"}
                                 onClick={(_) => this.toggleReleaseOnlyFilter(false)}
                             >
-                                Not buyable in my room
+                                {t("Not buyable in my room")}
                             </Button>
                         </ButtonGroup>
                     </Col>
                     <Col md={12} lg={3} id="item-search">
                         <Form inline onSubmit={preventDefault}>
                             <Form.Control
-                                placeholder={"Search"}
+                                placeholder={t("Search")}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({
@@ -230,9 +232,9 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                         <tr>
                             <th className="col-center">#</th>
                             <th className="col-center">Logo</th>
-                            <th>Name</th>
-                            <th>Unlock Cost</th>
-                            <th>Player</th>
+                            <th>{t("Name")}</th>
+                            <th>{t("Unlock Cost")}</th>
+                            <th>{t("Player")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -281,4 +283,4 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
     }
 }
 
-export default CraftEssencesPage;
+export default withTranslation()(CraftEssencesPage);

@@ -1,6 +1,7 @@
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Profile, Servant } from "@atlasacademy/api-connector";
 
@@ -30,6 +31,7 @@ const ViewerLink = ({ battleCharaId, children }: { battleCharaId: string | numbe
 };
 
 const AscensionModelViewer = ({ assetMap }: { assetMap: AssetMap }) => {
+    const { t } = useTranslation();
     const battleCharaAscensions = new Map<string, number[]>();
     for (const [ascension, url] of Object.entries(assetMap)) {
         const matched = url.match(/Servants\/([0-9]+)\//);
@@ -51,7 +53,7 @@ const AscensionModelViewer = ({ assetMap }: { assetMap: AssetMap }) => {
                 } ${ascensions.join(", ")}`;
 
                 if (battleCharaAscensions.size === 1) {
-                    ascensionString = "All Ascensions";
+                    ascensionString = t("All Ascensions");
                 } else {
                     const perceivedAscensions: number[] = [];
                     let uncategorizedAscensionCount = ascensions.length;
@@ -74,10 +76,10 @@ const AscensionModelViewer = ({ assetMap }: { assetMap: AssetMap }) => {
                             <>
                                 <MergeElementsOr
                                     elements={perceivedAscensions.map((ascension) => ordinalNumeral(ascension))}
-                                    lastJoinWord="and"
+                                    lastJoinWord={t("and")}
                                 />{" "}
-                                Ascension
-                                {perceivedAscensions.length > 1 ? "s" : ""}
+                                {t("AscensionAfterOrdinal")}
+                                {perceivedAscensions.length > 1 ? t("SforPlural") : ""}
                             </>
                         );
                     }
@@ -116,6 +118,7 @@ const CostumeModelViewer = ({
 };
 
 const ServantModelViewer = ({ servant }: { servant: Servant.Servant }) => {
+    const { t } = useTranslation();
     const spriteModel = servant.extraAssets.spriteModel;
     if (spriteModel.ascension === undefined && spriteModel.costume === undefined) {
         return null;
@@ -123,17 +126,17 @@ const ServantModelViewer = ({ servant }: { servant: Servant.Servant }) => {
 
     return (
         <Alert variant="success">
-            Sprite Model:
+            {t("Sprite Model")}:
             <ul className="mb-0">
                 {spriteModel.ascension !== undefined ? (
                     <li>
-                        Base Model:
+                        {t("Base Model")}:
                         <AscensionModelViewer assetMap={spriteModel.ascension} />
                     </li>
                 ) : null}
                 {spriteModel.costume !== undefined && servant.profile?.costume !== undefined ? (
                     <li>
-                        Costume Model:
+                        {t("Costume Model")}:
                         <CostumeModelViewer assetMap={spriteModel.costume} costumeDetails={servant.profile?.costume} />
                     </li>
                 ) : null}

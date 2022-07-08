@@ -102,7 +102,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     <NavDropdownPage path="bgms" description={t("BGMs")} />
                                     <NavDropdownPage path="master-missions" description={t("Master Missions")} />
                                 </NavDropdown>
-                                <NavDropdown title="Search" id="dropdown-search">
+                                <NavDropdown title={t("Search")} id="dropdown-search">
                                     <NavDropdownPage path="entities" description={t("Entities")} />
                                     <NavDropdownPage path="skills" description={t("Skills")} />
                                     <NavDropdownPage path="noble-phantasms" description={t("Noble Phantasms")} />
@@ -111,7 +111,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     <NavDropdownPage path="quests" description={t("Quests")} />
                                     <NavDropdownPage path="scripts" description={t("Scripts")} />
                                 </NavDropdown>
-                                <NavDropdown title="Changelog" id="dropdown-search">
+                                <NavDropdown title={t("Changelog")} id="dropdown-search">
                                     <NavDropdownPage path="changes" description={t("Master Data")} />
                                     <NavDropdownPage path="enemy-changes" description={t("Enemy Data")} />
                                 </NavDropdown>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { NoblePhantasm, Region } from "@atlasacademy/api-connector";
 
@@ -8,7 +9,7 @@ import { getTargetVersionValues } from "../../Helper/FuncHelper";
 import DataValMainData from "../Func/DataValMainData";
 import FuncMainData from "../Func/FuncMainData";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     noblePhantasm: NoblePhantasm.NoblePhantasm;
     level: number;
@@ -17,6 +18,7 @@ interface IProps {
 
 class NoblePhantasmVersion extends React.Component<IProps> {
     render() {
+        const t = this.props.t;
         return (
             <div>
                 {this.props.noblePhantasm.functions.map((func, index) => {
@@ -24,7 +26,9 @@ class NoblePhantasmVersion extends React.Component<IProps> {
 
                     return (
                         <div key={func.funcId}>
-                            <h3>Effect #{index + 1}</h3>
+                            <h3>
+                                {t("Effect")} #{index + 1}
+                            </h3>
                             <p>
                                 <FuncDescriptor
                                     region={this.props.region}
@@ -36,11 +40,11 @@ class NoblePhantasmVersion extends React.Component<IProps> {
 
                             <Row>
                                 <Col xs={12} md={6}>
-                                    <h5>Function</h5>
+                                    <h5>{t("Function")}</h5>
                                     <FuncMainData region={this.props.region} func={func} />
                                 </Col>
                                 <Col xs={12} md={6}>
-                                    <h5>Values</h5>
+                                    <h5>{t("Values")}</h5>
                                     <DataValMainData dataVal={dataVal ?? {}} />
                                 </Col>
                             </Row>
@@ -54,4 +58,4 @@ class NoblePhantasmVersion extends React.Component<IProps> {
     }
 }
 
-export default NoblePhantasmVersion;
+export default withTranslation()(NoblePhantasmVersion);

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -22,7 +23,7 @@ let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     path: string;
 }
@@ -164,6 +165,7 @@ class BuffsPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         if (this.state.error) {
             return (
                 <div style={{ textAlign: "center" }}>
@@ -177,7 +179,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             })
                         }
                     >
-                        Redo the Search
+                        {t("Redo the Search")}
                     </Button>
                 </div>
             );
@@ -188,8 +190,8 @@ class BuffsPage extends React.Component<IProps, IState> {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Buff</th>
-                        <th>Usage Count</th>
+                        <th>{t("Buff")}</th>
+                        <th>{t("Usage Count")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -212,7 +214,9 @@ class BuffsPage extends React.Component<IProps, IState> {
             <div>
                 {this.state.searching ? <Loading /> : null}
 
-                <h1>Buffs Search</h1>
+                <h1>
+                    {t("Buffs")} {t("Search")}
+                </h1>
 
                 <form
                     onSubmit={(ev: React.FormEvent) => {
@@ -221,7 +225,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                     }}
                 >
                     <Form.Group>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -231,7 +235,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Type</Form.Label>
+                        <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Buff.BuffType>
                             id="select-BuffType"
                             options={Object.values(Buff.BuffType)}
@@ -243,7 +247,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Buff Group</Form.Label>
+                        <Form.Label>{t("Buff Group")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={[]}
@@ -256,7 +260,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Buff Traits</Form.Label>
+                        <Form.Label>{t("Buff Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -267,7 +271,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Tvals</Form.Label>
+                        <Form.Label>{t("Tvals")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -278,7 +282,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Required Self Traits</Form.Label>
+                        <Form.Label>{t("Required Self Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -289,7 +293,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Required Opponent Traits</Form.Label>
+                        <Form.Label>{t("Required Opponent Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -300,15 +304,15 @@ class BuffsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
-                        Search <FontAwesomeIcon icon={faSearch} />
+                        {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>
 
                 <hr />
                 {this.state.searched && (
                     <h5>
-                        Found <b>{this.state.buffs.length}</b> result
-                        {this.state.buffs.length > 1 ? "s" : ""}.
+                        {t("FoundResultBefore")} <b>{this.state.buffs.length}</b> {t("FoundResultAfter")}
+                        {this.state.buffs.length > 1 ? t("SforPlural") : ""}.
                     </h5>
                 )}
                 {this.state.buffs.length ? table : null}
@@ -316,5 +320,4 @@ class BuffsPage extends React.Component<IProps, IState> {
         );
     }
 }
-
-export default withRouter(BuffsPage);
+export default withRouter(withTranslation()(BuffsPage));
