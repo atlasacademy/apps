@@ -58,11 +58,11 @@ class EnemySubData extends React.Component<IProps> {
         return (
             <div>
                 <DataTable
-                    data={{
-                        Traits: this.traitList(),
-                        Cards: this.cardList(),
-                        "Hit Count": this.hitDistribution(),
-                    }}
+                    data={[
+                        { label: "Traits", value: this.traitList() },
+                        { label: "Cards", value: this.cardList() },
+                        { label: "Hit Count", value: this.hitDistribution() },
+                    ]}
                 />
             </div>
         );

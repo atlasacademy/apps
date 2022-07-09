@@ -78,6 +78,7 @@ class AiPage extends React.Component<IProps, IState> {
 
         if (this.state.loading || !this.state.aiCollection) return <Loading />;
 
+        const t = this.props.t;
         const aiCollection = this.state.aiCollection;
         const mainAi = aiCollection.mainAis[0];
 
@@ -112,20 +113,26 @@ class AiPage extends React.Component<IProps, IState> {
                 <br />
 
                 <DataTable
-                    data={{
-                        "Parent AIs": AiDescriptor.renderParentAiLinks(this.props.region, mainAi.parentAis), //t("Parent AIs")
-                        "Related Quests": relatedQuests, //t("Related Quests")
-                        Raw: (
-                            <Row>
-                                <Col>
-                                    <RawDataViewer text="Nice" data={this.state.aiCollection} />
-                                </Col>
-                                <Col>
-                                    <RawDataViewer text="Raw" data={rawUrl} />
-                                </Col>
-                            </Row>
-                        ),
-                    }}
+                    data={[
+                        {
+                            label: t("Parent AIs"),
+                            value: AiDescriptor.renderParentAiLinks(this.props.region, mainAi.parentAis),
+                        },
+                        { label: t("Related Quests"), value: relatedQuests },
+                        {
+                            label: "Raw",
+                            value: (
+                                <Row>
+                                    <Col>
+                                        <RawDataViewer text="Nice" data={this.state.aiCollection} />
+                                    </Col>
+                                    <Col>
+                                        <RawDataViewer text="Raw" data={rawUrl} />
+                                    </Col>
+                                </Row>
+                            ),
+                        },
+                    ]}
                 />
 
                 <AiGraph aiCol={this.state.aiCollection} handleNavigateAiId={scrollToAiId} />

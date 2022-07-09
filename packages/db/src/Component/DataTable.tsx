@@ -8,9 +8,7 @@ import "./DataTable.css";
 interface IProp {
     header?: JSX.Element | string;
     responsive?: boolean;
-    data: {
-        [key: string]: Renderable | object;
-    };
+    data: { label: Renderable; value: Renderable | object; hidden?: boolean }[];
 }
 
 class DataTable extends React.Component<IProp> {
@@ -34,14 +32,14 @@ class DataTable extends React.Component<IProp> {
 
                 <Table bordered hover className={"data-table"} responsive={this.props.responsive}>
                     <tbody>
-                        {Object.keys(this.props.data).map((key, index) => {
-                            return (
+                        {this.props.data
+                            .filter((row) => row.hidden !== true)
+                            .map((row, index) => (
                                 <tr key={index}>
-                                    <th>{key}</th>
-                                    <td>{DataTable.dumpValue(this.props.data[key])}</td>
+                                    <th>{row.label}</th>
+                                    <td>{DataTable.dumpValue(row.value)}</td>
                                 </tr>
-                            );
-                        })}
+                            ))}
                     </tbody>
                 </Table>
             </div>

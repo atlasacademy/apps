@@ -73,72 +73,84 @@ class BuffPage extends React.Component<IProps, IState> {
                 <br />
 
                 <DataTable
-                    data={{
-                        ID: buff.id,
-                        Name: buff.name, //t("Name")
-                        Detail: <span className="newline">{buff.detail}</span>, //t("Detail")
-                        Type: <Link to={`/${this.props.region}/buffs?type=${buff.type}`}>{buff.type}</Link>, //t("Type")
-                        "Buff Group": buff.buffGroup, //t("Buff Group")
-                        //t("Buff Traits")
-                        "Buff Traits": (
-                            <div>
-                                {mergeElements(
-                                    buff.vals.map((trait) => (
-                                        <TraitDescription
-                                            region={this.props.region}
-                                            trait={trait}
-                                            owner="buffs"
-                                            ownerParameter="vals"
-                                        />
-                                    )),
-                                    " "
-                                )}
-                            </div>
-                        ),
-                        //t("Target Traits")
-                        "Target Traits": (
-                            <div>
-                                {mergeElements(
-                                    buff.tvals.map((trait) => (
-                                        <TraitDescription
-                                            region={this.props.region}
-                                            trait={trait}
-                                            owner="buffs"
-                                            ownerParameter="tvals"
-                                        />
-                                    )),
-                                    " "
-                                )}
-                            </div>
-                        ),
-                        //t("Required Self Traits")
-                        "Required Self Traits": (
-                            <div>
-                                {mergeElements(
-                                    buff.ckSelfIndv.map((trait) => (
-                                        <TraitDescription
-                                            region={this.props.region}
-                                            trait={trait}
-                                            owner="buffs"
-                                            ownerParameter="vals"
-                                        />
-                                    )),
-                                    " "
-                                )}
-                            </div>
-                        ),
-                        //t("Required Opponent Traits")
-                        "Required Opponent Traits": (
-                            <div>
-                                {mergeElements(
-                                    buff.ckOpIndv.map((trait) => (
-                                        <TraitDescription region={this.props.region} trait={trait} />
-                                    )),
-                                    " "
-                                )}
-                            </div>
-                        ),
-                    }}
+                    data={[
+                        { label: "ID", value: buff.id },
+                        { label: t("Name"), value: buff.name },
+                        { label: t("Detail"), value: <span className="newline">{buff.detail}</span> },
+                        {
+                            label: t("Type"),
+                            value: <Link to={`/${this.props.region}/buffs?type=${buff.type}`}>{buff.type}</Link>,
+                        },
+                        { label: t("Buff Group"), value: buff.buffGroup },
+
+                        {
+                            label: t("Buff Traits"),
+                            value: (
+                                <div>
+                                    {mergeElements(
+                                        buff.vals.map((trait) => (
+                                            <TraitDescription
+                                                region={this.props.region}
+                                                trait={trait}
+                                                owner="buffs"
+                                                ownerParameter="vals"
+                                            />
+                                        )),
+                                        " "
+                                    )}
+                                </div>
+                            ),
+                        },
+                        {
+                            label: t("Target Traits"),
+                            value: (
+                                <div>
+                                    {mergeElements(
+                                        buff.tvals.map((trait) => (
+                                            <TraitDescription
+                                                region={this.props.region}
+                                                trait={trait}
+                                                owner="buffs"
+                                                ownerParameter="tvals"
+                                            />
+                                        )),
+                                        " "
+                                    )}
+                                </div>
+                            ),
+                        },
+                        {
+                            label: t("Required Self Traits"),
+                            value: (
+                                <div>
+                                    {mergeElements(
+                                        buff.ckSelfIndv.map((trait) => (
+                                            <TraitDescription
+                                                region={this.props.region}
+                                                trait={trait}
+                                                owner="buffs"
+                                                ownerParameter="vals"
+                                            />
+                                        )),
+                                        " "
+                                    )}
+                                </div>
+                            ),
+                        },
+                        {
+                            label: "Required Opponent Traits",
+                            value: (
+                                <div>
+                                    {mergeElements(
+                                        buff.ckOpIndv.map((trait) => (
+                                            <TraitDescription region={this.props.region} trait={trait} />
+                                        )),
+                                        " "
+                                    )}
+                                </div>
+                            ),
+                        },
+                    ]}
                 />
                 <div style={{ marginBottom: "3%" }}>
                     <RawDataViewer text="Nice" data={buff} />

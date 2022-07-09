@@ -456,30 +456,38 @@ class EventPage extends React.Component<IProps, IState> {
                 <br />
                 <div style={{ marginBottom: "3%" }}>
                     <DataTable
-                        data={{
-                            ID: event.id,
-                            Name: <span lang={lang(this.props.region)}>{replacePUACodePoints(event.name)}</span>,
-                            ...(event.name !== event.originalName && {
-                                "Original Name": <span lang={lang(this.props.region)}>{event.originalName}</span>,
-                            }),
-                            Wars: wars,
-                            Status: getEventStatus(event.startedAt, event.endedAt),
-                            Start: new Date(event.startedAt * 1000).toLocaleString(),
-                            End: new Date(event.endedAt * 1000).toLocaleString(),
-                            Raw: (
-                                <Row>
-                                    <Col>
-                                        <RawDataViewer text="Nice" data={event} />
-                                    </Col>
-                                    <Col>
-                                        <RawDataViewer
-                                            text="Raw"
-                                            data={`${Host}/raw/${this.props.region}/event/${event.id}`}
-                                        />
-                                    </Col>
-                                </Row>
-                            ),
-                        }}
+                        data={[
+                            { label: "ID", value: event.id },
+                            {
+                                label: "Name",
+                                value: <span lang={lang(this.props.region)}>{replacePUACodePoints(event.name)}</span>,
+                            },
+                            {
+                                label: "Original Name",
+                                value: <span lang={lang(this.props.region)}>{event.originalName}</span>,
+                                hidden: event.name === event.originalName,
+                            },
+                            { label: "Wars", value: wars },
+                            { label: "Status", value: getEventStatus(event.startedAt, event.endedAt) },
+                            { label: "Start", value: new Date(event.startedAt * 1000).toLocaleString() },
+                            { label: "End", value: new Date(event.endedAt * 1000).toLocaleString() },
+                            {
+                                label: "Raw",
+                                value: (
+                                    <Row>
+                                        <Col>
+                                            <RawDataViewer text="Nice" data={event} />
+                                        </Col>
+                                        <Col>
+                                            <RawDataViewer
+                                                text="Raw"
+                                                data={`${Host}/raw/${this.props.region}/event/${event.id}`}
+                                            />
+                                        </Col>
+                                    </Row>
+                                ),
+                            },
+                        ]}
                     />
                 </div>
 

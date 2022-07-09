@@ -23,42 +23,61 @@ class FuncMainData extends React.Component<IProps> {
             <>
                 <DataTable
                     responsive
-                    data={{
-                        ID: func.funcId,
-                        Type: <Link to={`/${this.props.region}/funcs?type=${func.funcType}`}>{func.funcType}</Link>,
-                        Target: func.funcTargetType,
-                        "Affects Players/Enemies": func.funcTargetTeam,
-                        "Popup Text": <span lang={lang(this.props.region)}>{func.funcPopupText}</span>,
-                        "Target Traits": (
-                            <div>
-                                {func.functvals.map((trait) => {
-                                    return <TraitDescription key={trait.id} region={this.props.region} trait={trait} />;
-                                })}
-                            </div>
-                        ),
-                        "Affects Traits": (
-                            <div>
-                                {func.traitVals?.map((trait) => {
-                                    return (
-                                        <TraitDescription
-                                            key={trait.id}
-                                            region={this.props.region}
-                                            trait={trait}
-                                            owner="buffs"
-                                            ownerParameter="vals"
-                                        />
-                                    );
-                                })}
-                            </div>
-                        ),
-                        Buff: (
-                            <div>
-                                {func.buffs.map((buff) => {
-                                    return <BuffDescription key={buff.id} region={this.props.region} buff={buff} />;
-                                })}
-                            </div>
-                        ),
-                    }}
+                    data={[
+                        { label: "ID", value: func.funcId },
+                        {
+                            label: "Type",
+                            value: (
+                                <Link to={`/${this.props.region}/funcs?type=${func.funcType}`}>{func.funcType}</Link>
+                            ),
+                        },
+                        { label: "Target", value: func.funcTargetType },
+                        { label: "Affects Players/Enemies", value: func.funcTargetTeam },
+                        {
+                            label: "Popup Text",
+                            value: <span lang={lang(this.props.region)}>{func.funcPopupText}</span>,
+                        },
+                        {
+                            label: "Target Traits",
+                            value: (
+                                <div>
+                                    {func.functvals.map((trait) => {
+                                        return (
+                                            <TraitDescription key={trait.id} region={this.props.region} trait={trait} />
+                                        );
+                                    })}
+                                </div>
+                            ),
+                        },
+                        {
+                            label: "Affects Traits",
+                            value: (
+                                <div>
+                                    {func.traitVals?.map((trait) => {
+                                        return (
+                                            <TraitDescription
+                                                key={trait.id}
+                                                region={this.props.region}
+                                                trait={trait}
+                                                owner="buffs"
+                                                ownerParameter="vals"
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            ),
+                        },
+                        {
+                            label: "Buff",
+                            value: (
+                                <div>
+                                    {func.buffs.map((buff) => {
+                                        return <BuffDescription key={buff.id} region={this.props.region} buff={buff} />;
+                                    })}
+                                </div>
+                            ),
+                        },
+                    ]}
                 />
                 <div style={{ marginBottom: "3%" }}>
                     <RawDataViewer text="Nice" data={func} />

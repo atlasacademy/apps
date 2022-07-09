@@ -22,50 +22,62 @@ class CraftEssenceMainData extends React.Component<IProps> {
         const t = this.props.t;
         const craftEssence = this.props.craftEssence;
 
-        let craftEssenceData: Record<string, string | number | JSX.Element> = {
-            ID: craftEssence.id,
-            Collection: craftEssence.collectionNo, //t("Collection")
-            Name: <span lang={lang(this.props.region)}>{craftEssence.name}</span>, //t("Name")
-            ...(craftEssence.name !== craftEssence.originalName && {
-                //t("Original Name")
-                "Original Name": (
+        const craftEssenceData = [
+            { label: t("ID"), value: craftEssence.id },
+            { label: t("Collection"), value: craftEssence.collectionNo },
+            { label: t("Name"), value: <span lang={lang(this.props.region)}>{craftEssence.name}</span> },
+            {
+                label: t("Original Name"),
+                value: (
                     <span lang={lang(this.props.region)}>
                         {getRubyText(this.props.region, craftEssence.originalName, craftEssence.ruby)}
                     </span>
                 ),
-            }),
-            ...(craftEssence.name === craftEssence.originalName &&
-                craftEssence.name !== craftEssence.ruby &&
-                craftEssence.ruby !== "-" && { Ruby: craftEssence.ruby }),
-            Rarity: <RarityDescriptor rarity={craftEssence.rarity} />, //t("Rarity")
-            Cost: craftEssence.cost,
-            "Max Lv.": craftEssence.lvMax,
-            "Base Hp": craftEssence.hpBase,
-            "Base Atk": craftEssence.atkBase,
-            "Max Hp": craftEssence.hpMax,
-            "Max Atk": craftEssence.atkMax,
-        };
+                hidden: craftEssence.name === craftEssence.originalName,
+            },
+            {
+                label: t("Ruby"),
+                value: craftEssence.ruby,
+                hidden:
+                    craftEssence.name !== craftEssence.originalName ||
+                    craftEssence.name === craftEssence.ruby ||
+                    craftEssence.ruby === "-",
+            },
+            { label: "Rarity", value: <RarityDescriptor rarity={craftEssence.rarity} /> }, //t("Rarity")
+            { label: "Cost", value: craftEssence.cost },
+            { label: "Max Lv.", value: craftEssence.lvMax },
+            { label: "Base Hp", value: craftEssence.hpBase },
+            { label: "Base Atk", value: craftEssence.atkBase },
+            { label: "Max Hp", value: craftEssence.hpMax },
+            { label: "Max Atk", value: craftEssence.atkMax },
+        ];
 
         if (craftEssence.bondEquipOwner)
-            craftEssenceData[t("Bond CE's Owner")] = (
-                <EntityReferenceDescriptor region={this.props.region} svtId={craftEssence.bondEquipOwner} />
-            );
-
+            craftEssenceData.push({
+                label: t("Bond CE's Owner"),
+                value: <EntityReferenceDescriptor region={this.props.region} svtId={craftEssence.bondEquipOwner} />,
+            });
         if (craftEssence.valentineEquipOwner)
-            craftEssenceData[t("Valentine CE's Owner")] = (
-                <EntityReferenceDescriptor region={this.props.region} svtId={craftEssence.valentineEquipOwner} />
-            );
+            craftEssenceData.push({
+                label: t("Valentine CE's Owner"),
+                value: (
+                    <EntityReferenceDescriptor region={this.props.region} svtId={craftEssence.valentineEquipOwner} />
+                ),
+            });
 
         if (craftEssence.valentineScript.length > 0) {
             const valentineScript = craftEssence.valentineScript[0];
-            craftEssenceData[t("Valentine Script")] = (
-                <ScriptDescriptor
-                    region={this.props.region}
-                    scriptId={valentineScript.scriptId}
-                    scriptName={valentineScript.scriptName}
-                    scriptType=""
-                />
-            );
+            craftEssenceData.push({
+                label: t("Valentine Script"),
+                value: (
+                    <ScriptDescriptor
+                        region={this.props.region}
+                        scriptId={valentineScript.scriptId}
+                        scriptName={valentineScript.scriptName}
+                        scriptType=""
+                    />
+                ),
+            });
         }
 
         return (

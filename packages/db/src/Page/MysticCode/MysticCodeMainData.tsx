@@ -23,18 +23,23 @@ class MysticCodeMainData extends React.Component<IProps> {
                 <h1 lang={lang(this.props.region)}>{mysticCode.name}</h1>
 
                 <DataTable
-                    data={{
-                        ID: mysticCode.id,
-                        Name: <span lang={lang(this.props.region)}>{mysticCode.name}</span>,
-                        ...(mysticCode.name !== mysticCode.originalName && {
-                            "Original Name": <span lang={lang(this.props.region)}>{mysticCode.originalName}</span>,
-                        }),
-                        Detail: (
-                            <span className="newline" lang={lang(this.props.region)}>
-                                {mysticCode.detail}
-                            </span>
-                        ),
-                    }}
+                    data={[
+                        { label: "ID", value: mysticCode.id },
+                        { label: "Name", value: <span lang={lang(this.props.region)}>{mysticCode.name}</span> },
+                        {
+                            label: "Original Name",
+                            value: <span lang={lang(this.props.region)}>{mysticCode.originalName}</span>,
+                            hidden: mysticCode.name === mysticCode.originalName,
+                        },
+                        {
+                            label: "Detail",
+                            value: (
+                                <span className="newline" lang={lang(this.props.region)}>
+                                    {mysticCode.detail}
+                                </span>
+                            ),
+                        },
+                    ]}
                 />
                 <span>
                     <RawDataViewer text="Nice" data={mysticCode} />

@@ -147,81 +147,101 @@ class SkillPage extends React.Component<IProps, IState> {
                 <br />
 
                 <DataTable
-                    data={{
-                        ID: skill.id,
-                        Name: (
-                            <span className="newline" lang={lang(this.props.region)}>
-                                {replacePUACodePoints(skill.name)}
-                            </span>
-                        ),
-                        ...(skill.name !== skill.originalName && {
-                            "Original Name": (
+                    data={[
+                        { label: "ID", value: skill.id },
+                        {
+                            label: "Name",
+                            value: (
+                                <span className="newline" lang={lang(this.props.region)}>
+                                    {replacePUACodePoints(skill.name)}
+                                </span>
+                            ),
+                        },
+                        {
+                            label: "Original Name",
+                            value: (
                                 <span className="newline" lang={lang(this.props.region)}>
                                     {skill.originalName}
                                 </span>
                             ),
-                        }),
-                        Ruby: (
-                            <span className="newline" lang={lang(this.props.region)}>
-                                {skill.ruby}
-                            </span>
-                        ),
-                        Detail: (
-                            <span className="newline" lang={lang(this.props.region)}>
-                                {skill.detail}
-                            </span>
-                        ),
-                        "Skill Add": skillAdd,
-                        Type: toTitleCase(skill.type),
-                        "Related AIs": AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),
-                        Owner: (
-                            <>
-                                {(skill.reverse?.basic?.servant ?? []).map((servant) => {
-                                    return (
-                                        <div key={servant.id}>
-                                            <EntityDescriptor
-                                                region={this.props.region}
-                                                entity={servant}
-                                                iconHeight={25}
-                                            />
-                                        </div>
-                                    );
-                                })}
-                                {(skill.reverse?.basic?.CC ?? []).map((commandCode) => (
-                                    <CommandCodeDescriptor
-                                        key={commandCode.id}
-                                        region={this.props.region}
-                                        commandCode={commandCode}
-                                    />
-                                ))}
-                                {(skill.reverse?.basic?.MC ?? []).map((mysticCode) => {
-                                    return (
-                                        <BasicMysticCodeDescriptor
-                                            key={mysticCode.id}
+                            hidden: skill.name === skill.originalName,
+                        },
+                        {
+                            label: "Ruby",
+                            value: (
+                                <span className="newline" lang={lang(this.props.region)}>
+                                    {skill.ruby}
+                                </span>
+                            ),
+                        },
+                        {
+                            label: "Detail",
+                            value: (
+                                <span className="newline" lang={lang(this.props.region)}>
+                                    {skill.detail}
+                                </span>
+                            ),
+                        },
+                        { label: "Skill Add", value: skillAdd },
+                        { label: "Type", value: toTitleCase(skill.type) },
+                        {
+                            label: "Related AIs",
+                            value: AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),
+                        },
+                        {
+                            label: "Owner",
+                            value: (
+                                <>
+                                    {(skill.reverse?.basic?.servant ?? []).map((servant) => {
+                                        return (
+                                            <div key={servant.id}>
+                                                <EntityDescriptor
+                                                    region={this.props.region}
+                                                    entity={servant}
+                                                    iconHeight={25}
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                    {(skill.reverse?.basic?.CC ?? []).map((commandCode) => (
+                                        <CommandCodeDescriptor
+                                            key={commandCode.id}
                                             region={this.props.region}
-                                            mysticCode={mysticCode}
+                                            commandCode={commandCode}
                                         />
-                                    );
-                                })}
-                            </>
-                        ),
-                        "Triggered by": (
-                            <>
-                                {this.state.triggeringSkills.map((skill) => (
-                                    <React.Fragment key={skill.id}>
-                                        <SkillDescriptor region={this.props.region} skill={skill} />
-                                        <br />
-                                    </React.Fragment>
-                                ))}
-                                {this.state.triggeringNoblePhantasms.map((np) => (
-                                    <React.Fragment key={skill.id}>
-                                        <NoblePhantasmDescriptor region={this.props.region} noblePhantasm={np} />
-                                        <br />
-                                    </React.Fragment>
-                                ))}
-                            </>
-                        ),
-                    }}
+                                    ))}
+                                    {(skill.reverse?.basic?.MC ?? []).map((mysticCode) => {
+                                        return (
+                                            <BasicMysticCodeDescriptor
+                                                key={mysticCode.id}
+                                                region={this.props.region}
+                                                mysticCode={mysticCode}
+                                            />
+                                        );
+                                    })}
+                                </>
+                            ),
+                        },
+                        {
+                            label: "Triggered by",
+                            value: (
+                                <>
+                                    {this.state.triggeringSkills.map((skill) => (
+                                        <React.Fragment key={skill.id}>
+                                            <SkillDescriptor region={this.props.region} skill={skill} />
+                                            <br />
+                                        </React.Fragment>
+                                    ))}
+                                    {this.state.triggeringNoblePhantasms.map((np) => (
+                                        <React.Fragment key={skill.id}>
+                                            <NoblePhantasmDescriptor region={this.props.region} noblePhantasm={np} />
+                                            <br />
+                                        </React.Fragment>
+                                    ))}
+                                </>
+                            ),
+                        },
+                    ]}
                 />
                 <span>
                     <RawDataViewer text="Nice" data={skill} />

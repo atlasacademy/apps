@@ -13,10 +13,12 @@ class DataValMainData extends React.Component<IProps> {
     render() {
         return (
             <DataTable
-                data={{
-                    Raw: <RawDataViewer data={this.props.dataVal} />,
-                    ...this.props.dataVal,
-                }}
+                data={[
+                    { label: "Raw", value: <RawDataViewer data={this.props.dataVal} /> },
+                    ...Object.entries(this.props.dataVal).map(([label, value]) => {
+                        return { label, value };
+                    }),
+                ]}
             />
         );
     }

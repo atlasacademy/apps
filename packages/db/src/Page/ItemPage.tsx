@@ -446,11 +446,7 @@ class ItemPage extends React.Component<IProps, IState> {
         if (!servant) return <b>Error while finding Event Servant</b>;
 
         return (
-            <DataTable
-                data={{
-                    "Used by": <ServantDescriptor servant={servant} region={region} />,
-                }}
-            />
+            <DataTable data={[{ label: "Used by", value: <ServantDescriptor servant={servant} region={region} /> }]} />
         );
     }
 
@@ -478,35 +474,47 @@ class ItemPage extends React.Component<IProps, IState> {
                 <br />
 
                 <DataTable
-                    data={{
-                        ID: item.id,
-                        Name: <span lang={lang(this.props.region)}>{item.name}</span>,
-                        ...(item.name !== item.originalName && {
-                            "Original Name": <span lang={lang(this.props.region)}>{item.originalName}</span>,
-                        }),
-                        Detail: (
-                            <span className="newline" lang={lang(this.props.region)}>
-                                {item.detail}
-                            </span>
-                        ),
-                        Individuality: (
-                            <div>
-                                {mergeElements(
-                                    item.individuality.map((trait) => (
-                                        <TraitDescription region={this.props.region} trait={trait} />
-                                    )),
-                                    " "
-                                )}
-                            </div>
-                        ),
-                        Type: item.type,
-                        Uses: (
-                            <div>
-                                <ItemUseDescription region={this.props.region} item={item} />
-                            </div>
-                        ),
-                        ...(item.itemSelects.length > 0 && {
-                            "Can be exchanged for": (
+                    data={[
+                        { label: "ID", value: item.id },
+                        { label: "Name", value: <span lang={lang(this.props.region)}>{item.name}</span> },
+                        {
+                            label: "Original Name",
+                            value: <span lang={lang(this.props.region)}>{item.originalName}</span>,
+                            hidden: item.name === item.originalName,
+                        },
+                        {
+                            label: "Detail",
+                            value: (
+                                <span className="newline" lang={lang(this.props.region)}>
+                                    {item.detail}
+                                </span>
+                            ),
+                        },
+                        {
+                            label: "Individuality",
+                            value: (
+                                <div>
+                                    {mergeElements(
+                                        item.individuality.map((trait) => (
+                                            <TraitDescription region={this.props.region} trait={trait} />
+                                        )),
+                                        " "
+                                    )}
+                                </div>
+                            ),
+                        },
+                        { label: "Type", value: item.type },
+                        {
+                            label: "Uses",
+                            value: (
+                                <div>
+                                    <ItemUseDescription region={this.props.region} item={item} />
+                                </div>
+                            ),
+                        },
+                        {
+                            label: "Can be exchanged for",
+                            value: (
                                 <ul>
                                     {item.itemSelects.map((itemSelect) => (
                                         <li key={itemSelect.idx}>
@@ -521,8 +529,9 @@ class ItemPage extends React.Component<IProps, IState> {
                                     ))}
                                 </ul>
                             ),
-                        }),
-                    }}
+                            hidden: item.itemSelects.length === 0,
+                        },
+                    ]}
                 />
 
                 <div style={{ marginBottom: "3%" }}>

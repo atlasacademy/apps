@@ -84,48 +84,59 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 <br />
 
                 <DataTable
-                    data={{
-                        ID: noblePhantasm.id,
-                        Name: <span lang={lang(region)}>{noblePhantasm.name}</span>,
-                        ...(noblePhantasm.name !== noblePhantasm.originalName && {
-                            "Original Name": <span lang={lang(region)}>{noblePhantasm.originalName}</span>,
-                        }),
-                        Ruby: <span lang={lang(region)}>{noblePhantasm.ruby}</span>,
-                        Detail: <span lang={lang(region)}>{noblePhantasm.detail}</span>,
-                        Rank: noblePhantasm.rank,
-                        Type: <span lang={lang(region)}>{noblePhantasm.type}</span>,
-                        "Card Type": toTitleCase(noblePhantasm.card),
-                        Hits: mergeElements(
-                            noblePhantasm.npDistribution.map((hit) => asPercent(hit, 0)),
-                            ", "
-                        ),
-                        Traits: mergeElements(
-                            noblePhantasm.individuality.map((trait) => (
-                                <TraitDescription
-                                    region={this.props.region}
-                                    trait={trait}
-                                    owner="noble-phantasms"
-                                    ownerParameter="individuality"
-                                />
-                            )),
-                            ", "
-                        ),
-                        Owner: (
-                            <div>
-                                {(noblePhantasm.reverse?.basic?.servant ?? []).map((servant) => {
-                                    return (
-                                        <div key={servant.id}>
-                                            <EntityDescriptor
-                                                region={this.props.region}
-                                                entity={servant}
-                                                iconHeight={25}
-                                            />
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        ),
-                    }}
+                    data={[
+                        { label: "ID", value: noblePhantasm.id },
+                        { label: "Name", value: <span lang={lang(region)}>{noblePhantasm.name}</span> },
+                        {
+                            label: "Original Name",
+                            value: <span lang={lang(region)}>{noblePhantasm.originalName}</span>,
+                            hidden: noblePhantasm.name === noblePhantasm.originalName,
+                        },
+                        { label: "Ruby", value: <span lang={lang(region)}>{noblePhantasm.ruby}</span> },
+                        { label: "Detail", value: <span lang={lang(region)}>{noblePhantasm.detail}</span> },
+                        { label: "Rank", value: noblePhantasm.rank },
+                        { label: "Type", value: <span lang={lang(region)}>{noblePhantasm.type}</span> },
+                        { label: "Card Type", value: toTitleCase(noblePhantasm.card) },
+                        {
+                            label: "Hits",
+                            value: mergeElements(
+                                noblePhantasm.npDistribution.map((hit) => asPercent(hit, 0)),
+                                ", "
+                            ),
+                        },
+                        {
+                            label: "Traits",
+                            value: mergeElements(
+                                noblePhantasm.individuality.map((trait) => (
+                                    <TraitDescription
+                                        region={this.props.region}
+                                        trait={trait}
+                                        owner="noble-phantasms"
+                                        ownerParameter="individuality"
+                                    />
+                                )),
+                                ", "
+                            ),
+                        },
+                        {
+                            label: "Owner",
+                            value: (
+                                <div>
+                                    {(noblePhantasm.reverse?.basic?.servant ?? []).map((servant) => {
+                                        return (
+                                            <div key={servant.id}>
+                                                <EntityDescriptor
+                                                    region={this.props.region}
+                                                    entity={servant}
+                                                    iconHeight={25}
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ),
+                        },
+                    ]}
                 />
                 <span>
                     <RawDataViewer text="Nice" data={noblePhantasm} />

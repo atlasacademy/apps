@@ -20,43 +20,55 @@ interface IProps extends WithTranslation {
 
 class CommandCodeMainData extends React.Component<IProps> {
     render() {
-        const commandCode = this.props.commandCode;
+        const commandCode = this.props.commandCode,
+            t = this.props.t;
 
         return (
             <div>
                 <h1 lang={lang(this.props.region)}>{commandCode.name}</h1>
 
                 <DataTable
-                    data={{
-                        ID: commandCode.id,
-                        Collection: commandCode.collectionNo, //t("Collection")
-                        Name: <span lang={lang(this.props.region)}>{commandCode.name}</span>, //t("Name")
-                        ...(commandCode.name !== commandCode.originalName && {
-                            //t("Original Name")
-                            "Original Name": (
+                    data={[
+                        { label: "ID", value: commandCode.id },
+                        { label: t("Collection"), value: commandCode.collectionNo },
+                        { label: t("Name"), value: <span lang={lang(this.props.region)}>{commandCode.name}</span> },
+                        {
+                            label: t("Original Name"),
+                            value: (
                                 <span lang={lang(this.props.region)}>
                                     {getRubyText(this.props.region, commandCode.originalName, commandCode.ruby)}
                                 </span>
                             ),
-                        }),
-                        ...(commandCode.name === commandCode.originalName &&
-                            commandCode.name !== commandCode.ruby &&
-                            commandCode.ruby !== "-" && { Ruby: commandCode.ruby }),
-                        Rarity: <RarityDescriptor rarity={commandCode.rarity} />, //t("Rarity")
-                        Illustrator: (
-                            <IllustratorDescriptor
-                                region={this.props.region}
-                                illustrator={commandCode.illustrator}
-                                hideTypeText={true}
-                            />
-                        ), //t("Illustrator")
-                        //t("Comment")
-                        Comment: (
-                            <span className="newline" lang={lang(this.props.region)}>
-                                {commandCode.comment}
-                            </span>
-                        ),
-                    }}
+                            hidden: commandCode.name === commandCode.originalName,
+                        },
+                        {
+                            label: t("Ruby"),
+                            value: commandCode.ruby,
+                            hidden:
+                                commandCode.name !== commandCode.originalName ||
+                                commandCode.name === commandCode.ruby ||
+                                commandCode.ruby === "-",
+                        },
+                        { label: t("Rarity"), value: <RarityDescriptor rarity={commandCode.rarity} /> },
+                        {
+                            label: t("Illustrator"),
+                            value: (
+                                <IllustratorDescriptor
+                                    region={this.props.region}
+                                    illustrator={commandCode.illustrator}
+                                    hideTypeText={true}
+                                />
+                            ),
+                        },
+                        {
+                            label: t("Comment"),
+                            value: (
+                                <span className="newline" lang={lang(this.props.region)}>
+                                    {commandCode.comment}
+                                </span>
+                            ),
+                        },
+                    ]}
                 />
                 <span>
                     <RawDataViewer text="Nice" data={commandCode} />

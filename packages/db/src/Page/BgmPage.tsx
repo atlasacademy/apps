@@ -94,33 +94,40 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                 </span>
             </h1>
             <DataTable
-                data={{
-                    ID: bgm.id,
-                    //t("Name")
-                    Name: (
-                        <span className="newline" lang={lang(region)}>
-                            {showName}
-                        </span>
-                    ),
-                    ...(bgm.name !== bgm.originalName && {
-                        "Original Name": <span lang={lang(region)}>{bgm.originalName}</span>, //t("Original Name")
-                    }),
-                    "Available to Buy": toTitleCase((!bgm.notReleased).toString()), //t("Available to Buy")
-                    Player: <BgmDescriptor region={region} bgm={bgm} showName="Download" />, //t("Player")
-                    "Unlock Condition": bgmRelease, //t("Unlock Condition")
-                    "Unlock Cost": shopDetail, //t("Unlock Cost")
-                    Quests: <QuestSearchDescriptor region={region} bgmId={bgm.id} />,
-                    Raw: (
-                        <Row>
-                            <Col>
-                                <RawDataViewer text="Nice" data={bgm} />
-                            </Col>
-                            <Col>
-                                <RawDataViewer text="Raw" data={`${Host}/raw/${props.region}/bgm/${bgm.id}`} />
-                            </Col>
-                        </Row>
-                    ),
-                }}
+                data={[
+                    { label: "ID", value: "bgm.id" },
+                    {
+                        label: t("Name"),
+                        value: (
+                            <span className="newline" lang={lang(region)}>
+                                {showName}
+                            </span>
+                        ),
+                    },
+                    {
+                        label: t("Original Name"),
+                        value: <span lang={lang(region)}>{bgm.originalName}</span>,
+                        hidden: bgm.name === bgm.originalName,
+                    },
+                    { label: t("Available to Buy"), value: toTitleCase((!bgm.notReleased).toString()) },
+                    { label: t("Player"), value: <BgmDescriptor region={region} bgm={bgm} showName="Download" /> },
+                    { label: t("Unlock Condition"), value: bgmRelease },
+                    { label: t("Unlock Cost"), value: shopDetail },
+                    { label: "Quests", value: <QuestSearchDescriptor region={region} bgmId={bgm.id} /> },
+                    {
+                        label: "Raw",
+                        value: (
+                            <Row>
+                                <Col>
+                                    <RawDataViewer text="Nice" data={bgm} />
+                                </Col>
+                                <Col>
+                                    <RawDataViewer text="Raw" data={`${Host}/raw/${props.region}/bgm/${bgm.id}`} />
+                                </Col>
+                            </Row>
+                        ),
+                    },
+                ]}
             />
         </>
     );

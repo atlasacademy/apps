@@ -508,41 +508,50 @@ class WarPage extends React.Component<IProps, IState> {
                 </h1>
                 <div style={{ marginBottom: "3%" }}>
                     <DataTable
-                        data={{
-                            ID: war.id,
-                            Name: (
-                                <span className="newline" lang={lang(this.props.region)}>
-                                    {war.name}
-                                    <br />
-                                    {war.originalName === war.name || war.originalName}
-                                </span>
-                            ),
-                            "Long Name": (
-                                <span className="newline" lang={lang(this.props.region)}>
-                                    {war.longName}
-                                    <br />
-                                    {war.originalLongName === war.longName || war.originalLongName}
-                                </span>
-                            ),
-                            Age: <span lang={lang(this.props.region)}>{war.age}</span>,
-                            Event: event,
-                            "Opening Script": openingScript,
-                            Banner: bannerImages,
-                            BGM: <>{bgmPlayers}</>,
-                            Raw: (
-                                <Row>
-                                    <Col>
-                                        <RawDataViewer text="Nice" data={war} />
-                                    </Col>
-                                    <Col>
-                                        <RawDataViewer
-                                            text="Raw"
-                                            data={`${Host}/raw/${this.props.region}/war/${war.id}`}
-                                        />
-                                    </Col>
-                                </Row>
-                            ),
-                        }}
+                        data={[
+                            { label: "ID", value: war.id },
+                            {
+                                label: "Name",
+                                value: (
+                                    <span className="newline" lang={lang(this.props.region)}>
+                                        {war.name}
+                                        <br />
+                                        {war.originalName === war.name || war.originalName}
+                                    </span>
+                                ),
+                            },
+                            {
+                                label: "Long Name",
+                                value: (
+                                    <span className="newline" lang={lang(this.props.region)}>
+                                        {war.longName}
+                                        <br />
+                                        {war.originalLongName === war.longName || war.originalLongName}
+                                    </span>
+                                ),
+                            },
+                            { label: "Age", value: <span lang={lang(this.props.region)}>{war.age}</span> },
+                            { label: "Event", value: event },
+                            { label: "Opening Script", value: openingScript },
+                            { label: "Banner", value: bannerImages },
+                            { label: "BGM", value: <>{bgmPlayers}</> },
+                            {
+                                label: "Raw",
+                                value: (
+                                    <Row>
+                                        <Col>
+                                            <RawDataViewer text="Nice" data={war} />
+                                        </Col>
+                                        <Col>
+                                            <RawDataViewer
+                                                text="Raw"
+                                                data={`${Host}/raw/${this.props.region}/war/${war.id}`}
+                                            />
+                                        </Col>
+                                    </Row>
+                                ),
+                            },
+                        ]}
                     />
                 </div>
                 <WarMapList

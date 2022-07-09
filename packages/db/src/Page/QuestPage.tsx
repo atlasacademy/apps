@@ -102,49 +102,64 @@ const QuestMainData = (props: {
     return (
         <DataTable
             responsive
-            data={{
-                ID: quest.id,
-                Phases: (
-                    <PhaseNavigator
-                        region={props.region}
-                        quest={quest}
-                        currentPhase={props.phase}
-                        setPhase={props.setPhase}
-                    />
-                ),
-                Type: QuestTypeDescription.get(quest.type) ?? quest.type,
-                Cost: (
-                    <QuestConsumeDescriptor
-                        region={props.region}
-                        consumeType={quest.consumeType}
-                        consume={quest.consume}
-                        consumeItem={quest.consumeItem}
-                    />
-                ),
-                Reward: (
-                    <>
-                        {quest.gifts.map((gift) => (
-                            <div key={`${gift.objectId}-${gift.priority}`}>
-                                <GiftDescriptor region={props.region} gift={gift} />
-                                <br />
-                            </div>
-                        ))}
-                    </>
-                ),
-                Repeatable:
-                    quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST &&
-                    props.phase === Math.max(...quest.phases)
-                        ? "True"
-                        : "False",
-                War: (
-                    <Link to={`/${props.region}/war/${quest.warId}`} lang={lang(props.region)}>
-                        {quest.warLongName}
-                    </Link>
-                ),
-                Spot: quest.spotName,
-                Open: new Date(quest.openedAt * 1000).toLocaleString(),
-                Close: new Date(quest.closedAt * 1000).toLocaleString(),
-            }}
+            data={[
+                { label: "ID", value: quest.id },
+                {
+                    label: "Phases",
+                    value: (
+                        <PhaseNavigator
+                            region={props.region}
+                            quest={quest}
+                            currentPhase={props.phase}
+                            setPhase={props.setPhase}
+                        />
+                    ),
+                },
+                { label: "Type", value: QuestTypeDescription.get(quest.type) ?? quest.type },
+                {
+                    label: "Cost",
+                    value: (
+                        <QuestConsumeDescriptor
+                            region={props.region}
+                            consumeType={quest.consumeType}
+                            consume={quest.consume}
+                            consumeItem={quest.consumeItem}
+                        />
+                    ),
+                },
+                {
+                    label: "Reward",
+                    value: (
+                        <>
+                            {quest.gifts.map((gift) => (
+                                <div key={`${gift.objectId}-${gift.priority}`}>
+                                    <GiftDescriptor region={props.region} gift={gift} />
+                                    <br />
+                                </div>
+                            ))}
+                        </>
+                    ),
+                },
+                {
+                    label: "Repeatable",
+                    value:
+                        quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST &&
+                        props.phase === Math.max(...quest.phases)
+                            ? "True"
+                            : "False",
+                },
+                {
+                    label: "War",
+                    value: (
+                        <Link to={`/${props.region}/war/${quest.warId}`} lang={lang(props.region)}>
+                            {quest.warLongName}
+                        </Link>
+                    ),
+                },
+                { label: "Spot", value: quest.spotName },
+                { label: "Open", value: new Date(quest.openedAt * 1000).toLocaleString() },
+                { label: "Close", value: new Date(quest.closedAt * 1000).toLocaleString() },
+            ]}
         />
     );
 };
@@ -152,75 +167,93 @@ const QuestMainData = (props: {
 const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPhase }) => {
     return (
         <DataTable
-            data={{
-                "QP Reward": quest.qp.toLocaleString(),
-                EXP: quest.exp.toLocaleString(),
-                Bond: quest.bond.toLocaleString(),
-                Flags: (
-                    <>
-                        {quest.flags.length > 0
-                            ? quest.flags.map((flag) => (
-                                  <Link to={`/${region}/quests?flag=${flag}`} key={flag}>
-                                      <Badge style={{ marginRight: 5, background: "green", color: "white" }}>
-                                          {QuestFlagDescription.get(flag) ?? toTitleCase(flag)}
-                                      </Badge>
-                                  </Link>
-                              ))
-                            : "This quest has no flag"}
-                    </>
-                ),
-                "Unlock Condition": (
-                    <>
-                        {quest.releaseConditions.map((cond) => (
-                            <div key={`${cond.type}-${cond.targetId}-${cond.value}`}>
-                                {cond.closedMessage !== "" ? (
-                                    <span lang={lang(region)}>{cond.closedMessage} — </span>
-                                ) : (
-                                    ""
-                                )}
-                                <CondTargetValueDescriptor
-                                    region={region}
-                                    cond={cond.type}
-                                    target={cond.targetId}
-                                    value={cond.value}
-                                />
-                            </div>
-                        ))}
-                    </>
-                ),
-                Individuality: mergeElements(
-                    quest.individuality.map((trait) => (
-                        <TraitDescription
-                            key={trait.id}
-                            region={region}
-                            trait={trait}
-                            owner="quests"
-                            ownerParameter="fieldIndividuality"
-                        />
-                    )),
-                    ", "
-                ),
-                "Enemy Classes": mergeElements(
-                    quest.className.map((className) => <ClassIcon key={className} className={className} />),
-                    " "
-                ),
-                "Recommended Level": quest.recommendLv,
-                "Battle BG ID": <Link to={`/${region}/quests?battleBgId=${quest.battleBgId}`}>{quest.battleBgId}</Link>,
-                Raw: (
-                    <Row>
-                        <Col>
-                            <RawDataViewer key={`${region}-${quest.id}-${quest.phase}`} text="Nice" data={quest} />
-                        </Col>
-                        <Col>
-                            <RawDataViewer
-                                key={`${region}-${quest.id}-${quest.phase}`}
-                                text="Raw"
-                                data={`${Host}/raw/${region}/quest/${quest.id}/${quest.phase}`}
+            data={[
+                { label: "QP Reward", value: quest.qp.toLocaleString() },
+                { label: "EXP", value: quest.exp.toLocaleString() },
+                { label: "Bond", value: quest.bond.toLocaleString() },
+                {
+                    label: "Flags",
+                    value: (
+                        <>
+                            {quest.flags.length > 0
+                                ? quest.flags.map((flag) => (
+                                      <Link to={`/${region}/quests?flag=${flag}`} key={flag}>
+                                          <Badge style={{ marginRight: 5, background: "green", color: "white" }}>
+                                              {QuestFlagDescription.get(flag) ?? toTitleCase(flag)}
+                                          </Badge>
+                                      </Link>
+                                  ))
+                                : "This quest has no flag"}
+                        </>
+                    ),
+                },
+                {
+                    label: "Unlock Condition",
+                    value: (
+                        <>
+                            {quest.releaseConditions.map((cond) => (
+                                <div key={`${cond.type}-${cond.targetId}-${cond.value}`}>
+                                    {cond.closedMessage !== "" ? (
+                                        <span lang={lang(region)}>{cond.closedMessage} — </span>
+                                    ) : (
+                                        ""
+                                    )}
+                                    <CondTargetValueDescriptor
+                                        region={region}
+                                        cond={cond.type}
+                                        target={cond.targetId}
+                                        value={cond.value}
+                                    />
+                                </div>
+                            ))}
+                        </>
+                    ),
+                },
+                {
+                    label: "Individuality",
+                    value: mergeElements(
+                        quest.individuality.map((trait) => (
+                            <TraitDescription
+                                key={trait.id}
+                                region={region}
+                                trait={trait}
+                                owner="quests"
+                                ownerParameter="fieldIndividuality"
                             />
-                        </Col>
-                    </Row>
-                ),
-            }}
+                        )),
+                        ", "
+                    ),
+                },
+                {
+                    label: "Enemy Classes",
+                    value: mergeElements(
+                        quest.className.map((className) => <ClassIcon key={className} className={className} />),
+                        " "
+                    ),
+                },
+                { label: "Recommended Level", value: quest.recommendLv },
+                {
+                    label: "Battle BG ID",
+                    value: <Link to={`/${region}/quests?battleBgId=${quest.battleBgId}`}>{quest.battleBgId}</Link>,
+                },
+                {
+                    label: "Raw",
+                    value: (
+                        <Row>
+                            <Col>
+                                <RawDataViewer key={`${region}-${quest.id}-${quest.phase}`} text="Nice" data={quest} />
+                            </Col>
+                            <Col>
+                                <RawDataViewer
+                                    key={`${region}-${quest.id}-${quest.phase}`}
+                                    text="Raw"
+                                    data={`${Host}/raw/${region}/quest/${quest.id}/${quest.phase}`}
+                                />
+                            </Col>
+                        </Row>
+                    ),
+                },
+            ]}
         />
     );
 };

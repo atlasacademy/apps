@@ -96,23 +96,29 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
 
             <div style={{ marginBottom: "3%" }}>
                 <DataTable
-                    data={{
-                        ID: masterMissionId,
-                        Status: getEventStatus(masterMission.startedAt, masterMission.endedAt),
-                        Start: getTimeString(masterMission.startedAt),
-                        End: getTimeString(masterMission.endedAt),
-                        Close: getTimeString(masterMission.closedAt),
-                        Raw: (
-                            <Row>
-                                <Col>
-                                    <RawDataViewer text="Nice" data={masterMission} />
-                                </Col>
-                                <Col>
-                                    <RawDataViewer text="Raw" data={`${Host}/raw/${region}/mm/${masterMissionId}`} />
-                                </Col>
-                            </Row>
-                        ),
-                    }}
+                    data={[
+                        { label: "ID", value: masterMissionId },
+                        { label: "Status", value: getEventStatus(masterMission.startedAt, masterMission.endedAt) },
+                        { label: "Start", value: getTimeString(masterMission.startedAt) },
+                        { label: "End", value: getTimeString(masterMission.endedAt) },
+                        { label: "Close", value: getTimeString(masterMission.closedAt) },
+                        {
+                            label: "Raw",
+                            value: (
+                                <Row>
+                                    <Col>
+                                        <RawDataViewer text="Nice" data={masterMission} />
+                                    </Col>
+                                    <Col>
+                                        <RawDataViewer
+                                            text="Raw"
+                                            data={`${Host}/raw/${region}/mm/${masterMissionId}`}
+                                        />
+                                    </Col>
+                                </Row>
+                            ),
+                        },
+                    ]}
                 />
             </div>
             <h2>Missions</h2>
