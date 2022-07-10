@@ -120,6 +120,16 @@ class App extends React.Component<any, IState> {
                         </Helmet>
                         <Switch>
                             <Route
+                                path="/:region(jp|na|cn|kr|tw)/:tail(.*)"
+                                exact={true}
+                                render={(props) => {
+                                    const { region, tail } = props.match.params;
+
+                                    return <Redirect to={`/${region.toUpperCase()}/${tail}`} />;
+                                }}
+                                sensitive={true}
+                            />
+                            <Route
                                 exact={true}
                                 path="/:region(JP|NA|CN|KR|TW)/bgm/:id([0-9]+)"
                                 render={(props) => {
@@ -749,6 +759,17 @@ class App extends React.Component<any, IState> {
                                                 region={region as Region}
                                             />
                                         </Suspense>
+                                    );
+                                }}
+                            />
+                            <Route
+                                path="/:region(JP|NA|CN|KR|TW)?/:endpoint(\w*)"
+                                exact={true}
+                                render={({ location }) => {
+                                    return location.hash.includes("#") ? (
+                                        <Redirect to={location.hash.replace("#", "")} />
+                                    ) : (
+                                        <HomePage />
                                     );
                                 }}
                             />
