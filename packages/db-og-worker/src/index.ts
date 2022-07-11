@@ -299,13 +299,15 @@ async function handleEvent(event: FetchEvent) {
         if (pathname.startsWith("/db")) {
             return handleDBEvent(event);
         }
-        if (pathname.startsWith("/chargers")) {
-            const chargerUrl = new URL(event.request.url);
-            chargerUrl.hostname = "atlasacademy.github.io";
+        if (pathname.startsWith("/chargers") || pathname.startsWith("/fgo-docs")) {
+            const resourceUrl = new URL(event.request.url);
+            resourceUrl.hostname = "atlasacademy.github.io";
             if (pathname === "/chargers") {
-                chargerUrl.pathname = "/chargers/";
+                resourceUrl.pathname = "/chargers/";
+            } else if (pathname === "/fgo-docs") {
+                resourceUrl.pathname = "/fgo-docs/";
             }
-            return fetch(chargerUrl.href, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
+            return fetch(resourceUrl.href, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
         }
         for (const basePath of ["drop-lookup", "paper-moon", "drop-serializer", "bingo"]) {
             if (pathname === `/${basePath}`) {
