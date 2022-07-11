@@ -168,7 +168,8 @@ class ItemsPage extends React.Component<IProps, IState> {
 
     private isServantMaterial(itemType: Item.ItemType, itemUses: Item.ItemUse[]): boolean {
         return (
-            (itemType === Item.ItemType.SKILL_LV_UP && itemUses.includes(Item.ItemUse.SKILL)) ||
+            (itemType === Item.ItemType.SKILL_LV_UP &&
+                (itemUses.includes(Item.ItemUse.SKILL) || itemUses.includes(Item.ItemUse.APPEND_SKILL))) ||
             ((itemType === Item.ItemType.TD_LV_UP || itemType === Item.ItemType.EVENT_ITEM) &&
                 itemUses.includes(Item.ItemUse.ASCENSION))
         );
