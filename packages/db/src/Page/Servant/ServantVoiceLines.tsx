@@ -83,60 +83,58 @@ export const VoiceLinesTable = ({
                                         <VoiceSubtitleFormat region={region} inputString={line.subtitle} />
                                     )}
                                 </div>
-                                {lineConds || line.playConds || line.summonScript ? (
-                                    <>
-                                        <Alert variant="info" style={{ marginBottom: 0, marginTop: "1em" }}>
-                                            {line.summonScript === undefined ? null : (
-                                                <>
-                                                    Summoning Script:{" "}
-                                                    <ScriptDescriptor
-                                                        region={region}
-                                                        scriptId={line.summonScript.scriptId}
-                                                        scriptType=""
-                                                    />
-                                                </>
-                                            )}
-                                            {lineConds.length > 1 && (
-                                                <>
-                                                    <b>Unlock Requirements (all of the following):</b>
-                                                    <br />
-                                                    <ul style={{ marginBottom: 0 }}>
-                                                        {lineConds.map((cond, index) => (
-                                                            <li key={index}>
-                                                                <VoiceCondTypeDescriptor
-                                                                    region={region}
-                                                                    servants={servants}
-                                                                    costumes={costumes}
-                                                                    cond={cond}
-                                                                />
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </>
-                                            )}
-                                            {lineConds.length === 1 && (
-                                                <>
-                                                    <b>Unlock Requirement:</b>
-                                                    <br />
-                                                    <VoiceCondTypeDescriptor
-                                                        region={region}
-                                                        servants={servants}
-                                                        costumes={costumes}
-                                                        cond={lineConds[0]}
-                                                    />
-                                                    <br />
-                                                </>
-                                            )}
-                                            <VoicePlayCondDescriptor
-                                                region={region}
-                                                playConds={line.playConds}
-                                                servants={servants}
-                                            />
-                                        </Alert>
-                                    </>
-                                ) : (
-                                    ""
-                                )}
+                                {lineConds.length > 0 ||
+                                line.playConds.length > 0 ||
+                                line.summonScript !== undefined ? (
+                                    <Alert variant="info" style={{ marginBottom: 0, marginTop: "1em" }}>
+                                        {line.summonScript === undefined ? null : (
+                                            <>
+                                                Summoning Script:{" "}
+                                                <ScriptDescriptor
+                                                    region={region}
+                                                    scriptId={line.summonScript.scriptId}
+                                                    scriptType=""
+                                                />
+                                            </>
+                                        )}
+                                        {lineConds.length > 1 && (
+                                            <>
+                                                <b>Unlock Requirements (all of the following):</b>
+                                                <br />
+                                                <ul style={{ marginBottom: 0 }}>
+                                                    {lineConds.map((cond, index) => (
+                                                        <li key={index}>
+                                                            <VoiceCondTypeDescriptor
+                                                                region={region}
+                                                                servants={servants}
+                                                                costumes={costumes}
+                                                                cond={cond}
+                                                            />
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </>
+                                        )}
+                                        {lineConds.length === 1 && (
+                                            <>
+                                                <b>Unlock Requirement:</b>
+                                                <br />
+                                                <VoiceCondTypeDescriptor
+                                                    region={region}
+                                                    servants={servants}
+                                                    costumes={costumes}
+                                                    cond={lineConds[0]}
+                                                />
+                                                <br />
+                                            </>
+                                        )}
+                                        <VoicePlayCondDescriptor
+                                            region={region}
+                                            playConds={line.playConds}
+                                            servants={servants}
+                                        />
+                                    </Alert>
+                                ) : null}
                             </td>
                             <td style={{ verticalAlign: "middle", width: "1px" }}>
                                 <ButtonGroup>
