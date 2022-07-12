@@ -16,7 +16,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
-import Manager from "../Setting/Manager";
+import Manager, { lang } from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
 
@@ -59,7 +59,7 @@ class BuffPage extends React.Component<IProps, IState> {
 
         if (this.state.loading || !this.state.buff) return <Loading />;
 
-        const t = this.props.t;
+        const { t, region } = this.props;
         const buff = this.state.buff;
 
         return (
@@ -75,14 +75,23 @@ class BuffPage extends React.Component<IProps, IState> {
                 <DataTable
                     data={[
                         { label: "ID", value: buff.id },
-                        { label: t("Name"), value: buff.name },
-                        { label: t("Detail"), value: <span className="newline">{buff.detail}</span> },
+                        {
+                            label: t("Name"),
+                            value: <span lang={lang(region)}>{buff.name}</span>,
+                        },
+                        {
+                            label: t("Detail"),
+                            value: (
+                                <span className="newline" lang={lang(region)}>
+                                    {buff.detail}
+                                </span>
+                            ),
+                        },
                         {
                             label: t("Type"),
                             value: <Link to={`/${this.props.region}/buffs?type=${buff.type}`}>{buff.type}</Link>,
                         },
                         { label: t("Buff Group"), value: buff.buffGroup },
-
                         {
                             label: t("Buff Traits"),
                             value: (

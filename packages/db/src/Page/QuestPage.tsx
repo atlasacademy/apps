@@ -156,7 +156,7 @@ const QuestMainData = (props: {
                         </Link>
                     ),
                 },
-                { label: "Spot", value: quest.spotName },
+                { label: "Spot", value: <span lang={lang(props.region)}>{quest.spotName}</span> },
                 { label: "Open", value: new Date(quest.openedAt * 1000).toLocaleString() },
                 { label: "Close", value: new Date(quest.closedAt * 1000).toLocaleString() },
             ]}

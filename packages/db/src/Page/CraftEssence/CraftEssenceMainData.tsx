@@ -37,13 +37,13 @@ class CraftEssenceMainData extends React.Component<IProps> {
             },
             {
                 label: t("Ruby"),
-                value: craftEssence.ruby,
+                value: <span lang={lang(this.props.region)}>{craftEssence.ruby}</span>,
                 hidden:
                     craftEssence.name !== craftEssence.originalName ||
                     craftEssence.name === craftEssence.ruby ||
                     craftEssence.ruby === "-",
             },
-            { label: "Rarity", value: <RarityDescriptor rarity={craftEssence.rarity} /> }, //t("Rarity")
+            { label: "Rarity", value: <RarityDescriptor rarity={craftEssence.rarity} /> },
             { label: "Cost", value: craftEssence.cost },
             { label: "Max Lv.", value: craftEssence.lvMax },
             { label: "Base Hp", value: craftEssence.hpBase },

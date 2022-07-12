@@ -43,7 +43,7 @@ class CommandCodeMainData extends React.Component<IProps> {
                         },
                         {
                             label: t("Ruby"),
-                            value: commandCode.ruby,
+                            value: <span lang={lang(this.props.region)}>{commandCode.ruby}</span>,
                             hidden:
                                 commandCode.name !== commandCode.originalName ||
                                 commandCode.name === commandCode.ruby ||
