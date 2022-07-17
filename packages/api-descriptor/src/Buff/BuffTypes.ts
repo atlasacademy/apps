@@ -60,13 +60,16 @@ export const upDownBuffs: UpDownBuffType[] = [
     { up: Buff.BuffType.BUFF_RATE, description: "Buff Effectiveness" },
 ];
 
-export const buffTraitDescriptions = new Map<number, string>([
-    [3011, "Poison"],
-    [3012, "Charm"],
-    [3015, "Burn"],
-    [3026, "Curse"],
-    [3047, "Pigify"],
-    [3066, "Sleep"],
+export const buffTraitDescriptions = new Map<number, { name: string; priority: number }>([
+    [3011, { name: "Poison", priority: 1 }],
+    [3012, { name: "Charm", priority: 1 }],
+    [3013, { name: "Petrify", priority: 1 }],
+    [3014, { name: "Stun", priority: 2 }],
+    [3015, { name: "Burn", priority: 1 }],
+    [3026, { name: "Curse", priority: 1 }],
+    [3045, { name: "Bound", priority: 2 }],
+    [3047, { name: "Pigify", priority: 1 }],
+    [3066, { name: "Sleep", priority: 1 }],
 ]);
 
 export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
@@ -81,7 +84,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION, "Command Code After Effect"],
     [Buff.BuffType.BREAK_AVOIDANCE, "Sure Hit"],
     [Buff.BuffType.DELAY_FUNCTION, "Trigger Skill after Duration"],
-    [Buff.BuffType.DONOT_ACT, "Stun"],
+    [Buff.BuffType.DONOT_ACT, "Unable to Act"],
     [Buff.BuffType.DONOT_NOBLE, "NP Seal"],
     [Buff.BuffType.DONOT_NOBLE_COND_MISMATCH, "NP Block if Condition Failed"],
     [Buff.BuffType.DONOT_RECOVERY, "Recovery Disabled"],

@@ -13,12 +13,19 @@ export function getUpDownBuffType(type: Buff.BuffType): UpDownBuffType | undefin
 export function getTraitDescription(buff: Buff.BasicBuff): string | undefined {
     const traitIds = buff.vals.map((trait) => trait.id);
 
+    let traitDescription: string | undefined = undefined,
+        maxPriority = 1000;
     for (let x in traitIds) {
         const traitId = traitIds[x],
             description = buffTraitDescriptions.get(traitId);
 
-        if (description !== undefined) return description;
+        if (description !== undefined) {
+            if (description.priority < maxPriority) {
+                traitDescription = description.name;
+                maxPriority = description.priority;
+            }
+        }
     }
 
-    return undefined;
+    return traitDescription;
 }
