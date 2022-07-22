@@ -5,20 +5,24 @@
     position: relative;
     width: 1108px;
     overflow: hidden;
+    z-index: 0;
 }
 .warmap {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    z-index: -1;
 }
 .warspot-fig {
     position: absolute;
+    z-index: 50;
 }
 .warspot-img {
     position: absolute;
     height: 80px;
     transform: translate(-45%, -50%);
+    z-index: 50;
 }
 .spot-name {
     display: inline-block;
@@ -34,7 +38,10 @@
     transform: translate(-50%);
     top: 35px;
     border-radius: 30px;
+    z-index: 50;
 }
 .spot-road {
+    overflow: hidden;
     position: absolute;
+    z-index: 20;
 }

@@ -347,6 +347,7 @@ const WarMapList = (props: {
     title: string;
     maps: War.Map[];
     spots: War.Spot[];
+    spotRoads: War.SpotRoad[];
     warName: string;
     warId: number;
     last?: boolean;
@@ -377,6 +378,8 @@ const WarMapList = (props: {
                             key={index}
                             map={mapsById[mapId][0]}
                             spots={mapSpots}
+                            allSpots={props.spots}
+                            spotRoads={props.spotRoads}
                             warName={props.warName}
                             warId={props.warId}
                         />
@@ -558,6 +561,7 @@ class WarPage extends React.Component<IProps, IState> {
                     region={this.props.region}
                     maps={war.maps}
                     spots={war.spots}
+                    spotRoads={war.spotRoads}
                     warName={war.name}
                     warId={war.id}
                     title={"Maps"}

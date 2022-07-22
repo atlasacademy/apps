@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { War, Region } from "@atlasacademy/api-connector";
@@ -11,8 +11,10 @@ interface IProps {
     region: Region;
     map: War.Map;
     spots: War.Spot[];
+    allSpots: War.Spot[];
     warName: string;
     warId: number;
+    spotRoads: War.SpotRoad[];
 }
 
 interface IState {
@@ -42,6 +44,73 @@ const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: Wa
             </figure>
         </Link>
     ) : null;
+};
+
+const SpotRoads = ({
+    spotRoads,
+    spots: _spots,
+    map,
+    warId,
+}: {
+    spotRoads: War.SpotRoad[];
+    spots: War.Spot[];
+    map: War.Map;
+    warId: number;
+}) => {
+    const canvasRef = useRef(null);
+
+    useEffect(() => {
+        const canvas = canvasRef.current as unknown as HTMLCanvasElement;
+        const context = canvas!.getContext("2d")!;
+
+        context.strokeStyle = "#E98E1B";
+        context.lineWidth = 7;
+
+        if (map.id !== 100) {
+            context.strokeStyle = "#F2F4F9";
+            context.shadowBlur = 7;
+            context.shadowColor = "gray";
+        }
+
+        const repeatSpots = _spots
+            .filter((spot) => spot.mapId === +map.id)
+            .filter((spot) => spot.quests.some((quest) => quest.afterClear === "repeatLast"))
+            .filter((spot) => spot.x || spot.y);
+
+        const spots = [308].includes(warId) ? repeatSpots : _spots;
+
+        for (const spotRoad of spotRoads) {
+            const srcSpot = spots.find((spot) => spot.id === spotRoad.srcSpotId);
+            const dstSpot = spots.find((spot) => spot.id === spotRoad.dstSpotId);
+
+            if (!srcSpot || !dstSpot) {
+                continue;
+            }
+
+            const x1 = (canvas.width * srcSpot.x) / map.mapImageW;
+            const y1 = (canvas.height * srcSpot.y) / map.mapImageH;
+            const x2 = (canvas.width * dstSpot.x) / map.mapImageW;
+            const y2 = (canvas.height * dstSpot.y) / map.mapImageH;
+
+            context.beginPath();
+            context.moveTo(x1, y1);
+            context.lineTo(x2, y2);
+            context.stroke();
+        }
+    }, [map.id, map.mapImageH, map.mapImageW, spotRoads, _spots, warId]);
+
+    return (
+        <canvas
+            key={map.id}
+            ref={canvasRef}
+            className={"spot-road"}
+            style={{
+                aspectRatio: `${map.mapImageW}/${map.mapImageH}`,
+            }}
+            width={1108}
+            height={1108 * (map.mapImageH / map.mapImageW)}
+        />
+    );
 };
 
 class WarMap extends React.Component<IProps, IState> {
@@ -135,12 +204,20 @@ class WarMap extends React.Component<IProps, IState> {
         return (
             <div className="warmap-parent">
                 <div className="warmap-container">
-                    {this.state.isMapLoaded ? mapImageElement : <p>Map unavailable for this war.</p>}
                     {this.state.isMapLoaded
                         ? this.props.spots.map((spot) => (
                               <WarSpot key={spot.id} map={this.props.map} region={this.props.region} spot={spot} />
                           ))
                         : null}
+                    {this.state.isMapLoaded ? (
+                        <SpotRoads
+                            map={this.props.map}
+                            spotRoads={this.props.spotRoads}
+                            spots={this.props.allSpots}
+                            warId={this.props.warId}
+                        />
+                    ) : null}
+                    {this.state.isMapLoaded ? mapImageElement : <p>Map unavailable for this war.</p>}
                 </div>
             </div>
         );
