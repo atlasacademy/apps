@@ -28,6 +28,8 @@ const overrideMaps = [
 
 const drawGimmicks = [306, 9131];
 
+const donotSpotroad = [9091, 9113];
+
 const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
     const firstFreeQuest = spot.quests.find((quest) => quest.afterClear === "repeatLast")!;
     return spot.x < 99999 && spot.y < 99999 ? (
@@ -209,7 +211,7 @@ class WarMap extends React.Component<IProps, IState> {
                               <WarSpot key={spot.id} map={this.props.map} region={this.props.region} spot={spot} />
                           ))
                         : null}
-                    {this.state.isMapLoaded ? (
+                    {this.state.isMapLoaded && !donotSpotroad.includes(this.props.warId) ? (
                         <SpotRoads
                             map={this.props.map}
                             spotRoads={this.props.spotRoads}
