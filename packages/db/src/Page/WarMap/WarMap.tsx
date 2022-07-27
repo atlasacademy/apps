@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { War, Region } from "@atlasacademy/api-connector";
 
 import { AssetHost } from "../../Api";
+import ButtonGrid from "../../Component/ButtonGrid";
 
 import "./WarMap.css";
 
@@ -20,6 +21,7 @@ interface IProps {
 interface IState {
     isMapLoaded?: boolean;
     mapImage?: string;
+    mapGimmicks?: War.MapGimmick[];
 }
 
 const overrideMaps = [
@@ -28,7 +30,7 @@ const overrideMaps = [
 
 const drawGimmicks = [306, 9131];
 
-const donotSpotroad = [9091, 9113];
+const donotSpotroad = [306, 9091, 9113];
 
 const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
     const firstFreeQuest = spot.quests.find((quest) => quest.afterClear === "repeatLast")!;
@@ -117,13 +119,33 @@ const SpotRoads = ({
 
 class WarMap extends React.Component<IProps, IState> {
     mapImage: string;
+    mapGimmicks: War.MapGimmick[];
+
     constructor(props: IProps) {
         super(props);
+
+        this.mapImage = this.props.map.mapImage ?? "";
+
+        this.mapGimmicks = [...this.props.map.mapGimmicks];
+
+        if (this.props.warId === 306) {
+            this.mapGimmicks = this.mapGimmicks.slice(0, this.mapGimmicks.length - 3);
+        } else if (this.props.warId === 9131) {
+            this.mapGimmicks = this.mapGimmicks.filter(
+                (gimmick) => ![913107, 913117, 913118, 913228].includes(gimmick.id)
+            );
+        }
+
+        if (overrideMaps.includes(this.props.map.id)) {
+            this.overrideMap(this.props.map.id);
+        }
+
         this.state = {
             isMapLoaded: true,
+            mapGimmicks: this.mapGimmicks,
         };
-        this.mapImage = this.props.map.mapImage ?? "";
     }
+
     overrideMap(mapId: number) {
         let mapImage = "";
         switch (mapId) {
@@ -171,17 +193,10 @@ class WarMap extends React.Component<IProps, IState> {
         }
         this.mapImage = mapImage;
     }
+
     render() {
-        let mapImageElement = <></>,
-            mapGimmicks = [...this.props.map.mapGimmicks];
-        if (this.props.warId === 306) {
-            mapGimmicks = mapGimmicks.slice(0, mapGimmicks.length - 3);
-        } else if (this.props.warId === 9131) {
-            mapGimmicks = mapGimmicks.filter((gimmick) => ![913107, 913117, 913118, 913228].includes(gimmick.id));
-        }
-        if (overrideMaps.includes(this.props.map.id)) {
-            this.overrideMap(this.props.map.id);
-        }
+        let mapImageElement = <></>;
+
         mapImageElement = (
             <>
                 <img
@@ -197,14 +212,37 @@ class WarMap extends React.Component<IProps, IState> {
                     }}
                 />
                 {drawGimmicks.includes(this.props.warId)
-                    ? mapGimmicks.map((gimmick) => {
+                    ? (this.state.mapGimmicks ?? []).map((gimmick) => {
                           return <img key={gimmick.id} className="warmap" alt="" src={gimmick.image} />;
                       })
                     : []}
             </>
         );
+
         return (
             <div className="warmap-parent">
+                {drawGimmicks.includes(this.props.warId) ? (
+                    <ButtonGrid
+                        itemList={(this.mapGimmicks ?? []).map((gimmick) => ({
+                            uniqueId: gimmick.id,
+                            displayName: `${
+                                gimmick.id %
+                                (this.props.warId * 10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
+                            }`.padStart(3, "0"),
+                        }))}
+                        title={"Gimmicks to display"}
+                        defaultEnabled={true}
+                        onClick={(enabledGimmicks) => {
+                            this.setState({
+                                mapGimmicks: (this.mapGimmicks ?? []).filter((gimmick) =>
+                                    enabledGimmicks.includes(gimmick.id)
+                                ),
+                            });
+                        }}
+                    />
+                ) : (
+                    []
+                )}
                 <div className="warmap-container">
                     {this.state.isMapLoaded
                         ? this.props.spots.map((spot) => (
