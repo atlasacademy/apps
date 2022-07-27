@@ -3,8 +3,14 @@
 }
 
 #toggle-all {
-    display: block;
-    margin: 2px 2.5px;
+    position: absolute;
+    width: 100px;
+    top: 0;
+    left: 99%;
+    transform: translateX(-100%);
+    margin: 0;
+    font-size: smaller;
+    padding: 1%;
 }
 
 #toggle-container {
@@ -16,17 +22,21 @@
     margin: 5px 0;
 }
 
+div#toggle-container h4 {
+    display: none;
+}
+
 .toggle-button {
     margin: 2px 2.5px;
 }
 
 @media screen and (min-width: 1000px) {
     #toggle-all {
-        position: absolute;
-        width: 100px;
-        top: 0;
-        left: 99%;
-        transform: translateX(-100%);
-        margin: 0;
+        font-size: medium;
+        padding: 4px;
+    }
+
+    div#toggle-container h4 {
+        display: block;
     }
 }
