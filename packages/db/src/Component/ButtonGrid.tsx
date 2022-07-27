@@ -135,7 +135,7 @@ class ButtonGrid extends React.Component<IProps, IState> {
                             <Button
                                 key={item.uniqueId}
                                 className="toggle-button"
-                                variant={this.state.buttonStates[item.uniqueId] ? "success" : "outline-dark"}
+                                variant={this.state.buttonStates[item.uniqueId] ? "success" : "secondary"}
                                 style={this.props.buttonStyleOverride ?? {}}
                                 onClick={this.handleClick.bind(this)}
                             >
