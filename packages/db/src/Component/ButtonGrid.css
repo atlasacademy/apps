@@ -1,0 +1,32 @@
+#toggle-modal {
+    margin: 2.5px 0;
+}
+
+#toggle-all {
+    display: block;
+    margin: 2px 2.5px;
+}
+
+#toggle-container {
+    padding-top: 5px;
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: auto;
+    margin: 5px 0;
+}
+
+.toggle-button {
+    margin: 2px 2.5px;
+}
+
+@media screen and (min-width: 1000px) {
+    #toggle-all {
+        position: absolute;
+        width: 100px;
+        top: 0;
+        left: 99%;
+        transform: translateX(-100%);
+        margin: 0;
+    }
+}
