@@ -63,6 +63,9 @@ export default function handleTargetSection(
             case 711:
                 targetType = Func.FuncTargetType.ENEMY_ALL;
                 break;
+            case 7413:
+                targetType = Func.FuncTargetType.ENEMY_ONE_NO_TARGET_NO_ACTION;
+                break;
             default:
                 targetType = undefined;
                 section.showing = false;
