@@ -45,3 +45,6 @@
     position: absolute;
     z-index: 20;
 }
+#toggle-all-spots {
+    margin: 5px 0;
+}

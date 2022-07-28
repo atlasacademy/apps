@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { War, Region } from "@atlasacademy/api-connector";
@@ -22,6 +23,7 @@ interface IState {
     isMapLoaded?: boolean;
     mapImage?: string;
     mapGimmicks?: War.MapGimmick[];
+    FQSpotsOnly: boolean;
 }
 
 const overrideMaps = [
@@ -33,21 +35,28 @@ const doNotGimmicks: number[] = [];
 const donotSpotroad = [306, 9091, 9113];
 
 const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
-    const firstFreeQuest = spot.quests.find((quest) => quest.afterClear === "repeatLast")!;
-    return spot.x < 99999 && spot.y < 99999 ? (
-        <Link to={`/${region}/quest/${firstFreeQuest.id}/${Math.max(...firstFreeQuest.phases)}`}>
-            <figure
-                className="warspot-fig"
-                style={{
-                    top: `${(100 * (spot.y + spot.questOfsY + spot.nameOfsY)) / map.mapImageH + 2}%`,
-                    left: `${(100 * (spot.x + spot.questOfsX + spot.nameOfsX)) / map.mapImageW - 2}%`,
-                }}
-            >
-                <img title={spot.name} alt={spot.name} src={spot.image} className="warspot-img" />
-                <figcaption className="spot-name"> {spot.name} </figcaption>
-            </figure>
-        </Link>
-    ) : null;
+    const firstQuest = spot.quests[0];
+
+    const spotElement = (
+        <figure
+            className="warspot-fig"
+            style={{
+                top: `${(100 * (spot.y + spot.questOfsY + spot.nameOfsY)) / map.mapImageH + 2}%`,
+                left: `${(100 * (spot.x + spot.questOfsX + spot.nameOfsX)) / map.mapImageW - 2}%`,
+            }}
+        >
+            <img title={spot.name} alt={spot.name} src={spot.image} className="warspot-img" />
+            <figcaption className="spot-name"> {spot.name} </figcaption>
+        </figure>
+    );
+
+    if (firstQuest) {
+        return spot.x < map.mapImageW && spot.y < map.mapImageH ? (
+            <Link to={`/${region}/quest/${firstQuest.id}/${Math.max(...firstQuest.phases)}`}>{spotElement}</Link>
+        ) : null;
+    }
+
+    return spot.x < map.mapImageW && spot.y < map.mapImageH ? spotElement : null;
 };
 
 const SpotRoads = ({
@@ -143,6 +152,7 @@ class WarMap extends React.Component<IProps, IState> {
         this.state = {
             isMapLoaded: true,
             mapGimmicks: this.mapGimmicks,
+            FQSpotsOnly: true,
         };
     }
 
@@ -245,9 +255,15 @@ class WarMap extends React.Component<IProps, IState> {
                 )}
                 <div className="warmap-container">
                     {this.state.isMapLoaded
-                        ? this.props.spots.map((spot) => (
-                              <WarSpot key={spot.id} map={this.props.map} region={this.props.region} spot={spot} />
-                          ))
+                        ? this.props.spots
+                              .filter((spot) =>
+                                  this.state.FQSpotsOnly
+                                      ? spot.quests.some((quest) => quest.afterClear === "repeatLast")
+                                      : true
+                              )
+                              .map((spot) => (
+                                  <WarSpot key={spot.id} map={this.props.map} region={this.props.region} spot={spot} />
+                              ))
                         : null}
                     {this.state.isMapLoaded && !donotSpotroad.includes(this.props.warId) ? (
                         <SpotRoads
@@ -259,6 +275,17 @@ class WarMap extends React.Component<IProps, IState> {
                     ) : null}
                     {this.state.isMapLoaded ? mapImageElement : <p>Map unavailable for this war.</p>}
                 </div>
+                {this.state.isMapLoaded ? (
+                    <Button
+                        id="toggle-all-spots"
+                        variant={this.state.FQSpotsOnly ? "success" : "secondary"}
+                        onClick={() => this.setState({ FQSpotsOnly: !this.state.FQSpotsOnly })}
+                    >
+                        FQ spots only
+                    </Button>
+                ) : (
+                    []
+                )}
             </div>
         );
     }
