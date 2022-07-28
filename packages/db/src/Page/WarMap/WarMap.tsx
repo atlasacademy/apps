@@ -28,7 +28,7 @@ const overrideMaps = [
     9010, 9011, 9012, 9053, 9054, 9088, 9089, 9090, 9056, 9057, 9058, 9059, 9060, 9080, 9081, 9082, 9083, 9084,
 ];
 
-const drawGimmicks = [306, 9131];
+const doNotGimmicks: number[] = [];
 
 const donotSpotroad = [306, 9091, 9113];
 
@@ -211,17 +211,19 @@ class WarMap extends React.Component<IProps, IState> {
                         position: "relative",
                     }}
                 />
-                {drawGimmicks.includes(this.props.warId)
-                    ? (this.state.mapGimmicks ?? []).map((gimmick) => {
+                {doNotGimmicks.includes(this.props.warId)
+                    ? []
+                    : (this.state.mapGimmicks ?? []).map((gimmick) => {
                           return <img key={gimmick.id} className="warmap" alt="" src={gimmick.image} />;
-                      })
-                    : []}
+                      })}
             </>
         );
 
         return (
             <div className="warmap-parent">
-                {drawGimmicks.includes(this.props.warId) ? (
+                {doNotGimmicks.includes(this.props.warId) ? (
+                    []
+                ) : (
                     <ButtonGrid
                         itemList={(this.mapGimmicks ?? []).map((gimmick) => ({
                             uniqueId: gimmick.id,
@@ -240,8 +242,6 @@ class WarMap extends React.Component<IProps, IState> {
                             });
                         }}
                     />
-                ) : (
-                    []
                 )}
                 <div className="warmap-container">
                     {this.state.isMapLoaded
