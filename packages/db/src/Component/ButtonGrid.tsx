@@ -50,7 +50,7 @@ class ButtonGrid extends React.Component<IProps, IState> {
             enabledButtonIds: props.defaultEnabled ? props.itemList.map((item) => item.uniqueId) : [],
             buttonStates: props.itemList.reduce((acc, curr) => ({ ...acc, [curr.uniqueId]: props.defaultEnabled }), {}),
             itemList: [...props.itemList],
-            allToggled: props.defaultEnabled,
+            allToggled: !props.defaultEnabled,
             screenWidth: window.innerWidth,
             showModal: window.innerWidth > 999,
         };
