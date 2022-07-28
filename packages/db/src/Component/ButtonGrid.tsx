@@ -116,21 +116,29 @@ class ButtonGrid extends React.Component<IProps, IState> {
         const isSmallScreen = this.state.screenWidth < 999;
 
         return (
-            <>
+            <div id="toggle-base">
                 {isSmallScreen ? (
-                    <Button id="toggle-modal" onClick={this.toggleModal.bind(this)}>
-                        Gimmick Controls
-                    </Button>
+                    <>
+                        <Button id="toggle-modal" onClick={this.toggleModal.bind(this)}>
+                            Gimmick Controls
+                        </Button>
+                        <Button id="toggle-all" variant={"dark"} onClick={this.handleToggle.bind(this)}>
+                            Toggle All
+                        </Button>
+                    </>
                 ) : (
                     []
                 )}
                 {this.state.showModal ? (
                     <div id="toggle-container" style={this.props.containerStyleOverride ?? {}}>
                         <h4>{this.props.title}</h4>
-                        <Button id="toggle-all" variant={"dark"} onClick={this.handleToggle.bind(this)}>
-                            Toggle All
-                        </Button>
-
+                        {!isSmallScreen ? (
+                            <Button id="toggle-all" variant={"dark"} onClick={this.handleToggle.bind(this)}>
+                                Toggle All
+                            </Button>
+                        ) : (
+                            []
+                        )}
                         {this.props.itemList.map((item) => (
                             <Button
                                 key={item.uniqueId}
@@ -146,7 +154,7 @@ class ButtonGrid extends React.Component<IProps, IState> {
                 ) : (
                     []
                 )}
-            </>
+            </div>
         );
     }
 }

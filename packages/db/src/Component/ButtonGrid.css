@@ -9,8 +9,6 @@
     left: 99%;
     transform: translateX(-100%);
     margin: 0;
-    font-size: smaller;
-    padding: 1%;
 }
 
 #toggle-container {
@@ -22,6 +20,10 @@
     margin: 5px 0;
 }
 
+#toggle-base {
+    position: relative;
+}
+
 div#toggle-container h4 {
     display: none;
 }
@@ -31,11 +33,6 @@ div#toggle-container h4 {
 }
 
 @media screen and (min-width: 1000px) {
-    #toggle-all {
-        font-size: medium;
-        padding: 4px;
-    }
-
     div#toggle-container h4 {
         display: block;
     }
