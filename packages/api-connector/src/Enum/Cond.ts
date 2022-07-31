@@ -162,6 +162,7 @@ export enum CondType {
     PROGRESS_VALUE_ABOVE = "progressValueAbove",
     PROGRESS_VALUE_BELOW = "progressValueBelow",
     RANDOM_MISSION_TOTAL_CLEAR_NUM = "randomMissionTotalClearNum",
+    WEEKDAYS = "weekdays",
 }
 
 export default CondType;

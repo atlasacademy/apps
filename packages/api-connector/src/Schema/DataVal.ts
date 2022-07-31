@@ -106,6 +106,16 @@ interface BaseDataVal {
     NotAccompanyWhenLinkedTargetMoveState?: number;
     AllowSubBgmPlaying?: number;
     NotTargetSkillIdArray?: number[];
+    ShortTurn?: number;
+    FieldIndividuality?: number;
+    BGId?: number;
+    BGType?: number;
+    BgmId?: number;
+    TakeOverFieldState?: number;
+    TakeOverNextWaveBGAndBGM?: number;
+    RemoveFieldBuffActorDeath?: number;
+    FieldBuffGrantType?: number;
+    Priority?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -220,4 +230,14 @@ export enum DataValField {
     NOT_ACCOMPANY_WHEN_LINKED_TARGET_MOVE_STATE = "NotAccompanyWhenLinkedTargetMoveState",
     ALLOW_SUB_BGM_PLAYING = "AllowSubBgmPlaying",
     NOT_TARGET_SKILL_ID_ARRAY = "NotTargetSkillIdArray",
+    SHORT_TURN = "ShortTurn",
+    FIELD_INDIVIDUALITY = "FieldIndividuality",
+    BG_ID = "BGId",
+    BG_TYPE = "BGType",
+    BGM_ID = "BgmId",
+    TAKE_OVER_FIELD_STATE = "TakeOverFieldState",
+    TAKE_OVER_NEXT_WAVE_BG_AND_BGM = "TakeOverNextWaveBGAndBGM",
+    REMOVE_FIELD_BUFF_ACTOR_DEATH = "RemoveFieldBuffActorDeath",
+    FIELD_BUFF_GRANT_TYPE = "FieldBuffGrantType",
+    PRIORITY = "Priority",
 }

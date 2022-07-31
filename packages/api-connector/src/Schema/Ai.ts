@@ -169,6 +169,7 @@ export enum AiCond {
     COUNT_CHAIN_HIGHER = "countChainHigher",
     COUNT_CHAIN_LOWER = "countChainLower",
     COUNT_CHAIN_EQUAL = "countChainEqual",
+    CHECK_SELECT_CHAIN = "checkSelectChain",
 }
 
 export enum AiTiming {

@@ -56,6 +56,8 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.SUB_STATE, "Remove Effects"],
     [Func.FuncType.USER_EQUIP_EXP_UP, "Increase Mystic Code Exp"],
     [Func.FuncType.FUNC_126, "Remove Command Spell"],
+    [Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD, "Change Field"],
+    [Func.FuncType.SUB_FIELD_BUFF, "Remove Field Buff"],
 ]);
 
 function handleBuffActionSection(

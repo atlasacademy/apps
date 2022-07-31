@@ -106,6 +106,8 @@ export enum BuffAction {
     BUFF_RATE = "buffRate",
     INVISIBLE_BATTLE_CHARA = "invisibleBattleChara",
     COUNTER_FUNCTION = "counterFunction",
+    TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
+    TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
 }
 
 export enum BuffLimit {
@@ -267,6 +269,8 @@ export enum BuffType {
     INVISIBLE_BATTLE_CHARA = "invisibleBattleChara",
     COUNTER_FUNCTION = "counterFunction",
     NOT_TARGET_SKILL = "notTargetSkill",
+    TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
+    TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
 }
 
 export enum ClassRelationOverwriteType {

@@ -54,6 +54,8 @@ const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.SHORTEN_SKILL, "Reduce Cooldowns"],
     [Func.FuncType.SUB_STATE, "Remove Effects"],
     [Func.FuncType.USER_EQUIP_EXP_UP, "Increase Mystic Code Exp"],
+    [Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD, "Change Field"],
+    [Func.FuncType.SUB_FIELD_BUFF, "Remove Field Buff"],
 ]);
 
 export default function (func: Func.Func): BasePartial[] {

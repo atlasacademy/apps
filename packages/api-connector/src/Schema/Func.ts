@@ -135,6 +135,8 @@ export enum FuncType {
     FUNC_127 = "func127",
     UPDATE_ENTRY_POSITIONS = "updateEntryPositions",
     BUDDY_POINT_UP = "buddyPointUp",
+    ADD_FIELD_CHANGE_TO_FIELD = "addFieldChangeToField",
+    SUB_FIELD_BUFF = "subFieldBuff",
 }
 
 export interface BasicFunc {
