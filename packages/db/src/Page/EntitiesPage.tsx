@@ -135,7 +135,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     ? `/${this.props.region}/enemy/${entity.id}`
                     : `/${this.props.region}/servant/${entity.collectionNo}`;
             case Entity.EntityType.SERVANT_EQUIP:
-                return `/${this.props.region}/craft-essence/${entity.collectionNo}`;
+                return `/${this.props.region}/craft-essence/${
+                    entity.collectionNo === 0 ? entity.id : entity.collectionNo
+                }`;
             default:
                 return `/${this.props.region}/enemy/${entity.id}`;
         }
