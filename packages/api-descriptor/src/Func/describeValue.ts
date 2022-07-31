@@ -129,6 +129,7 @@ export default function (
                     case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                     case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                     case Func.FuncType.SERVANT_FRIENDSHIP_UP:
+                    case Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD:
                         break;
                     default:
                         addPartials([new ValuePartial(ValueType.UNKNOWN, targetVal)]);

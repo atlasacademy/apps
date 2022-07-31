@@ -132,6 +132,8 @@ export default function handleAmountSection(
         section.preposition = undefined;
         parts.push("that triggers");
         parts.push(<NoblePhantasmDescriptorId region={region} noblePhantasmId={dataVal.CounterId} />);
+    } else if (func.funcType === Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD && dataVal.FieldIndividuality !== undefined) {
+        parts.push(<TraitDescription region={region} trait={dataVal.FieldIndividuality} />);
     } else if (func.buffs[0] !== undefined && dataVal.Value !== undefined) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal} />);
 

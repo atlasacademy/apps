@@ -7,6 +7,7 @@ import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 
 import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
+import { lang } from "../Setting/Manager";
 import Description from "./Description";
 
 interface IProps {
@@ -27,7 +28,7 @@ class BuffDescription extends React.Component<IProps> {
             descriptor = BuffDescriptor.describe(this.props.buff);
 
         return (
-            <Link to={`/${this.props.region}/buff/${buff.id}`}>
+            <Link to={`/${this.props.region}/buff/${buff.id}`} lang={lang(this.props.region)}>
                 [{buff.icon ? <BuffIcon location={buff.icon} passiveFrame={this.props.passiveFrame} /> : undefined}
                 {buff.icon ? " " : undefined}
                 {Description.renderAsString(descriptor)}]

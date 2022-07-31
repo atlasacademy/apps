@@ -310,6 +310,9 @@ export default function handleActionSection(
             sections.amount.showing = false;
             sections.target.preposition = "from";
             break;
+        case Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD:
+            sections.amount.preposition = "to";
+            sections.target.showing = false;
     }
 
     parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
