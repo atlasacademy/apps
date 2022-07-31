@@ -261,10 +261,10 @@ export default function ServantVoiceLines(props: {
                 <Alert variant="success">
                     {relatedVoiceSvts !== null
                         ? relatedVoiceSvts.length > 0
-                            ? `${t("RelatedVoiceSvtsBefore")} ${props.servantName ?? props.servant.name} ${t(
+                            ? `${t("RelatedVoiceSvtsBefore")} ${props.servantName ?? props.servant.name}${t(
                                   "RelatedVoiceSvtsAfter"
                               )}: `
-                            : `${t("RelatedVoiceSvtsNoneBefore")} ${props.servantName ?? props.servant.name} ${t(
+                            : `${t("RelatedVoiceSvtsNoneBefore")} ${props.servantName ?? props.servant.name}${t(
                                   "RelatedVoiceSvtsNoneAfter"
                               )}`
                         : t("RelatedVoiceSvtsFetching")}

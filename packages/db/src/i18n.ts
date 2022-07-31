@@ -37,7 +37,7 @@ i18n.use(initReactI18next)
         interpolation: {
             escapeValue: false,
         },
-        returnEmptyString: false,
+        returnEmptyString: true,
         react: {
             useSuspense: false,
         },
