@@ -42,8 +42,6 @@ export default function handleDurationSection(
         );
     } else if (dataVal.Count && dataVal.Count > 0) {
         parts.push(dataVal.Count === 1 ? "(1 Time)" : `(${dataVal.Count} Times)`);
-    } else if (func.funcType === Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD && dataVal.Value !== undefined) {
-        parts.push(`(${dataVal.Value} Turn${dataVal.Value > 1 ? "s" : ""})`);
     } else {
         section.showing = false;
     }

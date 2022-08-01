@@ -304,12 +304,10 @@ async function handleEvent(event: FetchEvent) {
             resourceUrl.hostname = "atlasacademy.github.io";
             if (pathname === "/chargers") {
                 resourceUrl.pathname = "/chargers/";
-            } else if (pathname === "/fgo-docs") {
-                resourceUrl.pathname = "/fgo-docs/";
             }
             return fetch(resourceUrl.href, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
         }
-        for (const basePath of ["drop-lookup", "paper-moon", "drop-serializer", "bingo"]) {
+        for (const basePath of ["drop-lookup", "paper-moon", "drop-serializer", "bingo", "fgo-docs"]) {
             if (pathname === `/${basePath}`) {
                 return Response.redirect(`${protocol}//${host}/${basePath}/`, 301);
             }
