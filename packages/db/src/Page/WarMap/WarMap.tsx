@@ -23,6 +23,7 @@ interface IState {
     FQSpotsOnly: boolean;
     isMapLoaded: boolean;
     mapGimmicks: War.MapGimmick[];
+    OGMapGimmicks: War.MapGimmick[];
     showRoads: boolean;
 }
 
@@ -138,21 +139,18 @@ const SpotRoads = ({
 
 class WarMap extends React.Component<IProps, IState> {
     mapImage: string;
-    mapGimmicks: War.MapGimmick[];
 
     constructor(props: IProps) {
         super(props);
 
         this.mapImage = this.props.map.mapImage ?? "";
 
-        this.mapGimmicks = [...this.props.map.mapGimmicks];
+        let mapGimmicks = [...this.props.map.mapGimmicks];
 
         if (this.props.warId === 306) {
-            this.mapGimmicks = this.mapGimmicks.slice(0, this.mapGimmicks.length - 3);
+            mapGimmicks = mapGimmicks.slice(0, mapGimmicks.length - 3);
         } else if (this.props.warId === 9131) {
-            this.mapGimmicks = this.mapGimmicks.filter(
-                (gimmick) => ![913107, 913117, 913118, 913228].includes(gimmick.id)
-            );
+            mapGimmicks = mapGimmicks.filter((gimmick) => ![913107, 913117, 913118, 913228].includes(gimmick.id));
         }
 
         if (overrideMaps.includes(this.props.map.id)) {
@@ -161,7 +159,8 @@ class WarMap extends React.Component<IProps, IState> {
 
         this.state = {
             isMapLoaded: true,
-            mapGimmicks: this.mapGimmicks,
+            mapGimmicks,
+            OGMapGimmicks: mapGimmicks,
             FQSpotsOnly: true,
             showRoads: true,
         };
@@ -235,6 +234,23 @@ class WarMap extends React.Component<IProps, IState> {
                 {doNotGimmicks.includes(this.props.warId)
                     ? []
                     : (this.state.mapGimmicks ?? []).map((gimmick) => {
+                          if (this.state.OGMapGimmicks.length < 51) {
+                              return (
+                                  <img
+                                      key={gimmick.id}
+                                      className="warmap"
+                                      alt=""
+                                      onError={(event) =>
+                                          this.setState({
+                                              OGMapGimmicks: this.state.OGMapGimmicks.filter(
+                                                  (filterGimmick) => filterGimmick.id !== gimmick.id
+                                              ),
+                                          })
+                                      }
+                                      src={gimmick.image}
+                                  />
+                              );
+                          }
                           return <img key={gimmick.id} className="warmap" alt="" src={gimmick.image} />;
                       })}
             </>
@@ -247,7 +263,7 @@ class WarMap extends React.Component<IProps, IState> {
                 ) : (
                     <ButtonGrid
                         itemList={[
-                            ...(this.mapGimmicks ?? []).map((gimmick) => ({
+                            ...(this.state.OGMapGimmicks ?? []).map((gimmick) => ({
                                 uniqueId: gimmick.id,
                                 displayName: `${
                                     gimmick.id %
@@ -263,7 +279,7 @@ class WarMap extends React.Component<IProps, IState> {
                             let showRoads = enabledGimmicks.some((gimmick) => gimmick === -Infinity);
 
                             this.setState({
-                                mapGimmicks: (this.mapGimmicks ?? []).filter((gimmick) =>
+                                mapGimmicks: (this.state.OGMapGimmicks ?? []).filter((gimmick) =>
                                     enabledGimmicks.includes(gimmick.id)
                                 ),
                                 showRoads,
