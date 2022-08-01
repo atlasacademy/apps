@@ -20,10 +20,10 @@ interface IProps {
 }
 
 interface IState {
-    isMapLoaded?: boolean;
-    mapImage?: string;
-    mapGimmicks?: War.MapGimmick[];
     FQSpotsOnly: boolean;
+    isMapLoaded: boolean;
+    mapGimmicks: War.MapGimmick[];
+    showRoads: boolean;
 }
 
 const overrideMaps = [
@@ -163,6 +163,7 @@ class WarMap extends React.Component<IProps, IState> {
             isMapLoaded: true,
             mapGimmicks: this.mapGimmicks,
             FQSpotsOnly: true,
+            showRoads: true,
         };
     }
 
@@ -245,20 +246,27 @@ class WarMap extends React.Component<IProps, IState> {
                     []
                 ) : (
                     <ButtonGrid
-                        itemList={(this.mapGimmicks ?? []).map((gimmick) => ({
-                            uniqueId: gimmick.id,
-                            displayName: `${
-                                gimmick.id %
-                                (this.props.warId * 10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
-                            }`.padStart(3, "0"),
-                        }))}
+                        itemList={[
+                            ...(this.mapGimmicks ?? []).map((gimmick) => ({
+                                uniqueId: gimmick.id,
+                                displayName: `${
+                                    gimmick.id %
+                                    (this.props.warId *
+                                        10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
+                                }`.padStart(3, "0"),
+                            })),
+                            { uniqueId: -Infinity, displayName: "Roads" },
+                        ]}
                         title={"Gimmicks to display"}
                         defaultEnabled={true}
                         onClick={(enabledGimmicks) => {
+                            let showRoads = enabledGimmicks.some((gimmick) => gimmick === -Infinity);
+
                             this.setState({
                                 mapGimmicks: (this.mapGimmicks ?? []).filter((gimmick) =>
                                     enabledGimmicks.includes(gimmick.id)
                                 ),
+                                showRoads,
                             });
                         }}
                     />
@@ -281,7 +289,7 @@ class WarMap extends React.Component<IProps, IState> {
                                   />
                               ))
                         : null}
-                    {this.state.isMapLoaded && !donotSpotroad.includes(this.props.warId) ? (
+                    {this.state.isMapLoaded && !donotSpotroad.includes(this.props.warId) && this.state.showRoads ? (
                         <SpotRoads
                             map={this.props.map}
                             spotRoads={this.props.spotRoads}
