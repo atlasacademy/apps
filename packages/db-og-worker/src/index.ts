@@ -299,7 +299,7 @@ async function handleEvent(event: FetchEvent) {
         if (pathname.startsWith("/db")) {
             return handleDBEvent(event);
         }
-        if (pathname.startsWith("/chargers") || pathname.startsWith("/fgo-docs")) {
+        if (pathname.startsWith("/chargers") || pathname.startsWith("/fgo-docs/")) {
             const resourceUrl = new URL(event.request.url);
             resourceUrl.hostname = "atlasacademy.github.io";
             if (pathname === "/chargers") {
