@@ -34,8 +34,18 @@ const doNotGimmicks: number[] = [];
 
 const donotSpotroad = [306, 9091, 9113];
 
-const WarSpot = ({ map, region, spot }: { map: War.Map; region: Region; spot: War.Spot }) => {
-    const firstQuest = spot.quests[0];
+const WarSpot = ({
+    map,
+    region,
+    spot,
+    FQSpotsOnly,
+}: {
+    map: War.Map;
+    region: Region;
+    spot: War.Spot;
+    FQSpotsOnly: boolean;
+}) => {
+    const firstQuest = FQSpotsOnly ? spot.quests.find((quest) => quest.afterClear === "repeatLast") : spot.quests[0];
 
     const spotElement = (
         <figure
@@ -262,7 +272,13 @@ class WarMap extends React.Component<IProps, IState> {
                                       : true
                               )
                               .map((spot) => (
-                                  <WarSpot key={spot.id} map={this.props.map} region={this.props.region} spot={spot} />
+                                  <WarSpot
+                                      key={spot.id}
+                                      map={this.props.map}
+                                      region={this.props.region}
+                                      spot={spot}
+                                      FQSpotsOnly={this.state.FQSpotsOnly}
+                                  />
                               ))
                         : null}
                     {this.state.isMapLoaded && !donotSpotroad.includes(this.props.warId) ? (
