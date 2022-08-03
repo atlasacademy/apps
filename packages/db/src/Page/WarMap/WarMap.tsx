@@ -214,9 +214,7 @@ class WarMap extends React.Component<IProps, IState> {
     }
 
     render() {
-        let mapImageElement = <></>;
-
-        mapImageElement = (
+        const mapImageElement = (
             <>
                 <img
                     className="warmap"
@@ -255,39 +253,38 @@ class WarMap extends React.Component<IProps, IState> {
             </>
         );
 
+        const gimmickToggles = (
+            <ButtonGrid
+                itemList={[
+                    ...(this.state.OGMapGimmicks ?? []).map((gimmick) => ({
+                        uniqueId: gimmick.id,
+                        displayName: `${
+                            gimmick.id %
+                            (this.props.warId * 10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
+                        }`.padStart(3, "0"),
+                    })),
+                    ...(donotSpotroad.includes(this.props.warId)
+                        ? []
+                        : [{ uniqueId: -Infinity, displayName: "Roads" }]),
+                ]}
+                title={"Gimmicks to display"}
+                defaultEnabled={true}
+                onClick={(enabledGimmicks) => {
+                    let showRoads = enabledGimmicks.some((gimmick) => gimmick === -Infinity);
+
+                    this.setState({
+                        mapGimmicks: (this.state.OGMapGimmicks ?? []).filter((gimmick) =>
+                            enabledGimmicks.includes(gimmick.id)
+                        ),
+                        showRoads,
+                    });
+                }}
+            />
+        );
+
         return (
             <div className="warmap-parent">
-                {doNotGimmicks.includes(this.props.warId) ? (
-                    []
-                ) : (
-                    <ButtonGrid
-                        itemList={[
-                            ...(this.state.OGMapGimmicks ?? []).map((gimmick) => ({
-                                uniqueId: gimmick.id,
-                                displayName: `${
-                                    gimmick.id %
-                                    (this.props.warId *
-                                        10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
-                                }`.padStart(3, "0"),
-                            })),
-                            ...(donotSpotroad.includes(this.props.warId)
-                                ? []
-                                : [{ uniqueId: -Infinity, displayName: "Roads" }]),
-                        ]}
-                        title={"Gimmicks to display"}
-                        defaultEnabled={true}
-                        onClick={(enabledGimmicks) => {
-                            let showRoads = enabledGimmicks.some((gimmick) => gimmick === -Infinity);
-
-                            this.setState({
-                                mapGimmicks: (this.state.OGMapGimmicks ?? []).filter((gimmick) =>
-                                    enabledGimmicks.includes(gimmick.id)
-                                ),
-                                showRoads,
-                            });
-                        }}
-                    />
-                )}
+                {this.state.isMapLoaded && doNotGimmicks.includes(this.props.warId) ? [] : gimmickToggles}
                 <div className="warmap-container">
                     {this.state.isMapLoaded
                         ? this.props.spots
