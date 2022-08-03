@@ -123,7 +123,7 @@ class ButtonGrid extends React.Component<IProps, IState> {
                             Gimmick Controls
                         </Button>
                         <Button id="toggle-all" variant={"dark"} onClick={this.handleToggle.bind(this)}>
-                            Toggle All
+                            All
                         </Button>
                     </>
                 ) : (

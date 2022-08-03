@@ -4,9 +4,9 @@
 
 #toggle-all {
     position: absolute;
-    width: 100px;
+    width: 75px;
     top: 0;
-    left: 99%;
+    left: 100%;
     transform: translateX(-100%);
     margin: 0;
 }
@@ -35,5 +35,9 @@ div#toggle-container h4 {
 @media screen and (min-width: 1000px) {
     div#toggle-container h4 {
         display: block;
+    }
+    #toggle-all {
+        content: "Toggle All";
+        width: 100px;
     }
 }
