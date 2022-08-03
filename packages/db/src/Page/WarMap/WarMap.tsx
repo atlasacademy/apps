@@ -27,11 +27,7 @@ interface IState {
     showRoads: boolean;
 }
 
-const overrideMaps = [
-    9010, 9011, 9012, 9053, 9054, 9088, 9089, 9090, 9056, 9057, 9058, 9059, 9060, 9080, 9081, 9082, 9083, 9084, 9136,
-];
-
-const doNotGimmicks: number[] = [];
+const doNotGimmicks: number[] = [9056, 9080, 9136];
 
 const donotSpotroad = [306, 9091, 9113];
 
@@ -144,15 +140,12 @@ class WarMap extends React.Component<IProps, IState> {
         super(props);
 
         this.mapImage = this.props.map.mapImage ?? "";
+        this.overrideMap(this.props.map.id);
 
         let mapGimmicks = [...this.props.map.mapGimmicks];
 
         if (this.props.warId === 306) {
             mapGimmicks = mapGimmicks.slice(0, mapGimmicks.length - 3);
-        }
-
-        if (overrideMaps.includes(this.props.map.id)) {
-            this.overrideMap(this.props.map.id);
         }
 
         this.state = {
@@ -165,52 +158,55 @@ class WarMap extends React.Component<IProps, IState> {
     }
 
     overrideMap(mapId: number) {
-        let mapImage = "";
         switch (mapId) {
             case 9010:
             case 9053:
             case 9088:
-                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901001_00.png`;
+                this.mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901001_00.png`;
                 break;
 
             case 9011:
             case 9054:
             case 9089:
-                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901003_00.png`;
+                this.mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901003_00.png`;
                 break;
 
             case 9012:
             case 9055:
             case 9090:
-                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901008_00.png`;
+                this.mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9010/MGE_901008_00.png`;
                 break;
+
             case 9056:
             case 9080:
             case 9136:
-                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9056/QMap_Cap9056_9056_Atlas_merged.png`;
+                this.mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9056/QMap_Cap9056_9056_Atlas_merged.png`;
                 break;
 
             case 9057:
             case 9081:
-                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9057/QMap_Cap9056_9057_Atlas_merged.png`;
+            case 9137:
+                this.mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9057/QMap_Cap9056_9057_Atlas_merged.png`;
                 break;
 
             case 9058:
             case 9082:
-                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9058/QMap_Cap9056_9058_Atlas_merged.png`;
+            case 9138:
+                this.mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9058/QMap_Cap9056_9058_Atlas_merged.png`;
                 break;
 
             case 9059:
             case 9083:
-                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9059/QMap_Cap9056_9059_Atlas_merged.png`;
+            case 9139:
+                this.mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9059/QMap_Cap9056_9059_Atlas_merged.png`;
                 break;
 
             case 9060:
             case 9084:
-                mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9060/QMap_Cap9056_9060_Atlas_merged.png`;
+            case 9140:
+                this.mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9060/QMap_Cap9056_9060_Atlas_merged.png`;
                 break;
         }
-        this.mapImage = mapImage;
     }
 
     render() {
@@ -228,9 +224,8 @@ class WarMap extends React.Component<IProps, IState> {
                         position: "relative",
                     }}
                 />
-                {doNotGimmicks.includes(this.props.warId)
-                    ? []
-                    : (this.state.mapGimmicks ?? []).map((gimmick) => {
+                {!doNotGimmicks.includes(this.props.warId)
+                    ? (this.state.mapGimmicks ?? []).map((gimmick) => {
                           if (this.state.OGMapGimmicks.length < 51) {
                               return (
                                   <img
@@ -249,7 +244,8 @@ class WarMap extends React.Component<IProps, IState> {
                               );
                           }
                           return <img key={gimmick.id} className="warmap" alt="" src={gimmick.image} />;
-                      })}
+                      })
+                    : []}
             </>
         );
 
@@ -284,7 +280,7 @@ class WarMap extends React.Component<IProps, IState> {
 
         return (
             <div className="warmap-parent">
-                {this.state.isMapLoaded && doNotGimmicks.includes(this.props.warId) ? [] : gimmickToggles}
+                {this.state.isMapLoaded && !doNotGimmicks.includes(this.props.warId) ? gimmickToggles : []}
                 <div className="warmap-container">
                     {this.state.isMapLoaded
                         ? this.props.spots
