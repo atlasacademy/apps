@@ -28,7 +28,7 @@ interface IState {
 }
 
 const overrideMaps = [
-    9010, 9011, 9012, 9053, 9054, 9088, 9089, 9090, 9056, 9057, 9058, 9059, 9060, 9080, 9081, 9082, 9083, 9084,
+    9010, 9011, 9012, 9053, 9054, 9088, 9089, 9090, 9056, 9057, 9058, 9059, 9060, 9080, 9081, 9082, 9083, 9084, 9136,
 ];
 
 const doNotGimmicks: number[] = [];
@@ -186,6 +186,7 @@ class WarMap extends React.Component<IProps, IState> {
                 break;
             case 9056:
             case 9080:
+            case 9136:
                 mapImage = `${AssetHost}/${this.props.region}/Terminal/QuestMap/Capter9056_9056/QMap_Cap9056_9056_Atlas_merged.png`;
                 break;
 
@@ -238,7 +239,7 @@ class WarMap extends React.Component<IProps, IState> {
                                       key={gimmick.id}
                                       className="warmap"
                                       alt=""
-                                      onError={(event) =>
+                                      onError={() =>
                                           this.setState({
                                               OGMapGimmicks: this.state.OGMapGimmicks.filter(
                                                   (filterGimmick) => filterGimmick.id !== gimmick.id
