@@ -149,8 +149,6 @@ class WarMap extends React.Component<IProps, IState> {
 
         if (this.props.warId === 306) {
             mapGimmicks = mapGimmicks.slice(0, mapGimmicks.length - 3);
-        } else if (this.props.warId === 9131) {
-            mapGimmicks = mapGimmicks.filter((gimmick) => ![913107, 913117, 913118, 913228].includes(gimmick.id));
         }
 
         if (overrideMaps.includes(this.props.map.id)) {
@@ -271,7 +269,9 @@ class WarMap extends React.Component<IProps, IState> {
                                         10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
                                 }`.padStart(3, "0"),
                             })),
-                            { uniqueId: -Infinity, displayName: "Roads" },
+                            ...(donotSpotroad.includes(this.props.warId)
+                                ? []
+                                : [{ uniqueId: -Infinity, displayName: "Roads" }]),
                         ]}
                         title={"Gimmicks to display"}
                         defaultEnabled={true}
