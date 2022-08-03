@@ -153,7 +153,8 @@ class WarMap extends React.Component<IProps, IState> {
             mapGimmicks,
             OGMapGimmicks: mapGimmicks,
             FQSpotsOnly: true,
-            showRoads: true,
+            showRoads:
+                !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length && this.state.isMapLoaded,
         };
     }
 
@@ -210,6 +211,13 @@ class WarMap extends React.Component<IProps, IState> {
     }
 
     render() {
+        const showGimmicks =
+            !doNotGimmicks.includes(this.props.warId) && this.state.isMapLoaded && !!this.state.OGMapGimmicks.length;
+
+        const showFQSpotsOnlyButton =
+            this.props.spots.filter((spot) => spot.quests.some((quest) => quest.afterClear === "repeatLast")).length ===
+                this.props.spots.length && this.state.isMapLoaded;
+
         const mapImageElement = (
             <>
                 <img
@@ -224,7 +232,7 @@ class WarMap extends React.Component<IProps, IState> {
                         position: "relative",
                     }}
                 />
-                {!doNotGimmicks.includes(this.props.warId)
+                {showGimmicks
                     ? (this.state.mapGimmicks ?? []).map((gimmick) => {
                           if (this.state.OGMapGimmicks.length < 51) {
                               return (
@@ -259,14 +267,16 @@ class WarMap extends React.Component<IProps, IState> {
                             (this.props.warId * 10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
                         }`.padStart(3, "0"),
                     })),
-                    ...(donotSpotroad.includes(this.props.warId)
-                        ? []
-                        : [{ uniqueId: -Infinity, displayName: "Roads" }]),
+                    ...(this.state.showRoads ? [{ uniqueId: -Infinity, displayName: "Roads" }] : []),
                 ]}
                 title={"Gimmicks to display"}
                 defaultEnabled={true}
                 onClick={(enabledGimmicks) => {
-                    let showRoads = enabledGimmicks.some((gimmick) => gimmick === -Infinity);
+                    let showRoads =
+                        enabledGimmicks.some((gimmick) => gimmick === -Infinity) &&
+                        !donotSpotroad.includes(this.props.warId) &&
+                        !!this.props.spotRoads.length &&
+                        this.state.isMapLoaded;
 
                     this.setState({
                         mapGimmicks: (this.state.OGMapGimmicks ?? []).filter((gimmick) =>
@@ -280,7 +290,7 @@ class WarMap extends React.Component<IProps, IState> {
 
         return (
             <div className="warmap-parent">
-                {this.state.isMapLoaded && !doNotGimmicks.includes(this.props.warId) ? gimmickToggles : []}
+                {showGimmicks ? gimmickToggles : []}
                 <div className="warmap-container">
                     {this.state.isMapLoaded
                         ? this.props.spots
@@ -299,17 +309,19 @@ class WarMap extends React.Component<IProps, IState> {
                                   />
                               ))
                         : null}
-                    {this.state.isMapLoaded && !donotSpotroad.includes(this.props.warId) && this.state.showRoads ? (
+                    {this.state.showRoads ? (
                         <SpotRoads
                             map={this.props.map}
                             spotRoads={this.props.spotRoads}
                             spots={this.props.allSpots}
                             warId={this.props.warId}
                         />
-                    ) : null}
+                    ) : (
+                        []
+                    )}
                     {this.state.isMapLoaded ? mapImageElement : <p>Map unavailable for this war.</p>}
                 </div>
-                {this.state.isMapLoaded ? (
+                {showFQSpotsOnlyButton ? (
                     <Button
                         id="toggle-all-spots"
                         variant={this.state.FQSpotsOnly ? "success" : "secondary"}
