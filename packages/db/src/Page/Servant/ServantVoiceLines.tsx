@@ -89,7 +89,7 @@ export const VoiceLinesTable = ({
                                     <Alert variant="info" style={{ marginBottom: 0, marginTop: "1em" }}>
                                         {line.summonScript === undefined ? null : (
                                             <>
-                                                Summoning Script:{" "}
+                                                {t("Summoning Script")}:{" "}
                                                 <ScriptDescriptor
                                                     region={region}
                                                     scriptId={line.summonScript.scriptId}
@@ -99,7 +99,10 @@ export const VoiceLinesTable = ({
                                         )}
                                         {lineConds.length > 1 && (
                                             <>
-                                                <b>Unlock Requirements (all of the following):</b>
+                                                <b>
+                                                    {t("Unlock Requirement")}
+                                                    {t("SforPlural")} ({t("All of the Following")}):
+                                                </b>
                                                 <br />
                                                 <ul style={{ marginBottom: 0 }}>
                                                     {lineConds.map((cond, index) => (
@@ -117,7 +120,7 @@ export const VoiceLinesTable = ({
                                         )}
                                         {lineConds.length === 1 && (
                                             <>
-                                                <b>Unlock Requirement:</b>
+                                                <b>{t("Unlock Requirement")}:</b>
                                                 <br />
                                                 <VoiceCondTypeDescriptor
                                                     region={region}
@@ -154,13 +157,13 @@ export const VoiceLinesTable = ({
 
                                         <Dropdown.Menu title={`${t("Download")} ${voiceLineNames[index]}`}>
                                             <Dropdown.Item
-                                                title={`${t("Download")} ${voiceLineNames[index]} merged file`}
+                                                title={`${t("Download")} ${voiceLineNames[index]} ${t("Merged File")}`}
                                                 onClick={() => {
                                                     const fileName = `${mergedDownloadNamePrefix} - ${voiceLineNames[index]}`;
                                                     mergeVoiceLine(line.audioAssets, line.delay, fileName);
                                                 }}
                                             >
-                                                Merged
+                                                {t("Merged")}
                                             </Dropdown.Item>
                                             {line.audioAssets.map((asset, i) => (
                                                 <Dropdown.Item
@@ -212,8 +215,8 @@ export default function ServantVoiceLines(props: {
             <Table responsive>
                 <thead>
                     <tr>
-                        <td>Type</td>
-                        <td>Lines</td>
+                        <td>{t("Type")}</td>
+                        <td>{t("Lines")}</td>
                     </tr>
                 </thead>
                 <tbody>
