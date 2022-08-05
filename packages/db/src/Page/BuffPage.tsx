@@ -147,7 +147,7 @@ class BuffPage extends React.Component<IProps, IState> {
                             ),
                         },
                         {
-                            label: "Required Opponent Traits",
+                            label: t("Required Opponent Traits"),
                             value: (
                                 <div>
                                     {mergeElements(

@@ -113,7 +113,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                     { label: t("Player"), value: <BgmDescriptor region={region} bgm={bgm} showName="Download" /> },
                     { label: t("Unlock Condition"), value: bgmRelease },
                     { label: t("Unlock Cost"), value: shopDetail },
-                    { label: "Quests", value: <QuestSearchDescriptor region={region} bgmId={bgm.id} /> },
+                    { label: t("Quests"), value: <QuestSearchDescriptor region={region} bgmId={bgm.id} /> },
                     {
                         label: "Raw",
                         value: (

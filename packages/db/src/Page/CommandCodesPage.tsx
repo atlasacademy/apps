@@ -3,6 +3,7 @@ import Fuse from "fuse.js";
 import React from "react";
 import { Form, Table, Row, Col, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { CommandCode, Region } from "@atlasacademy/api-connector";
 
@@ -19,7 +20,7 @@ import "./ListingPage.css";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
 }
 
@@ -99,6 +100,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
 
         if (this.state.loading) return <Loading />;
 
+        const t = this.props.t;
         return (
             <div id="command-codes" className="listing-page">
                 <Row>
@@ -141,9 +143,9 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th className="col-center">#</th>
-                            <th className="col-center">Thumbnail</th>
-                            <th>Name</th>
-                            <th className="rarity-col">Rarity</th>
+                            <th className="col-center">{t("Thumbnail")}</th>
+                            <th>{t("Name")}</th>
+                            <th className="rarity-col">{t("Rarity")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -182,4 +184,4 @@ class CommandCodesPage extends React.Component<IProps, IState> {
     }
 }
 
-export default CommandCodesPage;
+export default withTranslation()(CommandCodesPage);

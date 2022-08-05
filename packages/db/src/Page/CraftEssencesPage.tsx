@@ -3,6 +3,7 @@ import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { CraftEssence, Entity, Region } from "@atlasacademy/api-connector";
 
@@ -26,7 +27,7 @@ enum CEType {
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
 }
 
@@ -229,7 +230,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
 
         if (this.state.loading) return <Loading />;
-
+        const t = this.props.t;
         const craftEssences = this.craftEssences(),
             results = craftEssences.slice(
                 this.state.perPage * this.state.page,
@@ -244,10 +245,10 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     <Col md={12} lg={6} xl={5} id="item-type">
                         <ButtonGroup>
                             {[
-                                [CEType.OTHER, "Regular CE"],
-                                [CEType.VALENTINE, "Valentine CE"],
-                                [CEType.BOND, "Bond CE"],
-                                [CEType.COMMEMORATIVE, "EXP CE"],
+                                [CEType.OTHER, t("Regular CE")],
+                                [CEType.VALENTINE, t("Valentine CE")],
+                                [CEType.BOND, t("Bond CE")],
+                                [CEType.COMMEMORATIVE, t("EXP CE")],
                             ].map(([ceType, buttonText]) => {
                                 return (
                                     <Button
@@ -308,9 +309,9 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th className="col-center">#</th>
-                            <th className="col-center">Thumbnail</th>
-                            <th>Name</th>
-                            <th className="rarity-col">Rarity</th>
+                            <th className="col-center">{t("Thumbnail")}</th>
+                            <th>{t("Name")}</th>
+                            <th className="rarity-col">{t("Rarity")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -359,4 +360,4 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
     }
 }
 
-export default CraftEssencesPage;
+export default withTranslation()(CraftEssencesPage);
