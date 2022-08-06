@@ -214,10 +214,8 @@ class WarMap extends React.Component<IProps, IState> {
             !doNotGimmicks.includes(this.props.warId) && this.state.isMapLoaded && !!this.state.OGMapGimmicks.length;
 
         const showFQSpotsOnlyButton =
-            this.props.spots.filter((spot) => spot.quests.some((quest) => quest.afterClear === "repeatLast")).length !==
-                this.props.spots.filter(
-                    (spot) => spot.x < this.props.map.mapImageW && spot.y < this.props.map.mapImageH
-                ).length && this.state.isMapLoaded;
+            this.props.spots.filter((spot) => !spot.quests.some((quest) => quest.afterClear !== "repeatLast")) && // Only FQ spots are present
+            this.state.isMapLoaded;
 
         const mapImageElement = (
             <>
