@@ -1,5 +1,6 @@
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Quest, Region } from "@atlasacademy/api-connector";
 
@@ -7,16 +8,17 @@ import { QuestTypeDescription } from "../Page/QuestPage";
 import { lang } from "../Setting/Manager";
 
 const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.QuestPhaseBasic[] }) => {
+    const { t } = useTranslation();
     return (
         <Table responsive>
             <thead>
                 <tr>
-                    <th>Quest ID</th>
-                    <th className="col-center">Phase</th>
-                    <th>Quest Name</th>
-                    <th className="col-center">Quest Type</th>
-                    <th className="col-center">War ID</th>
-                    <th>War Long Name</th>
+                    <th>{t("Quest")} ID</th>
+                    <th className="col-center">{t("Phase")}</th>
+                    <th>{t("Quest")} {t("Name")}</th>
+                    <th className="col-center">{t("Quest")} {t("Type")}</th>
+                    <th className="col-center">{t("War")} ID</th>
+                    <th>{t("War")} {t("Long Name")}</th>
                 </tr>
             </thead>
             <tbody>

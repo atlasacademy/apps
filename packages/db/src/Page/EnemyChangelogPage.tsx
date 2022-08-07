@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Quest, Region } from "@atlasacademy/api-connector";
 
@@ -12,6 +13,7 @@ import Manager from "../Setting/Manager";
 import "./ListingPage.css";
 
 const EnemyChangelogPage = ({ region }: { region: Region }) => {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | undefined>(undefined);
     const [quests, setQuests] = useState<Quest.QuestPhaseBasic[]>([]);
@@ -32,7 +34,7 @@ const EnemyChangelogPage = ({ region }: { region: Region }) => {
 
     return (
         <div className="listing-page">
-            <h3>Latest uploaded enemy data</h3>
+            <h3>{t("EnemyChangelogPageTitle")}</h3>
             <br />
             <QuestPhaseTable region={region} quests={quests} />
         </div>

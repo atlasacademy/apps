@@ -126,7 +126,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                     <Col sm={6} md={3} id="item-search">
                         <Form inline onSubmit={preventDefault}>
                             <Form.Control
-                                placeholder={"Search"}
+                                placeholder={t("Search")}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({ search: ev.target.value });
