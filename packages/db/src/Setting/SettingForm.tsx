@@ -14,7 +14,7 @@ interface IProps {
     theme: Theme;
 }
 
-const UILanguageDescriptor: Map<UILanguage, string> = new Map([
+const UILanguageDescriptor = new Map([
     [UILanguage.EN_US, "English"],
     [UILanguage.ZH_CN, "简体中文"],
     [UILanguage.ZH_TW, "繁體中文"],
