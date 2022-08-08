@@ -14,10 +14,11 @@ interface IProps {
     theme: Theme;
 }
 
-const UILanguageDescriptor: Map<UILanguage, string> = new Map<UILanguage, string>()
-    .set(UILanguage.EN_US, "English")
-    .set(UILanguage.ZH_CN, "简体中文")
-    .set(UILanguage.ZH_TW, "繁體中文");
+const UILanguageDescriptor: Map<UILanguage, string> = new Map([
+    [UILanguage.EN_US, "English"],
+    [UILanguage.ZH_CN, "简体中文"],
+    [UILanguage.ZH_TW, "繁體中文"],
+]);
 
 class SettingForm extends React.Component<IProps> {
     updateLanguage(value: string) {
