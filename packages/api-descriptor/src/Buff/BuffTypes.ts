@@ -114,6 +114,8 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.TD_TYPE_CHANGE_BUSTER, "Set Noble Phantasm: Buster"],
     [Buff.BuffType.TD_TYPE_CHANGE_QUICK, "Set Noble Phantasm: Quick"],
     [Buff.BuffType.UP_HATE, "Taunt"],
+    [Buff.BuffType.UP_NPTURNVAL, "Gain NP Gauge per turn"],
+    [Buff.BuffType.DOWN_NPTURNVAL, "Drain NP Gauge per turn"],
 ]);
 
 export interface BuffTriggerType {

@@ -81,17 +81,23 @@ export default function handleTargetSection(
                 break;
         }
     } else if (func.funcType === Func.FuncType.MOVE_STATE) {
-        switch (dataVal.DependFuncId) {
-            case 6026:
+        switch (func.funcId) {
+            case 6027:
                 targetType = Func.FuncTargetType.FIELD_OTHER;
                 break;
-            case 8191:
+            case 8192:
                 targetType = Func.FuncTargetType.PT_OTHER;
+                break;
+            case 9135:
+                targetType = Func.FuncTargetType.ENEMY_ALL;
                 break;
         }
     }
 
     if (targetType) {
         parts.push(targetDescriptions.get(targetType) ?? targetType);
+    }
+    if (func.funcType === Func.FuncType.MOVE_STATE) {
+        parts.push("to self");
     }
 }
