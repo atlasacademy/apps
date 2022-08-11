@@ -165,7 +165,7 @@ function handleMoveStateActionSection(
                 parts.push(
                     <TraitDescription
                         region={region}
-                        trait={{ id: 2836, name: "protoMerlinDrainNP" }}
+                        trait={{ id: 2836, name: "protoMerlinNPChargeBlock" }}
                         owner="buffs"
                         ownerParameter="vals"
                     />
