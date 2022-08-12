@@ -17,6 +17,7 @@ import WarDescriptor from "../Descriptor/WarDescriptor";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
+import EventBulletinBoard from "./Event/EventBulletinBoard";
 import EventLottery from "./Event/EventLottery";
 import EventReward from "./Event/EventReward";
 import EventRewardTower from "./Event/EventRewardTower";
@@ -25,7 +26,7 @@ import EventVoices from "./Event/EventVoices";
 import ShopTab from "./Event/Shop";
 
 import "../Helper/StringHelper.css";
-import "./EventPage.css";
+import "./Event/EventTable.css";
 
 interface TabInfo {
     type: "ladder" | "shop" | "mission" | "tower" | "lottery" | "treasureBox";
@@ -235,7 +236,7 @@ class EventPage extends React.Component<IProps, IState> {
     ) {
         const missionMap = new Map(missions.map((mission) => [mission.id, mission]));
         return (
-            <Table hover responsive className="mission-table">
+            <Table hover responsive className="event-table">
                 <thead>
                     <tr>
                         <th style={{ textAlign: "center" }}>#</th>
@@ -518,6 +519,15 @@ class EventPage extends React.Component<IProps, IState> {
                             </Tab>
                         );
                     })}
+                    {event.bulletinBoards.length > 0 ? (
+                        <Tab eventKey="bulletin-boards" title="Bulletin Boards">
+                            <EventBulletinBoard
+                                region={this.props.region}
+                                bulletinBoards={event.bulletinBoards}
+                                questCache={this.state.questCache}
+                            />
+                        </Tab>
+                    ) : null}
                     {event.voices.length > 0 && (
                         <Tab eventKey="voices" title="Voices">
                             <EventVoices

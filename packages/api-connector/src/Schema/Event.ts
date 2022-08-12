@@ -1,6 +1,7 @@
 import CondType from "../Enum/Cond";
 import { BgmEntity } from "./Bgm";
 import { CommonConsume } from "./CommonConsume";
+import { CommonRelease } from "./CommonRelease";
 import { Gift } from "./Gift";
 import { Item, ItemBackgroundType } from "./Item";
 import { Mission } from "./Mission";
@@ -196,6 +197,35 @@ export interface EventDigging {
     rewards: EventDiggingReward[];
 }
 
+export interface EventCooltimeReward {
+    spotId: number;
+    lv: number;
+    name: number;
+    commonRelease: CommonRelease;
+    cooltime: number;
+    addEventPointRate: number;
+    gifts: Gift[];
+    upperLimitGiftNum: number;
+}
+
+export interface EventCooltime {
+    rewards: EventCooltimeReward;
+}
+
+export interface EventBulletinBoardRelease {
+    condGroup: number;
+    condType: CondType;
+    condTargetId: number;
+    condNum: number;
+}
+
+export interface EventBulletinBoard {
+    bulletinBoardId: number;
+    message: string;
+    probability: number;
+    releaseConditions: EventBulletinBoardRelease[];
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -234,7 +264,9 @@ export interface Event {
     towers: EventTower[];
     lotteries: EventLottery[];
     treasureBoxes: EventTreasureBox[];
+    bulletinBoards: EventBulletinBoard[];
     digging?: EventDigging;
+    cooltime?: EventCooltime;
     voicePlays: EventVoicePlay[];
     voices: VoiceGroup[];
 }

@@ -88,6 +88,8 @@ export default function (func: Func.Func, dataVal: DataVal.DataVal): BasePartial
                     new TraitReferencePartial(dataVal.EventId),
                 ]);
             break;
+        case Func.FuncType.MOVE_STATE:
+            addPartials(partials, [new TextPartial("from enemies")]);
     }
 
     if (func.functvals.length) {

@@ -15,7 +15,7 @@ export function insertParticles(partials: BasePartial[], particle: string): Base
 }
 
 export function toTitleCase(value: string): string {
-    const matches = value.match(/[A-Z]*[a-z0-9]*/g);
+    const matches = value.match(/NP|[A-Z]*[a-z0-9]*/g);
     if (!matches || !matches.length) return value;
 
     const words = matches

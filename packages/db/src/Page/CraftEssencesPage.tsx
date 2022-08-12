@@ -269,7 +269,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     <Col md={12} lg={3} id="item-search">
                         <Form inline onSubmit={preventDefault}>
                             <Form.Control
-                                placeholder={"Search"}
+                                placeholder={t("Search")}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({ search: ev.target.value, page: 0 });

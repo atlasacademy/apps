@@ -147,16 +147,31 @@ function handleMoveStateActionSection(
 
     parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 
-    if (func.funcId === 6027 || func.funcId === 8192) {
+    if ([6027, 8192, 9135].includes(func.funcId)) {
         parts.push("with");
-        parts.push(
-            <TraitDescription
-                region={region}
-                trait={{ id: 3026, name: "buffCurse" }}
-                owner="buffs"
-                ownerParameter="vals"
-            />
-        );
+        switch (func.funcId) {
+            case 6027:
+            case 8192:
+                parts.push(
+                    <TraitDescription
+                        region={region}
+                        trait={{ id: 3026, name: "buffCurse" }}
+                        owner="buffs"
+                        ownerParameter="vals"
+                    />
+                );
+                break;
+            case 9135:
+                parts.push(
+                    <TraitDescription
+                        region={region}
+                        trait={{ id: 2836, name: "protoMerlinNPChargeBlock" }}
+                        owner="buffs"
+                        ownerParameter="vals"
+                    />
+                );
+                break;
+        }
     }
 
     sections.target.preposition = "from";

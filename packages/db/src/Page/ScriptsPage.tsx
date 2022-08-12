@@ -249,6 +249,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                                     Script ID
                                 </th>
                                 <th>Snippet</th>
+                                <th>Score</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -280,6 +281,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                                             }}
                                             lang={lang(region)}
                                         ></td>
+                                        <td>{script.score}</td>
                                     </tr>
                                 ))}
                         </tbody>
