@@ -212,6 +212,20 @@ export interface EventCooltime {
     rewards: EventCooltimeReward;
 }
 
+export interface EventBulletinBoardRelease {
+    condGroup: number;
+    condType: CondType;
+    condTargetId: number;
+    condNum: number;
+}
+
+export interface EventBulletinBoard {
+    bulletinBoardId: number;
+    message: string;
+    probability: number;
+    releaseConditions: EventBulletinBoardRelease[];
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -250,6 +264,7 @@ export interface Event {
     towers: EventTower[];
     lotteries: EventLottery[];
     treasureBoxes: EventTreasureBox[];
+    bulletinBoards: EventBulletinBoard[];
     digging?: EventDigging;
     cooltime?: EventCooltime;
     voicePlays: EventVoicePlay[];

@@ -1,9 +1,9 @@
-import { CondType, Region, Servant } from "@atlasacademy/api-connector";
+import { CondType, Region, Servant, Quest } from "@atlasacademy/api-connector";
 
 import CostumeDescriptor from "./CostumeDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import { ItemDescriptorId } from "./ItemDescriptor";
-import QuestDescriptor from "./QuestDescriptor";
+import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 
 export default function CondTargetValueDescriptor(props: {
@@ -13,6 +13,7 @@ export default function CondTargetValueDescriptor(props: {
     value: number;
     forceFalseDescription?: string;
     servants?: Map<number, Servant.ServantBasic>;
+    quests?: Map<number, Quest.QuestBasic>;
 }) {
     const forceFalseDescription = props.forceFalseDescription ? props.forceFalseDescription : "Not possible";
     const region = props.region;
@@ -24,9 +25,16 @@ export default function CondTargetValueDescriptor(props: {
         case CondType.QUEST_CLEAR:
             return (
                 <>
-                    Has cleared <QuestDescriptor region={region} questId={target} />
+                    Has cleared <QuestDescriptorId region={region} questId={target} quests={props.quests} />
                 </>
             );
+        case CondType.QUEST_AVAILABLE:
+            return (
+                <>
+                    <QuestDescriptorId region={region} questId={target} quests={props.quests} /> is available
+                </>
+            );
+
         case CondType.SVT_LIMIT:
             return (
                 <>
@@ -75,7 +83,7 @@ export default function CondTargetValueDescriptor(props: {
         case CondType.QUEST_NOT_CLEAR:
             return (
                 <>
-                    Has not cleared <QuestDescriptor region={region} questId={target} />
+                    Has not cleared <QuestDescriptorId region={region} questId={target} quests={props.quests} />
                 </>
             );
         case CondType.SVT_HAVING:
@@ -87,14 +95,15 @@ export default function CondTargetValueDescriptor(props: {
         case CondType.QUEST_CLEAR_PHASE:
             return (
                 <>
-                    Has cleared arrow {value} of <QuestDescriptor region={region} questId={target} />
+                    Has cleared arrow {value} of{" "}
+                    <QuestDescriptorId region={region} questId={target} quests={props.quests} />
                 </>
             );
         case CondType.NOT_QUEST_CLEAR_PHASE:
             return (
                 <>
                     Has not cleared arrow {value} of{" "}
-                    <QuestDescriptor region={region} questId={target} questPhase={value} />
+                    <QuestDescriptorId region={region} questId={target} questPhase={value} quests={props.quests} />
                 </>
             );
         case CondType.SVT_RECOVERD:

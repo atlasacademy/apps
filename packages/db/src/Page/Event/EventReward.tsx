@@ -6,6 +6,8 @@ import GiftDescriptor from "../../Descriptor/GiftDescriptor";
 import PointBuffDescriptor from "../../Descriptor/PointBuffDescriptor";
 import { mergeElements } from "../../Helper/OutputHelper";
 
+import "./EventTable.css";
+
 const EventReward = ({
     region,
     rewards,
@@ -20,7 +22,7 @@ const EventReward = ({
     const pointBuffMap = new Map(allPointBuffs.map((pointBuff) => [pointBuff.id, pointBuff]));
     const pointBuffPointMap = new Map(allPointBuffs.map((pointBuff) => [pointBuff.eventPoint, pointBuff]));
     return (
-        <Table hover responsive>
+        <Table hover responsive className="event-table">
             <thead>
                 <tr>
                     <th>Point</th>
