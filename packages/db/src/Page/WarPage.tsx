@@ -361,12 +361,26 @@ const WarMapList = (props: {
             return acc;
         }, {});
 
-    const mapsById = groupBy(props.maps, (map) => `${map.id}`);
+    let maps = [...props.maps],
+        spots: War.Spot[] = [];
+
+    if (props.warId === 307) {
+        maps = maps.map((map) =>
+            map.id !== 30702 ? { ...map, mapGimmicks: maps.find((_map) => _map.id === 30702)?.mapGimmicks ?? [] } : map
+        );
+
+        maps.forEach((_map) => {
+            spots = spots.concat(props.spots.map((spot) => ({ ...spot, mapId: _map.id })));
+        });
+    }
+
+    const mapsById = groupBy(maps, (map) => `${map.id}`);
     let last = false;
+
     const warMaps = (
         <Tabs id="war-maps-tabs" className="mb-3">
             {Object.keys(mapsById).map((mapId, index, array) => {
-                let mapSpots = props.spots.filter((spot) => spot.mapId === +mapId).filter((spot) => spot.x || spot.y);
+                let mapSpots = spots.filter((spot) => spot.mapId === +mapId).filter((spot) => spot.x || spot.y);
                 last = index === array.length - 1;
                 return mapSpots.length > 0 ? (
                     <Tab eventKey={`${mapId}`} key={mapId} title={`#${mapId}`}>

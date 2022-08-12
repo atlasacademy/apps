@@ -45,6 +45,9 @@
     position: absolute;
     z-index: 20;
 }
-#toggle-all-spots {
+.toggle-all-spots {
     margin: 5px 0;
+}
+.toggle-all-spots:last-child {
+    margin-left: 5px;
 }

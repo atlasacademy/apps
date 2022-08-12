@@ -25,6 +25,7 @@ interface IState {
     mapGimmicks: War.MapGimmick[];
     OGMapGimmicks: War.MapGimmick[];
     showRoads: boolean;
+    showSpots: boolean;
 }
 
 const doNotGimmicks: number[] = [9056, 9080, 9136];
@@ -154,6 +155,7 @@ class WarMap extends React.Component<IProps, IState> {
             OGMapGimmicks: mapGimmicks,
             FQSpotsOnly: true,
             showRoads: !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length,
+            showSpots: !!this.props.spots.length,
         };
     }
 
@@ -291,7 +293,7 @@ class WarMap extends React.Component<IProps, IState> {
             <div className="warmap-parent">
                 {showGimmicks ? gimmickToggles : []}
                 <div className="warmap-container">
-                    {this.state.isMapLoaded
+                    {this.state.isMapLoaded && this.state.showSpots
                         ? this.props.spots
                               .filter((spot) =>
                                   this.state.FQSpotsOnly
@@ -321,13 +323,22 @@ class WarMap extends React.Component<IProps, IState> {
                     {this.state.isMapLoaded ? mapImageElement : <p>Map unavailable for this war.</p>}
                 </div>
                 {showFQSpotsOnlyButton ? (
-                    <Button
-                        id="toggle-all-spots"
-                        variant={this.state.FQSpotsOnly ? "success" : "secondary"}
-                        onClick={() => this.setState({ FQSpotsOnly: !this.state.FQSpotsOnly })}
-                    >
-                        FQ spots only
-                    </Button>
+                    <div id="spot-button-container">
+                        <Button
+                            className="toggle-all-spots"
+                            variant={this.state.showSpots ? "success" : "secondary"}
+                            onClick={() => this.setState({ showSpots: !this.state.showSpots })}
+                        >
+                            Show spots
+                        </Button>
+                        <Button
+                            className="toggle-all-spots"
+                            variant={this.state.FQSpotsOnly ? "success" : "secondary"}
+                            onClick={() => this.setState({ FQSpotsOnly: !this.state.FQSpotsOnly })}
+                        >
+                            FQ spots only
+                        </Button>
+                    </div>
                 ) : (
                     []
                 )}
