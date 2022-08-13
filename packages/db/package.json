@@ -27,6 +27,7 @@
         "copy-to-clipboard": "^3.3.1",
         "cytoscape": "^3.22.1",
         "fuse.js": "^6.6.2",
+        "fuzzysort": "^2.0.1",
         "highcharts": "^10.2.0",
         "highcharts-react-official": "^3.1.0",
         "i18next": "^21.8.16",

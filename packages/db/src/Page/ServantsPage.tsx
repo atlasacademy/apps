@@ -1,7 +1,7 @@
 import { faArrowDown19, faArrowDown91, faHashtag, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
-import Fuse from "fuse.js";
+import fuzzysort from "fuzzysort";
 import React from "react";
 import { Button, ButtonGroup, Col, Form, Pagination, Row, Table } from "react-bootstrap";
 import { withTranslation, TFunction } from "react-i18next";
@@ -81,7 +81,6 @@ interface IState {
     sortDirection: SortDirection;
     sortKey: SortKey;
     search?: string;
-    fuse: Fuse<Servant.ServantBasic>;
 }
 
 class ServantsPage extends React.Component<IProps, IState> {
@@ -97,7 +96,6 @@ class ServantsPage extends React.Component<IProps, IState> {
             page: 0,
             sortDirection: "descending",
             sortKey: "collectionNo",
-            fuse: new Fuse([]),
         };
     }
 
@@ -109,19 +107,6 @@ class ServantsPage extends React.Component<IProps, IState> {
                 this.setState({
                     servants,
                     loading: false,
-                    fuse: new Fuse([...servants], {
-                        keys: [
-                            "id",
-                            "collectionNo",
-                            "name",
-                            "originalName",
-                            { name: "overwriteName", getFn: (svt) => svt.overwriteName ?? "" },
-                            { name: "originalOverwriteName", getFn: (svt) => svt.originalOverwriteName ?? "" },
-                        ],
-                        threshold: 0.2,
-                        getFn: fuseGetFn,
-                        ignoreLocation: true,
-                    }),
                 });
             })
             .catch((error) => this.setState({ error }));
@@ -290,9 +275,11 @@ class ServantsPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const matchedFuzzyIds = new Set(
-                this.state.fuse.search(removeDiacriticalMarks(this.state.search)).map((doc) => doc.item.id)
-            );
+            const results = fuzzysort.go(removeDiacriticalMarks(this.state.search), list, {
+                threshold: -10000,
+                keys: ["id", "collectionNo", "name", "originalName", "overwriteName", "originalOverwriteName"],
+            });
+            const matchedFuzzyIds = new Set(results.map((result) => result.obj.id));
             list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
         }
 
