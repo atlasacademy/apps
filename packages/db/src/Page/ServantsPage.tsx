@@ -15,7 +15,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RarityDescriptor from "../Descriptor/RarityDescriptor";
 import { preventDefault } from "../Helper/Form";
-import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
+import { removeDiacriticalMarks } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -70,6 +70,16 @@ interface IProps {
     t: TFunction;
 }
 
+type SearchKeys = "id" | "collectionNo" | "name" | "originalName" | "overwriteName" | "originalOverwriteName";
+const searchKeys: SearchKeys[] = [
+    "id",
+    "collectionNo",
+    "name",
+    "originalName",
+    "overwriteName",
+    "originalOverwriteName",
+];
+
 interface IState {
     error?: AxiosError;
     loading: boolean;
@@ -79,6 +89,7 @@ interface IState {
     perPage: number;
     page: number;
     sortDirection: SortDirection;
+    servantsSearchData: Pick<Servant.ServantBasic, SearchKeys>[];
     sortKey: SortKey;
     search?: string;
 }
@@ -90,6 +101,7 @@ class ServantsPage extends React.Component<IProps, IState> {
         this.state = {
             loading: true,
             servants: [],
+            servantsSearchData: [],
             activeClassFilters: [],
             activeRarityFilters: [],
             perPage: 50,
@@ -107,6 +119,16 @@ class ServantsPage extends React.Component<IProps, IState> {
                 this.setState({
                     servants,
                     loading: false,
+                    servantsSearchData: servants.map((svt) => {
+                        return {
+                            id: svt.id,
+                            collectionNo: svt.collectionNo,
+                            name: removeDiacriticalMarks(svt.name),
+                            originalName: removeDiacriticalMarks(svt.originalName),
+                            overwriteName: removeDiacriticalMarks(svt.overwriteName ?? ""),
+                            originalOverwriteName: removeDiacriticalMarks(svt.originalOverwriteName ?? ""),
+                        };
+                    }),
                 });
             })
             .catch((error) => this.setState({ error }));
@@ -275,9 +297,9 @@ class ServantsPage extends React.Component<IProps, IState> {
         }
 
         if (this.state.search) {
-            const results = fuzzysort.go(removeDiacriticalMarks(this.state.search), list, {
+            const results = fuzzysort.go(removeDiacriticalMarks(this.state.search), this.state.servantsSearchData, {
                 threshold: -10000,
-                keys: ["id", "collectionNo", "name", "originalName", "overwriteName", "originalOverwriteName"],
+                keys: searchKeys,
             });
             const matchedFuzzyIds = new Set(results.map((result) => result.obj.id));
             list = list.filter((entity) => matchedFuzzyIds.has(entity.id));
