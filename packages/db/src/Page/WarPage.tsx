@@ -362,9 +362,11 @@ const WarMapList = (props: {
         }, {});
 
     let maps = [...props.maps],
-        spots: War.Spot[] = props.warId === 307 ? [] : [...props.spots];
+        spots: War.Spot[] = [...props.spots];
 
     if (props.warId === 307) {
+        spots = [];
+
         maps = maps.map((map) =>
             map.id !== 30702 ? { ...map, mapGimmicks: maps.find((_map) => _map.id === 30702)?.mapGimmicks ?? [] } : map
         );
