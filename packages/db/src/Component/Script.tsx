@@ -140,6 +140,7 @@ export type DialogueChildComponent = DialogueBasicComponent | DialogueGender | S
 export type DialogueSpeaker = {
     name: string;
     speakerCode?: string;
+    spot?: string[];
     components: DialogueChildComponent[];
 };
 
@@ -743,15 +744,23 @@ export function parseDialogueLine(region: Region, line: string, parserState: Par
 function parseDialogueSpeaker(region: Region, line: string, parserState: ParserState): DialogueSpeaker {
     const noMarker = line.slice(1);
     let name = noMarker,
-        speakerCode = undefined;
+        speakerCode: string | undefined = undefined,
+        spot: string[] | undefined = undefined;
 
     if (noMarker.includes("：")) {
         [speakerCode, name] = noMarker.split("：");
     }
 
+    if (name.includes("=spot")) {
+        const splitted = name.split("=spot");
+        name = splitted[0];
+        spot = splitted[1].slice(1, -1).split(",");
+    }
+
     return {
         name,
         speakerCode,
+        spot,
         components: parseDialogueLine(region, name, parserState),
     };
 }
