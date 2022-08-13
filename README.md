@@ -17,9 +17,6 @@ npm i -g lerna
 # clone repo
 git clone https://github.com/atlasacademy/apps.git
 
-# use dev branch
-git checkout dev && git pull
-
 # setup packages with local npm link
 lerna bootstrap --ci --force-local
 
@@ -33,7 +30,7 @@ npm run start:db
 # ... make changes
 
 # commit changes
-git add -A && git commit -m "stuff
+git add -A && git commit -m "stuff"
 ```
 
 ## Publish workflow
