@@ -70,15 +70,7 @@ interface IProps {
     t: TFunction;
 }
 
-type SearchKeys = "id" | "collectionNo" | "name" | "originalName" | "overwriteName" | "originalOverwriteName";
-const searchKeys: SearchKeys[] = [
-    "id",
-    "collectionNo",
-    "name",
-    "originalName",
-    "overwriteName",
-    "originalOverwriteName",
-];
+const searchKeys = ["id", "collectionNo", "name", "originalName", "overwriteName", "originalOverwriteName"] as const;
 
 interface IState {
     error?: AxiosError;
@@ -89,7 +81,7 @@ interface IState {
     perPage: number;
     page: number;
     sortDirection: SortDirection;
-    servantsSearchData: Pick<Servant.ServantBasic, SearchKeys>[];
+    servantsSearchData: Pick<Servant.ServantBasic, typeof searchKeys[number]>[];
     sortKey: SortKey;
     search?: string;
 }
