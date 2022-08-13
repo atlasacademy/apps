@@ -1,4 +1,5 @@
 import { Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Event, Item, Region } from "@atlasacademy/api-connector";
 
@@ -16,12 +17,13 @@ const TreasureBoxGiftTable = ({
     treasureBoxGifts: Event.EventTreasureBoxGift[];
     itemMap: Map<number, Item.Item>;
 }) => {
+    const { t } = useTranslation();
     return (
         <Table hover responsive className="listing-table">
             <thead>
                 <tr>
                     <th className="col-center">#</th>
-                    <th>Reward</th>
+                    <th>{t("Reward")}</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,13 +51,14 @@ const TreasureBox = ({
     treasureBox: Event.EventTreasureBox;
     itemMap: Map<number, Item.Item>;
 }) => {
+    const { t } = useTranslation();
     return (
         <>
-            <h4>Treasure Box {treasureBox.idx}</h4>
+            <h4>{t("EventTreasureBox")} {treasureBox.idx}</h4>
             <ul>
-                <li>Maximum number of draws at once: {treasureBox.maxDrawNumOnce}</li>
+                <li>{t("EventTreasureBoxMaxNumOnceDraw")}: {treasureBox.maxDrawNumOnce}</li>
                 <li>
-                    Draw Cost:{" "}
+                    {t("EventTreasureBoxDrawCost")}:{" "}
                     <CommonConsumeDescriptor
                         region={region}
                         commonConsume={treasureBox.commonConsume}
@@ -63,7 +66,7 @@ const TreasureBox = ({
                     />
                 </li>
                 <li>
-                    Extra Gifts per box:{" "}
+                    {t("EventTreasureBoxExtraGift")}:{" "}
                     <MultipleGifts region={region} gifts={treasureBox.extraGifts} itemMap={itemMap} />
                 </li>
             </ul>

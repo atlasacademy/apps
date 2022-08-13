@@ -1,4 +1,5 @@
 import { Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Region, Event, Item } from "@atlasacademy/api-connector";
 
@@ -16,13 +17,14 @@ const EventRewardTower = ({
     tower: Event.EventTower;
     itemMap: Map<number, Item.Item>;
 }) => {
+    const { t } = useTranslation();
     return (
         <Table hover responsive>
             <thead>
                 <tr>
-                    <th className="text-center">Floor</th>
-                    <th>Message</th>
-                    <th>Reward</th>
+                    <th className="text-center">{t("EventTowerFloor")}</th>
+                    <th>{t("Message")}</th>
+                    <th>{t("Reward")}</th>
                 </tr>
             </thead>
             <tbody>

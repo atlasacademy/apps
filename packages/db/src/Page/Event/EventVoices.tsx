@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { Region, Profile, Servant, Event } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
@@ -18,10 +19,11 @@ const EventVoices = ({
     servants: Map<number, Servant.ServantBasic>;
     eventRewardScenes: Event.EventRewardScene[];
 }) => {
+    const { t } = useTranslation();
     return (
         <>
             {voiceGroups.map((voiceGroup, i) => {
-                let guideName = `Guide ${voiceGroup.svtId}`;
+                let guideName = `${t("EventVoiceGuide")} ${voiceGroup.svtId}`;
 
                 for (const rewardScene of eventRewardScenes) {
                     for (const guide of rewardScene.guides) {

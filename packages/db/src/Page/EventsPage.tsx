@@ -5,6 +5,7 @@ import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Event, Region } from "@atlasacademy/api-connector";
 
@@ -20,7 +21,7 @@ import "./ListingPage.css";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
 }
 
@@ -182,6 +183,7 @@ class EventsPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
 
         if (this.state.loading) return <Loading />;
@@ -199,11 +201,11 @@ class EventsPage extends React.Component<IProps, IState> {
                     <Col md={12} lg={6} id="item-type">
                         <ButtonGroup>
                             {[
-                                [Event.EventType.EVENT_QUEST, "Event"],
-                                [Event.EventType.COMBINE_CAMPAIGN, "Servant Lvl Up"],
-                                [Event.EventType.SVTEQUIP_COMBINE_CAMPAIGN, "CE Lvl Up"],
-                                [Event.EventType.QUEST_CAMPAIGN, "AP Cost"],
-                                [Event.EventType.WAR_BOARD, "Grail Front"],
+                                [Event.EventType.EVENT_QUEST, t("EventType.EVENT_QUEST")],
+                                [Event.EventType.COMBINE_CAMPAIGN, t("EventType.COMBINE_CAMPAIGN")],
+                                [Event.EventType.SVTEQUIP_COMBINE_CAMPAIGN, t("EventType.SVTEQUIP_COMBINE_CAMPAIGN")],
+                                [Event.EventType.QUEST_CAMPAIGN, t("EventType.QUEST_CAMPAIGN")],
+                                [Event.EventType.WAR_BOARD, t("EventType.WAR_BOARD")],
                             ].map(([eventType, buttonText]) => {
                                 return (
                                     <Button
@@ -224,7 +226,7 @@ class EventsPage extends React.Component<IProps, IState> {
                     <Col md={12} lg={3} id="item-search">
                         <Form inline onSubmit={preventDefault}>
                             <Form.Control
-                                placeholder={"Search"}
+                                placeholder={t("Search")}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({
@@ -246,8 +248,8 @@ class EventsPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th className="col-center">#</th>
-                            <th className="col-center">Ongoing</th>
-                            <th>Name</th>
+                            <th className="col-center">{t("Ongoing")}</th>
+                            <th>{t("Name")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -264,7 +266,7 @@ class EventsPage extends React.Component<IProps, IState> {
                                         {isOngoing ? (
                                             <FontAwesomeIcon
                                                 icon={faCheckCircle}
-                                                title="Master mission is ongoing right now"
+                                                title={t("EventOngoing")}
                                             />
                                         ) : null}
                                     </td>
@@ -285,4 +287,4 @@ class EventsPage extends React.Component<IProps, IState> {
     }
 }
 
-export default EventsPage;
+export default withTranslation()(EventsPage);

@@ -1,4 +1,5 @@
 import { Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Event, Quest, Region } from "@atlasacademy/api-connector";
 
@@ -44,14 +45,15 @@ const EventBulletinBoardReleaseCondition = ({
     conditions: Event.EventBulletinBoardRelease[];
     questCache: Map<number, Quest.Quest>;
 }) => {
+    const { t } = useTranslation();
     if (conditions.length === 0) return null;
 
     const groups = Array.from(new Set(conditions.map((condition) => condition.condGroup)));
     return (
         <>
             <b>
-                Release Condition
-                {groups.length > 1 ? "s (any of the following):" : ":"}
+                {t("Release Condition")}
+                {groups.length > 1 ? `${t("SforPlural")} (${t("Any of the following")}):` : ":"}
             </b>
             <br />
             {groups.length > 1 ? (
@@ -91,12 +93,13 @@ const EventBulletinBoard = ({
     bulletinBoards: Event.EventBulletinBoard[];
     questCache: Map<number, Quest.Quest>;
 }) => {
+    const { t } = useTranslation();
     return (
         <Table hover responsive className="event-table">
             <thead>
                 <tr>
                     <th style={{ textAlign: "center" }}>#</th>
-                    <th>Detail</th>
+                    <th>{t("Detail")}</th>
                 </tr>
             </thead>
             <tbody>
@@ -106,7 +109,7 @@ const EventBulletinBoard = ({
                             <td className="text-center font-weight-bold">{bulletinBoard.bulletinBoardId}</td>
                             <td>
                                 <div className="mb-2">
-                                    <b>Message:</b> <span lang={lang(region)}>{bulletinBoard.message}</span>
+                                    <b>{t("Message")}:</b> <span lang={lang(region)}>{bulletinBoard.message}</span>
                                 </div>
                                 <EventBulletinBoardReleaseCondition
                                     region={region}

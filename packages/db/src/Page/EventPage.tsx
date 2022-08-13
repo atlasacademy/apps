@@ -3,6 +3,7 @@ import React from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Event, Item, Region, Mission, Quest, Servant, EnumList, War } from "@atlasacademy/api-connector";
 
@@ -35,7 +36,7 @@ interface TabInfo {
     tabKey: string;
 }
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     eventId: number;
     tab?: string;
@@ -234,14 +235,15 @@ class EventPage extends React.Component<IProps, IState> {
         warIds?: number[],
         enums?: EnumList
     ) {
+        const t = this.props.t;
         const missionMap = new Map(missions.map((mission) => [mission.id, mission]));
         return (
             <Table hover responsive className="event-table">
                 <thead>
                     <tr>
                         <th style={{ textAlign: "center" }}>#</th>
-                        <th>Detail</th>
-                        <th>Reward</th>
+                        <th>{t("Detail")}</th>
+                        <th>{t("Reward")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -329,6 +331,7 @@ class EventPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
 
         if (this.state.loading || !this.state.event) return <Loading />;
@@ -341,7 +344,7 @@ class EventPage extends React.Component<IProps, IState> {
             tabs.push({
                 type: "mission",
                 id: 0,
-                title: "Missions",
+                title: t("Missions"),
                 tabKey: "missions",
             });
         }
@@ -355,7 +358,7 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "lottery",
                         id: lottery.id,
-                        title: lotteries.size === 1 ? "Lottery" : `Lottery ${lottery.id}`,
+                        title: lotteries.size === 1 ? t("EventLottery") : `${t("EventLottery")} ${lottery.id}`,
                         tabKey: `lottery-${lottery.id}`,
                     };
                 })
@@ -370,7 +373,7 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "tower",
                         id: tower.towerId,
-                        title: towers.size === 1 ? "Tower" : tower.name,
+                        title: towers.size === 1 ? t("Tower") : tower.name,
                         tabKey: `tower-${tower.towerId}`,
                     };
                 })
@@ -382,10 +385,10 @@ class EventPage extends React.Component<IProps, IState> {
             Array.from(new Set(event.rewards.map((reward) => reward.groupId)))
                 .sort((a, b) => a - b)
                 .map((groupId) => {
-                    let title: string | React.ReactNode = `Ladder ${groupId}`;
+                    let title: string | React.ReactNode = `${t("EventLadder")} ${groupId}`;
                     const pointGroupInfo = pointGroupMap.get(groupId);
                     if (groupId === 0) {
-                        title = "Ladder";
+                        title = t("EventLadder");
                     } else if (pointGroupInfo !== undefined) {
                         title = (
                             <>
@@ -416,7 +419,7 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "treasureBox",
                         id: slot,
-                        title: treasureBoxSlots.length === 1 ? "Treasure Box" : `Treasure Box ${slot}`,
+                        title: treasureBoxSlots.length === 1 ? t("EventTreasureBox") : `${t("EventTreasureBox")} ${slot}`,
                         tabKey: `treasure-box-${slot}`,
                     };
                 })
@@ -431,7 +434,7 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "shop",
                         id: shopSlot,
-                        title: shopSlots.length === 1 ? "Shop" : `Shop ${shopSlot}`,
+                        title: shopSlots.length === 1 ? t("EventShop") : `${t("EventShop")} ${shopSlot}`,
                         tabKey: `shop-${shopSlot}`,
                     };
                 })
@@ -460,18 +463,18 @@ class EventPage extends React.Component<IProps, IState> {
                         data={[
                             { label: "ID", value: event.id },
                             {
-                                label: "Name",
+                                label: t("Name"),
                                 value: <span lang={lang(this.props.region)}>{replacePUACodePoints(event.name)}</span>,
                             },
                             {
-                                label: "Original Name",
+                                label: t("Original Name"),
                                 value: <span lang={lang(this.props.region)}>{event.originalName}</span>,
                                 hidden: event.name === event.originalName,
                             },
-                            { label: "Wars", value: wars },
-                            { label: "Status", value: getEventStatus(event.startedAt, event.endedAt) },
-                            { label: "Start", value: new Date(event.startedAt * 1000).toLocaleString() },
-                            { label: "End", value: new Date(event.endedAt * 1000).toLocaleString() },
+                            { label: t("Wars"), value: wars },
+                            { label: t("Status"), value: getEventStatus(event.startedAt, event.endedAt) },
+                            { label: t("Start"), value: new Date(event.startedAt * 1000).toLocaleString() },
+                            { label: t("End"), value: new Date(event.endedAt * 1000).toLocaleString() },
                             {
                                 label: "Raw",
                                 value: (
@@ -520,7 +523,7 @@ class EventPage extends React.Component<IProps, IState> {
                         );
                     })}
                     {event.bulletinBoards.length > 0 ? (
-                        <Tab eventKey="bulletin-boards" title="Bulletin Boards">
+                        <Tab eventKey="bulletin-boards" title={t("EventBulletinBoards")}>
                             <EventBulletinBoard
                                 region={this.props.region}
                                 bulletinBoards={event.bulletinBoards}
@@ -529,7 +532,7 @@ class EventPage extends React.Component<IProps, IState> {
                         </Tab>
                     ) : null}
                     {event.voices.length > 0 && (
-                        <Tab eventKey="voices" title="Voices">
+                        <Tab eventKey="voices" title={t("Voices")}>
                             <EventVoices
                                 region={this.props.region}
                                 voiceGroups={event.voices}
@@ -544,4 +547,4 @@ class EventPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(EventPage);
+export default withRouter(withTranslation()(EventPage));

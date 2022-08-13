@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Region, Event, Item } from "@atlasacademy/api-connector";
 
@@ -21,14 +22,15 @@ const EventLotteryBox = ({
     boxes: Event.EventLotteryBox[];
     itemMap: Map<number, Item.Item>;
 }) => {
+    const { t } = useTranslation();
     return (
         <Table hover responsive>
             <thead>
                 <tr>
                     <th className="text-center">#</th>
-                    <th>Detail</th>
-                    <th>Reward</th>
-                    <th className="text-center">Limit</th>
+                    <th>{t("Detail")}</th>
+                    <th>{t("Reward")}</th>
+                    <th className="text-center">{t("Limit")}</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,12 +78,13 @@ const EventLottery = ({
     lottery: Event.EventLottery;
     itemMap: Map<number, Item.Item>;
 }) => {
+    const { t } = useTranslation();
     const boxIndexes = Array.from(new Set(lottery.boxes.map((box) => box.boxIndex))).sort((a, b) => a - b);
 
     return (
         <>
             <div style={{ margin: "1em 0" }}>
-                <b>Cost of 1 roll:</b>{" "}
+                <b>{t("EventLotteryOneCost")}:</b>{" "}
                 <Link to={`/${region}/item/${lottery.cost.item.id}`}>
                     <ItemIcon region={region} item={lottery.cost.item} height={40} />{" "}
                     <span lang={lang(region)}>{lottery.cost.item.name}</span>
@@ -91,9 +94,9 @@ const EventLottery = ({
             {boxIndexes.map((boxIndex) => {
                 const boxes = lottery.boxes.filter((box) => box.boxIndex === boxIndex).sort((a, b) => a.no - b.no);
 
-                const title = `Box ${boxIndex + 1}${
+                const title = `${t("EventLotteryBoxFront")} ${boxIndex + 1}${
                     boxIndex === Math.max(...boxIndexes) && !lottery.limited ? "+" : ""
-                }`;
+                }${t("EventLotteryBoxBehind")}`;
 
                 return (
                     <React.Fragment key={boxIndex}>

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Alert, Button, ButtonGroup, Dropdown, Form, InputGroup, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Item, Quest, Region, Shop } from "@atlasacademy/api-connector";
 
@@ -52,6 +53,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
     let [forceEnablePlanner, setForceEnablePlanner] = useState<boolean | undefined>(undefined);
     let [itemFilters, setItemFilters] = useState(new Set<number>());
 
+    const { t } = useTranslation();
     const allItems = new Map(shops.map((shop) => [shop.cost.item.id, shop.cost.item]));
 
     let shopEnabled = forceEnablePlanner === undefined ? Manager.shopPlannerEnabled() : forceEnablePlanner;
@@ -88,9 +90,9 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                 <div style={{ flexGrow: 1 }}>
                     {shopEnabled
                         ? amounts.size > 0
-                            ? "Total amount for chosen items: "
-                            : "No item was chosen. Choose at least one to get calculations."
-                        : "Total currency amount needed to clear the shop: "}
+                            ? t("EventShopChosenTotal")
+                            : t("EventShopChosenNone")
+                        : t("EventShopClearTotal")}
                     {[...amounts]
                         .filter(([_, amount]) => amount > 0)
                         .map(([itemId, amount]) => (
@@ -113,16 +115,16 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                 <>
                     <ButtonGroup>
                         <Button disabled variant="outline-dark">
-                            Quick toggle
+                            {t("Quick toggle")}
                         </Button>
                         <Button variant="outline-success" onClick={() => onChange?.(excludeItemIds([]))}>
-                            All
+                            {t("ToggleAll")}
                         </Button>
                         <Button variant="outline-success" onClick={() => onChange?.(new Map())}>
-                            None
+                            {t("ToggleNone")}
                         </Button>
                         <Dropdown as={ButtonGroup}>
-                            <Dropdown.Toggle variant="outline-success">Exclude</Dropdown.Toggle>
+                            <Dropdown.Toggle variant="outline-success">{t("ToggleExclude")}</Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item
                                     as={Button}
@@ -130,19 +132,19 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                         onChange?.(excludeItemIds([...gemIds, ...magicGemIds, ...secretGemIds]))
                                     }
                                 >
-                                    Gems
+                                    {t("Gems")}
                                 </Dropdown.Item>
                                 <Dropdown.Item
                                     as={Button}
                                     onClick={() => onChange?.(excludeItemIds([...monumentIds, ...pieceIds]))}
                                 >
-                                    Monuments & Pieces
+                                    {t("Monuments")} & {t("Pieces")}
                                 </Dropdown.Item>
                                 <Dropdown.Item as={Button} onClick={() => onChange?.(excludeItemIds(monumentIds))}>
-                                    Monuments
+                                    {t("Monuments")}
                                 </Dropdown.Item>
                                 <Dropdown.Item as={Button} onClick={() => onChange?.(excludeItemIds(pieceIds))}>
-                                    Pieces
+                                    {t("Pieces")}
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -153,9 +155,9 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
             <Table hover responsive className="shopTable">
                 <thead>
                     <tr>
-                        <th style={{ textAlign: "left" }}>Detail</th>
+                        <th style={{ textAlign: "left" }}>{t("Detail")}</th>
                         <th style={{ whiteSpace: "nowrap" }}>
-                            Currency&nbsp;
+                            {t("EventShopCurrency")}&nbsp;
                             <Dropdown as={ButtonGroup}>
                                 <Dropdown.Toggle size="sm">
                                     <FontAwesomeIcon style={{ display: "inline" }} icon={faFilter} />
@@ -168,7 +170,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                             setItemFilters(new Set());
                                         }}
                                     >
-                                        Reset
+                                        {t("Reset")}
                                     </Dropdown.Item>
                                     {[...allItems].map(([itemId, item]) => (
                                         <Dropdown.Item
@@ -185,11 +187,11 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                 </Dropdown.Menu>
                             </Dropdown>
                         </th>
-                        <th>Cost</th>
-                        <th>Item</th>
-                        <th>Set</th>
-                        <th>Limit</th>
-                        {shopEnabled && <th>Target</th>}
+                        <th>{t("EventShopCost")}</th>
+                        <th>{t("Item")}</th>
+                        <th>{t("EventShopSet")}</th>
+                        <th>{t("Limit")}</th>
+                        {shopEnabled && <th>{t("Target")}</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -261,7 +263,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                     </td>
                                     <td style={{ textAlign: "center" }}>{shop.setNum.toLocaleString()}</td>
                                     <td style={{ textAlign: "center" }}>
-                                        {shop.limitNum === 0 ? <>Unlimited</> : limitNumIndicator}
+                                        {shop.limitNum === 0 ? <>{t("Unlimited")}</> : limitNumIndicator}
                                     </td>
                                     {shopEnabled && (
                                         <>

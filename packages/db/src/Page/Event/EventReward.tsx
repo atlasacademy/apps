@@ -1,4 +1,5 @@
 import { Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Region, Event, Item, Gift } from "@atlasacademy/api-connector";
 
@@ -19,14 +20,15 @@ const EventReward = ({
     allPointBuffs: Event.EventPointBuff[];
     itemMap: Map<number, Item.Item>;
 }) => {
+    const { t } = useTranslation();
     const pointBuffMap = new Map(allPointBuffs.map((pointBuff) => [pointBuff.id, pointBuff]));
     const pointBuffPointMap = new Map(allPointBuffs.map((pointBuff) => [pointBuff.eventPoint, pointBuff]));
     return (
         <Table hover responsive className="event-table">
             <thead>
                 <tr>
-                    <th>Point</th>
-                    <th>Reward</th>
+                    <th>{t("EventRewardPoint")}</th>
+                    <th>{t("Reward")}</th>
                 </tr>
             </thead>
             <tbody>
