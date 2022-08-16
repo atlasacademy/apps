@@ -16,6 +16,22 @@ interface IProps extends RouteComponentProps, WithTranslation {
     servants: Servant.ServantBasic[];
 }
 
+const getSelectString = (servant: Servant.ServantBasic) => {
+    const classString = toTitleCase(servant.className);
+    const selectString = `${servant.collectionNo.toString().padStart(3, "0")} - ${servant.name}`;
+
+    if (!servant.name.includes(classString)) return `${selectString} (${classString})`;
+
+    return selectString;
+};
+
+const getSearchString = (servant: Servant.ServantBasic) => {
+    return (
+        getSelectString(servant) +
+        ` ${servant.overwriteName ?? ""} ${servant.originalName} ${servant.originalOverwriteName ?? ""}`
+    );
+};
+
 class ServantPicker extends React.Component<IProps> {
     private changeServant(id: number) {
         this.props.history.push(`/${this.props.region}/servant/${id}`);
@@ -23,18 +39,11 @@ class ServantPicker extends React.Component<IProps> {
 
     render() {
         const t = this.props.t;
-        const getSelectString = (servant: Servant.ServantBasic) => {
-            const classString = toTitleCase(servant.className);
-            const selectString = `${servant.collectionNo.toString().padStart(3, "0")} - ${servant.name}`;
-
-            if (!servant.name.includes(classString)) return `${selectString} (${classString})`;
-
-            return selectString;
-        };
         const servants = this.props.servants.slice().reverse(),
             servantLabels = new Map<number, string>(
-                servants.map((servant) => [servant.collectionNo, getSelectString(servant)])
-            );
+                servants.map((servant) => [servant.collectionNo, getSearchString(servant)])
+            ),
+            servantNiceLabels = new Map(servants.map((servant) => [servant.collectionNo, getSelectString(servant)]));
 
         return (
             <div>
@@ -46,6 +55,7 @@ class ServantPicker extends React.Component<IProps> {
                             lang={lang(this.props.region)}
                             options={servants.map((servant) => servant.collectionNo)}
                             labels={servantLabels}
+                            niceLabels={servantNiceLabels}
                             selected={this.props.id}
                             selectedAsPlaceholder={true}
                             hideSelected={true}
