@@ -55,10 +55,8 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     })
 
     useEffect(() => {
-        setTimeout(() => {
-            const bgmElements = document.querySelectorAll('#bgm')
-            setElements([...bgmElements])
-        }, 250)
+        const bgmElements = document.querySelectorAll('#bgm')
+        setElements([...bgmElements])
     }, [setElements])
 
     useEffect(() => {
@@ -69,10 +67,11 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                 if (refLastElementPlay.current) {
                     refLastElementPlay.current.click()
                 }
-
+                
                 refLastElementPlay.current = buttonPlay
                 
-                setTimeout(() => buttonPlay.click(), 50)
+                buttonPlay.click()
+
                 observer.unobserve(buttonPlay)
             }
         })
