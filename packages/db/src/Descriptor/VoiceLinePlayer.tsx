@@ -83,12 +83,14 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
     render() {
         const command = this.state.playing ? "Stop" : "Play";
         const title = `${command} ${this.props.title}`;
+
         return (
             <Button
                 variant={this.state.playing ? "warning" : "success"}
                 onClick={this.onClick}
                 className="voice-line-player-button"
                 title={title}
+                id={this.props.title.includes('BGM') ? "bgm" : "effect"}
             >
                 <FontAwesomeIcon icon={this.state.playing ? faStop : faPlay} />
                 {this.props.showTitle ? <>&nbsp;{title}</> : null}

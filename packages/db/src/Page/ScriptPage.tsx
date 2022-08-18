@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { createRef, useEffect, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 
 import { Region, Script } from "@atlasacademy/api-connector";
@@ -21,6 +21,7 @@ import { fromEntries } from "../Helper/PolyFill";
 import Manager from "../Setting/Manager";
 import ScriptMainData from "./Script/ScriptMainData";
 import ShowScriptLineContext from "./Script/ShowScriptLineContext";
+import useObserver from "../Hooks/useObserver";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
@@ -46,6 +47,36 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [script, setScript] = useState<string>("");
     const [scriptData, setScriptData] = useState<Script.Script | undefined>(undefined);
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
+
+    const refLastElementPlay = useRef<HTMLElement>();
+    const { observer, setElements, entries }= useObserver({
+        root: null,
+        threshold: 0.25 
+    })
+
+    useEffect(() => {
+        setTimeout(() => {
+            const bgmElements = document.querySelectorAll('#bgm')
+            setElements([...bgmElements])
+        }, 250)
+    }, [setElements])
+
+    useEffect(() => {
+        entries.forEach((entry) => {
+            if(entry.isIntersecting) {
+                const buttonPlay = entry.target as HTMLElement;
+                
+                if (refLastElementPlay.current) {
+                    refLastElementPlay.current.click()
+                }
+
+                refLastElementPlay.current = buttonPlay
+                
+                setTimeout(() => buttonPlay.click(), 50)
+                observer.unobserve(buttonPlay)
+            }
+        })
+    }, [entries, observer])
 
     useEffect(() => {
         Manager.setRegion(region);
@@ -99,6 +130,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     }
 
     const scrollRefs = new Map(audioUrls.map((url) => [url, createRef<HTMLTableRowElement>()]));
+
     for (const { content: component } of parsedScript.components) {
         if (component.type === ScriptComponentType.LABEL) {
             scrollRefs.set(component.name, createRef<HTMLTableRowElement>());
