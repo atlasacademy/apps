@@ -49,15 +49,32 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
 
     const refLastElementPlay = useRef<HTMLElement>();
+    
     const { observer, setElements, entries }= useObserver({
         root: null,
-        threshold: 0.25 
+        threshold: 0.25
     })
 
+
     useEffect(() => {
-        const bgmElements = document.querySelectorAll('#bgm')
-        setElements([...bgmElements])
-    }, [setElements])
+        Manager.setRegion(region);
+        setError(undefined);
+        setLoading(true);
+        Promise.all([axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }), Api.script(scriptId)])
+            .then(([rawScript, scriptData]) => {
+                setScript(rawScript.data);
+                setScriptData(scriptData);
+                setLoading(false);
+            })
+            .catch((e) => setError(e));
+    }, [region, scriptId]);
+
+    useEffect(() => {
+        if(!loading) {
+            const bgmElements = document.querySelectorAll('#bgm')
+            setElements([...bgmElements])
+        }
+    }, [setElements, loading])
 
     useEffect(() => {
         entries.forEach((entry) => {
@@ -77,24 +94,14 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         })
     }, [entries, observer])
 
-    useEffect(() => {
-        Manager.setRegion(region);
-        setError(undefined);
-        setLoading(true);
-        Promise.all([axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }), Api.script(scriptId)])
-            .then(([rawScript, scriptData]) => {
-                setScript(rawScript.data);
-                setScriptData(scriptData);
-                setLoading(false);
-            })
-            .catch((e) => setError(e));
-    }, [region, scriptId]);
-
     if (error !== undefined) return <ErrorStatus error={error} />;
 
     if (loading) return <Loading />;
 
     if (script === "" || scriptData === undefined) return null;
+
+
+   
 
     document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
 
