@@ -18,10 +18,10 @@ import {
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
 import { fromEntries } from "../Helper/PolyFill";
+import useObserver from "../Hooks/useObserver";
 import Manager from "../Setting/Manager";
 import ScriptMainData from "./Script/ScriptMainData";
 import ShowScriptLineContext from "./Script/ShowScriptLineContext";
-import useObserver from "../Hooks/useObserver";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
@@ -47,14 +47,14 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [script, setScript] = useState<string>("");
     const [scriptData, setScriptData] = useState<Script.Script | undefined>(undefined);
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
+    const [enableBGM, setEnableBGM] = useState<boolean>(false);
 
     const refLastElementPlay = useRef<HTMLElement>();
-    
-    const { observer, setElements, entries }= useObserver({
-        root: null,
-        threshold: 0.25
-    })
 
+    const { observer, setElements, entries } = useObserver({
+        root: null,
+        threshold: 0.25,
+    });
 
     useEffect(() => {
         Manager.setRegion(region);
@@ -70,38 +70,31 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     }, [region, scriptId]);
 
     useEffect(() => {
-        if(!loading) {
-            const bgmElements = document.querySelectorAll('#bgm')
-            setElements([...bgmElements])
+        if (!loading && enableBGM) {
+            const bgmElements = document.querySelectorAll("#bgm");
+            setElements([...bgmElements]);
         }
-    }, [setElements, loading])
+    }, [setElements, loading, enableBGM]);
 
     useEffect(() => {
         entries.forEach((entry) => {
-            if(entry.isIntersecting) {
+            if (entry.isIntersecting) {
                 const buttonPlay = entry.target as HTMLElement;
-                
-                if (refLastElementPlay.current) {
-                    refLastElementPlay.current.click()
-                }
-                
-                refLastElementPlay.current = buttonPlay
-                
-                buttonPlay.click()
 
-                observer.unobserve(buttonPlay)
+                if (refLastElementPlay.current) {
+                    refLastElementPlay.current.click();
+                }
+
+                refLastElementPlay.current = buttonPlay;
+                setTimeout(() => buttonPlay.click(), 50);
+                observer.unobserve(buttonPlay);
             }
-        })
-    }, [entries, observer])
+        });
+    }, [entries, observer]);
 
     if (error !== undefined) return <ErrorStatus error={error} />;
-
     if (loading) return <Loading />;
-
     if (script === "" || scriptData === undefined) return null;
-
-
-   
 
     document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
 
@@ -189,6 +182,9 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                         onClick={() => setEnableScene(!enableScene)}
                     >
                         Scene {enableScene ? "Enabled" : "Disabled"}
+                    </Button>
+                    <Button variant={enableBGM ? "success" : "secondary"} onClick={() => setEnableBGM(!enableBGM)}>
+                        BGM {enableBGM ? "Enabled" : "Disabled"}
                     </Button>
                     <Button
                         variant={showScriptLine ? "success" : "secondary"}
