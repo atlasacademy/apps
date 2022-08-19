@@ -37,6 +37,10 @@ class SettingForm extends React.Component<IProps> {
         Manager.setScriptSceneEnabled(value);
     }
 
+    updateScriptBgmEnabled(value: boolean) {
+        Manager.setScriptBgmEnabled(value);
+    }
+
     updateHideEnemyFunction(value: boolean) {
         Manager.setHideEnemyFunctions(value);
     }
@@ -102,6 +106,12 @@ class SettingForm extends React.Component<IProps> {
                         onClick={() => this.updateScriptSceneEnabled(!Manager.scriptSceneEnabled())}
                     >
                         Script Scene: {Manager.scriptSceneEnabled() ? "Enabled" : "Disabled"}
+                    </Button>
+                    <Button
+                        variant={Manager.scriptBgmEnabled() ? "success" : "secondary"}
+                        onClick={() => this.updateScriptBgmEnabled(!Manager.scriptBgmEnabled())}
+                    >
+                        Script BGM: {Manager.scriptBgmEnabled() ? "Enabled" : "Disabled"}
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup style={{ width: "100%", marginBottom: "1em" }}>

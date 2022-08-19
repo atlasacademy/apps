@@ -12,6 +12,7 @@ const languageKey = "language",
     changelogLocalTime = "changelog.localTime",
     shopPlannerEnabled = "shop.planner.enabled",
     scriptSceneEnabled = "script.scene.enabled",
+    scriptBgmEnable = "script.bgm.enable",
     hideEnemyFunction = "aa-db.function.enemy.hide",
     scriptShowLine = "aa-db.script.showLine";
 
@@ -147,8 +148,17 @@ class Manager {
         return !!+(window.localStorage.getItem(scriptSceneEnabled) ?? 1);
     }
 
+    static scriptBgmEnabled(): boolean {
+        return !!+(window.localStorage.getItem(scriptBgmEnable) ?? 1);
+    }
+
     static setScriptSceneEnabled(sceneEnabled: boolean) {
         window.localStorage.setItem(scriptSceneEnabled, `${+!!sceneEnabled}`);
+        Manager.triggerCallbacks();
+    }
+
+    static setScriptBgmEnabled(sceneBgm: boolean) {
+        window.localStorage.setItem(scriptBgmEnable, `${+!!sceneBgm}`);
         Manager.triggerCallbacks();
     }
 
