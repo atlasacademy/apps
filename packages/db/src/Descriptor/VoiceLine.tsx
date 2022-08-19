@@ -13,6 +13,22 @@ class AudioElement {
         this.element = element;
     }
 
+    fadeIn(audio: HTMLAudioElement) {
+        audio.volume = 0.0;
+
+        const fadeAudio = setInterval(() => {
+            audio.volume += 0.1;
+
+            if (audio.volume === 0.5) {
+                clearInterval(fadeAudio);
+            }
+        }, 300);
+    }
+
+    get currentBgmName() {
+        return this.element.currentSrc.split("/").pop();
+    }
+
     play() {
         return new Promise((res) => {
             this.element.onpause =
@@ -22,20 +38,26 @@ class AudioElement {
                         this.stop();
                         res(undefined);
                     };
+
             this.element.play().catch(() => {});
+            if (this.currentBgmName?.includes("BGM")) {
+                this.fadeIn(this.element);
+            }
         });
     }
 
     stop() {
-        this.element.pause();
         this.element.currentTime = 0;
+        this.element.pause();
     }
 }
 
 export class VoiceLine {
     private voiceLines: { audio: AudioElement; delay: number; assetUrl: string }[];
+
     current?: AudioElement;
     stopping?: boolean;
+
     handleNavigateAssetUrl?: (assetUrl: string) => void;
 
     constructor(assets: [string, number][], handleNavigateAssetUrl?: (assetUrl: string) => void) {
@@ -61,6 +83,6 @@ export class VoiceLine {
     async stop() {
         if (!this.current) return (this.stopping = false);
         this.stopping = true;
-        this.current?.stop();
+        this.current.stop();
     }
 }
