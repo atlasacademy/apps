@@ -47,7 +47,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [script, setScript] = useState<string>("");
     const [scriptData, setScriptData] = useState<Script.Script | undefined>(undefined);
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
-    const [enableBGM, setEnableBGM] = useState<boolean>(false);
+    const [enableBGM, setEnableBGM] = useState<boolean>(Manager.scriptBgmEnabled());
 
     const refLastElementPlay = useRef<HTMLElement>();
 
