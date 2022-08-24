@@ -7,6 +7,7 @@ import { Region } from "@atlasacademy/api-connector";
 
 import Manager from "../Setting/Manager";
 import warFaq from "./Faq/War";
+import aiFaq from "./Faq/Ai";
 
 import "./FaqPage.css";
 
@@ -46,6 +47,7 @@ const FaqPage = ({ region }: { region: Region }) => {
     document.title = "FAQ - Atlas Academy DB";
 
     const faqContent = [warFaq(region)];
+    const aiContent = [aiFaq(region)];
 
     return (
         <>
@@ -64,10 +66,40 @@ const FaqPage = ({ region }: { region: Region }) => {
                         </ol>
                     </li>
                 ))}
+                {aiContent.map((faq) => (
+                    <li key={faq.id}>
+                        <a href={`#${faq.id}`}>{faq.title}</a>
+                        <ol>
+                            {faq.subSections.map((subSection) => (
+                                <li key={subSection.id}>
+                                    <a href={`#${subSection.id}`}>{subSection.title}</a>
+                                </li>
+                            ))}
+                        </ol>
+                    </li>
+                ))}                
             </ol>
+           
             <hr />
             <ol type="I" className="faq-list">
                 {faqContent.map((faq) => (
+                    <li key={faq.id} id={faq.id}>
+                        <span className="faq-link-hover-target">
+                            {faq.title}{" "}
+                            <a href={`#${faq.id}`} className="faq-link-icon">
+                                <FontAwesomeIcon icon={faLink} />
+                            </a>
+                        </span>
+                        <ol>
+                            {faq.subSections.map((subSection) => (
+                                <FaqItem key={subSection.id} id={subSection.id} title={subSection.title}>
+                                    {subSection.content}
+                                </FaqItem>
+                            ))}
+                        </ol>
+                    </li>
+                ))}
+                {aiContent.map((faq) => (
                     <li key={faq.id} id={faq.id}>
                         <span className="faq-link-hover-target">
                             {faq.title}{" "}
