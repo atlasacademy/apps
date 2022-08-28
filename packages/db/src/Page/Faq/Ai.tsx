@@ -23,7 +23,7 @@ const warFaq = (region: Region) => {
             Each element of the sequence is divided into multiple attributes, these are: 
             <br></br>
             <a href="#ai-sub-id">AI Sub ID</a>, <a href="#next-ai">Next AI</a>, <a href="#act-num">Act Num</a>, <a href="#condition">Condition</a>,
-            <a href="priority-weight"> Priority|Weight</a>, <a href="act-type">Act Type</a>, <a href="act-target">Act Target</a> and <a href="act-skill">Act Skill</a>.
+            <a href="#priority-weight"> Priority|Weight</a>, <a href="act-type">Act Type</a>, <a href="act-target">Act Target</a> and <a href="act-skill">Act Skill</a>.
             <br></br>
             <br></br>
             <img alt="Ai Basic Example" id="ai-basic-example" src={ai_basic_example} width="100%"></img>
@@ -37,14 +37,14 @@ const warFaq = (region: Region) => {
         <>
             The AIs are divided into parent AIs and sub (children) AIs. In the <a href="#ai-basic-example">example</a> above, <b>AI 94035323</b> is the parent AI and the two
             sub AIs are <b>2</b> and <b>1</b>. Once the sequence reaches the parent AI, it will then need to decide which sub AI to go to. This process will be delved into
-            later. Some Svt and Field AIs may contain one or few sub AIs and reaching the sub AI will be fairly straightforward. On the other hand, some parent AIs have a
+            later. Some Parent AIs may contain one or few sub AIs and reaching the sub AI will be fairly straightforward. On the other hand, some parent AIs have a
             lot of sub AIs and the process to finding the next child AI is more complex.
         </>
     );
 
     const nextAi = (
         <>
-            Once the action in the sub AI has been completed, it will go to the next parent AI. This next AI can be found in <b>Next AI</b>. In some cases, the <b>Next Ai</b>
+            Once the action in the sub AI has been completed, it will go to the next parent AI. This next AI can be found in <b>Next AI</b>. In some cases, the <b>Next Ai </b>
             section will be empty, this means the next parent AI is its own parent. The process will then continue until
             the enemy runs out of actions or is out of target.
         </>
@@ -101,7 +101,7 @@ const warFaq = (region: Region) => {
             All of the sub AIs are sorted based on their priority from high to low. Let's take these priorities: <b>100, 50, 50, 50, 1</b>. The sub AI with the highest
             priority is 100 and is alone in its bracket. If its condition is reached, it will always be executed. Next are the three sub AIs with a priority of 50.
             First, all of these sub Ais' conditions will be checked. If none succeed, it will go to the remaining sub ai. If more than one succeed, their weight will
-            be used. The weight of each viable ai is added up into a sum–with a weight of 30, 50 and 60 respectively, the odds of each one happening would be
+            be used. The weight of each viable ai is added up into a sum–if they have a weight of 30, 50 and 60 respectively, the odds of each one happening would be
             30/140, 50/140 and 60/140. 
         </>
     );
@@ -165,7 +165,7 @@ const warFaq = (region: Region) => {
             <b>Back</b>: Targets back enemy.
             <br></br><br></br>
             An interesting case study of ai targeting is Kirschtaria Wodime from <Link to={`/${region}/quest/3000515/3`}>Atlantis 11-3</Link> demonstrated in this
-            <Link to='https://www.youtube.com/watch?v=yIHW-iOGbQ0'> video</Link>. 
+            <a href="https://www.youtube.com/watch?v=yIHW-iOGbQ0"> video</a>. 
             <img alt="Wodime Thumbnail" src={wodime_thumbnail} width="50%"></img>
             <br></br>
             Upon breaking his fourth bar, Wodime is set to fill his np bar and is meant to use his noble phantasm to kill your entire party. Even if his noble
