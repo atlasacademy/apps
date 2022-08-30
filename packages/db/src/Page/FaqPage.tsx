@@ -6,8 +6,8 @@ import { useLocation } from "react-router-dom";
 import { Region } from "@atlasacademy/api-connector";
 
 import Manager from "../Setting/Manager";
-import warFaq from "./Faq/War";
 import aiFaq from "./Faq/Ai";
+import warFaq from "./Faq/War";
 
 import "./FaqPage.css";
 
@@ -77,9 +77,9 @@ const FaqPage = ({ region }: { region: Region }) => {
                             ))}
                         </ol>
                     </li>
-                ))}                
+                ))}
             </ol>
-           
+
             <hr />
             <ol type="I" className="faq-list">
                 {faqContent.map((faq) => (
