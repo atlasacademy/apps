@@ -23,6 +23,7 @@ import * as Event from "./Schema/Event";
 import * as Func from "./Schema/Func";
 import * as Gift from "./Schema/Gift";
 import { Illustrator } from "./Schema/Illustrator";
+import * as Info from "./Schema/Info";
 import * as Item from "./Schema/Item";
 import * as Master from "./Schema/Master";
 import * as MasterMission from "./Schema/MasterMission";
@@ -72,6 +73,7 @@ export {
     Gift,
     Item,
     Illustrator,
+    Info,
     Mission,
     Master,
     MasterMission,

@@ -23,6 +23,7 @@ import { Event, EventBasic, EventType } from "./Schema/Event";
 import { BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType } from "./Schema/Func";
 import { GiftType } from "./Schema/Gift";
 import { Illustrator } from "./Schema/Illustrator";
+import { Info } from "./Schema/Info";
 import { Item, ItemBackgroundType, ItemType, ItemUse } from "./Schema/Item";
 import { MasterLevelInfoMap } from "./Schema/Master";
 import { MasterMission } from "./Schema/MasterMission";
@@ -1046,6 +1047,16 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.grailCostInfoMap.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    /**
+     * The `/info` endpoint is used to check if the
+     * there were any changes to data from the set
+     * {@link Region}
+     */
+    info(): Promise<Info> {
+        const fetch = () => ApiConnector.fetch<Record<Region, Info>>(`${this.host}/info`);
+        return fetch().then((infoMap) => infoMap[this.region]);
     }
 
     private static async fetch<T>(endpoint: string): Promise<T> {
