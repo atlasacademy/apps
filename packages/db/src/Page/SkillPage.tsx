@@ -82,7 +82,7 @@ class SkillPage extends React.Component<IProps, IState> {
                 undefined,
                 undefined,
                 undefined,
-                this.props.id.toString(),
+                `,${this.props.id},`,
                 false
             ),
             Api.searchNoblePhantasm(
@@ -94,7 +94,7 @@ class SkillPage extends React.Component<IProps, IState> {
                 undefined,
                 undefined,
                 undefined,
-                this.props.id.toString(),
+                `,${this.props.id},`,
                 false
             ),
         ]).then(([triggeringSkills, triggeringNoblePhantasms]) => {
