@@ -73,6 +73,7 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
                     levels={this.props.levels}
                     relatedSkillId={this.state.skill.id}
                     popOver={this.props.popOver}
+                    additionalSkillId={this.state.skill.script.additionalSkillId}
                 />
             );
         }
