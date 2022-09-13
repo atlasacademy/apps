@@ -3,7 +3,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 
 import { Ai, Region } from "@atlasacademy/api-connector";
 
@@ -131,6 +131,10 @@ class AiPage extends React.Component<IProps, IState> {
                                     </Col>
                                 </Row>
                             ),
+                        },
+                        {
+                            label: "FAQ",
+                            value: <Link to={`/${this.props.region}/faq#svt-field-ai`}>How to read AI data?</Link>,
                         },
                     ]}
                 />
