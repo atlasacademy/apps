@@ -262,15 +262,23 @@ export default function ServantVoiceLines(props: {
             </Alert>
             {props.servant.type !== Entity.EntityType.SERVANT_EQUIP && (
                 <Alert variant="success">
-                    {relatedVoiceSvts !== null
-                        ? relatedVoiceSvts.length > 0
-                            ? `${t("RelatedVoiceSvtsBefore")} ${props.servantName ?? props.servant.name}${t(
-                                  "RelatedVoiceSvtsAfter"
-                              )}: `
-                            : `${t("RelatedVoiceSvtsNoneBefore")} ${props.servantName ?? props.servant.name}${t(
-                                  "RelatedVoiceSvtsNoneAfter"
-                              )}`
-                        : t("RelatedVoiceSvtsFetching")}
+                    {relatedVoiceSvts !== null ? (
+                        relatedVoiceSvts.length > 0 ? (
+                            <>
+                                {t("RelatedVoiceSvtsBefore")}{" "}
+                                <span lang={lang(props.region)}>{props.servantName ?? props.servant.name}</span>
+                                {t("RelatedVoiceSvtsAfter")}:{" "}
+                            </>
+                        ) : (
+                            <>
+                                {t("RelatedVoiceSvtsNoneBefore")}{" "}
+                                <span lang={lang(props.region)}>{props.servantName ?? props.servant.name}</span>
+                                {t("RelatedVoiceSvtsNoneAfter")}
+                            </>
+                        )
+                    ) : (
+                        t("RelatedVoiceSvtsFetching")
+                    )}
                     {relatedVoiceSvts !== null && relatedVoiceSvts.length > 0
                         ? mergeElements(
                               relatedVoiceSvts.map((svt) => (
