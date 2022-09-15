@@ -2,6 +2,10 @@
     white-space: pre-wrap;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
+
 span.e000 {
     display: inline-block;
     line-height: 1;

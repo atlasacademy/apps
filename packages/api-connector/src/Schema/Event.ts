@@ -127,6 +127,7 @@ export interface EventTreasureBox {
     maxDrawNumOnce: number;
     extraGifts: Gift[];
     commonConsume: CommonConsume;
+    consumes: CommonConsume[];
 }
 
 export interface EventRewardSceneGuide {
@@ -176,6 +177,7 @@ export interface EventDiggingBlock {
     eventId: number;
     image: string;
     commonConsume: CommonConsume;
+    consumes: CommonConsume[];
     objectId: number;
     diggingEventPoint: number;
     blockNum: number;
@@ -202,6 +204,7 @@ export interface EventCooltimeReward {
     lv: number;
     name: number;
     commonRelease: CommonRelease;
+    releaseConditions: CommonRelease[];
     cooltime: number;
     addEventPointRate: number;
     gifts: Gift[];
@@ -224,6 +227,25 @@ export interface EventBulletinBoard {
     message: string;
     probability: number;
     releaseConditions: EventBulletinBoardRelease[];
+}
+
+export interface EventRecipeGift {
+    idx: number;
+    displayOrder: number;
+    gifts: Gift[];
+}
+
+export interface EventRecipe {
+    id: number;
+    icon: string;
+    name: string;
+    maxNum: number;
+    eventPointItem: Item;
+    eventPointNum: number;
+    consumes: CommonConsume[];
+    releaseConditions: CommonRelease[];
+    closedMessage: string;
+    recipeGifts: EventRecipeGift[];
 }
 
 export interface EventBasic {
@@ -265,6 +287,7 @@ export interface Event {
     lotteries: EventLottery[];
     treasureBoxes: EventTreasureBox[];
     bulletinBoards: EventBulletinBoard[];
+    recipes: EventRecipe[];
     digging?: EventDigging;
     cooltime?: EventCooltime;
     voicePlays: EventVoicePlay[];

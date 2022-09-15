@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
-import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Event, Item, Region, Mission, Quest, Servant, EnumList, War } from "@atlasacademy/api-connector";
 
@@ -20,6 +20,7 @@ import { getEventStatus } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
 import EventBulletinBoard from "./Event/EventBulletinBoard";
 import EventLottery from "./Event/EventLottery";
+import EventRecipe from "./Event/EventRecipe";
 import EventReward from "./Event/EventReward";
 import EventRewardTower from "./Event/EventRewardTower";
 import EventTreasureBoxes from "./Event/EventTreasureBoxes";
@@ -129,7 +130,8 @@ class EventPage extends React.Component<IProps, IState> {
                     event.shop.length > 0 ||
                     event.missions.length > 0 ||
                     event.lotteries.length > 0 ||
-                    event.treasureBoxes.length > 0
+                    event.treasureBoxes.length > 0 ||
+                    event.recipes.length > 0
                 ) {
                     this.loadItemMap();
                 }
@@ -419,7 +421,8 @@ class EventPage extends React.Component<IProps, IState> {
                     return {
                         type: "treasureBox",
                         id: slot,
-                        title: treasureBoxSlots.length === 1 ? t("EventTreasureBox") : `${t("EventTreasureBox")} ${slot}`,
+                        title:
+                            treasureBoxSlots.length === 1 ? t("EventTreasureBox") : `${t("EventTreasureBox")} ${slot}`,
                         tabKey: `treasure-box-${slot}`,
                     };
                 })
@@ -503,6 +506,15 @@ class EventPage extends React.Component<IProps, IState> {
                         this.props.history.replace(`/${this.props.region}/event/${this.props.eventId}/${key}`);
                     }}
                 >
+                    {event.recipes.length > 0 ? (
+                        <Tab eventKey="recipes" title={t("Recipes")}>
+                            <EventRecipe
+                                region={this.props.region}
+                                recipes={event.recipes}
+                                itemMap={this.state.itemCache}
+                            />
+                        </Tab>
+                    ) : null}
                     {tabs.map((tab) => {
                         return (
                             <Tab

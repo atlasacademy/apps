@@ -1,3 +1,7 @@
 .event-table thead th {
     border-top: none;
 }
+
+.event-table .width-1px {
+    width: 1px;
+}
