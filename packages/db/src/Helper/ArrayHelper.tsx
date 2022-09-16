@@ -21,3 +21,11 @@ export const isSubset = (bigger: number[], smaller: number[]) => {
 export function dedupe<T>(array: T[]): T[] {
     return Array.from(new Set(array));
 }
+
+export function doIntersect<T>(arrayA: T[], arrayB: T[]): boolean {
+    for (const element of arrayA) {
+        if (arrayB.includes(element)) return true;
+    }
+
+    return false;
+}

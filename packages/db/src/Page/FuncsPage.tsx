@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { Typeahead } from "react-bootstrap-typeahead";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -16,6 +17,7 @@ import TraitsSelector from "../Component/TraitsSelector";
 import { funcDescriptions } from "../Descriptor/Func/handleActionSection";
 import { targetDescriptions } from "../Descriptor/Func/handleTargetSection";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
+import { doIntersect } from "../Helper/ArrayHelper";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -232,11 +234,12 @@ class FuncsPage extends React.Component<IProps, IState> {
                         <Form.Label>Type</Form.Label>
                         <SearchableSelect<Func.FuncType>
                             id="select-FuncType"
+                            multiple
                             options={Object.values(Func.FuncType)}
                             labels={funcDescriptions}
-                            selected={this.state.type ? this.state.type[0] : undefined}
-                            onChange={(value?: Func.FuncType) => {
-                                this.setState({ type: value ? [value] : [] });
+                            selected={this.state.type}
+                            onChange={(value?: Func.FuncType[]) => {
+                                this.setState({ type: value });
                             }}
                         />
                     </Form.Group>
@@ -292,6 +295,16 @@ class FuncsPage extends React.Component<IProps, IState> {
                             traitList={this.state.traitList}
                             initialTraits={this.state.vals}
                             onUpdate={(trait) => {
+                                if (trait.length > 0) {
+                                    const funcTypesNotBuff = [
+                                        Func.FuncType.SUB_STATE,
+                                        Func.FuncType.EVENT_DROP_UP,
+                                        Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM,
+                                    ];
+                                    if (!doIntersect(this.state.type ?? [], funcTypesNotBuff)) {
+                                        this.setState({ type: funcTypesNotBuff.concat(this.state.type ?? []) });
+                                    }
+                                }
                                 this.setState({ vals: trait });
                             }}
                         />

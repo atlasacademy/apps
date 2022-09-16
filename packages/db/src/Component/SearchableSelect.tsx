@@ -14,6 +14,7 @@ interface IProps<T> {
     labels: Map<T, string>;
     niceLabels?: Map<T, string>;
     onChange: Function;
+    multiple?: boolean;
     selected?: T;
     selectedAsPlaceholder?: boolean;
     hideSelected?: boolean;
@@ -21,6 +22,11 @@ interface IProps<T> {
     disableLabelStyling?: boolean;
     maxResults?: number;
     lang?: string;
+}
+
+interface IPropsMultiple<T> extends Omit<IProps<T>, "selected"> {
+    multiple: true;
+    selected?: T[];
 }
 
 function getDescription<T>(value: T, labels: Map<T, string>, disableLabelStyling?: boolean): string {
@@ -46,7 +52,7 @@ function getOptions<T>(
     });
 }
 
-export default function SearchableSelect<T>(props: IProps<T>) {
+export default function SearchableSelect<T>(props: IProps<T> | IPropsMultiple<T>) {
     const options = getOptions(
         props.hideSelected ? props.options.filter((option) => option !== props.selected) : props.options,
         props.labels,
@@ -55,14 +61,20 @@ export default function SearchableSelect<T>(props: IProps<T>) {
     );
 
     let selectedOptions: Option<T>[] = [];
-    if (props.selected) {
-        selectedOptions = getOptions([props.selected], props.labels, props.disableLabelStyling, props.niceLabels);
+    if (props.selected !== undefined) {
+        selectedOptions = getOptions(
+            props.multiple === true ? (props.selected as T[]) : [props.selected],
+            props.labels,
+            props.disableLabelStyling,
+            props.niceLabels
+        );
     }
 
     return (
         <div lang={props.lang}>
             <Typeahead
                 id="basic-typeahead-single"
+                multiple={props.multiple}
                 options={options}
                 selected={props.selectedAsPlaceholder ? undefined : selectedOptions}
                 placeholder={
@@ -74,9 +86,11 @@ export default function SearchableSelect<T>(props: IProps<T>) {
                 maxResults={props.maxResults ?? 1000}
                 onChange={(selected) => {
                     if (selected.length === 0) {
-                        props.onChange(undefined);
+                        props.multiple === true ? props.onChange([]) : props.onChange(undefined);
                     } else {
-                        props.onChange(selected[0].value);
+                        props.multiple === true
+                            ? props.onChange(selected.map((sel) => sel.value))
+                            : props.onChange(selected[0].value);
                     }
                 }}
                 renderMenuItemChildren={(option: Option<T>, props: TypeaheadMenuProps<Option<T>>, index: number) => {
