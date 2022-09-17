@@ -13,9 +13,9 @@ export default function (
     followerDataVal?: DataVal.DataVal[],
     forceLevel?: number
 ): Descriptor {
-    const partials: BasePartial[] = [],
-        flags = determineSectionFlags(func),
-        staticDataVal = extractStaticDataVal(dataVal);
+    const partials: BasePartial[] = [];
+    const flags = determineSectionFlags(func);
+    const staticDataVal = extractStaticDataVal(dataVal);
 
     if (flags.team.showing) addSection(partials, describeTeamSection(func), flags.team.preposition);
     if (flags.chance.showing)

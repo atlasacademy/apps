@@ -26,3 +26,17 @@ export function toTitleCase(value: string): string {
 
     return words.join(" ");
 }
+
+export function hasUniqueValues(values: (number | number[] | undefined)[]): boolean {
+    if (values.length === 0) return false;
+
+    return (
+        new Set(
+            values.map((value) => {
+                if (Array.isArray(value)) return value.join(",");
+
+                return value;
+            })
+        ).size > 1
+    );
+};
