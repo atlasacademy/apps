@@ -136,6 +136,7 @@ const SpotRoads = ({
 
 class WarMap extends React.Component<IProps, IState> {
     mapImage: string;
+    defaultToggleEnabled: boolean;
 
     constructor(props: IProps) {
         super(props);
@@ -149,10 +150,14 @@ class WarMap extends React.Component<IProps, IState> {
             mapGimmicks = mapGimmicks.slice(0, mapGimmicks.length - 3);
         }
 
+        const OGMapGimmicks = [...mapGimmicks];
+
+        this.defaultToggleEnabled = mapGimmicks.length <= 25;
+
         this.state = {
             isMapLoaded: true,
-            mapGimmicks,
-            OGMapGimmicks: mapGimmicks,
+            mapGimmicks: this.defaultToggleEnabled ? mapGimmicks : [],
+            OGMapGimmicks,
             FQSpotsOnly: true,
             showRoads: !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length,
             showSpots: !!this.props.spots.length,
@@ -271,7 +276,7 @@ class WarMap extends React.Component<IProps, IState> {
                     ...(this.state.showRoads ? [{ uniqueId: -Infinity, displayName: "Roads" }] : []),
                 ]}
                 title={"Gimmicks to display"}
-                defaultEnabled={true}
+                defaultEnabled={this.defaultToggleEnabled}
                 onClick={(enabledGimmicks) => {
                     let showRoads =
                         enabledGimmicks.some((gimmick) => gimmick === -Infinity) &&
