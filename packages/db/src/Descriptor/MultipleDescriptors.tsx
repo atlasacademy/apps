@@ -104,11 +104,11 @@ export const MultipleQuests = (props: {
     }
 };
 
-export const MultipleTraits = (props: { region: Region; traitIds: number[] }) => {
+export const MultipleTraits = (props: { region: Region; traitIds: number[]; lastJoinWord?: string }) => {
     const renderedTraits = props.traitIds.map((traitId) => (
         <TraitDescription key={traitId} region={props.region} trait={traitId} />
     ));
-    return <MergeElementsOr elements={renderedTraits} lastJoinWord="and" />;
+    return <MergeElementsOr elements={renderedTraits} lastJoinWord={props.lastJoinWord ?? "and"} />;
 };
 
 export const gemIds = [6001, 6002, 6003, 6004, 6005, 6006, 6007];
