@@ -1,3 +1,4 @@
+import { NoblePhantasm } from "./NoblePhantasm";
 import { Skill } from "./Skill";
 import { Trait } from "./Trait";
 
@@ -239,6 +240,10 @@ export interface AiAct {
     skillId?: number;
     skillLv?: number;
     skill?: Skill;
+    noblePhantasmId?: number;
+    noblePhantasmLv?: number;
+    noblePhantasmOc?: number;
+    noblePhantasm?: NoblePhantasm;
 }
 
 export interface Ai {

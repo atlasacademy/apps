@@ -1,11 +1,12 @@
 import { Button, Table } from "react-bootstrap";
 
-import { Ai, Region, Skill, Trait } from "@atlasacademy/api-connector";
+import { Ai, Region, Trait } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import AiDescriptor from "../../Descriptor/AiDescriptor";
 import { BuffIdDescriptor } from "../../Descriptor/BuffDescription";
+import NoblePhantasmPopover from "../../Descriptor/NoblePhantasmPopover";
 import SkillPopover, { SkillPopOverId } from "../../Descriptor/SkillPopover";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
@@ -199,12 +200,22 @@ function ActTarget(props: {
     );
 }
 
-function ActSkill(props: { region: Region; skill?: Skill.Skill; skillLv?: number }) {
-    if (props.skill && props.skillLv) {
+function ActSkill({ region, aiAct }: { region: Region; aiAct: Ai.AiAct }) {
+    if (aiAct.skill !== undefined && aiAct.skillLv !== undefined) {
         return (
             <>
-                <SkillPopover region={props.region} skill={props.skill} />
-                &nbsp;Lv.&nbsp;{props.skillLv}
+                <SkillPopover region={region} skill={aiAct.skill} /> Lv.&nbsp;{aiAct.skillLv}
+            </>
+        );
+    } else if (
+        aiAct.noblePhantasm !== undefined &&
+        aiAct.noblePhantasmLv !== undefined &&
+        aiAct.noblePhantasmOc !== undefined
+    ) {
+        return (
+            <>
+                <NoblePhantasmPopover region={region} noblePhantasm={aiAct.noblePhantasm} /> Lv.&nbsp;
+                {aiAct.noblePhantasmLv} OC&nbsp;{aiAct.noblePhantasmOc / 100}%
             </>
         );
     } else {
@@ -312,7 +323,7 @@ export default function AiTable(props: {
                     <td>Act Skill</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
-                            <ActSkill region={props.region} skill={ai.aiAct.skill} skillLv={ai.aiAct.skillLv} />
+                            <ActSkill region={props.region} aiAct={ai.aiAct} />
                         </td>
                     ))}
                 </tr>
