@@ -4,11 +4,14 @@ import { BasePartial, Descriptor, TextPartial, ValuePartial, ValueType } from ".
 import { toTitleCase } from "../Helpers";
 
 const cardIdMap = new Map<number, Card>([
-    [1, Card.NONE],
+    [0, Card.NONE],
+    [1, Card.ARTS],
     [2, Card.BUSTER],
-    [3, Card.ARTS],
-    [4, Card.QUICK],
-    [5, Card.EXTRA],
+    [3, Card.QUICK],
+    [4, Card.EXTRA],
+    [5, Card.BLANK],
+    [10, Card.WEAK],
+    [11, Card.STRENGTH],
 ]);
 
 export default function (card: Card | number): Descriptor {
