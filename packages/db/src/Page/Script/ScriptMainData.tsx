@@ -51,18 +51,21 @@ const ScriptMainData = ({
               });
 
     let WORDS_PER_MINUTE = 200;
-    // https://irisreading.com/average-reading-speed-in-various-languages/
     switch (region) {
         case Region.NA:
-            WORDS_PER_MINUTE = 228;
+            WORDS_PER_MINUTE = 300;
             break;
         case Region.JP:
+            WORDS_PER_MINUTE = 600;
+            break;
         case Region.KR:
-            WORDS_PER_MINUTE = 357;
+            WORDS_PER_MINUTE = 600;
             break;
         case Region.CN:
+            WORDS_PER_MINUTE = 450;
+            break;
         case Region.TW:
-            WORDS_PER_MINUTE = 255;
+            WORDS_PER_MINUTE = 450;
             break;
     }
 
