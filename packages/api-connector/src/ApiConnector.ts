@@ -271,6 +271,7 @@ class ApiConnector {
         war: new ResultCache<number, War>(),
         warBasic: new ResultCache<number, WarBasic>(),
         warList: new ResultCache<null, WarBasic[]>(),
+        warListNice: new ResultCache<null, War[]>(),
     };
 
     constructor(props?: ApiConnectorProperties) {
@@ -561,6 +562,22 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.warList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    warListNice(cacheDuration?: number): Promise<WarBasic[]> {
+        let source: string;
+
+        if (this.showJPdataWithEnglishText()) {
+            source = `${this.host}/export/JP/nice_war_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/nice_war.json`;
+        }
+
+        const fetch = () => ApiConnector.fetch<War[]>(source);
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.warListNice.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     func(id: number, reverse?: ReverseOptions, cacheDuration?: number): Promise<Func> {
