@@ -1,11 +1,11 @@
 {
     "name": "@atlasacademy/db",
-    "version": "1.9.93",
+    "version": "1.9.94",
     "homepage": "/db",
     "private": true,
     "dependencies": {
-        "@atlasacademy/api-connector": "^3.0.125",
-        "@atlasacademy/api-descriptor": "^1.0.138",
+        "@atlasacademy/api-connector": "^3.0.126",
+        "@atlasacademy/api-descriptor": "^1.0.139",
         "@fortawesome/fontawesome-svg-core": "^6.2.0",
         "@fortawesome/free-brands-svg-icons": "^6.2.0",
         "@fortawesome/free-solid-svg-icons": "^6.2.0",
