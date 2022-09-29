@@ -564,7 +564,7 @@ class ApiConnector {
         return this.cache.warList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    warListNice(cacheDuration?: number): Promise<WarBasic[]> {
+    warListNice(cacheDuration?: number): Promise<War[]> {
         let source: string;
 
         if (this.showJPdataWithEnglishText()) {
