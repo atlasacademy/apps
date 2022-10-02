@@ -174,6 +174,7 @@ export interface Quest {
     chapterId: number;
     chapterSubId: number;
     chapterSubStr: string;
+    giftIcon?: string;
     gifts: Gift[];
     releaseConditions: QuestRelease[];
     phases: number[];

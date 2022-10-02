@@ -131,6 +131,18 @@ const QuestMainData = (props: {
                     label: "Reward",
                     value: (
                         <>
+                            {quest.giftIcon ? (
+                                <>
+                                    <div key={`${quest.giftIcon}`}>
+                                        <img
+                                            alt={`Quest Reward ${quest.giftIcon} icon`}
+                                            style={{ maxWidth: "100%", maxHeight: "2em" }}
+                                            src={quest.giftIcon}
+                                        />
+                                        <br />
+                                    </div>
+                                </>
+                            ) : null}
                             {quest.gifts.map((gift) => (
                                 <div key={`${gift.objectId}-${gift.priority}`}>
                                     <GiftDescriptor region={props.region} gift={gift} />
