@@ -186,7 +186,7 @@ async function handleDBEvent(event: FetchEvent) {
             atkMax,
             hpMax,
             flags,
-        } = await res.json();
+        } = (await res.json()) as any;
 
         let title = `[${region}] ${itemPage.itemType} - ${name}`,
             description: string | undefined = undefined;
@@ -237,7 +237,7 @@ async function handleDBEvent(event: FetchEvent) {
                 const title = `[${region}] Function - ${target}`;
                 return overwrite(responseDetail, title);
             }
-            const { funcId, funcPopupText } = await res.json();
+            const { funcId, funcPopupText } = (await res.json()) as any;
             const funcTitle = funcPopupText === "" ? `Function: ${funcId}` : `Function ${funcId}: ${funcPopupText}`;
             const title = `[${region}] ${funcTitle}`;
             return overwrite(responseDetail, title);
@@ -248,7 +248,7 @@ async function handleDBEvent(event: FetchEvent) {
                 const title = `[${region}] BGM - ${target}`;
                 return overwrite(responseDetail, title);
             }
-            const { name, fileName, logo } = await res.json();
+            const { name, fileName, logo } = (await res.json()) as any;
             let bgmName = target;
             if (name !== "" && name !== "0") {
                 bgmName = name;
@@ -264,7 +264,7 @@ async function handleDBEvent(event: FetchEvent) {
                 const title = `[${region}] Buff - ${target}`;
                 return overwrite(responseDetail, title);
             }
-            const { id, name, icon } = await res.json();
+            const { id, name, icon } = (await res.json()) as any;
             const title = `[${region}] Buff ${id}: ${name}`;
             return overwrite(responseDetail, title, icon);
         }

@@ -29,6 +29,11 @@ export const upDownBuffs: UpDownBuffType[] = [
     {
         up: Buff.BuffType.UP_DAMAGE_INDIVIDUALITY_ACTIVEONLY,
         down: Buff.BuffType.DOWN_DAMAGE_INDIVIDUALITY_ACTIVEONLY,
+        description: "SP.DMG (Active only)",
+    },
+    {
+        up: Buff.BuffType.UP_DAMAGE_INDIVIDUALITY,
+        down: Buff.BuffType.DOWN_DAMAGE_INDIVIDUALITY,
         description: "SP.DMG",
     },
     { up: Buff.BuffType.UP_DAMAGE_EVENT_POINT, description: "SP.DMG" },
