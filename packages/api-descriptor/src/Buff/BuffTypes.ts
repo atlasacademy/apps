@@ -8,6 +8,7 @@ export interface UpDownBuffType {
 
 export const upDownBuffs: UpDownBuffType[] = [
     { up: Buff.BuffType.ADD_MAXHP, down: Buff.BuffType.SUB_MAXHP, description: "Max HP" },
+    { up: Buff.BuffType.UP_MAXHP, down: Buff.BuffType.DOWN_MAXHP, description: "Max HP (Percentage)" },
     { up: Buff.BuffType.UP_ATK, down: Buff.BuffType.DOWN_ATK, description: "ATK" },
     { up: Buff.BuffType.UP_CHAGETD, down: undefined, description: "Overcharge" },
     { up: Buff.BuffType.UP_COMMANDALL, down: Buff.BuffType.DOWN_COMMANDALL, description: "Card" },
@@ -40,6 +41,11 @@ export const upDownBuffs: UpDownBuffType[] = [
     { up: Buff.BuffType.UP_DAMAGEDROPNP, down: Buff.BuffType.DOWN_DAMAGEDROPNP, description: "NP Gain When Damaged" },
     { up: Buff.BuffType.UP_DEFENCE, down: Buff.BuffType.DOWN_DEFENCE, description: "DEF" },
     { up: Buff.BuffType.UP_DEFENCECOMMANDALL, down: Buff.BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance" },
+    {
+        up: Buff.BuffType.UP_DEFENCECOMMAN_DAMAGE,
+        down: Buff.BuffType.DOWN_DEFENCECOMMAN_DAMAGE,
+        description: "Damage Resistance",
+    },
     { up: Buff.BuffType.UP_DROPNP, down: Buff.BuffType.DOWN_DROPNP, description: "NP Gain" },
     { up: Buff.BuffType.UP_GAIN_HP, down: Buff.BuffType.DOWN_GAIN_HP, description: "Received Healing" },
     { up: Buff.BuffType.UP_GIVEGAIN_HP, down: Buff.BuffType.DOWN_GIVEGAIN_HP, description: "Healing Dealt" },
@@ -63,6 +69,11 @@ export const upDownBuffs: UpDownBuffType[] = [
         description: "Buff Removal Resistance",
     },
     { up: Buff.BuffType.BUFF_RATE, description: "Buff Effectiveness" },
+    {
+        up: Buff.BuffType.UP_FUNCGAIN_NP,
+        down: Buff.BuffType.DOWN_FUNCGAIN_NP,
+        description: "Received NP Battery Amount",
+    },
 ];
 
 export const buffTraitDescriptions = new Map<number, { name: string; priority: number }>([
