@@ -116,6 +116,9 @@ interface BaseDataVal {
     RemoveFieldBuffActorDeath?: number;
     FieldBuffGrantType?: number;
     Priority?: number;
+    AddIndividualityEx?: number;
+    IgnoreResistance?: number;
+    GainNpTargetPassiveIndividuality?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -240,4 +243,7 @@ export enum DataValField {
     REMOVE_FIELD_BUFF_ACTOR_DEATH = "RemoveFieldBuffActorDeath",
     FIELD_BUFF_GRANT_TYPE = "FieldBuffGrantType",
     PRIORITY = "Priority",
+    ADD_INDIVIDUALITY_EX = "addindividualityex",
+    IGNORE_RESISTANCE = "ignoreresistance",
+    GAIN_NP_TARGET_PASSIVE_INDIVIDUALITY = "gainnptargetpassiveindividuality",
 }

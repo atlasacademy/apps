@@ -137,6 +137,8 @@ export enum FuncType {
     BUDDY_POINT_UP = "buddyPointUp",
     ADD_FIELD_CHANGE_TO_FIELD = "addFieldChangeToField",
     SUB_FIELD_BUFF = "subFieldBuff",
+    EVENT_FORTIFICATION_POINT_UP = "eventFortificationPointUp",
+    GAIN_NP_INDIVIDUAL_SUM = "gainNpIndividualSum",
 }
 
 export interface BasicFunc {

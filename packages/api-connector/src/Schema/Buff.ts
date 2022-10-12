@@ -108,6 +108,7 @@ export enum BuffAction {
     COUNTER_FUNCTION = "counterFunction",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
+    GRANT_STATE_UP_ONLY = "grantStateUpOnly",
 }
 
 export enum BuffLimit {
