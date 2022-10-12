@@ -243,7 +243,7 @@ export enum DataValField {
     REMOVE_FIELD_BUFF_ACTOR_DEATH = "RemoveFieldBuffActorDeath",
     FIELD_BUFF_GRANT_TYPE = "FieldBuffGrantType",
     PRIORITY = "Priority",
-    ADD_INDIVIDUALITY_EX = "addindividualityex",
-    IGNORE_RESISTANCE = "ignoreresistance",
-    GAIN_NP_TARGET_PASSIVE_INDIVIDUALITY = "gainnptargetpassiveindividuality",
+    ADD_INDIVIDUALITY_EX = "AddIndividualityEx",
+    IGNORE_RESISTANCE = "IgnoreResistance",
+    GAIN_NP_TARGET_PASSIVE_INDIVIDUALITY = "GainNpTargetPassiveIndividuality",
 }
