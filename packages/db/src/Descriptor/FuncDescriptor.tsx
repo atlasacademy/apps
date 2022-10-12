@@ -22,6 +22,7 @@ import handleAmountSection from "./Func/handleAmountSection";
 import handleChanceSection from "./Func/handleChanceSection";
 import handleConditionSection from "./Func/handleConditionSection";
 import handleDurationSection from "./Func/handleDurationSection";
+import handleLinkageSection from "./Func/handleLinkageSection";
 import handleOnFieldSection from "./Func/handleOnFieldSection";
 import handleScalingSection from "./Func/handleScalingSection";
 import handleTargetSection from "./Func/handleTargetSection";
@@ -86,6 +87,7 @@ class FuncDescriptor extends React.Component<IProps> {
         }
         handleTargetSection(region, sections, func, dataVal);
         handleDurationSection(region, sections, func, dataVal);
+        handleLinkageSection(region, sections, func, dataVal);
         handleScalingSection(region, sections, func, dataVal);
 
         let parts: Renderable[] = [];

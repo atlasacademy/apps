@@ -20,5 +20,6 @@ export class FuncDescriptorSections {
     public affects = new FuncDescriptorSection();
     public target = new FuncDescriptorSection("to");
     public duration = new FuncDescriptorSection();
+    public linkage = new FuncDescriptorSection();
     public scaling = new FuncDescriptorSection();
 }

@@ -24,6 +24,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.EVENT_POINT_UP, "Increase Drop Amount"],
     [Func.FuncType.EVENT_DROP_RATE_UP, "Increase Drop Rate"],
     [Func.FuncType.EVENT_POINT_RATE_UP, "Increase Drop Rate"],
+    [Func.FuncType.EVENT_FORTIFICATION_POINT_UP, "Increase Fortification Amount"],
     [Func.FuncType.ENEMY_ENCOUNT_COPY_RATE_UP, "Create Clone of Enemy"],
     [Func.FuncType.ENEMY_ENCOUNT_RATE_UP, "Improve Appearance Rate of Enemy"],
     [Func.FuncType.EXP_UP, "Increase Master Exp"],
@@ -289,6 +290,7 @@ export default function handleActionSection(
         case Func.FuncType.EVENT_POINT_UP:
         case Func.FuncType.EVENT_DROP_RATE_UP:
         case Func.FuncType.EVENT_POINT_RATE_UP:
+        case Func.FuncType.EVENT_FORTIFICATION_POINT_UP:
         case Func.FuncType.EXP_UP:
         case Func.FuncType.FRIEND_POINT_UP:
         case Func.FuncType.FRIEND_POINT_UP_DUPLICATE:

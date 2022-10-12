@@ -23,7 +23,11 @@ export default function handleAmountSection(
         parts.push("( Support only:");
     }
 
-    if (func.buffs[0]?.type === Buff.BuffType.ADD_INDIVIDUALITY && typeof dataVal.Value === "number") {
+    if (
+        (func.buffs[0]?.type === Buff.BuffType.ADD_INDIVIDUALITY ||
+            func.buffs[0]?.type === Buff.BuffType.SUB_INDIVIDUALITY) &&
+        typeof dataVal.Value === "number"
+    ) {
         parts.push(<TraitDescription region={region} trait={dataVal.Value} />);
     } else if (
         (func.buffs[0]?.type === Buff.BuffType.ATTACK_FUNCTION ||

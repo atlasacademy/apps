@@ -78,14 +78,30 @@ export default function handleAffectsSection(
         func.funcType === Func.FuncType.EVENT_DROP_UP ||
         func.funcType === Func.FuncType.EVENT_POINT_UP ||
         func.funcType === Func.FuncType.EVENT_DROP_RATE_UP ||
-        func.funcType === Func.FuncType.EVENT_POINT_RATE_UP
+        func.funcType === Func.FuncType.EVENT_POINT_RATE_UP ||
+        func.funcType === Func.FuncType.EVENT_FORTIFICATION_POINT_UP
     ) {
-        if (dataVal.Individuality !== undefined)
-            parts.push(
-                <span>
-                    of <ItemDescriptorIndividuality region={region} individuality={dataVal.Individuality} />
-                </span>
-            );
+        if (dataVal.Individuality !== undefined) {
+            if (func.funcType !== Func.FuncType.EVENT_FORTIFICATION_POINT_UP) {
+                parts.push(
+                    <span>
+                        of <ItemDescriptorIndividuality region={region} individuality={dataVal.Individuality} />
+                    </span>
+                );
+            } else {
+                switch (dataVal.Individuality) {
+                    case 1:
+                        parts.push("of Military Affairs");
+                        break;
+                    case 2:
+                        parts.push("of Political Affairs");
+                        break;
+                    case 3:
+                        parts.push("of Internal Affairs");
+                        break;
+                }
+            }
+        }
 
         if (func.funcType === Func.FuncType.EVENT_DROP_RATE_UP || func.funcType === Func.FuncType.EVENT_POINT_RATE_UP) {
             if (dataVal.AddCount !== undefined) parts.push(<span>by {dataVal.AddCount / 10}%</span>);

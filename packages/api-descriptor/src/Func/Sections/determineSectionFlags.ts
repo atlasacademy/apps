@@ -84,6 +84,7 @@ export default function (func: Func.Func): Sections {
         case Func.FuncType.EVENT_POINT_UP:
         case Func.FuncType.EVENT_DROP_RATE_UP:
         case Func.FuncType.EVENT_POINT_RATE_UP:
+        case Func.FuncType.EVENT_FORTIFICATION_POINT_UP:
         case Func.FuncType.FRIEND_POINT_UP:
         case Func.FuncType.FRIEND_POINT_UP_DUPLICATE:
         case Func.FuncType.EXP_UP:

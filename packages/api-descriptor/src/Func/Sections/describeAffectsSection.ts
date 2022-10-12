@@ -75,6 +75,7 @@ export default function (func: Func.Func, dataVal: DataVal.DataVal): BasePartial
         case Func.FuncType.EVENT_POINT_UP:
         case Func.FuncType.EVENT_DROP_RATE_UP:
         case Func.FuncType.EVENT_POINT_RATE_UP:
+        case Func.FuncType.EVENT_FORTIFICATION_POINT_UP:
         case Func.FuncType.ENEMY_ENCOUNT_COPY_RATE_UP:
         case Func.FuncType.ENEMY_ENCOUNT_RATE_UP:
             if (dataVal.Individuality)
