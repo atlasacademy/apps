@@ -144,7 +144,7 @@ export default function handleAffectsSection(
     }
 
     if (func.functvals.length > 0) {
-        const negativeTrait = func.functvals.length === 1 && (func.functvals[0].negative ?? false);
+        const negativeTrait = func.functvals.length > 0 && func.functvals.every((val) => val.negative === true);
         if (func.funcTargetType === Func.FuncTargetType.SELF) {
             parts.push(`if self ${negativeTrait ? "doesn't have" : "has"}`);
         } else if (func.funcType === Func.FuncType.GAIN_STAR && dataVal.MultipleGainStar === 1) {
@@ -156,7 +156,7 @@ export default function handleAffectsSection(
         func.functvals.forEach((trait, index) => {
             if (index > 0) parts.push("or");
 
-            parts.push(<TraitDescription region={region} trait={trait} describeNegative={false} />);
+            parts.push(<TraitDescription region={region} trait={trait} describeNegative={!negativeTrait} />);
         });
     }
 
