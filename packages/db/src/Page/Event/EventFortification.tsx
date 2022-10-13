@@ -38,7 +38,8 @@ const EventFortificationServant = ({
 }) => {
     return (
         <>
-            <ServantDescriptorId region={region} id={fortServant.svtId} servants={servantMap} /> Lv. {fortServant.lv}
+            <ServantDescriptorId region={region} id={fortServant.svtId} servants={servantMap} />{" "}
+            {fortServant.type === Event.EventFortificationSvtType.NPC ? <>Lv. {fortServant.lv}</> : null}
         </>
     );
 };
