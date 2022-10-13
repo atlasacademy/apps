@@ -78,7 +78,7 @@ function BasicServantDescriptor(props: IPropsBasic) {
 export default ServantDescriptor;
 export { BasicServantDescriptor };
 
-export function ServantLink(props: {
+export function ServantDescriptorMap(props: {
     region: Region;
     servants: Map<number, Servant.ServantBasic>;
     id: number;

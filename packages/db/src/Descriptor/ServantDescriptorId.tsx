@@ -1,7 +1,7 @@
 import { Region, Servant } from "@atlasacademy/api-connector";
 
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
-import { ServantLink } from "./ServantDescriptor";
+import { ServantDescriptorMap } from "./ServantDescriptor";
 
 export default function ServantDescriptorId(props: {
     region: Region;
@@ -12,7 +12,7 @@ export default function ServantDescriptorId(props: {
 }) {
     if (props.servants !== undefined) {
         return (
-            <ServantLink
+            <ServantDescriptorMap
                 region={props.region}
                 id={props.id}
                 servants={props.servants}

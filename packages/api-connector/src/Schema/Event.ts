@@ -7,6 +7,7 @@ import { Item, ItemBackgroundType } from "./Item";
 import { Mission } from "./Mission";
 import { VoiceGroup, VoiceLine } from "./Profile";
 import { PayType, Shop } from "./Shop";
+import { SvtClassSupportGroupType } from "./Support";
 
 export enum EventType {
     NONE = "none",
@@ -248,6 +249,49 @@ export interface EventRecipe {
     recipeGifts: EventRecipeGift[];
 }
 
+export enum EventFortificationSvtType {
+    USER_SVT = "userSvt",
+    NPC = "npc",
+    NONE = "none",
+}
+
+export interface EventFortificationSvt {
+    position: number;
+    type: EventFortificationSvtType;
+    svtId: number;
+    limitCount: number;
+    lv: number;
+    releaseConditions: CommonRelease[];
+}
+
+export interface EventFortificationDetail {
+    position: number;
+    name: string;
+    className: SvtClassSupportGroupType;
+    releaseConditions: CommonRelease[];
+}
+
+export enum EventWorkType {
+    MILITSRY_AFFAIRS = "militsryAffairs",
+    INTERNAL_AFFAIRS = "internalAffairs",
+    FARMMING = "farmming",
+}
+
+export interface EventFortification {
+    idx: number;
+    name: string;
+    x: number;
+    y: number;
+    rewardSceneX: number;
+    rewardSceneY: number;
+    maxFortificationPoint: number;
+    workType: EventWorkType;
+    gifts: Gift[];
+    releaseConditions: CommonRelease[];
+    details: EventFortificationDetail[];
+    servants: EventFortificationSvt[];
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -288,6 +332,7 @@ export interface Event {
     treasureBoxes: EventTreasureBox[];
     bulletinBoards: EventBulletinBoard[];
     recipes: EventRecipe[];
+    fortifications: EventFortification[];
     digging?: EventDigging;
     cooltime?: EventCooltime;
     voicePlays: EventVoicePlay[];

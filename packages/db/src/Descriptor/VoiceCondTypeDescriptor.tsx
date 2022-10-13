@@ -4,7 +4,7 @@ import { Profile, Region, Servant } from "@atlasacademy/api-connector";
 
 import EventDescriptor from "./EventDescriptor";
 import QuestDescriptor from "./QuestDescriptor";
-import { ServantLink } from "./ServantDescriptor";
+import { ServantDescriptorMap } from "./ServantDescriptor";
 import { WarDescriptorId } from "./WarDescriptor";
 
 const { VoiceCondType } = Profile;
@@ -108,7 +108,7 @@ let VoiceCondTypeDescriptor = (props: IProps) => {
         case VoiceCondType.SVT_GET:
             return (
                 <>
-                    Presence of <ServantLink region={region} id={value} servants={props.servants} />
+                    Presence of <ServantDescriptorMap region={region} id={value} servants={props.servants} />
                 </>
             );
         case VoiceCondType.SVT_GROUP:
@@ -117,7 +117,7 @@ let VoiceCondTypeDescriptor = (props: IProps) => {
                     {"Presence of any of the following: "}
                     {valueList.map((value, i) => (
                         <span key={value}>
-                            <ServantLink region={region} id={value} servants={props.servants} />
+                            <ServantDescriptorMap region={region} id={value} servants={props.servants} />
                             {i < valueList.length - 1 ? ", " : ""}
                         </span>
                     ))}

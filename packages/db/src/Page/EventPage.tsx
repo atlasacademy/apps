@@ -19,6 +19,7 @@ import { replacePUACodePoints } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
 import EventBulletinBoard from "./Event/EventBulletinBoard";
+import EventFortification from "./Event/EventFortification";
 import EventLottery from "./Event/EventLottery";
 import EventRecipe from "./Event/EventRecipe";
 import EventReward from "./Event/EventReward";
@@ -31,7 +32,7 @@ import "../Helper/StringHelper.css";
 import "./Event/EventTable.css";
 
 interface TabInfo {
-    type: "ladder" | "shop" | "mission" | "tower" | "lottery" | "treasureBox";
+    type: "ladder" | "shop" | "mission" | "tower" | "lottery" | "treasureBox" | "recipes" | "fortification";
     id: number;
     title: string | React.ReactNode;
     tabKey: string;
@@ -136,7 +137,7 @@ class EventPage extends React.Component<IProps, IState> {
                     this.loadItemMap();
                 }
                 this.loadWars(event.warIds, event.missions.length > 0 || event.shop.length > 0);
-                if (event.missions.length > 0 || event.voices.length > 0) {
+                if (event.missions.length > 0 || event.voices.length > 0 || event.fortifications.length > 0) {
                     this.loadServantMap();
                 }
                 if (event.missions.length > 0) {
@@ -329,6 +330,19 @@ class EventPage extends React.Component<IProps, IState> {
             case "treasureBox":
                 const treasureBoxes = event.treasureBoxes.filter((tb) => tb.slot === tab.id);
                 return <EventTreasureBoxes region={region} treasureBoxes={treasureBoxes} itemCache={itemCache} />;
+            case "recipes":
+                return (
+                    <EventRecipe region={this.props.region} recipes={event.recipes} itemMap={this.state.itemCache} />
+                );
+            case "fortification":
+                return (
+                    <EventFortification
+                        region={this.props.region}
+                        fortifications={event.fortifications}
+                        itemMap={this.state.itemCache}
+                        servantMap={this.state.servantCache}
+                    />
+                );
         }
     }
 
@@ -341,6 +355,14 @@ class EventPage extends React.Component<IProps, IState> {
         const event = this.state.event;
 
         let tabs: TabInfo[] = [];
+
+        if (event.fortifications.length > 0) {
+            tabs.push({ type: "fortification", id: 0, title: t("Fortifications"), tabKey: "fortifications" });
+        }
+
+        if (event.recipes.length > 0) {
+            tabs.push({ type: "recipes", id: 0, title: t("Recipes"), tabKey: "recipes" });
+        }
 
         if (event.missions.length > 0) {
             tabs.push({
@@ -506,15 +528,6 @@ class EventPage extends React.Component<IProps, IState> {
                         this.props.history.replace(`/${this.props.region}/event/${this.props.eventId}/${key}`);
                     }}
                 >
-                    {event.recipes.length > 0 ? (
-                        <Tab eventKey="recipes" title={t("Recipes")}>
-                            <EventRecipe
-                                region={this.props.region}
-                                recipes={event.recipes}
-                                itemMap={this.state.itemCache}
-                            />
-                        </Tab>
-                    ) : null}
                     {tabs.map((tab) => {
                         return (
                             <Tab
