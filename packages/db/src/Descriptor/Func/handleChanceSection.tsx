@@ -13,7 +13,7 @@ export default function handleChanceSection(
         parts = section.parts;
 
     if (dataVal.ActSet && dataVal.ActSetWeight) {
-        parts.push(`[Weight: ${dataVal.ActSetWeight}]`);
+        parts.push(`[Set ${dataVal.ActSet} Weight: ${dataVal.ActSetWeight}]`);
     }
 
     if (dataVal.TriggeredFuncPosition !== undefined) {
