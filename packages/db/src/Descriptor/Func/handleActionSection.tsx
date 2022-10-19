@@ -74,7 +74,14 @@ function handleBuffActionSection(
     func.buffs.forEach((buff, index) => {
         if (index > 0) parts.push("&");
 
-        parts.push(<BuffDescription region={region} buff={buff} passiveFrame={dataVal.SetPassiveFrame === 1} />);
+        parts.push(
+            <BuffDescription
+                region={region}
+                buff={buff}
+                passiveFrame={dataVal.SetPassiveFrame === 1}
+                hideState={dataVal.ShowState === -1}
+            />
+        );
     });
 
     if (
