@@ -615,6 +615,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             effects.push(content.effect);
                             break;
                         case ScriptComponentType.EFFECT_STOP:
+                        case ScriptComponentType.EFFECT_DESTROY:
                             if (content.effect === undefined) {
                                 effects = [];
                             } else {

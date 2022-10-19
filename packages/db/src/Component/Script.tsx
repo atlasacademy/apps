@@ -9,6 +9,7 @@ export enum ScriptComponentType {
     ENABLE_FULL_SCREEN = "ENABLE_FULL_SCREEN",
     EFFECT = "EFFECT",
     EFFECT_STOP = "EFFECT_STOP",
+    EFFECT_DESTROY = "EFFECT_DESTROY",
     CAMERA_FILTER = "CAMERA_FILTER",
     CHARA_SET = "CHARA_SET",
     CHARA_CHANGE = "CHARA_CHANGE",
@@ -338,6 +339,11 @@ export type ScriptEffectStop = {
     effect?: string;
 };
 
+export type ScriptEffectDestroy = {
+    type: ScriptComponentType.EFFECT_DESTROY;
+    effect: string;
+};
+
 export type ScriptCharaFadeIn = {
     type: ScriptComponentType.CHARA_FADE_IN;
     speakerCode: string;
@@ -509,7 +515,8 @@ export type ScriptBracketComponent =
     | ScriptFlag
     | ScriptPictureFrame
     | ScriptEffect
-    | ScriptEffectStop;
+    | ScriptEffectStop
+    | ScriptEffectDestroy;
 
 export type ScriptChoiceChildComponent = ScriptBracketComponent | ScriptDialogue;
 
@@ -1134,6 +1141,8 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
             };
         case "effectStop":
             return { type: ScriptComponentType.EFFECT_STOP, effect: parameters[1] };
+        case "effectDestroy":
+            return { type: ScriptComponentType.EFFECT_DESTROY, effect: parameters[1] };
         default:
             return {
                 type: ScriptComponentType.UNPARSED,
