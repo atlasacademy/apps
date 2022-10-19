@@ -633,6 +633,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 sceneRow = renderScene();
                                 sceneDisplayed = true;
                             }
+                            foreground = undefined;
                             break;
                         case ScriptComponentType.CHOICES:
                             flatten(content.choices.map((choice) => choice.results)).forEach((childChoice) => {
