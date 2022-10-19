@@ -27,6 +27,7 @@ import {
     CameraFilterType,
     ScriptPictureFrame,
     ScriptCharaFaceFade,
+    ScriptCharaMove,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 
@@ -95,10 +96,12 @@ const getSceneScale = (windowWidth: number, windowHeight: number, wideScreen: bo
     return 2;
 };
 
+type ScriptCharaMovement = ScriptCharaFadeIn | ScriptCharaMove;
+
 const SceneRow = (props: {
     background?: ScriptBackground;
     figure?: ScriptCharaFace | ScriptCharaFaceFade;
-    charaFadeIn?: ScriptCharaFadeIn;
+    charaFadeIn?: ScriptCharaMovement;
     offsets?: ScriptOffsets;
     wideScreen: boolean;
     lineNumber?: number;
@@ -504,7 +507,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
 
     let backgroundComponent: ScriptBackground | undefined,
         figureComponent: ScriptCharaFace | ScriptCharaFaceFade | undefined,
-        charaFadeIn: ScriptCharaFadeIn | undefined,
+        charaFadeIn: ScriptCharaMovement | undefined,
         wideScreen = false,
         sceneDisplayed = false,
         offsets: ScriptOffsets | undefined,
@@ -580,6 +583,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             break;
 
                         case ScriptComponentType.CHARA_FADE_IN:
+                        case ScriptComponentType.CHARA_MOVE:
                             const { assetSet } = content;
 
                             if (assetSet && !figureAssetTypes.includes(assetSet.type)) {

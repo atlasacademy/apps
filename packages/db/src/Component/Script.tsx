@@ -23,6 +23,7 @@ export enum ScriptComponentType {
     CHARA_FADE_TIME = "CHARA_FADE_TIME",
     CHARA_FADE_IN = "CHARA_FADE_IN",
     CHARA_FADE_OUT = "CHARA_FADE_OUT",
+    CHARA_MOVE = "CHARA_MOVE",
     CHARA_PUT = "CHARA_PUT",
     IMAGE_SET = "IMAGE_SET",
     VERTICAL_IMAGE_SET = "VERTICAL_IMAGE_SET",
@@ -360,6 +361,14 @@ export type ScriptCharaFadeTime = {
     assetSet?: ScriptAssetSet;
 };
 
+export type ScriptCharaMove = {
+    type: ScriptComponentType.CHARA_MOVE;
+    speakerCode: string;
+    durationSec: number;
+    position: ScriptPosition;
+    assetSet?: ScriptAssetSet;
+};
+
 export type ScriptCharaPut = {
     type: ScriptComponentType.CHARA_PUT;
     speakerCode: string;
@@ -481,6 +490,7 @@ export type ScriptBracketComponent =
     | ScriptCharaFadeIn
     | ScriptCharaFadeOut
     | ScriptCharaFadeTime
+    | ScriptCharaMove
     | ScriptCharaPut
     | ScriptCharaScale
     | ScriptCharaDepth
@@ -961,6 +971,14 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 speakerCode: parameters[1],
                 duration: parseFloat(parameters[2]),
                 alpha: parseFloat(parameters[3]),
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
+            };
+        case "charaMove":
+            return {
+                type: ScriptComponentType.CHARA_MOVE,
+                speakerCode: parameters[1],
+                durationSec: parseFloat(parameters[3]),
+                position: getPosition(parameters[2]),
                 assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "charaPut":

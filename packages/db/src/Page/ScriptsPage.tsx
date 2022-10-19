@@ -281,7 +281,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                                             }}
                                             lang={lang(region)}
                                         ></td>
-                                        <td>{script.score}</td>
+                                        <td className="text-center">{script.score}</td>
                                     </tr>
                                 ))}
                         </tbody>
