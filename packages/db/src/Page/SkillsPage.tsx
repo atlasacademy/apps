@@ -39,6 +39,7 @@ interface IState {
     strengthStatus: number[];
     lvl1coolDown: number[];
     numFunctions: number[];
+    svalsContain?: string;
 }
 
 class SkillsPage extends React.Component<IProps, IState> {
@@ -64,6 +65,7 @@ class SkillsPage extends React.Component<IProps, IState> {
             state = {
                 ...defaultState,
                 name: searchParams.get("name") ?? undefined,
+                svalsContain: searchParams.get("svalsContain") ?? undefined,
                 type: searchParams.getAll("type") as Skill.SkillType[],
                 num: getQueryNums("num"),
                 priority: getQueryNums("priority"),
@@ -112,6 +114,7 @@ class SkillsPage extends React.Component<IProps, IState> {
             strengthStatus: this.state.strengthStatus,
             lvl1coolDown: this.state.lvl1coolDown,
             numFunctions: this.state.numFunctions,
+            svalsContain: this.state.svalsContain,
         }).toString();
     }
 
@@ -119,6 +122,7 @@ class SkillsPage extends React.Component<IProps, IState> {
         // no filter set
         if (
             !this.state.name &&
+            !this.state.svalsContain &&
             this.state.type.length === 0 &&
             this.state.num.length === 0 &&
             this.state.priority.length === 0 &&
@@ -141,7 +145,8 @@ class SkillsPage extends React.Component<IProps, IState> {
             this.state.priority,
             this.state.strengthStatus,
             this.state.lvl1coolDown,
-            this.state.numFunctions
+            this.state.numFunctions,
+            this.state.svalsContain
         )
             .then((skills) => {
                 this.setQueryURL();
@@ -269,6 +274,21 @@ class SkillsPage extends React.Component<IProps, IState> {
                     {this.getNumberForm("strengthStatus", "Strength Status")}
                     {this.getNumberForm("lvl1coolDown", "Cooldown at level 1")}
                     {this.getNumberForm("numFunctions", "Number of functions")}
+                    <Form.Group>
+                        <Form.Label>
+                            <code>svals</code> raw string should contain the following snippet
+                        </Form.Label>
+                        <Form.Control
+                            value={this.state.svalsContain ?? ""}
+                            onChange={(ev: ChangeEvent) => {
+                                if (ev.target.value !== "") {
+                                    this.setState({ svalsContain: ev.target.value });
+                                } else {
+                                    this.setState({ svalsContain: undefined });
+                                }
+                            }}
+                        />
+                    </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
                         Search <FontAwesomeIcon icon={faSearch} />
                     </Button>
