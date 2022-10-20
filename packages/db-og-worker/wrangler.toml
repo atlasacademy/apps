@@ -1,7 +1,7 @@
 name = "db-site-worker"
 account_id = "fa227777c8b69f6569d4a4347a6cceb8"
 workers_dev = true
-compatibility_date = "2022-06-01"
+compatibility_date = "2022-10-01"
 main = "./src/index.ts"
 
 [site]
