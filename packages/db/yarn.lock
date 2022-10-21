@@ -19,7 +19,7 @@
     "jsonpointer" "^5.0.0"
     "leven" "^3.1.0"
 
-"@atlasacademy/api-connector@^3.0.123", "@atlasacademy/api-connector@^3.0.126":
+"@atlasacademy/api-connector@^3.0.126":
   "integrity" "sha512-cXRSdzgVpC8DwPN4X+FnHWvtgN5Z58H3mh7e/4ww8fV0+SqRrd+46TYewGAzCAWh26a2H7vqqmnqXP0hnRqEag=="
   "resolved" "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-3.0.126.tgz"
   "version" "3.0.126"
@@ -28,7 +28,7 @@
     "install" "^0.13.0"
     "only" "0.0.2"
 
-"@atlasacademy/api-descriptor@^1.0.136":
+"@atlasacademy/api-descriptor@^1.0.139":
   "integrity" "sha512-s1xF2sputX7/eXUUWkalUl6Gcx5OzXpYzuBtgj88t2J4e5C8upUSdrRxH/v4aBPDFtkMgp+VBCqQF2xoagl+bA=="
   "resolved" "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-1.0.139.tgz"
   "version" "1.0.139"
@@ -3587,10 +3587,10 @@
   "resolved" "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.5.tgz"
   "version" "3.0.5"
 
-"@types/node@*", "@types/node@^18.11.2":
-  "integrity" "sha512-BWN3M23gLO2jVG8g/XHIRFWiiV4/GckeFIqbU/C4V3xpoBBWSMk4OZomouN0wCkfQFPqgZikyLr7DOYDysIkkw=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-18.11.2.tgz"
-  "version" "18.11.2"
+"@types/node@*", "@types/node@^18.11.3":
+  "integrity" "sha512-fNjDQzzOsZeKZu5NATgXUPsaFaTxeRgFXoosrHivTl8RGeV733OLawXsGfEk9a8/tySyZUyiZ6E8LcjPFZ2y1A=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-18.11.3.tgz"
+  "version" "18.11.3"
 
 "@types/parse-json@^4.0.0":
   "integrity" "sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA=="
@@ -7029,10 +7029,10 @@
   dependencies:
     "@babel/runtime" "^7.17.2"
 
-"i18next@^22.0.1", "i18next@>= 19.0.0":
-  "integrity" "sha512-CRbtl6urEcIDbIzP4sGoPf9YuDNto1JgCRsfdvcVUOPb8nPAQ0azhPZiSdD5AFg/Erb58+/nDRmhm8bzVyjABQ=="
-  "resolved" "https://registry.npmjs.org/i18next/-/i18next-22.0.1.tgz"
-  "version" "22.0.1"
+"i18next@^22.0.2", "i18next@>= 19.0.0":
+  "integrity" "sha512-rGXWILemhx0dpNE5PfudVU1g4SdW0hkh4WYHaP8Cl6gm1KkMdBckmNqj9WvYqp8fOSocqX5FFJeadwiOZHLSXQ=="
+  "resolved" "https://registry.npmjs.org/i18next/-/i18next-22.0.2.tgz"
+  "version" "22.0.2"
   dependencies:
     "@babel/runtime" "^7.17.2"
 
