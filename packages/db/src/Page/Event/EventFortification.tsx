@@ -7,7 +7,6 @@ import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
-import { ServantDescriptorMap } from "../../Descriptor/ServantDescriptor";
 import ServantDescriptorId from "../../Descriptor/ServantDescriptorId";
 import { lang } from "../../Setting/Manager";
 

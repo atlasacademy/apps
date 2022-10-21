@@ -100,11 +100,10 @@ class ErrorStatus extends React.Component<IProps> {
 
                 message = (
                     <>
-                        {`This page does not exist.`}
+                        This page does not exist.
                         <br />
-                        {`Maybe you meant to go to `}
-                        <Link to={`/${region}/${match}/${id}`}>{`${match}/${id}`}</Link>
-                        {" instead?"}
+                        Maybe you meant to go to <Link to={`/${region}/${match}/${id}`}>{`${match}/${id}`}</Link>{" "}
+                        instead?"
                     </>
                 );
             }

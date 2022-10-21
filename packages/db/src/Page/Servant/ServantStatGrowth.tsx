@@ -1,5 +1,6 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import highchartsAccessibility from "highcharts/modules/accessibility";
 import React from "react";
 import { withTranslation, WithTranslation } from "react-i18next";
 
@@ -8,6 +9,8 @@ import { Region, Servant } from "@atlasacademy/api-connector";
 import { formatNumber } from "../../Helper/OutputHelper";
 
 import "./ServantStatGrowth.css";
+
+highchartsAccessibility(Highcharts);
 
 interface IProps extends WithTranslation {
     region: Region;
