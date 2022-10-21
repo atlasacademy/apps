@@ -1,4 +1,4 @@
-import { Typeahead, TypeaheadMenuProps } from "react-bootstrap-typeahead";
+import { Typeahead } from "react-bootstrap-typeahead";
 
 import "./SearchableSelect.css";
 
@@ -89,12 +89,12 @@ export default function SearchableSelect<T>(props: IProps<T> | IPropsMultiple<T>
                         props.multiple === true ? props.onChange([]) : props.onChange(undefined);
                     } else {
                         props.multiple === true
-                            ? props.onChange(selected.map((sel) => sel.value))
-                            : props.onChange(selected[0].value);
+                            ? props.onChange(selected.map((sel) => (sel as Option<T>).value))
+                            : props.onChange((selected[0] as Option<T>).value);
                     }
                 }}
-                renderMenuItemChildren={(option: Option<T>, props: TypeaheadMenuProps<Option<T>>, index: number) => {
-                    return option.niceLabel ?? option.label;
+                renderMenuItemChildren={(option) => {
+                    return <>{(option as Option<T>).niceLabel ?? (option as Option<T>).label}</>;
                 }}
             />
         </div>

@@ -48,7 +48,7 @@ const AscensionModelViewer = ({ assetMap }: { assetMap: AssetMap }) => {
     return (
         <ul>
             {Array.from(battleCharaAscensions, ([battleCharaId, ascensions]) => {
-                let ascensionString: string | React.ReactFragment = `Ascension${
+                let ascensionString: string | React.ReactElement = `Ascension${
                     ascensions.length > 1 ? "s" : ""
                 } ${ascensions.join(", ")}`;
 

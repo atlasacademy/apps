@@ -60,8 +60,10 @@ export default function TraitSelector(props: {
             inputProps={props.numericInput ? { inputMode: "numeric", pattern: "[0-9]*" } : undefined}
             onChange={(selected) => {
                 const traitNums = selected
-                    .filter((sel) => !sel.customOption || isPositiveInteger(sel.label))
-                    .map((sel) => (sel.customOption ? parseInt(sel.label) : sel.value));
+                    .filter((sel) => !(sel as Option).customOption || isPositiveInteger((sel as Option).label))
+                    .map((sel) =>
+                        (sel as Option).customOption ? parseInt((sel as Option).label) : (sel as Option).value
+                    );
                 props.onUpdate(traitNums);
                 selectedOptions = getOptionList(traitNums, knownTraits);
             }}

@@ -1,10 +1,10 @@
 import { faSearchPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactJson, { ThemeKeys, OnCopyProps } from "@microlink/react-json-view";
 import axios from "axios";
 import copy from "copy-to-clipboard";
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
-import ReactJson, { ThemeKeys } from "react-json-view";
 
 import Manager from "../Setting/Manager";
 import { Theme } from "../Setting/Theme";
@@ -88,7 +88,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                                 src={this.state.data}
                                 collapsed={1}
                                 theme={viewerTheme.get(Manager.theme()) ?? "rjv-default"}
-                                enableClipboard={(clipboard) => {
+                                enableClipboard={(clipboard: OnCopyProps) => {
                                     if (typeof clipboard.src === "string") {
                                         copy(clipboard.src);
                                     }
