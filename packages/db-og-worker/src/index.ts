@@ -64,7 +64,7 @@ async function fetchApi(region: string, endpoint: string, target: string, langua
     const apiRes = await fetch(url, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
     if (apiRes.status !== 200) return undefined;
 
-    await atlas_api_cache.put(url, JSON.stringify(apiRes), { expirationTtl: API_KV_TTL });
+    await atlas_api_cache.put(url, await apiRes.text(), { expirationTtl: API_KV_TTL });
     return apiRes.json() as Record<string, any>;
 }
 
