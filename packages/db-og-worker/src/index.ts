@@ -1,7 +1,10 @@
 import { getAssetFromKV, mapRequestToAsset } from "@cloudflare/kv-asset-handler";
 
+declare var atlas_api_cache: KVNamespace;
+
 const DEBUG = false;
 
+const API_KV_TTL = 60 * 60 * 24;
 const KV_EDGE_TTL = 60 * 60 * 3;
 const API_FETCH_EDGE_TTL = 60 * 5;
 
@@ -54,7 +57,15 @@ function toTitleCase(value: string): string {
 async function fetchApi(region: string, endpoint: string, target: string, language: "jp" | "en" = "en") {
     const dataType = ["item", "function", "bgm", "mm"].includes(endpoint) ? "nice" : "basic";
     const url = `https://api.atlasacademy.io/${dataType}/${region}/${endpoint}/${target}?lang=${language}`;
-    return fetch(url, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
+
+    const kvData = await atlas_api_cache.get(url);
+    if (kvData !== null) return JSON.parse(kvData) as Record<string, any>;
+
+    const apiRes = await fetch(url, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
+    if (apiRes.status !== 200) return undefined;
+
+    await atlas_api_cache.put(url, JSON.stringify(apiRes), { expirationTtl: API_KV_TTL });
+    return apiRes.json() as Record<string, any>;
 }
 
 function overwrite(
@@ -168,7 +179,7 @@ async function handleDBEvent(event: FetchEvent) {
     const itemPage = itemPageTitles.get(subpage);
     if (itemPage !== undefined) {
         const res = await fetchApi(region, itemPage.endpoint, target, language);
-        if (res.status !== 200) {
+        if (res === undefined) {
             const title = `[${region}] ${itemPage.itemType} - ${target}`;
             return overwrite(responseDetail, title);
         }
@@ -186,7 +197,7 @@ async function handleDBEvent(event: FetchEvent) {
             atkMax,
             hpMax,
             flags,
-        } = (await res.json()) as any;
+        } = res;
 
         let title = `[${region}] ${itemPage.itemType} - ${name}`,
             description: string | undefined = undefined;
@@ -233,22 +244,22 @@ async function handleDBEvent(event: FetchEvent) {
     switch (subpage) {
         case "func": {
             const res = await fetchApi(region, "function", target, language);
-            if (res.status !== 200) {
+            if (res === undefined) {
                 const title = `[${region}] Function - ${target}`;
                 return overwrite(responseDetail, title);
             }
-            const { funcId, funcPopupText } = (await res.json()) as any;
+            const { funcId, funcPopupText } = res;
             const funcTitle = funcPopupText === "" ? `Function: ${funcId}` : `Function ${funcId}: ${funcPopupText}`;
             const title = `[${region}] ${funcTitle}`;
             return overwrite(responseDetail, title);
         }
         case "bgm": {
             const res = await fetchApi(region, "bgm", target, language);
-            if (res.status !== 200) {
+            if (res === undefined) {
                 const title = `[${region}] BGM - ${target}`;
                 return overwrite(responseDetail, title);
             }
-            const { name, fileName, logo } = (await res.json()) as any;
+            const { name, fileName, logo } = res;
             let bgmName = target;
             if (name !== "" && name !== "0") {
                 bgmName = name;
@@ -260,11 +271,11 @@ async function handleDBEvent(event: FetchEvent) {
         }
         case "buff": {
             const res = await fetchApi(region, "buff", target, language);
-            if (res.status !== 200) {
+            if (res === undefined) {
                 const title = `[${region}] Buff - ${target}`;
                 return overwrite(responseDetail, title);
             }
-            const { id, name, icon } = (await res.json()) as any;
+            const { id, name, icon } = res;
             const title = `[${region}] Buff ${id}: ${name}`;
             return overwrite(responseDetail, title, icon);
         }

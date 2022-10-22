@@ -118,7 +118,7 @@ export const replacePUACodePoints = (inputString: string): Renderable => {
             switch (codePoint) {
                 case 0xe000:
                     elements.push(
-                        <span className="e000">
+                        <span className="e000" lang="ja-JP">
                             <span className="e000-bottom">人</span>
                             <span className="e000-top">神</span>
                         </span>

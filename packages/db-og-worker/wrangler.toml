@@ -3,6 +3,9 @@ account_id = "fa227777c8b69f6569d4a4347a6cceb8"
 workers_dev = true
 compatibility_date = "2022-06-01"
 main = "./src/index.ts"
+kv_namespaces = [
+    { binding = "atlas_api_cache", id = "6307c816b0714a5e8fc7ce5f9f58226f" },
+]
 
 [site]
 bucket = "../../app"
