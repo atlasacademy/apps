@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { Servant } from "@atlasacademy/api-connector";
 
+import { replacePUACodePoints } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
@@ -11,14 +12,14 @@ const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
             <h3>{t("Battle Names")}</h3>
             <ul>
                 <li>
-                    {t("Default Battle Name")}: <span lang={lang()}>{servant.battleName}</span>
+                    {t("Default Battle Name")}: <span lang={lang()}>{replacePUACodePoints(servant.battleName)}</span>
                 </li>
                 {Object.entries(servant.ascensionAdd.overWriteServantBattleName.ascension).map(
                     ([ascension, battleName]) => (
                         <li key={ascension}>
                             {t("AscensionBeforeNumber")}
                             {ascension}
-                            {t("AscensionAfterNumber")}: <span lang={lang()}>{battleName}</span>
+                            {t("AscensionAfterNumber")}: <span lang={lang()}>{replacePUACodePoints(battleName)}</span>
                         </li>
                     )
                 )}
@@ -27,10 +28,12 @@ const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
                         <li key={battleCharaId}>
                             {t("Costume")}{" "}
                             <span lang={lang()}>
-                                {Object.values(servant.profile?.costume ?? {}).find(
-                                    (costume) => costume.id === parseInt(battleCharaId)
-                                )?.shortName ?? battleCharaId}
-                                : {battleName}
+                                {replacePUACodePoints(
+                                    Object.values(servant.profile?.costume ?? {}).find(
+                                        (costume) => costume.id === parseInt(battleCharaId)
+                                    )?.shortName ?? battleCharaId
+                                )}
+                                : {replacePUACodePoints(battleName)}
                             </span>
                         </li>
                     )
