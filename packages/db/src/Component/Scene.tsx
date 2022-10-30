@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Script } from "@atlasacademy/api-connector";
 
@@ -63,10 +63,19 @@ const Scene = (props: {
     effects?: string[];
 }) => {
     const [script, setScript] = useState<Script.SvtScript | undefined>(undefined),
-        { cameraFilter, effects } = props;
+        { cameraFilter, effects } = props,
+        charaGraphId = props.figure?.charaGraphId;
+
+    useEffect(() => {
+        if (charaGraphId !== undefined) {
+            Api.svtScript(charaGraphId).then((script) => {
+                setScript(script[0]);
+            });
+        }
+    }, [charaGraphId]);
 
     let fixOffsets = {
-        y: props.offsetsFigure?.charaGraphId === props.figure?.charaGraphId ? props.offsetsFigure?.y : 0,
+        y: props.offsetsFigure?.charaGraphId === charaGraphId ? props.offsetsFigure?.y : 0,
     };
 
     let scale = props.width / props.resolution.width,
@@ -76,12 +85,6 @@ const Scene = (props: {
         figureWrapperTop = (script ? -script.offsetY + -(fixOffsets.y ?? 0) : 0) * scale,
         faceElement = null,
         equipElement = null;
-
-    if (props.figure !== undefined && props.figure.charaGraphId !== undefined) {
-        Api.svtScript(props.figure.charaGraphId).then((script) => {
-            setScript(script[0]);
-        });
-    }
 
     if (props.figure && props.figure.face > 0 && script) {
         let face = props.figure.face - 1,
