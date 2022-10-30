@@ -1,4 +1,5 @@
 import { createRef } from "react";
+import { Row, Col } from "react-bootstrap";
 
 import { Ai, Quest, Region } from "@atlasacademy/api-connector";
 
@@ -65,6 +66,22 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                     <>
                         <br />
                         <b>Field AI:</b> {mergeElements(fieldAiDescriptions, " ")}
+                    </>
+                ) : null}
+                {stage.waveStartMovies.length > 0 ? (
+                    <>
+                        <br />
+                        <b>Movie:</b>
+                        <br />
+                        <Row>
+                            {stage.waveStartMovies.map((movie, index) => (
+                                <Col key={index} md={12} lg={6}>
+                                    <video controls width="100%">
+                                        <source src={movie.waveStartMovie} type="video/mp4" />
+                                    </video>
+                                </Col>
+                            ))}
+                        </Row>
                     </>
                 ) : null}
             </div>

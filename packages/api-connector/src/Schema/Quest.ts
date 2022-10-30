@@ -109,11 +109,16 @@ export interface QuestMessage {
     targetNum: number;
 }
 
+export interface StageStartMovie {
+    waveStartMovie: string;
+}
+
 export interface Stage {
     wave: number;
     bgm: Bgm;
     fieldAis: { day?: number; raid?: number; id: number }[];
     call: number[];
+    waveStartMovies: StageStartMovie[];
     enemies: QuestEnemy[];
 }
 
