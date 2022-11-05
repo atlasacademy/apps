@@ -567,9 +567,9 @@ type ParserState = {
 type ParserDialogueState = { colorHex?: string; size?: DialogueTextSize };
 
 function getPunctuation(region: Region) {
-    if (region === Region.KR) return { colon: ":", questionMark: "?" };
+    if (region === Region.KR) return { colon: ":", questionMark: "?", exclamationMark: "!" };
 
-    return { colon: "：", questionMark: "？" };
+    return { colon: "：", questionMark: "？", exclamationMark: "！" };
 }
 
 /**
@@ -1210,7 +1210,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
     };
 
     const lineEnding = script.includes("\r\n") ? "\r\n" : "\n";
-    const { colon, questionMark } = getPunctuation(region);
+    const { colon, questionMark, exclamationMark } = getPunctuation(region);
 
     for (const [index, line] of script.split(lineEnding).entries()) {
         if (line.startsWith("//")) continue;
@@ -1284,7 +1284,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 dialogue.speaker = parseDialogueSpeaker(region, line, parserState);
                 break;
             case questionMark:
-                if (line[1] === "！" || (region === Region.KR && line[1] === "!")) {
+                if (line[1] === exclamationMark) {
                     choices.push({ ...choice });
                     components.push({
                         content: {
