@@ -566,6 +566,12 @@ type ParserState = {
 
 type ParserDialogueState = { colorHex?: string; size?: DialogueTextSize };
 
+function getPunctuation(region: Region) {
+    if (region === Region.KR) return { colon: ":", questionMark: "?" };
+
+    return { colon: "：", questionMark: "？" };
+}
+
 /**
  * Split the bracketed parameter into its components.
  * "[a b [c d]]" => ["a", "b", "[c d]"]
@@ -764,8 +770,9 @@ function parseDialogueSpeaker(region: Region, line: string, parserState: ParserS
         speakerCode: string | undefined = undefined,
         spot: string[] | undefined = undefined;
 
-    if (noMarker.includes("：")) {
-        [speakerCode, name] = noMarker.split("：");
+    const { colon } = getPunctuation(region);
+    if (noMarker.includes(colon)) {
+        [speakerCode, name] = noMarker.split(colon);
     }
 
     if (name.includes("=spot")) {
@@ -1104,7 +1111,6 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 movieName: parameters[1],
                 movieUrl: `${AssetHost}/${region}/Movie/${parameters[1]}.mp4`,
                 // bgmPlay
-                // true/false
                 // seStop
             };
         case "scene":
@@ -1204,6 +1210,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
     };
 
     const lineEnding = script.includes("\r\n") ? "\r\n" : "\n";
+    const { colon, questionMark } = getPunctuation(region);
 
     for (const [index, line] of script.split(lineEnding).entries()) {
         if (line.startsWith("//")) continue;
@@ -1276,8 +1283,8 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 parserState.dialogue = true;
                 dialogue.speaker = parseDialogueSpeaker(region, line, parserState);
                 break;
-            case "？":
-                if (line[1] === "！") {
+            case questionMark:
+                if (line[1] === "！" || (region === Region.KR && line[1] === "!")) {
                     choices.push({ ...choice });
                     components.push({
                         content: {
@@ -1292,7 +1299,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                     break;
                 }
 
-                const [routeDetail, optionText] = splitString(line.slice(1), "：", 1);
+                const [routeDetail, optionText] = splitString(line.slice(1), colon, 1);
                 const lineChoiceNumber = parseInt(routeDetail[0]);
                 if (lineChoiceNumber !== choice.id && choice.id !== -1) {
                     choices.push({ ...choice });
