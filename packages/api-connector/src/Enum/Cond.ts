@@ -164,6 +164,10 @@ export enum CondType {
     RANDOM_MISSION_TOTAL_CLEAR_NUM = "randomMissionTotalClearNum",
     WEEKDAYS = "weekdays",
     EVENT_FORTIFICATION_REWARD_NUM = "eventFortificationRewardNum",
+    QUEST_CLEAR_BEFORE_EVENT_START = "questClearBeforeEventStart",
+    NOT_QUEST_CLEAR_BEFORE_EVENT_START = "notQuestClearBeforeEventStart",
+    EVENT_TUTORIAL_FLAG_ON = "eventTutorialFlagOn",
+    EVENT_TUTORIAL_FLAG_OFF = "eventTutorialFlagOff",
 }
 
 export default CondType;

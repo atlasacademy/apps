@@ -119,6 +119,7 @@ interface BaseDataVal {
     AddIndividualityEx?: number;
     IgnoreResistance?: number;
     GainNpTargetPassiveIndividuality?: number;
+    HpReduceToRegainIndiv?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -246,4 +247,5 @@ export enum DataValField {
     ADD_INDIVIDUALITY_EX = "AddIndividualityEx",
     IGNORE_RESISTANCE = "IgnoreResistance",
     GAIN_NP_TARGET_PASSIVE_INDIVIDUALITY = "GainNpTargetPassiveIndividuality",
+    HP_REDUCE_TO_REGAIN_INDIV = "HpReduceToRegainIndiv",
 }

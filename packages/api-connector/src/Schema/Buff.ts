@@ -109,6 +109,8 @@ export enum BuffAction {
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     GRANT_STATE_UP_ONLY = "grantStateUpOnly",
+    TURNEND_HP_REDUCE_TO_REGAIN = "turnendHpReduceToRegain",
+    FUNCTION_SELFTURNSTART = "functionSelfturnstart",
 }
 
 export enum BuffLimit {
@@ -270,6 +272,8 @@ export enum BuffType {
     INVISIBLE_BATTLE_CHARA = "invisibleBattleChara",
     COUNTER_FUNCTION = "counterFunction",
     NOT_TARGET_SKILL = "notTargetSkill",
+    HP_REDUCE_TO_REGAIN = "hpReduceToRegain",
+    SELFTURNSTART_FUNCTION = "selfturnstartFunction",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
 }
