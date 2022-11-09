@@ -1,17 +1,24 @@
 import { getAssetFromKV, mapRequestToAsset } from "@cloudflare/kv-asset-handler";
+// @ts-ignore: Required import for getAssetFromKV
+import manifestJSON from "__STATIC_CONTENT_MANIFEST";
 
-declare var atlas_api_cache: KVNamespace;
+const manifest = JSON.parse(manifestJSON);
+
+export interface Env {
+    atlas_api_cache: KVNamespace;
+    __STATIC_CONTENT: KVNamespace;
+}
+
+export interface Event {
+    request: Request;
+    waitUntil: (promise: Promise<any>) => void;
+}
 
 const DEBUG = false;
 
 const API_KV_TTL = 60 * 60 * 24;
 const KV_EDGE_TTL = 60 * 60 * 3;
 const API_FETCH_EDGE_TTL = 60 * 5;
-
-addEventListener("fetch", (event) => {
-    const response = handleEvent(event).catch(() => fetch(event.request));
-    event.respondWith(response);
-});
 
 class Handler {
     content = "";
@@ -54,18 +61,18 @@ function toTitleCase(value: string): string {
     return words.join(" ");
 }
 
-async function fetchApi(region: string, endpoint: string, target: string, language: "jp" | "en" = "en") {
+async function fetchApi(env: Env, region: string, endpoint: string, target: string, language: "jp" | "en" = "en") {
     const dataType = ["item", "function", "bgm", "mm"].includes(endpoint) ? "nice" : "basic";
     const url = `https://api.atlasacademy.io/${dataType}/${region}/${endpoint}/${target}?lang=${language}`;
 
-    const kvData = await atlas_api_cache.get(url);
+    const kvData = await env.atlas_api_cache.get(url);
     if (kvData !== null) return JSON.parse(kvData) as Record<string, any>;
 
     const apiRes = await fetch(url, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
     if (apiRes.status !== 200) return undefined;
 
     const apiText = await apiRes.text();
-    await atlas_api_cache.put(url, apiText, { expirationTtl: API_KV_TTL });
+    await env.atlas_api_cache.put(url, apiText, { expirationTtl: API_KV_TTL });
     return JSON.parse(apiText) as Record<string, any>;
 }
 
@@ -141,13 +148,15 @@ const tabTitles = new Map([
     ["voices", "Voice Lines"],
 ]);
 
-async function handleDBEvent(event: FetchEvent) {
+async function handleDBEvent(event: Event, env: Env) {
     const { pathname } = new URL(event.request.url),
         [region, subpage, target, ...paths] = pathname.replace("/db", "").split("/").filter(Boolean);
 
     const response = await getAssetFromKV(event, {
         mapRequestToAsset: (request) => serveSinglePageApp(request, "db"),
         cacheControl: { edgeTTL: KV_EDGE_TTL, bypassCache: DEBUG },
+        ASSET_NAMESPACE: env.__STATIC_CONTENT,
+        ASSET_MANIFEST: manifest,
     });
 
     const mutableResponse = new Response(response.body, response);
@@ -179,7 +188,7 @@ async function handleDBEvent(event: FetchEvent) {
 
     const itemPage = itemPageTitles.get(subpage);
     if (itemPage !== undefined) {
-        const res = await fetchApi(region, itemPage.endpoint, target, language);
+        const res = await fetchApi(env, region, itemPage.endpoint, target, language);
         if (res === undefined) {
             const title = `[${region}] ${itemPage.itemType} - ${target}`;
             return overwrite(responseDetail, title);
@@ -244,7 +253,7 @@ async function handleDBEvent(event: FetchEvent) {
 
     switch (subpage) {
         case "func": {
-            const res = await fetchApi(region, "function", target, language);
+            const res = await fetchApi(env, region, "function", target, language);
             if (res === undefined) {
                 const title = `[${region}] Function - ${target}`;
                 return overwrite(responseDetail, title);
@@ -255,7 +264,7 @@ async function handleDBEvent(event: FetchEvent) {
             return overwrite(responseDetail, title);
         }
         case "bgm": {
-            const res = await fetchApi(region, "bgm", target, language);
+            const res = await fetchApi(env, region, "bgm", target, language);
             if (res === undefined) {
                 const title = `[${region}] BGM - ${target}`;
                 return overwrite(responseDetail, title);
@@ -271,7 +280,7 @@ async function handleDBEvent(event: FetchEvent) {
             return overwrite(responseDetail, title, logo);
         }
         case "buff": {
-            const res = await fetchApi(region, "buff", target, language);
+            const res = await fetchApi(env, region, "buff", target, language);
             if (res === undefined) {
                 const title = `[${region}] Buff - ${target}`;
                 return overwrite(responseDetail, title);
@@ -298,41 +307,52 @@ async function handleDBEvent(event: FetchEvent) {
     }
 }
 
-async function handleEvent(event: FetchEvent) {
-    const { protocol, host, pathname } = new URL(event.request.url);
+const worker = {
+    async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+        const event: Event = {
+                request,
+                waitUntil(promise: Promise<any>) {
+                    return ctx.waitUntil(promise);
+                },
+            },
+            url = new URL(request.url),
+            { pathname } = url;
 
-    try {
-        if (pathname === "/sitemap.xml") {
-            return fetch("https://apps.atlasacademy.io/sitemap.xml");
-        }
-        if (pathname.startsWith("/.well-known")) {
-            return fetch(event.request.url, { cf: { cacheTtl: 0 } });
-        }
-        if (pathname.startsWith("/db")) {
-            return handleDBEvent(event);
-        }
-        if (pathname.startsWith("/chargers") || pathname.startsWith("/fgo-docs/")) {
-            const resourceUrl = new URL(event.request.url);
-            resourceUrl.hostname = "atlasacademy.github.io";
-            if (pathname === "/chargers") {
-                resourceUrl.pathname = "/chargers/";
+        try {
+            if (pathname === "/sitemap.xml") {
+                return fetch("https://apps.atlasacademy.io/sitemap.xml");
+            } else if (pathname.startsWith("/.well-known")) {
+                return fetch(url.href, { cf: { cacheTtl: 0 } });
+            } else if (pathname.startsWith("/db")) {
+                return handleDBEvent(event, env);
+            } else if (pathname.startsWith("/chargers") || pathname.startsWith("/fgo-docs/")) {
+                url.hostname = "atlasacademy.github.io";
+                if (pathname === "/chargers") {
+                    url.pathname = "/chargers/";
+                }
+                return fetch(url.href, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
             }
-            return fetch(resourceUrl.href, { cf: { cacheTtl: API_FETCH_EDGE_TTL } });
-        }
-        for (const basePath of ["drop-lookup", "paper-moon", "drop-serializer", "bingo", "fgo-docs"]) {
-            if (pathname === `/${basePath}`) {
-                return Response.redirect(`${protocol}//${host}/${basePath}/`, 301);
-            }
-        }
-        return await getAssetFromKV(event, {
-            cacheControl: { edgeTTL: KV_EDGE_TTL, bypassCache: DEBUG },
-        });
-    } catch (e) {
-        if (DEBUG && e instanceof Error) return new Response(e.message || e.toString(), { status: 500 });
 
-        return new Response(`"${pathname}" not found`, {
-            status: 404,
-            statusText: `"${pathname}" not found`,
-        });
-    }
-}
+            for (const basePath of ["drop-lookup", "paper-moon", "drop-serializer", "bingo", "fgo-docs"]) {
+                if (pathname === `/${basePath}`) {
+                    return Response.redirect(`${url}/`, 301);
+                }
+            }
+
+            return await getAssetFromKV(event, {
+                cacheControl: { edgeTTL: KV_EDGE_TTL, bypassCache: DEBUG },
+                ASSET_NAMESPACE: env.__STATIC_CONTENT,
+                ASSET_MANIFEST: manifest,
+            });
+        } catch (e) {
+            if (DEBUG && e instanceof Error) {
+                console.error(e.message || e.toString());
+            }
+
+            const statusText = `Failed to process "${pathname}"`;
+            return new Response(statusText, { status: 500, statusText });
+        }
+    },
+};
+
+export default worker;
