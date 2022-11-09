@@ -98,7 +98,7 @@ export default function QuestDescriptor(props: IProps) {
             />
         );
     } else {
-        return <>{props.text !== "" ? props.text : `Unknown Quest ${props.questId} `}</>;
+        return <>{props.text !== "" && props.text !== undefined ? props.text : `Unknown Quest ${props.questId} `}</>;
     }
 }
 
