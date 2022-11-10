@@ -11,6 +11,7 @@ interface IProps {
     staticDataVal: DataVal.DataVal;
     dataVal: DataVal.DataVal;
     hideRate?: boolean;
+    dependFunc?: Func.BasicFunc;
 }
 
 class FuncValueDescriptor extends React.Component<IProps> {
@@ -19,7 +20,8 @@ class FuncValueDescriptor extends React.Component<IProps> {
             this.props.func,
             this.props.staticDataVal,
             this.props.dataVal,
-            this.props.hideRate
+            this.props.hideRate,
+            this.props.dependFunc
         );
 
         return descriptor ? <Description region={this.props.region} descriptor={descriptor} /> : "-";

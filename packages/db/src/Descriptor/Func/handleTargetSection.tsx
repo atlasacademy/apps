@@ -39,60 +39,24 @@ export default function handleTargetSection(
     region: Region,
     sections: FuncDescriptorSections,
     func: Func.BasicFunc,
-    dataVal: DataVal.DataVal
+    dataVal: DataVal.DataVal,
+    dependFunc?: Func.BasicFunc
 ): void {
     const section = sections.target,
         parts = section.parts;
 
     let targetType: Func.FuncTargetType | undefined = func.funcTargetType;
 
-    if (func.funcType === Func.FuncType.ABSORB_NPTURN) {
-        switch (dataVal.DependFuncId) {
-            case 469:
-                targetType = Func.FuncTargetType.ENEMY_ALL;
-                break;
-            case 5061:
-                targetType = Func.FuncTargetType.PT_OTHER;
-                break;
-        }
-    } else if (func.funcType === Func.FuncType.GAIN_HP_FROM_TARGETS) {
-        switch (dataVal.DependFuncId) {
-            case 457:
-            case 710:
-                targetType = Func.FuncTargetType.ENEMY;
-                break;
-            case 711:
-                targetType = Func.FuncTargetType.ENEMY_ALL;
-                break;
-            case 7413:
-                targetType = Func.FuncTargetType.ENEMY_ONE_NO_TARGET_NO_ACTION;
-                break;
-            default:
-                targetType = undefined;
-                section.showing = false;
-                break;
-        }
-    } else if (func.funcType === Func.FuncType.GAIN_NP_FROM_TARGETS) {
-        switch (dataVal.DependFuncId) {
-            case 474:
-                targetType = Func.FuncTargetType.ENEMY_ALL;
-                break;
-            case 3962:
-                targetType = Func.FuncTargetType.PT_OTHER;
-                break;
-        }
-    } else if (func.funcType === Func.FuncType.MOVE_STATE) {
-        switch (func.funcId) {
-            case 6027:
-                targetType = Func.FuncTargetType.FIELD_OTHER;
-                break;
-            case 8192:
-                targetType = Func.FuncTargetType.PT_OTHER;
-                break;
-            case 9135:
-                targetType = Func.FuncTargetType.ENEMY_ALL;
-                break;
-        }
+    if (
+        [
+            Func.FuncType.ABSORB_NPTURN,
+            Func.FuncType.GAIN_HP_FROM_TARGETS,
+            Func.FuncType.GAIN_NP_FROM_TARGETS,
+            Func.FuncType.MOVE_STATE,
+        ].includes(func.funcType) &&
+        dependFunc !== undefined
+    ) {
+        targetType = dependFunc.funcTargetType;
     }
 
     if (targetType) {

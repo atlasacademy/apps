@@ -14,7 +14,8 @@ export default function handleAmountSection(
     sections: FuncDescriptorSections,
     func: Func.BasicFunc,
     dataVal: DataVal.DataVal,
-    support?: boolean
+    support?: boolean,
+    dependFunc?: Func.BasicFunc
 ): void {
     const section = sections.amount,
         parts = section.parts;
@@ -93,6 +94,7 @@ export default function handleAmountSection(
                     staticDataVal={dataVal}
                     dataVal={dataVal}
                     hideRate={true}
+                    dependFunc={dependFunc}
                 />
             );
         } else {

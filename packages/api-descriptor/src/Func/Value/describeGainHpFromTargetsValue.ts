@@ -7,15 +7,8 @@ export default function (staticDataVal: DataVal.DataVal, mutatingDataVal: DataVa
         from: BasePartial[] = [],
         to: BasePartial[] = [];
 
-    switch (funcId) {
-        case 457:
-        case 710:
-        case 711:
-        case 7413:
-            if (mutatingDataVal.DependFuncVals?.Value !== undefined) {
-                to.push(new ValuePartial(ValueType.NUMBER, mutatingDataVal.DependFuncVals.Value));
-            }
-            break;
+    if (mutatingDataVal.DependFuncVals?.Value !== undefined) {
+        to.push(new ValuePartial(ValueType.NUMBER, mutatingDataVal.DependFuncVals.Value));
     }
 
     if (from.length && to.length) {

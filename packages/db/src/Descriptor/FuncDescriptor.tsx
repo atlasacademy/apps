@@ -36,7 +36,24 @@ interface IProps {
     overcharge?: number;
 }
 
-class FuncDescriptor extends React.Component<IProps> {
+interface IState {
+    dependFunc?: Func.BasicFunc;
+}
+
+class FuncDescriptor extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props);
+
+        this.state = {};
+    }
+
+    componentDidMount() {
+        const dataVal = this.getDataVal();
+        if (dataVal.DependFuncId !== undefined) {
+            Api.funcBasic(dataVal.DependFuncId).then((dependFunc) => this.setState({ dependFunc }));
+        }
+    }
+
     getDataVal(): DataVal.DataVal {
         const func = this.props.func;
 
@@ -78,14 +95,14 @@ class FuncDescriptor extends React.Component<IProps> {
         handleTeamSection(region, sections, func, dataVal);
         handleConditionSection(region, sections, func, dataVal);
         handleChanceSection(region, sections, func, dataVal);
-        handleActionSection(region, sections, func, dataVal);
-        handleAmountSection(region, sections, func, dataVal);
+        handleActionSection(region, sections, func, dataVal, this.state.dependFunc);
+        handleAmountSection(region, sections, func, dataVal, false, this.state.dependFunc);
         handleOnFieldSection(region, sections, func, dataVal);
         handleAffectsSection(region, sections, func, dataVal);
         if (followerDataVal) {
-            handleAmountSection(region, sections, func, followerDataVal, true);
+            handleAmountSection(region, sections, func, followerDataVal, true, this.state.dependFunc);
         }
-        handleTargetSection(region, sections, func, dataVal);
+        handleTargetSection(region, sections, func, dataVal, this.state.dependFunc);
         handleDurationSection(region, sections, func, dataVal);
         handleLinkageSection(region, sections, func, dataVal);
         handleScalingSection(region, sections, func, dataVal);

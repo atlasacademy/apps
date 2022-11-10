@@ -3,7 +3,9 @@ import React from "react";
 import { DataVal, Func, Region } from "@atlasacademy/api-connector";
 
 import FuncValueDescriptor from "../Descriptor/FuncValueDescriptor";
+import { dedupe } from "./ArrayHelper";
 import { Renderable } from "./OutputHelper";
+import { flatten } from "./PolyFill";
 
 const hasChangingDataVals = function (vals: DataVal.DataVal[]): boolean {
     if (!vals.length) return false;
@@ -32,13 +34,23 @@ const hasUniqueValues = function (values: (number | number[] | undefined)[]): bo
     );
 };
 
-export function describeMutators(region: Region, func: Func.Func): Renderable[] {
+export function describeMutators(
+    region: Region,
+    func: Func.Func,
+    dependFuncs: Map<number, Func.BasicFunc>
+): Renderable[] {
     const dataVals = getDataValList(func),
         staticVals = getStaticFieldValues(dataVals),
         mutatingVals = getMutatingFieldValues(dataVals);
 
     return mutatingVals.map((mutatingVal) => (
-        <FuncValueDescriptor region={region} func={func} staticDataVal={staticVals} dataVal={mutatingVal} />
+        <FuncValueDescriptor
+            region={region}
+            func={func}
+            staticDataVal={staticVals}
+            dataVal={mutatingVal}
+            dependFunc={dependFuncs.get(mutatingVal.DependFuncId ?? staticVals.DependFuncId ?? -1)}
+        />
     ));
 }
 
@@ -224,4 +236,11 @@ export function isPlayerSideFunction(func: Func.Func) {
         ].includes(func.funcTargetType) && func.funcTargetTeam !== Func.FuncTargetTeam.ENEMY;
 
     return playerTargetEnemies || playerTargetPlayers;
+}
+
+export function getDependFuncIds(func: Func.Func): number[] {
+    const allDependFuncIds = [func.svals, func.svals2, func.svals3, func.svals4, func.svals5].map((svals) =>
+        svals !== undefined ? svals.map((sval) => sval.DependFuncId) : []
+    );
+    return dedupe(flatten(allDependFuncIds)).filter((funcId) => funcId !== undefined) as number[];
 }

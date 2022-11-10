@@ -148,38 +148,19 @@ function handleMoveStateActionSection(
     region: Region,
     sections: FuncDescriptorSections,
     func: Func.BasicFunc,
-    dataVal: DataVal.DataVal
+    dataVal: DataVal.DataVal,
+    dependFunc: Func.BasicFunc
 ): void {
     const section = sections.action,
         parts = section.parts;
 
     parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);
 
-    if ([6027, 8192, 9135].includes(func.funcId)) {
+    if (dependFunc.traitVals !== undefined) {
         parts.push("with");
-        switch (func.funcId) {
-            case 6027:
-            case 8192:
-                parts.push(
-                    <TraitDescription
-                        region={region}
-                        trait={{ id: 3026, name: "buffCurse" }}
-                        owner="buffs"
-                        ownerParameter="vals"
-                    />
-                );
-                break;
-            case 9135:
-                parts.push(
-                    <TraitDescription
-                        region={region}
-                        trait={{ id: 2836, name: "protoMerlinNPChargeBlock" }}
-                        owner="buffs"
-                        ownerParameter="vals"
-                    />
-                );
-                break;
-        }
+        parts.push(
+            <TraitDescription region={region} trait={dependFunc.traitVals[0]} owner="buffs" ownerParameter="vals" />
+        );
     }
 
     sections.target.preposition = "from";
@@ -214,7 +195,8 @@ export default function handleActionSection(
     region: Region,
     sections: FuncDescriptorSections,
     func: Func.BasicFunc,
-    dataVal: DataVal.DataVal
+    dataVal: DataVal.DataVal,
+    dependFunc?: Func.BasicFunc
 ): void {
     const section = sections.action,
         parts = section.parts;
@@ -227,8 +209,8 @@ export default function handleActionSection(
         handleCleanseActionSection(region, sections, func, dataVal);
 
         return;
-    } else if (func.funcType === Func.FuncType.MOVE_STATE) {
-        handleMoveStateActionSection(region, sections, func, dataVal);
+    } else if (func.funcType === Func.FuncType.MOVE_STATE && dependFunc !== undefined) {
+        handleMoveStateActionSection(region, sections, func, dataVal, dependFunc);
 
         return;
     } else if (func.funcType === Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM) {

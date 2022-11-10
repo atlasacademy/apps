@@ -10,7 +10,8 @@ export default function (
     func: Func.BasicFunc,
     staticDataVal: DataVal.DataVal,
     dataVal: DataVal.DataVal,
-    ignoreRate?: boolean
+    ignoreRate?: boolean,
+    dependFunc?: Func.BasicFunc
 ): Descriptor | undefined {
     const partials: BasePartial[] = [],
         addPartials = (additional: BasePartial[]) => {
@@ -46,12 +47,12 @@ export default function (
             valuePartials = valueDescriptor?.partials() ?? [];
 
         addPartials(valuePartials);
-    } else if (func.funcType === Func.FuncType.ABSORB_NPTURN) {
-        addPartials(describeNpAbsorbValue(staticDataVal, dataVal));
+    } else if (func.funcType === Func.FuncType.ABSORB_NPTURN && dependFunc !== undefined) {
+        addPartials(describeNpAbsorbValue(staticDataVal, dataVal, dependFunc));
     } else if (func.funcType === Func.FuncType.GAIN_HP_FROM_TARGETS) {
         addPartials(describeGainHpFromTargetsValue(staticDataVal, dataVal));
-    } else if (func.funcType === Func.FuncType.GAIN_NP_FROM_TARGETS) {
-        addPartials(describeGainNpFromTargets(staticDataVal, dataVal));
+    } else if (func.funcType === Func.FuncType.GAIN_NP_FROM_TARGETS && dependFunc !== undefined) {
+        addPartials(describeGainNpFromTargets(staticDataVal, dataVal, dependFunc));
     } else {
         if (dataVal.Value !== undefined) {
             switch (func.funcType) {

@@ -4,13 +4,16 @@ import { Table } from "react-bootstrap";
 import { Card, Func, NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
 import { FuncDescriptor } from "@atlasacademy/api-descriptor";
 
+import Api from "../Api";
 import CardType from "../Component/CardType";
 import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { default as FuncDescription } from "../Descriptor/FuncDescriptor";
 import { NoblePhantasmDescriptorId } from "../Descriptor/NoblePhantasmDescriptor";
 import SkillReferenceDescriptor from "../Descriptor/SkillReferenceDescriptor";
-import { describeMutators } from "../Helper/FuncHelper";
+import { dedupe } from "../Helper/ArrayHelper";
+import { describeMutators, getDependFuncIds } from "../Helper/FuncHelper";
 import { asPercent } from "../Helper/OutputHelper";
+import { flatten } from "../Helper/PolyFill";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
 
@@ -31,7 +34,24 @@ interface IProps {
     additionalSkillId?: number[];
 }
 
-class EffectBreakdownLines extends React.Component<IProps> {
+interface IState {
+    dependFuncs: Map<number, Func.BasicFunc>;
+}
+
+class EffectBreakdownLines extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props);
+
+        this.state = { dependFuncs: new Map() };
+    }
+
+    componentDidMount() {
+        const dependFuncIds = dedupe(flatten(this.props.funcs.map((func) => getDependFuncIds(func))));
+        Promise.all(dependFuncIds.map((funcId) => Api.funcBasic(funcId))).then((basicFuncs) =>
+            this.setState({ dependFuncs: new Map(basicFuncs.map((func) => [func.funcId, func])) })
+        );
+    }
+
     render() {
         const effectStyle = this.props.popOver ? { maxWidth: "400px" } : { width: "45%", minWidth: "300px" };
         return (
@@ -75,7 +95,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                     </tr>
                 ) : null}
                 {this.props.funcs.map((func, index) => {
-                    let mutatingDescriptions = describeMutators(this.props.region, func),
+                    let mutatingDescriptions = describeMutators(this.props.region, func, this.state.dependFuncs),
                         relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func).filter(
                             (skill) => !this.props.triggerSkillIdStack.includes(skill.skillId)
                         ),
