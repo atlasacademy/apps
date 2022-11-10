@@ -1,4 +1,4 @@
-import { getAssetFromKV, mapRequestToAsset } from "@cloudflare/kv-asset-handler";
+import { getAssetFromKV, mapRequestToAsset, NotFoundError } from "@cloudflare/kv-asset-handler";
 // @ts-ignore: Required import for getAssetFromKV
 import manifestJSON from "__STATIC_CONTENT_MANIFEST";
 
@@ -324,7 +324,7 @@ const worker = {
             } else if (pathname.startsWith("/.well-known")) {
                 return fetch(url.href, { cf: { cacheTtl: 0 } });
             } else if (pathname.startsWith("/db")) {
-                return handleDBEvent(event, env);
+                return await handleDBEvent(event, env);
             } else if (pathname.startsWith("/chargers") || pathname.startsWith("/fgo-docs/")) {
                 url.hostname = "atlasacademy.github.io";
                 if (pathname === "/chargers") {
@@ -346,7 +346,12 @@ const worker = {
             });
         } catch (e) {
             if (DEBUG && e instanceof Error) {
-                console.error(e.message || e.toString());
+                console.log(e.message || e.toString());
+            }
+
+            if (e instanceof NotFoundError) {
+                const statusText = `Can't find "${pathname}"`;
+                return new Response(statusText, { status: 404, statusText });
             }
 
             const statusText = `Failed to process "${pathname}"`;
