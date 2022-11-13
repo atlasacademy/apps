@@ -1,8 +1,12 @@
+import cytoscape from "cytoscape";
+import klay from "cytoscape-klay";
 import CytoscapeComponent from "react-cytoscapejs";
 
 import { Ai } from "@atlasacademy/api-connector";
 
 import useWindowDimensions from "../../Helper/WindowHelper";
+
+cytoscape.use(klay);
 
 function getCytoscapeElements(aiCol: Ai.AiCollection) {
     let pushedMains = new Set();
@@ -67,10 +71,16 @@ function getGraphSize(windowWidth: number, windowHeight: number) {
     return { graphWidth, graphHeight };
 }
 
-export default function AiGraph(props: { aiCol: Ai.AiCollection; handleNavigateAiId?: (id: number) => void }) {
+export default function AiGraph({
+    aiCol,
+    handleNavigateAiId,
+}: {
+    aiCol: Ai.AiCollection;
+    handleNavigateAiId?: (id: number) => void;
+}) {
     const { windowWidth, windowHeight } = useWindowDimensions(),
         { graphWidth, graphHeight } = getGraphSize(windowWidth, windowHeight),
-        elements = getCytoscapeElements(props.aiCol);
+        elements = getCytoscapeElements(aiCol);
 
     return (
         <CytoscapeComponent
@@ -79,7 +89,7 @@ export default function AiGraph(props: { aiCol: Ai.AiCollection; handleNavigateA
             minZoom={0.1}
             maxZoom={3}
             wheelSensitivity={0.2}
-            layout={{ name: "breadthfirst" }}
+            layout={{ name: aiCol.mainAis.length + aiCol.relatedAis.length > 40 ? "klay" : "breadthfirst" }}
             stylesheet={[
                 {
                     selector: "node",
@@ -118,7 +128,7 @@ export default function AiGraph(props: { aiCol: Ai.AiCollection; handleNavigateA
             ]}
             cy={(cytoscape) =>
                 cytoscape.on("tap", "node", (cytoscapeEvent) =>
-                    props.handleNavigateAiId?.(+cytoscapeEvent.target.id().split("-")[0])
+                    handleNavigateAiId?.(+cytoscapeEvent.target.id().split("-")[0])
                 )
             }
         />
