@@ -131,7 +131,7 @@ class ErrorStatus extends React.Component<IProps> {
         } else if (this.props.error.response.status === 404) {
             message = "Not Found";
         } else {
-            message = "Code " + this.props.error.response.status;
+            message = "Code " + this.props.error.response.status + "\n" + this.props.error.response.data;
         }
 
         if (
@@ -175,7 +175,15 @@ class ErrorStatus extends React.Component<IProps> {
                         margin: "0 auto",
                     }}
                 />
-                <p style={{ width: "fit-content", margin: "0 auto", padding: "10px" }}>
+                <p
+                    style={{
+                        width: "fit-content",
+                        margin: "0 auto",
+                        padding: "10px",
+                        whiteSpace: "pre-wrap",
+                        textAlign: "center",
+                    }}
+                >
                     <strong>ERROR: {message}</strong>
                 </p>
                 <ul
