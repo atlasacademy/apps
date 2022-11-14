@@ -26,7 +26,7 @@ class BuffDescription extends React.Component<IProps> {
         return (
             <Link to={`/${this.props.region}/buff/${buff.id}`} lang={lang(this.props.region)}>
                 [
-                {buff.icon ? (
+                {buff.icon && !buff.icon?.includes("bufficon_0") ? (
                     <>
                         <BuffIcon
                             location={buff.icon}
