@@ -143,6 +143,20 @@ export default function handleAmountSection(
     } else if (func.buffs[0] !== undefined && dataVal.Value !== undefined) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal} />);
 
+        if (func.buffs[0]?.type === Buff.BuffType.HP_REDUCE_TO_REGAIN && dataVal.HpReduceToRegainIndiv !== undefined) {
+            section.preposition = "from";
+            parts.push("of");
+            parts.push(
+                <TraitDescription
+                    region={region}
+                    trait={dataVal.HpReduceToRegainIndiv}
+                    owner="buffs"
+                    ownerParameter="vals"
+                />
+            );
+            parts.push("damage");
+        }
+
         if (
             dataVal.ParamAddValue !== undefined ||
             dataVal.ParamAddSelfIndividuality !== undefined ||

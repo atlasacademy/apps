@@ -133,6 +133,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.UP_HATE, "Taunt"],
     [Buff.BuffType.UP_NPTURNVAL, "Increase NP Gauge Gained Per Turn"],
     [Buff.BuffType.DOWN_NPTURNVAL, "Reduce NP Gauge Gained Per Turn"],
+    [Buff.BuffType.HP_REDUCE_TO_REGAIN, "Convert HP Loss to HP Gain"],
 ]);
 
 export interface BuffTriggerType {
