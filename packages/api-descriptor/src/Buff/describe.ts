@@ -96,8 +96,18 @@ export default function (buff: Buff.BasicBuff): Descriptor {
     }
 
     if (buff.script.INDIVIDUALITIE !== undefined) {
-        partials.push(new TextPartial(" if owner has "));
-        partials.push(...traitReferences([buff.script.INDIVIDUALITIE]));
+        const tieCount =
+            buff.script.INDIVIDUALITIE_COUNT_ABOVE !== undefined
+                ? `${buff.script.INDIVIDUALITIE_COUNT_ABOVE} or more`
+                : "";
+        if (buff.script.INDIVIDUALITIE.negative) {
+            const positiveBuff = { ...buff.script.INDIVIDUALITIE, negative: false };
+            partials.push(new TextPartial(` while owner does not have ${tieCount} `));
+            partials.push(...traitReferences([positiveBuff]));
+        } else {
+            partials.push(new TextPartial(` while owner has ${tieCount} `));
+            partials.push(...traitReferences([buff.script.INDIVIDUALITIE]));
+        }
     }
 
     if (buff.type === Buff.BuffType.BUFF_RATE && buff.script.UpBuffRateBuffIndiv !== undefined) {

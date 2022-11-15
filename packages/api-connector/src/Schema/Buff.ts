@@ -301,6 +301,7 @@ export interface BuffScript {
     ReleaseText?: string;
     DamageRelease?: number;
     INDIVIDUALITIE?: Trait;
+    INDIVIDUALITIE_COUNT_ABOVE?: number;
     UpBuffRateBuffIndiv?: Trait[];
     HP_LOWER?: number;
 }
