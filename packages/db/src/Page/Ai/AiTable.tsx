@@ -249,7 +249,7 @@ export default function AiTable(props: {
     skillId2?: number;
     skillId3?: number;
 }) {
-    const ais = props.ais;
+    const { ais, aiType } = props;
     ais.sort((a, b) => b.priority - a.priority || b.probability - a.probability || a.idx - b.idx);
 
     const outputTable = (
@@ -272,6 +272,14 @@ export default function AiTable(props: {
                         </td>
                     ))}
                 </tr>
+                {aiType === Ai.AiType.FIELD ? (
+                    <tr>
+                        <td>Timing</td>
+                        {ais.map((ai) => (
+                            <td key={ai.idx}>{toTitleCase(ai.timingDescription ?? "")}</td>
+                        ))}
+                    </tr>
+                ) : null}
                 <tr>
                     <td>Condition</td>
                     {ais.map((ai) => (
