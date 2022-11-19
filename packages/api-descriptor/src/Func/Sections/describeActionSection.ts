@@ -57,6 +57,10 @@ const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.USER_EQUIP_EXP_UP, "Increase Mystic Code Exp"],
     [Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD, "Change Field"],
     [Func.FuncType.SUB_FIELD_BUFF, "Remove Field Buff"],
+    [Func.FuncType.EXTEND_BUFFCOUNT, "Increase Buff Count"],
+    [Func.FuncType.SHORTEN_BUFFCOUNT, "Reduce Buff Count"],
+    [Func.FuncType.EXTEND_BUFFTURN, "Increase Buff Turn"],
+    [Func.FuncType.SHORTEN_BUFFTURN, "Reduce Buff Turn"],
 ]);
 
 export default function (func: Func.Func): BasePartial[] {

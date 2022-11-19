@@ -24,7 +24,11 @@ class BuffDescription extends React.Component<IProps> {
             descString = Description.renderAsString(descriptor);
 
         return (
-            <Link to={`/${this.props.region}/buff/${buff.id}`} lang={lang(this.props.region)}>
+            <Link
+                to={`/${this.props.region}/buff/${buff.id}`}
+                lang={lang(this.props.region)}
+                title={buff.vals.length > 0 ? `Trait: ${buff.vals.map((trait) => trait.id).join(", ")}` : undefined}
+            >
                 [
                 {buff.icon && !buff.icon?.includes("bufficon_0") ? (
                     <>

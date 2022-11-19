@@ -61,6 +61,24 @@ export default function handleAmountSection(
     } else if (func.funcType === Func.FuncType.HASTEN_NPTURN && dataVal.Value) {
         section.preposition = undefined;
         parts.push(`by ${dataVal.Value}`);
+    } else if (
+        [
+            Func.FuncType.EXTEND_BUFFCOUNT,
+            Func.FuncType.SHORTEN_BUFFCOUNT,
+            Func.FuncType.EXTEND_BUFFTURN,
+            Func.FuncType.SHORTEN_BUFFTURN,
+        ].includes(func.funcType) &&
+        dataVal.Value !== undefined
+    ) {
+        section.preposition = "by";
+        parts.push(`${dataVal.Value}`);
+        if (dataVal.TargetList !== undefined) {
+            parts.push(`of buffs with`);
+            const traits = dataVal.TargetList.map((trait) => (
+                <TraitDescription region={region} trait={trait} owner="buffs" ownerParameter="vals" />
+            ));
+            parts.push(mergeElements(traits, "or"));
+        }
     } else if (func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
         if (dataVal.Value) parts.push(" of ");
         parts.push(

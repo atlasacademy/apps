@@ -53,6 +53,17 @@ export default function (
         addPartials(describeGainHpFromTargetsValue(staticDataVal, dataVal));
     } else if (func.funcType === Func.FuncType.GAIN_NP_FROM_TARGETS && dependFunc !== undefined) {
         addPartials(describeGainNpFromTargets(staticDataVal, dataVal, dependFunc));
+    } else if (
+        [
+            Func.FuncType.EXTEND_BUFFCOUNT,
+            Func.FuncType.SHORTEN_BUFFCOUNT,
+            Func.FuncType.EXTEND_BUFFTURN,
+            Func.FuncType.SHORTEN_BUFFTURN,
+        ].includes(func.funcType)
+    ) {
+        if (dataVal.Value !== undefined) {
+            partials.push(new TextPartial(`${dataVal.Value}`));
+        }
     } else {
         if (dataVal.Value !== undefined) {
             switch (func.funcType) {

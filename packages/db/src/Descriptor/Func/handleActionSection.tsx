@@ -59,6 +59,10 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.FUNC_126, "Remove Command Spell"],
     [Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD, "Change Field"],
     [Func.FuncType.SUB_FIELD_BUFF, "Remove Field Buff"],
+    [Func.FuncType.EXTEND_BUFFCOUNT, "Increase Buff Count"],
+    [Func.FuncType.SHORTEN_BUFFCOUNT, "Reduce Buff Count"],
+    [Func.FuncType.EXTEND_BUFFTURN, "Increase Buff Turn"],
+    [Func.FuncType.SHORTEN_BUFFTURN, "Reduce Buff Turn"],
 ]);
 
 function handleBuffActionSection(
@@ -296,7 +300,10 @@ export default function handleActionSection(
         case Func.FuncType.GAIN_NP:
         case Func.FuncType.HASTEN_NPTURN:
         case Func.FuncType.SHORTEN_SKILL:
-            sections.amount.preposition = "by";
+        case Func.FuncType.EXTEND_BUFFCOUNT:
+        case Func.FuncType.SHORTEN_BUFFCOUNT:
+        case Func.FuncType.EXTEND_BUFFTURN:
+        case Func.FuncType.SHORTEN_BUFFTURN:
             sections.target.preposition = "for";
             break;
         case Func.FuncType.FORCE_INSTANT_DEATH:

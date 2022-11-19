@@ -48,6 +48,26 @@ class TraitDescription extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
+        const potentiallyServantId = this.state.id >= 100000;
+        const alreadyDescribedInOverride = (this.props.overrideTraits ?? [])
+            .map((trait) => trait.id)
+            .includes(this.state.id);
+
+        if (potentiallyServantId && !alreadyDescribedInOverride) {
+            const servantList = await Api.servantList();
+            for (const servant of servantList) {
+                if (servant.id === this.state.id) {
+                    this.setState({
+                        trait: {
+                            id: servant.id,
+                            name: servant.name,
+                        },
+                    });
+                    return;
+                }
+            }
+        }
+
         if (this.state.trait) return;
 
         const traitList = await Api.traitList();
