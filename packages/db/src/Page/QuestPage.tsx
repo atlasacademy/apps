@@ -352,6 +352,12 @@ class QuestPage extends React.Component<IProps, IState> {
                         )}
                     </Alert>
                 ) : null}
+                {quest.extraDetail.hintTitle ? (
+                    <Alert variant="success" className="newline" lang={lang(this.props.region)}>
+                        <b>{quest.extraDetail.hintTitle}</b>
+                        {quest.extraDetail.hintMessage ?? null}
+                    </Alert>
+                ) : null}
                 {quest.scripts.length > 0 ? (
                     <Alert variant="success">
                         {quest.scripts.length > 1 ? (
