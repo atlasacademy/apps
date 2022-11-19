@@ -24,7 +24,7 @@ import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
-import { colorString } from "../Helper/StringHelper";
+import { colorString, removePrefix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
 import "../Helper/StringHelper.css";
@@ -355,7 +355,8 @@ class QuestPage extends React.Component<IProps, IState> {
                 {quest.extraDetail.hintTitle ? (
                     <Alert variant="success" className="newline" lang={lang(this.props.region)}>
                         <b>{quest.extraDetail.hintTitle}</b>
-                        {quest.extraDetail.hintMessage ?? null}
+                        <br />
+                        {quest.extraDetail.hintMessage ? removePrefix(quest.extraDetail.hintMessage, "\n") : null}
                     </Alert>
                 ) : null}
                 {quest.scripts.length > 0 ? (

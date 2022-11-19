@@ -148,6 +148,13 @@ export const removeSuffix = (inputString: string, suffix: string) => {
     return inputString;
 };
 
+export const removePrefix = (inputString: string, prefix: string) => {
+    if (inputString.startsWith(prefix)) {
+        return inputString.slice(prefix.length);
+    }
+    return inputString;
+};
+
 export const VoiceSubtitleFormat = ({ region, inputString }: { region: Region; inputString: string }) => {
     const components = parseDialogueLine(region, inputString.replace("\n", "[r]"), {
         choice: false,

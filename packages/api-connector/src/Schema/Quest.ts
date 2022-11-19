@@ -160,8 +160,8 @@ export interface QuestPhaseScript {
 export interface QuestPhaseExtraDetail {
     questSelect?: number[];
     singleForceSvtId?: number;
-    hintTitle?: number;
-    hintMessage?: number;
+    hintTitle?: string;
+    hintMessage?: string;
 }
 
 export interface Quest {
