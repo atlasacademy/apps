@@ -70,3 +70,11 @@ export interface Item {
     dropPriority: number;
     itemSelects: ItemSelect[];
 }
+
+export type ItemSearchOptions = {
+    name?: string;
+    individuality?: number[];
+    type?: ItemType[];
+    background?: ItemBackgroundType[];
+    use?: ItemUse[];
+};

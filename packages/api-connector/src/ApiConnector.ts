@@ -10,7 +10,14 @@ import ResultCache from "./ResultCache";
 import { AiActNum, AiActTarget, AiActType, AiCollection, AiCond, AiTiming, AiType } from "./Schema/Ai";
 import { Attribute, AttributeAffinityMap } from "./Schema/Attribute";
 import { BgmEntity } from "./Schema/Bgm";
-import { BuffConstantMap, BasicBuff, Buff, BuffType, ClassRelationOverwriteType } from "./Schema/Buff";
+import {
+    BuffConstantMap,
+    BasicBuff,
+    Buff,
+    BuffType,
+    ClassRelationOverwriteType,
+    BuffSearchOptions,
+} from "./Schema/Buff";
 import { Change } from "./Schema/Change";
 import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode";
 import { Constants } from "./Schema/Constant";
@@ -18,24 +25,32 @@ import { ConstantStrs } from "./Schema/ConstantStr";
 import { CraftEssence, CraftEssenceBasic } from "./Schema/CraftEssence";
 import { Cv } from "./Schema/Cv";
 import { Enemy } from "./Schema/Enemy";
-import { EntityBasic, EntityFlag, EntityType, Gender } from "./Schema/Entity";
+import { EntityBasic, EntityFlag, EntityType, Gender, EntitySearchOptions } from "./Schema/Entity";
 import { Event, EventBasic, EventType } from "./Schema/Event";
-import { BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType } from "./Schema/Func";
+import { BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType, FuncSearchOptions } from "./Schema/Func";
 import { GiftType } from "./Schema/Gift";
 import { Illustrator } from "./Schema/Illustrator";
 import { Info } from "./Schema/Info";
-import { Item, ItemBackgroundType, ItemType, ItemUse } from "./Schema/Item";
+import { Item, ItemBackgroundType, ItemType, ItemSearchOptions } from "./Schema/Item";
 import { MasterLevelInfoMap } from "./Schema/Master";
 import { MasterMission } from "./Schema/MasterMission";
 import { DetailCondLinkType, MissionType, ProgressType, RewardType } from "./Schema/Mission";
 import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode";
-import { NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm";
+import { NoblePhantasm, NoblePhantasmBasic, NPSearchOptions } from "./Schema/NoblePhantasm";
 import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile";
-import { Quest, QuestBasic, QuestConsumeType, QuestFlag, QuestPhase, QuestPhaseBasic, QuestType } from "./Schema/Quest";
-import { Script, ScriptSearchResult, SvtScript } from "./Schema/Script";
+import {
+    Quest,
+    QuestBasic,
+    QuestConsumeType,
+    QuestPhaseSearchOptions,
+    QuestPhase,
+    QuestPhaseBasic,
+    QuestType,
+} from "./Schema/Quest";
+import { Script, ScriptSearchResult, SvtScript, ScriptSearchOptions } from "./Schema/Script";
 import { GrailCostInfoMap, Servant, ServantBasic } from "./Schema/Servant";
 import { PayType, PurchaseType, ShopType } from "./Schema/Shop";
-import { Skill, SkillBasic, SkillType } from "./Schema/Skill";
+import { Skill, SkillBasic, SkillType, SkillSearchOptions } from "./Schema/Skill";
 import { Trait } from "./Schema/Trait";
 import { War, WarBasic, WarStartType } from "./Schema/War";
 
@@ -50,111 +65,10 @@ export enum ReverseDepth {
     SERVANT = "servant",
 }
 
-type ReverseOptions = {
+export type ReverseOptions = {
     reverse?: boolean;
     reverseData?: ReverseData;
     reverseDepth?: ReverseDepth;
-};
-
-type BuffSearchOptions = {
-    name?: string;
-    type?: BuffType[];
-    buffGroup?: number[];
-    vals?: number[];
-    tvals?: number[];
-    ckSelfIndv?: number[];
-    ckOpIndv?: number[];
-    reverse?: boolean;
-    reverseData?: ReverseData;
-    reverseDepth?: ReverseDepth;
-};
-
-type FuncSearchOptions = {
-    popupText?: string;
-    type?: FuncType[];
-    targetType?: FuncTargetType[];
-    targetTeam?: FuncTargetTeam[];
-    vals?: number[];
-    tvals?: number[];
-    questTvals?: number[];
-    reverse?: boolean;
-    reverseData?: ReverseData;
-    reverseDepth?: ReverseDepth;
-};
-
-type SkillSearchOptions = {
-    name?: string;
-    type?: SkillType[];
-    num?: number[];
-    priority?: number[];
-    strengthStatus?: number[];
-    lvl1coolDown?: number[];
-    numFunctions?: number[];
-    reverse?: boolean;
-    reverseData?: ReverseData;
-    reverseDepth?: ReverseDepth;
-    svalsContain?: string;
-};
-
-type NPSearchOptions = {
-    name?: string;
-    card?: Card[];
-    individuality?: number[];
-    hits?: number[];
-    strengthStatus?: number[];
-    numFunctions?: number[];
-    minNpNpGain?: number;
-    maxNpNpGain?: number;
-    reverse?: boolean;
-    reverseData?: ReverseData;
-    reverseDepth?: ReverseDepth;
-    svalsContain?: string;
-};
-
-type EntitySearchOptions = {
-    name?: string;
-    excludeCollectionNo?: number[];
-    type?: EntityType[];
-    flag?: EntityFlag[];
-    rarity?: number[];
-    className?: ClassName[];
-    gender?: Gender[];
-    attribute?: Attribute[];
-    trait?: number[];
-    notTrait?: number[];
-    voiceCondSvt?: number[];
-    illustrator?: string;
-    cv?: string;
-};
-
-type ItemSearchOptions = {
-    name?: string;
-    individuality?: number[];
-    type?: ItemType[];
-    background?: ItemBackgroundType[];
-    use?: ItemUse[];
-};
-
-type QuestPhaseSearchOptions = {
-    name?: string;
-    spotName?: string;
-    warId?: number[];
-    type?: QuestType[];
-    flag?: QuestFlag[];
-    fieldIndividuality?: number[];
-    battleBgId?: number;
-    bgmId?: number;
-    fieldAiId?: number;
-    enemySvtId?: number;
-    enemySvtAiId?: number;
-    enemyTrait?: number[];
-    enemyClassName?: ClassName[];
-};
-
-type ScriptSearchOptions = {
-    query: string;
-    scriptFileName?: string;
-    warId?: number[];
 };
 
 export interface EnumList {
@@ -941,7 +855,7 @@ class ApiConnector {
     searchNP(options: NPSearchOptions): Promise<NoblePhantasmBasic[]> {
         const query = this.getQueryString(this.getURLSearchParams(options));
 
-        return ApiConnector.fetch<SkillBasic[]>(`${this.host}/basic/${this.region}/NP/search${query}`);
+        return ApiConnector.fetch<NoblePhantasmBasic[]>(`${this.host}/basic/${this.region}/NP/search${query}`);
     }
 
     searchEntity(options: EntitySearchOptions): Promise<EntityBasic[]> {

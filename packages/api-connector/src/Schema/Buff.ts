@@ -1,3 +1,4 @@
+import { ReverseData, ReverseDepth } from "../ApiConnector";
 import ClassName from "../Enum/ClassName";
 import { Func } from "./Func";
 import { Trait } from "./Trait";
@@ -350,4 +351,17 @@ export interface BuffConstant {
 
 export type BuffConstantMap = {
     [key in BuffAction]?: BuffConstant;
+};
+
+export type BuffSearchOptions = {
+    name?: string;
+    type?: BuffType[];
+    buffGroup?: number[];
+    vals?: number[];
+    tvals?: number[];
+    ckSelfIndv?: number[];
+    ckOpIndv?: number[];
+    reverse?: boolean;
+    reverseData?: ReverseData;
+    reverseDepth?: ReverseDepth;
 };

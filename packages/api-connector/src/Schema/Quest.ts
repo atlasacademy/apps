@@ -160,6 +160,8 @@ export interface QuestPhaseScript {
 export interface QuestPhaseExtraDetail {
     questSelect?: number[];
     singleForceSvtId?: number;
+    hintTitle?: number;
+    hintMessage?: number;
 }
 
 export interface Quest {
@@ -207,3 +209,21 @@ export interface QuestPhase extends Quest {
     drops: EnemyDrop[];
     stages: Stage[];
 }
+
+export type QuestPhaseSearchOptions = {
+    name?: string;
+    spotName?: string;
+    warId?: number[];
+    type?: QuestType[];
+    flag?: QuestFlag[];
+    fieldIndividuality?: number[];
+    battleBgId?: number;
+    bgmId?: number;
+    fieldAiId?: number;
+    enemySvtId?: number;
+    enemySvtAiId?: number;
+    enemyTrait?: number[];
+    enemyClassName?: ClassName[];
+    enemySkillId?: number[];
+    enemyNoblePhantasmId?: number[];
+};

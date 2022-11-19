@@ -1,3 +1,4 @@
+import { ReverseData, ReverseDepth } from "../ApiConnector";
 import { AiType } from "./Ai";
 import { CommandCodeBasic, CommandCode } from "./CommandCode";
 import { CommonRelease } from "./CommonRelease";
@@ -94,3 +95,18 @@ export interface Skill extends SkillBasic {
         };
     };
 }
+
+export type SkillSearchOptions = {
+    name?: string;
+    type?: SkillType[];
+    num?: number[];
+    priority?: number[];
+    strengthStatus?: number[];
+    lvl1coolDown?: number[];
+    numFunctions?: number[];
+    svalsContain?: string;
+    triggerSkillId?: number[];
+    reverse?: boolean;
+    reverseData?: ReverseData;
+    reverseDepth?: ReverseDepth;
+};

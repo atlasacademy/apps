@@ -265,3 +265,19 @@ export interface EntityBasic {
         [key: string]: CostumeDetailBasic;
     };
 }
+
+export type EntitySearchOptions = {
+    name?: string;
+    excludeCollectionNo?: number[];
+    type?: EntityType[];
+    flag?: EntityFlag[];
+    rarity?: number[];
+    className?: ClassName[];
+    gender?: Gender[];
+    attribute?: Attribute[];
+    trait?: number[];
+    notTrait?: number[];
+    voiceCondSvt?: number[];
+    illustrator?: string;
+    cv?: string;
+};

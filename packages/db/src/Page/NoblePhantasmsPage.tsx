@@ -146,16 +146,16 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
 
         this.setState({ searching: true, noblePhantasms: [] });
 
-        Api.searchNoblePhantasm(
-            this.state.name,
-            this.state.card,
-            this.state.individuality,
-            this.state.hits,
-            this.state.strengthStatus,
-            this.state.numFunctions,
-            this.state.minNpNpGain,
-            this.state.maxNpNpGain
-        )
+        Api.searchNoblePhantasm({
+            name: this.state.name,
+            card: this.state.card,
+            individuality: this.state.individuality,
+            hits: this.state.hits,
+            strengthStatus: this.state.strengthStatus,
+            numFunctions: this.state.numFunctions,
+            minNpNpGain: this.state.minNpNpGain,
+            maxNpNpGain: this.state.maxNpNpGain,
+        })
             .then((noblePhantasms) => {
                 this.setQueryURL();
                 this.setState({ noblePhantasms, searched: true, searching: false });

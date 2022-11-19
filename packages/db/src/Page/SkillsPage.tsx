@@ -138,16 +138,16 @@ class SkillsPage extends React.Component<IProps, IState> {
 
         this.setState({ searching: true, skills: [] });
 
-        Api.searchSkill(
-            this.state.name,
-            this.state.type,
-            this.state.num,
-            this.state.priority,
-            this.state.strengthStatus,
-            this.state.lvl1coolDown,
-            this.state.numFunctions,
-            this.state.svalsContain
-        )
+        Api.searchSkill({
+            name: this.state.name,
+            type: this.state.type,
+            num: this.state.num,
+            priority: this.state.priority,
+            strengthStatus: this.state.strengthStatus,
+            lvl1coolDown: this.state.lvl1coolDown,
+            numFunctions: this.state.numFunctions,
+            svalsContain: this.state.svalsContain,
+        })
             .then((skills) => {
                 this.setQueryURL();
                 this.setState({ skills, searched: true, searching: false });

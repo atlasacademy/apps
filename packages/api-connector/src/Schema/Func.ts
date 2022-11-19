@@ -1,3 +1,4 @@
+import { ReverseData, ReverseDepth } from "../ApiConnector";
 import { Buff } from "./Buff";
 import { DataVal } from "./DataVal";
 import { NoblePhantasmBasic, NoblePhantasm } from "./NoblePhantasm";
@@ -178,3 +179,16 @@ export interface Func extends BasicFunc {
         };
     };
 }
+
+export type FuncSearchOptions = {
+    popupText?: string;
+    type?: FuncType[];
+    targetType?: FuncTargetType[];
+    targetTeam?: FuncTargetTeam[];
+    vals?: number[];
+    tvals?: number[];
+    questTvals?: number[];
+    reverse?: boolean;
+    reverseData?: ReverseData;
+    reverseDepth?: ReverseDepth;
+};

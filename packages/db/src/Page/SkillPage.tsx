@@ -74,29 +74,8 @@ class SkillPage extends React.Component<IProps, IState> {
             .catch((error) => this.setState({ error }));
 
         Promise.all([
-            Api.searchSkill(
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                `,${this.props.id},`,
-                false
-            ),
-            Api.searchNoblePhantasm(
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                `,${this.props.id},`,
-                false
-            ),
+            Api.searchSkill({ triggerSkillId: [this.props.id], reverse: false }),
+            Api.searchNoblePhantasm({ triggerSkillId: [this.props.id], reverse: false }),
         ]).then(([triggeringSkills, triggeringNoblePhantasms]) => {
             this.setState({ triggeringSkills, triggeringNoblePhantasms });
         });

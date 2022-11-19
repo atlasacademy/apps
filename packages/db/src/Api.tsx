@@ -341,54 +341,18 @@ class Api {
         });
     }
 
-    static searchSkill(
-        name?: string,
-        type?: Skill.SkillType[],
-        num?: number[],
-        priority?: number[],
-        strengthStatus?: number[],
-        lvl1coolDown?: number[],
-        numFunctions?: number[],
-        svalsContain?: string,
-        reverse?: boolean
-    ): Promise<Skill.SkillBasic[]> {
+    static searchSkill(options: Skill.SkillSearchOptions): Promise<Skill.SkillBasic[]> {
         return apiConnector.searchSkill({
-            name,
-            type,
-            num,
-            priority,
-            strengthStatus,
-            lvl1coolDown,
-            numFunctions,
-            svalsContain,
-            reverse: reverse ?? true,
+            ...options,
+            reverse: options.reverse ?? true,
             reverseDepth: ReverseDepth.SERVANT,
         });
     }
 
-    static searchNoblePhantasm(
-        name?: string,
-        card?: Card[],
-        individuality?: number[],
-        hits?: number[],
-        strengthStatus?: number[],
-        numFunctions?: number[],
-        minNpNpGain?: number,
-        maxNpNpGain?: number,
-        svalsContain?: string,
-        reverse?: boolean
-    ): Promise<NoblePhantasm.NoblePhantasmBasic[]> {
+    static searchNoblePhantasm(options: NoblePhantasm.NPSearchOptions): Promise<NoblePhantasm.NoblePhantasmBasic[]> {
         return apiConnector.searchNP({
-            name,
-            card,
-            individuality,
-            hits,
-            strengthStatus,
-            numFunctions,
-            minNpNpGain,
-            maxNpNpGain,
-            svalsContain,
-            reverse: reverse ?? true,
+            ...options,
+            reverse: options.reverse ?? true,
             reverseDepth: ReverseDepth.SERVANT,
         });
     }

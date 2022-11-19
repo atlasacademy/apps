@@ -34,3 +34,9 @@ export interface Script {
     script: string;
     quests: Quest[];
 }
+
+export type ScriptSearchOptions = {
+    query: string;
+    scriptFileName?: string;
+    warId?: number[];
+};

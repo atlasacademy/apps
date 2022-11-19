@@ -1,3 +1,4 @@
+import { ReverseData, ReverseDepth } from "../ApiConnector";
 import Card from "../Enum/Card";
 import { EntityBasic, Entity } from "./Entity";
 import { Func } from "./Func";
@@ -60,3 +61,19 @@ export interface NoblePhantasm extends NoblePhantasmBasic {
         };
     };
 }
+
+export type NPSearchOptions = {
+    name?: string;
+    card?: Card[];
+    individuality?: number[];
+    hits?: number[];
+    strengthStatus?: number[];
+    numFunctions?: number[];
+    minNpNpGain?: number;
+    maxNpNpGain?: number;
+    svalsContain?: string;
+    triggerSkillId?: number[];
+    reverse?: boolean;
+    reverseData?: ReverseData;
+    reverseDepth?: ReverseDepth;
+};
