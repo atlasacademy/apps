@@ -141,7 +141,7 @@ export default function CondTargetNumDescriptor(props: {
                 const missionName = mission ? mission.name : "";
                 return (
                     <>
-                        Cleared mission{" "}
+                        Claim mission{" "}
                         <Button
                             variant="link"
                             className="move-button"
@@ -156,7 +156,7 @@ export default function CondTargetNumDescriptor(props: {
                     const mission = (props.missions ?? new Map([])).get(target);
                     return mission ? mission.dispNo : target;
                 });
-                return <>Cleared missions {missionRange(missionDispNos)}</>;
+                return <>Claim missions {missionRange(missionDispNos)}</>;
             }
         case CondType.EVENT_TOTAL_POINT:
             return <>Reached {num.toLocaleString()} event points</>;
