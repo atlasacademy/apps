@@ -1,8 +1,11 @@
-import { AxiosError } from "axios";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios, { AxiosError } from "axios";
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-import { NoblePhantasm, Region } from "@atlasacademy/api-connector";
+import { NoblePhantasm, Entity, Region, Quest } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";
@@ -12,7 +15,9 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
+import { QuestDescriptionNoApi } from "../Descriptor/QuestDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
+import { emptyOrUndefinded } from "../Helper/ArrayHelper";
 import { asPercent, mergeElements } from "../Helper/OutputHelper";
 import getRubyText from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -29,6 +34,7 @@ interface IState {
     error?: AxiosError;
     loading: boolean;
     noblePhantasm?: NoblePhantasm.NoblePhantasm;
+    relatedQuests: Quest.QuestPhaseBasic[];
     level: number;
     overcharge: number;
 }
@@ -41,21 +47,32 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
             loading: true,
             level: 1,
             overcharge: 1,
+            relatedQuests: [],
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         Manager.setRegion(this.props.region);
-        this.loadNp();
+        await this.loadNp();
     }
 
     async loadNp() {
-        Api.noblePhantasm(this.props.id)
-            .then((noblePhantasm) => {
-                document.title = `[${this.props.region}] Noble Phantasm - ${noblePhantasm.name} - Atlas Academy DB`;
-                this.setState({ noblePhantasm, loading: false });
-            })
-            .catch((error) => this.setState({ error }));
+        try {
+            const noblePhantasm = await Api.noblePhantasm(this.props.id);
+
+            let relatedQuests: Quest.QuestPhaseBasic[] = [];
+            const ownerTypes = new Set((noblePhantasm.reverse?.basic?.servant ?? []).map((svt) => svt.type));
+            if (ownerTypes.size > 0 && !ownerTypes.has(Entity.EntityType.NORMAL)) {
+                relatedQuests = await Api.searchQuestPhase({ enemyNoblePhantasmId: [this.props.id] });
+            }
+
+            document.title = `[${this.props.region}] Noble Phantasm - ${noblePhantasm.name} - Atlas Academy DB`;
+            this.setState({ noblePhantasm, loading: false, relatedQuests });
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                this.setState({ error });
+            }
+        }
     }
 
     private changeLevel(level: number) {
@@ -135,6 +152,31 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                                     })}
                                 </div>
                             ),
+                        },
+                        {
+                            label: "Used in Quests",
+                            value: (
+                                <ul>
+                                    {this.state.relatedQuests.slice(0, 10).map((quest) => (
+                                        <li key={`${quest.id}-${quest.phase}`}>
+                                            <QuestDescriptionNoApi
+                                                region={this.props.region}
+                                                quest={quest}
+                                                questPhase={quest.phase}
+                                            />
+                                        </li>
+                                    ))}
+                                    {this.state.relatedQuests.length > 10 ? (
+                                        <li>
+                                            <Link to={`/${this.props.region}/quests?enemySkillId=${this.props.id}`}>
+                                                and {this.state.relatedQuests.length - 10} other quests{" "}
+                                                <FontAwesomeIcon icon={faShare} />
+                                            </Link>
+                                        </li>
+                                    ) : null}
+                                </ul>
+                            ),
+                            hidden: this.state.relatedQuests.length === 0,
                         },
                     ]}
                 />

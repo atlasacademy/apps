@@ -49,6 +49,8 @@ interface IState {
     enemySvtAiId?: number;
     enemyTrait: number[];
     enemyClassName: ClassName[];
+    enemySkillId?: number;
+    enemyNoblePhantasmId?: number;
 }
 
 class QuestsPage extends React.Component<IProps, IState> {
@@ -84,6 +86,8 @@ class QuestsPage extends React.Component<IProps, IState> {
                 enemySvtAiId: getNumParam(searchParams, "enemySvtAiId"),
                 enemyTrait: getQueryNums("enemyTrait"),
                 enemyClassName: searchParams.getAll("enemyClassName") as ClassName[],
+                enemySkillId: getNumParam(searchParams, "enemySkillId"),
+                enemyNoblePhantasmId: getNumParam(searchParams, "enemyNoblePhantasmId"),
             };
         } else {
             state = stateCache.get(props.region) ?? defaultState;
@@ -134,6 +138,8 @@ class QuestsPage extends React.Component<IProps, IState> {
             enemySvtAiId: this.state.enemySvtAiId,
             enemyTrait: this.state.enemyTrait,
             enemyClassName: this.state.enemyClassName,
+            enemySkillId: this.state.enemySkillId,
+            enemyNoblePhantasmId: this.state.enemyNoblePhantasmId,
         }).toString();
     }
 
@@ -156,7 +162,9 @@ class QuestsPage extends React.Component<IProps, IState> {
             this.state.enemySvtId === undefined &&
             this.state.enemySvtAiId === undefined &&
             this.state.enemyTrait.length === 0 &&
-            this.state.enemyClassName.length === 0
+            this.state.enemyClassName.length === 0 &&
+            this.state.enemySkillId === undefined &&
+            this.state.enemyNoblePhantasmId === undefined
         ) {
             this.setState({ quests: [] });
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
@@ -166,21 +174,23 @@ class QuestsPage extends React.Component<IProps, IState> {
 
         this.setState({ searching: true, quests: [] });
 
-        Api.searchQuestPhase(
-            this.state.name,
-            this.state.spotName,
-            this.state.warId ? [this.state.warId] : undefined,
-            this.state.type ? [this.state.type] : undefined,
-            this.state.flag ? [this.state.flag] : undefined,
-            this.state.fieldIndividuality,
-            this.state.battleBgId,
-            this.state.bgmId,
-            this.state.fieldAiId,
-            this.state.enemySvtId,
-            this.state.enemySvtAiId,
-            this.state.enemyTrait,
-            this.state.enemyClassName
-        )
+        Api.searchQuestPhase({
+            name: this.state.name,
+            spotName: this.state.spotName,
+            warId: this.state.warId ? [this.state.warId] : undefined,
+            type: this.state.type ? [this.state.type] : undefined,
+            flag: this.state.flag ? [this.state.flag] : undefined,
+            fieldIndividuality: this.state.fieldIndividuality,
+            battleBgId: this.state.battleBgId,
+            bgmId: this.state.bgmId,
+            fieldAiId: this.state.fieldAiId,
+            enemySvtId: this.state.enemySvtId,
+            enemySvtAiId: this.state.enemySvtAiId,
+            enemyTrait: this.state.enemyTrait,
+            enemyClassName: this.state.enemyClassName,
+            enemySkillId: this.state.enemySkillId ? [this.state.enemySkillId] : undefined,
+            enemyNoblePhantasmId: this.state.enemyNoblePhantasmId ? [this.state.enemyNoblePhantasmId] : undefined,
+        })
             .then((quests) => {
                 this.setQueryURL();
                 this.setState({ quests, searched: true, searching: false });
@@ -192,7 +202,15 @@ class QuestsPage extends React.Component<IProps, IState> {
     }
 
     getNumberForm(
-        stateVar: "warId" | "battleBgId" | "bgmId" | "fieldAiId" | "enemySvtId" | "enemySvtAiId",
+        stateVar:
+            | "warId"
+            | "battleBgId"
+            | "bgmId"
+            | "fieldAiId"
+            | "enemySvtId"
+            | "enemySvtAiId"
+            | "enemySkillId"
+            | "enemyNoblePhantasmId",
         label: string
     ) {
         return (
@@ -324,7 +342,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                                 this.setState({ enemyTrait: trait });
                             }}
                         />
-                    </Form.Group>{" "}
+                    </Form.Group>
                     <Form.Group>
                         <Form.Label>Enemy Class</Form.Label>
                         <SearchableSelect<ClassName>
@@ -339,6 +357,8 @@ class QuestsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
+                    {this.getNumberForm("enemySkillId", "Enemy Skill ID")}
+                    {this.getNumberForm("enemyNoblePhantasmId", "Enemy Noble Phantasm ID")}
                     <Button variant={"primary"} onClick={() => this.search()} style={{ marginBottom: "1em" }}>
                         Search <FontAwesomeIcon icon={faSearch} />
                     </Button>

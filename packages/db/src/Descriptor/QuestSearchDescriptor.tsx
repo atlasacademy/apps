@@ -27,26 +27,30 @@ interface IProps {
     enemySvtAiId?: number;
     enemyTrait?: number[];
     enemyClassName?: ClassName[];
+    enemySkillId?: number[];
+    enemyNoblePhantasmId?: number[];
 }
 
 export default function QuestSearchDescriptor(props: IProps) {
     const [quests, setQuests] = useState<Quest.QuestPhaseBasic[]>([]);
     useEffect(() => {
-        Api.searchQuestPhase(
-            props.name,
-            props.spotName,
-            props.warId,
-            props.type,
-            props.flag,
-            props.fieldIndividuality,
-            props.battleBgId,
-            props.bgmId,
-            props.fieldAiId,
-            props.enemySvtId,
-            props.enemySvtAiId,
-            props.enemyTrait,
-            props.enemyClassName
-        )
+        Api.searchQuestPhase({
+            name: props.name,
+            spotName: props.spotName,
+            warId: props.warId,
+            type: props.type,
+            flag: props.flag,
+            fieldIndividuality: props.fieldIndividuality,
+            battleBgId: props.battleBgId,
+            bgmId: props.bgmId,
+            fieldAiId: props.fieldAiId,
+            enemySvtId: props.enemySvtId,
+            enemySvtAiId: props.enemySvtAiId,
+            enemyTrait: props.enemyTrait,
+            enemyClassName: props.enemyClassName,
+            enemySkillId: props.enemySkillId,
+            enemyNoblePhantasmId: props.enemyNoblePhantasmId,
+        })
             .then((s) => setQuests(s))
             .catch(() => {});
     }, [
@@ -63,6 +67,8 @@ export default function QuestSearchDescriptor(props: IProps) {
         props.enemySvtAiId,
         props.enemyTrait,
         props.enemyClassName,
+        props.enemySkillId,
+        props.enemyNoblePhantasmId,
     ]);
     if (quests.length === 0) {
         return null;

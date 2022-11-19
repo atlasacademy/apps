@@ -29,3 +29,7 @@ export function doIntersect<T>(arrayA: T[], arrayB: T[]): boolean {
 
     return false;
 }
+
+export function emptyOrUndefinded<T>(array: T[] | undefined): boolean {
+    return array === undefined || array.length === 0;
+}

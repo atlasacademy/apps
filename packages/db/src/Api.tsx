@@ -357,36 +357,8 @@ class Api {
         });
     }
 
-    static searchQuestPhase(
-        name?: string,
-        spotName?: string,
-        warId?: number[],
-        type?: Quest.QuestType[],
-        flag?: Quest.QuestFlag[],
-        fieldIndividuality?: number[],
-        battleBgId?: number,
-        bgmId?: number,
-        fieldAiId?: number,
-        enemySvtId?: number,
-        enemySvtAiId?: number,
-        enemyTrait?: number[],
-        enemyClassName?: ClassName[]
-    ): Promise<Quest.QuestPhaseBasic[]> {
-        return apiConnector.searchQuestPhase({
-            name,
-            spotName,
-            warId,
-            type,
-            flag,
-            fieldIndividuality,
-            battleBgId,
-            bgmId,
-            fieldAiId,
-            enemySvtId,
-            enemySvtAiId,
-            enemyTrait,
-            enemyClassName,
-        });
+    static searchQuestPhase(options: Quest.QuestPhaseSearchOptions): Promise<Quest.QuestPhaseBasic[]> {
+        return apiConnector.searchQuestPhase(options);
     }
 
     static searchScript(

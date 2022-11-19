@@ -1,8 +1,11 @@
-import { AxiosError } from "axios";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios, { AxiosError } from "axios";
 import React from "react";
 import { Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-import { NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
+import { NoblePhantasm, Region, Quest, Skill } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";
@@ -18,7 +21,9 @@ import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import { BasicMysticCodeDescriptor } from "../Descriptor/MysticCodeDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
+import { QuestDescriptionNoApi } from "../Descriptor/QuestDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
+import { emptyOrUndefinded } from "../Helper/ArrayHelper";
 import { mergeElements } from "../Helper/OutputHelper";
 import getRubyText, { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -39,6 +44,7 @@ interface IState {
     skill?: Skill.Skill;
     triggeringSkills: Skill.SkillBasic[];
     triggeringNoblePhantasms: NoblePhantasm.NoblePhantasmBasic[];
+    relatedQuests: Quest.QuestPhaseBasic[];
     levels: number;
     level: number;
 }
@@ -53,32 +59,49 @@ class SkillPage extends React.Component<IProps, IState> {
             level: 1,
             triggeringSkills: [],
             triggeringNoblePhantasms: [],
+            relatedQuests: [],
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         Manager.setRegion(this.props.region);
-        this.loadSkill();
+        await this.loadSkill();
     }
 
     async loadSkill() {
-        Api.skill(this.props.id)
-            .then((skill) => {
-                document.title = `[${this.props.region}] Skill - ${skill.name} - Atlas Academy DB`;
-                this.setState({
-                    skill,
-                    levels: skill.functions[0]?.svals?.length ?? 1,
-                    loading: false,
-                });
-            })
-            .catch((error) => this.setState({ error }));
+        try {
+            const skill = await Api.skill(this.props.id);
 
-        Promise.all([
-            Api.searchSkill({ triggerSkillId: [this.props.id], reverse: false }),
-            Api.searchNoblePhantasm({ triggerSkillId: [this.props.id], reverse: false }),
-        ]).then(([triggeringSkills, triggeringNoblePhantasms]) => {
-            this.setState({ triggeringSkills, triggeringNoblePhantasms });
-        });
+            const [triggeringSkills, triggeringNoblePhantasms] = await Promise.all([
+                Api.searchSkill({ triggerSkillId: [this.props.id], reverse: false }),
+                Api.searchNoblePhantasm({ triggerSkillId: [this.props.id], reverse: false }),
+            ]);
+
+            let relatedQuests: Quest.QuestPhaseBasic[] = [];
+            if (
+                emptyOrUndefinded(skill.reverse?.basic?.servant) &&
+                emptyOrUndefinded(skill.reverse?.basic?.CC) &&
+                emptyOrUndefinded(skill.reverse?.basic?.MC) &&
+                emptyOrUndefinded(triggeringSkills) &&
+                emptyOrUndefinded(triggeringNoblePhantasms)
+            ) {
+                relatedQuests = await Api.searchQuestPhase({ enemySkillId: [this.props.id] });
+            }
+
+            document.title = `[${this.props.region}] Skill - ${skill.name} - Atlas Academy DB`;
+            this.setState({
+                skill,
+                levels: skill.functions[0]?.svals?.length ?? 1,
+                loading: false,
+                triggeringSkills,
+                triggeringNoblePhantasms,
+                relatedQuests,
+            });
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                this.setState({ error });
+            }
+        }
     }
 
     private changeLevel(level: number) {
@@ -95,7 +118,7 @@ class SkillPage extends React.Component<IProps, IState> {
         const skill = this.state.skill;
 
         const skillAdd = mergeElements(
-            this.state.skill.skillAdd.map((skillAdd) => (
+            skill.skillAdd.map((skillAdd) => (
                 <>
                     {getRubyText(this.props.region, skillAdd.name, skillAdd.ruby, true)}
                     {skillAdd.releaseConditions.map((cond) => (
@@ -161,11 +184,12 @@ class SkillPage extends React.Component<IProps, IState> {
                                 </span>
                             ),
                         },
-                        { label: "Skill Add", value: skillAdd },
+                        { label: "Skill Add", value: skillAdd, hidden: skill.skillAdd.length === 0 },
                         { label: "Type", value: toTitleCase(skill.type) },
                         {
                             label: "Related AIs",
                             value: AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),
+                            hidden: skill.aiIds === undefined || Object.keys(skill.aiIds).length === 0,
                         },
                         {
                             label: "Owner",
@@ -200,6 +224,10 @@ class SkillPage extends React.Component<IProps, IState> {
                                     })}
                                 </>
                             ),
+                            hidden:
+                                emptyOrUndefinded(skill.reverse?.basic?.servant) &&
+                                emptyOrUndefinded(skill.reverse?.basic?.CC) &&
+                                emptyOrUndefinded(skill.reverse?.basic?.MC),
                         },
                         {
                             label: "Triggered by",
@@ -219,6 +247,34 @@ class SkillPage extends React.Component<IProps, IState> {
                                     ))}
                                 </>
                             ),
+                            hidden:
+                                this.state.triggeringSkills.length === 0 &&
+                                this.state.triggeringNoblePhantasms.length === 0,
+                        },
+                        {
+                            label: "Used in Quests",
+                            value: (
+                                <ul>
+                                    {this.state.relatedQuests.slice(0, 10).map((quest) => (
+                                        <li key={`${quest.id}-${quest.phase}`}>
+                                            <QuestDescriptionNoApi
+                                                region={this.props.region}
+                                                quest={quest}
+                                                questPhase={quest.phase}
+                                            />
+                                        </li>
+                                    ))}
+                                    {this.state.relatedQuests.length > 10 ? (
+                                        <li>
+                                            <Link to={`/${this.props.region}/quests?enemySkillId=${this.props.id}`}>
+                                                and {this.state.relatedQuests.length - 10} other quests{" "}
+                                                <FontAwesomeIcon icon={faShare} />
+                                            </Link>
+                                        </li>
+                                    ) : null}
+                                </ul>
+                            ),
+                            hidden: this.state.relatedQuests.length === 0,
                         },
                     ]}
                 />
