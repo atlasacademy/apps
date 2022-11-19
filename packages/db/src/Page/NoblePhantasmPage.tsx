@@ -17,7 +17,6 @@ import RawDataViewer from "../Component/RawDataViewer";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import { QuestDescriptionNoApi } from "../Descriptor/QuestDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
-import { emptyOrUndefinded } from "../Helper/ArrayHelper";
 import { asPercent, mergeElements } from "../Helper/OutputHelper";
 import getRubyText from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";

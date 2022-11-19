@@ -135,21 +135,29 @@ export default function CondTargetNumDescriptor(props: {
                 </>
             );
         case CondType.EVENT_MISSION_ACHIEVE:
-            const mission = (props.missions ?? new Map([])).get(targets[0]);
-            const missionDispNo = mission ? mission.dispNo : targets[0];
-            const missionName = mission ? mission.name : "";
-            return (
-                <>
-                    Achieved mission{" "}
-                    <Button
-                        variant="link"
-                        className="move-button"
-                        onClick={() => props.handleNavigateMissionId?.(targets[0])}
-                    >
-                        {missionDispNo}: <span lang={lang(region)}>{missionName}</span>
-                    </Button>
-                </>
-            );
+            if (targets.length === 1) {
+                const mission = (props.missions ?? new Map([])).get(targets[0]);
+                const missionDispNo = mission ? mission.dispNo : targets[0];
+                const missionName = mission ? mission.name : "";
+                return (
+                    <>
+                        Cleared mission{" "}
+                        <Button
+                            variant="link"
+                            className="move-button"
+                            onClick={() => props.handleNavigateMissionId?.(targets[0])}
+                        >
+                            {missionDispNo}: <span lang={lang(region)}>{missionName}</span>
+                        </Button>
+                    </>
+                );
+            } else {
+                const missionDispNos = targets.map((target) => {
+                    const mission = (props.missions ?? new Map([])).get(target);
+                    return mission ? mission.dispNo : target;
+                });
+                return <>Cleared missions {missionRange(missionDispNos)}</>;
+            }
         case CondType.EVENT_TOTAL_POINT:
             return <>Reached {num.toLocaleString()} event points</>;
         case CondType.EVENT_MISSION_CLEAR:

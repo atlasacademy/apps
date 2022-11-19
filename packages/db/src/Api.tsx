@@ -4,7 +4,6 @@ import {
     Attribute,
     Bgm,
     Buff,
-    Card,
     ConstantStr,
     Change,
     ClassName,
