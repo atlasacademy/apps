@@ -2,6 +2,7 @@ import { Button } from "react-bootstrap";
 
 import { CondType, Mission, Quest, Region, Servant, Item, EnumList } from "@atlasacademy/api-connector";
 
+import { mergeElements } from "../Helper/OutputHelper";
 import { lang } from "../Setting/Manager";
 import CondMissionDetailDescriptor from "./CondMissionDetailDescriptor";
 import EventDescriptor from "./EventDescriptor";
@@ -23,7 +24,7 @@ export default function CondTargetNumDescriptor(props: {
     cond: CondType;
     targets: number[];
     num: number;
-    detail?: Mission.MissionConditionDetail;
+    details?: Mission.MissionConditionDetail[];
     servants?: Map<number, Servant.ServantBasic>;
     quests?: Map<number, Quest.QuestBasic>;
     missions?: Map<number, Mission.Mission>;
@@ -174,17 +175,24 @@ export default function CondTargetNumDescriptor(props: {
                 </>
             );
         case CondType.MISSION_CONDITION_DETAIL:
-            if (props.detail !== undefined) {
+            if (props.details) {
                 return (
-                    <CondMissionDetailDescriptor
-                        region={region}
-                        detail={props.detail}
-                        num={num}
-                        servants={props.servants}
-                        quests={props.quests}
-                        items={props.items}
-                        enums={props.enums}
-                    />
+                    <>
+                        {mergeElements(
+                            props.details.map((detail) => (
+                                <CondMissionDetailDescriptor
+                                    region={region}
+                                    detail={detail}
+                                    num={num}
+                                    servants={props.servants}
+                                    quests={props.quests}
+                                    items={props.items}
+                                    enums={props.enums}
+                                />
+                            )),
+                            " or "
+                        )}
+                    </>
                 );
             } else {
                 return (

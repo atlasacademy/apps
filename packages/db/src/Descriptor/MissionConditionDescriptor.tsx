@@ -1,14 +1,8 @@
-import { faShare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Mission, Quest, Region, Servant, Item, EnumList } from "@atlasacademy/api-connector";
 
-import { Mission, Quest, Region, Servant, Item, EnumList, CondType } from "@atlasacademy/api-connector";
-
-import { CollapsibleLight } from "../Component/CollapsibleContent";
-import { getURLSearchParams } from "../Helper/StringHelper";
 import { lang } from "../Setting/Manager";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
-import QuestSearchDescriptor from "./QuestSearchDescriptor";
+import MissionConditionApplicableQuests from "./MissionConditionApplicableQuests";
 
 import "../Helper/StringHelper.css";
 
@@ -36,6 +30,7 @@ export default function MissionConditionDescriptor(props: {
         case Mission.ProgressType.CLEAR:
             progressType = "Clear condition";
     }
+
     return (
         <>
             <i>{progressType}:</i>
@@ -49,7 +44,7 @@ export default function MissionConditionDescriptor(props: {
                         cond={cond.condType}
                         targets={cond.targetIds}
                         num={cond.targetNum}
-                        detail={cond.detail}
+                        details={cond.details}
                         servants={props.servants}
                         quests={props.quests}
                         missions={props.missions}
@@ -58,38 +53,13 @@ export default function MissionConditionDescriptor(props: {
                         handleNavigateMissionId={props.handleNavigateMissionId}
                     />
                 </li>
-                {cond.condType === CondType.MISSION_CONDITION_DETAIL &&
-                cond.detail !== undefined &&
-                [
-                    Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY,
-                    Mission.DetailCondType.ENEMY_INDIVIDUALITY_KILL_NUM,
-                ].includes(cond.detail?.missionCondType) ? (
-                    props.goToQuestSearchOnly ? (
-                        <Link
-                            to={`/${props.region}/quests?${getURLSearchParams({
-                                type: Quest.QuestType.FREE,
-                                enemyTrait: cond.detail.targetIds,
-                            }).toString()}`}
-                        >
-                            Search applicable quests <FontAwesomeIcon icon={faShare} />
-                        </Link>
-                    ) : (
-                        <CollapsibleLight
-                            title="Applicable Quests"
-                            content={
-                                <QuestSearchDescriptor
-                                    region={props.region}
-                                    warId={props.warIds}
-                                    enemyTrait={cond.detail.targetIds}
-                                    hideSearchLink={true}
-                                    returnList={true}
-                                />
-                            }
-                            eventKey={`${props.region}-${props.warIds}-enemyTraits:${cond.detail.targetIds}`}
-                            defaultActiveKey={""}
-                        />
-                    )
-                ) : null}
+                <MissionConditionApplicableQuests
+                    region={props.region}
+                    cond={cond.condType}
+                    details={cond.details}
+                    goToQuestSearchOnly={props.goToQuestSearchOnly}
+                    warIds={props.warIds}
+                />
             </ul>
         </>
     );
