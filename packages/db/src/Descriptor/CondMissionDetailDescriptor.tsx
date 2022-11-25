@@ -7,6 +7,8 @@ import {
     MultipleQuests,
     MultipleClasses,
     MultipleEmbers,
+    MultipleQuestTypes,
+    MultipleWars,
 } from "./MultipleDescriptors";
 
 export default function CondMissionDetailDescriptor(props: {
@@ -44,10 +46,11 @@ export default function CondMissionDetailDescriptor(props: {
                     {pluralS}
                 </>
             );
-        case Mission.DetailCondType.MAIN_QUEST_DONE:
+        case Mission.DetailCondType.QUEST_TYPE_CLEAR:
             return (
                 <>
-                    Clear any main quest in Arc 1 and Arc 2 {num} time
+                    Clear any <MultipleQuestTypes questTypeIds={targetIds} enums={props.enums?.NiceQuestType} /> quest{" "}
+                    {num} time
                     {pluralS}
                 </>
             );
@@ -91,7 +94,7 @@ export default function CondMissionDetailDescriptor(props: {
             return (
                 <>
                     Put one or more <MultipleClasses classIds={targetIds} classes={props.enums?.SvtClass} /> Servants in
-                    your Party and complete any quest {num} times
+                    your Party and complete any quest {num} time{pluralS}
                 </>
             );
         case Mission.DetailCondType.ITEM_GET_BATTLE:
@@ -106,7 +109,7 @@ export default function CondMissionDetailDescriptor(props: {
             return (
                 <>
                     Put servants with <MultipleTraits region={region} traitIds={targetIds} /> in your Party and complete
-                    Quests {num} times
+                    Quests {num} time{pluralS}
                 </>
             );
         case Mission.DetailCondType.BATTLE_SVT_ID_IN_DECK_1:
@@ -114,7 +117,7 @@ export default function CondMissionDetailDescriptor(props: {
             return (
                 <>
                     Put <MultipleServants region={region} servantIds={targetIds} servants={props.servants} /> in your
-                    Party and complete Quests {num} times
+                    Party and complete Quests {num} time{pluralS}
                 </>
             );
         case Mission.DetailCondType.SVT_GET_BATTLE:
@@ -125,6 +128,12 @@ export default function CondMissionDetailDescriptor(props: {
             );
         case Mission.DetailCondType.FRIEND_POINT_SUMMON:
             return <>Perform {num} Friend Point Summons</>;
+        case Mission.DetailCondType.WAR_MAIN_QUEST_CLEAR:
+            return (
+                <>
+                    Clear any quest from <MultipleWars region={region} warIds={targetIds} /> {num} time{pluralS}
+                </>
+            );
         default:
             return (
                 <>

@@ -1,6 +1,9 @@
-import { ClassName, Gift, Item, Quest, Region, Servant } from "@atlasacademy/api-connector";
+import { useEffect, useState } from "react";
+
+import { ClassName, Gift, Item, Quest, Region, Servant, War } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
+import Api from "../Api";
 import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { areIdenticalArrays, isSubset } from "../Helper/ArrayHelper";
 import { mergeElements, Renderable } from "../Helper/OutputHelper";
@@ -9,6 +12,7 @@ import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 import TraitDescription from "./TraitDescription";
+import WarDescriptor from "./WarDescriptor";
 
 export const missionRange = (missions: number[]) => {
     const max = Math.max(...missions);
@@ -223,6 +227,33 @@ export const MultipleClasses = (props: { classIds: number[]; classes?: { [key: s
             <MergeElementsOr elements={classNames} lastJoinWord="or" /> class
         </>
     );
+};
+
+export const MultipleQuestTypes = (props: { questTypeIds: number[]; enums?: { [key: string]: Quest.QuestType } }) => {
+    const questTypes = props.questTypeIds.map((questTypeId) => {
+        const questType = props.enums ? props.enums[questTypeId.toString()]?.toString() : undefined;
+        return toTitleCase(questType ?? `quest type ${questTypeId}`);
+    });
+    return <MergeElementsOr elements={questTypes} lastJoinWord="or" />;
+};
+
+export const MultipleWars = ({ region, warIds }: { region: Region; warIds: number[] }) => {
+    const [warList, setWarList] = useState([] as War.WarBasic[]);
+
+    useEffect(() => {
+        Api.warList().then((wars) => setWarList(wars));
+    }, []);
+
+    const wars = warIds.map((warId) => {
+        const war = warList.find((war) => war.id === warId);
+        if (war !== undefined) {
+            return <WarDescriptor region={region} war={war} />;
+        } else {
+            return <>War {warId}</>;
+        }
+    });
+
+    return <MergeElementsOr elements={wars} lastJoinWord="or" />;
 };
 
 const PLAYABLE_CLASS_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 23, 25];
