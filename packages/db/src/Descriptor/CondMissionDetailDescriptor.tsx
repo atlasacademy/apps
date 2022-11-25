@@ -105,6 +105,13 @@ export default function CondMissionDetailDescriptor(props: {
                     drops
                 </>
             );
+        case Mission.DetailCondType.TARGET_QUEST_ITEM_GET_TOTAL:
+            return (
+                <>
+                    Obtain {num} <MultipleItems region={region} itemIds={targetIds} items={props.items} /> as battle
+                    drops from the following quests
+                </>
+            );
         case Mission.DetailCondType.BATTLE_SVT_INDIVIDUALITY_IN_DECK:
             return (
                 <>

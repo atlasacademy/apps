@@ -33,7 +33,16 @@ import "../Helper/StringHelper.css";
 import "./Event/EventTable.css";
 
 interface TabInfo {
-    type: "ladder" | "shop" | "mission" | "tower" | "lottery" | "treasureBox" | "recipes" | "fortification";
+    type:
+        | "ladder"
+        | "shop"
+        | "mission"
+        | "random-mission"
+        | "tower"
+        | "lottery"
+        | "treasureBox"
+        | "recipes"
+        | "fortification";
     id: number;
     title: string | React.ReactNode;
     tabKey: string;
@@ -202,7 +211,7 @@ class EventPage extends React.Component<IProps, IState> {
         return (
             <>
                 <th scope="row" style={{ textAlign: "center" }} ref={this.state.missionRefs.get(mission.id)}>
-                    {mission.dispNo}
+                    {mission.type === Mission.MissionType.RANDOM ? mission.id : mission.dispNo}
                 </th>
                 <td>
                     <b className="newline" lang={lang(region)}>
@@ -320,7 +329,17 @@ class EventPage extends React.Component<IProps, IState> {
             case "mission":
                 return this.renderMissionTab(
                     region,
-                    event.missions,
+                    event.missions.filter((mission) => mission.type !== Mission.MissionType.RANDOM),
+                    servantCache,
+                    itemCache,
+                    questCache,
+                    event.warIds,
+                    enums
+                );
+            case "random-mission":
+                return this.renderMissionTab(
+                    region,
+                    event.missions.filter((mission) => mission.type === Mission.MissionType.RANDOM),
                     servantCache,
                     itemCache,
                     questCache,
@@ -368,6 +387,14 @@ class EventPage extends React.Component<IProps, IState> {
         }
 
         if (event.missions.length > 0) {
+            if (event.missions.some((mission) => mission.type === Mission.MissionType.RANDOM)) {
+                tabs.push({
+                    type: "random-mission",
+                    id: 0,
+                    title: t("Random Missions"),
+                    tabKey: "random-missions",
+                });
+            }
             tabs.push({
                 type: "mission",
                 id: 0,

@@ -66,11 +66,13 @@ export const CollapsibleLight = ({
     content,
     eventKey,
     defaultActiveKey,
+    mountOnEnter,
 }: {
     title: Renderable;
     content: Renderable;
     eventKey: string;
     defaultActiveKey: string;
+    mountOnEnter?: boolean;
 }) => {
     return (
         <Accordion defaultActiveKey={defaultActiveKey}>
@@ -81,7 +83,7 @@ export const CollapsibleLight = ({
                         <ArrowToggle eventKey={eventKey} />
                     </span>
                 </Accordion.Toggle>
-                <Accordion.Collapse eventKey={eventKey}>
+                <Accordion.Collapse eventKey={eventKey} mountOnEnter={mountOnEnter}>
                     <>{content}</>
                 </Accordion.Collapse>
             </Card>

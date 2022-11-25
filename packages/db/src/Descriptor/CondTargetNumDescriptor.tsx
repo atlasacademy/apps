@@ -208,6 +208,8 @@ export default function CondTargetNumDescriptor(props: {
             } else {
                 return <>After unknown date</>;
             }
+        case CondType.START_RANDOM_MISSION:
+            return <>Random Mission Started</>;
         default:
             return (
                 <>

@@ -23,35 +23,60 @@ const MissionConditionApplicableQuests = ({
     warIds?: number[];
 }) => {
     if (cond === CondType.MISSION_CONDITION_DETAIL && details) {
-        const enemyTraits: number[][] = [];
+        const enemyTraits: number[][] = [],
+            questTraits: number[][] = [];
         for (const detail of details) {
             switch (detail.missionCondType) {
                 case Mission.DetailCondType.DEFEAT_ENEMY_INDIVIDUALITY:
                 case Mission.DetailCondType.ENEMY_INDIVIDUALITY_KILL_NUM:
-                    enemyTraits.push(detail.targetIds);
+                    if (detail.targetIds.length > 0) {
+                        enemyTraits.push(detail.targetIds);
+                    }
+                    break;
+                case Mission.DetailCondType.TARGET_QUEST_ITEM_GET_TOTAL:
+                    if (detail.targetQuestIndividualities.length > 0) {
+                        questTraits.push(detail.targetQuestIndividualities.map((trait) => trait.id));
+                    }
                     break;
                 default:
                     break;
             }
         }
 
-        if (enemyTraits) {
+        if (enemyTraits.length > 0 || questTraits.length > 0) {
             if (goToQuestSearchOnly) {
                 return (
                     <>
-                        {enemyTraits.map((enemyTrait) => (
-                            <React.Fragment key={enemyTrait.toString()}>
-                                <Link
-                                    to={`/${region}/quests?${getURLSearchParams({
-                                        type: Quest.QuestType.FREE,
-                                        enemyTrait,
-                                    }).toString()}`}
-                                >
-                                    Search applicable quests <FontAwesomeIcon icon={faShare} />
-                                </Link>
-                                <br />
-                            </React.Fragment>
-                        ))}
+                        {enemyTraits.length > 0
+                            ? enemyTraits.map((enemyTrait) => (
+                                  <React.Fragment key={enemyTrait.toString()}>
+                                      <Link
+                                          to={`/${region}/quests?${getURLSearchParams({
+                                              type: Quest.QuestType.FREE,
+                                              enemyTrait,
+                                          }).toString()}`}
+                                      >
+                                          Search applicable quests <FontAwesomeIcon icon={faShare} />
+                                      </Link>
+                                      <br />
+                                  </React.Fragment>
+                              ))
+                            : null}
+                        {questTraits.length > 0
+                            ? questTraits.map((questTrait) => (
+                                  <React.Fragment key={questTrait.toString()}>
+                                      <Link
+                                          to={`/${region}/quests?${getURLSearchParams({
+                                              type: Quest.QuestType.FREE,
+                                              fieldIndividuality: questTrait,
+                                          }).toString()}`}
+                                      >
+                                          Search applicable quests <FontAwesomeIcon icon={faShare} />
+                                      </Link>
+                                      <br />
+                                  </React.Fragment>
+                              ))
+                            : null}
                     </>
                 );
             } else {
@@ -60,20 +85,35 @@ const MissionConditionApplicableQuests = ({
                         title="Applicable Quests"
                         content={
                             <>
-                                {enemyTraits.map((enemyTrait) => (
-                                    <QuestSearchDescriptor
-                                        key={enemyTrait.toString()}
-                                        region={region}
-                                        warId={warIds}
-                                        enemyTrait={enemyTrait}
-                                        hideSearchLink={true}
-                                        returnList={true}
-                                    />
-                                ))}
+                                {enemyTraits.length > 0
+                                    ? enemyTraits.map((enemyTrait) => (
+                                          <QuestSearchDescriptor
+                                              key={enemyTrait.toString()}
+                                              region={region}
+                                              warId={warIds}
+                                              enemyTrait={enemyTrait}
+                                              hideSearchLink={true}
+                                              returnList={true}
+                                          />
+                                      ))
+                                    : null}
+                                {questTraits.length > 0
+                                    ? questTraits.map((questTrait) => (
+                                          <QuestSearchDescriptor
+                                              key={questTrait.toString()}
+                                              region={region}
+                                              warId={warIds}
+                                              fieldIndividuality={questTrait}
+                                              hideSearchLink={true}
+                                              returnList={true}
+                                          />
+                                      ))
+                                    : null}
                             </>
                         }
                         eventKey={`${region}-${warIds}-enemyTraits:${enemyTraits.toString()}`}
                         defaultActiveKey={""}
+                        mountOnEnter
                     />
                 );
             }
