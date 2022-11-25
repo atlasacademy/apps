@@ -15,6 +15,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
+import { flatten } from "../Helper/PolyFill";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -161,29 +162,31 @@ class EventPage extends React.Component<IProps, IState> {
             let elementRef = this.state.missionRefs.get(id) as React.RefObject<HTMLDivElement>;
             elementRef?.current?.scrollIntoView({ behavior: "smooth" });
         };
-        return [Mission.ProgressType.OPEN_CONDITION, Mission.ProgressType.START, Mission.ProgressType.CLEAR].map(
-            (progressType) => {
-                const conds = mission.conds.filter((cond) => cond.missionProgressType === progressType);
-                if (conds.length > 0) {
-                    return (
-                        <MissionConditionDescriptor
-                            key={conds[0].id}
-                            region={region}
-                            cond={conds[0]}
-                            quests={questCache}
-                            servants={servantCache}
-                            missions={missionMap}
-                            items={itemCache}
-                            enums={enums}
-                            warIds={warIds}
-                            handleNavigateMissionId={scrollToMissions}
-                        />
-                    );
-                } else {
-                    return null;
-                }
-            }
+
+        const renderedConds = [
+            Mission.ProgressType.OPEN_CONDITION,
+            Mission.ProgressType.START,
+            Mission.ProgressType.CLEAR,
+        ].map((progressType) =>
+            mission.conds
+                .filter((cond) => cond.missionProgressType === progressType)
+                .map((cond) => (
+                    <MissionConditionDescriptor
+                        key={cond.id}
+                        region={region}
+                        cond={cond}
+                        quests={questCache}
+                        servants={servantCache}
+                        missions={missionMap}
+                        items={itemCache}
+                        enums={enums}
+                        warIds={warIds}
+                        handleNavigateMissionId={scrollToMissions}
+                    />
+                ))
         );
+
+        return <>{flatten(renderedConds)}</>;
     }
 
     renderMissionRow(

@@ -11,7 +11,7 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
-import { mergeElements } from "../Helper/OutputHelper";
+import { flatten } from "../Helper/PolyFill";
 import { getEventStatus, getTimeString } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -30,27 +30,24 @@ const MasterMissionCond = (props: {
         Mission.ProgressType.OPEN_CONDITION,
         Mission.ProgressType.START,
         Mission.ProgressType.CLEAR,
-    ].map((progressType) => {
-        const conds = props.mission.conds.filter((cond) => cond.missionProgressType === progressType);
-        if (conds.length > 0) {
-            return (
+    ].map((progressType) =>
+        props.mission.conds
+            .filter((cond) => cond.missionProgressType === progressType)
+            .map((cond) => (
                 <MissionConditionDescriptor
-                    key={conds[0].id}
+                    key={cond.id}
                     region={props.region}
                     goToQuestSearchOnly={true}
-                    cond={conds[0]}
+                    cond={cond}
                     missions={props.missionMap}
                     servants={props.servants}
                     quests={props.quests}
                     items={props.items}
                     enums={props.enums}
                 />
-            );
-        } else {
-            return "";
-        }
-    });
-    return <>{mergeElements(renderedConds, "")}</>;
+            ))
+    );
+    return <>{flatten(renderedConds)}</>;
 };
 
 const MasterMissionPage = (props: { region: Region; masterMissionId: number }) => {
