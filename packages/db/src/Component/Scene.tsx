@@ -190,7 +190,10 @@ const Scene = (props: {
                     className="scene-foreground frame"
                 />
             )}
-            {effects !== undefined && effects.includes("bit_sepia01") ? <div className="sepia-bg"></div> : null}
+            {effects !== undefined &&
+            ["bit_sepia01", "bit_sepia01_depth"].some((sepia_effect) => effects.includes(sepia_effect)) ? (
+                <div className="sepia-bg"></div>
+            ) : null}
         </div>
     );
 };

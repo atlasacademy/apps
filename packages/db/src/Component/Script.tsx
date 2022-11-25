@@ -26,6 +26,8 @@ export enum ScriptComponentType {
     CHARA_FADE_OUT = "CHARA_FADE_OUT",
     CHARA_MOVE = "CHARA_MOVE",
     CHARA_PUT = "CHARA_PUT",
+    CHARA_EFFECT = "CHARA_EFFECT",
+    CHARA_EFFECT_STOP = "CHARA_EFFECT_STOP",
     IMAGE_SET = "IMAGE_SET",
     VERTICAL_IMAGE_SET = "VERTICAL_IMAGE_SET",
     HORIZONTAL_IMAGE_SET = "HORIZONTAL_IMAGE_SET",
@@ -414,6 +416,20 @@ export type ScriptCharaCutIn = {
     assetSet?: ScriptAssetSet;
 };
 
+export type ScriptCharaEffect = {
+    type: ScriptComponentType.CHARA_EFFECT;
+    speakerCode: string;
+    effect: string;
+    assetSet?: ScriptAssetSet;
+};
+
+export type ScriptCharaEffectStop = {
+    type: ScriptComponentType.CHARA_EFFECT_STOP;
+    speakerCode: string;
+    effect: string;
+    assetSet?: ScriptAssetSet;
+};
+
 export type ScriptLabel = {
     type: ScriptComponentType.LABEL;
     name: string;
@@ -502,6 +518,8 @@ export type ScriptBracketComponent =
     | ScriptCharaDepth
     | ScriptCharaCutIn
     | ScriptCameraFilter
+    | ScriptCharaEffect
+    | ScriptCharaEffectStop
     | ScriptWait
     | ScriptLabel
     | ScriptBranch
@@ -1025,6 +1043,20 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 durationSec: parseFloat(parameters[3]),
                 mgd: parameters[4] !== undefined ? parseFloat(parameters[4]) : 0,
                 pause: parameters[0] === "charaCutinPause",
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
+            };
+        case "charaEffect":
+            return {
+                type: ScriptComponentType.CHARA_EFFECT,
+                speakerCode: parameters[1],
+                effect: parameters[2],
+                assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
+            };
+        case "charaEffectStop":
+            return {
+                type: ScriptComponentType.CHARA_EFFECT_STOP,
+                speakerCode: parameters[1],
+                effect: parameters[2],
                 assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
             };
         case "se":

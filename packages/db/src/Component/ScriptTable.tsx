@@ -612,10 +612,12 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             cameraFilter = content.filter;
                             break;
                         case ScriptComponentType.EFFECT:
+                        case ScriptComponentType.CHARA_EFFECT:
                             effects.push(content.effect);
                             break;
                         case ScriptComponentType.EFFECT_STOP:
                         case ScriptComponentType.EFFECT_DESTROY:
+                        case ScriptComponentType.CHARA_EFFECT_STOP:
                             if (content.effect === undefined) {
                                 effects = [];
                             } else {
