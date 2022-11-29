@@ -15,8 +15,10 @@ export function insertParticles(partials: BasePartial[], particle: string): Base
 }
 
 export function toTitleCase(value: string): string {
-    const matches = value.match(/NP|[A-Z]*[a-z0-9]*/g);
-    if (!matches || !matches.length) return value;
+    const matches = value.match(/NP|[A-Z]*[a-z0-9]*/g),
+        matchedLength = matches !== null ? matches.map((match) => match.length).reduce((a, b) => a + b, 0) : 0;
+
+    if (!matches || !matches.length || value.length !== matchedLength) return value;
 
     const words = matches
         .filter((word) => word.length > 0)
@@ -39,4 +41,4 @@ export function hasUniqueValues(values: (number | number[] | undefined)[]): bool
             })
         ).size > 1
     );
-};
+}
