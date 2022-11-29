@@ -152,7 +152,7 @@ class AiPage extends React.Component<IProps, IState> {
                     />
                 </div>
                 {Array.from(new Set(aiCollection.relatedAis.map((ai) => ai.id))).map((aiId) => (
-                    <div ref={this.state.refs.get(aiId)}>
+                    <div ref={this.state.refs.get(aiId)} key={aiId}>
                         <AiTable
                             region={this.props.region}
                             aiType={this.props.aiType}

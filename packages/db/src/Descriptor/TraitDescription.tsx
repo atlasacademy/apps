@@ -57,12 +57,7 @@ class TraitDescription extends React.Component<IProps, IState> {
             const servantList = await Api.servantList();
             for (const servant of servantList) {
                 if (servant.id === this.state.id) {
-                    this.setState({
-                        trait: {
-                            id: servant.id,
-                            name: servant.name,
-                        },
-                    });
+                    this.setState({ trait: { id: servant.id, name: servant.name } });
                     return;
                 }
             }

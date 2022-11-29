@@ -12,6 +12,7 @@ import {
     ValueType,
 } from "@atlasacademy/api-descriptor";
 
+import { lang } from "../Setting/Manager";
 import CardDescription from "./CardDescription";
 import SkillDescriptor from "./SkillDescriptor";
 import SkillReferenceDescriptor from "./SkillReferenceDescriptor";
@@ -45,6 +46,14 @@ class Description extends React.Component<IProps> {
 
     private static renderText(partial: TextPartial): string {
         return partial.value;
+    }
+
+    private renderTextElement(partial: TextPartial, key?: React.Key) {
+        return (
+            <span key={key} lang={lang(this.props.region)}>
+                {partial.value}
+            </span>
+        );
     }
 
     private static renderValue(partial: ValuePartial): string {
@@ -106,7 +115,7 @@ class Description extends React.Component<IProps> {
             } else if (partial.type === PartialType.REFERENCE) {
                 fragments.push(this.renderReference(partial as ReferencePartial, i));
             } else if (partial.type === PartialType.TEXT) {
-                fragments.push(Description.renderText(partial));
+                fragments.push(this.renderTextElement(partial, i));
             } else if (partial.type === PartialType.VALUE) {
                 fragments.push(Description.renderValue(partial as ValuePartial));
             } else {

@@ -5,6 +5,7 @@ import { Region, Skill } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
+import { lang } from "../Setting/Manager";
 import SkillDescriptor from "./SkillDescriptor";
 
 import "../Component/MoveButton.css";
@@ -51,7 +52,7 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
             }}
         >
             <Button variant="link" className="move-button" title={`Click to view details of skill ${skill.name}`}>
-                {SkillDescriptor.renderAsString(skill)}
+                <span lang={lang(region)}>{SkillDescriptor.renderAsString(skill)}</span>
             </Button>
         </OverlayTrigger>
     );

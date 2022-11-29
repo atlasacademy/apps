@@ -10,6 +10,7 @@ import NoblePhantasmPopover from "../../Descriptor/NoblePhantasmPopover";
 import SkillPopover, { SkillPopOverId } from "../../Descriptor/SkillPopover";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
+import { lang } from "../../Setting/Manager";
 
 import "../../Component/MoveButton.css";
 import "./AiTable.css";
@@ -260,7 +261,12 @@ export default function AiTable(props: {
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             {ai.idx}
-                            {ai.infoText !== "" ? ` – ${ai.infoText}` : null}
+                            {ai.infoText !== "" ? (
+                                <>
+                                    {" "}
+                                    – <span lang={lang(props.region)}>{ai.infoText}</span>
+                                </>
+                            ) : null}
                         </td>
                     ))}
                 </tr>
