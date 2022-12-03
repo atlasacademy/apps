@@ -96,7 +96,7 @@ export default function CondTargetNumDescriptor(props: {
         case CondType.SVT_HAVING:
             return (
                 <>
-                    Presense of <ServantDescriptorId region={region} id={targets[0]} servants={props.servants} />
+                    Presence of <ServantDescriptorId region={region} id={targets[0]} servants={props.servants} />
                 </>
             );
         case CondType.SVT_RECOVERD:

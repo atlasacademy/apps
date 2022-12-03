@@ -192,7 +192,9 @@ function MaterialListingTable(props: {
                                     </Link>
                                 </td>
                                 <td className="materialOwner">
-                                    <Link to={route}>{servantUsage.name}</Link>
+                                    <Link to={route} lang={lang(region)}>
+                                        {servantUsage.name}
+                                    </Link>
                                 </td>
                                 {usageDataColumns
                                     .map((field) => (
