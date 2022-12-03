@@ -1,4 +1,6 @@
 import CondType from "../Enum/Cond";
+import { CommonConsume } from "./CommonConsume";
+import { Gift } from "./Gift";
 import { Item } from "./Item";
 
 export enum ShopType {
@@ -67,6 +69,7 @@ export interface ItemSet {
     purchaseType: PurchaseType;
     targetId: number;
     setNum: number;
+    gifts: Gift[];
 }
 
 export interface ShopRelease {
@@ -94,16 +97,26 @@ export interface Shop {
     warningMessage: string;
     payType: PayType;
     cost: { item: Item; amount: number };
+    consumes: CommonConsume[];
     purchaseType: PurchaseType;
     targetIds: number[];
     itemSet: ItemSet[];
     setNum: number;
     limitNum: number;
+    gifts: Gift[];
     defaultLv: number;
     defaultLimitCount: number;
     scriptName?: string;
     scriptId?: string;
     script?: string;
+    image?: string;
     openedAt: number;
     closedAt: number;
 }
+
+export type ShopSearchOptions = {
+    name?: string;
+    eventId?: number[];
+    type?: ShopType[];
+    payType?: PayType[];
+};

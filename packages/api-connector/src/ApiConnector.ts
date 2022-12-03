@@ -49,7 +49,7 @@ import {
 } from "./Schema/Quest";
 import { Script, ScriptSearchResult, SvtScript, ScriptSearchOptions } from "./Schema/Script";
 import { GrailCostInfoMap, Servant, ServantBasic } from "./Schema/Servant";
-import { PayType, PurchaseType, ShopType } from "./Schema/Shop";
+import { PayType, PurchaseType, Shop, ShopSearchOptions, ShopType } from "./Schema/Shop";
 import { Skill, SkillBasic, SkillType, SkillSearchOptions } from "./Schema/Skill";
 import { Trait } from "./Schema/Trait";
 import { War, WarBasic, WarStartType } from "./Schema/War";
@@ -182,6 +182,9 @@ class ApiConnector {
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
         servantListNice: new ResultCache<null, Servant[]>(),
+        shop: new ResultCache<number, Shop>(),
+        shopSearch: new ResultCache<string, Shop[]>(),
+        shopList: new ResultCache<null, Shop[]>(),
         skill: new ResultCache<number, Skill>(),
         skillBasic: new ResultCache<number, SkillBasic>(),
         skillSearch: new ResultCache<string, SkillBasic[]>(),
@@ -806,6 +809,22 @@ class ApiConnector {
         return this.cache.skillBasic.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
+    shop(id: number, cacheDuration?: number): Promise<Shop> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<Shop>(`${this.host}/nice/${this.region}/shop/${id}${query}`);
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.shop.get(id, fetch, cacheDuration);
+    }
+
+    shopList(cacheDuration?: number): Promise<Shop[]> {
+        const fetch = () => ApiConnector.fetch<Shop[]>(`${this.host}/export/${this.region}/nice_shop.json`);
+        return this.cache.shopList.get(null, fetch, cacheDuration);
+    }
+
     traitList(cacheDuration?: number): Promise<Trait[]> {
         const fetch = async () => {
             const traitMap = await ApiConnector.fetch<{
@@ -907,6 +926,12 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.searchScript.get(query, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    searchShop(options: ShopSearchOptions, cacheDuration?: number): Promise<Shop[]> {
+        const query = this.getQueryString(this.getURLSearchParams(options));
+        const fetch = () => ApiConnector.fetch<Shop[]>(`${this.host}/nice/${this.region}/shop/search${query}`);
+        return this.cache.shopSearch.get(query, fetch, cacheDuration);
     }
 
     constant(cacheDuration?: number): Promise<Constants> {
