@@ -134,6 +134,7 @@ class ApiConnector {
         buff: new ResultCache<number, Buff>(),
         buffBasic: new ResultCache<number, BasicBuff>(),
         buffConstantMap: new ResultCache<null, BuffConstantMap>(),
+        buffSearch: new ResultCache<string, BasicBuff[]>(),
         cardConstantMap: new ResultCache<null, CardConstantMap>(),
         classAffinityMap: new ResultCache<null, ClassAffinityMap>(),
         classAttackRateMap: new ResultCache<null, ClassAttackRateMap>(),
@@ -149,12 +150,14 @@ class ApiConnector {
         enemy: new ResultCache<number, Enemy>(),
         entityBasic: new ResultCache<number, EntityBasic>(),
         entityList: new ResultCache<null, EntityBasic[]>(),
+        entitySearch: new ResultCache<string, EntityBasic[]>(),
         enumList: new ResultCache<null, EnumList>(),
         event: new ResultCache<number, Event>(),
         eventBasic: new ResultCache<number, EventBasic>(),
         eventList: new ResultCache<null, EventBasic[]>(),
         func: new ResultCache<number, Func>(),
         funcBasic: new ResultCache<number, BasicFunc>(),
+        funcSearch: new ResultCache<string, BasicFunc[]>(),
         grailCostInfoMap: new ResultCache<null, GrailCostInfoMap>(),
         illustratorList: new ResultCache<null, Illustrator[]>(),
         item: new ResultCache<number, Item>(),
@@ -167,6 +170,7 @@ class ApiConnector {
         mysticCodeList: new ResultCache<null, MysticCodeBasic[]>(),
         noblePhantasm: new ResultCache<number, NoblePhantasm>(),
         noblePhantasmBasic: new ResultCache<number, NoblePhantasmBasic>(),
+        npSearch: new ResultCache<string, NoblePhantasmBasic[]>(),
         quest: new ResultCache<number, Quest>(),
         questBasic: new ResultCache<number, QuestBasic>(),
         questPhase: new ResultCache<{ id: number; phase: number }, QuestPhase>(),
@@ -180,6 +184,7 @@ class ApiConnector {
         servantListNice: new ResultCache<null, Servant[]>(),
         skill: new ResultCache<number, Skill>(),
         skillBasic: new ResultCache<number, SkillBasic>(),
+        skillSearch: new ResultCache<string, SkillBasic[]>(),
         svtScript: new ResultCache<string, SvtScript[]>(),
         traitList: new ResultCache<null, Trait[]>(),
         war: new ResultCache<number, War>(),
@@ -834,34 +839,36 @@ class ApiConnector {
         return this.cache.enumList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    searchBuff(options: BuffSearchOptions): Promise<BasicBuff[]> {
+    searchBuff(options: BuffSearchOptions, cacheDuration?: number): Promise<BasicBuff[]> {
         const query = this.getQueryString(this.getURLSearchParams(options));
-
-        return ApiConnector.fetch<BasicBuff[]>(`${this.host}/basic/${this.region}/buff/search${query}`);
+        const fetch = () => ApiConnector.fetch<BasicBuff[]>(`${this.host}/basic/${this.region}/buff/search${query}`);
+        return this.cache.buffSearch.get(query, fetch, cacheDuration);
     }
 
-    searchFunc(options: FuncSearchOptions): Promise<BasicFunc[]> {
+    searchFunc(options: FuncSearchOptions, cacheDuration?: number): Promise<BasicFunc[]> {
         const query = this.getQueryString(this.getURLSearchParams(options));
-
-        return ApiConnector.fetch<BasicFunc[]>(`${this.host}/basic/${this.region}/function/search${query}`);
+        const fetch = () =>
+            ApiConnector.fetch<BasicFunc[]>(`${this.host}/basic/${this.region}/function/search${query}`);
+        return this.cache.funcSearch.get(query, fetch, cacheDuration);
     }
 
-    searchSkill(options: SkillSearchOptions): Promise<SkillBasic[]> {
+    searchSkill(options: SkillSearchOptions, cacheDuration?: number): Promise<SkillBasic[]> {
         const query = this.getQueryString(this.getURLSearchParams(options));
-
-        return ApiConnector.fetch<SkillBasic[]>(`${this.host}/basic/${this.region}/skill/search${query}`);
+        const fetch = () => ApiConnector.fetch<SkillBasic[]>(`${this.host}/basic/${this.region}/skill/search${query}`);
+        return this.cache.skillSearch.get(query, fetch, cacheDuration);
     }
 
-    searchNP(options: NPSearchOptions): Promise<NoblePhantasmBasic[]> {
+    searchNP(options: NPSearchOptions, cacheDuration?: number): Promise<NoblePhantasmBasic[]> {
         const query = this.getQueryString(this.getURLSearchParams(options));
-
-        return ApiConnector.fetch<NoblePhantasmBasic[]>(`${this.host}/basic/${this.region}/NP/search${query}`);
+        const fetch = () =>
+            ApiConnector.fetch<NoblePhantasmBasic[]>(`${this.host}/basic/${this.region}/NP/search${query}`);
+        return this.cache.npSearch.get(query, fetch, cacheDuration);
     }
 
-    searchEntity(options: EntitySearchOptions): Promise<EntityBasic[]> {
+    searchEntity(options: EntitySearchOptions, cacheDuration?: number): Promise<EntityBasic[]> {
         const query = this.getQueryString(this.getURLSearchParams(options));
-
-        return ApiConnector.fetch<EntityBasic[]>(`${this.host}/basic/${this.region}/svt/search${query}`);
+        const fetch = () => ApiConnector.fetch<EntityBasic[]>(`${this.host}/basic/${this.region}/svt/search${query}`);
+        return this.cache.entitySearch.get(query, fetch, cacheDuration);
     }
 
     searchItem(options: ItemSearchOptions, cacheDuration?: number): Promise<Item[]> {

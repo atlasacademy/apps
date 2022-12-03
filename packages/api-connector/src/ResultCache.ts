@@ -3,7 +3,7 @@ class ResultCache<K, V> {
     private pending = new Map<K, Function[]>();
     private pendingCatches = new Map<K, Function[]>();
 
-    get(key: K, fetcher: Function, duration: number | null): Promise<V> {
+    get(key: K, fetcher: Function, duration: number | null | undefined): Promise<V> {
         const value = this.cache.get(key);
         if (value !== undefined) {
             return new Promise<V>((resolve) => {
@@ -37,7 +37,7 @@ class ResultCache<K, V> {
                     this.pending.delete(key);
                     this.pendingCatches.delete(key);
 
-                    if (duration !== null) {
+                    if (duration !== null && duration !== undefined && duration > 0) {
                         setTimeout(() => {
                             this.cache.delete(key);
                         }, duration);
