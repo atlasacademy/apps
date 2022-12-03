@@ -30,6 +30,7 @@ import * as MasterMission from "./Schema/MasterMission";
 import * as Mission from "./Schema/Mission";
 import * as MysticCode from "./Schema/MysticCode";
 import * as NoblePhantasm from "./Schema/NoblePhantasm";
+import * as NpcServant from "./Schema/NpcServant";
 import { ProfileVoiceType } from "./Schema/Profile";
 import * as Profile from "./Schema/Profile";
 import * as Quest from "./Schema/Quest";
@@ -79,6 +80,7 @@ export {
     MasterMission,
     MysticCode,
     NoblePhantasm,
+    NpcServant,
     Profile,
     Quest,
     QuestEnemy,

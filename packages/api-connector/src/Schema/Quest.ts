@@ -157,11 +157,17 @@ export interface QuestPhaseScript {
     scripts: PhaseScript[];
 }
 
+export interface QuestPhaseAiNpc {
+    npc: NpcServant;
+    aiIds: number[];
+}
+
 export interface QuestPhaseExtraDetail {
     questSelect?: number[];
     singleForceSvtId?: number;
     hintTitle?: string;
     hintMessage?: string;
+    aiNpc?: QuestPhaseAiNpc;
 }
 
 export interface Quest {

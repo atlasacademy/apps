@@ -4,7 +4,7 @@ import { Alert, Col, Pagination, Row, Tab, Tabs, Badge } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
-import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
+import { Ai, Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";
@@ -17,11 +17,14 @@ import { QuestDropDescriptor } from "../Component/QuestEnemy";
 import QuestStage from "../Component/QuestStage";
 import RawDataViewer from "../Component/RawDataViewer";
 import SupportServantTables from "../Component/SupportServant";
+import AiDescriptor from "../Descriptor/AiDescriptor";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
+import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
+import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
 import { colorString, removePrefix } from "../Helper/StringHelper";
@@ -398,6 +401,15 @@ class QuestPage extends React.Component<IProps, IState> {
                     </Alert>
                 ) : null}
                 <QuestDrops region={this.props.region} drops={quest.drops} />
+                {quest.extraDetail.aiNpc !== undefined ? (
+                    <Alert variant="success">
+                        <b>NPC AI:</b>{" "}
+                        <EntityDescriptor region={this.props.region} entity={quest.extraDetail.aiNpc.npc.svt} />{" "}
+                        {quest.extraDetail.aiNpc.aiIds.map((aiId) => (
+                            <AiDescriptor key={aiId} region={this.props.region} aiType={Ai.AiType.SVT} id={aiId} />
+                        ))}
+                    </Alert>
+                ) : null}
                 {quest.supportServants.length > 0 ? (
                     <>
                         {renderCollapsibleContent({
