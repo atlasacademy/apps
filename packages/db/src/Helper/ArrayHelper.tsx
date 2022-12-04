@@ -33,3 +33,7 @@ export function doIntersect<T>(arrayA: T[], arrayB: T[]): boolean {
 export function emptyOrUndefinded<T>(array: T[] | undefined): boolean {
     return array === undefined || array.length === 0;
 }
+
+export function listNumber(array: number[]): string {
+    return array.map((num) => num.toString()).join(", ");
+}

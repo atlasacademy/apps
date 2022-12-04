@@ -1,9 +1,12 @@
 import ClassName from "../Enum/ClassName";
 import CondType from "../Enum/Cond";
 import { Bgm } from "./Bgm";
+import { FrequencyType } from "./Frequency";
 import { Gift } from "./Gift";
 import { Item } from "./Item";
+import { NpcServant } from "./NpcServant";
 import { EnemyDrop, QuestEnemy } from "./QuestEnemy";
+import { Restriction } from "./Restriction";
 import { SupportServant } from "./SupportServant";
 import { Trait } from "./Trait";
 
@@ -170,6 +173,14 @@ export interface QuestPhaseExtraDetail {
     aiNpc?: QuestPhaseAiNpc;
 }
 
+export interface QuestPhaseRestriction {
+    restriction: Restriction;
+    frequencyType: FrequencyType;
+    dialogMessage: string;
+    noticeMessage: string;
+    title: string;
+}
+
 export interface Quest {
     id: number;
     name: string;
@@ -211,6 +222,7 @@ export interface QuestPhase extends Quest {
     extraDetail: QuestPhaseExtraDetail;
     scripts: PhaseScript[];
     messages: QuestMessage[];
+    restrictions: QuestPhaseRestriction[];
     supportServants: SupportServant[];
     drops: EnemyDrop[];
     stages: Stage[];

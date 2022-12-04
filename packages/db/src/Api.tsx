@@ -123,6 +123,10 @@ class Api {
         return apiConnector.eventList();
     }
 
+    static async eventAlloutBattle(eventId: number): Promise<Event.EventAlloutBattle[]> {
+        return apiConnector.eventAlloutBattle([eventId]);
+    }
+
     static async masterMission(id: number): Promise<MasterMission.MasterMission> {
         return apiConnector.masterMission(id, cacheDuration);
     }

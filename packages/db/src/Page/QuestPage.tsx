@@ -14,6 +14,7 @@ import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import { QuestDropDescriptor } from "../Component/QuestEnemy";
+import QuestRestriction from "../Component/QuestRestriction";
 import QuestStage from "../Component/QuestStage";
 import RawDataViewer from "../Component/RawDataViewer";
 import SupportServantTables from "../Component/SupportServant";
@@ -24,7 +25,6 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
-import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
 import { colorString, removePrefix } from "../Helper/StringHelper";
@@ -401,6 +401,11 @@ class QuestPage extends React.Component<IProps, IState> {
                     </Alert>
                 ) : null}
                 <QuestDrops region={this.props.region} drops={quest.drops} />
+                {quest.restrictions.length > 0 ? (
+                    <Alert variant="success">
+                        <QuestRestriction region={this.props.region} questRestrictions={quest.restrictions} />
+                    </Alert>
+                ) : null}
                 {quest.extraDetail.aiNpc !== undefined ? (
                     <Alert variant="success">
                         <b>NPC AI:</b>{" "}

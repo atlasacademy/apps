@@ -20,6 +20,7 @@ import * as DataVal from "./Schema/DataVal";
 import * as Enemy from "./Schema/Enemy";
 import * as Entity from "./Schema/Entity";
 import * as Event from "./Schema/Event";
+import * as Frequency from "./Schema/Frequency";
 import * as Func from "./Schema/Func";
 import * as Gift from "./Schema/Gift";
 import { Illustrator } from "./Schema/Illustrator";
@@ -35,6 +36,7 @@ import { ProfileVoiceType } from "./Schema/Profile";
 import * as Profile from "./Schema/Profile";
 import * as Quest from "./Schema/Quest";
 import * as QuestEnemy from "./Schema/QuestEnemy";
+import * as Restriction from "./Schema/Restriction";
 import * as Script from "./Schema/Script";
 import * as Servant from "./Schema/Servant";
 import * as Shop from "./Schema/Shop";
@@ -71,6 +73,7 @@ export {
     Entity,
     Event,
     Func,
+    Frequency,
     Gift,
     Item,
     Illustrator,
@@ -84,6 +87,7 @@ export {
     Profile,
     Quest,
     QuestEnemy,
+    Restriction,
     Script,
     Servant,
     SupportServant,

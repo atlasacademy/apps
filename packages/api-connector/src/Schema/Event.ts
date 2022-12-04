@@ -9,6 +9,12 @@ import { VoiceGroup, VoiceLine } from "./Profile";
 import { PayType, Shop } from "./Shop";
 import { SvtClassSupportGroupType } from "./Support";
 
+export interface EventAlloutBattle {
+    eventId: number;
+    alloutBattleId: number;
+    warId: number;
+}
+
 export enum EventType {
     NONE = "none",
     RAID_BOSS = "raidBoss",

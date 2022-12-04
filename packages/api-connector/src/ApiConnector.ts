@@ -20,13 +20,14 @@ import {
 } from "./Schema/Buff";
 import { Change } from "./Schema/Change";
 import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode";
+import { CommonRelease } from "./Schema/CommonRelease";
 import { Constants } from "./Schema/Constant";
 import { ConstantStrs } from "./Schema/ConstantStr";
 import { CraftEssence, CraftEssenceBasic } from "./Schema/CraftEssence";
 import { Cv } from "./Schema/Cv";
 import { Enemy } from "./Schema/Enemy";
 import { EntityBasic, EntityFlag, EntityType, Gender, EntitySearchOptions } from "./Schema/Entity";
-import { Event, EventBasic, EventType } from "./Schema/Event";
+import { Event, EventAlloutBattle, EventBasic, EventType } from "./Schema/Event";
 import { BasicFunc, Func, FuncTargetTeam, FuncTargetType, FuncType, FuncSearchOptions } from "./Schema/Func";
 import { GiftType } from "./Schema/Gift";
 import { Illustrator } from "./Schema/Illustrator";
@@ -146,6 +147,7 @@ class ApiConnector {
         craftEssence: new ResultCache<number, CraftEssence>(),
         craftEssenceBasic: new ResultCache<number, CraftEssenceBasic>(),
         craftEssenceList: new ResultCache<null, CraftEssenceBasic[]>(),
+        commonRelease: new ResultCache<number, CommonRelease[]>(),
         cvList: new ResultCache<null, Cv[]>(),
         enemy: new ResultCache<number, Enemy>(),
         entityBasic: new ResultCache<number, EntityBasic>(),
@@ -155,6 +157,7 @@ class ApiConnector {
         event: new ResultCache<number, Event>(),
         eventBasic: new ResultCache<number, EventBasic>(),
         eventList: new ResultCache<null, EventBasic[]>(),
+        eventAlloutBattle: new ResultCache<string, EventAlloutBattle[]>(),
         func: new ResultCache<number, Func>(),
         funcBasic: new ResultCache<number, BasicFunc>(),
         funcSearch: new ResultCache<string, BasicFunc[]>(),
@@ -785,6 +788,30 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.svtScript.get(query, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    eventAlloutBattle(eventIds: number[], cacheDuration?: number): Promise<EventAlloutBattle[]> {
+        const query = this.getQueryString(this.getURLSearchParams({ eventId: eventIds }));
+        const fetch = () => {
+            return ApiConnector.fetch<EventAlloutBattle[]>(`${this.host}/raw/${this.region}/eventAlloutBattle${query}`);
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.eventAlloutBattle.get(query, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    commonRelease(commonReleaseId: number, cacheDuration?: number): Promise<CommonRelease[]> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<CommonRelease[]>(
+                `${this.host}/nice/${this.region}/common-release/${commonReleaseId}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.commonRelease.get(commonReleaseId, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     skill(id: number, reverse?: ReverseOptions, cacheDuration?: number): Promise<Skill> {
