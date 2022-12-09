@@ -2,6 +2,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import quantile from "@stdlib/stats-base-dists-t-quantile";
 import { Alert, Button, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { QuestEnemy, Region, Skill, NoblePhantasm, Ai } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
@@ -141,6 +142,7 @@ function EnemyNpcListDescription(props: {
 const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnemy }) => {
     const region = props.region,
         enemy = props.enemy;
+    const { t } = useTranslation();
     return (
         <Table bordered responsive className="quest-svt-data-table">
             <tbody>
@@ -150,37 +152,37 @@ const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnem
                 ])}
                 {renderDoubleRow([
                     {
-                        title: "Death rate",
+                        title: t("Death rate"),
                         content: asPercent(enemy.deathRate, 1),
                     },
                     {
-                        title: "Crit rate",
+                        title: t("Crit rate"),
                         content: asPercent(enemy.criticalRate, 1),
                     },
                 ])}
                 {renderDoubleRow([
                     {
-                        title: "NP bar",
+                        title: t("NP bar"),
                         content: `${enemy.chargeTurn} bar${enemy.chargeTurn > 1 ? "s" : ""}`,
                     },
                     {
-                        title: "NP gain mod",
+                        title: t("NP gain mod"),
                         content: asPercent(enemy.serverMod.tdRate, 1),
                     },
                 ])}
                 {renderDoubleRow([
                     {
-                        title: "Crit star mod",
+                        title: t("Crit star mod"),
                         content: asPercent(enemy.serverMod.starRate, 1),
                     },
                     {
-                        title: "Defense NP gain mod",
+                        title: t("Defense NP gain mod"),
                         content: asPercent(enemy.serverMod.tdAttackRate, 1),
                     },
                 ])}
                 {enemy.skills.skillId1 !== 0
                     ? renderSpanningRow({
-                          title: "Skill 1",
+                          title: t("Skill 1"),
                           content: describeEnemySkill(
                               region,
                               enemy.skills.skillId1,
@@ -191,7 +193,7 @@ const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnem
                     : null}
                 {enemy.skills.skillId2 !== 0
                     ? renderSpanningRow({
-                          title: "Skill 2",
+                          title: t("Skill 2"),
                           content: describeEnemySkill(
                               region,
                               enemy.skills.skillId2,
@@ -202,7 +204,7 @@ const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnem
                     : null}
                 {enemy.skills.skillId3 !== 0
                     ? renderSpanningRow({
-                          title: "Skill 3",
+                          title: t("Skill 3"),
                           content: describeEnemySkill(
                               region,
                               enemy.skills.skillId3,
@@ -213,7 +215,7 @@ const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnem
                     : null}
                 {enemy.noblePhantasm.noblePhantasmId !== 0
                     ? renderSpanningRow({
-                          title: "Noble Phantasm",
+                          title: t("Noble Phantasm"),
                           content: describeEnemyNoblePhantasm(
                               region,
                               enemy.noblePhantasm.noblePhantasmId,
@@ -224,13 +226,13 @@ const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnem
                     : null}
                 {enemy.classPassive.classPassive.length > 0
                     ? renderSpanningRow({
-                          title: "Class Passive",
+                          title: t("Class Passive"),
                           content: describeMultipleSkills(region, enemy.classPassive.classPassive),
                       })
                     : null}
                 {enemy.classPassive.addPassive.length > 0
                     ? renderSpanningRow({
-                          title: "Extra Passive",
+                          title: t("Extra Passive"),
                           content: describeMultipleSkills(region, enemy.classPassive.addPassive),
                       })
                     : null}
@@ -250,23 +252,24 @@ const QuestEnemySubData = (props: {
     const traitDescriptions = enemy.traits.map((trait) => (
         <TraitDescription region={region} trait={trait} overrideTraits={[{ id: enemy.svt.id, name: `Self` }]} />
     ));
+    const { t } = useTranslation();
     return (
         <Table bordered responsive className="quest-svt-data-table">
             <tbody>
                 {renderSpanningRow({
-                    title: "Class",
+                    title: t("Class"),
                     content: toTitleCase(enemy.svt.className),
                 })}
                 {renderSpanningRow({
-                    title: "Attribute",
+                    title: t("Attribute"),
                     content: toTitleCase(enemy.svt.attribute),
                 })}
                 {renderSpanningRow({
-                    title: "Traits",
+                    title: t("Traits"),
                     content: mergeElements(traitDescriptions, <br />),
                 })}
                 {renderSpanningRow({
-                    title: "AI",
+                    title: t("AI"),
                     content: (
                         <AiDescriptor
                             region={region}
@@ -279,12 +282,12 @@ const QuestEnemySubData = (props: {
                     ),
                 })}
                 {renderDoubleRow([
-                    { title: "Act Priority", content: enemy.ai.actPriority },
-                    { title: "Max Act Num", content: enemy.ai.maxActNum },
+                    { title: t("Act Priority"), content: enemy.ai.actPriority },
+                    { title: t("Max Act Num"), content: enemy.ai.maxActNum },
                 ])}
                 {enemy.enemyScript.call && enemy.enemyScript.call.length > 0
                     ? renderSpanningRow({
-                          title: "Summon",
+                          title: t("Summon"),
                           content: (
                               <EnemyNpcListDescription
                                   region={region}
@@ -298,7 +301,7 @@ const QuestEnemySubData = (props: {
                     : null}
                 {enemy.enemyScript.shift && enemy.enemyScript.shift.length > 0
                     ? renderSpanningRow({
-                          title: "Break bar",
+                          title: t("Break bar"),
                           content: (
                               <EnemyNpcListDescription
                                   region={region}
@@ -312,7 +315,7 @@ const QuestEnemySubData = (props: {
                     : null}
                 {enemy.enemyScript.change && enemy.enemyScript.change.length > 0
                     ? renderSpanningRow({
-                          title: "Transform",
+                          title: t("Transform"),
                           content: (
                               <EnemyNpcListDescription
                                   region={region}

@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Col, Pagination, Row, Tab, Tabs, Badge } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
@@ -101,14 +102,14 @@ const QuestMainData = (props: {
     setPhase: (phase: number) => void;
 }) => {
     const quest = props.quest;
-
+    const { t } = useTranslation();
     return (
         <DataTable
             responsive
             data={[
                 { label: "ID", value: quest.id },
                 {
-                    label: "Phases",
+                    label: t("Phases"),
                     value: (
                         <PhaseNavigator
                             region={props.region}
@@ -118,9 +119,9 @@ const QuestMainData = (props: {
                         />
                     ),
                 },
-                { label: "Type", value: QuestTypeDescription.get(quest.type) ?? quest.type },
+                { label: t("Type"), value: QuestTypeDescription.get(quest.type) ?? quest.type },
                 {
-                    label: "Cost",
+                    label: t("Cost"),
                     value: (
                         <QuestConsumeDescriptor
                             region={props.region}
@@ -131,7 +132,7 @@ const QuestMainData = (props: {
                     ),
                 },
                 {
-                    label: "Reward",
+                    label: t("Reward"),
                     value: (
                         <>
                             {quest.giftIcon ? (
@@ -156,7 +157,7 @@ const QuestMainData = (props: {
                     ),
                 },
                 {
-                    label: "Repeatable",
+                    label: t("Repeatable"),
                     value:
                         quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST &&
                         props.phase === Math.max(...quest.phases)
@@ -164,30 +165,31 @@ const QuestMainData = (props: {
                             : "False",
                 },
                 {
-                    label: "War",
+                    label: t("War"),
                     value: (
                         <Link to={`/${props.region}/war/${quest.warId}`} lang={lang(props.region)}>
                             {quest.warLongName}
                         </Link>
                     ),
                 },
-                { label: "Spot", value: <span lang={lang(props.region)}>{quest.spotName}</span> },
-                { label: "Open", value: new Date(quest.openedAt * 1000).toLocaleString() },
-                { label: "Close", value: new Date(quest.closedAt * 1000).toLocaleString() },
+                { label: t("Spot"), value: <span lang={lang(props.region)}>{quest.spotName}</span> },
+                { label: t("Open"), value: new Date(quest.openedAt * 1000).toLocaleString() },
+                { label: t("Close"), value: new Date(quest.closedAt * 1000).toLocaleString() },
             ]}
         />
     );
 };
 
 const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPhase }) => {
+    const { t } = useTranslation();
     return (
         <DataTable
             data={[
-                { label: "QP Reward", value: quest.qp.toLocaleString() },
-                { label: "EXP", value: quest.exp.toLocaleString() },
-                { label: "Bond", value: quest.bond.toLocaleString() },
+                { label: t("QP Reward"), value: quest.qp.toLocaleString() },
+                { label: t("EXP"), value: quest.exp.toLocaleString() },
+                { label: t("Bond"), value: quest.bond.toLocaleString() },
                 {
-                    label: "Flags",
+                    label: t("Flags"),
                     value: (
                         <>
                             {quest.flags.length > 0
@@ -203,7 +205,7 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                     ),
                 },
                 {
-                    label: "Unlock Condition",
+                    label: t("Unlock Condition"),
                     value: (
                         <>
                             {quest.releaseConditions.map((cond) => (
@@ -225,7 +227,7 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                     ),
                 },
                 {
-                    label: "Individuality",
+                    label: t("Individuality"),
                     value: mergeElements(
                         quest.individuality.map((trait) => (
                             <TraitDescription
@@ -240,15 +242,15 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                     ),
                 },
                 {
-                    label: "Enemy Classes",
+                    label: t("Enemy Classes"),
                     value: mergeElements(
                         quest.className.map((className) => <ClassIcon key={className} className={className} />),
                         " "
                     ),
                 },
-                { label: "Recommended Level", value: quest.recommendLv },
+                { label: t("Recommended Level"), value: quest.recommendLv },
                 {
-                    label: "Battle BG ID",
+                    label: t("Battle BG ID"),
                     value: <Link to={`/${region}/quests?battleBgId=${quest.battleBgId}`}>{quest.battleBgId}</Link>,
                 },
                 {
