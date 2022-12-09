@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Func, NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
 
@@ -21,11 +22,14 @@ interface IProps {
 
 function EffectBreakdown(props: IProps) {
     let hideEnemy = Manager.hideEnemyFunctions();
+    const { t } = useTranslation();
     return (
         <Table responsive>
             <thead>
                 <tr>
-                    <th>Effect {hideEnemy && <>(enemies hidden)</>}</th>
+                    <th>
+                        {t("Effect")} {hideEnemy && <>(enemies hidden)</>}
+                    </th>
                     {props.levels
                         ? Array.from(Array(props.levels).keys()).map((level) => {
                               return <td key={level}>{level + 1}</td>;

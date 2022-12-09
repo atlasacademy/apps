@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -24,7 +25,7 @@ let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     path: string;
 }
@@ -161,6 +162,7 @@ class FuncsPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         if (this.state.error) {
             return (
                 <div style={{ textAlign: "center" }}>
@@ -174,7 +176,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             })
                         }
                     >
-                        Redo the Search
+                        {t("Redo the Search")}
                     </Button>
                 </div>
             );
@@ -185,8 +187,8 @@ class FuncsPage extends React.Component<IProps, IState> {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Function</th>
-                        <th>Usage Count</th>
+                        <th>{t("Function")}</th>
+                        <th>{t("Usage Count")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -211,7 +213,7 @@ class FuncsPage extends React.Component<IProps, IState> {
             <div>
                 {this.state.searching ? <Loading /> : null}
 
-                <h1>Functions Search</h1>
+                <h1>{t("Functions Search")}</h1>
 
                 <form
                     onSubmit={(ev: React.FormEvent) => {
@@ -220,7 +222,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                     }}
                 >
                     <Form.Group>
-                        <Form.Label>Popup Text</Form.Label>
+                        <Form.Label>{t("Popup Text")}</Form.Label>
                         <Form.Control
                             value={this.state.popupText ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -230,7 +232,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Type</Form.Label>
+                        <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Func.FuncType>
                             id="select-FuncType"
                             multiple
@@ -243,7 +245,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Target</Form.Label>
+                        <Form.Label>{t("Target")}</Form.Label>
                         <SearchableSelect<Func.FuncTargetType>
                             id="select-FuncTargetType"
                             options={Object.values(Func.FuncTargetType)}
@@ -257,15 +259,15 @@ class FuncsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Affects Players/Enemies</Form.Label>
+                        <Form.Label>{t("Affects Players/Enemies")}</Form.Label>
                         <SearchableSelect<Func.FuncTargetTeam>
                             id="select-FuncTargetTeam"
                             options={Object.values(Func.FuncTargetTeam)}
                             labels={
                                 new Map<Func.FuncTargetTeam, string>([
-                                    [Func.FuncTargetTeam.PLAYER_AND_ENEMY, "Players and Enemies"],
-                                    [Func.FuncTargetTeam.PLAYER, "Players only"],
-                                    [Func.FuncTargetTeam.ENEMY, "Enemies only"],
+                                    [Func.FuncTargetTeam.PLAYER_AND_ENEMY, t("FuncTargetTeam.PLAYER_AND_ENEMY")],
+                                    [Func.FuncTargetTeam.PLAYER, t("FuncTargetTeam.PLAYER")],
+                                    [Func.FuncTargetTeam.ENEMY, t("FuncTargetTeam.ENEMY")],
                                 ])
                             }
                             selected={this.state.targetTeam ? this.state.targetTeam[0] : undefined}
@@ -288,7 +290,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Affects Traits</Form.Label>
+                        <Form.Label>{t("Affects Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -309,7 +311,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Quest Traits</Form.Label>
+                        <Form.Label>{t("Quest Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -320,22 +322,17 @@ class FuncsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
-                        Search <FontAwesomeIcon icon={faSearch} />
+                        {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>
 
                 <hr />
 
-                {this.state.searched && (
-                    <h5>
-                        Found <b>{this.state.funcs.length}</b> result
-                        {this.state.funcs.length > 1 ? "s" : ""}.
-                    </h5>
-                )}
+                {this.state.searched && <h5>{t("foundResult", { count: this.state.funcs.length })}</h5>}
                 {this.state.funcs.length ? table : null}
             </div>
         );
     }
 }
 
-export default withRouter(FuncsPage);
+export default withRouter(withTranslation()(FuncsPage));

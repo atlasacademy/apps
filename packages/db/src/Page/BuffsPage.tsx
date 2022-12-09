@@ -309,12 +309,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                 </form>
 
                 <hr />
-                {this.state.searched && (
-                    <h5>
-                        {t("FoundResultBefore")} <b>{this.state.buffs.length}</b> {t("FoundResultAfter")}
-                        {this.state.buffs.length > 1 ? t("SforPlural") : ""}.
-                    </h5>
-                )}
+                {this.state.searched && <h5>{t("foundResult", { count: this.state.buffs.length })}.</h5>}
                 {this.state.buffs.length ? table : null}
             </div>
         );

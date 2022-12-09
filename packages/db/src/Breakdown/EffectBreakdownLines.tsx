@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Card, Func, NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
 import { FuncDescriptor } from "@atlasacademy/api-descriptor";
@@ -19,7 +20,7 @@ import ScriptBreakdown from "./ScriptBreakdown";
 
 import "./EffectBreakdownLines.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     cooldowns?: number[];
     funcs: Func.Func[];
@@ -54,11 +55,12 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
 
     render() {
         const effectStyle = this.props.popOver ? { maxWidth: "400px" } : { width: "45%", minWidth: "300px" };
+        const t = this.props.t;
         return (
             <React.Fragment>
                 {this.props.cooldowns && (this.props.level || this.props.levels) ? (
                     <tr>
-                        <td style={effectStyle}>Cooldown</td>
+                        <td style={effectStyle}>{t("Cooldown")}</td>
                         {this.props.cooldowns.map((cooldown, index) => {
                             return <td key={index}>{cooldown}</td>;
                         })}
@@ -66,7 +68,9 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
                 ) : null}
                 {this.props.cooldowns && !this.props.level && !this.props.levels ? (
                     <tr>
-                        <td style={effectStyle}>Cooldown {this.props.cooldowns.join(", ")} turn(s)</td>
+                        <td style={effectStyle}>
+                            {t("Cooldown")} {this.props.cooldowns.join(", ")} turn(s)
+                        </td>
                     </tr>
                 ) : null}
                 {this.props.scripts ? (
@@ -74,7 +78,7 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
                 ) : null}
                 {this.props.gain ? (
                     <tr>
-                        <td style={effectStyle}>NP Gain</td>
+                        <td style={effectStyle}>{t("NP Gain")}</td>
                         {[...Array(this.props.level)].map((_, key) => {
                             return (
                                 <td key={key}>
@@ -111,7 +115,7 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
                         additionalSkillRow = (
                             <tr>
                                 <td style={effectStyle}>
-                                    Additional skill:{" "}
+                                    {t("Additional skill")}:{" "}
                                     <SkillReferenceDescriptor
                                         region={this.props.region}
                                         id={this.props.additionalSkillId[0]}
@@ -260,4 +264,4 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
     }
 }
 
-export default EffectBreakdownLines;
+export default withTranslation()(EffectBreakdownLines);

@@ -1,4 +1,6 @@
+import { t } from "i18next";
 import { Button, Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Ai, Region, Trait } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
@@ -159,24 +161,24 @@ function AiActType(props: {
         type = props.type;
     switch (type) {
         case Ai.AiActType.SKILL_RANDOM:
-            return <>Random skill</>;
+            return <>{t("Random skill")}</>;
         case Ai.AiActType.SKILL1:
             if (props.skillId1 !== undefined) {
                 return <SkillPopOverId region={region} skillId={props.skillId1} />;
             } else {
-                return <>Skill 1</>;
+                return <>{t("Skill 1")}</>;
             }
         case Ai.AiActType.SKILL2:
             if (props.skillId2 !== undefined) {
                 return <SkillPopOverId region={region} skillId={props.skillId2} />;
             } else {
-                return <>Skill 2</>;
+                return <>{t("Skill 2")}</>;
             }
         case Ai.AiActType.SKILL3:
             if (props.skillId3 !== undefined) {
                 return <SkillPopOverId region={region} skillId={props.skillId3} />;
             } else {
-                return <>Skill 3</>;
+                return <>{t("Skill 3")}</>;
             }
         default:
             return <>{toTitleCase(type)}</>;
@@ -252,12 +254,12 @@ export default function AiTable(props: {
 }) {
     const { ais, aiType } = props;
     ais.sort((a, b) => b.priority - a.priority || b.probability - a.probability || a.idx - b.idx);
-
+    const { t } = useTranslation();
     const outputTable = (
         <Table responsive className={"ai-info"} style={{ whiteSpace: "nowrap" }} key={props.ais[0].id}>
             <tbody>
                 <tr>
-                    <th>AI Sub ID</th>
+                    <th>{t("AI Sub ID")}</th>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             {ai.idx}
@@ -271,7 +273,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td>Act Num</td>
+                    <td>{t("Act Num")}</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             {ai.actNum === Ai.AiActNum.UNKNOWN ? ai.actNumInt : toTitleCase(ai.actNum)}
@@ -280,14 +282,14 @@ export default function AiTable(props: {
                 </tr>
                 {aiType === Ai.AiType.FIELD ? (
                     <tr>
-                        <td>Timing</td>
+                        <td>{t("Timing")}</td>
                         {ais.map((ai) => (
                             <td key={ai.idx}>{toTitleCase(ai.timingDescription ?? "")}</td>
                         ))}
                     </tr>
                 ) : null}
                 <tr>
-                    <td>Condition</td>
+                    <td>{t("Condition")}</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <AiCondition
@@ -300,7 +302,9 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td>Priority|Weight</td>
+                    <td>
+                        {t("Priority")}|{t("Weight")}
+                    </td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             {ai.priority}|{ai.probability}
@@ -308,7 +312,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td>Act Type</td>
+                    <td>{t("Act Type")}</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <AiActType
@@ -322,7 +326,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td>Act Target</td>
+                    <td>{t("Act Target")}</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <ActTarget
@@ -334,7 +338,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td>Act Skill</td>
+                    <td>{t("Act Skill")}</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <ActSkill region={props.region} aiAct={ai.aiAct} />
@@ -342,7 +346,7 @@ export default function AiTable(props: {
                     ))}
                 </tr>
                 <tr>
-                    <td>Next AI</td>
+                    <td>{t("Next AI")}</td>
                     {ais.map((ai) => (
                         <td key={ai.idx}>
                             <NextAi

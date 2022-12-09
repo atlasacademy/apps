@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Func, Region } from "@atlasacademy/api-connector";
 
@@ -16,7 +17,7 @@ import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import Manager from "../Setting/Manager";
 import FuncMainData from "./Func/FuncMainData";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     id: number;
 }
@@ -56,6 +57,7 @@ class FuncPage extends React.Component<IProps, IState> {
         if (this.state.loading || !this.state.func) return <Loading />;
 
         const func = this.state.func;
+        const t = this.props.t;
 
         return (
             <div>
@@ -66,7 +68,7 @@ class FuncPage extends React.Component<IProps, IState> {
                             &nbsp;
                         </span>
                     ) : null}
-                    Function: {this.props.id}
+                    {t("Function")}: {this.props.id}
                 </h1>
                 <br />
 
@@ -74,7 +76,7 @@ class FuncPage extends React.Component<IProps, IState> {
 
                 <Row>
                     <Col xs={12} lg={6}>
-                        <h3>Related Skills</h3>
+                        <h3>{t("Related Skills")}</h3>
                         <Table style={{ fontSize: "0.8em" }}>
                             <tbody>
                                 {(func.reverse?.basic?.skill ?? []).map((skill, index) => {
@@ -115,7 +117,7 @@ class FuncPage extends React.Component<IProps, IState> {
                         </Table>
                     </Col>
                     <Col xs={12} lg={6}>
-                        <h3>Related Noble Phantasms</h3>
+                        <h3>{t("Related Noble Phantasms")}</h3>
                         <Table style={{ fontSize: "0.8em" }}>
                             <tbody>
                                 {(func.reverse?.basic?.NP ?? []).map((noblePhantasm, index) => {
@@ -144,4 +146,4 @@ class FuncPage extends React.Component<IProps, IState> {
     }
 }
 
-export default FuncPage;
+export default withTranslation()(FuncPage);

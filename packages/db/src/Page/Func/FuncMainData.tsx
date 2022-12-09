@@ -1,4 +1,5 @@
 import React from "react";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Func, Region } from "@atlasacademy/api-connector";
@@ -10,7 +11,7 @@ import BuffDescription from "../../Descriptor/BuffDescription";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { lang } from "../../Setting/Manager";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     func: Func.Func;
 }
@@ -18,6 +19,7 @@ interface IProps {
 class FuncMainData extends React.Component<IProps> {
     render() {
         const func = this.props.func;
+        const t = this.props.t;
 
         return (
             <>
@@ -26,19 +28,19 @@ class FuncMainData extends React.Component<IProps> {
                     data={[
                         { label: "ID", value: func.funcId },
                         {
-                            label: "Type",
+                            label: t("Type"),
                             value: (
                                 <Link to={`/${this.props.region}/funcs?type=${func.funcType}`}>{func.funcType}</Link>
                             ),
                         },
-                        { label: "Target", value: func.funcTargetType },
-                        { label: "Affects Players/Enemies", value: func.funcTargetTeam },
+                        { label: t("Target"), value: func.funcTargetType },
+                        { label: t("Affects Players/Enemies"), value: func.funcTargetTeam },
                         {
-                            label: "Popup Text",
+                            label: t("Popup Text"),
                             value: <span lang={lang(this.props.region)}>{func.funcPopupText}</span>,
                         },
                         {
-                            label: "Target Traits",
+                            label: t("Target Traits"),
                             value: (
                                 <div>
                                     {func.functvals.map((trait) => {
@@ -50,7 +52,7 @@ class FuncMainData extends React.Component<IProps> {
                             ),
                         },
                         {
-                            label: "Affects Traits",
+                            label: t("Affects Traits"),
                             value: (
                                 <div>
                                     {func.traitVals?.map((trait) => {
@@ -68,7 +70,7 @@ class FuncMainData extends React.Component<IProps> {
                             ),
                         },
                         {
-                            label: "Buff",
+                            label: t("Buff"),
                             value: (
                                 <div>
                                     {func.buffs.map((buff) => {
@@ -91,4 +93,4 @@ class FuncMainData extends React.Component<IProps> {
     }
 }
 
-export default FuncMainData;
+export default withTranslation()(FuncMainData);
