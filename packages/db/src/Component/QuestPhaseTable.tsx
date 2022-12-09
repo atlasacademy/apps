@@ -1,6 +1,6 @@
 import { Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { Quest, Region } from "@atlasacademy/api-connector";
 
@@ -15,10 +15,16 @@ const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.Que
                 <tr>
                     <th>{t("Quest")} ID</th>
                     <th className="col-center">{t("Phase")}</th>
-                    <th>{t("Quest")} {t("Name")}</th>
-                    <th className="col-center">{t("Quest")} {t("Type")}</th>
+                    <th>
+                        {t("Quest")} {t("Name")}
+                    </th>
+                    <th className="col-center">
+                        {t("Quest")} {t("Type")}
+                    </th>
                     <th className="col-center">{t("War")} ID</th>
-                    <th>{t("War")} {t("Long Name")}</th>
+                    <th>
+                        {t("War")} {t("Long Name")}
+                    </th>
                 </tr>
             </thead>
             <tbody>

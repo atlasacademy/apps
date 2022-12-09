@@ -394,7 +394,9 @@ const WarMapList = (props: {
     const warMaps = (
         <Tabs id="war-maps-tabs" className="mb-3">
             {Object.keys(mapsById).map((mapId, index, array) => {
-                let mapSpots: War.Spot[] = spots.filter((spot) => spot.mapId === +mapId).filter((spot) => spot.x || spot.y);
+                let mapSpots: War.Spot[] = spots
+                    .filter((spot) => spot.mapId === +mapId)
+                    .filter((spot) => spot.x || spot.y);
                 last = index === array.length - 1;
                 return mapSpots.length > 0 ? (
                     <Tab eventKey={`${mapId}`} key={mapId} title={`#${mapId}`}>

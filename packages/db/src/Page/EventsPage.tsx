@@ -4,8 +4,8 @@ import { AxiosError } from "axios";
 import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { withTranslation, WithTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { Event, Region } from "@atlasacademy/api-connector";
 
@@ -264,10 +264,7 @@ class EventsPage extends React.Component<IProps, IState> {
                                     </td>
                                     <td className="col-center">
                                         {isOngoing ? (
-                                            <FontAwesomeIcon
-                                                icon={faCheckCircle}
-                                                title={t("EventOngoing")}
-                                            />
+                                            <FontAwesomeIcon icon={faCheckCircle} title={t("EventOngoing")} />
                                         ) : null}
                                     </td>
                                     <td>

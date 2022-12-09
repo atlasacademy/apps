@@ -54,9 +54,13 @@ const TreasureBox = ({
     const { t } = useTranslation();
     return (
         <>
-            <h4>{t("EventTreasureBox")} {treasureBox.idx}</h4>
+            <h4>
+                {t("EventTreasureBox")} {treasureBox.idx}
+            </h4>
             <ul>
-                <li>{t("EventTreasureBoxMaxNumOnceDraw")}: {treasureBox.maxDrawNumOnce}</li>
+                <li>
+                    {t("EventTreasureBoxMaxNumOnceDraw")}: {treasureBox.maxDrawNumOnce}
+                </li>
                 <li>
                     {t("EventTreasureBoxDrawCost")}:{" "}
                     <CommonConsumeDescriptor
