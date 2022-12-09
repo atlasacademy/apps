@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Col, Row, Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { MasterMission, Region, Mission, Servant, EnumList, Item, Quest } from "@atlasacademy/api-connector";
 
@@ -58,7 +59,7 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
     const [enumList, setEnumList] = useState<EnumList | undefined>(undefined);
     const [servantCache, setServantCache] = useState<Map<number, Servant.ServantBasic> | undefined>(undefined);
     const [itemCache, setItemCache] = useState<Map<number, Item.Item> | undefined>(undefined);
-
+    const { t } = useTranslation();
     useEffect(() => {
         Manager.setRegion(region);
         Promise.all([Api.masterMission(masterMissionId), Api.enumList(), Api.servantList(), Api.itemList()])
@@ -88,17 +89,19 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
 
     return (
         <>
-            <h1>Master Mission {masterMissionId}</h1>
+            <h1>
+                {t("Master Mission")} {masterMissionId}
+            </h1>
             <br />
 
             <div style={{ marginBottom: "3%" }}>
                 <DataTable
                     data={[
-                        { label: "ID", value: masterMissionId },
-                        { label: "Status", value: getEventStatus(masterMission.startedAt, masterMission.endedAt) },
-                        { label: "Start", value: getTimeString(masterMission.startedAt) },
-                        { label: "End", value: getTimeString(masterMission.endedAt) },
-                        { label: "Close", value: getTimeString(masterMission.closedAt) },
+                        { label: t("ID"), value: masterMissionId },
+                        { label: t("Status"), value: getEventStatus(masterMission.startedAt, masterMission.endedAt) },
+                        { label: t("Start"), value: getTimeString(masterMission.startedAt) },
+                        { label: t("End"), value: getTimeString(masterMission.endedAt) },
+                        { label: t("Close"), value: getTimeString(masterMission.closedAt) },
                         {
                             label: "Raw",
                             value: (
@@ -118,13 +121,13 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
                     ]}
                 />
             </div>
-            <h2>Missions</h2>
+            <h2>{t("Missions")}</h2>
             <Table hover responsive>
                 <thead>
                     <tr>
                         <th style={{ textAlign: "center" }}>#</th>
-                        <th>Detail</th>
-                        <th>Reward</th>
+                        <th>{t("Detail")}</th>
+                        <th>{t("Reward")}</th>
                     </tr>
                 </thead>
                 <tbody>

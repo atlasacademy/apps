@@ -140,7 +140,7 @@ class BuffsPage extends React.Component<IProps, IState> {
         ) {
             this.setState({ buffs: [] });
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
-            alert("Please refine the results before searching");
+            alert(this.props.t("Please refine the results before searching"));
             return;
         }
 
@@ -255,7 +255,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             onUpdate={(trait) => {
                                 this.setState({ buffGroup: trait });
                             }}
-                            customPlaceHolder="Add a positive integer"
+                            customPlaceHolder={t("Add a positive integer")}
                             numericInput={true}
                         />
                     </Form.Group>

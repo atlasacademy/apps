@@ -43,13 +43,13 @@ class CraftEssenceMainData extends React.Component<IProps> {
                     craftEssence.name === craftEssence.ruby ||
                     craftEssence.ruby === "-",
             },
-            { label: "Rarity", value: <RarityDescriptor rarity={craftEssence.rarity} /> },
-            { label: "Cost", value: craftEssence.cost },
-            { label: "Max Lv.", value: craftEssence.lvMax },
-            { label: "Base Hp", value: craftEssence.hpBase },
-            { label: "Base Atk", value: craftEssence.atkBase },
-            { label: "Max Hp", value: craftEssence.hpMax },
-            { label: "Max Atk", value: craftEssence.atkMax },
+            { label: t("Rarity"), value: <RarityDescriptor rarity={craftEssence.rarity} /> },
+            { label: t("Cost"), value: craftEssence.cost },
+            { label: t("Max Lv"), value: craftEssence.lvMax },
+            { label: t("Base Hp"), value: craftEssence.hpBase },
+            { label: t("Base Atk"), value: craftEssence.atkBase },
+            { label: t("Max Hp"), value: craftEssence.hpMax },
+            { label: t("Max Atk"), value: craftEssence.atkMax },
         ];
 
         if (craftEssence.bondEquipOwner)

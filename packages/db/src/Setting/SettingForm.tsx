@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, ButtonGroup, Form } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { Language } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";
@@ -9,7 +10,7 @@ import { Theme } from "./Theme";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     language: Language;
     theme: Theme;
 }
@@ -42,11 +43,12 @@ class SettingForm extends React.Component<IProps> {
     }
 
     render() {
+        const t = this.props.t;
         return (
             <div>
                 <Form>
                     <Form.Group>
-                        <Form.Label>Data Language</Form.Label>
+                        <Form.Label>{t("Data Language")}</Form.Label>
                         <Form.Control
                             as={"select"}
                             value={this.props.language}
@@ -60,7 +62,7 @@ class SettingForm extends React.Component<IProps> {
                         </Form.Control>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>UI Language</Form.Label>
+                        <Form.Label>{t("UI Language")}</Form.Label>
                         <Form.Control
                             as={"select"}
                             value={Manager.uiLanguage()}
@@ -74,7 +76,7 @@ class SettingForm extends React.Component<IProps> {
                         </Form.Control>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Theme</Form.Label>
+                        <Form.Label>{t("Theme")}</Form.Label>
                         <Form.Control
                             as={"select"}
                             value={this.props.theme}
@@ -93,7 +95,7 @@ class SettingForm extends React.Component<IProps> {
                         variant={Manager.shopPlannerEnabled() ? "success" : "secondary"}
                         onClick={() => this.updateShopPlannerEnabled(!Manager.shopPlannerEnabled())}
                     >
-                        Shop planner: {Manager.shopPlannerEnabled() ? "Enabled" : "Disabled"}
+                        {t("Shop planner")}: {Manager.shopPlannerEnabled() ? t("Enabled") : t("Disabled")}
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup style={{ width: "100%", marginBottom: "1em" }}>
@@ -101,7 +103,7 @@ class SettingForm extends React.Component<IProps> {
                         variant={Manager.scriptSceneEnabled() ? "success" : "secondary"}
                         onClick={() => this.updateScriptSceneEnabled(!Manager.scriptSceneEnabled())}
                     >
-                        Script Scene: {Manager.scriptSceneEnabled() ? "Enabled" : "Disabled"}
+                        {t("Script Scene")}: {Manager.scriptSceneEnabled() ? t("Enabled") : t("Disabled")}
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup style={{ width: "100%", marginBottom: "1em" }}>
@@ -109,7 +111,7 @@ class SettingForm extends React.Component<IProps> {
                         variant={Manager.showScriptLine() ? "success" : "secondary"}
                         onClick={() => Manager.setShowScriptLine(!Manager.showScriptLine())}
                     >
-                        Original line number in scripts: {Manager.showScriptLine() ? "Shown" : "Hidden"}
+                        {t("Original line number in scripts")}: {Manager.showScriptLine() ? t("Shown") : t("Hidden")}
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup style={{ width: "100%" }}>
@@ -117,7 +119,7 @@ class SettingForm extends React.Component<IProps> {
                         variant={Manager.hideEnemyFunctions() ? "success" : "secondary"}
                         onClick={() => this.updateHideEnemyFunction(!Manager.hideEnemyFunctions())}
                     >
-                        Enemy functions {Manager.hideEnemyFunctions() ? "hidden" : "shown"}
+                        {t("Enemy functions")}: {Manager.hideEnemyFunctions() ? t("Hidden") : t("Shown")}
                     </Button>
                 </ButtonGroup>
             </div>
@@ -125,4 +127,4 @@ class SettingForm extends React.Component<IProps> {
     }
 }
 
-export default SettingForm;
+export default withTranslation()(SettingForm);

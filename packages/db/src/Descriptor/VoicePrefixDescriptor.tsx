@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import type { Servant } from "@atlasacademy/api-connector";
 
@@ -34,9 +35,16 @@ let VoicePrefixDescriptor = (props: IProps) => {
             ? ascConds[0]
             : `${ascConds.sort()[0]} – ${ascConds.sort().reverse()[0]}`
         : ascConds.join(" / ");
+    const { t } = useTranslation();
     return (
         <>
-            {ascConds.length ? <>Ascension {ascString}&nbsp;</> : ""}
+            {ascConds.length ? (
+                <>
+                    {t("Ascension")} {ascString}&nbsp;
+                </>
+            ) : (
+                ""
+            )}
             {costumeConds.length ? (
                 <>
                     {ascConds.length ? "or c" : "C"}ostume {costumeConds.join(" / ")}

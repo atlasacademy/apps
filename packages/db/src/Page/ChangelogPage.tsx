@@ -172,7 +172,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
                             &nbsp;- {localTime ? timestamp.toString() : timestamp.toUTCString()}
                         </>
                     ),
-                    content: <>{hasChanges ? renderedChanges : t("No visible changes found.")}</>,
+                    content: <>{hasChanges ? renderedChanges : t("No visible changes found")}</>,
                     subheader: true,
                     initialOpen: initialOpen,
                 });

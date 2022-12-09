@@ -516,7 +516,7 @@ class EventPage extends React.Component<IProps, IState> {
                 <div style={{ marginBottom: "3%" }}>
                     <DataTable
                         data={[
-                            { label: "ID", value: event.id },
+                            { label: t("ID"), value: event.id },
                             {
                                 label: t("Name"),
                                 value: <span lang={lang(this.props.region)}>{replacePUACodePoints(event.name)}</span>,

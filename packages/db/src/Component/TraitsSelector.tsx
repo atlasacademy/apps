@@ -1,4 +1,5 @@
 import { Typeahead } from "react-bootstrap-typeahead";
+import { useTranslation } from "react-i18next";
 
 import { Region, Trait } from "@atlasacademy/api-connector";
 
@@ -47,14 +48,15 @@ export default function TraitSelector(props: {
 
     const options = props.traitList.map((trait) => getTraitOption(trait));
     let selectedOptions = getOptionList(props.initialTraits, knownTraits);
+    const { t } = useTranslation();
 
     return (
         <Typeahead
             id="trait-typeahead-multiple"
             multiple
             options={options}
-            placeholder={props.customPlaceHolder ? props.customPlaceHolder : "Add a Trait or a positive integer"}
-            emptyLabel={props.customPlaceHolder ? props.customPlaceHolder : "No trait found"}
+            placeholder={props.customPlaceHolder ? props.customPlaceHolder : t("Add a Trait or a positive integer")}
+            emptyLabel={props.customPlaceHolder ? props.customPlaceHolder : t("No trait found")}
             allowNew
             selected={selectedOptions}
             inputProps={props.numericInput ? { inputMode: "numeric", pattern: "[0-9]*" } : undefined}

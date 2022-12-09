@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
@@ -36,7 +37,7 @@ let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     traitSelected?: number;
 }
@@ -176,7 +177,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
         ) {
             this.setState({ entities: [] });
             this.props.history.replace(`/${this.props.region}/entities`);
-            alert("Please refine the results before searching");
+            alert(this.props.t("Please refine the results before searching"));
             return;
         }
 
@@ -204,12 +205,13 @@ class EntitiesPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         if (this.state.error)
             return (
                 <div style={{ textAlign: "center" }}>
                     <ErrorStatus error={this.state.error} />
                     <Button variant={"primary"} onClick={() => this.setState({ error: undefined, searching: false })}>
-                        Redo the Search
+                        {t("Redo the Search")}
                     </Button>
                 </div>
             );
@@ -220,7 +222,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             <div>
                 {this.state.searching ? <Loading /> : null}
 
-                <h1>Entities Search</h1>
+                <h1>{t("Entities Search")}</h1>
 
                 <form
                     onSubmit={(ev: React.FormEvent) => {
@@ -229,7 +231,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     }}
                 >
                     <Form.Group>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -240,7 +242,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Type</Form.Label>
+                        <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Entity.EntityType>
                             id="select-EntityType"
                             options={Object.values(Entity.EntityType)}
@@ -253,7 +255,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Class</Form.Label>
+                        <Form.Label>{t("Class")}</Form.Label>
                         <SearchableSelect<ClassName>
                             id="select-ClassName"
                             options={Object.values(ClassName).filter((className) => className !== ClassName.EXTRA)}
@@ -266,7 +268,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Gender</Form.Label>
+                        <Form.Label>{t("Gender")}</Form.Label>
                         <SearchableSelect<Entity.Gender>
                             id="select-Gender"
                             options={Object.values(Entity.Gender)}
@@ -279,7 +281,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Attribute</Form.Label>
+                        <Form.Label>{t("Attribute")}</Form.Label>
                         <SearchableSelect<Attribute.Attribute>
                             id="select-Attribute"
                             options={Object.values(Attribute.Attribute)}
@@ -292,7 +294,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Traits</Form.Label>
+                        <Form.Label>{t("Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -303,7 +305,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Doesn't have traits</Form.Label>
+                        <Form.Label>{t("Doesn't have traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -314,7 +316,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Illustrator</Form.Label>
+                        <Form.Label>{t("Illustrator")}</Form.Label>
                         <SearchableSelect<string>
                             id="select-illustrator"
                             options={this.state.illustratorList}
@@ -328,7 +330,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Voice Actor</Form.Label>
+                        <Form.Label>{t("Voice Actor")}</Form.Label>
                         <SearchableSelect<string>
                             id="select-voice-actor"
                             options={this.state.cvList}
@@ -342,7 +344,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
-                        Search <FontAwesomeIcon icon={faSearch} />
+                        {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>
 
@@ -352,9 +354,9 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Type</th>
-                            <th>Icon</th>
-                            <th>Name</th>
+                            <th>{t("Type")}</th>
+                            <th>{t("Icon")}</th>
+                            <th>{t("Name")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -379,4 +381,4 @@ class EntitiesPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(EntitiesPage);
+export default withRouter(withTranslation()(EntitiesPage));

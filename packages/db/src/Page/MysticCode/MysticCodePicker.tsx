@@ -1,5 +1,6 @@
 import React from "react";
 import { FormControl } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -9,7 +10,7 @@ import { lang } from "../../Setting/Manager";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
     mysticCodes: MysticCode.MysticCodeBasic[];
@@ -21,9 +22,10 @@ class MysticCodePicker extends React.Component<IProps> {
     }
 
     render() {
+        const t = this.props.t;
         return (
             <div>
-                Jump to:
+                {t("Jump to")}:
                 <FormControl
                     as={"select"}
                     custom
@@ -47,4 +49,4 @@ class MysticCodePicker extends React.Component<IProps> {
     }
 }
 
-export default withRouter(MysticCodePicker);
+export default withRouter(withTranslation()(MysticCodePicker));

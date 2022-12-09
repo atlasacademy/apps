@@ -1,4 +1,5 @@
 import { Typeahead } from "react-bootstrap-typeahead";
+import { useTranslation } from "react-i18next";
 
 import "./SearchableSelect.css";
 
@@ -69,6 +70,7 @@ export default function SearchableSelect<T>(props: IProps<T> | IPropsMultiple<T>
             props.niceLabels
         );
     }
+    const { t } = useTranslation();
 
     return (
         <div lang={props.lang}>
@@ -80,7 +82,7 @@ export default function SearchableSelect<T>(props: IProps<T> | IPropsMultiple<T>
                 placeholder={
                     props.selectedAsPlaceholder && selectedOptions.length > 0
                         ? selectedOptions[0].niceLabel ?? selectedOptions[0].label
-                        : "All"
+                        : t("All")
                 }
                 clearButton={props.hideReset ? !props.hideReset : true}
                 maxResults={props.maxResults ?? 1000}

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React, { useState } from "react";
 import { Col, Row, Table, Tabs, Tab } from "react-bootstrap";
+import { useTranslation, withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
@@ -158,17 +159,18 @@ const QuestTable = (props: {
         hasSection =
             props.showSection &&
             (quests.find((quest) => quest.chapterSubId !== 0) || quests.find((quest) => quest.chapterSubStr !== ""));
+    const { t } = useTranslation();
     return (
         <Table hover responsive>
             <thead>
                 <tr>
-                    {hasSection ? <th>Section</th> : null}
-                    <th>ID</th>
-                    <th>Name</th>
-                    {props.spots !== undefined ? <th>Spot</th> : null}
-                    <th>Phases</th>
-                    <th>Reward</th>
-                    {hasScript ? <th>Script</th> : null}
+                    {hasSection ? <th>{t("Section")}</th> : null}
+                    <th>{t("ID")}</th>
+                    <th>{t("Name")}</th>
+                    {props.spots !== undefined ? <th>{t("Spot")}</th> : null}
+                    <th>{t("Phases")}</th>
+                    <th>{t("Reward")}</th>
+                    {hasScript ? <th>{t("Script")}</th> : null}
                 </tr>
             </thead>
             <tbody>
@@ -264,6 +266,7 @@ const QuestTable = (props: {
 };
 
 const MainQuests = (props: { region: Region; spots: War.Spot[]; itemMap: Map<number, Item.Item> }) => {
+    const { t } = useTranslation();
     let mainQuests = [] as { quest: Quest.Quest; spot: War.Spot }[];
     for (let spot of props.spots) {
         for (let quest of spot.quests) {
@@ -288,7 +291,7 @@ const MainQuests = (props: { region: Region; spots: War.Spot[]; itemMap: Map<num
     );
 
     return renderCollapsibleContent({
-        title: "Main Quests",
+        title: t("Main Quests"),
         content: questTable,
         subheader: false,
     });
@@ -425,7 +428,7 @@ const WarMapList = (props: {
     );
 };
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     warId: number;
 }
@@ -477,12 +480,14 @@ class WarPage extends React.Component<IProps, IState> {
 
         if (this.state.loading || !this.state.war) return <Loading />;
 
+        const t = this.props.t;
+
         const war = this.state.war;
 
         const event =
             war.eventId !== 0 ? (
                 <Link to={`/${this.props.region}/event/${war.eventId}`}>
-                    {war.eventName !== "" ? war.eventName : `Event ${war.eventId}`}
+                    {war.eventName !== "" ? war.eventName : `${t("Event")} ${war.eventId}`}
                 </Link>
             ) : (
                 ""
@@ -539,9 +544,9 @@ class WarPage extends React.Component<IProps, IState> {
                 <div style={{ marginBottom: "3%" }}>
                     <DataTable
                         data={[
-                            { label: "ID", value: war.id },
+                            { label: t("ID"), value: war.id },
                             {
-                                label: "Name",
+                                label: t("Name"),
                                 value: (
                                     <span className="newline" lang={lang(this.props.region)}>
                                         {war.name}
@@ -551,7 +556,7 @@ class WarPage extends React.Component<IProps, IState> {
                                 ),
                             },
                             {
-                                label: "Long Name",
+                                label: t("Long Name"),
                                 value: (
                                     <span className="newline" lang={lang(this.props.region)}>
                                         {war.longName}
@@ -560,11 +565,11 @@ class WarPage extends React.Component<IProps, IState> {
                                     </span>
                                 ),
                             },
-                            { label: "Age", value: <span lang={lang(this.props.region)}>{war.age}</span> },
-                            { label: "Event", value: event },
-                            { label: "Opening Script", value: openingScript },
-                            { label: "Banner", value: bannerImages },
-                            { label: "BGM", value: <>{bgmPlayers}</> },
+                            { label: t("Age"), value: <span lang={lang(this.props.region)}>{war.age}</span> },
+                            { label: t("Event"), value: event },
+                            { label: t("Opening Script"), value: openingScript },
+                            { label: t("Banner"), value: bannerImages },
+                            { label: t("BGM"), value: <>{bgmPlayers}</> },
                             {
                                 label: "Raw",
                                 value: (
@@ -591,7 +596,7 @@ class WarPage extends React.Component<IProps, IState> {
                     spotRoads={war.spotRoads}
                     warName={war.name}
                     warId={war.id}
-                    title={"Maps"}
+                    title={t("Maps")}
                 />
                 <MainQuests region={this.props.region} spots={war.spots} itemMap={this.state.itemCache} />
                 {[
@@ -627,4 +632,4 @@ class WarPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(WarPage);
+export default withRouter(withTranslation()(WarPage));

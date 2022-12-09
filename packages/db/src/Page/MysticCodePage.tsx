@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -17,7 +18,7 @@ import MysticCodeMainData from "./MysticCode/MysticCodeMainData";
 import MysticCodePicker from "./MysticCode/MysticCodePicker";
 import MysticCodePortrait from "./MysticCode/MysticCodePortrait";
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
     tab?: string;
@@ -57,6 +58,8 @@ class MysticCodePage extends React.Component<IProps, IState> {
 
         if (this.state.loading || !this.state.mysticCode) return <Loading />;
 
+        const t = this.props.t;
+
         return (
             <div>
                 <MysticCodePicker
@@ -88,7 +91,7 @@ class MysticCodePage extends React.Component<IProps, IState> {
                         this.props.history.replace(`/${this.props.region}/mystic-code/${this.props.id}/${key}`);
                     }}
                 >
-                    <Tab eventKey={"skill-1"} title={"Skill 1"}>
+                    <Tab eventKey={"skill-1"} title={t("Skill 1")}>
                         <br />
                         {this.state.mysticCode.skills[0] ? (
                             <SkillBreakdown
@@ -100,7 +103,7 @@ class MysticCodePage extends React.Component<IProps, IState> {
                         ) : null}
                     </Tab>
 
-                    <Tab eventKey={"skill-2"} title={"Skill 2"}>
+                    <Tab eventKey={"skill-2"} title={t("Skill 2")}>
                         <br />
                         {this.state.mysticCode.skills[1] ? (
                             <SkillBreakdown
@@ -112,7 +115,7 @@ class MysticCodePage extends React.Component<IProps, IState> {
                         ) : null}
                     </Tab>
 
-                    <Tab eventKey={"skill-3"} title={"Skill 3"}>
+                    <Tab eventKey={"skill-3"} title={t("Skill 3")}>
                         <br />
                         {this.state.mysticCode.skills[2] ? (
                             <SkillBreakdown
@@ -124,12 +127,12 @@ class MysticCodePage extends React.Component<IProps, IState> {
                         ) : null}
                     </Tab>
 
-                    <Tab eventKey={"exp"} title={"EXP"}>
+                    <Tab eventKey={"exp"} title={t("EXP")}>
                         <br />
                         <MysticCodeExp mysticCode={this.state.mysticCode} />
                     </Tab>
 
-                    <Tab eventKey={"assets"} title={"Assets"}>
+                    <Tab eventKey={"assets"} title={t("Assets")}>
                         <br />
                         <MysticCodeAssets mysticCode={this.state.mysticCode} />
                     </Tab>
@@ -139,4 +142,4 @@ class MysticCodePage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(MysticCodePage);
+export default withRouter(withTranslation()(MysticCodePage));

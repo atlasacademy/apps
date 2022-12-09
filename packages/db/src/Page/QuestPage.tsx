@@ -107,7 +107,7 @@ const QuestMainData = (props: {
         <DataTable
             responsive
             data={[
-                { label: "ID", value: quest.id },
+                { label: t("ID"), value: quest.id },
                 {
                     label: t("Phases"),
                     value: (

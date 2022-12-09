@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -25,7 +26,7 @@ let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     path: string;
 }
@@ -168,7 +169,7 @@ class QuestsPage extends React.Component<IProps, IState> {
         ) {
             this.setState({ quests: [] });
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
-            alert("Please refine the results before searching");
+            alert(this.props.t("Please refine the results before searching"));
             return;
         }
 
@@ -236,6 +237,7 @@ class QuestsPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         if (this.state.error) {
             return (
                 <div style={{ textAlign: "center" }}>
@@ -249,7 +251,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             })
                         }
                     >
-                        Redo the Search
+                        {t("Redo the Search")}
                     </Button>
                 </div>
             );
@@ -259,7 +261,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             <div className="listing-page">
                 {this.state.searching ? <Loading /> : null}
 
-                <h1>Quests Search</h1>
+                <h1>{t("Quests Search")}</h1>
 
                 <form
                     onSubmit={(ev: React.FormEvent) => {
@@ -268,7 +270,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                     }}
                 >
                     <Form.Group>
-                        <Form.Label>Quest Name</Form.Label>
+                        <Form.Label>{t("Quest Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -280,7 +282,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Spot Name</Form.Label>
+                        <Form.Label>{t("Spot Name")}</Form.Label>
                         <Form.Control
                             value={this.state.spotName ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -293,7 +295,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     {this.getNumberForm("warId", "War ID")}
                     <Form.Group>
-                        <Form.Label>Quest Type</Form.Label>
+                        <Form.Label>{t("Quest Type")}</Form.Label>
                         <SearchableSelect<Quest.QuestType>
                             id="select-QuestType"
                             options={Object.values(Quest.QuestType)}
@@ -305,7 +307,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Quest Flags</Form.Label>
+                        <Form.Label>{t("Quest Flags")}</Form.Label>
                         <SearchableSelect<Quest.QuestFlag>
                             id="select-QuestFlag"
                             options={Object.values(Quest.QuestFlag)}
@@ -317,7 +319,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Field Trait</Form.Label>
+                        <Form.Label>{t("Field Trait")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -327,13 +329,13 @@ class QuestsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    {this.getNumberForm("battleBgId", "Battle BG ID")}
-                    {this.getNumberForm("bgmId", "BGM ID")}
-                    {this.getNumberForm("fieldAiId", "Field AI ID")}
-                    {this.getNumberForm("enemySvtId", "Enemy svt ID")}
-                    {this.getNumberForm("enemySvtAiId", "Enemy Servant AI ID")}
+                    {this.getNumberForm("battleBgId", t("Battle BG ID"))}
+                    {this.getNumberForm("bgmId", t("BGM ID"))}
+                    {this.getNumberForm("fieldAiId", t("Field AI ID"))}
+                    {this.getNumberForm("enemySvtId", t("Enemy svt ID"))}
+                    {this.getNumberForm("enemySvtAiId", t("Enemy Servant AI ID"))}
                     <Form.Group>
-                        <Form.Label>Enemy Trait</Form.Label>
+                        <Form.Label>{t("Enemy Trait")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -344,7 +346,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Enemy Class</Form.Label>
+                        <Form.Label>{t("Enemy Class")}</Form.Label>
                         <SearchableSelect<ClassName>
                             id="select-ClassName"
                             options={Object.values(ClassName).filter((className) => className !== ClassName.EXTRA)}
@@ -357,21 +359,16 @@ class QuestsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    {this.getNumberForm("enemySkillId", "Enemy Skill ID")}
-                    {this.getNumberForm("enemyNoblePhantasmId", "Enemy Noble Phantasm ID")}
+                    {this.getNumberForm("enemySkillId", t("Enemy Skill ID"))}
+                    {this.getNumberForm("enemyNoblePhantasmId", t("Enemy Noble Phantasm ID"))}
                     <Button variant={"primary"} onClick={() => this.search()} style={{ marginBottom: "1em" }}>
-                        Search <FontAwesomeIcon icon={faSearch} />
+                        {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>
 
                 <hr />
 
-                {this.state.searched && (
-                    <h5>
-                        Found <b>{this.state.quests.length}</b> result
-                        {this.state.quests.length > 1 ? "s" : ""}.
-                    </h5>
-                )}
+                {this.state.searched && <h5>{t("foundResult", { count: this.state.quests.length })}.</h5>}
                 {this.state.quests.length ? (
                     <QuestPhaseTable region={this.props.region} quests={this.state.quests} />
                 ) : null}
@@ -380,4 +377,4 @@ class QuestsPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(QuestsPage);
+export default withRouter(withTranslation()(QuestsPage));

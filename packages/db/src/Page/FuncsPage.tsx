@@ -136,7 +136,7 @@ class FuncsPage extends React.Component<IProps, IState> {
         ) {
             this.setState({ funcs: [] });
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
-            alert("Please refine the results before searching");
+            alert(this.props.t("Please refine the results before searching"));
             return;
         }
 
@@ -279,7 +279,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Tvals</Form.Label>
+                        <Form.Label>{t("Tvals")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}

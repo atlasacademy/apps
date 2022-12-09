@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -19,7 +20,7 @@ import CraftEssenceProfileComments from "./CraftEssence/CraftEssenceProfileComme
 import CraftEssenceStatGrowth from "./CraftEssence/CraftEssenceStatGrowth";
 import ServantVoiceLines from "./Servant/ServantVoiceLines";
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
     tab?: string;
@@ -65,6 +66,8 @@ class CraftEssencePage extends React.Component<IProps, IState> {
 
         const craftEssence = this.state.craftEssence;
 
+        const t = this.props.t;
+
         return (
             <div>
                 <CraftEssencePicker
@@ -95,7 +98,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                         this.props.history.replace(`/${this.props.region}/craft-essence/${this.props.id}/${key}`);
                     }}
                 >
-                    <Tab eventKey={"effects"} title={"Effects"}>
+                    <Tab eventKey={"effects"} title={t("Effects")}>
                         <br />
                         <Row>
                             {this.state.craftEssence.skills
@@ -113,23 +116,23 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                                 })}
                         </Row>
                     </Tab>
-                    <Tab eventKey={"stat-growth"} title={"Stat Growth"}>
+                    <Tab eventKey={"stat-growth"} title={t("Stat Growth")}>
                         <br />
                         <CraftEssenceStatGrowth region={this.props.region} craftEssence={craftEssence} />
                     </Tab>
-                    <Tab eventKey={"profile"} title={"Profile"}>
+                    <Tab eventKey={"profile"} title={t("Profile")}>
                         <br />
                         <CraftEssenceProfileComments
                             region={this.props.region}
                             comments={craftEssence.profile?.comments ?? []}
                         />
                     </Tab>
-                    <Tab eventKey={"assets"} title={"Assets"}>
+                    <Tab eventKey={"assets"} title={t("Assets")}>
                         <br />
                         <CraftEssenceAssets region={this.props.region} craftEssence={craftEssence} />
                     </Tab>
                     {(craftEssence.profile?.voices.length ?? 0) > 0 && (
-                        <Tab eventKey={"voices"} title={"Voices"}>
+                        <Tab eventKey={"voices"} title={t("Voices")}>
                             <br />
                             <ServantVoiceLines
                                 region={this.props.region}
@@ -145,4 +148,4 @@ class CraftEssencePage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(CraftEssencePage);
+export default withRouter(withTranslation()(CraftEssencePage));

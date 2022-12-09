@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -16,7 +17,7 @@ import CommandCodeMainData from "./CommandCode/CommandCodeMainData";
 import CommandCodePicker from "./CommandCode/CommandCodePicker";
 import CommandCodePortrait from "./CommandCode/CommandCodePortrait";
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
     tab?: string;
@@ -62,6 +63,8 @@ class CommandCodePage extends React.Component<IProps, IState> {
 
         const commandCode = this.state.commandCode;
 
+        const t = this.props.t;
+
         return (
             <div>
                 <CommandCodePicker
@@ -92,7 +95,7 @@ class CommandCodePage extends React.Component<IProps, IState> {
                         this.props.history.replace(`/${this.props.region}/command-code/${this.props.id}/${key}`);
                     }}
                 >
-                    <Tab eventKey={"effects"} title={"Effects"}>
+                    <Tab eventKey={"effects"} title={t("Effects")}>
                         <br />
                         {commandCode.skills.map((skill) => {
                             return (
@@ -106,7 +109,7 @@ class CommandCodePage extends React.Component<IProps, IState> {
                         })}
                     </Tab>
 
-                    <Tab eventKey={"assets"} title={"Assets"}>
+                    <Tab eventKey={"assets"} title={t("Assets")}>
                         <br />
                         <CommandCodeAsset region={this.props.region} commandCode={commandCode} />
                     </Tab>
@@ -116,4 +119,4 @@ class CommandCodePage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(CommandCodePage);
+export default withRouter(withTranslation()(CommandCodePage));

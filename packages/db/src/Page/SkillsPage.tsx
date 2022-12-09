@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -22,7 +23,7 @@ let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     path: string;
 }
@@ -132,7 +133,7 @@ class SkillsPage extends React.Component<IProps, IState> {
         ) {
             this.setState({ skills: [] });
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
-            alert("Please refine the results before searching");
+            alert(this.props.t("Please refine the results before searching"));
             return;
         }
 
@@ -169,7 +170,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                     onUpdate={(trait) => {
                         this.setState({ [stateVar]: trait } as Pick<IState, typeof stateVar>);
                     }}
-                    customPlaceHolder="Add a positive integer"
+                    customPlaceHolder={this.props.t("Add a positive integer")}
                     emptyLabel=""
                     numericInput={true}
                 />
@@ -178,6 +179,7 @@ class SkillsPage extends React.Component<IProps, IState> {
     }
 
     render() {
+        const t = this.props.t;
         if (this.state.error) {
             return (
                 <div style={{ textAlign: "center" }}>
@@ -191,7 +193,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                             })
                         }
                     >
-                        Redo the Search
+                        {t("Redo the Search")}
                     </Button>
                 </div>
             );
@@ -202,8 +204,8 @@ class SkillsPage extends React.Component<IProps, IState> {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Skill</th>
-                        <th>Owner</th>
+                        <th>{t("Skill")}</th>
+                        <th>{t("Owner")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -230,7 +232,7 @@ class SkillsPage extends React.Component<IProps, IState> {
             <div>
                 {this.state.searching ? <Loading /> : null}
 
-                <h1>Skills Search</h1>
+                <h1>{t("Skills Search")}</h1>
 
                 <form
                     onSubmit={(ev: React.FormEvent) => {
@@ -239,7 +241,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                     }}
                 >
                     <Form.Group>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -253,7 +255,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Type</Form.Label>
+                        <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Skill.SkillType>
                             id="select-SkillType"
                             options={Object.values(Skill.SkillType)}
@@ -270,13 +272,13 @@ class SkillsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     {this.getNumberForm("num", "Num")}
-                    {this.getNumberForm("priority", "Priority")}
-                    {this.getNumberForm("strengthStatus", "Strength Status")}
-                    {this.getNumberForm("lvl1coolDown", "Cooldown at level 1")}
-                    {this.getNumberForm("numFunctions", "Number of functions")}
+                    {this.getNumberForm("priority", t("Priority"))}
+                    {this.getNumberForm("strengthStatus", t("Strength Status"))}
+                    {this.getNumberForm("lvl1coolDown", t("Cooldown at level 1"))}
+                    {this.getNumberForm("numFunctions", t("Number of functions"))}
                     <Form.Group>
                         <Form.Label>
-                            <code>svals</code> raw string should contain the following snippet
+                            <code>svals</code> {t("raw string should contain the following snippet")}
                         </Form.Label>
                         <Form.Control
                             value={this.state.svalsContain ?? ""}
@@ -290,21 +292,16 @@ class SkillsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
-                        Search <FontAwesomeIcon icon={faSearch} />
+                        {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>
 
                 <hr />
-                {this.state.searched && (
-                    <h5>
-                        Found <b>{this.state.skills.length}</b> result
-                        {this.state.skills.length > 1 ? "s" : ""}.
-                    </h5>
-                )}
+                {this.state.searched && <h5>{t("foundResult", { count: this.state.skills.length })}.</h5>}
                 {this.state.skills.length ? table : null}
             </div>
         );
     }
 }
 
-export default withRouter(SkillsPage);
+export default withRouter(withTranslation()(SkillsPage));

@@ -95,7 +95,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
             </h1>
             <DataTable
                 data={[
-                    { label: "ID", value: bgm.id },
+                    { label: t("ID"), value: bgm.id },
                     {
                         label: t("Name"),
                         value: (

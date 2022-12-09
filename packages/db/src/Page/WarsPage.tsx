@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import Fuse from "fuse.js";
 import React from "react";
 import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Region, War } from "@atlasacademy/api-connector";
@@ -26,7 +27,7 @@ enum WarType {
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
 }
 
@@ -210,6 +211,8 @@ class WarsPage extends React.Component<IProps, IState> {
 
         const pageNavigator = this.paginator(wars.length);
 
+        const t = this.props.t;
+
         return (
             <div id="wars" className="listing-page">
                 <Row>
@@ -229,7 +232,11 @@ class WarsPage extends React.Component<IProps, IState> {
                                             this.setState({ page: 0 });
                                         }}
                                     >
-                                        {warType.toString()}
+                                        {new Map<WarType, string>([
+                                            [WarType.MAIN, t("WarType.MAIN")],
+                                            [WarType.CHALDEA_GATE, t("WarType.CHALDEA_GATE")],
+                                            [WarType.OTHER, t("WarType.OTHER")],
+                                        ]).get(warType) || warType.toString()}
                                     </Button>
                                 );
                             })}
@@ -238,7 +245,7 @@ class WarsPage extends React.Component<IProps, IState> {
                     <Col md={12} lg={3} id="item-search">
                         <Form inline onSubmit={preventDefault}>
                             <Form.Control
-                                placeholder={"Search"}
+                                placeholder={t("Search")}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({
@@ -276,8 +283,8 @@ class WarsPage extends React.Component<IProps, IState> {
                                     )}
                                 </Button>
                             </th>
-                            <th>War Name</th>
-                            <th>Event</th>
+                            <th>{t("War Name")}</th>
+                            <th>{t("Event")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -317,4 +324,4 @@ class WarsPage extends React.Component<IProps, IState> {
     }
 }
 
-export default WarsPage;
+export default withTranslation()(WarsPage);

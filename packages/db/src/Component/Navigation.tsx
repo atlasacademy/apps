@@ -3,7 +3,7 @@ import { faCog, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown } from "react-bootstrap";
-import { withTranslation, TFunction } from "react-i18next";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
@@ -20,10 +20,9 @@ import { Theme } from "../Setting/Theme";
 
 import "./Navigation.css";
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     language: Language;
     theme: Theme;
-    t: TFunction;
 }
 
 interface IState {
@@ -123,7 +122,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             to={this.regionLink(Region.JP)}
                                             className={`nav-link ${this.regionClass(Region.JP)}`}
                                         >
-                                            <JPFlag title="View data from the JP version" />
+                                            <JPFlag title={t("View data from the JP version")} />
                                         </Link>
                                     </Col>
                                     <Col>
@@ -131,7 +130,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             to={this.regionLink(Region.NA)}
                                             className={`nav-link ${this.regionClass(Region.NA)}`}
                                         >
-                                            <USFlag title="View data from the NA version" />
+                                            <USFlag title={t("View data from the NA version")} />
                                         </Link>
                                     </Col>
                                     <Col>
@@ -139,7 +138,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             to={this.regionLink(Region.CN)}
                                             className={`nav-link ${this.regionClass(Region.CN)}`}
                                         >
-                                            <CNFlag title="View data from the CN version" />
+                                            <CNFlag title={t("View data from the CN version")} />
                                         </Link>
                                     </Col>
                                     <Col>
@@ -147,7 +146,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             to={this.regionLink(Region.KR)}
                                             className={`nav-link ${this.regionClass(Region.KR)}`}
                                         >
-                                            <KRFlag title="View data from the KR version" />
+                                            <KRFlag title={t("View data from the KR version")} />
                                         </Link>
                                     </Col>
                                     <Col>
@@ -155,7 +154,7 @@ class Navigation extends React.Component<IProps, IState> {
                                             to={this.regionLink(Region.TW)}
                                             className={`nav-link ${this.regionClass(Region.TW)}`}
                                         >
-                                            <TWFlag title="View data from the TW version" />
+                                            <TWFlag title={t("View data from the TW version")} />
                                         </Link>
                                     </Col>
                                 </Row>
@@ -189,7 +188,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     </Col>
                                 </Row>
                                 <Button variant={"primary"} onClick={() => this.showSettings()}>
-                                    <FontAwesomeIcon icon={faCog} title="Settings" />
+                                    <FontAwesomeIcon icon={faCog} title={t("Settings")} />
                                 </Button>
                             </Nav>
                         </Navbar.Collapse>
@@ -198,9 +197,9 @@ class Navigation extends React.Component<IProps, IState> {
 
                 <Modal show={this.state.showSettings} onHide={() => this.hideSettings()}>
                     <Modal.Header>
-                        <Modal.Title>Settings</Modal.Title>
+                        <Modal.Title>{t("Settings")}</Modal.Title>
                         <button title="close settings" className="modal-close" onClick={() => this.hideSettings()}>
-                            <FontAwesomeIcon icon={faXmark} title="Close Settings" />
+                            <FontAwesomeIcon icon={faXmark} title={t("Close Settings")} />
                         </button>
                     </Modal.Header>
                     <Modal.Body>

@@ -74,7 +74,7 @@ class BuffPage extends React.Component<IProps, IState> {
 
                 <DataTable
                     data={[
-                        { label: "ID", value: buff.id },
+                        { label: t("ID"), value: buff.id },
                         {
                             label: t("Name"),
                             value: <span lang={lang(region)}>{buff.name}</span>,

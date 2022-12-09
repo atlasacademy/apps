@@ -29,7 +29,7 @@ class CommandCodeMainData extends React.Component<IProps> {
 
                 <DataTable
                     data={[
-                        { label: "ID", value: commandCode.id },
+                        { label: t("ID"), value: commandCode.id },
                         { label: t("Collection"), value: commandCode.collectionNo },
                         { label: t("Name"), value: <span lang={lang(this.props.region)}>{commandCode.name}</span> },
                         {

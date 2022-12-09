@@ -1,4 +1,5 @@
 import React from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { MysticCode, Region } from "@atlasacademy/api-connector";
 
@@ -9,7 +10,7 @@ import { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     mysticCode: MysticCode.MysticCode;
 }
@@ -17,22 +18,22 @@ interface IProps {
 class MysticCodeMainData extends React.Component<IProps> {
     render() {
         const mysticCode = this.props.mysticCode;
-
+        const t = this.props.t;
         return (
             <div>
                 <h1 lang={lang(this.props.region)}>{mysticCode.name}</h1>
 
                 <DataTable
                     data={[
-                        { label: "ID", value: mysticCode.id },
-                        { label: "Name", value: <span lang={lang(this.props.region)}>{mysticCode.name}</span> },
+                        { label: t("ID"), value: mysticCode.id },
+                        { label: t("Name"), value: <span lang={lang(this.props.region)}>{mysticCode.name}</span> },
                         {
-                            label: "Original Name",
+                            label: t("Original Name"),
                             value: <span lang={lang(this.props.region)}>{mysticCode.originalName}</span>,
                             hidden: mysticCode.name === mysticCode.originalName,
                         },
                         {
-                            label: "Detail",
+                            label: t("Detail"),
                             value: (
                                 <span className="newline" lang={lang(this.props.region)}>
                                     {mysticCode.detail}
@@ -53,4 +54,4 @@ class MysticCodeMainData extends React.Component<IProps> {
     }
 }
 
-export default MysticCodeMainData;
+export default withTranslation()(MysticCodeMainData);

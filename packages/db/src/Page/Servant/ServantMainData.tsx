@@ -72,7 +72,7 @@ class ServantMainData extends React.Component<IProps> {
                 <Table bordered responsive className="servant-data-table">
                     <tbody>
                         {this.renderDoubleRow([
-                            { title: "ID", content: servant.id },
+                            { title: t("ID"), content: servant.id },
                             { title: t("Collection"), content: servant.collectionNo },
                         ])}
                         {this.renderDoubleRow([

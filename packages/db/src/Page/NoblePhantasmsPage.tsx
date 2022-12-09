@@ -1,8 +1,10 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
+import { t } from "i18next";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -23,7 +25,7 @@ let stateCache = new Map<Region, IState>([]);
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     path: string;
 }
@@ -140,7 +142,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
         ) {
             this.setState({ noblePhantasms: [] });
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
-            alert("Please refine the results before searching");
+            alert(this.props.t("Please refine the results before searching"));
             return;
         }
 
@@ -177,7 +179,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                     onUpdate={(trait) => {
                         this.setState({ [stateVar]: trait } as Pick<IState, typeof stateVar>);
                     }}
-                    customPlaceHolder="Add a positive integer"
+                    customPlaceHolder={this.props.t("Add a positive integer")}
                     emptyLabel=""
                     numericInput={true}
                 />
@@ -199,7 +201,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                             })
                         }
                     >
-                        Redo the Search
+                        {t("Redo the Search")}
                     </Button>
                 </div>
             );
@@ -210,8 +212,8 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Noble Phantasm</th>
-                        <th>Owner</th>
+                        <th>{t("Noble Phantasm")}</th>
+                        <th>{t("Owner")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -238,7 +240,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
             <div>
                 {this.state.searching ? <Loading /> : null}
 
-                <h1>Noble Phantasms Search</h1>
+                <h1>{t("Noble Phantasms Search")}</h1>
 
                 <form
                     onSubmit={(ev: React.FormEvent) => {
@@ -247,7 +249,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                     }}
                 >
                     <Form.Group>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -261,7 +263,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Type</Form.Label>
+                        <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Card>
                             id="select-SkillType"
                             options={[Card.BUSTER, Card.ARTS, Card.QUICK]}
@@ -279,7 +281,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Individuality</Form.Label>
+                        <Form.Label>{t("Individuality")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
                             traitList={this.state.traitList}
@@ -289,11 +291,11 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    {this.getNumberForm("hits", "Number of hits")}
-                    {this.getNumberForm("strengthStatus", "Strength Status")}
-                    {this.getNumberForm("numFunctions", "Number of functions")}
+                    {this.getNumberForm("hits", t("Number of hits"))}
+                    {this.getNumberForm("strengthStatus", t("Strength Status"))}
+                    {this.getNumberForm("numFunctions", t("Number of functions"))}
                     <Form.Group>
-                        <Form.Label>Minimum NP gain (1% = 100)</Form.Label>
+                        <Form.Label>{t("Minimum NP gain")} (1% = 100)</Form.Label>
                         <NumberSelector
                             value={this.state.minNpNpGain ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -310,7 +312,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Maximum NP gain (1% = 100)</Form.Label>
+                        <Form.Label>{t("Maximum NP gain")} (1% = 100)</Form.Label>
                         <NumberSelector
                             value={this.state.maxNpNpGain ?? ""}
                             onChange={(ev: ChangeEvent) => {
@@ -327,21 +329,16 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     <Button variant={"primary"} onClick={() => this.search()}>
-                        Search <FontAwesomeIcon icon={faSearch} />
+                        {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>
 
                 <hr />
-                {this.state.searched && (
-                    <h5>
-                        Found <b>{this.state.noblePhantasms.length}</b> result
-                        {this.state.noblePhantasms.length > 1 ? "s" : ""}.
-                    </h5>
-                )}
+                {this.state.searched && <h5>{t("foundResult", { count: this.state.noblePhantasms.length })}.</h5>}
                 {this.state.noblePhantasms.length ? table : null}
             </div>
         );
     }
 }
 
-export default withRouter(NoblePhantasmsPage);
+export default withRouter(withTranslation()(NoblePhantasmsPage));

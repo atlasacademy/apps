@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Table } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { MysticCode, Region } from "@atlasacademy/api-connector";
@@ -13,7 +14,7 @@ import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
 }
 
@@ -46,14 +47,16 @@ class MysticCodesPage extends React.Component<IProps, IState> {
 
         if (this.state.loading) return <Loading />;
 
+        const t = this.props.t;
+
         return (
             <div id="mystic-codes" className="listing-page">
                 <Table striped bordered hover responsive>
                     <thead>
                         <tr>
                             <th className="col-center">#</th>
-                            <th style={{ textAlign: "center", width: "140px" }}>Thumbnail</th>
-                            <th>Name</th>
+                            <th style={{ textAlign: "center", width: "140px" }}>{t("Thumbnail")}</th>
+                            <th>{t("Name")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,4 +89,4 @@ class MysticCodesPage extends React.Component<IProps, IState> {
     }
 }
 
-export default MysticCodesPage;
+export default withTranslation()(MysticCodesPage);

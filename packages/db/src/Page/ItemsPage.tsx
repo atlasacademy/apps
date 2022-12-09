@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import Fuse from "fuse.js";
 import React from "react";
 import { Form, Pagination, Table, Tab, Tabs, Row, Col } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
@@ -20,7 +21,7 @@ import "./ListingPage.css";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     tab?: string;
 }
@@ -215,25 +216,26 @@ class ItemsPage extends React.Component<IProps, IState> {
 
     private createTabs(itemList: Item.Item[]): PaginatedTab[] {
         let items = itemList.sort((a, b) => a.priority - b.priority || a.id - b.id);
+        const t = this.props.t;
         return [
             {
                 key: "servant-materials",
-                title: "Servant Materials",
+                title: t("Servant Materials"),
                 items: this.getServantMaterials(items),
             },
             {
                 key: "event-items",
-                title: "Event Items",
+                title: t("Event Items"),
                 items: this.getEventItems(items),
             },
             {
                 key: "servant-coins",
-                title: "Servant Coins",
+                title: t("Servant Coins"),
                 items: this.getServantCoins(items),
             },
             {
                 key: "items",
-                title: "Other Items",
+                title: t("Other Items"),
                 items: this.getOtherItems(items),
             },
         ];
@@ -243,7 +245,7 @@ class ItemsPage extends React.Component<IProps, IState> {
         const tab = this.state.tabs[index],
             items = this.applySearch(tab.items, this.state.search ?? ""),
             results = items.slice(this.state.perPage * this.state.page, this.state.perPage * (this.state.page + 1));
-
+        const t = this.props.t;
         return (
             <Tab key={tab.key} eventKey={tab.key} title={tab.title}>
                 <br />
@@ -251,8 +253,8 @@ class ItemsPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th style={{ textAlign: "center", width: "1px" }}>#</th>
-                            <th style={{ textAlign: "center", width: "1px" }}>Thumbnail</th>
-                            <th>Name</th>
+                            <th style={{ textAlign: "center", width: "1px" }}>{t("Thumbnail")}</th>
+                            <th>{t("Name")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -288,6 +290,8 @@ class ItemsPage extends React.Component<IProps, IState> {
 
         if (this.state.loading) return <Loading />;
 
+        const t = this.props.t;
+
         const tabProperty = this.props.tab ?? "servant-materials",
             index = this.state.tabs.findIndex((tab) => tab.key === tabProperty);
 
@@ -304,7 +308,7 @@ class ItemsPage extends React.Component<IProps, IState> {
                     <Col xs={12} sm={6} md={3} id="item-search">
                         <Form inline onSubmit={preventDefault}>
                             <Form.Control
-                                placeholder={"Search"}
+                                placeholder={t("Search")}
                                 value={this.state.search ?? ""}
                                 onChange={(ev: ChangeEvent) => {
                                     this.setState({ search: ev.target.value });
@@ -333,4 +337,4 @@ class ItemsPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(ItemsPage);
+export default withRouter(withTranslation()(ItemsPage));

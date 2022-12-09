@@ -14,7 +14,7 @@ const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.Que
             <thead>
                 <tr>
                     <th>{t("Quest")} ID</th>
-                    <th className="col-center">{t("Phase")}</th>
+                    <th className="col-center text-nowrap">{t("Phase")}</th>
                     <th>{t("Quest Name")}</th>
                     <th className="col-center">{t("Quest Type")}</th>
                     <th className="col-center">{t("War")} ID</th>

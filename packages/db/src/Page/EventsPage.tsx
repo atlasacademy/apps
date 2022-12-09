@@ -248,7 +248,7 @@ class EventsPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th className="col-center">#</th>
-                            <th className="col-center">{t("Ongoing")}</th>
+                            <th className="col-center text-nowrap">{t("Ongoing")}</th>
                             <th>{t("Name")}</th>
                         </tr>
                     </thead>

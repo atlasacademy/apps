@@ -1,4 +1,5 @@
 import { Form } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
@@ -9,7 +10,8 @@ export default function NumberSelector(props: {
     max?: number;
     placeholder?: string;
 }) {
-    const placeholder = props.placeholder ? props.placeholder : "Enter a positive integer";
+    const { t } = useTranslation();
+    const placeholder = props.placeholder ? props.placeholder : t("Enter a positive integer");
     return (
         <Form.Control
             placeholder={placeholder}

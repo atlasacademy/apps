@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { MasterMission, Region } from "@atlasacademy/api-connector";
@@ -20,6 +21,7 @@ const MasterMissionsPage = (props: { region: Region }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | undefined>(undefined);
     const [masterMissions, setMasterMissions] = useState<MasterMission.MasterMission[]>([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         Manager.setRegion(region);
@@ -45,9 +47,9 @@ const MasterMissionsPage = (props: { region: Region }) => {
                 <thead>
                     <tr>
                         <th className="col-center">#</th>
-                        <th className="col-center">Ongoing</th>
-                        <th>Start</th>
-                        <th>End</th>
+                        <th className="col-center">{t("Ongoing")}</th>
+                        <th>{t("Start")}</th>
+                        <th>{t("End")}</th>
                     </tr>
                 </thead>
                 <tbody>

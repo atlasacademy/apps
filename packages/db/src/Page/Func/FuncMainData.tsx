@@ -26,7 +26,7 @@ class FuncMainData extends React.Component<IProps> {
                 <DataTable
                     responsive
                     data={[
-                        { label: "ID", value: func.funcId },
+                        { label: t("ID"), value: func.funcId },
                         {
                             label: t("Type"),
                             value: (
@@ -34,7 +34,14 @@ class FuncMainData extends React.Component<IProps> {
                             ),
                         },
                         { label: t("Target"), value: func.funcTargetType },
-                        { label: t("Affects Players/Enemies"), value: func.funcTargetTeam },
+                        {
+                            label: t("Affects Players/Enemies"),
+                            value: new Map<Func.FuncTargetTeam, string>([
+                                [Func.FuncTargetTeam.ENEMY, t("FuncTargetTeam.ENEMY")],
+                                [Func.FuncTargetTeam.PLAYER, t("FuncTargetTeam.PLAYER")],
+                                [Func.FuncTargetTeam.PLAYER_AND_ENEMY, t("FuncTargetTeam.PLAYER_AND_ENEMY")],
+                            ]).get(func.funcTargetTeam),
+                        },
                         {
                             label: t("Popup Text"),
                             value: <span lang={lang(this.props.region)}>{func.funcPopupText}</span>,

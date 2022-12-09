@@ -1,5 +1,6 @@
 import React from "react";
 import { Alert, Col, Row } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { NoblePhantasm, Region, Servant } from "@atlasacademy/api-connector";
 
@@ -14,7 +15,7 @@ import EffectBreakdown from "./EffectBreakdown";
 
 import "../Helper/StringHelper.css";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     servant: Servant.Servant;
     noblePhantasm: NoblePhantasm.NoblePhantasm;
@@ -74,6 +75,7 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
         const np = this.props.noblePhantasm,
             npRank = this.getOverwriteData("overWriteTDRank") ?? "",
             npType = this.getOverwriteData("overWriteTDTypeText") ?? "";
+        const t = this.props.t;
         return (
             <div>
                 <Row>
@@ -118,29 +120,29 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                         <p style={{ lineHeight: "2em" }}>
                             {npRank !== "" ? (
                                 <span>
-                                    <b>Rank:</b> {npRank}
+                                    <b>{t("Rank")}:</b> {npRank}
                                     <br />
                                 </span>
                             ) : null}
                             {npType !== "" ? (
                                 <span>
-                                    <b>Type:</b> <span lang={lang(this.props.region)}>{npType}</span>
+                                    <b>{t("Type")}:</b> <span lang={lang(this.props.region)}>{npType}</span>
                                     <br />
                                 </span>
                             ) : null}
                             {this.props.hideCard ? (
                                 <span>
-                                    <b>Card:</b> <CardType card={np.card} height={60} />
+                                    <b>{t("Card")}:</b> <CardType card={np.card} height={60} />
                                     <br />
                                 </span>
                             ) : null}
-                            <b>Hits:</b> {np.npDistribution.length} Hits –{" "}
+                            <b>{t("Hits")}:</b> {np.npDistribution.length} Hits –{" "}
                             {mergeElements(
                                 np.npDistribution.map((hit) => asPercent(hit, 0)),
                                 ", "
                             )}
                             <br />
-                            <b>Traits:</b>{" "}
+                            <b>{t("Traits")}:</b>{" "}
                             {mergeElements(
                                 np.individuality.map((trait) => (
                                     <TraitDescription
@@ -172,4 +174,4 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
     }
 }
 
-export default NoblePhantasmBreakdown;
+export default withTranslation()(NoblePhantasmBreakdown);
