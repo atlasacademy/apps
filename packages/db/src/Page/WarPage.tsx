@@ -107,8 +107,8 @@ const PhaseLink = ({ region, quest, phase }: { region: Region; quest: Quest.Ques
             style={{ whiteSpace: "nowrap" }}
         >
             {phase}
-            {isRepeatableIcon}
             {hasEnemiesIcon}
+            {isRepeatableIcon}
             {isStoryIcon}
         </Link>
     );
