@@ -15,10 +15,10 @@ interface IProps extends WithTranslation {
     theme: Theme;
 }
 
-const UILanguageDescriptor = new Map([
-    [UILanguage.EN_US, "English"],
-    [UILanguage.ZH_CN, "简体中文"],
-    [UILanguage.ZH_TW, "繁體中文"],
+export const UILanguageDescriptor = new Map([
+    [UILanguage.EN_US, { langAttribute: "en-US", langName: "English" }],
+    [UILanguage.ZH_CN, { langAttribute: "zh-CN", langName: "简体中文" }],
+    [UILanguage.ZH_TW, { langAttribute: "zh-TW", langName: "繁體中文" }],
 ]);
 
 class SettingForm extends React.Component<IProps> {
@@ -70,7 +70,9 @@ class SettingForm extends React.Component<IProps> {
                         >
                             {Object.values(UILanguage).map((v) => (
                                 <option key={v} value={v}>
-                                    {UILanguageDescriptor.get(v)}
+                                    <span lang={UILanguageDescriptor.get(v)?.langAttribute}>
+                                        {UILanguageDescriptor.get(v)?.langName}
+                                    </span>
                                 </option>
                             ))}
                         </Form.Control>

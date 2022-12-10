@@ -1,13 +1,14 @@
 import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faCog, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faXmark, faLanguage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown } from "react-bootstrap";
+import { Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown, Dropdown } from "react-bootstrap";
 import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
 import { Language, Region } from "@atlasacademy/api-connector";
+import { UILanguage } from "@atlasacademy/api-descriptor";
 
 import { ReactComponent as CNFlag } from "../Assets/cn.svg";
 import { ReactComponent as JPFlag } from "../Assets/jp.svg";
@@ -15,7 +16,7 @@ import { ReactComponent as KRFlag } from "../Assets/kr.svg";
 import { ReactComponent as TWFlag } from "../Assets/tw.svg";
 import { ReactComponent as USFlag } from "../Assets/us.svg";
 import Manager from "../Setting/Manager";
-import SettingForm from "../Setting/SettingForm";
+import SettingForm, { UILanguageDescriptor } from "../Setting/SettingForm";
 import { Theme } from "../Setting/Theme";
 
 import "./Navigation.css";
@@ -187,7 +188,30 @@ class Navigation extends React.Component<IProps, IState> {
                                         </Nav.Link>
                                     </Col>
                                 </Row>
-                                <Button variant={"primary"} onClick={() => this.showSettings()}>
+                                <Dropdown
+                                    className="d-flex flex-column flex-lg-row mb-2 mb-lg-0 mr-lg-2"
+                                    id="nav-uilang"
+                                    title={t("UI Language")}
+                                >
+                                    <Dropdown.Toggle variant="info" className="btn-block">
+                                        <FontAwesomeIcon icon={faLanguage} title={t("UI Language")} />
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu align={{ lg: "right" }}>
+                                        {Object.values(UILanguage).map((uiLang) => (
+                                            <Dropdown.Item
+                                                key={uiLang}
+                                                active={Manager.uiLanguage() === uiLang}
+                                                onClick={() => Manager.setUiLanguage(uiLang)}
+                                            >
+                                                <span lang={UILanguageDescriptor.get(uiLang)?.langAttribute}>
+                                                    {UILanguageDescriptor.get(uiLang)?.langName}
+                                                </span>
+                                            </Dropdown.Item>
+                                        ))}
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                                <Button variant={"primary"} onClick={() => this.showSettings()} title={t("Settings")}>
                                     <FontAwesomeIcon icon={faCog} title={t("Settings")} />
                                 </Button>
                             </Nav>

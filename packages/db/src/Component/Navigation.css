@@ -37,6 +37,10 @@
     display: flex;
 }
 
+#nav-uilang .dropdown-toggle::after {
+    content: unset;
+}
+
 .modal-close {
     border: 0;
     background: unset;
