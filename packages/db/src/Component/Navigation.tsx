@@ -194,6 +194,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     title={t("UI Language")}
                                 >
                                     <Dropdown.Toggle variant="info" className="btn-block">
+                                        <span className="d-lg-none">{t("UI Language")} </span>
                                         <FontAwesomeIcon icon={faLanguage} title={t("UI Language")} />
                                     </Dropdown.Toggle>
 
@@ -212,6 +213,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     </Dropdown.Menu>
                                 </Dropdown>
                                 <Button variant={"primary"} onClick={() => this.showSettings()} title={t("Settings")}>
+                                    <span className="d-lg-none">{t("Settings")} </span>
                                     <FontAwesomeIcon icon={faCog} title={t("Settings")} />
                                 </Button>
                             </Nav>
