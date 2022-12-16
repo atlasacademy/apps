@@ -30,11 +30,26 @@ interface IState {
     showSettings: boolean;
 }
 
-const NavPage = ({ path, description }: { path: string; description: string }) => {
+const NavPage = ({
+    path,
+    description,
+    shortLgDescription,
+}: {
+    path: string;
+    description: string;
+    shortLgDescription?: string;
+}) => {
     const route = `/${Manager.region()}/${path}`;
     return (
         <Nav.Link as={Link} to={route} eventKey={route}>
-            {description}
+            {shortLgDescription ? (
+                <>
+                    <span className="d-none d-lg-inline d-xl-none">{shortLgDescription}</span>
+                    <span className="d-inline d-lg-none d-xl-inline">{description}</span>
+                </>
+            ) : (
+                description
+            )}
         </Nav.Link>
     );
 };
@@ -85,14 +100,19 @@ class Navigation extends React.Component<IProps, IState> {
                 <Navbar id={"navigation"} bg={"dark"} variant={"dark"} expand={"lg"}>
                     <Container fluid>
                         <Navbar.Brand as={Link} to="/" title="Atlas Academy Database">
-                            Atlas Academy DB
+                            <span className="d-none d-lg-inline d-xl-none">AA DB</span>
+                            <span className="d-inline d-lg-none d-xl-inline">Atlas Academy DB</span>
                         </Navbar.Brand>
                         <Navbar.Toggle />
 
                         <Navbar.Collapse>
                             <Nav activeKey={this.props.location.pathname}>
                                 <NavPage path="servants" description={t("Servants")} />
-                                <NavPage path="craft-essences" description={t("Craft Essences")} />
+                                <NavPage
+                                    path="craft-essences"
+                                    description={t("Craft Essences")}
+                                    shortLgDescription={t("CEs")}
+                                />
                                 <NavPage path="wars" description={t("Wars")} />
                                 <NavDropdown title={t("Other")} id="dropdown-other">
                                     <NavDropdownPage path="command-codes" description={t("Command Codes")} />
