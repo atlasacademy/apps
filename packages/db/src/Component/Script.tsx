@@ -24,6 +24,7 @@ export enum ScriptComponentType {
     CHARA_FADE_TIME = "CHARA_FADE_TIME",
     CHARA_FADE_IN = "CHARA_FADE_IN",
     CHARA_FADE_OUT = "CHARA_FADE_OUT",
+    CHARA_CROSS_FADE = "CHARA_CROSS_FADE",
     CHARA_MOVE = "CHARA_MOVE",
     CHARA_PUT = "CHARA_PUT",
     CHARA_EFFECT = "CHARA_EFFECT",
@@ -369,6 +370,16 @@ export type ScriptCharaFadeTime = {
     assetSet?: ScriptAssetSet;
 };
 
+export type ScriptCharaCrossFade = {
+    type: ScriptComponentType.CHARA_CROSS_FADE;
+    speakerCode: string;
+    charaGraphId: number;
+    charaGraphAsset: string;
+    baseFace: number;
+    durationSec: number; // Unsure
+    assetSet: ScriptAssetSet;
+};
+
 export type ScriptCharaMove = {
     type: ScriptComponentType.CHARA_MOVE;
     speakerCode: string;
@@ -512,6 +523,7 @@ export type ScriptBracketComponent =
     | ScriptCharaFadeIn
     | ScriptCharaFadeOut
     | ScriptCharaFadeTime
+    | ScriptCharaCrossFade
     | ScriptCharaMove
     | ScriptCharaPut
     | ScriptCharaScale
@@ -1004,6 +1016,31 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
                 duration: parseFloat(parameters[2]),
                 alpha: parseFloat(parameters[3]),
                 assetSet: getAssetSet(parserState.assetSetMap, parameters[1], parserState.conditionalJump),
+            };
+        case "charaCrossFade":
+            const oldCharaSet = parserState.assetSetMap.get(parameters[1]),
+                oldName = oldCharaSet?.type === ScriptComponentType.CHARA_SET ? oldCharaSet.baseName : "";
+            const crossFadeCharaSet = {
+                type: ScriptComponentType.CHARA_SET,
+                speakerCode: parameters[1],
+                charaGraphId: parseInt(parameters[2]),
+                charaGraphAsset: `${AssetHost}/${region}/CharaFigure/${parameters[2]}/${parameters[2]}_merged.png`,
+                baseFace: parseInt(parameters[3]),
+                baseName: oldName,
+            } as ScriptCharaSet;
+            parserState.assetSetMap.set(parameters[1], crossFadeCharaSet);
+            if (parserState.conditionalJump !== undefined) {
+                const conditionalKey = getConditionalSpeakerCode(parameters[1], parserState.conditionalJump);
+                parserState.assetSetMap.set(conditionalKey, crossFadeCharaSet);
+            }
+            return {
+                type: ScriptComponentType.CHARA_CROSS_FADE,
+                speakerCode: crossFadeCharaSet.speakerCode,
+                charaGraphId: crossFadeCharaSet.charaGraphId,
+                charaGraphAsset: crossFadeCharaSet.charaGraphAsset,
+                baseFace: crossFadeCharaSet.baseFace,
+                durationSec: parseFloat(parameters[4]),
+                assetSet: crossFadeCharaSet,
             };
         case "charaMove":
             return {
