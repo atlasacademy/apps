@@ -2,6 +2,7 @@ import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Button } from "react-bootstrap";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { VoiceLine } from "./VoiceLine";
 
@@ -9,7 +10,7 @@ import "./VoiceLinePlayer.css";
 
 const VoiceLineStorage = new Map<string, VoiceLine>();
 
-interface IProps {
+interface IProps extends WithTranslation {
     audioAssetUrls: string[];
     delay: number[];
     title: string;
@@ -81,7 +82,7 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
     }
 
     render() {
-        const command = this.state.playing ? "Stop" : "Play";
+        const command = this.state.playing ? this.props.t("Stop") : this.props.t("Play");
         const title = `${command} ${this.props.title}`;
         return (
             <Button
@@ -97,4 +98,4 @@ class VoiceLinePlayer extends React.Component<IProps, IState> {
     }
 }
 
-export default VoiceLinePlayer;
+export default withTranslation()(VoiceLinePlayer);

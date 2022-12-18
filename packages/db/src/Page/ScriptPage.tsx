@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { createRef, useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Region, Script } from "@atlasacademy/api-connector";
 
@@ -46,6 +47,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [script, setScript] = useState<string>("");
     const [scriptData, setScriptData] = useState<Script.Script | undefined>(undefined);
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
+    const { t } = useTranslation();
 
     useEffect(() => {
         Manager.setRegion(region);
@@ -126,7 +128,9 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
 
     return (
         <>
-            <h1>Script {scriptId}</h1>
+            <h1>
+                {t("Script")} {scriptId}
+            </h1>
             <br />
             <ScriptMainData
                 region={region}
@@ -141,7 +145,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                         <VoiceLinePlayer
                             audioAssetUrls={audioUrls}
                             delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
-                            title="voice lines"
+                            title={t("voice lines")}
                             showTitle
                             handleNavigateAssetUrl={scrollToRow}
                         />
@@ -150,15 +154,15 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                         variant={enableScene ? "success" : "secondary"}
                         onClick={() => setEnableScene(!enableScene)}
                     >
-                        Scene {enableScene ? "Enabled" : "Disabled"}
+                        {enableScene ? t("Scene Enabled") : t("Scene Disabled")}
                     </Button>
                     <Button
                         variant={showScriptLine ? "success" : "secondary"}
                         onClick={() => Manager.setShowScriptLine(!showScriptLine)}
                     >
-                        Line number {showScriptLine ? "shown" : "hidden"}
+                        {showScriptLine ? t("Line number shown") : t("Line number hidden")}
                     </Button>
-                    <RawDataViewer text="Parsed Script" data={fromEntries(showRawData)} block={false} />
+                    <RawDataViewer text={t("Parsed Script")} data={fromEntries(showRawData)} block={false} />
                 </ButtonGroup>
                 <ShowScriptLineContext.Provider value={showScriptLine}>
                     <ScriptTable region={region} script={parsedScript} showScene={enableScene} refs={scrollRefs} />

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Quest, Region, Script } from "@atlasacademy/api-connector";
@@ -13,10 +14,11 @@ interface QuestWarDescriptorProps {
 }
 
 const QuestWarDescriptor = ({ region, quest, questPhase }: QuestWarDescriptorProps) => {
+    const { t } = useTranslation();
     return (
         <>
             <Link to={`/${region}/war/${quest.warId}`}>
-                War {quest.warId} <span lang={lang(region)}>{quest.warLongName}</span>
+                {t("War")} {quest.warId} <span lang={lang(region)}>{quest.warLongName}</span>
             </Link>
             {" — "}
             <QuestDescriptionNoApi region={region} quest={quest} questPhase={questPhase} showType={false} />
@@ -35,7 +37,7 @@ interface questListComponentProps {
     lastScriptInWar?: boolean;
 }
 
-export const questListComponent = ({
+export const QuestListComponent = ({
     scriptData,
     scriptPhase,
     region,
@@ -45,10 +47,11 @@ export const questListComponent = ({
     firstScriptInWar,
     lastScriptInWar,
 }: questListComponentProps): JSX.Element => {
+    const { t } = useTranslation();
     return (
         <>
             <tr>
-                <th>{`Quest${scriptData.quests.length === 1 ? "" : "s"}`}</th>
+                <th>{scriptData.quests.length === 1 ? t("Quest") : t("Quests")}</th>
                 <td colSpan={3}>
                     {scriptData.quests.length === 1 ? (
                         <QuestWarDescriptor
@@ -69,27 +72,27 @@ export const questListComponent = ({
             </tr>
             {scriptPhase === undefined ? null : (
                 <tr>
-                    <th>Phase</th>
+                    <th>{t("Phase")}</th>
                     <td colSpan={3}>{scriptPhase}</td>
                 </tr>
             )}
             <tr>
-                <th>Script Type</th>
+                <th>{t("Script Type")}</th>
                 <td colSpan={3}>{getScriptType(scriptId)}</td>
             </tr>
             <tr>
-                <th>Previous Script</th>
+                <th>{t("Previous Script")}</th>
                 <td className="script-nav-link">
                     {previousScript === undefined ? (
-                        `N/A${firstScriptInWar ? ": This is the first script in this war" : ""}`
+                        t("N/A") + `${firstScriptInWar ? `: ${t("This is the first script in this war")}` : ""}`
                     ) : (
                         <ScriptDescriptor region={region} scriptId={previousScript} scriptType="" />
                     )}
                 </td>
-                <th>Next Script</th>
+                <th>{t("Next Script")}</th>
                 <td className="script-nav-link">
                     {nextScript === undefined ? (
-                        `N/A${lastScriptInWar ? ": This is the last script in this war" : ""}`
+                        t("N/A") + `${lastScriptInWar ? `: ${t("This is the last script in this war")}` : ""}`
                     ) : (
                         <ScriptDescriptor region={region} scriptId={nextScript} scriptType="" />
                     )}

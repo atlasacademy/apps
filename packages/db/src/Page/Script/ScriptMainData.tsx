@@ -1,11 +1,12 @@
 import { Button, Row, Col, Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Region, Script } from "@atlasacademy/api-connector";
 
 import { flatten } from "../../Helper/PolyFill";
 import useNavigationScripts from "../../Hooks/useNavigationScripts";
-import { questListComponent } from "./ScriptMainData.components";
+import { QuestListComponent } from "./ScriptMainData.components";
 
 import "../../Component/DataTable.css";
 import "./ScriptMainData.css";
@@ -21,7 +22,8 @@ const ScriptMainData = ({
     wordCount: number;
     children?: React.ReactNode;
 }) => {
-    const { scriptId } = scriptData;
+    const { scriptId } = scriptData,
+        { t } = useTranslation();
 
     const { firstScriptInWar, lastScriptInWar, nextScript, previousScript } = useNavigationScripts({
         scriptData,
@@ -37,18 +39,18 @@ const ScriptMainData = ({
         )?.phase ?? scriptIdPhaseNum;
 
     const questList =
-        scriptData.quests.length === 0
-            ? null
-            : questListComponent({
-                  region,
-                  scriptData,
-                  scriptPhase,
-                  scriptId,
-                  previousScript,
-                  nextScript,
-                  firstScriptInWar,
-                  lastScriptInWar,
-              });
+        scriptData.quests.length === 0 ? null : (
+            <QuestListComponent
+                region={region}
+                scriptData={scriptData}
+                scriptPhase={scriptPhase}
+                scriptId={scriptId}
+                previousScript={previousScript}
+                nextScript={nextScript}
+                firstScriptInWar={firstScriptInWar}
+                lastScriptInWar={lastScriptInWar}
+            />
+        );
 
     let WORDS_PER_MINUTE = 200;
     switch (region) {
@@ -74,9 +76,11 @@ const ScriptMainData = ({
             <Table bordered hover responsive className="data-table script-data">
                 <tbody>
                     <tr>
-                        <th>Raw Size</th>
+                        <th>{t("Raw Size")}</th>
                         <td>{`${(scriptData.scriptSizeBytes / 1024).toFixed(2)} KiB`}</td>
-                        <td colSpan={2}>~{Math.ceil(wordCount / WORDS_PER_MINUTE)} minute read</td>
+                        <td colSpan={2}>
+                            ~{Math.ceil(wordCount / WORDS_PER_MINUTE)} {t("minute read")}
+                        </td>
                     </tr>
                     {questList}
                 </tbody>
@@ -92,14 +96,14 @@ const ScriptMainData = ({
                                 as={Link}
                                 to={`/${region}/script/${previousScript}`}
                             >
-                                Previous Script: {previousScript}
+                                {t("Previous Script")}: {previousScript}
                             </Button>
                         )}
                     </Col>
                     <Col xs={12} sm="auto" className="ml-auto">
                         {nextScript === undefined ? null : (
                             <Button className="w-100" variant="light" as={Link} to={`/${region}/script/${nextScript}`}>
-                                Next Script: {nextScript}
+                                {t("Next Script")}: {nextScript}
                             </Button>
                         )}
                     </Col>

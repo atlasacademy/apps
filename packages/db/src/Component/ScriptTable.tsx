@@ -2,6 +2,7 @@ import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext } from "react";
 import { Button, Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Region } from "@atlasacademy/api-connector";
 
@@ -113,6 +114,7 @@ const SceneRow = (props: {
     filters: { content: ScriptCharaFilter; lineNumber?: number }[];
 }) => {
     const { lineNumber, cameraFilter, effects } = props,
+        { t } = useTranslation(),
         resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
         { windowWidth, windowHeight } = useWindowDimensions(),
         sceneScale = getSceneScale(windowWidth, windowHeight, props.wideScreen),
@@ -221,12 +223,12 @@ const SceneRow = (props: {
                     <div>
                         {props.charaFadeIn.assetSet?.type === ScriptComponentType.SCENE_SET ? (
                             <a href={props.charaFadeIn.assetSet.backgroundAsset} target="_blank" rel="noreferrer">
-                                [Background]
+                                [{t("Background")}]
                             </a>
                         ) : null}
                         {figure !== undefined ? (
                             <a href={figure.asset} target="_blank" rel="noreferrer">
-                                [Figure]
+                                [{t("Figure")}]
                             </a>
                         ) : null}{" "}
                         {equip !== undefined ? (
@@ -235,7 +237,7 @@ const SceneRow = (props: {
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                [Craft Essence]
+                                [{t("Craft Essence")}]
                             </a>
                         ) : null}
                     </div>
@@ -274,7 +276,7 @@ const SceneRow = (props: {
                 <div>
                     {props.background ? (
                         <a href={props.background.backgroundAsset} target="_blank" rel="noreferrer">
-                            [Background]
+                            [{t("Background")}]
                         </a>
                     ) : null}
                     &nbsp;
@@ -282,7 +284,7 @@ const SceneRow = (props: {
                     (props.figure.assetSet?.type === ScriptComponentType.CHARA_SET ||
                         props.figure.assetSet?.type === ScriptComponentType.CHARA_CHANGE) ? (
                         <a href={props.figure.assetSet?.charaGraphAsset} target="_blank" rel="noreferrer">
-                            {isSilhouette(props.figure) ? "[Figure (Spoiler)]" : "[Figure]"}
+                            {isSilhouette(props.figure) ? `[${t("Figure")} (${t("Spoiler")})]` : `[${t("Figure")}]`}
                         </a>
                     ) : null}
                     &nbsp;
@@ -292,7 +294,7 @@ const SceneRow = (props: {
                             target="_blank"
                             rel="noreferrer"
                         >
-                            [Craft Essence]
+                            [{t("Craft Essence")}]
                         </a>
                     ) : null}
                 </div>
@@ -329,7 +331,8 @@ const ScriptBracketRow = (props: {
 }) => {
     const { region, component, refs, lineNumber, wideScreen } = props,
         { windowWidth } = useWindowDimensions(),
-        showScriptLine = useContext(ShowScriptLineContext);
+        showScriptLine = useContext(ShowScriptLineContext),
+        { t } = useTranslation();
 
     const getGoToLabel = (labelName: string) => {
         return (
@@ -353,7 +356,7 @@ const ScriptBracketRow = (props: {
         case ScriptComponentType.BGM:
             return (
                 <tr ref={refs.get(component.bgm.audioAsset)}>
-                    <td>BGM</td>
+                    <td>{t("BGM")}</td>
                     <td>
                         <BgmDescriptor region={region} bgm={component.bgm} />
                     </td>
@@ -363,7 +366,7 @@ const ScriptBracketRow = (props: {
         case ScriptComponentType.CRI_MOVIE:
             return (
                 <tr>
-                    <td>Movie</td>
+                    <td>{t("Movie")}</td>
                     <td>
                         <video controls width={getVideoWidth(windowWidth, wideScreen)}>
                             <source src={component.movieUrl} type="video/mp4" />
@@ -374,7 +377,7 @@ const ScriptBracketRow = (props: {
         case ScriptComponentType.SOUND_EFFECT:
             return (
                 <tr ref={refs.get(component.soundEffect.audioAsset)}>
-                    <td>Sound Effect</td>
+                    <td>{t("Sound Effect")}</td>
                     <td>
                         <BgmDescriptor region={region} bgm={component.soundEffect} />
                     </td>
@@ -384,7 +387,7 @@ const ScriptBracketRow = (props: {
         case ScriptComponentType.FLAG:
             return (
                 <tr>
-                    <td>Flag</td>
+                    <td>{t("Flag")}</td>
                     <td>
                         Set flag <code>{component.name}</code> to <code>{component.value}</code>
                     </td>
@@ -401,7 +404,7 @@ const ScriptBracketRow = (props: {
                 );
             return (
                 <tr>
-                    <td>Branch</td>
+                    <td>{t("Branch")}</td>
                     <td>
                         Go to label <code>{component.labelName}</code>
                         {condition} {getGoToLabel(component.labelName)}
@@ -412,7 +415,7 @@ const ScriptBracketRow = (props: {
         case ScriptComponentType.BRANCH_QUEST_NOT_CLEAR:
             return (
                 <tr>
-                    <td>Branch</td>
+                    <td>{t("Branch")}</td>
                     <td>
                         Go to label <code>{component.labelName}</code> if quest{" "}
                         <QuestDescriptor region={region} questId={component.questId} /> hasn't been cleared{" "}
@@ -424,7 +427,7 @@ const ScriptBracketRow = (props: {
         case ScriptComponentType.BRANCH_MASTER_GENDER:
             return (
                 <tr>
-                    <td>Branch</td>
+                    <td>{t("Branch")}</td>
                     <td>
                         Go to label <code>{component.maleLabelName}</code> {getGoToLabel(component.maleLabelName)} if
                         chosen gender is male or <code>{component.femaleLabelName}</code>{" "}
@@ -436,7 +439,7 @@ const ScriptBracketRow = (props: {
         case ScriptComponentType.LABEL:
             return (
                 <tr ref={refs.get(component.name)}>
-                    <td>Label</td>
+                    <td>{t("Label")}</td>
                     <td>
                         <code>{component.name}</code>
                     </td>
@@ -467,13 +470,15 @@ const ScriptRow = (props: {
     const { region, wrapper, refs, wideScreen } = props;
     const { content: component, lineNumber } = wrapper;
     const showScriptLine = useContext(ShowScriptLineContext);
+    const { t } = useTranslation();
+
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
             return <DialogueRow region={region} dialogue={component} refs={refs} lineNumber={lineNumber} />;
         case ScriptComponentType.CHOICES:
             return (
                 <tr>
-                    <td>Choices</td>
+                    <td>{t("Choices")}</td>
                     <td>
                         <ul>
                             {component.choices.map((choice) => (
@@ -507,7 +512,8 @@ const ScriptRow = (props: {
 };
 
 const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: boolean; refs: RowBgmRefMap }) => {
-    const scriptComponents = props.script.components;
+    const scriptComponents = props.script.components,
+        { t } = useTranslation();
 
     let backgroundComponent: ScriptBackground | undefined,
         figureComponent: ScriptCharaFace | ScriptCharaFaceFade | undefined,
@@ -534,9 +540,9 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         <Table hover responsive>
             <thead>
                 <tr>
-                    <th style={{ textAlign: "center", width: "10%" }}>Speaker</th>
-                    <th style={{ textAlign: "center" }}>Text</th>
-                    {showScriptLine && <th style={{ textAlign: "center" }}>Line</th>}
+                    <th style={{ textAlign: "center", width: "10%" }}>{t("Speaker")}</th>
+                    <th style={{ textAlign: "center" }}>{t("Text")}</th>
+                    {showScriptLine && <th style={{ textAlign: "center" }}>{t("Line")}</th>}
                 </tr>
             </thead>
             <tbody lang={lang(props.region)}>
