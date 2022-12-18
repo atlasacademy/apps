@@ -523,7 +523,9 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         offsets: ScriptOffsets | undefined,
         cameraFilter: CameraFilterType = "normal",
         foreground: { frame: ScriptPictureFrame | undefined } | undefined,
-        effects: string[] = [];
+        effects: string[] = [],
+        dummyEffects: Map<string, string> = new Map(),
+        appearedSpeakers: Set<string> = new Set();
 
     const showScriptLine = useContext(ShowScriptLineContext),
         filters: { content: ScriptCharaFilter; lineNumber?: number }[] = [],
@@ -579,6 +581,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             break;
 
                         case ScriptComponentType.CHARA_FACE:
+                            appearedSpeakers.add(content.speakerCode);
                             if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
 
                             figureComponent = content;
@@ -586,6 +589,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             break;
 
                         case ScriptComponentType.CHARA_FACE_FADE:
+                            appearedSpeakers.add(content.speakerCode);
                             if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
 
                             figureComponent = content;
@@ -595,6 +599,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                         case ScriptComponentType.CHARA_FADE_IN:
                         case ScriptComponentType.CHARA_MOVE:
                             const { assetSet } = content;
+                            appearedSpeakers.add(content.speakerCode);
 
                             if (assetSet && !figureAssetTypes.includes(assetSet.type)) {
                                 charaFadeIn = content;
@@ -618,12 +623,39 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 }
                             }
                             break;
+                        case ScriptComponentType.CHARA_FADE_OUT:
+                            if (backgroundComponent && !sceneDisplayed) {
+                                sceneRow = renderScene();
+                                sceneDisplayed = true;
+                            }
+                            break;
+                        case ScriptComponentType.CHARA_PUT:
+                            const dummyCharaEffect = dummyEffects.get(content.speakerCode);
+                            if (dummyCharaEffect !== undefined) {
+                                effects.push(dummyCharaEffect);
+                            }
+                            break;
+                        case ScriptComponentType.CHARA_PUT_FSR:
+                            if (content.position.x > 1000 && content.position.y > 1000) {
+                                // Script 9405420810
+                                const dummyCharaEffectFSR = dummyEffects.get(content.speakerCode);
+                                if (dummyCharaEffectFSR !== undefined) {
+                                    effects = effects.filter((effect) => effect !== dummyCharaEffectFSR);
+                                }
+                            }
+                            break;
                         case ScriptComponentType.CAMERA_FILTER:
                             cameraFilter = content.filter;
                             break;
                         case ScriptComponentType.EFFECT:
-                        case ScriptComponentType.CHARA_EFFECT:
                             effects.push(content.effect);
+                            break;
+                        case ScriptComponentType.CHARA_EFFECT:
+                            if (appearedSpeakers.has(content.speakerCode)) {
+                                effects.push(content.effect);
+                            } else {
+                                dummyEffects.set(content.speakerCode, content.effect);
+                            }
                             break;
                         case ScriptComponentType.EFFECT_STOP:
                         case ScriptComponentType.EFFECT_DESTROY:
@@ -641,6 +673,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                             break;
                         case ScriptComponentType.BRANCH:
                         case ScriptComponentType.LABEL:
+                        case ScriptComponentType.BRANCH_QUEST_NOT_CLEAR:
                             if (backgroundComponent && !sceneDisplayed) {
                                 sceneRow = renderScene();
                                 sceneDisplayed = true;
