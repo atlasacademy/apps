@@ -88,6 +88,8 @@ const getSceneScale = (windowWidth: number, windowHeight: number, wideScreen: bo
     if (wideScreen) {
         if (windowWidth < 768) {
             return 4;
+        } else if (windowWidth <= 1024) {
+            return 2.5;
         }
     }
     if (windowWidth < 768) {
@@ -302,8 +304,10 @@ const SceneRow = (props: {
 
 const getVideoWidth = (windowWidth: number, wideScreen?: boolean) => {
     if (wideScreen) {
-        if (windowWidth >= 768) {
+        if (windowWidth >= 1024) {
             return 1344 / 2;
+        } else if (windowWidth >= 768) {
+            return 1344 / 2.5;
         } else {
             return 1344 / 4;
         }
