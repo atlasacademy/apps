@@ -20,7 +20,18 @@ const DialogueBasic = (props: { component: DialogueBasicComponent; index?: numbe
                 return null;
             }
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
-            return <>{Manager.region() === Region.JP ? "藤丸" : "Fujimaru"}</>;
+            switch (Manager.region()) {
+                case Region.JP:
+                    return <>藤丸</>;
+                case Region.NA:
+                    return <>Fujimaru</>;
+                case Region.CN:
+                case Region.TW:
+                    return <>藤丸</>;
+                case Region.KR:
+                    return <>후지마루</>;
+            }
+            break;
         case ScriptComponentType.DIALOGUE_LINE:
             return (
                 <div
