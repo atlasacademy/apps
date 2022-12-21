@@ -1,5 +1,6 @@
 {
     "name": "@atlasacademy/battle",
+    "type": "module",
     "version": "0.5.0",
     "description": "Library to run fgo battle simulations",
     "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/battle",
