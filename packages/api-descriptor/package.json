@@ -17,12 +17,10 @@
     },
     "license": "ISC",
     "devDependencies": {
-        "typescript": "^4.8.4"
+        "typescript": "^4.9.4"
     },
     "dependencies": {
-        "@atlasacademy/api-connector": "^3.0.127",
-        "install": "^0.13.0",
-        "only": "0.0.2"
+        "@atlasacademy/api-connector": "^3.0.127"
     },
     "publishConfig": {
         "access": "public"
