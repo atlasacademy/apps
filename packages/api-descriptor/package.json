@@ -1,7 +1,7 @@
 {
     "name": "@atlasacademy/api-descriptor",
     "module": "commonjs",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "description": "Library to describe entities from api.atlasacademy.io",
     "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/api-descriptor",
     "main": "dist/index.js",
