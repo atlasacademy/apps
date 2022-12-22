@@ -19,7 +19,7 @@
         "@types/react-cytoscapejs": "^1.2.2",
         "@types/react-dom": "^18.0.9",
         "@types/react-router-dom": "^5.3.3",
-        "axios": "^1.2.1",
+        "axios": "^0.27.2",
         "bootstrap": "^4.6.2",
         "copy-to-clipboard": "^3.3.3",
         "cytoscape": "^3.23.0",

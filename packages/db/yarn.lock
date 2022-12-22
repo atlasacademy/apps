@@ -19,19 +19,19 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@atlasacademy/api-connector@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-4.0.0.tgz"
-  integrity sha512-E+gzYVQkTE7OZQ+IFDN3wUBok2qe+2USBisl4z/xRxlwx1aln4QmMvmV6uxkvM8W+V3ES1yyAXHZTN4FMmSypA==
+"@atlasacademy/api-connector@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/@atlasacademy/api-connector/-/api-connector-4.0.2.tgz"
+  integrity sha512-3x49Zw0LI0s7ra+EUgijn1KSiFVfMFLm4t5abs593kjtz+wo+8Xpqt021N6ZpWK2QTz/tOkDFQM4f51mXq4Dtg==
   dependencies:
     axios "^1.2.1"
 
-"@atlasacademy/api-descriptor@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-2.0.1.tgz"
-  integrity sha512-Y1bpkQcum6ynC0DEmOrMGAwUBXphgSgVBV8yKc4pilvcAE6UTRw82yzh+gLtcCndu3fgi4lXltMoqXHw48qImw==
+"@atlasacademy/api-descriptor@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@atlasacademy/api-descriptor/-/api-descriptor-2.0.3.tgz"
+  integrity sha512-P5p72OWYSDOwXdJaojYbJga/jmc1DLsR0/CTMAieEcaWlhQvyUC+UO6DKiujAzWHML+DDux4k9Ri8QywpiQhxg==
   dependencies:
-    "@atlasacademy/api-connector" "^4.0.0"
+    "@atlasacademy/api-connector" "^4.0.2"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.0", "@babel/code-frame@^7.18.6", "@babel/code-frame@^7.8.3":
   version "7.18.6"
@@ -4421,6 +4421,14 @@ axe-core@^4.4.3:
   resolved "https://registry.npmjs.org/axe-core/-/axe-core-4.6.1.tgz"
   integrity sha512-lCZN5XRuOnpG4bpMq8v0khrWtUOn+i8lZSb6wHZH56ZfbIEv6XwJV84AAueh9/zi7qPVJ/E4yz6fmsiyOmXR4w==
 
+axios@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.npmjs.org/axios/-/axios-0.27.2.tgz"
+  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
+  dependencies:
+    follow-redirects "^1.14.9"
+    form-data "^4.0.0"
+
 axios@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/axios/-/axios-1.2.1.tgz"
@@ -6558,7 +6566,7 @@ flux@~4.0.1:
     fbemitter "^3.0.0"
     fbjs "^3.0.1"
 
-follow-redirects@^1.0.0, follow-redirects@^1.15.0:
+follow-redirects@^1.0.0, follow-redirects@^1.14.9, follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
