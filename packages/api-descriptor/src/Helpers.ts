@@ -29,7 +29,7 @@ export function toTitleCase(value: string): string {
     return words.join(" ");
 }
 
-export function hasUniqueValues(values: (number | number[] | undefined)[]): boolean {
+export function hasUniqueValues(values: (string | string[] | number | number[] | undefined)[]): boolean {
     if (values.length === 0) return false;
 
     return (
