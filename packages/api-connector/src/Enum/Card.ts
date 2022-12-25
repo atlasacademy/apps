@@ -11,6 +11,11 @@ enum Card {
     STRENGTH = "strength",
 }
 
+export enum AttackType {
+    ONE = "one",
+    ALL = "all",
+}
+
 export default Card;
 
 export interface CardConstant {

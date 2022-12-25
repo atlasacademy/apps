@@ -1,4 +1,4 @@
-import Card from "../Enum/Card";
+import Card, { AttackType } from "../Enum/Card";
 import ClassName from "../Enum/ClassName";
 import CondType from "../Enum/Cond";
 import { Attribute } from "./Attribute";
@@ -76,7 +76,9 @@ export interface EntityAssets {
 }
 
 export interface CardDetail {
+    hitsDistribution: number[];
     attackIndividuality: Trait[];
+    attackType: AttackType;
 }
 
 export interface EntityLevelUpMaterials {

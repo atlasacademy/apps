@@ -27,6 +27,9 @@ export enum WarOverwriteType {
     START_TYPE = "startType",
     NOTICE_DIALOG_TEXT = "noticeDialogText",
     CLEAR_MARK = "clearMark",
+    EFFECT_CHANGE_WHITE_MARK = "effectChangeWhiteMark",
+    COMMAND_SPELL_ICON = "commandSpellIcon",
+    MASTER_FACE_ICON = "masterFaceIcon",
 }
 
 export enum WarFlag {

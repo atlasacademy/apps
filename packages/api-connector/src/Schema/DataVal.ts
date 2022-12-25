@@ -120,6 +120,9 @@ interface BaseDataVal {
     IgnoreResistance?: number;
     GainNpTargetPassiveIndividuality?: number;
     HpReduceToRegainIndiv?: number;
+    DisplayActualRecoveryHpFlag?: number;
+    ShiftDeckIndex?: number;
+    PopValueText?: number | string;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -248,4 +251,7 @@ export enum DataValField {
     IGNORE_RESISTANCE = "IgnoreResistance",
     GAIN_NP_TARGET_PASSIVE_INDIVIDUALITY = "GainNpTargetPassiveIndividuality",
     HP_REDUCE_TO_REGAIN_INDIV = "HpReduceToRegainIndiv",
+    DISPLAY_ACTUAL_RECOVERY_HP_FLAG = "DisplayActualRecoveryHpFlag",
+    SHIFT_DECK_INDEX = "ShiftDeckIndex",
+    POP_VALUE_TEXT = "PopValueText",
 }

@@ -140,6 +140,7 @@ export enum FuncType {
     SUB_FIELD_BUFF = "subFieldBuff",
     EVENT_FORTIFICATION_POINT_UP = "eventFortificationPointUp",
     GAIN_NP_INDIVIDUAL_SUM = "gainNpIndividualSum",
+    SET_QUEST_ROUTE_FLAG = "setQuestRouteFlag",
 }
 
 export interface BasicFunc {

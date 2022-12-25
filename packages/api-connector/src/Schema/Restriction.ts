@@ -14,6 +14,7 @@ export enum RestrictionType {
     ALLOUT_BATTLE_UNIQUE_SVT = "alloutBattleUniqueSvt",
     FIXED_SVT_INDIVIDUALITY_POSITION_MAIN = "fixedSvtIndividualityPositionMain",
     UNIQUE_INDIVIDUALITY = "uniqueIndividuality",
+    MY_SVT_OR_SUPPORT = "mySvtOrSupport",
 }
 
 export enum RestrictionRange {

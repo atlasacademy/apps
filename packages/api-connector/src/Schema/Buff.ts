@@ -112,6 +112,7 @@ export enum BuffAction {
     GRANT_STATE_UP_ONLY = "grantStateUpOnly",
     TURNEND_HP_REDUCE_TO_REGAIN = "turnendHpReduceToRegain",
     FUNCTION_SELFTURNSTART = "functionSelfturnstart",
+    OVERWRITE_DEAD_TYPE = "overwriteDeadType",
 }
 
 export enum BuffLimit {
@@ -275,6 +276,7 @@ export enum BuffType {
     NOT_TARGET_SKILL = "notTargetSkill",
     HP_REDUCE_TO_REGAIN = "hpReduceToRegain",
     SELFTURNSTART_FUNCTION = "selfturnstartFunction",
+    OVERWRITE_DEAD_TYPE = "overwriteDeadType",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
 }
