@@ -98,6 +98,13 @@ class HomePage extends React.Component<IProps> {
                         </a>
                         )
                     </li>
+                    <li>
+                        narumi (
+                        <a href="https://github.com/narumi147" target="_blank" rel="noreferrer">
+                            narumi
+                        </a>
+                        )
+                    </li>
                 </ul>
             </div>
         );
