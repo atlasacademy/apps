@@ -39,10 +39,10 @@ module.exports = {
         default: ["JavascriptLexer"],
     },
 
-    lineEnding: "auto",
+    lineEnding: "lf",
     // Control the line ending. See options at https://github.com/ryanve/eol
 
-    locales: ["en-US", "zh-CN", "zh-TW"],
+    locales: ["en-US", "zh-CN", "zh-TW", "ko-KR"],
     // An array of the locales in your applications
 
     namespaceSeparator: ":",
