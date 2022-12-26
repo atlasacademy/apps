@@ -2,7 +2,8 @@ import { faSearch, faSort, faSortDown, faSortUp } from "@fortawesome/free-solid-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import { useState, useEffect } from "react";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Dropdown, Form, Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { useHistory, useLocation } from "react-router-dom";
 
 import { Region, Script, War } from "@atlasacademy/api-connector";
@@ -27,6 +28,7 @@ const stateCache = new Map<
         warId: number | undefined;
         scripts: Script.ScriptSearchResult[];
         searched: boolean;
+        searchLimit: number;
     }
 >();
 
@@ -43,6 +45,7 @@ type ScriptResultSort = "Score" | "ScriptIdAscending" | "ScriptIdDescending";
 const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     const history = useHistory(),
         location = useLocation(),
+        { t } = useTranslation(),
         searchParams = new URLSearchParams(location.search),
         thisStateCache = stateCache.get(region),
         [query, setQuery] = useState(searchParams.get("query") ?? thisStateCache?.query ?? undefined),
@@ -50,6 +53,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             searchParams.get("scriptFileName") ?? thisStateCache?.scriptFileName ?? undefined
         ),
         [warId, setWarId] = useState(getNumParam(searchParams, "warId") ?? thisStateCache?.warId ?? undefined),
+        [searchLimit, setSearchLimit] = useState(50),
         [wars, setWars] = useState([] as War.WarBasic[]),
         [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(thisStateCache?.scripts ?? []),
         [error, setError] = useState<AxiosError | undefined>(undefined),
@@ -57,9 +61,9 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         [searched, setSearched] = useState(thisStateCache?.searched ?? false),
         [resultSort, setResultSort] = useState<ScriptResultSort>("Score");
 
-    const search = (query: string, scriptFileName?: string, warId?: number) => {
+    const search = (query: string, scriptFileName?: string, warId?: number, searchLimit?: number) => {
         setSearching(true);
-        Api.searchScript(query, scriptFileName, warId !== undefined ? [warId] : undefined)
+        Api.searchScript(query, scriptFileName, warId !== undefined ? [warId] : undefined, searchLimit)
             .then((r) => {
                 setSearched(true);
                 setScripts(r);
@@ -68,11 +72,11 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             .catch((e) => setError(e));
     };
 
-    const searchButton = (query?: string, scriptFileName?: string, warId?: number) => {
+    const searchButton = (query?: string, scriptFileName?: string, warId?: number, searchLimit?: number) => {
         if (query === undefined || query.trim() === "") {
             alert("Please enter a query");
         } else {
-            search(query, scriptFileName, warId);
+            search(query, scriptFileName, warId, searchLimit);
             history.replace(`/${region}/${path}?${getQueryString(query, scriptFileName, warId)}`);
         }
     };
@@ -87,26 +91,30 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     }, [region, path, history]);
 
     useEffect(() => {
-        if (!stateCache.has(region) && query !== undefined && query !== "") {
-            // for first run if URL query string is not empty
-            search(query, scriptFileName, warId);
+        if (
+            (!stateCache.has(region) || stateCache.get(region)?.searchLimit !== searchLimit) &&
+            query !== undefined &&
+            query !== ""
+        ) {
+            // for first run if URL query string is not empty or after changing searchLimit
+            search(query, scriptFileName, warId, searchLimit);
         }
-    }, [region, query, scriptFileName, warId]);
+    }, [region, query, scriptFileName, warId, searchLimit]);
 
     useEffect(() => {
-        stateCache.set(region, { query, scriptFileName, warId, scripts, searched });
-    }, [region, query, scriptFileName, warId, scripts, searched]);
+        stateCache.set(region, { query, scriptFileName, warId, scripts, searched, searchLimit });
+    }, [region, query, scriptFileName, warId, scripts, searched, searchLimit]);
 
     useEffect(() => {
         Api.warList().then((r) => setWars(r));
     }, []);
 
-    document.title = `[${region}] Scripts - Atlas Academy DB`;
+    document.title = `[${region}] ${t("Scripts")} - Atlas Academy DB`;
 
     if (error !== undefined) {
         history.replace(`/${region}/${path}`);
         return (
-            <div style={{ textAlign: "center" }}>
+            <div className="text-left">
                 <ErrorStatus error={error} />
                 <Button
                     variant={"primary"}
@@ -115,7 +123,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                         setSearching(false);
                     }}
                 >
-                    Redo the Search
+                    {t("Redo the Search")}
                 </Button>
             </div>
         );
@@ -124,7 +132,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     return (
         <>
             {searching ? <Loading /> : null}
-            <h1>Scripts Search</h1>
+            <h1>{t("Scripts Search")}</h1>
             <div className="my-3">
                 Supports
                 <ul>
@@ -153,11 +161,11 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             <form
                 onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
-                    searchButton(query, scriptFileName, warId);
+                    searchButton(query, scriptFileName, warId, searchLimit);
                 }}
             >
                 <Form.Group>
-                    <Form.Label>Search Query</Form.Label>
+                    <Form.Label>{t("Search Query")}</Form.Label>
                     <Form.Control
                         value={query ?? ""}
                         onChange={(ev) => {
@@ -167,7 +175,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>War</Form.Label>
+                    <Form.Label>{t("War")}</Form.Label>
                     <SearchableSelect<number>
                         id="select-warId"
                         options={wars.map((war) => war.id)}
@@ -180,7 +188,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Script File Name</Form.Label>
+                    <Form.Label>{t("Script File Name")}</Form.Label>
                     <Form.Control
                         value={scriptFileName ?? ""}
                         onChange={(ev) => {
@@ -191,24 +199,34 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                         The script ID should contain this string. For example 30001 for LB1, 94036 for Ooku.
                     </Form.Text>
                 </Form.Group>
-                <Button variant={"primary"} onClick={() => searchButton(query, scriptFileName, warId)}>
-                    Search <FontAwesomeIcon icon={faSearch} />
-                </Button>{" "}
+                <div className="d-flex justify-content-between">
+                    <Button variant={"primary"} onClick={() => searchButton(query, scriptFileName, warId, searchLimit)}>
+                        {t("Search")} <FontAwesomeIcon icon={faSearch} />
+                    </Button>
+                    <Dropdown>
+                        <Dropdown.Toggle>Limit: {searchLimit}</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            {[50, 100, 250, 500].map((limit) => (
+                                <Dropdown.Item
+                                    key={limit}
+                                    eventKey={limit}
+                                    onSelect={(ev) => {
+                                        if (ev !== null) {
+                                            setSearchLimit(parseInt(ev));
+                                        }
+                                    }}
+                                >
+                                    {limit}
+                                </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
             </form>
 
             <hr />
 
-            {searched ? (
-                <h5>
-                    Found{" "}
-                    <b>
-                        {scripts.length}
-                        {scripts.length === 50 ? "+" : ""}
-                    </b>{" "}
-                    result
-                    {scripts.length > 1 ? "s" : ""}
-                </h5>
-            ) : null}
+            {searched ? <h5>{t("foundResult", { count: scripts.length })}</h5> : null}
             {scripts.length > 0 ? (
                 <>
                     <Table responsive>
@@ -246,10 +264,10 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                                             />
                                         )}
                                     </Button>
-                                    Script ID
+                                    {t("Script ID")}
                                 </th>
-                                <th>Snippet</th>
-                                <th>Score</th>
+                                <th>{t("Snippet")}</th>
+                                <th>{t("Score")}</th>
                             </tr>
                         </thead>
                         <tbody>
