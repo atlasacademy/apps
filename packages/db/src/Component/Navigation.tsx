@@ -23,6 +23,7 @@ import "./Navigation.css";
 
 interface IProps extends RouteComponentProps, WithTranslation {
     language: Language;
+    uiLanguage: UILanguage;
     theme: Theme;
 }
 
@@ -93,11 +94,11 @@ class Navigation extends React.Component<IProps, IState> {
     }
 
     render() {
-        const t = this.props.t;
+        const { t, uiLanguage } = this.props;
 
         return (
             <>
-                <Navbar id={"navigation"} bg={"dark"} variant={"dark"} expand={"lg"}>
+                <Navbar id={"navigation"} bg={"dark"} variant={"dark"} expand={"lg"} lang={uiLanguage}>
                     <Container fluid>
                         <Navbar.Brand as={Link} to="/" title="Atlas Academy Database">
                             <span className="d-none d-lg-inline d-xl-none">AA DB</span>
@@ -214,7 +215,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     title={t("UI Language")}
                                 >
                                     <Dropdown.Toggle variant="info" className="btn-block">
-                                        <span className="d-lg-none">{t("UI Language")} </span>
+                                        <div className="d-lg-none">{t("UI Language")} </div>
                                         <FontAwesomeIcon icon={faLanguage} title={t("UI Language")} />
                                     </Dropdown.Toggle>
 
@@ -241,7 +242,7 @@ class Navigation extends React.Component<IProps, IState> {
                     </Container>
                 </Navbar>
 
-                <Modal show={this.state.showSettings} onHide={() => this.hideSettings()}>
+                <Modal show={this.state.showSettings} onHide={() => this.hideSettings()} lang={uiLanguage}>
                     <Modal.Header>
                         <Modal.Title>{t("Settings")}</Modal.Title>
                         <button title="close settings" className="modal-close" onClick={() => this.hideSettings()}>

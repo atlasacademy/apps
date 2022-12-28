@@ -4,6 +4,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 import { Region, Language, Ai } from "@atlasacademy/api-connector";
+import { UILanguage } from "@atlasacademy/api-descriptor";
 
 import Api from "./Api";
 import ErrorStatus from "./Component/ErrorStatus";
@@ -58,6 +59,7 @@ const WarsPage = React.lazy(() => import("./Page/WarsPage"));
 
 interface IState {
     language: Language;
+    uiLanguage: UILanguage;
     theme: Theme;
     changelogVisibleOnly: boolean;
     localTime: boolean;
@@ -70,6 +72,7 @@ class App extends React.Component<any, IState> {
         super(props);
         this.state = {
             language: Manager.language(),
+            uiLanguage: Manager.uiLanguage(),
             theme: Manager.theme(),
             changelogVisibleOnly: Manager.changelogVisibleOnly(),
             localTime: Manager.changelogLocalTimestamp(),
@@ -95,6 +98,7 @@ class App extends React.Component<any, IState> {
     private updateSettings() {
         this.setState({
             language: Manager.language(),
+            uiLanguage: Manager.uiLanguage(),
             theme: Manager.theme(),
             changelogVisibleOnly: Manager.changelogVisibleOnly(),
             localTime: Manager.changelogLocalTimestamp(),
@@ -105,10 +109,14 @@ class App extends React.Component<any, IState> {
         return (
             <HelmetProvider>
                 <Router basename={BASE_NAME}>
-                    <Navigation language={this.state.language} theme={this.state.theme} />
+                    <Navigation
+                        language={this.state.language}
+                        theme={this.state.theme}
+                        uiLanguage={this.state.uiLanguage}
+                    />
                     <br />
 
-                    <Container fluid="xl" id={"app"} key={`${this.state.language}`} lang={Manager.uiLanguage()}>
+                    <Container fluid="xl" id={"app"} key={`${this.state.language}`} lang={this.state.uiLanguage}>
                         <Helmet>
                             {this.state.theme === Theme.DEFAULT ? null : (
                                 <link

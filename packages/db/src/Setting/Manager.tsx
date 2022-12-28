@@ -88,11 +88,8 @@ class Manager {
 
     static setUiLanguage(value: UILanguage) {
         window.localStorage.setItem(uiLanguageKey, value);
-        Manager.updateUILanguage();
-    }
-
-    static updateUILanguage() {
         i18n.changeLanguage(this.uiLanguage());
+        Manager.triggerCallbacks();
     }
 
     static region(): Region {
