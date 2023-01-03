@@ -215,7 +215,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     title={t("UI Language")}
                                 >
                                     <Dropdown.Toggle variant="info" className="btn-block">
-                                        <div className="d-lg-none">{t("UI Language")} </div>
+                                        <span className="d-lg-none">{t("UI Language")} </span>
                                         <FontAwesomeIcon icon={faLanguage} title={t("UI Language")} />
                                     </Dropdown.Toggle>
 
@@ -226,9 +226,9 @@ class Navigation extends React.Component<IProps, IState> {
                                                 active={Manager.uiLanguage() === uiLang}
                                                 onClick={() => Manager.setUiLanguage(uiLang)}
                                             >
-                                                <span lang={UILanguageDescriptor.get(uiLang)?.langAttribute}>
+                                                <div lang={UILanguageDescriptor.get(uiLang)?.langAttribute}>
                                                     {UILanguageDescriptor.get(uiLang)?.langName}
-                                                </span>
+                                                </div>
                                             </Dropdown.Item>
                                         ))}
                                     </Dropdown.Menu>

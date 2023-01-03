@@ -14,6 +14,7 @@ export default function handleAmountSection(
     sections: FuncDescriptorSections,
     func: Func.BasicFunc,
     dataVal: DataVal.DataVal,
+    mutatingDataVal: DataVal.DataVal[],
     support?: boolean,
     dependFunc?: Func.BasicFunc
 ): void {
@@ -51,6 +52,11 @@ export default function handleAmountSection(
         section.preposition = undefined;
         if (dataVal.UseRate !== undefined) {
             parts.push(`that has ${dataVal.UseRate / 10}% chance to trigger`);
+        } else if (
+            dataVal.UseRate === undefined &&
+            mutatingDataVal.filter((val) => val.UseRate !== undefined).length > 0
+        ) {
+            parts.push("with a chance to trigger");
         } else {
             parts.push("that triggers");
         }
@@ -230,6 +236,9 @@ export default function handleAmountSection(
         }
         if (dataVal.UseRate !== undefined) {
             parts.push(`with ${dataVal.UseRate / 10}% chance to work`);
+        }
+        if (dataVal.UseRate === undefined && mutatingDataVal.filter((val) => val.UseRate !== undefined).length > 0) {
+            parts.push("with a chance to work");
         }
         if (dataVal.RatioHPLow !== undefined) {
             const maxScaleHP = dataVal.RatioHPRangeHigh ?? 1000,

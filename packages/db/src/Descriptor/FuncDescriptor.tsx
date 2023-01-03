@@ -9,6 +9,7 @@ import Api from "../Api";
 import {
     getDataValList,
     getFollowerDataValList,
+    getMutatingFieldValues,
     getStaticFieldValues,
     getTargetFollowerVersionValues,
     getTargetVersionValues,
@@ -70,6 +71,10 @@ class FuncDescriptor extends React.Component<IProps, IState> {
         }
     }
 
+    getMutatingVal(): DataVal.DataVal[] {
+        return getMutatingFieldValues(getDataValList(this.props.func));
+    }
+
     getFollowerDataVal(): DataVal.DataVal | undefined {
         const func = this.props.func;
 
@@ -88,6 +93,7 @@ class FuncDescriptor extends React.Component<IProps, IState> {
         const region = this.props.region,
             func = this.props.func,
             dataVal = this.getDataVal(),
+            mutatingDataVal = this.getMutatingVal(),
             followerDataVal = this.getFollowerDataVal();
 
         const sections = new FuncDescriptorSections();
@@ -96,11 +102,11 @@ class FuncDescriptor extends React.Component<IProps, IState> {
         handleConditionSection(region, sections, func, dataVal);
         handleChanceSection(region, sections, func, dataVal);
         handleActionSection(region, sections, func, dataVal, this.state.dependFunc);
-        handleAmountSection(region, sections, func, dataVal, false, this.state.dependFunc);
+        handleAmountSection(region, sections, func, dataVal, mutatingDataVal, false, this.state.dependFunc);
         handleOnFieldSection(region, sections, func, dataVal);
         handleAffectsSection(region, sections, func, dataVal);
         if (followerDataVal) {
-            handleAmountSection(region, sections, func, followerDataVal, true, this.state.dependFunc);
+            handleAmountSection(region, sections, func, followerDataVal, mutatingDataVal, true, this.state.dependFunc);
         }
         handleTargetSection(region, sections, func, dataVal, this.state.dependFunc);
         handleDurationSection(region, sections, func, dataVal);
