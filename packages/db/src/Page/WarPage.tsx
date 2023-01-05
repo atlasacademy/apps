@@ -8,7 +8,7 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 
-import { Item, Quest, Region, War } from "@atlasacademy/api-connector";
+import { Bgm, Item, Quest, Region, War } from "@atlasacademy/api-connector";
 
 import Api, { Host } from "../Api";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
@@ -438,6 +438,7 @@ interface IState {
     loading: boolean;
     war?: War.War;
     itemCache: Map<number, Item.Item>;
+    warAddBgms: Bgm.BgmEntity[];
     spotRefs: Map<number, React.Ref<any>>;
 }
 
@@ -449,6 +450,7 @@ class WarPage extends React.Component<IProps, IState> {
             loading: true,
             itemCache: new Map(),
             spotRefs: new Map(),
+            warAddBgms: [],
         };
     }
 
@@ -471,8 +473,13 @@ class WarPage extends React.Component<IProps, IState> {
             .then((war) => {
                 document.title = `[${this.props.region}] War - ${war.longName} - Atlas Academy DB`;
                 this.setState({ war, loading: false });
+                Promise.all(
+                    war.warAdds
+                        .filter((warAdd) => warAdd.type === War.WarOverwriteType.BGM)
+                        .map((warAdd) => Api.bgm(warAdd.overwriteId))
+                ).then((warAddBgms) => this.setState({ warAddBgms }));
             })
-            .catch((error) => this.setState({ error }));
+            .catch((error) => this.setState({ error, loading: false }));
     }
 
     render() {
@@ -512,6 +519,9 @@ class WarPage extends React.Component<IProps, IState> {
         const bgms = new Map([[war.bgm.id, war.bgm]]);
         for (const map of war.maps) {
             bgms.set(map.bgm.id, map.bgm);
+        }
+        for (const bgm of this.state.warAddBgms) {
+            bgms.set(bgm.id, bgm);
         }
 
         const bgmDeduped = Array.from(bgms.values()).filter((bgm) => bgm.id !== 0);
