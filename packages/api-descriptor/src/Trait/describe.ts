@@ -28,10 +28,5 @@ export default function (
         return new Descriptor([new TextPartial(negativeText), new TextPartial(toTitleCase(name))]);
     }
 
-    return new Descriptor([
-        new TextPartial(negativeText),
-        new ParticlePartial("unknown("),
-        new ValuePartial(ValueType.UNKNOWN, id),
-        new ParticlePartial(")"),
-    ]);
+    return new Descriptor([new TextPartial(negativeText), new ValuePartial(ValueType.UNKNOWN, id)]);
 }
