@@ -6,11 +6,11 @@ import SkillReferencePartial from "../Skill/SkillReferencePartial";
 import TraitReferencePartial from "../Trait/TraitReferencePartial";
 import {
     BuffValueCommandCardType,
+    BuffValueTraitType,
+    BuffValueTriggerType,
     buffValueCommandCardTypes,
     buffValuePercentTypes,
-    BuffValueTraitType,
     buffValueTraitTypes,
-    BuffValueTriggerType,
     buffValueTriggerTypes,
 } from "./BuffValueTypes";
 

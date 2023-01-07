@@ -14,21 +14,21 @@ import ShowScriptLineContext from "../Page/Script/ShowScriptLineContext";
 import Manager, { lang } from "../Setting/Manager";
 import Scene from "./Scene";
 import {
+    CameraFilterType,
     ScriptBackground,
     ScriptBracketComponent,
     ScriptCharaFace,
+    ScriptCharaFaceFade,
     ScriptCharaFadeIn,
+    ScriptCharaFilter,
+    ScriptCharaMove,
     ScriptChoiceRouteInfo,
     ScriptChoiceRouteType,
-    ScriptComponentWrapper,
     ScriptComponentType,
+    ScriptComponentWrapper,
     ScriptDialogue,
     ScriptInfo,
-    ScriptCharaFilter,
-    CameraFilterType,
     ScriptPictureFrame,
-    ScriptCharaFaceFade,
-    ScriptCharaMove,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
 

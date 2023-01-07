@@ -1,6 +1,6 @@
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { DataVal, Func, Region } from "@atlasacademy/api-connector";
@@ -15,7 +15,7 @@ import {
     getTargetVersionValues,
     hasFollowerDataVals,
 } from "../Helper/FuncHelper";
-import { joinElements, Renderable } from "../Helper/OutputHelper";
+import { Renderable, joinElements } from "../Helper/OutputHelper";
 import { FuncDescriptorSections } from "./Func/FuncDescriptorSections";
 import handleActionSection from "./Func/handleActionSection";
 import handleAffectsSection from "./Func/handleAffectsSection";

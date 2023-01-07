@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { Region, SupportServant, CraftEssence } from "@atlasacademy/api-connector";
+import { CraftEssence, Region, SupportServant } from "@atlasacademy/api-connector";
 
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";

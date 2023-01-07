@@ -1,7 +1,7 @@
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { Region, Event, Item, Gift } from "@atlasacademy/api-connector";
+import { Event, Gift, Item, Region } from "@atlasacademy/api-connector";
 
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
 import PointBuffDescriptor from "../../Descriptor/PointBuffDescriptor";

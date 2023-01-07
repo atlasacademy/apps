@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, ConnectedProps } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 
 import { BattleEvent } from "../../app/battle/types";
 import { RootState } from "../../app/store";

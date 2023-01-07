@@ -4,7 +4,7 @@ import { Region } from "@atlasacademy/api-connector";
 
 import { parseDialogueLine } from "../Component/Script";
 import { DialogueChild } from "../Component/ScriptDialogueLine";
-import { mergeElements, Renderable } from "./OutputHelper";
+import { Renderable, mergeElements } from "./OutputHelper";
 
 import "./StringHelper.css";
 

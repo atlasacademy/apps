@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { MasterMission, Region, Mission, Servant, EnumList, Item, Quest } from "@atlasacademy/api-connector";
+import { EnumList, Item, MasterMission, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import Api, { Host } from "../Api";
 import DataTable from "../Component/DataTable";

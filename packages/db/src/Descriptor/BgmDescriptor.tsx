@@ -1,10 +1,10 @@
 import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ButtonGroup, Button } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { Region, Bgm } from "@atlasacademy/api-connector";
+import { Bgm, Region } from "@atlasacademy/api-connector";
 
 import { lang } from "../Setting/Manager";
 import VoiceLinePlayer from "./VoiceLinePlayer";

@@ -1,18 +1,18 @@
 import { Button } from "react-bootstrap";
 
-import { CondType, Mission, Quest, Region, Servant, Item, EnumList } from "@atlasacademy/api-connector";
+import { CondType, EnumList, Item, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import { mergeElements } from "../Helper/OutputHelper";
 import { lang } from "../Setting/Manager";
 import CondMissionDetailDescriptor from "./CondMissionDetailDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import {
-    missionRange,
-    MultipleQuests,
-    MultipleServants,
     MultipleClassLevels,
     MultipleClassLimits,
     MultipleEquipRarityLevel,
+    MultipleQuests,
+    MultipleServants,
+    missionRange,
 } from "./MultipleDescriptors";
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";

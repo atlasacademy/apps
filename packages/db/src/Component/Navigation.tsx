@@ -1,9 +1,9 @@
 import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faCog, faXmark, faLanguage } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faLanguage, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Button, Container, Modal, Nav, Navbar, Row, Col, NavDropdown, Dropdown } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { Button, Col, Container, Dropdown, Modal, Nav, NavDropdown, Navbar, Row } from "react-bootstrap";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 

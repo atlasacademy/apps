@@ -1,9 +1,9 @@
-import { Restriction, Region } from "@atlasacademy/api-connector";
+import { Region, Restriction } from "@atlasacademy/api-connector";
 
 import { listNumber } from "../Helper/ArrayHelper";
 import { ordinalNumeral } from "../Helper/StringHelper";
 import EventAllOutDescription from "./EventAllOutDescription";
-import { MultipleTraits, MergeElementsOr } from "./MultipleDescriptors";
+import { MergeElementsOr, MultipleTraits } from "./MultipleDescriptors";
 import ServantDescriptorId from "./ServantDescriptorId";
 
 const RestrictionDescription = ({ region, restriction }: { region: Region; restriction: Restriction.Restriction }) => {

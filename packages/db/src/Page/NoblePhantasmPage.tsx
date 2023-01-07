@@ -5,7 +5,7 @@ import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { NoblePhantasm, Entity, Region, Quest } from "@atlasacademy/api-connector";
+import { Entity, NoblePhantasm, Quest, Region } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";

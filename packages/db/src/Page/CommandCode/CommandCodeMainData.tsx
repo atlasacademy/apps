@@ -1,5 +1,5 @@
 import React from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 import { CommandCode, Region } from "@atlasacademy/api-connector";
 

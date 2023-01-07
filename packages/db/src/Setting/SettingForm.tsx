@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, ButtonGroup, Form } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 import { Language } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";

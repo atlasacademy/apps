@@ -1,11 +1,11 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
-import { Event, Item, Region, Mission, Quest, Servant, EnumList, War } from "@atlasacademy/api-connector";
+import { EnumList, Event, Item, Mission, Quest, Region, Servant, War } from "@atlasacademy/api-connector";
 
 import Api, { Host } from "../Api";
 import DataTable from "../Component/DataTable";

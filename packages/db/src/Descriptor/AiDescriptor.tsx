@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Region, Ai } from "@atlasacademy/api-connector";
+import { Ai, Region } from "@atlasacademy/api-connector";
 
 import { Renderable, mergeElements } from "../Helper/OutputHelper";
 

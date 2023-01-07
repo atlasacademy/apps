@@ -1,4 +1,4 @@
-import { Mission, Quest, Region, Servant, Item, EnumList } from "@atlasacademy/api-connector";
+import { EnumList, Item, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import { lang } from "../Setting/Manager";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";

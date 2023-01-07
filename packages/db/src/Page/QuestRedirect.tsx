@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 
 import { Quest, Region } from "@atlasacademy/api-connector";

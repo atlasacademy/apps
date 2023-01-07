@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { BattleEvent, BattleQueuedAttack, BattleState, BattleStateActor, BattleStateActorSkill } from "./types";
 

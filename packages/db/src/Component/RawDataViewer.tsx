@@ -1,6 +1,6 @@
 import { faSearchPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ReactJson, { ThemeKeys, OnCopyProps } from "@microlink/react-json-view";
+import ReactJson, { OnCopyProps, ThemeKeys } from "@microlink/react-json-view";
 import axios from "axios";
 import copy from "copy-to-clipboard";
 import React from "react";

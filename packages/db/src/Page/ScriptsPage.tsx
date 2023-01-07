@@ -1,7 +1,7 @@
 import { faSearch, faSort, faSortDown, faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button, Dropdown, Form, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useHistory, useLocation } from "react-router-dom";

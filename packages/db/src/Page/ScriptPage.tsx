@@ -10,11 +10,11 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import {
+    ScriptComponent,
+    ScriptComponentType,
+    ScriptComponentWrapper,
     countWord,
     parseScript,
-    ScriptComponent,
-    ScriptComponentWrapper,
-    ScriptComponentType,
 } from "../Component/Script";
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";

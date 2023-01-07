@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Table } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { MysticCode, Region } from "@atlasacademy/api-connector";

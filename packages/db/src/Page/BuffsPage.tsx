@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 

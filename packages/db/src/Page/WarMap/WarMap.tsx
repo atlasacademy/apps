@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { War, Region } from "@atlasacademy/api-connector";
+import { Region, War } from "@atlasacademy/api-connector";
 
 import { AssetHost } from "../../Api";
 import ButtonGrid from "../../Component/ButtonGrid";

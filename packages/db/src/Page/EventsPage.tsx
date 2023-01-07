@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import Fuse from "fuse.js";
 import React from "react";
-import { Col, Form, Pagination, Row, Table, ButtonGroup, Button } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { Button, ButtonGroup, Col, Form, Pagination, Row, Table } from "react-bootstrap";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Event, Region } from "@atlasacademy/api-connector";

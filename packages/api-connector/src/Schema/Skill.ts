@@ -1,10 +1,10 @@
 import { ReverseData, ReverseDepth } from "../ApiConnector";
 import { AiType } from "./Ai";
-import { CommandCodeBasic, CommandCode } from "./CommandCode";
+import { CommandCode, CommandCodeBasic } from "./CommandCode";
 import { CommonRelease } from "./CommonRelease";
-import { EntityBasic, Entity } from "./Entity";
+import { Entity, EntityBasic } from "./Entity";
 import { Func } from "./Func";
-import { MysticCodeBasic, MysticCode } from "./MysticCode";
+import { MysticCode, MysticCodeBasic } from "./MysticCode";
 import { Trait } from "./Trait";
 
 export enum SkillType {

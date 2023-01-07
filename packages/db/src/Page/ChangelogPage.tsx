@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import React from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Change, CraftEssence, Region, Servant } from "@atlasacademy/api-connector";

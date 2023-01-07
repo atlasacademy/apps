@@ -1,4 +1,4 @@
-import { CondType, Region, Servant, Quest } from "@atlasacademy/api-connector";
+import { CondType, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import CostumeDescriptor from "./CostumeDescriptor";
 import EventDescriptor from "./EventDescriptor";

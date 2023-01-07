@@ -1,13 +1,13 @@
-import { Mission, Region, Item, Quest, Servant, EnumList } from "@atlasacademy/api-connector";
+import { EnumList, Item, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import {
-    MultipleTraits,
-    MultipleItems,
-    MultipleServants,
-    MultipleQuests,
     MultipleClasses,
     MultipleEmbers,
+    MultipleItems,
     MultipleQuestTypes,
+    MultipleQuests,
+    MultipleServants,
+    MultipleTraits,
     MultipleWars,
 } from "./MultipleDescriptors";
 

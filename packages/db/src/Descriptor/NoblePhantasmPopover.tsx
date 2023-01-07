@@ -1,6 +1,6 @@
 import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 
-import { Region, NoblePhantasm } from "@atlasacademy/api-connector";
+import { NoblePhantasm, Region } from "@atlasacademy/api-connector";
 
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import { lang } from "../Setting/Manager";

@@ -1,4 +1,4 @@
-import { Region, Profile, CondType } from "@atlasacademy/api-connector";
+import { CondType, Profile, Region } from "@atlasacademy/api-connector";
 
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import QuestDescriptor from "./QuestDescriptor";

@@ -5,7 +5,7 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { NoblePhantasm, Region, Quest, Skill } from "@atlasacademy/api-connector";
+import { NoblePhantasm, Quest, Region, Skill } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";

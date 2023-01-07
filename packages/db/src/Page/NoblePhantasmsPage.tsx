@@ -4,11 +4,11 @@ import { AxiosError } from "axios";
 import { t } from "i18next";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
-import { Region, Card, NoblePhantasm, Trait } from "@atlasacademy/api-connector";
+import { Card, NoblePhantasm, Region, Trait } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";

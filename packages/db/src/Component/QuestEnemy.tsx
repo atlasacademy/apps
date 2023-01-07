@@ -4,7 +4,7 @@ import quantile from "@stdlib/stats-base-dists-t-quantile";
 import { Alert, Button, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { QuestEnemy, Region, Skill, NoblePhantasm, Ai } from "@atlasacademy/api-connector";
+import { Ai, NoblePhantasm, QuestEnemy, Region, Skill } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import ClassIcon from "../Component/ClassIcon";
@@ -15,7 +15,7 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import NoblePhantasmPopover from "../Descriptor/NoblePhantasmPopover";
 import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
-import { asPercent, mergeElements, Renderable } from "../Helper/OutputHelper";
+import { Renderable, asPercent, mergeElements } from "../Helper/OutputHelper";
 import { ordinalNumeral } from "../Helper/StringHelper";
 
 import "./MoveButton.css";

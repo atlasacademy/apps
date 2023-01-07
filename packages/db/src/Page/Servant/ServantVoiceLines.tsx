@@ -1,10 +1,10 @@
 import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, ButtonGroup, Dropdown, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { Profile, ProfileVoiceType, Region, Entity, Servant, CraftEssence } from "@atlasacademy/api-connector";
+import { CraftEssence, Entity, Profile, ProfileVoiceType, Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api from "../../Api";

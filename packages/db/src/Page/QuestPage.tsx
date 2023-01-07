@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import React from "react";
-import { Alert, Col, Pagination, Row, Tab, Tabs, Badge } from "react-bootstrap";
+import { Alert, Badge, Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";

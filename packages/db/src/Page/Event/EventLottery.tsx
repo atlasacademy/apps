@@ -5,7 +5,7 @@ import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { Region, Event, Item } from "@atlasacademy/api-connector";
+import { Event, Item, Region } from "@atlasacademy/api-connector";
 
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import ItemIcon from "../../Component/ItemIcon";

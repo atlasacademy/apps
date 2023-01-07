@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { CondType, Quest, Region, Mission } from "@atlasacademy/api-connector";
+import { CondType, Mission, Quest, Region } from "@atlasacademy/api-connector";
 
 import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { getURLSearchParams } from "../Helper/StringHelper";

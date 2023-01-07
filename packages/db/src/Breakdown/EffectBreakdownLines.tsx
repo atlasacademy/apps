@@ -1,6 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 import { Card, Func, NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
 import { FuncDescriptor } from "@atlasacademy/api-descriptor";

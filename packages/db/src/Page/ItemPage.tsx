@@ -2,11 +2,11 @@ import { faSortNumericDown, faSortNumericDownAlt } from "@fortawesome/free-solid
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
-import { Button, Table, Tab, Tabs } from "react-bootstrap";
+import { Button, Tab, Table, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
-import { Region, Servant, ClassName, Entity, Item } from "@atlasacademy/api-connector";
+import { ClassName, Entity, Item, Region, Servant } from "@atlasacademy/api-connector";
 
 import Api, { Host } from "../Api";
 import DataTable from "../Component/DataTable";

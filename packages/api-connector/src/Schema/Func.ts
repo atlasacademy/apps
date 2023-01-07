@@ -1,8 +1,8 @@
 import { ReverseData, ReverseDepth } from "../ApiConnector";
 import { Buff } from "./Buff";
 import { DataVal } from "./DataVal";
-import { NoblePhantasmBasic, NoblePhantasm } from "./NoblePhantasm";
-import { SkillBasic, Skill } from "./Skill";
+import { NoblePhantasm, NoblePhantasmBasic } from "./NoblePhantasm";
+import { Skill, SkillBasic } from "./Skill";
 import { Trait } from "./Trait";
 
 export enum FuncTargetTeam {

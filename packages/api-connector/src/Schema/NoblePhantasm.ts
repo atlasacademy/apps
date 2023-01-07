@@ -1,6 +1,6 @@
 import { ReverseData, ReverseDepth } from "../ApiConnector";
 import Card from "../Enum/Card";
-import { EntityBasic, Entity } from "./Entity";
+import { Entity, EntityBasic } from "./Entity";
 import { Func } from "./Func";
 import { SkillScript } from "./Skill";
 import { Trait } from "./Trait";

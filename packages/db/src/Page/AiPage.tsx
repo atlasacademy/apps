@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 

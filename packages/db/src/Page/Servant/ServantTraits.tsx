@@ -1,7 +1,7 @@
 import React from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-import { Region, Servant, Trait, CondType } from "@atlasacademy/api-connector";
+import { CondType, Region, Servant, Trait } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";

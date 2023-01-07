@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import { connect, ConnectedProps } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 
 import { battleSetupInitThunk } from "./app/battleSetup/thunks";
 import BattleDisplay from "./components/BattleDisplay";

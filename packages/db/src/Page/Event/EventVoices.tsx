@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { Region, Profile, Servant, Event } from "@atlasacademy/api-connector";
+import { Event, Profile, Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import renderCollapsibleContent from "../../Component/CollapsibleContent";

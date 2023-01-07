@@ -2,7 +2,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { Region } from "@atlasacademy/api-connector";
 
-import { mergeElements, Renderable } from "../Helper/OutputHelper";
+import { Renderable, mergeElements } from "../Helper/OutputHelper";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";

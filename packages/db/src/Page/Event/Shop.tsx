@@ -9,7 +9,7 @@ import { Item, Quest, Region, Shop } from "@atlasacademy/api-connector";
 
 import ItemIcon from "../../Component/ItemIcon";
 import CondTargetNumDescriptor from "../../Descriptor/CondTargetNumDescriptor";
-import { gemIds, magicGemIds, secretGemIds, monumentIds, pieceIds } from "../../Descriptor/MultipleDescriptors";
+import { gemIds, magicGemIds, monumentIds, pieceIds, secretGemIds } from "../../Descriptor/MultipleDescriptors";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import ShopPurchaseDescriptor from "../../Descriptor/ShopPurchaseDescriptor";
 import { colorString } from "../../Helper/StringHelper";

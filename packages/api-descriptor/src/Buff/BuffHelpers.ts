@@ -1,6 +1,6 @@
 import { Buff } from "@atlasacademy/api-connector";
 
-import { buffTraitDescriptions, upDownBuffs, UpDownBuffType } from "./BuffTypes";
+import { UpDownBuffType, buffTraitDescriptions, upDownBuffs } from "./BuffTypes";
 
 export function getUpDownBuffType(type: Buff.BuffType): UpDownBuffType | undefined {
     for (let x in upDownBuffs) {

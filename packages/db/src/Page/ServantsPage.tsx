@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import Fuse from "fuse.js";
 import React from "react";
 import { Button, ButtonGroup, Col, Form, Pagination, Row, Table } from "react-bootstrap";
-import { withTranslation, TFunction } from "react-i18next";
+import { TFunction, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { ClassName, Region, Servant } from "@atlasacademy/api-connector";

@@ -1,4 +1,4 @@
-import { Table, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { Servant } from "@atlasacademy/api-connector";

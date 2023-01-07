@@ -4,7 +4,7 @@ import { Card, Enemy, Region } from "@atlasacademy/api-connector";
 
 import DataTable from "../../Component/DataTable";
 import TraitDescription from "../../Descriptor/TraitDescription";
-import { asPercent, mergeElements, Renderable } from "../../Helper/OutputHelper";
+import { Renderable, asPercent, mergeElements } from "../../Helper/OutputHelper";
 
 interface IProps {
     region: Region;

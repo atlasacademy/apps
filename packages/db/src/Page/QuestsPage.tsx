@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -18,7 +18,7 @@ import TraitsSelector from "../Component/TraitsSelector";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
 import { getNumParam } from "../Helper/URLSearchParamsHelper";
 import Manager, { lang } from "../Setting/Manager";
-import { QuestTypeDescription, QuestFlagDescription } from "./QuestPage";
+import { QuestFlagDescription, QuestTypeDescription } from "./QuestPage";
 
 import "./ListingPage.css";
 

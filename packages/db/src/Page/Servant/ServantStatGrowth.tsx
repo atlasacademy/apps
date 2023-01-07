@@ -2,7 +2,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import highchartsAccessibility from "highcharts/modules/accessibility";
 import React from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 import { Region, Servant } from "@atlasacademy/api-connector";
 

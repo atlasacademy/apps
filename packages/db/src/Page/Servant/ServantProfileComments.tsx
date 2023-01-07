@@ -1,6 +1,6 @@
 import React from "react";
-import { Row, Col, Table } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { Col, Row, Table } from "react-bootstrap";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 import { Region } from "@atlasacademy/api-connector";
 import { ProfileComment } from "@atlasacademy/api-connector/dist/Schema/Profile";

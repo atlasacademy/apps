@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
-import { connect, ConnectedProps } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 
 import { Card } from "@atlasacademy/api-connector";
 

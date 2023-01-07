@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { connect, ConnectedProps } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 
 import { battleTriggerSkillThunk } from "../../../app/battle/thunks";
 import { BattleStateActor } from "../../../app/battle/types";

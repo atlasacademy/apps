@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { Item, Region, Event, Servant } from "@atlasacademy/api-connector";
+import { Event, Item, Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";

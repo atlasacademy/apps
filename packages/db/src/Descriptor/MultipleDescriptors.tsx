@@ -6,7 +6,7 @@ import { toTitleCase } from "@atlasacademy/api-descriptor";
 import Api from "../Api";
 import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { areIdenticalArrays, isSubset } from "../Helper/ArrayHelper";
-import { mergeElements, Renderable } from "../Helper/OutputHelper";
+import { Renderable, mergeElements } from "../Helper/OutputHelper";
 import GiftDescriptor from "./GiftDescriptor";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";

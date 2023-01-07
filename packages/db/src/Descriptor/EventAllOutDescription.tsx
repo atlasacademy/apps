@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Region, Event } from "@atlasacademy/api-connector";
+import { Event, Region } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import { WarDescriptorId } from "./WarDescriptor";

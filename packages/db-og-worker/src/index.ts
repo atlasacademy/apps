@@ -1,4 +1,4 @@
-import { getAssetFromKV, mapRequestToAsset, NotFoundError } from "@cloudflare/kv-asset-handler";
+import { NotFoundError, getAssetFromKV, mapRequestToAsset } from "@cloudflare/kv-asset-handler";
 // @ts-ignore: Required import for getAssetFromKV
 import manifestJSON from "__STATIC_CONTENT_MANIFEST";
 

@@ -1,4 +1,4 @@
-import { CraftEssence, Entity, Enemy, Region, Servant } from "@atlasacademy/api-connector";
+import { CraftEssence, Enemy, Entity, Region, Servant } from "@atlasacademy/api-connector";
 
 import { BasicCraftEssenceDescriptor } from "./CraftEssenceDescriptor";
 import EnemyDescriptor from "./EnemyDescriptor";

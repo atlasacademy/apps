@@ -1,4 +1,4 @@
-import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 
 import { battleSlice } from "./battle/slice";
 import { battleSetupSlice } from "./battleSetup/slice";

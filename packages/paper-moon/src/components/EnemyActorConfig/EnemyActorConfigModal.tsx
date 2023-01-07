@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { connect, ConnectedProps } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 
 import { enemyActorConfigAddThunk, enemyActorConfigCloseThunk } from "../../app/enemyActorConfig/thunks";
 import { RootState } from "../../app/store";

@@ -2,8 +2,8 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
-import { Button, Form, Table, Row, Col } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 

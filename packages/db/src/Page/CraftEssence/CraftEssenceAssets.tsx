@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert } from "react-bootstrap";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 import { CraftEssence, Entity, Region } from "@atlasacademy/api-connector";
 

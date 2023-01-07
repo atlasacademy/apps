@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, ConnectedProps } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 
 import { battleTriggerSkillThunk } from "../../../app/battle/thunks";
 import { BattleStateActor, BattleStateActorSkill } from "../../../app/battle/types";
