@@ -20,6 +20,7 @@ import Manager, { lang } from "../Setting/Manager";
 
 const attributeDescriptions = new Map<Attribute.Attribute, string>(),
     classNameDescriptions = new Map<ClassName, string>(),
+    entityFlagDescriptions = new Map<Entity.EntityFlag, string>(),
     entityTypeDescriptions = new Map<Entity.EntityType, string>([
         [Entity.EntityType.NORMAL, "Servant"],
         [Entity.EntityType.HEROINE, "Servant (Mash)"],
@@ -54,6 +55,7 @@ interface IState {
     type?: Entity.EntityType[];
     className?: ClassName[];
     gender?: Entity.Gender[];
+    flag?: Entity.EntityFlag[];
     attribute?: Attribute.Attribute[];
     trait: number[];
     notTrait: number[];
@@ -87,6 +89,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 className: searchParams.getAll("className") as ClassName[],
                 gender: searchParams.getAll("gender") as Entity.Gender[],
                 attribute: searchParams.getAll("attribute") as Attribute.Attribute[],
+                flag: searchParams.getAll("flag") as Entity.EntityFlag[],
                 trait: searchParams.getAll("trait").map((num) => parseInt(num)),
                 notTrait: searchParams.getAll("notTrait").map((num) => parseInt(num)),
             };
@@ -151,6 +154,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             className: this.state.className,
             gender: this.state.gender,
             attribute: this.state.attribute,
+            flag: this.state.flag,
             trait: this.state.trait,
             notTrait: this.state.notTrait,
             illustrator: this.state.illustrator,
@@ -172,6 +176,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             (this.state.className === undefined || this.state.className.length === 0) &&
             (this.state.gender === undefined || this.state.gender.length === 0) &&
             (this.state.attribute === undefined || this.state.attribute.length === 0) &&
+            (this.state.flag === undefined || this.state.flag.length === 0) &&
             this.state.trait.length === 0 &&
             this.state.notTrait.length === 0
         ) {
@@ -188,6 +193,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             this.state.className,
             this.state.gender,
             this.state.attribute,
+            this.state.flag,
             this.state.trait,
             this.state.notTrait,
             undefined,
@@ -241,44 +247,44 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
 
-                    <Form.Group>
-                        <Form.Label>{t("Type")}</Form.Label>
-                        <SearchableSelect<Entity.EntityType>
-                            id="select-EntityType"
-                            options={Object.values(Entity.EntityType)}
-                            labels={entityTypeDescriptions}
-                            selected={this.state.type ? this.state.type[0] : undefined}
-                            onChange={(value?: Entity.EntityType) => {
-                                this.setState({ type: value ? [value] : undefined });
-                            }}
-                        />
-                    </Form.Group>
+                            <Form.Group>
+                                <Form.Label>{t("Type")}</Form.Label>
+                                <SearchableSelect<Entity.EntityType>
+                                    id="select-EntityType"
+                                    options={Object.values(Entity.EntityType)}
+                                    labels={entityTypeDescriptions}
+                                    selected={this.state.type ? this.state.type[0] : undefined}
+                                    onChange={(value?: Entity.EntityType) => {
+                                        this.setState({ type: value ? [value] : undefined });
+                                    }}
+                                />
+                            </Form.Group>
 
-                    <Form.Group>
-                        <Form.Label>{t("Class")}</Form.Label>
-                        <SearchableSelect<ClassName>
-                            id="select-ClassName"
+                            <Form.Group>
+                                <Form.Label>{t("Class")}</Form.Label>
+                                <SearchableSelect<ClassName>
+                                    id="select-ClassName"
                             options={Object.values(ClassName).filter((className) => className !== ClassName.EXTRA)}
-                            labels={classNameDescriptions}
-                            selected={this.state.className ? this.state.className[0] : undefined}
-                            onChange={(value?: ClassName) => {
-                                this.setState({ className: value ? [value] : [] });
-                            }}
-                        />
-                    </Form.Group>
+                                    labels={classNameDescriptions}
+                                    selected={this.state.className ? this.state.className[0] : undefined}
+                                    onChange={(value?: ClassName) => {
+                                        this.setState({ className: value ? [value] : [] });
+                                    }}
+                                />
+                            </Form.Group>
 
-                    <Form.Group>
-                        <Form.Label>{t("Gender")}</Form.Label>
-                        <SearchableSelect<Entity.Gender>
-                            id="select-Gender"
-                            options={Object.values(Entity.Gender)}
-                            labels={genderDescriptions}
-                            selected={this.state.gender ? this.state.gender[0] : undefined}
-                            onChange={(value?: Entity.Gender) => {
-                                this.setState({ gender: value ? [value] : [] });
-                            }}
-                        />
-                    </Form.Group>
+                            <Form.Group>
+                                <Form.Label>{t("Gender")}</Form.Label>
+                                <SearchableSelect<Entity.Gender>
+                                    id="select-Gender"
+                                    options={Object.values(Entity.Gender)}
+                                    labels={genderDescriptions}
+                                    selected={this.state.gender ? this.state.gender[0] : undefined}
+                                    onChange={(value?: Entity.Gender) => {
+                                        this.setState({ gender: value ? [value] : [] });
+                                    }}
+                                />
+                            </Form.Group>
 
                     <Form.Group>
                         <Form.Label>{t("Attribute")}</Form.Label>
@@ -289,6 +295,19 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             selected={this.state.attribute ? this.state.attribute[0] : undefined}
                             onChange={(value?: Attribute.Attribute) => {
                                 this.setState({ attribute: value ? [value] : [] });
+                            }}
+                        />
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>{t("Flag")}</Form.Label>
+                        <SearchableSelect<Entity.EntityFlag>
+                            id="select-Flag"
+                            options={Object.values(Entity.EntityFlag)}
+                            labels={entityFlagDescriptions}
+                            selected={this.state.flag ? this.state.flag[0] : undefined}
+                            onChange={(value?: Entity.EntityFlag) => {
+                                this.setState({ flag: value ? [value] : [] });
                             }}
                         />
                     </Form.Group>
