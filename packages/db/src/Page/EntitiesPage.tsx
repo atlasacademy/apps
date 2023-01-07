@@ -2,7 +2,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Form, Table, Row, Col } from "react-bootstrap";
 import { withTranslation, WithTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
@@ -246,7 +246,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             lang={lang(this.props.region)}
                         />
                     </Form.Group>
-
+                    <Row>
+                        <Col sm={4}>
                             <Form.Group>
                                 <Form.Label>{t("Type")}</Form.Label>
                                 <SearchableSelect<Entity.EntityType>
@@ -259,12 +260,15 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                     }}
                                 />
                             </Form.Group>
-
+                        </Col>
+                        <Col sm={4}>
                             <Form.Group>
                                 <Form.Label>{t("Class")}</Form.Label>
                                 <SearchableSelect<ClassName>
                                     id="select-ClassName"
-                            options={Object.values(ClassName).filter((className) => className !== ClassName.EXTRA)}
+                                    options={Object.values(ClassName).filter(
+                                        (className) => className !== ClassName.EXTRA
+                                    )}
                                     labels={classNameDescriptions}
                                     selected={this.state.className ? this.state.className[0] : undefined}
                                     onChange={(value?: ClassName) => {
@@ -272,7 +276,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                     }}
                                 />
                             </Form.Group>
-
+                        </Col>
+                        <Col sm={4}>
                             <Form.Group>
                                 <Form.Label>{t("Gender")}</Form.Label>
                                 <SearchableSelect<Entity.Gender>
@@ -285,83 +290,94 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                     }}
                                 />
                             </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>{t("Attribute")}</Form.Label>
-                        <SearchableSelect<Attribute.Attribute>
-                            id="select-Attribute"
-                            options={Object.values(Attribute.Attribute)}
-                            labels={attributeDescriptions}
-                            selected={this.state.attribute ? this.state.attribute[0] : undefined}
-                            onChange={(value?: Attribute.Attribute) => {
-                                this.setState({ attribute: value ? [value] : [] });
-                            }}
-                        />
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>{t("Flag")}</Form.Label>
-                        <SearchableSelect<Entity.EntityFlag>
-                            id="select-Flag"
-                            options={Object.values(Entity.EntityFlag)}
-                            labels={entityFlagDescriptions}
-                            selected={this.state.flag ? this.state.flag[0] : undefined}
-                            onChange={(value?: Entity.EntityFlag) => {
-                                this.setState({ flag: value ? [value] : [] });
-                            }}
-                        />
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>{t("Traits")}</Form.Label>
-                        <TraitsSelector
-                            region={this.props.region}
-                            traitList={this.state.traitList}
-                            initialTraits={this.state.trait}
-                            onUpdate={(trait) => {
-                                this.setState({ trait });
-                            }}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>{t("Doesn't have traits")}</Form.Label>
-                        <TraitsSelector
-                            region={this.props.region}
-                            traitList={this.state.traitList}
-                            initialTraits={this.state.notTrait}
-                            onUpdate={(notTrait) => {
-                                this.setState({ notTrait });
-                            }}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>{t("Illustrator")}</Form.Label>
-                        <SearchableSelect<string>
-                            id="select-illustrator"
-                            options={this.state.illustratorList}
-                            labels={new Map(this.state.illustratorList.map((illustrator) => [illustrator, ""]))}
-                            selected={this.state.illustrator ?? undefined}
-                            onChange={(value?: string) => {
-                                this.setState({ illustrator: value });
-                            }}
-                            disableLabelStyling={true}
-                            lang={lang(this.props.region)}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>{t("Voice Actor")}</Form.Label>
-                        <SearchableSelect<string>
-                            id="select-voice-actor"
-                            options={this.state.cvList}
-                            labels={new Map(this.state.cvList.map((illustrator) => [illustrator, ""]))}
-                            selected={this.state.cv ?? undefined}
-                            onChange={(value?: string) => {
-                                this.setState({ cv: value });
-                            }}
-                            disableLabelStyling={true}
-                            lang={lang(this.props.region)}
-                        />
-                    </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                            <Form.Group>
+                                <Form.Label>{t("Attribute")}</Form.Label>
+                                <SearchableSelect<Attribute.Attribute>
+                                    id="select-Attribute"
+                                    options={Object.values(Attribute.Attribute)}
+                                    labels={attributeDescriptions}
+                                    selected={this.state.attribute ? this.state.attribute[0] : undefined}
+                                    onChange={(value?: Attribute.Attribute) => {
+                                        this.setState({ attribute: value ? [value] : [] });
+                                    }}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                            <Form.Group>
+                                <Form.Label>{t("Traits")}</Form.Label>
+                                <TraitsSelector
+                                    region={this.props.region}
+                                    traitList={this.state.traitList}
+                                    initialTraits={this.state.trait}
+                                    onUpdate={(trait) => {
+                                        this.setState({ trait });
+                                    }}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                            <Form.Group>
+                                <Form.Label>{t("Doesn't have traits")}</Form.Label>
+                                <TraitsSelector
+                                    region={this.props.region}
+                                    traitList={this.state.traitList}
+                                    initialTraits={this.state.notTrait}
+                                    onUpdate={(notTrait) => {
+                                        this.setState({ notTrait });
+                                    }}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                            <Form.Group>
+                                <Form.Label>{t("Flag")}</Form.Label>
+                                <SearchableSelect<Entity.EntityFlag>
+                                    id="select-Flag"
+                                    options={Object.values(Entity.EntityFlag)}
+                                    labels={entityFlagDescriptions}
+                                    selected={this.state.flag ? this.state.flag[0] : undefined}
+                                    onChange={(value?: Entity.EntityFlag) => {
+                                        this.setState({ flag: value ? [value] : [] });
+                                    }}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                            <Form.Group>
+                                <Form.Label>{t("Illustrator")}</Form.Label>
+                                <SearchableSelect<string>
+                                    id="select-illustrator"
+                                    options={this.state.illustratorList}
+                                    labels={new Map(this.state.illustratorList.map((illustrator) => [illustrator, ""]))}
+                                    selected={this.state.illustrator ?? undefined}
+                                    onChange={(value?: string) => {
+                                        this.setState({ illustrator: value });
+                                    }}
+                                    disableLabelStyling={true}
+                                    lang={lang(this.props.region)}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                            <Form.Group>
+                                <Form.Label>{t("Voice Actor")}</Form.Label>
+                                <SearchableSelect<string>
+                                    id="select-voice-actor"
+                                    options={this.state.cvList}
+                                    labels={new Map(this.state.cvList.map((illustrator) => [illustrator, ""]))}
+                                    selected={this.state.cv ?? undefined}
+                                    onChange={(value?: string) => {
+                                        this.setState({ cv: value });
+                                    }}
+                                    disableLabelStyling={true}
+                                    lang={lang(this.props.region)}
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
                     <Button variant={"primary"} onClick={() => this.search()}>
                         {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
