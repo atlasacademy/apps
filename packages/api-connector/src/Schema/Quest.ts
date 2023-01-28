@@ -162,6 +162,7 @@ export interface QuestPhaseScript {
 
 export interface QuestPhaseAiNpc {
     npc: NpcServant;
+    detail?: QuestEnemy;
     aiIds: number[];
 }
 

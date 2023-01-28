@@ -79,6 +79,10 @@ export interface CardDetail {
     hitsDistribution: number[];
     attackIndividuality: Trait[];
     attackType: AttackType;
+    damageRate?: number;
+    attackNpRate?: number;
+    defenseNpRate?: number;
+    dropStarRate?: number;
 }
 
 export interface EntityLevelUpMaterials {

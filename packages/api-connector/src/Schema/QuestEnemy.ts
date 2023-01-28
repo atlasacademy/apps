@@ -44,6 +44,10 @@ export interface EnemyScript {
     NoSkipDead?: boolean;
 }
 
+export interface EnemyInfoScript {
+    isAddition?: boolean;
+}
+
 export interface EnemySkill {
     skillId1: number;
     skillId2: number;
@@ -120,6 +124,9 @@ export enum DeckType {
     SHIFT = "shift",
     CHANGE = "change",
     TRANSFORM = "transform",
+    SKILL_SHIFT = "skillShift",
+    MISSION_TARGET_SKILL_SHIFT = "missionTargetSkillShift",
+    AI_NPC = "aiNpc",
 }
 
 export enum RoleType {
@@ -155,6 +162,9 @@ export interface QuestEnemy {
     serverMod: EnemyServerMod;
     ai: EnemyAi;
     enemyScript: EnemyScript;
+    originalEnemyScript: Record<string, any>;
+    infoScript: EnemyInfoScript;
+    originalInfoScript: Record<string, any>;
     limit: EnemyLimit;
     misc: EnemyMisc;
 }

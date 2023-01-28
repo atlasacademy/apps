@@ -122,7 +122,7 @@ interface BaseDataVal {
     HpReduceToRegainIndiv?: number;
     DisplayActualRecoveryHpFlag?: number;
     ShiftDeckIndex?: number;
-    PopValueText?: number | string;
+    PopValueText?: string;
 }
 
 export interface DataVal extends BaseDataVal {

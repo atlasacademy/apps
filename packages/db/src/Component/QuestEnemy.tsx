@@ -139,7 +139,7 @@ function EnemyNpcListDescription(props: {
     return <>{mergeElements(enemyDescriptions, <br />)}</>;
 }
 
-const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnemy }) => {
+export const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnemy }) => {
     const region = props.region,
         enemy = props.enemy;
     const { t } = useTranslation();
@@ -241,7 +241,7 @@ const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnem
     );
 };
 
-const QuestEnemySubData = (props: {
+export const QuestEnemySubData = (props: {
     region: Region;
     enemy: QuestEnemy.QuestEnemy;
     enemyLookUp: EnemyLookUp;

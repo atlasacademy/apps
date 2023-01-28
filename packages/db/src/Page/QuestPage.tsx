@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
-import { Ai, Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
+import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api, { Host } from "../Api";
@@ -14,14 +14,13 @@ import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import QuestAiNpc from "../Component/QuestAiNpc";
 import { QuestDropDescriptor } from "../Component/QuestEnemy";
 import QuestRestriction from "../Component/QuestRestriction";
 import QuestStage from "../Component/QuestStage";
 import RawDataViewer from "../Component/RawDataViewer";
 import SupportServantTables from "../Component/SupportServant";
-import AiDescriptor from "../Descriptor/AiDescriptor";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
-import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
@@ -409,13 +408,7 @@ class QuestPage extends React.Component<IProps, IState> {
                     </Alert>
                 ) : null}
                 {quest.extraDetail.aiNpc !== undefined ? (
-                    <Alert variant="success">
-                        <b>NPC AI:</b>{" "}
-                        <EntityDescriptor region={this.props.region} entity={quest.extraDetail.aiNpc.npc.svt} />{" "}
-                        {quest.extraDetail.aiNpc.aiIds.map((aiId) => (
-                            <AiDescriptor key={aiId} region={this.props.region} aiType={Ai.AiType.SVT} id={aiId} />
-                        ))}
-                    </Alert>
+                    <QuestAiNpc region={this.props.region} aiNpc={quest.extraDetail.aiNpc} />
                 ) : null}
                 {quest.supportServants.length > 0 ? (
                     <>
