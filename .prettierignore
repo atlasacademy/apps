@@ -3,4 +3,5 @@ build
 coverage
 .vscode
 dist
+.github
 /app
