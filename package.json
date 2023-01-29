@@ -2,7 +2,6 @@
     "name": "root",
     "private": true,
     "devDependencies": {
-        "@atlasacademy/prettier-config": "^1.0.0",
         "prettier": "^2.8.1"
     },
     "prettier": "@atlasacademy/prettier-config",
