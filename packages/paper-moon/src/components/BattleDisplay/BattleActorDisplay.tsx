@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ProgressBar } from "react-bootstrap";
 import { ConnectedProps, connect } from "react-redux";
 
@@ -30,30 +30,19 @@ const mapStateToProps = (state: RootState, props: ExternalProps) => ({
 
 type BattleActorDisplayProps = ConnectedProps<typeof connector>;
 
-class BattleActorDisplay extends React.Component<BattleActorDisplayProps> {
-    private shouldDisplayAttacks() {
-        return (
-            this.props.running &&
-            this.props.team === BattleTeam.PLAYER &&
-            this.props.playerTurn &&
-            this.props.playerAttacking
-        );
-    }
+const BattleActorDisplay: React.FC<BattleActorDisplayProps> = (props) => {
+    const shouldDisplayAttacks = useCallback(() => {
+        return props.running && props.team === BattleTeam.PLAYER && props.playerTurn && props.playerAttacking;
+    }, [props]);
 
-    private shouldDisplaySkills() {
-        return (
-            this.props.running &&
-            this.props.team === BattleTeam.PLAYER &&
-            this.props.playerTurn &&
-            this.props.playerActing
-        );
-    }
+    const shouldDisplaySkills = useCallback(() => {
+        return props.running && props.team === BattleTeam.PLAYER && props.playerTurn && props.playerActing;
+    }, [props]);
 
-    private displayGauge() {
-        if (this.props.actor.team === BattleTeam.ENEMY) return null;
-
-        const max = this.props.actor.gaugeLineMax,
-            current = this.props.actor.currentGauge,
+    const displayGauge = useCallback(() => {
+        if (props.actor.team === BattleTeam.ENEMY) return null;
+        const max = props.actor.gaugeLineMax,
+            current = props.actor.currentGauge,
             level = Math.min(Math.floor(current / max), 2),
             mod = current % max,
             styles = ["info", "warning", "danger"],
@@ -69,25 +58,23 @@ class BattleActorDisplay extends React.Component<BattleActorDisplayProps> {
                 </ProgressBar>
             </div>
         );
-    }
+    }, []);
 
-    render() {
-        return (
-            <div className="battle-actor-display">
-                <img className="battle-actor-face" src={this.props.actor.face} alt={this.props.actor.name} />
-                <div className="battle-actor-name">
-                    ({this.props.actor.id}) {this.props.actor.name}
-                </div>
-                <div className="battle-actor-health">
-                    {this.props.actor.currentHealth} / {this.props.actor.maxHealth}
-                </div>
-                <ProgressBar variant="success" now={this.props.actor.currentHealth / this.props.actor.maxHealth} />
-                {this.displayGauge()}
-                {this.shouldDisplaySkills() ? <BattleActorSkillDisplay actor={this.props.actor} /> : null}
-                {this.shouldDisplayAttacks() ? <BattleActorAttackDisplay actor={this.props.actor} /> : null}
+    return (
+        <div className="battle-actor-display">
+            <img className="battle-actor-face" src={props.actor.face} alt={props.actor.name} />
+            <div className="battle-actor-name">
+                ({props.actor.id}) {props.actor.name}
             </div>
-        );
-    }
-}
+            <div className="battle-actor-health">
+                {props.actor.currentHealth} / {props.actor.maxHealth}
+            </div>
+            <ProgressBar variant="success" now={props.actor.currentHealth / props.actor.maxHealth} />
+            {displayGauge()}
+            {shouldDisplaySkills() ? <BattleActorSkillDisplay actor={props.actor} /> : null}
+            {shouldDisplayAttacks() ? <BattleActorAttackDisplay actor={props.actor} /> : null}
+        </div>
+    );
+};
 
 export default connector(BattleActorDisplay);

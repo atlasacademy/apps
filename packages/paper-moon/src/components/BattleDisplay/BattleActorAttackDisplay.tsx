@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { ConnectedProps, connect } from "react-redux";
 
@@ -24,31 +24,32 @@ const mapStateToProps = (state: RootState, props: ExternalProps) => ({
 
 type Props = ConnectedProps<typeof connector>;
 
-class BattleActorAttackDisplay extends React.Component<Props> {
-    private queueAction(card: Card) {
-        this.props.queueAction(this.props.actor.id, card);
-    }
+const BattleActorAttackDisplay: React.FC<Props> = (props) => {
+    const queueAction = useCallback(
+        (card: Card) => {
+            props.queueAction(props.actor.id, card);
+        },
+        [props]
+    );
 
-    render() {
-        return (
-            <div>
-                <ButtonGroup className="battle-actor-action-display">
-                    <Button className="action" variant="danger" onClick={(e) => this.queueAction(Card.BUSTER)}>
-                        B
-                    </Button>
-                    <Button className="action" variant="success" onClick={(e) => this.queueAction(Card.QUICK)}>
-                        Q
-                    </Button>
-                    <Button className="action" variant="primary" onClick={(e) => this.queueAction(Card.ARTS)}>
-                        A
-                    </Button>
-                    <Button className="action" variant="secondary">
-                        NP
-                    </Button>
-                </ButtonGroup>
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            <ButtonGroup className="battle-actor-action-display">
+                <Button className="action" variant="danger" onClick={(e) => queueAction(Card.BUSTER)}>
+                    B
+                </Button>
+                <Button className="action" variant="success" onClick={(e) => queueAction(Card.QUICK)}>
+                    Q
+                </Button>
+                <Button className="action" variant="primary" onClick={(e) => queueAction(Card.ARTS)}>
+                    A
+                </Button>
+                <Button className="action" variant="secondary">
+                    NP
+                </Button>
+            </ButtonGroup>
+        </div>
+    );
+};
 
 export default connector(BattleActorAttackDisplay);

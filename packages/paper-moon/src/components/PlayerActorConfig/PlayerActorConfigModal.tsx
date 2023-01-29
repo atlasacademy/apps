@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { ConnectedProps, connect } from "react-redux";
 
@@ -25,64 +25,61 @@ const mapStateToProps = (state: RootState) => ({
 
 type Props = ConnectedProps<typeof connector>;
 
-class PlayerActorConfigModal extends React.Component<Props> {
-    private setLevel(value: string) {
-        this.props.updateServantOptions({
-            ...this.props.servantOptions,
-            level: value,
-        });
-    }
+const PlayerActorConfigModal: React.FC<Props> = (props) => {
+    const setLevel = useCallback(
+        (value: string) => {
+            props.updateServantOptions({ ...props.servantOptions, level: value });
+        },
+        [props]
+    );
 
-    private setName(value: string) {
-        this.props.updateServantOptions({
-            ...this.props.servantOptions,
-            name: value,
-        });
-    }
+    const setName = useCallback(
+        (value: string) => {
+            props.updateServantOptions({ ...props.servantOptions, name: value });
+        },
+        [props]
+    );
 
-    render() {
-        return (
-            <Modal animation={false} show={this.props.open} size="xl" onHide={this.props.close}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Servant Configuration</Modal.Title>
-                </Modal.Header>
+    return (
+        <Modal animation={false} show={props.open} size="xl" onHide={props.close}>
+            <Modal.Header closeButton>
+                <Modal.Title>Servant Configuration</Modal.Title>
+            </Modal.Header>
 
-                <Modal.Body>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                disabled={this.props.loading}
-                                onBlur={this.props.validate}
-                                onChange={(event) => this.setName(event.target.value)}
-                                value={this.props.servantOptions?.name}
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Level</Form.Label>
-                            <Form.Control
-                                type="number"
-                                disabled={this.props.loading}
-                                onBlur={this.props.validate}
-                                onChange={(event) => this.setLevel(event.target.value)}
-                                value={this.props.servantOptions.level}
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
+            <Modal.Body>
+                <Form>
+                    <Form.Group>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            disabled={props.loading}
+                            onBlur={props.validate}
+                            onChange={(event) => setName(event.target.value)}
+                            value={props.servantOptions?.name}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Level</Form.Label>
+                        <Form.Control
+                            type="number"
+                            disabled={props.loading}
+                            onBlur={props.validate}
+                            onChange={(event) => setLevel(event.target.value)}
+                            value={props.servantOptions.level}
+                        />
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
 
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={this.props.close}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={this.props.add}>
-                        Add
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-}
-
+            <Modal.Footer>
+                <Button variant="secondary" onClick={props.close}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={props.add}>
+                    Add
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
 export default connector(PlayerActorConfigModal);

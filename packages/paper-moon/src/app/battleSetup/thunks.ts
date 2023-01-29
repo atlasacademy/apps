@@ -28,7 +28,8 @@ export const battleSetupAddActorThunk = (): AppThunk => {
 export const battleSetupInitThunk = (): AppThunk => {
     return async (dispatch) => {
         const servantList = await apiConnector.servantList();
-        await dispatch(
+
+        dispatch(
             battleSetupSlice.actions.setServantList(
                 servantList.map((servant) => ({
                     id: servant.id,
@@ -41,7 +42,7 @@ export const battleSetupInitThunk = (): AppThunk => {
         if (servantList.length > 0) await dispatch(battleSetupSelectServantThunk(servantList[0].id));
 
         const craftEssenceList = await apiConnector.craftEssenceList();
-        await dispatch(
+        dispatch(
             battleSetupSlice.actions.setCraftEssenceList(
                 craftEssenceList.map((craftEssence) => ({
                     id: craftEssence.id,
@@ -51,7 +52,7 @@ export const battleSetupInitThunk = (): AppThunk => {
             )
         );
 
-        await dispatch(battleSetupSlice.actions.setPending(false));
+        dispatch(battleSetupSlice.actions.setPending(false));
     };
 };
 

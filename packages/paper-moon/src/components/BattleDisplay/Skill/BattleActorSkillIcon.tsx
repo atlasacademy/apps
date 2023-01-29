@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ConnectedProps, connect } from "react-redux";
 
 import { battleTriggerSkillThunk } from "../../../app/battle/thunks";
@@ -22,30 +22,24 @@ const mapStateToProps = (state: RootState, props: ExternalProps) => ({
 
 type Props = ConnectedProps<typeof connector>;
 
-class BattleActorSkillIcon extends React.Component<Props> {
-    private className(): string {
+const BattleActorSkillIcon: React.FC<Props> = (props) => {
+    const className = useCallback(() => {
         const classes = ["battle-actor-skill-icon"];
-
-        if (!this.props.skill.available) classes.push("inactive");
-
+        if (!props.skill.available) classes.push("inactive");
         return classes.join(" ");
-    }
+    }, [props]);
 
-    render() {
-        return (
-            <div className={this.className()}>
-                <img
-                    className="icon"
-                    src={this.props.skill.icon}
-                    alt={this.props.skill.name}
-                    onClick={() => this.props.battleTriggerSkillThunk(this.props.actor.id, this.props.skill.position)}
-                />
-                {this.props.skill.cooldown > 0 ? (
-                    <span className="cooldown text-primary">{this.props.skill.cooldown}</span>
-                ) : null}
-            </div>
-        );
-    }
-}
+    return (
+        <div className={className()}>
+            <img
+                className="icon"
+                src={props.skill.icon}
+                alt={props.skill.name}
+                onClick={() => props.battleTriggerSkillThunk(props.actor.id, props.skill.position)}
+            />
+            {props.skill.cooldown > 0 ? <span className="cooldown text-primary">{props.skill.cooldown}</span> : null}
+        </div>
+    );
+};
 
 export default connector(BattleActorSkillIcon);

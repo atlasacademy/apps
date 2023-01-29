@@ -26,18 +26,15 @@ const mapStateToProps = (state: RootState, props: ExternalProps) => ({
 
 type Props = ConnectedProps<typeof connector>;
 
-class BattleActorSkillDisplay extends React.Component<Props> {
-    render() {
-        return (
-            <Row className="battle-actor-skill-display">
-                {this.props.skills.map((skill, i) => (
-                    <Col xs={4} key={i}>
-                        <BattleActorSkillIcon actor={this.props.actor} skill={skill} />
-                    </Col>
-                ))}
-            </Row>
-        );
-    }
-}
-
+const BattleActorSkillDisplay: React.FC<Props> = (props) => {
+    return (
+        <Row className="battle-actor-skill-display">
+            {props.skills.map((skill, i) => (
+                <Col xs={4} key={i}>
+                    <BattleActorSkillIcon actor={props.actor} skill={skill} />
+                </Col>
+            ))}
+        </Row>
+    );
+};
 export default connector(BattleActorSkillDisplay);

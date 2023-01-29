@@ -1,4 +1,4 @@
-import React from "react";
+import { FC, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { ConnectedProps, connect } from "react-redux";
 
@@ -16,24 +16,22 @@ const mapDispatchToProps = {
 
 type AppProps = ConnectedProps<typeof connector>;
 
-class App extends React.Component<AppProps> {
-    async componentDidMount() {
-        await this.props.init();
-    }
+const App: FC<AppProps> = (props) => {
+    useEffect(() => {
+        props.init();
+    }, [props]);
 
-    render() {
-        return (
-            <div>
-                <Navigation />
-                <Container fluid>
-                    <BattleSetup />
-                    <PlayerActorConfigModal />
-                    <EnemyActorConfigModal />
-                    <BattleDisplay />
-                </Container>
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            <Navigation />
+            <Container fluid>
+                <BattleSetup />
+                <PlayerActorConfigModal />
+                <EnemyActorConfigModal />
+                <BattleDisplay />
+            </Container>
+        </div>
+    );
+};
 
 export default connector(App);

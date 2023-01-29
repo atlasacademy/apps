@@ -18,10 +18,8 @@ const mapStateToProps = (state: RootState, props: ExternalProps) => ({
 
 type Props = ConnectedProps<typeof connector>;
 
-class BattleEventDisplay extends React.Component<Props> {
-    render() {
-        return <div>{this.props.event.description}</div>;
-    }
-}
+const BattleEventDisplay: React.FC<Props> = (props) => {
+    return <div>{props.event.description}</div>;
+};
 
 export default connector(BattleEventDisplay);
