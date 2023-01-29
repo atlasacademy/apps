@@ -5,8 +5,8 @@ import React, { useState } from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { WithTranslation, useTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import { Link } from "react-router-dom";
-import { RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router";
+import { RouteComponentProps } from "react-router";
 
 import { Bgm, Item, Quest, Region, War } from "@atlasacademy/api-connector";
 

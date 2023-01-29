@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Button, Tab, Table, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router";
 
 import { ClassName, Entity, Item, Region, Servant } from "@atlasacademy/api-connector";
 

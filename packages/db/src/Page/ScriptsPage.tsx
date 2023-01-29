@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Form, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router";
 
 import { Region, Script, War } from "@atlasacademy/api-connector";
 

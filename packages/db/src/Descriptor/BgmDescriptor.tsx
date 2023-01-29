@@ -2,7 +2,7 @@ import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { Bgm, Region } from "@atlasacademy/api-connector";
 

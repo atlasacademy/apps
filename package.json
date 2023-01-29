@@ -2,16 +2,16 @@
     "name": "root",
     "private": true,
     "devDependencies": {
-        "@trivago/prettier-plugin-sort-imports": "^3.4.0",
-        "lerna": "^3.22.1",
+        "@atlasacademy/prettier-config": "workspace:^1.0.0",
         "prettier": "^2.8.1"
     },
+    "prettier": "@atlasacademy/prettier-config",
     "scripts": {
         "format": "prettier --write packages/",
-        "watch": "lerna run watch --stream --no-sort --concurrency 99",
-        "i18n": "lerna run i18n --scope=@atlasacademy/db --stream",
-        "start:db": "lerna run start --scope=@atlasacademy/db --stream",
-        "start:db-win": "lerna run start-win --scope=@atlasacademy/db --stream",
-        "start:paper-moon": "lerna run start --scope=paper-moon --stream"
+        "watch": "pnpm --stream --parallel --filter \"./packages/api-*\" watch",
+        "i18n": "pnpm --stream --filter @atlasacademy/db i18n",
+        "start:db": "pnpm --stream --filter @atlasacademy/db start",
+        "start:db-win": "pnpm --stream --filter @atlasacademy/db start-win",
+        "start:paper-moon": "pnpm --stream --filter @atlasacademy/paper-moon start"
     }
 }

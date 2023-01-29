@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { Region, War } from "@atlasacademy/api-connector";
 

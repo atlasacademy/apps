@@ -3,7 +3,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router";
 
 import { Ai, Region } from "@atlasacademy/api-connector";
 

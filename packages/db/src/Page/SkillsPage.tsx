@@ -5,7 +5,7 @@ import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
 
 import { Region, Skill } from "@atlasacademy/api-connector";
 

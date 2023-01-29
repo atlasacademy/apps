@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { Region, Trait } from "@atlasacademy/api-connector";
 import { TraitDescriptor } from "@atlasacademy/api-descriptor";

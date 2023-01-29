@@ -9,7 +9,13 @@
         "moduleResolution": "Node",
         "outDir": "./dist",
         "resolveJsonModule": true,
-        "strict": true
+        "strict": true,
+
+        /*
+         * This should be true until issue are fixed
+         * https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1368
+         */
+        "skipLibCheck": true
     },
     "include": ["src/**/*"]
 }

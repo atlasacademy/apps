@@ -13,7 +13,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc",
         "prepare": "tsc",
-        "link": "npm run build && cd dist && npm link",
+        "link": "pnpm run build && cd dist && pnpm link",
         "watch": "tsc -w --preserveWatchOutput"
     },
     "license": "ISC",

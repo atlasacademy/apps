@@ -2,7 +2,7 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
 
 import { Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";

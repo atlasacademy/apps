@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { Container } from "react-bootstrap";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { Redirect, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { Redirect, Route, BrowserRouter as Router, Switch } from "react-router";
 
 import { Ai, Language, Region } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";

@@ -1,7 +1,7 @@
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { CraftEssence, Entity, Region } from "@atlasacademy/api-connector";
 

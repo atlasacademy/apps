@@ -1,6 +1,6 @@
 import Fuse from "fuse.js";
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router";
 
 import { CraftEssence, Region, Servant, War } from "@atlasacademy/api-connector";
 

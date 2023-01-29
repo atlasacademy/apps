@@ -3,7 +3,7 @@ import React from "react";
 import { Alert, Badge, Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router";
 
 import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";

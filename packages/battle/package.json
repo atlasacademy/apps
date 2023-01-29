@@ -11,8 +11,8 @@
     ],
     "scripts": {
         "fetch-test-data": "ts-node test-data/fetchTestData.ts",
-        "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' npm run fetch-test-data && mocha -r ts-node/register 'tests/**/*.ts'",
-        "test-win": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && npm run fetch-test-data && mocha -r ts-node/register 'tests/**/*.ts'",
+        "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' pnpm run fetch-test-data && mocha -r ts-node/register 'tests/**/*.ts'",
+        "test-win": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && pnpm run fetch-test-data && mocha -r ts-node/register 'tests/**/*.ts'",
         "build": "tsc",
         "prepare": "tsc",
         "link": "npm run build && cd dist && npm link",
@@ -20,6 +20,7 @@
     },
     "license": "ISC",
     "devDependencies": {
+        "@atlasacademy/prettier-config": "workspace:^1.0.0",
         "@types/chai": "^4.2.18",
         "@types/glob": "^7.1.3",
         "@types/mocha": "^8.2.2",
@@ -36,21 +37,6 @@
     },
     "dependencies": {
         "@atlasacademy/api-connector": "^4.0.3"
-    },
-    "prettier": {
-        "tabWidth": 4,
-        "printWidth": 120,
-        "importOrder": [
-            "<THIRD_PARTY_MODULES>",
-            "^@atlasacademy/(.*)$",
-            "^[./].*(?<!css)$",
-            "(.*).css$",
-            "^[./]"
-        ],
-        "importOrderSeparation": true,
-        "importOrderParserPlugins": [
-            "typescript"
-        ]
     },
     "publishConfig": {
         "access": "public"

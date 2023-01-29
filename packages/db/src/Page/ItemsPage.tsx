@@ -4,7 +4,7 @@ import React from "react";
 import { Col, Form, Pagination, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router";
 
 import { Item, Region } from "@atlasacademy/api-connector";
 

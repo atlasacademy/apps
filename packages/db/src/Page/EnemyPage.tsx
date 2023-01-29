@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
 
 import { Enemy, Region, Servant } from "@atlasacademy/api-connector";
 
