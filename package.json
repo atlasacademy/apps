@@ -9,6 +9,7 @@
     "scripts": {
         "format": "prettier --write packages/",
         "watch": "pnpm --stream --parallel --filter \"./packages/api-*\" watch",
+        "build": "pnpm --parallel --filter !db-og-worker build",
         "i18n": "pnpm --stream --filter @atlasacademy/db i18n",
         "start:db": "pnpm --stream --filter @atlasacademy/db start",
         "start:db-win": "pnpm --stream --filter @atlasacademy/db start-win",
