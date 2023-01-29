@@ -8,23 +8,33 @@ You can join our Discod to discuss the development. Feel free to make pull reque
 
 [![Discord server invite](https://discordapp.com/api/guilds/502554574423457812/embed.png)](https://discord.gg/TKJmuCR)
 
-## Development workflow
+# Development workflow
+
+This is not complete for now
+
+## Install pnpm
+
+if you have latest version of npm you can install with this command
 
 ```bash
-# install lerna
-npm i -g lerna
+corepack enable
+```
 
+```bash
 # clone repo
 git clone https://github.com/atlasacademy/apps.git
 
-# setup packages with local npm link
-lerna bootstrap --ci --force-local
+# go to repo
+cd apps
+
+# setup packages
+pnpm install
 
 # run typescript watchers
-npm run watch
+pnpm run watch
 
 # run dev db on another terminal
-npm run start:db
+pnpm run start:db
 # or run this command on Windows: npm run start:db-win
 
 # ... make changes
