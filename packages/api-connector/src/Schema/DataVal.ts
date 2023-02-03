@@ -123,6 +123,14 @@ interface BaseDataVal {
     DisplayActualRecoveryHpFlag?: number;
     ShiftDeckIndex?: number;
     PopValueText?: string;
+    IsLossHpPerNow?: number;
+    CopyTargetFunctionType?: number[];
+    CopyFunctionTargetPTOnly?: number;
+    IgnoreValueUp?: number;
+    ApplyValueUp?: DataValField[];
+    ActNoDamageBuff?: number;
+    ActSelectIndex?: number;
+    CopyTargetBuffType?: number[];
 }
 
 export interface DataVal extends BaseDataVal {
@@ -254,4 +262,12 @@ export enum DataValField {
     DISPLAY_ACTUAL_RECOVERY_HP_FLAG = "DisplayActualRecoveryHpFlag",
     SHIFT_DECK_INDEX = "ShiftDeckIndex",
     POP_VALUE_TEXT = "PopValueText",
+    IS_LOSS_HP_PER_NOW = "IsLossHpPerNow",
+    COPY_TARGET_FUNCTION_TYPE = "CopyTargetFunctionType",
+    COPY_FUNCTION_TARGET_PT_ONLY = "CopyFunctionTargetPTOnly",
+    IGNORE_VALUE_UP = "IgnoreValueUp",
+    APPLY_VALUE_UP = "ApplyValueUp",
+    ACT_NO_DAMAGE_BUFF = "ActNoDamageBuff",
+    ACT_SELECT_INDEX = "ActSelectIndex",
+    COPY_TARGET_BUFF_TYPE = "CopyTargetBuffType",
 }

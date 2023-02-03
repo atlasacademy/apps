@@ -113,6 +113,12 @@ export enum BuffAction {
     TURNEND_HP_REDUCE_TO_REGAIN = "turnendHpReduceToRegain",
     FUNCTION_SELFTURNSTART = "functionSelfturnstart",
     OVERWRITE_DEAD_TYPE = "overwriteDeadType",
+    ACTION_COUNT = "actionCount",
+    SHIFT_GUTS = "shiftGuts",
+    TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",
+    MASTER_SKILL_VALUE_UP = "masterSkillValueUp",
+    BUFF_CONVERT = "buffConvert",
+    SUB_FIELD_INDIVIDUALITY = "subFieldIndividuality",
 }
 
 export enum BuffLimit {
@@ -277,8 +283,16 @@ export enum BuffType {
     HP_REDUCE_TO_REGAIN = "hpReduceToRegain",
     SELFTURNSTART_FUNCTION = "selfturnstartFunction",
     OVERWRITE_DEAD_TYPE = "overwriteDeadType",
+    UP_ACTION_COUNT = "upActionCount",
+    DOWN_ACTION_COUNT = "downActionCount",
+    SHIFT_GUTS = "shiftGuts",
+    SHIFT_GUTS_RATIO = "shiftGutsRatio",
+    MASTER_SKILL_VALUE_UP = "masterSkillValueUp",
+    BUFF_CONVERT = "buffConvert",
+    SUB_FIELD_INDIVIDUALITY = "subFieldIndividuality",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
+    TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",
 }
 
 export enum ClassRelationOverwriteType {
@@ -297,7 +311,45 @@ export interface BuffRelationOverwrite {
     defSide: Record<ClassName, Record<ClassName, RelationOverwriteDetail>>;
 }
 
-export interface BuffScript {
+export enum BuffConvertType {
+    NONE = "none",
+    BUFF = "buff",
+    INDIVIDUALITY = "individuality",
+}
+
+export enum BuffConvertLimitType {
+    ALL = "all",
+    SELF = "self",
+}
+
+export interface BuffConvertScript {
+    OverwritePopupText: string[];
+}
+
+export interface BuffConvert<T> {
+    targetLimit: BuffConvertLimitType;
+    convertType: BuffConvertType;
+    targets: number[] | Trait[] | T[];
+    convertBuffs: T[];
+    script: BuffConvertScript;
+    effectId: number;
+}
+
+export interface BuffConvertNone<T> extends BuffConvert<T> {
+    convertType: BuffConvertType.NONE;
+}
+
+export interface BuffConvertIndividuality<T> extends BuffConvert<T> {
+    convertType: BuffConvertType.INDIVIDUALITY;
+    targets: Trait[];
+}
+
+export interface BuffConvertBuff<T> extends BuffConvert<T> {
+    convertType: BuffConvertType.BUFF;
+    targets: T[];
+}
+
+export interface BuffScript<T> {
     checkIndvType?: number;
     CheckOpponentBuffTypes?: BuffType[];
     relationId?: BuffRelationOverwrite;
@@ -307,6 +359,7 @@ export interface BuffScript {
     INDIVIDUALITIE_COUNT_ABOVE?: number;
     UpBuffRateBuffIndiv?: Trait[];
     HP_LOWER?: number;
+    convert?: BuffConvertIndividuality<T> | BuffConvertBuff<T> | BuffConvertNone<T>;
 }
 
 export interface BasicBuff {
@@ -314,7 +367,7 @@ export interface BasicBuff {
     name: string;
     icon?: string;
     type: BuffType;
-    script: BuffScript;
+    script: BuffScript<BasicBuff>;
     vals: Trait[];
     tvals: Trait[];
     ckSelfIndv: Trait[];
@@ -327,6 +380,7 @@ export interface BasicBuff {
 }
 
 export interface Buff extends BasicBuff {
+    script: BuffScript<Buff>;
     detail: string;
     buffGroup: number;
     maxRate: number;

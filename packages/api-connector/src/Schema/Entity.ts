@@ -182,6 +182,7 @@ export interface Entity {
     originalName: string;
     ruby: string;
     battleName: string;
+    classId: number;
     className: ClassName;
     type: EntityType;
     flag: EntityFlag;
@@ -261,6 +262,7 @@ export interface EntityBasic {
     originalOverwriteName?: string;
     type: EntityType;
     flag: EntityFlag;
+    classId: number;
     className: ClassName;
     attribute: Attribute;
     rarity: number;

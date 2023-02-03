@@ -10,6 +10,7 @@ export enum AiType {
 export enum AiActNum {
     NOMAL = "nomal",
     ANYTIME = "anytime",
+    REACTION_PLYAER_SKILL = "reactionPlyaerSkill",
     REACTION_ENEMYTURN_START = "reactionEnemyturnStart",
     REACTION_ENEMYTURN_END = "reactionEnemyturnEnd",
     REACTION_DEAD = "reactionDead",
@@ -171,6 +172,15 @@ export enum AiCond {
     COUNT_CHAIN_LOWER = "countChainLower",
     COUNT_CHAIN_EQUAL = "countChainEqual",
     CHECK_SELECT_CHAIN = "checkSelectChain",
+    COUNT_PLAYER_NP_HIGHER = "countPlayerNpHigher",
+    COUNT_PLAYER_NP_LOWER = "countPlayerNpLower",
+    COUNT_PLAYER_NP_EQUAL = "countPlayerNpEqual",
+    COUNT_PLAYER_SKILL_HIGHER = "countPlayerSkillHigher",
+    COUNT_PLAYER_SKILL_LOWER = "countPlayerSkillLower",
+    COUNT_PLAYER_SKILL_EQUAL = "countPlayerSkillEqual",
+    COUNT_PLAYER_SKILL_HIGHER_INCLUDE_MASTER_SKILL = "countPlayerSkillHigherIncludeMasterSkill",
+    COUNT_PLAYER_SKILL_LOWER_INCLUDE_MASTER_SKILL = "countPlayerSkillLowerIncludeMasterSkill",
+    COUNT_PLAYER_SKILL_EQUAL_INCLUDE_MASTER_SKILL = "countPlayerSkillEqualIncludeMasterSkill",
 }
 
 export enum AiTiming {

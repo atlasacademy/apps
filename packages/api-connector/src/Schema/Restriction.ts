@@ -15,6 +15,7 @@ export enum RestrictionType {
     FIXED_SVT_INDIVIDUALITY_POSITION_MAIN = "fixedSvtIndividualityPositionMain",
     UNIQUE_INDIVIDUALITY = "uniqueIndividuality",
     MY_SVT_OR_SUPPORT = "mySvtOrSupport",
+    DATA_LOST_BATTLE_UNIQUE_SVT = "dataLostBattleUniqueSvt",
 }
 
 export enum RestrictionRange {

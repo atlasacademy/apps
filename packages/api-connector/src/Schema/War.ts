@@ -98,6 +98,26 @@ export interface WarAdd {
     endedAt: number;
 }
 
+export enum SpotOverwriteType {
+    NONE = "none",
+    FLAG = "flag",
+    PATH_POINT_RATIO = "pathPointRatio",
+    PATH_POINT_RATIO_LIMIT = "pathPointRatioLimit",
+    NAME_PANEL_OFFSET_X = "namePanelOffsetX",
+    NAME_PANEL_OFFSET_Y = "namePanelOffsetY",
+    NAME = "name",
+}
+
+export interface SpotAdd {
+    priority: number;
+    overrideType: SpotOverwriteType;
+    targetId: number;
+    targetText: string;
+    condType: CondType;
+    condTargetId: number;
+    condNum: number;
+}
+
 export interface Spot {
     id: number;
     joinSpotIds: number[];
@@ -116,6 +136,7 @@ export interface Spot {
     nextOfsX: number;
     nextOfsY: number;
     closedMessage: string;
+    spotAdds: SpotAdd[];
     quests: Quest[];
 }
 

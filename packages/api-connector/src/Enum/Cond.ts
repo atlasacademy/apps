@@ -168,6 +168,10 @@ export enum CondType {
     NOT_QUEST_CLEAR_BEFORE_EVENT_START = "notQuestClearBeforeEventStart",
     EVENT_TUTORIAL_FLAG_ON = "eventTutorialFlagOn",
     EVENT_TUTORIAL_FLAG_OFF = "eventTutorialFlagOff",
+    EVENT_SUPER_BOSS_VALUE_EQUAL = "eventSuperBossValueEqual",
+    NOT_EVENT_SUPER_BOSS_VALUE_EQUAL = "notEventSuperBossValueEqual",
+    SUPER_BOSS_DAMAGE_ABOVE = "superBossDamageAbove",
+    SUPER_BOSS_DAMAGE_BELOW = "superBossDamageBelow",
 }
 
 export default CondType;

@@ -95,6 +95,7 @@ export enum QuestFlag {
     FORCE_DISPLAY_ENEMY_INFO = "forceDisplayEnemyInfo",
     ALLOUT_BATTLE = "alloutBattle",
     RECOLLECTION = "recollection",
+    NOT_SINGLE_SUPPORT_ONLY = "notSingleSupportOnly",
 }
 
 export interface QuestRelease {

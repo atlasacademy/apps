@@ -12,6 +12,33 @@ export enum SkillType {
     PASSIVE = "passive",
 }
 
+export enum SkillScriptCond {
+    NONE = "NONE",
+    NP_HIGHER = "NP_HIGHER",
+    NP_LOWER = "NP_LOWER",
+    STAR_HIGHER = "STAR_HIGHER",
+    STAR_LOWER = "STAR_LOWER",
+    HP_VAL_HIGHER = "HP_VAL_HIGHER",
+    HP_VAL_LOWER = "HP_VAL_LOWER",
+    HP_PER_HIGHER = "HP_PER_HIGHER",
+    HP_PER_LOWER = "HP_PER_LOWER",
+}
+
+export interface SelectAddInfoBtnCond {
+    cond: SkillScriptCond;
+    value?: number;
+}
+
+export interface SelectAddInfoButton {
+    name: string;
+    conds: SelectAddInfoBtnCond[];
+}
+
+export interface SelectAddInfo {
+    title: string;
+    button: SelectAddInfoButton[];
+}
+
 export interface SkillScript {
     NP_HIGHER?: number[];
     NP_LOWER?: number[];
@@ -23,6 +50,7 @@ export interface SkillScript {
     HP_PER_LOWER?: number[];
     additionalSkillId?: number[];
     additionalSkillActorType?: number[];
+    SelectAddInfo?: SelectAddInfo[];
 }
 
 export interface ExtraPassive {
