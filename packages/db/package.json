@@ -34,9 +34,9 @@
         "source-map-explorer": "^2.5.3"
     },
     "scripts": {
-        "start": "vite",
-        "start-win": "set CI=true && vite",
-        "build": "vite build",
+        "start": "craco start",
+        "start-win": "set CI=true && craco start",
+        "build": "craco build",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
         "i18n": "i18next 'src/**/*.{tsx,ts}'"
     },
@@ -60,6 +60,8 @@
         ]
     },
     "devDependencies": {
+        "@craco/craco": "^7.0.0",
+        "@craco/types": "^7.0.0",
         "@types/cytoscape": "^3.19.9",
         "@types/cytoscape-klay": "^3.1.0",
         "@types/node": "^18.11.18",
@@ -70,12 +72,7 @@
         "@types/react-router": "npm:@types/react-router-dom@^5.3.3",
         "@types/react-router-dom": "^5.3.3",
         "@types/webpack": "^5.28.0",
-        "@vitejs/plugin-legacy": "^3.0.2",
-        "@vitejs/plugin-react-swc": "^3.0.1",
-        "typescript": "^4.9.4",
-        "vite": "^4.0.4",
-        "vite-plugin-commonjs": "^0.6.1",
-        "vite-plugin-svgr": "^2.4.0",
-        "vite-tsconfig-paths": "^4.0.5"
+        "craco-esbuild": "^0.5.2",
+        "typescript": "^4.9.4"
     }
 }
