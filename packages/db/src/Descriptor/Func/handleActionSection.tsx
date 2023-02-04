@@ -1,4 +1,4 @@
-import { Buff, DataVal, Func, Region, Trait } from "@atlasacademy/api-connector";
+import { Buff, DataVal, Func, Region } from "@atlasacademy/api-connector";
 
 import BuffDescription from "../BuffDescription";
 import TraitDescription from "../TraitDescription";

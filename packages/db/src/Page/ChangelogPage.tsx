@@ -70,7 +70,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
                         let title = "",
                             content: Renderable[] = [],
                             path = "";
-                        let key = changeEntry[0] as keyof typeof change["changes"];
+                        let key = changeEntry[0] as keyof (typeof change)["changes"];
                         switch (key) {
                             case "svt":
                                 title = t("Servant");

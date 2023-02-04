@@ -184,7 +184,12 @@ async function handleDBEvent(event: Event, env: Env) {
         return overwrite(responseDetail, title);
     }
 
-    const language = ["JP", "TW", "CN"].includes(event.request.cf?.country ?? "") ? "jp" : "en";
+    const language =
+        event.request.cf !== undefined &&
+        "country" in event.request.cf &&
+        ["JP", "TW", "CN"].includes(event.request.cf.country)
+            ? "jp"
+            : "en";
 
     const itemPage = itemPageTitles.get(subpage);
     if (itemPage !== undefined) {
