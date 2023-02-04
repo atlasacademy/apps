@@ -140,6 +140,8 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.DOWN_NPTURNVAL, "Reduce NP Gauge Gained Per Turn"],
     [Buff.BuffType.HP_REDUCE_TO_REGAIN, "Convert HP Loss to HP Gain"],
     [Buff.BuffType.BUFF_CONVERT, "Convert Buff"],
+    [Buff.BuffType.SHIFT_GUTS, "Guts on Break"],
+    [Buff.BuffType.SHIFT_GUTS_RATIO, "Guts on Break"],
 ]);
 
 export interface BuffTriggerType {
