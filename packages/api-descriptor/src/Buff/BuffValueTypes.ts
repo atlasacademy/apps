@@ -72,6 +72,7 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.UP_FUNCGAIN_NP, { value: DataValField.VALUE, power: 1 }],
     [Buff.BuffType.DOWN_FUNCGAIN_NP, { value: DataValField.VALUE, power: 1 }],
     [Buff.BuffType.HP_REDUCE_TO_REGAIN, { value: DataValField.VALUE, power: 1 }],
+    [Buff.BuffType.MASTER_SKILL_VALUE_UP, { value: DataValField.VALUE, power: 1 }],
 
     // NP
     [Buff.BuffType.REGAIN_NP, { value: DataValField.VALUE, power: 2 }],

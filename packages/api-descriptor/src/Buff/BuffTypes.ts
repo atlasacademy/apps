@@ -74,6 +74,10 @@ export const upDownBuffs: UpDownBuffType[] = [
         down: Buff.BuffType.DOWN_FUNCGAIN_NP,
         description: "Received NP Battery Amount",
     },
+    {
+        up: Buff.BuffType.MASTER_SKILL_VALUE_UP,
+        description: "Master Skill Effectiveness",
+    },
 ];
 
 export const buffTraitDescriptions = new Map<number, { name: string; priority: number }>([
@@ -109,7 +113,8 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.DONOT_SELECT_COMMANDCARD, "Do Not Shuffle In Cards"],
     [Buff.BuffType.DONOT_SKILL, "Skill Seal"],
     [Buff.BuffType.DONOT_SKILL_SELECT, "Skill Seal"],
-    [Buff.BuffType.FIELD_INDIVIDUALITY, "Change Field Type"],
+    [Buff.BuffType.FIELD_INDIVIDUALITY, "Add Field Trait"],
+    [Buff.BuffType.SUB_FIELD_INDIVIDUALITY, "Remove Field Trait"],
     [Buff.BuffType.FIX_COMMANDCARD, "Freeze Command Cards"],
     [Buff.BuffType.GUTS, "Guts"],
     [Buff.BuffType.GUTS_FUNCTION, "Trigger Skill on Guts"],
@@ -134,6 +139,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.UP_NPTURNVAL, "Increase NP Gauge Gained Per Turn"],
     [Buff.BuffType.DOWN_NPTURNVAL, "Reduce NP Gauge Gained Per Turn"],
     [Buff.BuffType.HP_REDUCE_TO_REGAIN, "Convert HP Loss to HP Gain"],
+    [Buff.BuffType.BUFF_CONVERT, "Convert Buff"],
 ]);
 
 export interface BuffTriggerType {

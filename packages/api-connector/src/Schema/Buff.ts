@@ -328,8 +328,6 @@ export interface BuffConvertScript {
 
 export interface BuffConvert<T> {
     targetLimit: BuffConvertLimitType;
-    convertType: BuffConvertType;
-    targets: number[] | Trait[] | T[];
     convertBuffs: T[];
     script: BuffConvertScript;
     effectId: number;
@@ -337,6 +335,7 @@ export interface BuffConvert<T> {
 
 export interface BuffConvertNone<T> extends BuffConvert<T> {
     convertType: BuffConvertType.NONE;
+    targets: never[];
 }
 
 export interface BuffConvertIndividuality<T> extends BuffConvert<T> {
@@ -359,6 +358,16 @@ export interface BuffScript<T> {
     INDIVIDUALITIE_COUNT_ABOVE?: number;
     UpBuffRateBuffIndiv?: Trait[];
     HP_LOWER?: number;
+    HP_HIGHER?: number;
+    CounterMessage?: string;
+    avoidanceText?: string;
+    gutsText?: string;
+    missText?: string;
+    AppId?: number;
+    IncludeIgnoreIndividuality?: number;
+    ProgressSelfTurn?: number;
+    TargetIndiv?: Trait;
+    extendLowerLimit?: number;
     convert?: BuffConvertIndividuality<T> | BuffConvertBuff<T> | BuffConvertNone<T>;
 }
 

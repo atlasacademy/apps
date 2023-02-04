@@ -1,4 +1,4 @@
-import { Buff, DataVal, Func, Region } from "@atlasacademy/api-connector";
+import { Buff, DataVal, Func, Region, Trait } from "@atlasacademy/api-connector";
 
 import BuffDescription from "../BuffDescription";
 import TraitDescription from "../TraitDescription";
@@ -72,7 +72,8 @@ function handleBuffActionSection(
     dataVal: DataVal.DataVal
 ): void {
     const section = sections.action,
-        parts = section.parts;
+        parts = section.parts,
+        buff = func.buffs[0];
 
     parts.push("Apply");
     func.buffs.forEach((buff, index) => {
@@ -102,6 +103,39 @@ function handleBuffActionSection(
         func.buffs[0]?.type === Buff.BuffType.COUNTER_FUNCTION
     ) {
         sections.target.preposition = "for";
+    }
+
+    if (buff.type === Buff.BuffType.BUFF_CONVERT) {
+        const convert = buff.script.convert;
+        if (convert !== undefined) {
+            const convertLength = convert.convertBuffs.length;
+            parts.push("from");
+            for (let i = 0; i < convertLength; i++) {
+                switch (convert.convertType) {
+                    case Buff.BuffConvertType.NONE:
+                        parts.push("all bufss");
+                        break;
+                    case Buff.BuffConvertType.INDIVIDUALITY:
+                        parts.push(
+                            <TraitDescription
+                                region={region}
+                                trait={convert.targets[i]}
+                                owner="buffs"
+                                ownerParameter="vals"
+                            />
+                        );
+                        break;
+                    case Buff.BuffConvertType.BUFF:
+                        parts.push(<BuffDescription region={region} buff={convert.targets[i]} />);
+                        break;
+                }
+                parts.push("to");
+                parts.push(<BuffDescription region={region} buff={convert.convertBuffs[i]} />);
+                if (convertLength > 1 && i < convertLength - 1) {
+                    parts.push(",");
+                }
+            }
+        }
     }
 }
 

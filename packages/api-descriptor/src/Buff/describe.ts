@@ -102,22 +102,25 @@ export default function (buff: Buff.BasicBuff): Descriptor {
                 : "";
         if (buff.script.INDIVIDUALITIE.negative) {
             const positiveBuff = { ...buff.script.INDIVIDUALITIE, negative: false };
-            partials.push(new TextPartial(` while owner does not have ${tieCount} `));
+            partials.push(new TextPartial(` while owner does not have ${tieCount}`));
             partials.push(...traitReferences([positiveBuff]));
         } else {
-            partials.push(new TextPartial(` while owner has ${tieCount} `));
+            partials.push(new TextPartial(` while owner has ${tieCount}`));
             partials.push(...traitReferences([buff.script.INDIVIDUALITIE]));
         }
+    }
+
+    if (buff.script.HP_HIGHER !== undefined) {
+        partials.push(new TextPartial(` if HP ≥ ${buff.script.HP_HIGHER / 10}%`));
+    }
+
+    if (buff.script.HP_LOWER !== undefined) {
+        partials.push(new TextPartial(` if HP ≤ ${buff.script.HP_LOWER / 10}%`));
     }
 
     if (buff.type === Buff.BuffType.BUFF_RATE && buff.script.UpBuffRateBuffIndiv !== undefined) {
         partials.push(new TextPartial(" for "));
         partials.push(...traitReferences(buff.script.UpBuffRateBuffIndiv, 0));
-    }
-
-    if (buff.script.HP_LOWER !== undefined) {
-        partials.push(new TextPartial(" if HP is below "));
-        partials.push(new ValuePartial(ValueType.PERCENT, buff.script.HP_LOWER / 10));
     }
 
     return new Descriptor(partials);

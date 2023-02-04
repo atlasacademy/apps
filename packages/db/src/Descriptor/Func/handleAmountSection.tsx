@@ -31,6 +31,10 @@ export default function handleAmountSection(
         typeof dataVal.Value === "number"
     ) {
         parts.push(<TraitDescription region={region} trait={dataVal.Value} />);
+    } else if (func.buffs[0]?.type === Buff.BuffType.SUB_FIELD_INDIVIDUALITY && dataVal.TargetList) {
+        for (const traitId of dataVal.TargetList) {
+            parts.push(<TraitDescription region={region} trait={traitId} />);
+        }
     } else if (
         (func.buffs[0]?.type === Buff.BuffType.ATTACK_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION ||

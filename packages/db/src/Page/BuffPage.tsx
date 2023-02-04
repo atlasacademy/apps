@@ -159,6 +159,15 @@ class BuffPage extends React.Component<IProps, IState> {
                                 </div>
                             ),
                         },
+                        {
+                            label: t("Script"),
+                            value: (
+                                <div style={{ whiteSpace: "pre-wrap", textAlign: "left" }}>
+                                    {JSON.stringify(buff.script, undefined, 2)}
+                                </div>
+                            ),
+                            hidden: Object.keys(buff.script).length === 0,
+                        },
                     ]}
                 />
                 <div style={{ marginBottom: "3%" }}>

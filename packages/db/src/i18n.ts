@@ -44,3 +44,5 @@ i18n.use(initReactI18next)
     });
 
 export default i18n;
+
+export const t = i18n.t;
