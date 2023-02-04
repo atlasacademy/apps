@@ -9,6 +9,6 @@ export default defineConfig({
   plugins: [reactSwc(), viteTsconfigPaths(), svgrPlugin()],
   build: {
     outDir: './build',
-    emptyOutDir : true
+    emptyOutDir : true,
   }
 });
