@@ -308,10 +308,15 @@ const Spot = (props: {
 
     if (filteredQuest.length === 0) return null;
 
+    const spotNameChanges = spot.spotAdds
+        .filter((spotAdd) => spotAdd.overrideType === War.SpotOverwriteType.NAME)
+        .map((spotAdd) => `/ ${spotAdd.targetText}`)
+        .join("");
+
     const title = (
         <span lang={lang(props.region)}>
             <SpotImage src={spot.image} name={spot.name} height="1.5em" />
-            {spot.name}
+            {spot.name} {spotNameChanges}
         </span>
     );
 
