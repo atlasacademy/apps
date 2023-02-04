@@ -74,7 +74,11 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
                     </tr>
                 ) : null}
                 {this.props.scripts ? (
-                    <ScriptBreakdown region={this.props.region} scripts={this.props.scripts} />
+                    <ScriptBreakdown
+                        region={this.props.region}
+                        scripts={this.props.scripts}
+                        levels={this.props.level}
+                    />
                 ) : null}
                 {this.props.gain ? (
                     <tr>

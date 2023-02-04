@@ -11,6 +11,7 @@ export class FuncDescriptorSection {
 }
 
 export class FuncDescriptorSections {
+    public option = new FuncDescriptorSection();
     public team = new FuncDescriptorSection();
     public condition = new FuncDescriptorSection();
     public chance = new FuncDescriptorSection();

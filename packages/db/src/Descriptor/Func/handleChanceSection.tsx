@@ -21,7 +21,8 @@ export default function handleChanceSection(
     }
 
     if (dataVal.Rate && dataVal.Rate < 0) {
-        parts.push(`If previous function succeeds, ${-dataVal.Rate / 10}% Chance to`);
+        const firstPart = dataVal.TriggeredFuncPosition !== undefined ? " and if " : "If";
+        parts.push(`${firstPart} previous function succeeds, ${-dataVal.Rate / 10}% Chance to`);
     } else if (typeof dataVal.Rate === "number" && dataVal.Rate !== 1000) {
         parts.push(dataVal.Rate / 10 + "% Chance to");
     } else if (

@@ -36,7 +36,7 @@ export interface SelectAddInfoButton {
 
 export interface SelectAddInfo {
     title: string;
-    button: SelectAddInfoButton[];
+    btn: SelectAddInfoButton[];
 }
 
 export interface SkillScript {

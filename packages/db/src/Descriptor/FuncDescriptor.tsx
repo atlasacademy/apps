@@ -25,6 +25,7 @@ import handleConditionSection from "./Func/handleConditionSection";
 import handleDurationSection from "./Func/handleDurationSection";
 import handleLinkageSection from "./Func/handleLinkageSection";
 import handleOnFieldSection from "./Func/handleOnFieldSection";
+import handleOptionSection from "./Func/handleOptionSection";
 import handleScalingSection from "./Func/handleScalingSection";
 import handleTargetSection from "./Func/handleTargetSection";
 import handleTeamSection from "./Func/handleTeamSection";
@@ -98,6 +99,7 @@ class FuncDescriptor extends React.Component<IProps, IState> {
 
         const sections = new FuncDescriptorSections();
 
+        handleOptionSection(region, sections, func, dataVal);
         handleTeamSection(region, sections, func, dataVal);
         handleConditionSection(region, sections, func, dataVal);
         handleChanceSection(region, sections, func, dataVal);
