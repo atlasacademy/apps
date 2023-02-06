@@ -33,8 +33,12 @@ npx lerna bootstrap --ci
 cd packages/db && npm run build
 cd ../../ && cp -r packages/db/build/ app/db
 
-cd packages/paper-moon && npm run build
-cd ../../ && cp -r packages/paper-moon/build/ app/paper-moon
+# Don't build paper-moon since it's currently being developed
+# cd packages/paper-moon && npm run build
+# cd ../../ && cp -r packages/paper-moon/build/ app/paper-moon
+mkdir -p app/paper-moon
+curl -L -o src/paper-moon.tar.gz https://github.com/atlasacademy/apps/archive/paper-moon-build.tar.gz
+tar -C app/paper-moon --strip-components=1 -zxvf src/paper-moon.tar.gz apps-paper-moon-build
 
 cp build/index.html app/index.html
 cp build/_redirects app/_redirects
