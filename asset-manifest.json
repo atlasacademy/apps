@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/paper-moon/static/css/main.c6ecf002.css",
+    "main.js": "/paper-moon/static/js/main.f5436791.js",
+    "index.html": "/paper-moon/index.html",
+    "main.c6ecf002.css.map": "/paper-moon/static/css/main.c6ecf002.css.map",
+    "main.f5436791.js.map": "/paper-moon/static/js/main.f5436791.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c6ecf002.css",
+    "static/js/main.f5436791.js"
+  ]
+}
