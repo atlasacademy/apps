@@ -7,7 +7,7 @@ import { Region } from "@atlasacademy/api-connector";
 import { BgmEntity } from "@atlasacademy/api-connector/dist/Schema/Bgm";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -119,10 +119,10 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                         value: (
                             <Row>
                                 <Col>
-                                    <RawDataViewer text="Nice" data={bgm} />
+                                    <RawDataViewer text="Nice" data={bgm} url={Api.getUrl("nice", "bgm", bgmId)} />
                                 </Col>
                                 <Col>
-                                    <RawDataViewer text="Raw" data={`${Host}/raw/${props.region}/bgm/${bgm.id}`} />
+                                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "bgm", bgmId)} />
                                 </Col>
                             </Row>
                         ),

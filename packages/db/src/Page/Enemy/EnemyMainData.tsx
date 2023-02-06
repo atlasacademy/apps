@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import { Enemy, Region } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import { Host } from "../../Api";
+import Api from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
@@ -65,12 +65,22 @@ class EnemyMainData extends React.Component<IProps> {
                                     <span>
                                         <Row>
                                             <Col>
-                                                <RawDataViewer text="Nice" data={enemy} />
+                                                <RawDataViewer
+                                                    text="Nice"
+                                                    data={enemy}
+                                                    url={Api.getUrl("nice", "servant", enemy.id, {
+                                                        expand: true,
+                                                        lore: true,
+                                                    })}
+                                                />
                                             </Col>
                                             <Col>
                                                 <RawDataViewer
                                                     text="Raw"
-                                                    data={`${Host}/raw/${this.props.region}/servant/${enemy.id}?expand=true&lore=true`}
+                                                    data={Api.getUrl("raw", "servant", enemy.id, {
+                                                        expand: true,
+                                                        lore: true,
+                                                    })}
                                                 />
                                             </Col>
                                         </Row>

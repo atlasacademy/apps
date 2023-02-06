@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Func, Region } from "@atlasacademy/api-connector";
 
-import { Host } from "../../Api";
+import Api from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import BuffDescription from "../../Descriptor/BuffDescription";
@@ -89,11 +89,12 @@ class FuncMainData extends React.Component<IProps> {
                     ]}
                 />
                 <div style={{ marginBottom: "3%" }}>
-                    <RawDataViewer text="Nice" data={func} />
                     <RawDataViewer
-                        text="Raw"
-                        data={`${Host}/raw/${this.props.region}/function/${func.funcId}?expand=true`}
+                        text="Nice"
+                        data={func}
+                        url={Api.getUrl("nice", "function", func.funcId, { expand: true })}
                     />
+                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "function", func.funcId, { expand: true })} />
                 </div>
             </>
         );

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { NoblePhantasm, Quest, Region, Skill } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
@@ -279,8 +279,12 @@ class SkillPage extends React.Component<IProps, IState> {
                     ]}
                 />
                 <span>
-                    <RawDataViewer text="Nice" data={skill} />
-                    <RawDataViewer text="Raw" data={`${Host}/raw/${this.props.region}/skill/${skill.id}?expand=true`} />
+                    <RawDataViewer
+                        text="Nice"
+                        data={skill}
+                        url={Api.getUrl("nice", "skill", this.props.id, { expand: true })}
+                    />
+                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "skill", this.props.id, { expand: true })} />
                 </span>
 
                 <br />

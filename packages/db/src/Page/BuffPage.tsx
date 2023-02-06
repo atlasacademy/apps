@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { Buff, Region } from "@atlasacademy/api-connector";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import BuffClassRelationOverwrite from "../Component/BuffClassRelationOverwrite";
 import BuffIcon from "../Component/BuffIcon";
 import DataTable from "../Component/DataTable";
@@ -171,8 +171,8 @@ class BuffPage extends React.Component<IProps, IState> {
                     ]}
                 />
                 <div style={{ marginBottom: "3%" }}>
-                    <RawDataViewer text="Nice" data={buff} />
-                    <RawDataViewer text="Raw" data={`${Host}/raw/${this.props.region}/buff/${buff.id}`} />
+                    <RawDataViewer text="Nice" data={buff} url={Api.getUrl("nice", "buff", this.props.id)} />
+                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "buff", this.props.id)} />
                 </div>
 
                 {buff.script.relationId !== undefined ? (

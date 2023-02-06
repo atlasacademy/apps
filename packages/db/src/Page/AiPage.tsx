@@ -7,7 +7,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 
 import { Ai, Region } from "@atlasacademy/api-connector";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -78,11 +78,9 @@ class AiPage extends React.Component<IProps, IState> {
 
         if (this.state.loading || !this.state.aiCollection) return <Loading />;
 
-        const t = this.props.t;
+        const { t, aiType, id } = this.props;
         const aiCollection = this.state.aiCollection;
         const mainAi = aiCollection.mainAis[0];
-
-        const rawUrl = `${Host}/raw/${this.props.region}/ai/${this.props.aiType}/${this.props.id}`;
 
         const scrollToAiId = (id: number) => {
             let elementRef = this.state.refs.get(id);
@@ -124,10 +122,14 @@ class AiPage extends React.Component<IProps, IState> {
                             value: (
                                 <Row>
                                     <Col>
-                                        <RawDataViewer text="Nice" data={this.state.aiCollection} />
+                                        <RawDataViewer
+                                            text="Nice"
+                                            data={this.state.aiCollection}
+                                            url={Api.getUrl("nice", "ai", `${aiType}/${id}`)}
+                                        />
                                     </Col>
                                     <Col>
-                                        <RawDataViewer text="Raw" data={rawUrl} />
+                                        <RawDataViewer text="Raw" data={Api.getUrl("raw", "ai", `${aiType}/${id}`)} />
                                     </Col>
                                 </Row>
                             ),

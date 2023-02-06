@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Entity, NoblePhantasm, Quest, Region } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -180,11 +180,12 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                     ]}
                 />
                 <span>
-                    <RawDataViewer text="Nice" data={noblePhantasm} />
                     <RawDataViewer
-                        text="Raw"
-                        data={`${Host}/raw/${this.props.region}/NP/${noblePhantasm.id}?expand=true`}
+                        text="Nice"
+                        data={noblePhantasm}
+                        url={Api.getUrl("nice", "NP", this.props.id, { expand: true })}
                     />
+                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "NP", this.props.id, { expand: true })} />
                 </span>
 
                 <br />

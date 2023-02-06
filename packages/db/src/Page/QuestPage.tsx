@@ -8,7 +8,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import ClassIcon from "../Component/ClassIcon";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
@@ -257,13 +257,16 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                     value: (
                         <Row>
                             <Col>
-                                <RawDataViewer key={`${region}-${quest.id}-${quest.phase}`} text="Nice" data={quest} />
+                                <RawDataViewer
+                                    text="Nice"
+                                    data={quest}
+                                    url={Api.getUrl("nice", "quest", `${quest.id}/${quest.phase}`)}
+                                />
                             </Col>
                             <Col>
                                 <RawDataViewer
-                                    key={`${region}-${quest.id}-${quest.phase}`}
                                     text="Raw"
-                                    data={`${Host}/raw/${region}/quest/${quest.id}/${quest.phase}`}
+                                    data={Api.getUrl("raw", "quest", `${quest.id}/${quest.phase}`)}
                                 />
                             </Col>
                         </Row>

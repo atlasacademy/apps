@@ -8,7 +8,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 
 import { ClassName, Entity, Item, Region, Servant } from "@atlasacademy/api-connector";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import FaceIcon from "../Component/FaceIcon";
@@ -537,8 +537,8 @@ class ItemPage extends React.Component<IProps, IState> {
                 />
 
                 <div style={{ marginBottom: "3%" }}>
-                    <RawDataViewer text="Nice" data={item} />
-                    <RawDataViewer text="Raw" data={`${Host}/raw/${this.props.region}/item/${item.id}`} />
+                    <RawDataViewer text="Nice" data={item} url={Api.getUrl("nice", "item", this.props.id)} />
+                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "item", this.props.id)} />
                 </div>
 
                 {itemIsMaterial(item) ? (

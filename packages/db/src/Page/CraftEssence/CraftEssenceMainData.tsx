@@ -3,7 +3,7 @@ import { WithTranslation, withTranslation } from "react-i18next";
 
 import { CraftEssence, Region } from "@atlasacademy/api-connector";
 
-import { Host } from "../../Api";
+import Api from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import EntityReferenceDescriptor from "../../Descriptor/EntityReferenceDescriptor";
@@ -86,10 +86,14 @@ class CraftEssenceMainData extends React.Component<IProps> {
 
                 <DataTable data={craftEssenceData} />
                 <span>
-                    <RawDataViewer text="Nice" data={craftEssence} />
+                    <RawDataViewer
+                        text="Nice"
+                        data={craftEssence}
+                        url={Api.getUrl("nice", "equip", craftEssence.id, { expand: true, lore: true })}
+                    />
                     <RawDataViewer
                         text="Raw"
-                        data={`${Host}/raw/${this.props.region}/equip/${craftEssence.id}?expand=true&lore=true`}
+                        data={Api.getUrl("raw", "equip", craftEssence.id, { expand: true, lore: true })}
                     />
                 </span>
             </div>

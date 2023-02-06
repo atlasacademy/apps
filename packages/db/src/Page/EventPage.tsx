@@ -7,7 +7,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { EnumList, Event, Item, Mission, Quest, Region, Servant, War } from "@atlasacademy/api-connector";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -535,12 +535,16 @@ class EventPage extends React.Component<IProps, IState> {
                                 value: (
                                     <Row>
                                         <Col>
-                                            <RawDataViewer text="Nice" data={event} />
+                                            <RawDataViewer
+                                                text="Nice"
+                                                data={event}
+                                                url={Api.getUrl("nice", "event", this.props.eventId)}
+                                            />
                                         </Col>
                                         <Col>
                                             <RawDataViewer
                                                 text="Raw"
-                                                data={`${Host}/raw/${this.props.region}/event/${event.id}`}
+                                                data={Api.getUrl("raw", "event", this.props.eventId)}
                                             />
                                         </Col>
                                     </Row>

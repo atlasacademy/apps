@@ -10,7 +10,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { Bgm, Item, Quest, Region, War } from "@atlasacademy/api-connector";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -590,12 +590,16 @@ class WarPage extends React.Component<IProps, IState> {
                                 value: (
                                     <Row>
                                         <Col>
-                                            <RawDataViewer text="Nice" data={war} />
+                                            <RawDataViewer
+                                                text="Nice"
+                                                data={war}
+                                                url={Api.getUrl("nice", "war", this.props.warId)}
+                                            />
                                         </Col>
                                         <Col>
                                             <RawDataViewer
                                                 text="Raw"
-                                                data={`${Host}/raw/${this.props.region}/war/${war.id}`}
+                                                data={Api.getUrl("raw", "war", this.props.warId)}
                                             />
                                         </Col>
                                     </Row>

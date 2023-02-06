@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import { EnumList, Item, MasterMission, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -107,13 +107,14 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
                             value: (
                                 <Row>
                                     <Col>
-                                        <RawDataViewer text="Nice" data={masterMission} />
+                                        <RawDataViewer
+                                            text="Nice"
+                                            data={masterMission}
+                                            url={Api.getUrl("nice", "mm", masterMissionId)}
+                                        />
                                     </Col>
                                     <Col>
-                                        <RawDataViewer
-                                            text="Raw"
-                                            data={`${Host}/raw/${region}/mm/${masterMissionId}`}
-                                        />
+                                        <RawDataViewer text="Raw" data={Api.getUrl("raw", "mm", masterMissionId)} />
                                     </Col>
                                 </Row>
                             ),

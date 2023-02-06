@@ -72,6 +72,8 @@ export type ReverseOptions = {
     reverseDepth?: ReverseDepth;
 };
 
+export type DataType = "raw" | "nice" | "basic";
+
 export interface EnumList {
     NiceSvtType: { [key: string]: EntityType };
     NiceSvtFlag: { [key: string]: EntityFlag };
@@ -246,10 +248,18 @@ class ApiConnector {
         return this.region === Region.JP && this.language === Language.ENGLISH;
     }
 
+    getPath(dataType: DataType, entity: string, id: string | number, query: QueryOptions): string {
+        return `/${dataType}/${this.region}/${entity}/${id}${this.getQueryString(this.getURLSearchParams(query))}`;
+    }
+
+    getUrl(dataType: DataType, entity: string, id: string | number, query: QueryOptions): string {
+        return this.host + this.getPath(dataType, entity, id, query);
+    }
+
     buff(id: number, reverse?: ReverseOptions, cacheDuration?: number): Promise<Buff> {
-        const query = this.getQueryString(this.getReverseParams(reverse));
+        const url = this.getUrl("nice", "buff", id, reverse ?? {});
         const fetch = () => {
-            return ApiConnector.fetch<Buff>(`${this.host}/nice/${this.region}/buff/${id}${query}`);
+            return ApiConnector.fetch<Buff>(url);
         };
 
         if (cacheDuration === undefined) return fetch();

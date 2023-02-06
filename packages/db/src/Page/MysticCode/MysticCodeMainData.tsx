@@ -3,7 +3,7 @@ import { WithTranslation, withTranslation } from "react-i18next";
 
 import { MysticCode, Region } from "@atlasacademy/api-connector";
 
-import { Host } from "../../Api";
+import Api from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import { lang } from "../../Setting/Manager";
@@ -43,11 +43,12 @@ class MysticCodeMainData extends React.Component<IProps> {
                     ]}
                 />
                 <span>
-                    <RawDataViewer text="Nice" data={mysticCode} />
                     <RawDataViewer
-                        text="Raw"
-                        data={`${Host}/raw/${this.props.region}/MC/${mysticCode.id}?expand=true`}
+                        text="Nice"
+                        data={mysticCode}
+                        url={Api.getUrl("nice", "MC", mysticCode.id, { expand: true })}
                     />
+                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "MC", mysticCode.id, { expand: true })} />
                 </span>
             </div>
         );

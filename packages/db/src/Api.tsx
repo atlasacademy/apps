@@ -1,6 +1,7 @@
 import {
     Ai,
     ApiConnector,
+    DataType,
     Attribute,
     Bgm,
     Buff,
@@ -373,6 +374,15 @@ class Api {
         limit?: number
     ): Promise<Script.ScriptSearchResult[]> {
         return apiConnector.searchScript({ query, scriptFileName, warId, limit });
+    }
+
+    static getUrl(
+        dataType: DataType,
+        entity: string,
+        id: string | number,
+        query?: Record<string, string | string[] | number | number[] | boolean | undefined>
+    ): string {
+        return apiConnector.getUrl(dataType, entity, id, query ?? {});
     }
 }
 

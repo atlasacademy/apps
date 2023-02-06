@@ -7,7 +7,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { Entity, Region, Servant } from "@atlasacademy/api-connector";
 
-import Api, { Host } from "../Api";
+import Api from "../Api";
 import NoblePhantasmBreakdown from "../Breakdown/NoblePhantasmBreakdown";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import SkillReferenceBreakdown from "../Breakdown/SkillReferenceBreakdown";
@@ -162,8 +162,6 @@ class ServantPage extends React.Component<IProps, IState> {
             }
         }
 
-        const rawUrl = `${Host}/raw/${this.props.region}/servant/${servant.id}?expand=true&lore=true`;
-
         return (
             <div id={"servant"}>
                 <ServantPicker region={this.props.region} servants={this.state.servants} id={servant.collectionNo} />
@@ -193,10 +191,17 @@ class ServantPage extends React.Component<IProps, IState> {
                         />
                         <Row>
                             <Col>
-                                <RawDataViewer text="Nice" data={servant} />
+                                <RawDataViewer
+                                    text="Nice"
+                                    data={servant}
+                                    url={Api.getUrl("raw", "servant", this.props.id, { lore: true, expand: true })}
+                                />
                             </Col>
                             <Col>
-                                <RawDataViewer text="Raw" data={rawUrl} />
+                                <RawDataViewer
+                                    text="Raw"
+                                    data={Api.getUrl("raw", "servant", this.props.id, { lore: true, expand: true })}
+                                />
                             </Col>
                         </Row>
                     </Col>

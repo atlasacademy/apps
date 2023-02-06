@@ -1,4 +1,4 @@
-import { faSearchPlus } from "@fortawesome/free-solid-svg-icons";
+import { faSearchPlus, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactJson, { OnCopyProps, ThemeKeys } from "@microlink/react-json-view";
 import axios from "axios";
@@ -13,6 +13,7 @@ interface IProps {
     data: object | string;
     text?: string;
     block?: boolean;
+    url?: string;
 }
 
 interface IState {
@@ -80,6 +81,18 @@ class RawDataViewer extends React.Component<IProps, IState> {
                 <Modal size={"lg"} show={this.state.showing} onHide={() => this.hide()}>
                     <Modal.Header closeButton>
                         <Modal.Title>Raw Data Viewer</Modal.Title>
+                        {typeof this.props.data === "string" || this.props.url !== undefined ? (
+                            <Button
+                                as="a"
+                                href={typeof this.props.data === "string" ? this.props.data : this.props.url}
+                                variant="info"
+                                target="_blank"
+                                className="ml-2"
+                                title="Open Raw Data in New Tab"
+                            >
+                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} title="Open Raw Data in New Tab" />
+                            </Button>
+                        ) : null}
                     </Modal.Header>
                     <Modal.Body lang="en-US">
                         {this.state.data ? (

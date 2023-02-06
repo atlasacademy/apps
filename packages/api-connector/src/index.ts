@@ -35,7 +35,7 @@ import * as Skill from "./Schema/Skill";
 import * as SupportServant from "./Schema/SupportServant";
 import * as Trait from "./Schema/Trait";
 import * as War from "./Schema/War";
-import ApiConnector, { EnumList, ReverseData, ReverseDepth } from "./ApiConnector";
+import ApiConnector, { DataType, EnumList, ReverseData, ReverseDepth } from "./ApiConnector";
 import Card from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
 import CondType from "./Enum/Cond";
@@ -47,6 +47,7 @@ import { ProfileVoiceType } from "./Schema/Profile";
 
 export {
     ApiConnector,
+    DataType,
     ReverseDepth,
     ReverseData,
     EnumList,

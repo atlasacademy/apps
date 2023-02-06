@@ -3,7 +3,7 @@ import { WithTranslation, withTranslation } from "react-i18next";
 
 import { CommandCode, Region } from "@atlasacademy/api-connector";
 
-import { Host } from "../../Api";
+import Api from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
@@ -71,11 +71,12 @@ class CommandCodeMainData extends React.Component<IProps> {
                     ]}
                 />
                 <span>
-                    <RawDataViewer text="Nice" data={commandCode} />
                     <RawDataViewer
-                        text="Raw"
-                        data={`${Host}/raw/${this.props.region}/CC/${commandCode.id}?expand=true`}
+                        text="Nice"
+                        data={commandCode}
+                        url={Api.getUrl("nice", "CC", commandCode.id, { expand: true })}
                     />
+                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "CC", commandCode.id, { expand: true })} />
                 </span>
             </div>
         );
