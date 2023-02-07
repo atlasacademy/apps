@@ -1,7 +1,10 @@
 import { Region, Restriction } from "@atlasacademy/api-connector";
 
 import { listNumber } from "../Helper/ArrayHelper";
+import { mergeElements } from "../Helper/OutputHelper";
 import { ordinalNumeral } from "../Helper/StringHelper";
+import EntityDescriptor from "./EntityDescriptor";
+import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import EventAllOutDescription from "./EventAllOutDescription";
 import { MergeElementsOr, MultipleTraits } from "./MultipleDescriptors";
 import ServantDescriptorId from "./ServantDescriptorId";
@@ -103,8 +106,19 @@ const RestrictionDescription = ({ region, restriction }: { region: Region; restr
         case Restriction.RestrictionType.MY_SVT_OR_NPC:
             return (
                 <>
-                    Player's own or NPC Support <ServantDescriptorId region={region} id={targetVals[0]} /> Ascension{" "}
-                    {targetVals2[0]} must be used
+                    Player's own or NPC Support <ServantDescriptorId region={region} id={targetVals[0]} /> must be used
+                    at position {targetVals2[0]}
+                </>
+            );
+        case Restriction.RestrictionType.MY_SVT_OR_SUPPORT:
+            return (
+                <>
+                    One of player's own or Support{" "}
+                    {mergeElements(
+                        targetVals.map((svtId) => <EntityReferenceDescriptor region={region} svtId={svtId} />),
+                        ", "
+                    )}{" "}
+                    must be used at position {targetVals2[0]}
                 </>
             );
         case Restriction.RestrictionType.ALLOUT_BATTLE_UNIQUE_SVT:
