@@ -1,7 +1,6 @@
 import {
     Ai,
     ApiConnector,
-    DataType,
     Attribute,
     Bgm,
     Buff,
@@ -11,6 +10,7 @@ import {
     ConstantStr,
     CraftEssence,
     Cv,
+    DataType,
     Enemy,
     Entity,
     EnumList,

@@ -173,6 +173,7 @@ export interface QuestPhaseExtraDetail {
     hintTitle?: string;
     hintMessage?: string;
     aiNpc?: QuestPhaseAiNpc;
+    aiMultiNpc?: QuestPhaseAiNpc[];
 }
 
 export interface QuestPhaseRestriction {

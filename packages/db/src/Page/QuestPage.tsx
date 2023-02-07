@@ -410,8 +410,13 @@ class QuestPage extends React.Component<IProps, IState> {
                         <QuestRestriction region={this.props.region} questRestrictions={quest.restrictions} />
                     </Alert>
                 ) : null}
-                {quest.extraDetail.aiNpc !== undefined ? (
-                    <QuestAiNpc region={this.props.region} aiNpc={quest.extraDetail.aiNpc} />
+                {quest.extraDetail.aiNpc !== undefined || quest.extraDetail.aiMultiNpc !== undefined ? (
+                    <QuestAiNpc
+                        region={this.props.region}
+                        aiNpcs={(quest.extraDetail.aiNpc !== undefined ? [quest.extraDetail.aiNpc] : []).concat(
+                            quest.extraDetail.aiMultiNpc ?? []
+                        )}
+                    />
                 ) : null}
                 {quest.supportServants.length > 0 ? (
                     <>

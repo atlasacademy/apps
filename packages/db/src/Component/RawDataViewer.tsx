@@ -1,4 +1,4 @@
-import { faSearchPlus, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faSearchPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactJson, { OnCopyProps, ThemeKeys } from "@microlink/react-json-view";
 import axios from "axios";

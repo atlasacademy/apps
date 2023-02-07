@@ -4,6 +4,7 @@ import { SupportServantLimit, SupportServantTd } from "./SupportServant";
 import { Trait } from "./Trait";
 
 export interface NpcServant {
+    npcId: number;
     name: string;
     svt: ServantBasic;
     lv: number;
