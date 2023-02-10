@@ -368,7 +368,7 @@ const ScriptBracketRow = (props: {
                 <tr>
                     <td>{t("Movie")}</td>
                     <td>
-                        <video controls width={getVideoWidth(windowWidth, wideScreen)}>
+                        <video controls preload="none" width={getVideoWidth(windowWidth, wideScreen)}>
                             <source src={component.movieUrl} type="video/mp4" />
                         </video>
                     </td>

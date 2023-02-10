@@ -58,6 +58,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                 setScript(rawScript.data);
                 setScriptData(scriptData);
                 setLoading(false);
+                document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
             })
             .catch((e) => setError(e));
     }, [region, scriptId]);
@@ -67,8 +68,6 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     if (loading) return <Loading />;
 
     if (script === "" || scriptData === undefined) return null;
-
-    document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
 
     const parsedScript = parseScript(region, script);
 
@@ -162,7 +161,12 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                     >
                         {showScriptLine ? t("Line number shown") : t("Line number hidden")}
                     </Button>
-                    <RawDataViewer text={t("Parsed Script")} data={fromEntries(showRawData)} block={false} />
+                    <RawDataViewer
+                        text={t("Parsed Script")}
+                        data={fromEntries(showRawData)}
+                        block={false}
+                        url={getScriptAssetURL(region, scriptId)}
+                    />
                 </ButtonGroup>
                 <ShowScriptLineContext.Provider value={showScriptLine}>
                     <ScriptTable region={region} script={parsedScript} showScene={enableScene} refs={scrollRefs} />

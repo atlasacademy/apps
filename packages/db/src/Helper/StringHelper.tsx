@@ -10,18 +10,18 @@ import "./StringHelper.css";
 
 export default function getRubyText(region: Region, text: string, ruby: string, splitRank = false): Renderable {
     if (region === Region.JP && !text.split(" ")[0].match(/[a-zA-Z]/g)) {
-        return makeRubyText(text, ruby, splitRank);
+        return <RubyText text={text} ruby={ruby} splitRank={splitRank} />;
     } else {
         return text;
     }
 }
 
-export function makeRubyText(text: string, ruby: string, splitRank = false): Renderable {
+export const RubyText = ({ text, ruby, splitRank }: { text: string; ruby: string; splitRank?: boolean }) => {
     let textSplitted = text.split(" ");
     let rank = textSplitted[textSplitted.length - 1];
     let skillName = textSplitted.slice(0, -1).join(" ");
     if (text === ruby || ruby === "-") {
-        return text;
+        return <>{text}</>;
     } else if (splitRank && rank.length > 0 && ["A", "B", "C", "D", "E"].includes(rank[0].toUpperCase())) {
         return (
             <ruby>
@@ -41,7 +41,7 @@ export function makeRubyText(text: string, ruby: string, splitRank = false): Ren
             </ruby>
         );
     }
-}
+};
 
 export function joinNumbers(numbers: number[]): string {
     if (numbers.length === 0) {

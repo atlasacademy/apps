@@ -2,7 +2,6 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { Region } from "@atlasacademy/api-connector";
 
-import { Renderable, mergeElements } from "../Helper/OutputHelper";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";
@@ -88,9 +87,13 @@ const DialogueBasic = (props: { component: DialogueBasicComponent; index?: numbe
     }
 };
 
-const DialoguePopover = (props: { children: Renderable[]; tooltipComponent: Renderable[] }) => {
-    const { children, tooltipComponent } = props;
-
+const DialoguePopover = ({
+    children,
+    tooltipComponent,
+}: {
+    children: React.ReactNode;
+    tooltipComponent: React.ReactNode;
+}) => {
     const maleToolTip = (props: any) => (
         <Tooltip lang={lang()} {...props}>
             {tooltipComponent}
@@ -99,23 +102,39 @@ const DialoguePopover = (props: { children: Renderable[]; tooltipComponent: Rend
 
     return (
         <OverlayTrigger placement="top" delay={{ show: 250, hide: 400 }} overlay={maleToolTip}>
-            <span style={{ textDecoration: "underline" }}>{mergeElements(children, "")}</span>
+            <span style={{ textDecoration: "underline" }}>{children}</span>
         </OverlayTrigger>
     );
+};
+
+const dialogueBasicHasContent = (components: DialogueBasicComponent[]) => {
+    for (const component of components) {
+        switch (component.type) {
+            case ScriptComponentType.DIALOGUE_TEXT:
+                if (component.text.length > 0) {
+                    return true;
+                }
+        }
+    }
+
+    return false;
 };
 
 export const DialogueChild = ({ component, index }: { component: DialogueChildComponent; index?: number }) => {
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
-            const femaleComponents = component.female.map((component, i) => (
-                <DialogueBasic key={i} component={component} />
-            ));
-
             const maleComponents = component.male.map((component, i) => (
                 <DialogueBasic key={i} component={component} />
             ));
+            if (dialogueBasicHasContent(component.female)) {
+                const femaleComponents = component.female.map((component, i) => (
+                    <DialogueBasic key={i} component={component} />
+                ));
 
-            return <DialoguePopover tooltipComponent={femaleComponents}>{maleComponents}</DialoguePopover>;
+                return <DialoguePopover tooltipComponent={femaleComponents}>{maleComponents}</DialoguePopover>;
+            } else {
+                return <span style={{ textDecoration: "underline" }}>{maleComponents}</span>;
+            }
         case ScriptComponentType.DIALOGUE_NEW_LINE:
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
         case ScriptComponentType.DIALOGUE_LINE:
@@ -129,8 +148,13 @@ export const DialogueChild = ({ component, index }: { component: DialogueChildCo
 };
 
 const ScriptDialogueLine = (props: { components: DialogueChildComponent[] }) => {
-    const childDialogue = props.components.map((component, i) => <DialogueChild component={component} index={i} />);
-    return <>{mergeElements(childDialogue, "")}</>;
+    return (
+        <>
+            {props.components.map((component, i) => (
+                <DialogueChild key={i} component={component} index={i} />
+            ))}
+        </>
+    );
 };
 
 export default ScriptDialogueLine;
