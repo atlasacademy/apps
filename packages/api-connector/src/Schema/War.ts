@@ -53,6 +53,9 @@ export enum WarFlag {
     WHITE_MARK_UNDER_BOARD = "whiteMarkUnderBoard",
     SUB_FOLDER = "subFolder",
     DISP_EARTH_POINT_WITHOUT_MAP = "dispEarthPointWithoutMap",
+    IS_WAR_ICON_FREE = "isWarIconFree",
+    IS_WAR_ICON_CENTER = "isWarIconCenter",
+    NOTICE_BOARD = "noticeBoard",
 }
 
 export interface Map {
