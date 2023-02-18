@@ -20,7 +20,10 @@ interface IPropsCommon {
 function CommonServantDescriptor(props: IPropsCommon & { face?: string; tab?: string }) {
     return (
         <Link
-            to={`/${props.region}/servant/${props.servant.collectionNo}` + (props.tab ? `/${props.tab}` : "")}
+            to={
+                `/${props.region}/servant/${props.servant.collectionNo || props.servant.id}` +
+                (props.tab ? `/${props.tab}` : "")
+            }
             className="descriptor-link"
         >
             <ClassIcon className={props.servant.className} rarity={props.servant.rarity} height={props.iconHeight} />{" "}

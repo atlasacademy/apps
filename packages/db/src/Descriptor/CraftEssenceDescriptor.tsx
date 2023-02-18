@@ -22,7 +22,8 @@ function CommonCraftEssenceDescriptor(props: IPropsCommon & { face?: string; tab
     return (
         <Link
             to={
-                `/${props.region}/craft-essence/${props.craftEssence.collectionNo}` + (props.tab ? `/${props.tab}` : "")
+                `/${props.region}/craft-essence/${props.craftEssence.collectionNo || props.craftEssence.id}` +
+                (props.tab ? `/${props.tab}` : "")
             }
             className="descriptor-link"
         >

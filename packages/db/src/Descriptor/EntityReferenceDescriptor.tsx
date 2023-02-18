@@ -11,11 +11,11 @@ export default function EntityReferenceDescriptor(props: {
     iconHeight?: number;
     tab?: string;
 }) {
-    const [entity, setEntity] = useState<Entity.EntityBasic>(null as any);
+    const [entity, setEntity] = useState<Entity.EntityBasic | undefined>(undefined);
     useEffect(() => {
         Api.entityBasic(props.svtId).then((s) => setEntity(s));
     }, [props.region, props.svtId]);
-    if (entity !== null) {
+    if (entity !== undefined) {
         return <EntityDescriptor region={props.region} entity={entity} iconHeight={props.iconHeight} tab={props.tab} />;
     } else {
         return null;
