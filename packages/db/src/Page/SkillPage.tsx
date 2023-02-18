@@ -2,7 +2,7 @@ import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios, { AxiosError } from "axios";
 import React from "react";
-import { Form } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { NoblePhantasm, Quest, Region, Skill } from "@atlasacademy/api-connector";
@@ -15,6 +15,7 @@ import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
+import SkillGroupOverWrite from "../Component/SkillGroupOverWrite";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import CommandCodeDescriptor from "../Descriptor/CommandCodeDescriptor";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
@@ -278,14 +279,18 @@ class SkillPage extends React.Component<IProps, IState> {
                         },
                     ]}
                 />
-                <span>
-                    <RawDataViewer
-                        text="Nice"
-                        data={skill}
-                        url={Api.getUrl("nice", "skill", this.props.id, { expand: true })}
-                    />
-                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "skill", this.props.id, { expand: true })} />
-                </span>
+                <Row>
+                    <Col>
+                        <RawDataViewer
+                            text="Nice"
+                            data={skill}
+                            url={Api.getUrl("nice", "skill", this.props.id, { expand: true })}
+                        />
+                    </Col>
+                    <Col>
+                        <RawDataViewer text="Raw" data={Api.getUrl("raw", "skill", this.props.id, { expand: true })} />
+                    </Col>
+                </Row>
 
                 <br />
                 <h3>Breakdown</h3>
@@ -298,6 +303,9 @@ class SkillPage extends React.Component<IProps, IState> {
                     triggerSkillIdStack={[skill.id]}
                     additionalSkillId={skill.script.additionalSkillId}
                 />
+                {skill.groupOverwrites && (
+                    <SkillGroupOverWrite region={this.props.region} overwrites={skill.groupOverwrites} levels={1} />
+                )}
 
                 <br />
                 <br />

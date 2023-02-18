@@ -18,6 +18,7 @@ interface IProps {
     scripts?: Skill.SkillScript;
     popOver?: boolean;
     additionalSkillId?: number[];
+    tableTitle?: string;
 }
 
 function EffectBreakdown(props: IProps) {
@@ -28,7 +29,7 @@ function EffectBreakdown(props: IProps) {
             <thead>
                 <tr>
                     <th>
-                        {t("Effect")} {hideEnemy && <>(enemies hidden)</>}
+                        {props.tableTitle ?? t("Effect")} {hideEnemy && <>(enemies hidden)</>}
                     </th>
                     {props.levels
                         ? Array.from(Array(props.levels).keys()).map((level) => {

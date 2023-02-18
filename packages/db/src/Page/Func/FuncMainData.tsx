@@ -1,4 +1,5 @@
 import React from "react";
+import { Col, Row } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -88,14 +89,18 @@ class FuncMainData extends React.Component<IProps> {
                         },
                     ]}
                 />
-                <div style={{ marginBottom: "3%" }}>
-                    <RawDataViewer
-                        text="Nice"
-                        data={func}
-                        url={Api.getUrl("nice", "function", func.funcId, { expand: true })}
-                    />
-                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "function", func.funcId, { expand: true })} />
-                </div>
+                <Row>
+                    <Col>
+                        <RawDataViewer
+                            text="Nice"
+                            data={func}
+                            url={Api.getUrl("nice", "function", func.funcId, { expand: true })}
+                        />
+                    </Col>
+                    <Col>
+                        <RawDataViewer text="Raw" data={Api.getUrl("raw", "function", func.funcId, { expand: true })} />
+                    </Col>
+                </Row>
             </>
         );
     }

@@ -18,31 +18,37 @@ class SkillVersion extends React.Component<IProps> {
     render() {
         return (
             <div>
-                {this.props.skill.functions.map((func, index) => {
-                    const dataVal = getTargetVersionValues(func, this.props.level);
+                {this.props.skill.functions
+                    .concat(
+                        (this.props.skill.groupOverwrites ?? []).find(
+                            (overwrite) => overwrite.level === this.props.level
+                        )?.functions ?? []
+                    )
+                    .map((func, index) => {
+                        const dataVal = getTargetVersionValues(func, this.props.level);
 
-                    return (
-                        <div key={func.funcId}>
-                            <h3>Effect #{index + 1}</h3>
-                            <p>
-                                <FuncDescriptor region={this.props.region} func={func} level={this.props.level} />
-                            </p>
+                        return (
+                            <React.Fragment key={func.funcId}>
+                                <h3>Effect #{index + 1}</h3>
+                                <p>
+                                    <FuncDescriptor region={this.props.region} func={func} level={this.props.level} />
+                                </p>
 
-                            <Row>
-                                <Col xs={12} md={6}>
-                                    <h5>Function</h5>
-                                    <FuncMainData region={this.props.region} func={func} />
-                                </Col>
-                                <Col xs={12} md={6}>
-                                    <h5>Values</h5>
-                                    <DataValMainData dataVal={dataVal ?? {}} />
-                                </Col>
-                            </Row>
+                                <Row>
+                                    <Col xs={12} md={6}>
+                                        <h5>Function</h5>
+                                        <FuncMainData region={this.props.region} func={func} />
+                                    </Col>
+                                    <Col xs={12} md={6}>
+                                        <h5>Values</h5>
+                                        <DataValMainData dataVal={dataVal ?? {}} />
+                                    </Col>
+                                </Row>
 
-                            <hr />
-                        </div>
-                    );
-                })}
+                                <hr className="mb-2" />
+                            </React.Fragment>
+                        );
+                    })}
             </div>
         );
     }

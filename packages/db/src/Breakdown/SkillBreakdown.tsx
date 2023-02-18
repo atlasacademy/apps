@@ -5,6 +5,7 @@ import { Alert, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { Region, Skill } from "@atlasacademy/api-connector";
 
+import SkillGroupOverWrite from "../Component/SkillGroupOverWrite";
 import EventDescriptor from "../Descriptor/EventDescriptor";
 import { MergeElementsOr } from "../Descriptor/MultipleDescriptors";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
@@ -87,6 +88,9 @@ class SkillBreakdown extends React.Component<IProps> {
                     scripts={skill.script}
                     additionalSkillId={skill.script.additionalSkillId}
                 />
+                {skill.groupOverwrites && (
+                    <SkillGroupOverWrite region={this.props.region} overwrites={skill.groupOverwrites} />
+                )}
             </div>
         );
     }

@@ -74,6 +74,17 @@ export interface SkillAdd {
     ruby: string;
 }
 
+export interface SkillGroupOverwrite {
+    level: number;
+    skillGroupId: number;
+    startedAt: number;
+    endedAt: number;
+    icon?: string;
+    detail: string;
+    unmodifiedDetail: string;
+    functions: Func[];
+}
+
 export interface SkillBasic {
     id: number;
     name: string;
@@ -109,6 +120,7 @@ export interface Skill extends SkillBasic {
     extraPassive: ExtraPassive[];
     skillAdd: SkillAdd[];
     aiIds?: Record<AiType, number[]>;
+    groupOverwrites?: SkillGroupOverwrite[];
     functions: Func[];
     reverse?: {
         basic?: {

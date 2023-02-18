@@ -63,6 +63,9 @@ export interface EnemySkill {
 export interface EnemyPassive {
     classPassive: Skill[];
     addPassive: Skill[];
+    addPassiveLvs?: number[];
+    appendPassiveSkillIds?: number[];
+    appendPassiveSkillLvs?: number[];
 }
 
 export interface EnemyNoblePhantasm {
@@ -70,6 +73,8 @@ export interface EnemyNoblePhantasm {
     noblePhantasm?: NoblePhantasm;
     noblePhantasmLv: number;
     noblePhantasmLv1: number;
+    noblePhantasmLv2?: number;
+    noblePhantasmLv3?: number;
 }
 
 export interface EnemyLimit {
@@ -93,6 +98,7 @@ export interface EnemyAi {
     aiId: number;
     actPriority: number;
     maxActNum: number;
+    minActNum?: number;
 }
 
 export interface EnemyMisc {
@@ -106,6 +112,9 @@ export interface EnemyMisc {
     userCommandCodeIds: number[];
     commandCardParam?: number[];
     status: number;
+    hpGaugeType?: number;
+    imageSvtId?: number;
+    condVal?: number;
 }
 
 export interface EnemyDrop {
