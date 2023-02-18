@@ -77,6 +77,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         switch (component.type) {
             case ScriptComponentType.DIALOGUE:
                 if (component.voice !== undefined) audioUrls.push(component.voice.audioAsset);
+                if (component.maleVoice !== undefined) audioUrls.push(component.maleVoice.audioAsset);
                 hasDialogueLines = true;
                 break;
             case ScriptComponentType.SOUND_EFFECT:

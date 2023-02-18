@@ -36,17 +36,27 @@ type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>
 type ScriptOffsets = { charaGraphId: number; y?: number };
 
 const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: RowBgmRefMap; lineNumber?: number }) => {
-    const dialogueVoice = props.dialogue.voice ? (
-        <BgmDescriptor region={props.region} bgm={props.dialogue.voice} style={{ display: "block" }} />
-    ) : null;
     const showScriptLine = useContext(ShowScriptLineContext);
     return (
-        <tr ref={props.refs.get(props.dialogue.voice?.audioAsset)}>
+        <tr ref={props.refs.get(props.dialogue.voice?.audioAsset ?? props.dialogue.maleVoice?.audioAsset)}>
             <td>
                 <ScriptDialogueLine components={props.dialogue.speaker?.components ?? []} />
             </td>
             <td>
-                {dialogueVoice}
+                {props.dialogue.voice && (
+                    <BgmDescriptor region={props.region} bgm={props.dialogue.voice} style={{ display: "block" }} />
+                )}
+                {props.dialogue.maleVoice && props.dialogue.femaleVoice && (
+                    <div>
+                        <BgmDescriptor
+                            region={props.region}
+                            bgm={props.dialogue.maleVoice}
+                            style={{ marginRight: "1em" }}
+                            showName="Male"
+                        />
+                        <BgmDescriptor region={props.region} bgm={props.dialogue.femaleVoice} showName="Female" />
+                    </div>
+                )}
                 <ScriptDialogueLine components={flatten(props.dialogue.components)} />
             </td>
             {showScriptLine && <td>{props.lineNumber}</td>}

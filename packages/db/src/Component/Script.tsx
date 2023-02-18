@@ -156,6 +156,8 @@ export type ScriptDialogue = {
     lines: ScriptLine[];
     components: DialogueChildComponent[][];
     voice?: ScriptSound;
+    maleVoice?: ScriptSound;
+    femaleVoice?: ScriptSound;
 };
 
 export type ScriptEnableFullScreen = {
@@ -1268,6 +1270,8 @@ export function parseScript(region: Region, script: string): ScriptInfo {
     const resetDialogueVariables = () => {
         dialogue.speaker = undefined;
         dialogue.voice = undefined;
+        dialogue.maleVoice = undefined;
+        dialogue.femaleVoice = undefined;
         dialogue.lines = [];
         dialogue.components = [];
     };
@@ -1336,10 +1340,17 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         resetDialogueVariables();
                         break;
                     case "tVoice":
-                        const folder = parameters[1];
                         const fileName = parameters[2];
-                        const audioUrl = `${AssetHost}/${region}/Audio/${folder}/${fileName}.mp3`;
+                        const audioUrl = `${AssetHost}/${region}/Audio/${parameters[1]}/${fileName}.mp3`;
                         dialogue.voice = getBgmObject(fileName, audioUrl);
+                        break;
+                    case "tVoiceUser":
+                        const maleFileName = parameters[2];
+                        const maleAudioUrl = `${AssetHost}/${region}/Audio/${parameters[1]}/${maleFileName}.mp3`;
+                        dialogue.maleVoice = getBgmObject(maleFileName, maleAudioUrl);
+                        const femaleFileName = parameters[4];
+                        const femaleAudioUrl = `${AssetHost}/${region}/Audio/${parameters[3]}/${femaleFileName}.mp3`;
+                        dialogue.femaleVoice = getBgmObject(femaleFileName, femaleAudioUrl);
                         break;
                     default:
                         if (parserState.dialogue) {
