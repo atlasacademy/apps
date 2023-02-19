@@ -1,6 +1,5 @@
 import React from "react";
 import { FormControl } from "react-bootstrap";
-import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -10,7 +9,7 @@ import { lang } from "../../Setting/Manager";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps extends RouteComponentProps, WithTranslation {
+interface IProps extends RouteComponentProps {
     region: Region;
     id: number;
     mysticCodes: MysticCode.MysticCodeBasic[];
@@ -22,31 +21,27 @@ class MysticCodePicker extends React.Component<IProps> {
     }
 
     render() {
-        const t = this.props.t;
         return (
-            <div>
-                {t("Jump to")}:
-                <FormControl
-                    as={"select"}
-                    custom
-                    onChange={(ev: Event) => {
-                        this.changeMysticCode(parseInt(ev.target.value));
-                    }}
-                    value={this.props.id}
-                    className="mt-2"
-                    lang={lang(this.props.region)}
-                >
-                    {this.props.mysticCodes.map((mysticCode) => {
-                        return (
-                            <option key={mysticCode.id} value={mysticCode.id}>
-                                {mysticCode.name}
-                            </option>
-                        );
-                    })}
-                </FormControl>
-            </div>
+            <FormControl
+                as={"select"}
+                custom
+                onChange={(ev: Event) => {
+                    this.changeMysticCode(parseInt(ev.target.value));
+                }}
+                value={this.props.id}
+                className="mt-2"
+                lang={lang(this.props.region)}
+            >
+                {this.props.mysticCodes.map((mysticCode) => {
+                    return (
+                        <option key={mysticCode.id} value={mysticCode.id}>
+                            {mysticCode.name}
+                        </option>
+                    );
+                })}
+            </FormControl>
         );
     }
 }
 
-export default withRouter(withTranslation()(MysticCodePicker));
+export default withRouter(MysticCodePicker);

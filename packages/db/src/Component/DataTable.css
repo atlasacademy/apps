@@ -7,8 +7,10 @@
 .data-table th {
     white-space: nowrap;
     width: 1px;
+    vertical-align: middle;
 }
 
 .data-table td {
     text-align: right;
+    vertical-align: middle;
 }

@@ -33,10 +33,10 @@ class ServantMainData extends React.Component<IProps> {
     private renderDoubleRow(content: [RenderableRow, RenderableRow]): Renderable {
         return (
             <tr>
-                <th>{content[0].title}</th>
-                <td>{content[0].content}</td>
-                <th>{content[1].title}</th>
-                <td>{content[1].content}</td>
+                <th style={{ width: "25%" }}>{content[0].title}</th>
+                <td style={{ width: "25%" }}>{content[0].content}</td>
+                <th style={{ width: "25%" }}>{content[1].title}</th>
+                <td style={{ width: "25%" }}>{content[1].content}</td>
             </tr>
         );
     }
@@ -44,8 +44,10 @@ class ServantMainData extends React.Component<IProps> {
     private renderSpanningRow(content: RenderableRow): Renderable {
         return (
             <tr>
-                <th>{content.title}</th>
-                <td colSpan={3}>{content.content}</td>
+                <th style={{ width: "25%" }}>{content.title}</th>
+                <td colSpan={3} style={{ width: "75%" }}>
+                    {content.content}
+                </td>
             </tr>
         );
     }
@@ -68,107 +70,105 @@ class ServantMainData extends React.Component<IProps> {
         const { servant, servantName, originalServantName, t } = this.props;
         const { buster, arts, quick, extra } = servant.hitsDistribution;
         return (
-            <div>
-                <Table bordered responsive className="servant-data-table">
-                    <tbody>
-                        {this.renderDoubleRow([
-                            { title: t("ID"), content: servant.id },
-                            { title: t("Collection"), content: servant.collectionNo },
-                        ])}
-                        {this.renderDoubleRow([
-                            { title: t("Class"), content: toTitleCase(servant.className) },
-                            { title: t("Attribute"), content: toTitleCase(servant.attribute) },
-                        ])}
-                        {this.renderDoubleRow([
-                            { title: t("Rarity"), content: <RarityDescriptor rarity={servant.rarity} /> },
-                            { title: "Cost", content: servant.cost },
-                        ])}
-                        {originalServantName !== undefined &&
-                            servantName !== originalServantName &&
-                            this.renderSpanningRow({
-                                title: t("Original Name"),
-                                content: (
-                                    <span lang={lang(this.props.region)}>
-                                        {getRubyText(this.props.region, originalServantName, servant.ruby)}
-                                    </span>
-                                ),
-                            })}
-                        {this.renderSpanningRow({
-                            title: "HP",
+            <Table bordered responsive className="servant-data-table">
+                <tbody>
+                    {this.renderDoubleRow([
+                        { title: t("ID"), content: servant.id },
+                        { title: t("Collection"), content: servant.collectionNo },
+                    ])}
+                    {this.renderDoubleRow([
+                        { title: t("Class"), content: toTitleCase(servant.className) },
+                        { title: t("Attribute"), content: toTitleCase(servant.attribute) },
+                    ])}
+                    {this.renderDoubleRow([
+                        { title: t("Rarity"), content: <RarityDescriptor rarity={servant.rarity} /> },
+                        { title: "Cost", content: servant.cost },
+                    ])}
+                    {originalServantName !== undefined &&
+                        servantName !== originalServantName &&
+                        this.renderSpanningRow({
+                            title: t("Original Name"),
                             content: (
-                                <div>
-                                    Base: {formatNumber(servant.hpBase)}
-                                    &nbsp;&nbsp;&nbsp;&nbsp; Max: {formatNumber(servant.hpMax)}
-                                </div>
+                                <span lang={lang(this.props.region)}>
+                                    {getRubyText(this.props.region, originalServantName, servant.ruby)}
+                                </span>
                             ),
                         })}
-                        {this.renderSpanningRow({
-                            title: "ATK",
-                            content: (
-                                <div>
-                                    Base: {formatNumber(servant.atkBase)}
-                                    &nbsp;&nbsp;&nbsp;&nbsp; Max: {formatNumber(servant.atkMax)}
-                                </div>
-                            ),
-                        })}
-                        {this.renderSpanningRow({
-                            title: t("Deck"),
-                            content: (
-                                <div>
-                                    {servant.cards.map((card, index) => {
-                                        return (
-                                            <CommandCard
-                                                key={index}
-                                                height={60}
-                                                card={card}
-                                                servant={servant}
-                                                assetType={this.props.assetType}
-                                                assetId={this.props.assetId}
-                                            />
-                                        );
-                                    })}
-                                </div>
-                            ),
-                        })}
-                        {this.renderSpanningRow({ title: "Buster", content: this.showHits(buster) })}
-                        {this.renderSpanningRow({ title: "Arts", content: this.showHits(arts) })}
-                        {this.renderSpanningRow({ title: "Quick", content: this.showHits(quick) })}
-                        {this.renderSpanningRow({ title: "Extra", content: this.showHits(extra) })}
-                        {this.renderDoubleRow([
-                            { title: t("Star Weight"), content: servant.starAbsorb },
-                            { title: t("Star Gen"), content: asPercent(servant.starGen, 1) },
-                        ])}
-                        {this.renderSpanningRow({
-                            title: t("Death Chance"),
-                            content: asPercent(this.props.servant.instantDeathChance, 1),
-                        })}
-                        {this.renderSpanningRow({
-                            title: t("Bond CE"),
-                            content: servant.bondEquip ? (
-                                <CraftEssenceReferenceDescriptor region={this.props.region} id={servant.bondEquip} />
-                            ) : (
-                                ""
-                            ),
-                        })}
-                        {this.renderSpanningRow({
-                            title: t("Valentine CE") + (servant.valentineEquip.length > 1 ? "s" : ""),
-                            content:
-                                servant.valentineEquip.length > 0
-                                    ? mergeElements(
-                                          servant.valentineEquip.map((equipId) => (
-                                              <CraftEssenceReferenceDescriptor
-                                                  key={equipId}
-                                                  region={this.props.region}
-                                                  id={equipId}
-                                              />
-                                          )),
-                                          <br></br>
-                                      )
-                                    : t("To Be Released"),
-                        })}
-                    </tbody>
-                </Table>
-            </div>
+                    {this.renderSpanningRow({
+                        title: "HP",
+                        content: (
+                            <div>
+                                Base: {formatNumber(servant.hpBase)}
+                                &nbsp;&nbsp;&nbsp;&nbsp; Max: {formatNumber(servant.hpMax)}
+                            </div>
+                        ),
+                    })}
+                    {this.renderSpanningRow({
+                        title: "ATK",
+                        content: (
+                            <div>
+                                Base: {formatNumber(servant.atkBase)}
+                                &nbsp;&nbsp;&nbsp;&nbsp; Max: {formatNumber(servant.atkMax)}
+                            </div>
+                        ),
+                    })}
+                    {this.renderSpanningRow({
+                        title: t("Deck"),
+                        content: (
+                            <div>
+                                {servant.cards.map((card, index) => {
+                                    return (
+                                        <CommandCard
+                                            key={index}
+                                            height={60}
+                                            card={card}
+                                            servant={servant}
+                                            assetType={this.props.assetType}
+                                            assetId={this.props.assetId}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        ),
+                    })}
+                    {this.renderSpanningRow({ title: "Buster", content: this.showHits(buster) })}
+                    {this.renderSpanningRow({ title: "Arts", content: this.showHits(arts) })}
+                    {this.renderSpanningRow({ title: "Quick", content: this.showHits(quick) })}
+                    {this.renderSpanningRow({ title: "Extra", content: this.showHits(extra) })}
+                    {this.renderDoubleRow([
+                        { title: t("Star Weight"), content: servant.starAbsorb },
+                        { title: t("Star Gen"), content: asPercent(servant.starGen, 1) },
+                    ])}
+                    {this.renderSpanningRow({
+                        title: t("Death Chance"),
+                        content: asPercent(this.props.servant.instantDeathChance, 1),
+                    })}
+                    {this.renderSpanningRow({
+                        title: t("Bond CE"),
+                        content: servant.bondEquip ? (
+                            <CraftEssenceReferenceDescriptor region={this.props.region} id={servant.bondEquip} />
+                        ) : (
+                            ""
+                        ),
+                    })}
+                    {this.renderSpanningRow({
+                        title: t("Valentine CE") + (servant.valentineEquip.length > 1 ? "s" : ""),
+                        content:
+                            servant.valentineEquip.length > 0
+                                ? mergeElements(
+                                      servant.valentineEquip.map((equipId) => (
+                                          <CraftEssenceReferenceDescriptor
+                                              key={equipId}
+                                              region={this.props.region}
+                                              id={equipId}
+                                          />
+                                      )),
+                                      <br></br>
+                                  )
+                                : t("To Be Released"),
+                    })}
+                </tbody>
+            </Table>
         );
     }
 }

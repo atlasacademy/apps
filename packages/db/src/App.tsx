@@ -114,7 +114,6 @@ class App extends React.Component<any, IState> {
                         theme={this.state.theme}
                         uiLanguage={this.state.uiLanguage}
                     />
-                    <br />
 
                     <Container fluid="xl" id={"app"} key={`${this.state.language}`} lang={this.state.uiLanguage}>
                         <Helmet>

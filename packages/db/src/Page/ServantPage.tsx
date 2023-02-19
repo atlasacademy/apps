@@ -175,11 +175,7 @@ class ServantPage extends React.Component<IProps, IState> {
                     </h1>
                     <span style={{ flexGrow: 1 }} />
                 </div>
-                <Row
-                    style={{
-                        marginBottom: "3%",
-                    }}
-                >
+                <Row className="mb-3">
                     <Col xs={{ span: 12, order: 2 }} lg={{ span: 6, order: 1 }}>
                         <ServantMainData
                             region={this.props.region}

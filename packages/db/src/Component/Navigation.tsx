@@ -98,7 +98,7 @@ class Navigation extends React.Component<IProps, IState> {
 
         return (
             <>
-                <Navbar id={"navigation"} bg={"dark"} variant={"dark"} expand={"lg"} lang={uiLanguage}>
+                <Navbar id={"navigation"} bg={"dark"} variant={"dark"} expand={"lg"} lang={uiLanguage} className="mb-3">
                     <Container fluid>
                         <Navbar.Brand as={Link} to="/" title="Atlas Academy Database">
                             <span className="d-none d-lg-inline d-xl-none">AA DB</span>
