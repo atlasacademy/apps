@@ -726,6 +726,14 @@ function parseDialogueBasic(
                     ruby,
                 };
         }
+
+        if (word.slice(1).startsWith("line")) {
+            return {
+                type: ScriptComponentType.DIALOGUE_LINE,
+                length: parseFloat(word.slice(5, word.length - 1)),
+                colorHex: parserDialogueState.colorHex,
+            };
+        }
     }
     return {
         type: ScriptComponentType.DIALOGUE_TEXT,
