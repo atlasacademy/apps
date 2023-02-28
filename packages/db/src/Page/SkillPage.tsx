@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios, { AxiosError } from "axios";
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { NoblePhantasm, Quest, Region, Skill } from "@atlasacademy/api-connector";
@@ -25,7 +26,6 @@ import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import { QuestDescriptionNoApi } from "../Descriptor/QuestDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { emptyOrUndefinded } from "../Helper/ArrayHelper";
-import { mergeElements } from "../Helper/OutputHelper";
 import getRubyText, { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
@@ -34,7 +34,7 @@ import "../Helper/StringHelper.css";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     id: number;
 }
@@ -117,24 +117,31 @@ class SkillPage extends React.Component<IProps, IState> {
         if (this.state.loading || !this.state.skill) return <Loading />;
 
         const skill = this.state.skill;
+        const { t, region } = this.props;
 
-        const skillAdd = mergeElements(
-            skill.skillAdd.map((skillAdd) => (
-                <>
-                    {getRubyText(this.props.region, skillAdd.name, skillAdd.ruby, true)}
-                    {skillAdd.releaseConditions.map((cond) => (
-                        <div key={`${cond.condType}-${cond.condId}-${cond.condNum}`}>
-                            <CondTargetValueDescriptor
-                                region={this.props.region}
-                                cond={cond.condType}
-                                target={cond.condId}
-                                value={cond.condNum}
-                            />
-                        </div>
-                    ))}
-                </>
-            )),
-            <br />
+        const skillAdd = (
+            <>
+                {skill.skillAdd.map((skillAdd) => (
+                    <React.Fragment key={skillAdd.priority}>
+                        <span lang={lang(region)}>
+                            {getRubyText(region, skillAdd.name, skillAdd.ruby, true)}
+                            {skillAdd.name !== skillAdd.originalName && (
+                                <> ({getRubyText(region, skillAdd.originalName, skillAdd.ruby, true)})</>
+                            )}
+                        </span>
+                        {skillAdd.releaseConditions.map((cond) => (
+                            <div key={`${cond.condType}-${cond.condId}-${cond.condNum}`}>
+                                <CondTargetValueDescriptor
+                                    region={region}
+                                    cond={cond.condType}
+                                    target={cond.condId}
+                                    value={cond.condNum}
+                                />
+                            </div>
+                        ))}
+                    </React.Fragment>
+                ))}
+            </>
         );
 
         return (
@@ -151,7 +158,7 @@ class SkillPage extends React.Component<IProps, IState> {
 
                 <DataTable
                     data={[
-                        { label: "ID", value: skill.id },
+                        { label: t("ID"), value: skill.id },
                         {
                             label: "Name",
                             value: (
@@ -161,7 +168,7 @@ class SkillPage extends React.Component<IProps, IState> {
                             ),
                         },
                         {
-                            label: "Original Name",
+                            label: t("Original Name"),
                             value: (
                                 <span className="newline" lang={lang(this.props.region)}>
                                     {skill.originalName}
@@ -170,7 +177,7 @@ class SkillPage extends React.Component<IProps, IState> {
                             hidden: skill.name === skill.originalName,
                         },
                         {
-                            label: "Ruby",
+                            label: t("Ruby"),
                             value: (
                                 <span className="newline" lang={lang(this.props.region)}>
                                     {skill.ruby}
@@ -178,22 +185,22 @@ class SkillPage extends React.Component<IProps, IState> {
                             ),
                         },
                         {
-                            label: "Detail",
+                            label: t("Detail"),
                             value: (
                                 <span className="newline" lang={lang(this.props.region)}>
                                     {skill.detail}
                                 </span>
                             ),
                         },
-                        { label: "Skill Add", value: skillAdd, hidden: skill.skillAdd.length === 0 },
-                        { label: "Type", value: toTitleCase(skill.type) },
+                        { label: t("Skill Add"), value: skillAdd, hidden: skill.skillAdd.length === 0 },
+                        { label: t("Type"), value: toTitleCase(skill.type) },
                         {
-                            label: "Related AIs",
+                            label: t("Related AIs"),
                             value: AiDescriptor.renderParentAiLinks(this.props.region, skill.aiIds),
                             hidden: skill.aiIds === undefined || Object.keys(skill.aiIds).length === 0,
                         },
                         {
-                            label: "Owner",
+                            label: t("Owner"),
                             value: (
                                 <>
                                     {(skill.reverse?.basic?.servant ?? []).map((servant) => {
@@ -231,7 +238,7 @@ class SkillPage extends React.Component<IProps, IState> {
                                 emptyOrUndefinded(skill.reverse?.basic?.MC),
                         },
                         {
-                            label: "Triggered by",
+                            label: t("Triggered by"),
                             value: (
                                 <>
                                     {this.state.triggeringSkills.map((skill) => (
@@ -253,7 +260,7 @@ class SkillPage extends React.Component<IProps, IState> {
                                 this.state.triggeringNoblePhantasms.length === 0,
                         },
                         {
-                            label: "Used in Quests",
+                            label: t("Used in Quests"),
                             value: (
                                 <ul>
                                     {this.state.relatedQuests.slice(0, 10).map((quest) => (
@@ -282,18 +289,21 @@ class SkillPage extends React.Component<IProps, IState> {
                 <Row>
                     <Col>
                         <RawDataViewer
-                            text="Nice"
+                            text={t("Nice")}
                             data={skill}
                             url={Api.getUrl("nice", "skill", this.props.id, { expand: true })}
                         />
                     </Col>
                     <Col>
-                        <RawDataViewer text="Raw" data={Api.getUrl("raw", "skill", this.props.id, { expand: true })} />
+                        <RawDataViewer
+                            text={t("Raw")}
+                            data={Api.getUrl("raw", "skill", this.props.id, { expand: true })}
+                        />
                     </Col>
                 </Row>
 
                 <br />
-                <h3>Breakdown</h3>
+                <h3>{t("Breakdown")}</h3>
                 <EffectBreakdown
                     region={this.props.region}
                     cooldowns={skill.coolDown.length > 0 ? skill.coolDown : undefined}
@@ -309,7 +319,7 @@ class SkillPage extends React.Component<IProps, IState> {
 
                 <br />
                 <br />
-                <h3>Detailed Effects</h3>
+                <h3>{t("Detailed Effects")}</h3>
                 <Form inline style={{ justifyContent: "center" }}>
                     <Form.Control
                         as={"select"}
@@ -333,4 +343,4 @@ class SkillPage extends React.Component<IProps, IState> {
     }
 }
 
-export default SkillPage;
+export default withTranslation()(SkillPage);

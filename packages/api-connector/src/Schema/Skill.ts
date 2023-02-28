@@ -71,6 +71,7 @@ export interface SkillAdd {
     priority: number;
     releaseConditions: CommonRelease[];
     name: string;
+    originalName: string;
     ruby: string;
 }
 
