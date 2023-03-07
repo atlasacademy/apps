@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Quest, Region } from "@atlasacademy/api-connector";
 
-import { QuestTypeDescription } from "../Page/QuestPage";
+import { QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
 import { lang } from "../Setting/Manager";
 
 const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.QuestPhaseBasic[] }) => {

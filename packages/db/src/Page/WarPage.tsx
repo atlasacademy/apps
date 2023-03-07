@@ -18,11 +18,11 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
+import { QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
 import { removeSuffix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
-import { QuestTypeDescription } from "./QuestPage";
 import WarMap from "./WarMap/WarMap";
 
 import "../Helper/StringHelper.css";

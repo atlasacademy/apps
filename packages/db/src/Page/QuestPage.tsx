@@ -1,49 +1,30 @@
 import { AxiosError } from "axios";
 import React from "react";
-import { Alert, Badge, Col, Pagination, Row, Tab, Tabs } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
-import { Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
-import { toTitleCase } from "@atlasacademy/api-descriptor";
+import { Quest, Region } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
-import ClassIcon from "../Component/ClassIcon";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
-import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import QuestAiNpc from "../Component/QuestAiNpc";
-import { QuestDropDescriptor } from "../Component/QuestEnemy";
 import QuestRestriction from "../Component/QuestRestriction";
 import QuestStage from "../Component/QuestStage";
-import RawDataViewer from "../Component/RawDataViewer";
 import SupportServantTables from "../Component/SupportServant";
-import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
-import GiftDescriptor from "../Descriptor/GiftDescriptor";
-import QuestConsumeDescriptor from "../Descriptor/QuestConsumeDescriptor";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
-import TraitDescription from "../Descriptor/TraitDescription";
-import { mergeElements } from "../Helper/OutputHelper";
 import { colorString, removePrefix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
+import QuestDrops from "./Quest/QuestDrops";
+import QuestMainData from "./Quest/QuestMainData";
+import QuestSubData from "./Quest/QuestSubData";
 
 import "../Helper/StringHelper.css";
 
-export const QuestTypeDescription = new Map([
-    [Quest.QuestType.MAIN, "Main"],
-    [Quest.QuestType.FREE, "Free"],
-    [Quest.QuestType.FRIENDSHIP, "Interlude"],
-    [Quest.QuestType.EVENT, "Event"],
-    [Quest.QuestType.HERO_BALLAD, "Hero Ballad"],
-    [Quest.QuestType.WAR_BOARD, "War Board"],
-]);
-
-export const QuestFlagDescription = new Map([[Quest.QuestFlag.NONE, "None"]]);
-
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
     phase: number;
@@ -56,236 +37,6 @@ interface IState {
     loading: boolean;
     quest?: Quest.QuestPhase;
 }
-
-const PhaseNavigator = (props: {
-    region: Region;
-    quest: Quest.QuestPhase;
-    currentPhase: number;
-    setPhase: (phase: number) => void;
-}) => {
-    const currentPhase = props.currentPhase,
-        phases = props.quest.phases.sort((a, b) => a - b);
-    return (
-        <Pagination style={{ marginBottom: 0, float: "right" }}>
-            <Pagination.Prev
-                disabled={currentPhase === Math.min(...phases)}
-                onClick={() => {
-                    props.setPhase(currentPhase - 1);
-                }}
-            />
-            {props.quest.phases.map((phase) => (
-                <Pagination.Item
-                    key={phase}
-                    active={phase === currentPhase}
-                    onClick={() => {
-                        props.setPhase(phase);
-                    }}
-                >
-                    {phase}
-                </Pagination.Item>
-            ))}
-            <Pagination.Next
-                disabled={currentPhase === Math.max(...phases)}
-                onClick={() => {
-                    props.setPhase(currentPhase + 1);
-                }}
-            />
-        </Pagination>
-    );
-};
-
-const QuestMainData = (props: {
-    region: Region;
-    quest: Quest.QuestPhase;
-    phase: number;
-    setPhase: (phase: number) => void;
-}) => {
-    const quest = props.quest;
-    const { t } = useTranslation();
-    return (
-        <DataTable
-            responsive
-            data={[
-                { label: t("ID"), value: quest.id },
-                {
-                    label: t("Phases"),
-                    value: (
-                        <PhaseNavigator
-                            region={props.region}
-                            quest={quest}
-                            currentPhase={props.phase}
-                            setPhase={props.setPhase}
-                        />
-                    ),
-                },
-                { label: t("Type"), value: QuestTypeDescription.get(quest.type) ?? quest.type },
-                {
-                    label: t("Cost"),
-                    value: (
-                        <QuestConsumeDescriptor
-                            region={props.region}
-                            consumeType={quest.consumeType}
-                            consume={quest.consume}
-                            consumeItem={quest.consumeItem}
-                        />
-                    ),
-                },
-                {
-                    label: t("Reward"),
-                    value: (
-                        <>
-                            {quest.giftIcon ? (
-                                <>
-                                    <div key={`${quest.giftIcon}`}>
-                                        <img
-                                            alt={`Quest Reward ${quest.giftIcon} icon`}
-                                            style={{ maxWidth: "100%", maxHeight: "2em" }}
-                                            src={quest.giftIcon}
-                                        />
-                                        <br />
-                                    </div>
-                                </>
-                            ) : null}
-                            {quest.gifts.map((gift) => (
-                                <div key={`${gift.objectId}-${gift.priority}`}>
-                                    <GiftDescriptor region={props.region} gift={gift} />
-                                    <br />
-                                </div>
-                            ))}
-                        </>
-                    ),
-                },
-                {
-                    label: t("Repeatable"),
-                    value:
-                        quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST &&
-                        props.phase === Math.max(...quest.phases)
-                            ? "True"
-                            : "False",
-                },
-                {
-                    label: t("War"),
-                    value: (
-                        <Link to={`/${props.region}/war/${quest.warId}`} lang={lang(props.region)}>
-                            {quest.warLongName}
-                        </Link>
-                    ),
-                },
-                { label: t("Spot"), value: <span lang={lang(props.region)}>{quest.spotName}</span> },
-                { label: t("Open"), value: new Date(quest.openedAt * 1000).toLocaleString() },
-                { label: t("Close"), value: new Date(quest.closedAt * 1000).toLocaleString() },
-            ]}
-        />
-    );
-};
-
-const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPhase }) => {
-    const { t } = useTranslation();
-    return (
-        <DataTable
-            data={[
-                { label: t("QP Reward"), value: quest.qp.toLocaleString() },
-                { label: t("EXP"), value: quest.exp.toLocaleString() },
-                { label: t("Bond"), value: quest.bond.toLocaleString() },
-                {
-                    label: t("Flags"),
-                    value: (
-                        <>
-                            {quest.flags.length > 0
-                                ? quest.flags.map((flag) => (
-                                      <Link to={`/${region}/quests?flag=${flag}`} key={flag}>
-                                          <Badge style={{ marginRight: 5, background: "green", color: "white" }}>
-                                              {QuestFlagDescription.get(flag) ?? toTitleCase(flag)}
-                                          </Badge>
-                                      </Link>
-                                  ))
-                                : "This quest has no flag"}
-                        </>
-                    ),
-                },
-                {
-                    label: t("Unlock Condition"),
-                    value: (
-                        <>
-                            {quest.releaseConditions.map((cond) => (
-                                <div key={`${cond.type}-${cond.targetId}-${cond.value}`}>
-                                    {cond.closedMessage !== "" ? (
-                                        <span lang={lang(region)}>{cond.closedMessage} — </span>
-                                    ) : (
-                                        ""
-                                    )}
-                                    <CondTargetValueDescriptor
-                                        region={region}
-                                        cond={cond.type}
-                                        target={cond.targetId}
-                                        value={cond.value}
-                                    />
-                                </div>
-                            ))}
-                        </>
-                    ),
-                },
-                {
-                    label: t("Individuality"),
-                    value: mergeElements(
-                        quest.individuality.map((trait) => (
-                            <TraitDescription
-                                key={trait.id}
-                                region={region}
-                                trait={trait}
-                                owner="quests"
-                                ownerParameter="fieldIndividuality"
-                            />
-                        )),
-                        ", "
-                    ),
-                },
-                {
-                    label: t("Enemy Classes"),
-                    value: mergeElements(
-                        quest.className.map((className) => <ClassIcon key={className} className={className} />),
-                        " "
-                    ),
-                },
-                { label: t("Recommended Level"), value: quest.recommendLv },
-                {
-                    label: t("Battle BG ID"),
-                    value: <Link to={`/${region}/quests?battleBgId=${quest.battleBgId}`}>{quest.battleBgId}</Link>,
-                },
-                {
-                    label: "Raw",
-                    value: (
-                        <Row>
-                            <Col>
-                                <RawDataViewer
-                                    text="Nice"
-                                    data={quest}
-                                    url={Api.getUrl("nice", "quest", `${quest.id}/${quest.phase}`)}
-                                />
-                            </Col>
-                            <Col>
-                                <RawDataViewer
-                                    text="Raw"
-                                    data={Api.getUrl("raw", "quest", `${quest.id}/${quest.phase}`)}
-                                />
-                            </Col>
-                        </Row>
-                    ),
-                },
-            ]}
-        />
-    );
-};
-
-const QuestDrops = ({ region, drops }: { region: Region; drops: QuestEnemy.EnemyDrop[] }) => {
-    if (drops.length === 0) {
-        return <></>;
-    }
-
-    drops.sort((a, b) => a.type.localeCompare(b.type) || a.objectId - b.objectId || a.num - b.num);
-
-    return <QuestDropDescriptor region={region} drops={drops} />;
-};
 
 class QuestPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -325,6 +76,7 @@ class QuestPage extends React.Component<IProps, IState> {
         if (this.state.loading || !this.state.quest) return <Loading />;
 
         const quest = this.state.quest;
+        const { t } = this.props;
 
         return (
             <div>
@@ -384,10 +136,7 @@ class QuestPage extends React.Component<IProps, IState> {
                 {quest.extraDetail.questSelect !== undefined &&
                 quest.extraDetail.questSelect.filter((questId) => questId !== this.props.id).length > 0 ? (
                     <Alert variant="success">
-                        {quest.extraDetail.questSelect.filter((questId) => questId !== this.props.id).length > 1
-                            ? "Other versions"
-                            : "Another version"}{" "}
-                        this quest:
+                        {t("Alternative version based on choices in the story")}:
                         <ul className="mb-0">
                             {quest.extraDetail.questSelect
                                 .filter((questId) => questId !== this.props.id)
@@ -421,9 +170,9 @@ class QuestPage extends React.Component<IProps, IState> {
                 {quest.supportServants.length > 0 ? (
                     <>
                         {renderCollapsibleContent({
-                            title: `${quest.isNpcOnly ? "Forced " : ""}Support Servant${
-                                quest.supportServants.length > 1 ? "s" : ""
-                            }`,
+                            title: quest.isNpcOnly
+                                ? t("Forced Support Servant", { count: quest.supportServants.length })
+                                : t("Support Servant", { count: quest.supportServants.length }),
                             content: (
                                 <SupportServantTables
                                     region={this.props.region}
@@ -457,4 +206,4 @@ class QuestPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(QuestPage);
+export default withTranslation()(withRouter(QuestPage));

@@ -15,10 +15,10 @@ import Loading from "../Component/Loading";
 import QuestPhaseTable from "../Component/QuestPhaseTable";
 import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
+import { QuestFlagDescription, QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
 import { getNumParam } from "../Helper/URLSearchParamsHelper";
 import Manager, { lang } from "../Setting/Manager";
-import { QuestFlagDescription, QuestTypeDescription } from "./QuestPage";
 
 import "./ListingPage.css";
 
