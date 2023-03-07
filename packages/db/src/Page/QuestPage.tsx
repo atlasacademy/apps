@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import React from "react";
+import { Alert, Col, Dropdown, Row, Tab, Tabs } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
@@ -15,6 +16,7 @@ import QuestRestriction from "../Component/QuestRestriction";
 import QuestStage from "../Component/QuestStage";
 import SupportServantTables from "../Component/SupportServant";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
+import shortenQuestHash from "../Descriptor/QuestHashDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
 import { colorString, removePrefix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -33,6 +35,7 @@ interface IProps extends RouteComponentProps, WithTranslation {
 
 interface IState {
     phase: number;
+    hash?: string;
     error?: AxiosError;
     loading: boolean;
     quest?: Quest.QuestPhase;
@@ -42,15 +45,19 @@ class QuestPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
+        const searchParams = new URLSearchParams(props.location.search);
+        const hash = searchParams.get("hash");
+
         this.state = {
             phase: props.phase,
             loading: true,
+            hash: hash === null ? undefined : hash,
         };
     }
 
     componentDidMount() {
         Manager.setRegion(this.props.region);
-        this.loadQuest(this.props.phase);
+        this.loadQuest(this.props.phase, this.state.hash);
     }
 
     componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>) {
@@ -59,10 +66,15 @@ class QuestPage extends React.Component<IProps, IState> {
             const url = `/${this.props.region}/quest/${this.props.id}/${this.state.phase}`;
             this.props.history.push(url);
         }
+        if (this.state.hash !== prevState.hash) {
+            this.loadQuest(this.state.phase, this.state.hash);
+            const url = `/${this.props.region}/quest/${this.props.id}/${this.state.phase}?hash=${this.state.hash}`;
+            this.props.history.push(url);
+        }
     }
 
-    async loadQuest(phase: number) {
-        Api.questPhase(this.props.id, phase)
+    async loadQuest(phase: number, hash?: string) {
+        Api.questPhase(this.props.id, phase, hash)
             .then((quest) => {
                 document.title = `[${this.props.region}] Quest - ${quest.name} - Phase ${phase} - Atlas Academy DB`;
                 this.setState({ quest, loading: false });
@@ -111,11 +123,26 @@ class QuestPage extends React.Component<IProps, IState> {
                         )}
                     </Alert>
                 ) : null}
-                {quest.extraDetail.hintTitle ? (
+                {quest.extraDetail.hintTitle || quest.hints.length > 0 ? (
                     <Alert variant="success" className="newline" lang={lang(this.props.region)}>
-                        <b>{quest.extraDetail.hintTitle}</b>
-                        <br />
-                        {quest.extraDetail.hintMessage ? removePrefix(quest.extraDetail.hintMessage, "\n") : null}
+                        {quest.extraDetail.hintTitle && (
+                            <>
+                                <b>{quest.extraDetail.hintTitle}</b>
+                                <br />
+                                {quest.extraDetail.hintMessage && removePrefix(quest.extraDetail.hintMessage, "\n")}
+                            </>
+                        )}
+                        {quest.hints.length > 0 && (
+                            <>
+                                {quest.hints.map((hint) => (
+                                    <React.Fragment key={hint.title}>
+                                        <b>{hint.title}</b>
+                                        <br />
+                                        {hint.message}
+                                    </React.Fragment>
+                                ))}
+                            </>
+                        )}
                     </Alert>
                 ) : null}
                 {quest.scripts.length > 0 ? (
@@ -159,6 +186,27 @@ class QuestPage extends React.Component<IProps, IState> {
                         <QuestRestriction region={this.props.region} questRestrictions={quest.restrictions} />
                     </Alert>
                 ) : null}
+                {quest.availableEnemyHashes.length > 1 && (
+                    <Alert variant="success">
+                        {t("This quest can have multiple enemy versions")}:{" "}
+                        <Dropdown className="d-inline">
+                            <Dropdown.Toggle variant="info">
+                                {shortenQuestHash(this.state.hash ?? quest.enemyHash ?? "")}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                {quest.availableEnemyHashes.map((enemyHash) => (
+                                    <Dropdown.Item
+                                        key={enemyHash}
+                                        active={enemyHash === quest.enemyHash}
+                                        onClick={() => this.setState({ hash: enemyHash })}
+                                    >
+                                        <code>{shortenQuestHash(enemyHash)}</code>
+                                    </Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Alert>
+                )}
                 {quest.extraDetail.aiNpc !== undefined || quest.extraDetail.aiMultiNpc !== undefined ? (
                     <QuestAiNpc
                         region={this.props.region}
@@ -190,7 +238,8 @@ class QuestPage extends React.Component<IProps, IState> {
                         onSelect={(key: string | null) => {
                             this.props.history.replace(
                                 `/${this.props.region}/quest/${this.props.id}/${this.state.phase}` +
-                                    (key ? `/stage-${key}` : "")
+                                    (key ? `/stage-${key}` : "") +
+                                    (this.state.hash ? `?hash=${this.state.hash}` : "")
                             );
                         }}
                     >

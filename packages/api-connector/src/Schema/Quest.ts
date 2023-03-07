@@ -113,6 +113,12 @@ export interface QuestMessage {
     targetNum: number;
 }
 
+export interface QuestHint {
+    title: string;
+    message: string;
+    leftIndent: number;
+}
+
 export interface StageStartMovie {
     waveStartMovie: string;
 }
@@ -224,7 +230,10 @@ export interface QuestPhase extends Quest {
     battleBgId: number;
     extraDetail: QuestPhaseExtraDetail;
     scripts: PhaseScript[];
+    enemyHash?: string;
+    availableEnemyHashes: string[];
     messages: QuestMessage[];
+    hints: QuestHint[];
     restrictions: QuestPhaseRestriction[];
     supportServants: SupportServant[];
     drops: EnemyDrop[];

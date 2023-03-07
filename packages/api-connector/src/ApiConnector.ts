@@ -178,7 +178,7 @@ class ApiConnector {
         npSearch: new ResultCache<string, NoblePhantasmBasic[]>(),
         quest: new ResultCache<number, Quest>(),
         questBasic: new ResultCache<number, QuestBasic>(),
-        questPhase: new ResultCache<{ id: number; phase: number }, QuestPhase>(),
+        questPhase: new ResultCache<{ id: number; phase: number; hash?: string }, QuestPhase>(),
         questPhaseBasic: new ResultCache<number, QuestPhaseBasic>(),
         script: new ResultCache<string, Script>(),
         searchItem: new ResultCache<string, Item[]>(),
@@ -665,15 +665,18 @@ class ApiConnector {
         return this.cache.quest.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    questPhase(id: number, phase: number, cacheDuration?: number): Promise<QuestPhase> {
-        const query = this.getQueryString(new URLSearchParams());
+    questPhase(id: number, phase: number, hash?: string, cacheDuration?: number): Promise<QuestPhase> {
+        const queryParams = new URLSearchParams();
+        if (hash) queryParams.append("hash", hash);
+        const query = this.getQueryString(queryParams);
+
         const fetch = () => {
             return ApiConnector.fetch<QuestPhase>(`${this.host}/nice/${this.region}/quest/${id}/${phase}${query}`);
         };
 
         if (cacheDuration === undefined) return fetch();
 
-        return this.cache.questPhase.get({ id, phase }, fetch, cacheDuration <= 0 ? null : cacheDuration);
+        return this.cache.questPhase.get({ id, phase, hash }, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     questBasic(id: number, cacheDuration?: number): Promise<QuestBasic> {

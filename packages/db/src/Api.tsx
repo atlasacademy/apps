@@ -193,8 +193,8 @@ class Api {
         return apiConnector.quest(id, cacheDuration);
     }
 
-    static questPhase(id: number, phase: number): Promise<Quest.QuestPhase> {
-        return apiConnector.questPhase(id, phase, cacheDuration);
+    static questPhase(id: number, phase: number, hash?: string): Promise<Quest.QuestPhase> {
+        return apiConnector.questPhase(id, phase, hash, cacheDuration);
     }
 
     static questBasic(id: number): Promise<Quest.QuestBasic> {
