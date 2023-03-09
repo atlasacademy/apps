@@ -4,6 +4,7 @@ import { asPercent, mergeElements } from "../../Helper/OutputHelper";
 import BuffValueDescription from "../BuffValueDescription";
 import EntityReferenceDescriptor from "../EntityReferenceDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
+import { MultipleBuffIds, MultipleFunctionIds } from "../MultipleDescriptors";
 import { NoblePhantasmDescriptorId } from "../NoblePhantasmDescriptor";
 import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
 import TraitDescription from "../TraitDescription";
@@ -88,6 +89,20 @@ export default function handleAmountSection(
                 <TraitDescription region={region} trait={trait} owner="buffs" ownerParameter="vals" />
             ));
             parts.push(mergeElements(traits, "or"));
+        }
+    } else if (func.funcType === Func.FuncType.LAST_USE_PLAYER_SKILL_COPY) {
+        if (dataVal.Value) parts.push(dataVal.Value);
+        if (dataVal.CopyTargetBuffType) {
+            parts.push(<MultipleBuffIds region={region} buffTypeIds={dataVal.CopyTargetBuffType} />);
+            parts.push(`buff${dataVal.Value && dataVal.Value > 1 ? "s" : ""}`);
+        }
+        if (dataVal.CopyTargetFunctionType) {
+            parts.push("applied by");
+            parts.push(<MultipleFunctionIds region={region} funcTypeIds={dataVal.CopyTargetFunctionType} />);
+            parts.push(`function${dataVal.Value && dataVal.Value > 1 ? "s" : ""}`);
+        }
+        if (dataVal.CopyFunctionTargetPTOnly === 1) {
+            parts.push("from player servant");
         }
     } else if (func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
         if (dataVal.Value) parts.push(" of ");

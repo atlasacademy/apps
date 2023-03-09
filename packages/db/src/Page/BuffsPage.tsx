@@ -8,7 +8,6 @@ import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 
 import { Buff, Region, Trait } from "@atlasacademy/api-connector";
-import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -16,6 +15,7 @@ import Loading from "../Component/Loading";
 import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
 import BuffDescription from "../Descriptor/BuffDescription";
+import BuffTypeDescription from "../Descriptor/BuffTypeDescription";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -42,12 +42,6 @@ interface IState {
     ckSelfIndv: number[];
     ckOpIndv: number[];
 }
-
-const buffDescriptions = new Map<Buff.BuffType, string>(
-    Object.values(Buff.BuffType).map((type) => {
-        return [type, BuffDescriptor.describeType(type)];
-    })
-);
 
 class BuffsPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -239,7 +233,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         <SearchableSelect<Buff.BuffType>
                             id="select-BuffType"
                             options={Object.values(Buff.BuffType)}
-                            labels={buffDescriptions}
+                            labels={BuffTypeDescription}
                             selected={this.state.type ? this.state.type[0] : undefined}
                             onChange={(value?: Buff.BuffType) => {
                                 this.setState({ type: value ? [value] : [] });

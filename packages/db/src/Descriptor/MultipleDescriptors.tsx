@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { ClassName, Gift, Item, Quest, Region, Servant, War } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
@@ -7,6 +8,9 @@ import Api from "../Api";
 import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { areIdenticalArrays, isSubset } from "../Helper/ArrayHelper";
 import { Renderable, mergeElements } from "../Helper/OutputHelper";
+import useEnumList from "../Hooks/useEnumList";
+import BuffTypeDescription from "./BuffTypeDescription";
+import { funcDescriptions } from "./Func/handleActionSection";
 import GiftDescriptor from "./GiftDescriptor";
 import { IconDescriptorMap, ItemDescriptorId } from "./ItemDescriptor";
 import { QuestDescriptorId } from "./QuestDescriptor";
@@ -412,5 +416,35 @@ export const MultipleGifts = ({
                 ", "
             )}
         </>
+    );
+};
+
+export const MultipleBuffIds = ({ region, buffTypeIds }: { region: Region; buffTypeIds: number[] }) => {
+    const enumList = useEnumList();
+    if (enumList === undefined) return null;
+    return (
+        <MergeElementsOr
+            elements={buffTypeIds.map((buffTypeId) => {
+                const buffType = enumList.NiceBuffType[buffTypeId];
+                const buffTypeName = BuffTypeDescription.get(buffType) ?? buffType ?? buffTypeId.toString();
+                return <Link to={`/${region}/buffs?type=${buffType}`}>[{buffTypeName}]</Link>;
+            })}
+            lastJoinWord="or"
+        />
+    );
+};
+
+export const MultipleFunctionIds = ({ region, funcTypeIds }: { region: Region; funcTypeIds: number[] }) => {
+    const enumList = useEnumList();
+    if (enumList === undefined) return null;
+    return (
+        <MergeElementsOr
+            elements={funcTypeIds.map((funcTypeId) => {
+                const funcType = enumList.NiceFuncType[funcTypeId];
+                const funcTypeName = funcDescriptions.get(funcType) ?? funcType ?? funcTypeId.toString();
+                return <Link to={`/${region}/funcs?type=${funcType}`}>[{funcTypeName}]</Link>;
+            })}
+            lastJoinWord="or"
+        />
     );
 };
