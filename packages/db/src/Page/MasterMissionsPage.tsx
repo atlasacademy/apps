@@ -27,6 +27,7 @@ const MasterMissionsPage = (props: { region: Region }) => {
         Manager.setRegion(region);
         Api.masterMissionList()
             .then((r) => {
+                document.title = `[${region}] Master Missions - Atlas Academy DB`;
                 setMasterMissions(r);
                 setLoading(false);
             })
@@ -36,8 +37,6 @@ const MasterMissionsPage = (props: { region: Region }) => {
     if (loading) return <Loading />;
 
     if (error !== undefined) return <ErrorStatus error={error} />;
-
-    document.title = `[${region}] Master Missions - Atlas Academy DB`;
 
     const currentTimestamp = getCurrentTimestamp();
 

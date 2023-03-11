@@ -241,11 +241,15 @@ class ItemPage extends React.Component<IProps, IState> {
         Api.item(this.props.id)
             .then((item) => {
                 this.setState({ item, loading: false });
-                if (itemIsMaterial(item)) {
+                const isMaterialItem = itemIsMaterial(item);
+                if (isMaterialItem) {
                     Api.servantListNice()
                         .then((servants) => this.setState({ servants }))
                         .catch((error) => this.setState({ error }));
                 }
+                document.title = `[${this.props.region}] ${isMaterialItem ? "Material" : "Item"} - ${
+                    item.name
+                } - Atlas Academy DB`;
             })
             .catch((error) => this.setState({ error }));
     }
@@ -458,9 +462,6 @@ class ItemPage extends React.Component<IProps, IState> {
         if (this.state.loading || !this.state.item) return <Loading />;
 
         const item = this.state.item;
-        document.title = `[${this.props.region}] ${itemIsMaterial(item) ? "Material" : "Item"} - ${
-            item.name
-        } - Atlas Academy DB`;
 
         const itemUsageTable =
             item.type === Item.ItemType.EVENT_ITEM ? this.renderEventServantMaterial() : this.renderMaterialBreakdown();

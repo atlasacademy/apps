@@ -34,6 +34,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
             .then((bgm) => {
                 setBgm(bgm);
                 setLoading(false);
+                document.title = `[${region}] BGM ${getBgmName(bgm)} - Atlas Academy DB`;
             })
             .catch((e) => setError(e));
     }, [region, bgmId]);
@@ -45,8 +46,6 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
     if (bgm === undefined) return null;
 
     const showName = getBgmName(bgm);
-
-    document.title = `[${region}] BGM ${showName} - Atlas Academy DB`;
 
     const shopDetail = bgm.shop ? (
         <>

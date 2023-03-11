@@ -39,6 +39,21 @@ import "./ServantPage.css";
 
 type AssetType = "ascension" | "costume";
 
+const getOverwriteName = (servant?: Servant.Servant, assetId?: number, originalName?: boolean) => {
+    const overWriteServantName = originalName
+        ? servant?.ascensionAdd.originalOverWriteServantName
+        : servant?.ascensionAdd.overWriteServantName;
+    if (assetId && overWriteServantName) {
+        const limit = assetId === 1 ? 0 : assetId;
+        if (limit in overWriteServantName.ascension) {
+            return overWriteServantName.ascension[limit];
+        } else if (limit in overWriteServantName.costume) {
+            return overWriteServantName.costume[limit];
+        }
+    }
+    return originalName ? servant?.originalName : servant?.name;
+};
+
 interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
@@ -103,6 +118,8 @@ class ServantPage extends React.Component<IProps, IState> {
                     if (assetId !== undefined) assetId = parseInt(assetId);
                 }
 
+                this.updateTitle(this.props.region, servant, assetId);
+
                 this.setState({
                     servants,
                     servant,
@@ -113,6 +130,18 @@ class ServantPage extends React.Component<IProps, IState> {
                 });
             })
             .catch((error) => this.setState({ error }));
+    }
+
+    componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any): void {
+        this.updateTitle(this.props.region, this.state.servant, this.state.assetId);
+    }
+
+    private updateTitle(region: Region, servant?: Servant.Servant, assetId?: number): void {
+        if (servant === undefined) {
+            document.title = `[${region}] Servant - Atlas Academy DB`;
+        } else {
+            document.title = `[${region}] Servant - ${getOverwriteName(servant, assetId)} - Atlas Academy DB`;
+        }
     }
 
     private skillRankUps(skillId: number): number[] {
@@ -129,18 +158,7 @@ class ServantPage extends React.Component<IProps, IState> {
     }
 
     private getOverwriteName(originalName?: boolean) {
-        const overWriteServantName = originalName
-            ? this.state.servant?.ascensionAdd.originalOverWriteServantName
-            : this.state.servant?.ascensionAdd.overWriteServantName;
-        if (this.state.assetId && overWriteServantName) {
-            const limit = this.state.assetId === 1 ? 0 : this.state.assetId;
-            if (limit in overWriteServantName.ascension) {
-                return overWriteServantName.ascension[limit];
-            } else if (limit in overWriteServantName.costume) {
-                return overWriteServantName.costume[limit];
-            }
-        }
-        return originalName ? this.state.servant?.originalName : this.state.servant?.name;
+        return getOverwriteName(this.state.servant, this.state.assetId, originalName);
     }
 
     render() {
@@ -150,8 +168,6 @@ class ServantPage extends React.Component<IProps, IState> {
         if (this.state.loading || !this.state.servant) return <Loading />;
 
         const servant = this.state.servant;
-
-        document.title = `[${this.props.region}] Servant - ${this.getOverwriteName()} - Atlas Academy DB`;
 
         let remappedCostumeMaterials: Entity.EntityLevelUpMaterialProgression = {};
         if (servant.profile) {

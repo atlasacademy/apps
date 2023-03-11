@@ -106,10 +106,12 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     }, [region, query, scriptFileName, warId, scripts, searched, searchLimit]);
 
     useEffect(() => {
+        document.title = `[${region}] ${t("Scripts")} - Atlas Academy DB`;
+    }, [region, t]);
+
+    useEffect(() => {
         Api.warList().then((r) => setWars(r));
     }, []);
-
-    document.title = `[${region}] ${t("Scripts")} - Atlas Academy DB`;
 
     if (error !== undefined) {
         history.replace(`/${region}/${path}`);

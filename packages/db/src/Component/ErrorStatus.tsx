@@ -75,8 +75,11 @@ const getSanitisedEndpoint = (endpoint: string) => {
 };
 
 class ErrorStatus extends React.Component<IProps> {
-    render() {
+    componentDidMount(): void {
         document.title = "Error - Atlas Academy DB";
+    }
+
+    render() {
         let message: string | JSX.Element;
 
         const links = [

@@ -30,6 +30,10 @@ const FaqPage = ({ region }: { region: Region }) => {
     const { pathname, hash } = useLocation();
 
     useEffect(() => {
+        document.title = "FAQ - Atlas Academy DB";
+    }, []);
+
+    useEffect(() => {
         if (hash !== "") {
             setTimeout(() => {
                 const element = document.getElementById(hash.replace("#", ""));
@@ -43,8 +47,6 @@ const FaqPage = ({ region }: { region: Region }) => {
     useEffect(() => {
         Manager.setRegion(region);
     }, [region]);
-
-    document.title = "FAQ - Atlas Academy DB";
 
     const faqContent = [warFaq(region)];
     const aiContent = [aiFaq(region)];

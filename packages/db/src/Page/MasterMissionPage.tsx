@@ -60,10 +60,12 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
     const [servantCache, setServantCache] = useState<Map<number, Servant.ServantBasic> | undefined>(undefined);
     const [itemCache, setItemCache] = useState<Map<number, Item.Item> | undefined>(undefined);
     const { t } = useTranslation();
+
     useEffect(() => {
         Manager.setRegion(region);
         Promise.all([Api.masterMission(masterMissionId), Api.enumList(), Api.servantList(), Api.itemList()])
             .then(([mmData, enums, servants, items]) => {
+                document.title = `[${region}] Master Mission ${masterMissionId} - Atlas Academy DB`;
                 setMasterMission(mmData);
                 setEnumList(enums);
                 setServantCache(new Map(servants.map((servant) => [servant.id, servant])));
@@ -81,8 +83,6 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
     if (error !== undefined) return <ErrorStatus error={error} />;
 
     if (masterMission === undefined) return null;
-
-    document.title = `[${region}] Master Mission ${masterMissionId} - Atlas Academy DB`;
 
     const missionMap = new Map(masterMission.missions.map((mission) => [mission.id, mission]));
     const questCache = new Map(masterMission.quests.map((quest) => [quest.id, quest]));
