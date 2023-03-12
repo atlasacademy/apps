@@ -9,7 +9,7 @@ import { Region } from "@atlasacademy/api-connector";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import { flatten } from "../Helper/PolyFill";
-import useWindowDimensions from "../Helper/WindowHelper";
+import useWindowDimensions from "../Hooks/useWindowDimensions";
 import ShowScriptLineContext from "../Page/Script/ShowScriptLineContext";
 import Manager, { lang } from "../Setting/Manager";
 import Scene from "./Scene";

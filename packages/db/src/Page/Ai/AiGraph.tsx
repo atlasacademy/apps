@@ -4,7 +4,7 @@ import CytoscapeComponent from "react-cytoscapejs";
 
 import { Ai } from "@atlasacademy/api-connector";
 
-import useWindowDimensions from "../../Helper/WindowHelper";
+import useWindowDimensions from "../../Hooks/useWindowDimensions";
 
 cytoscape.use(klay);
 
