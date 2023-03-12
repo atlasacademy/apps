@@ -33,7 +33,7 @@ interface IState {
     skillId1?: number;
     skillId2?: number;
     skillId3?: number;
-    refs: Map<number, React.Ref<any>>;
+    refs: Map<number, React.Ref<HTMLDivElement>>;
 }
 
 class AiPage extends React.Component<IProps, IState> {

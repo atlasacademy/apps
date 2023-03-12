@@ -1,4 +1,4 @@
-import { createRef } from "react";
+import { useRef } from "react";
 import { Col, Row } from "react-bootstrap";
 
 import { Ai, Quest, Region } from "@atlasacademy/api-connector";
@@ -16,7 +16,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
 
     const enemyLookUp = new Map(stage.enemies.map((enemy) => [hashEnemy(enemy), enemy]));
 
-    const enemyRefs = new Map(stage.enemies.map((enemy) => [hashEnemy(enemy), createRef<HTMLDivElement>()]));
+    const enemyRefs = useRef<Map<string, HTMLDivElement> | null>(null);
 
     const callEntries: { caller: string; callee: number }[] = [];
     for (const enemy of stage.enemies) {
@@ -53,9 +53,17 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
         }
     }
 
+    const getEnemyRefs = () => {
+        if (!enemyRefs.current) {
+            enemyRefs.current = new Map();
+        }
+        return enemyRefs.current;
+    };
+
     const scrollToEnemy = (enemyHash: string) => {
-        let elementRef = enemyRefs.get(enemyHash);
-        elementRef?.current?.scrollIntoView({ behavior: "smooth" });
+        const refMap = getEnemyRefs();
+        const element = refMap.get(enemyHash);
+        if (element !== undefined) element.scrollIntoView({ behavior: "smooth" });
     };
 
     return (
@@ -88,7 +96,15 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
 
             {stage.enemies.map((enemy) => (
                 <div
-                    ref={enemyRefs.get(hashEnemy(enemy))}
+                    ref={(node) => {
+                        const enemyHash = hashEnemy(enemy);
+                        const map = getEnemyRefs();
+                        if (node) {
+                            map.set(enemyHash, node);
+                        } else {
+                            map.delete(enemyHash);
+                        }
+                    }}
                     key={`${enemy.deck}-${enemy.npcId}-${enemy.userSvtId}-${enemy.uniqueId}`}
                 >
                     <QuestEnemyTable
