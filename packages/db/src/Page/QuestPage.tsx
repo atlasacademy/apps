@@ -76,6 +76,7 @@ class QuestPage extends React.Component<IProps, IState> {
     async loadQuest(phase: number, hash?: string) {
         Api.questPhase(this.props.id, phase, hash)
             .then((quest) => {
+                if (phase !== this.state.phase) return;
                 document.title = `[${this.props.region}] Quest - ${quest.name} - Phase ${phase} - Atlas Academy DB`;
                 this.setState({ quest, loading: false });
             })
