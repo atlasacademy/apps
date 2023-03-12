@@ -1,12 +1,11 @@
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { ClassName, Quest, Region } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
 import { getURLSearchParams } from "../Helper/StringHelper";
+import useApi from "../Hooks/useApi";
 import { QuestDescriptionNoApi } from "./QuestDescriptor";
 
 interface IProps {
@@ -32,45 +31,24 @@ interface IProps {
 }
 
 export default function QuestSearchDescriptor(props: IProps) {
-    const [quests, setQuests] = useState<Quest.QuestPhaseBasic[]>([]);
-    useEffect(() => {
-        Api.searchQuestPhase({
-            name: props.name,
-            spotName: props.spotName,
-            warId: props.warId,
-            type: props.type,
-            flag: props.flag,
-            fieldIndividuality: props.fieldIndividuality,
-            battleBgId: props.battleBgId,
-            bgmId: props.bgmId,
-            fieldAiId: props.fieldAiId,
-            enemySvtId: props.enemySvtId,
-            enemySvtAiId: props.enemySvtAiId,
-            enemyTrait: props.enemyTrait,
-            enemyClassName: props.enemyClassName,
-            enemySkillId: props.enemySkillId,
-            enemyNoblePhantasmId: props.enemyNoblePhantasmId,
-        })
-            .then((s) => setQuests(s))
-            .catch(() => {});
-    }, [
-        props.name,
-        props.spotName,
-        props.warId,
-        props.type,
-        props.flag,
-        props.fieldIndividuality,
-        props.battleBgId,
-        props.bgmId,
-        props.fieldAiId,
-        props.enemySvtId,
-        props.enemySvtAiId,
-        props.enemyTrait,
-        props.enemyClassName,
-        props.enemySkillId,
-        props.enemyNoblePhantasmId,
-    ]);
-    if (quests.length === 0) {
+    const { data: quests } = useApi("searchQuestPhase", {
+        name: props.name,
+        spotName: props.spotName,
+        warId: props.warId,
+        type: props.type,
+        flag: props.flag,
+        fieldIndividuality: props.fieldIndividuality,
+        battleBgId: props.battleBgId,
+        bgmId: props.bgmId,
+        fieldAiId: props.fieldAiId,
+        enemySvtId: props.enemySvtId,
+        enemySvtAiId: props.enemySvtAiId,
+        enemyTrait: props.enemyTrait,
+        enemyClassName: props.enemyClassName,
+        enemySkillId: props.enemySkillId,
+        enemyNoblePhantasmId: props.enemyNoblePhantasmId,
+    });
+    if (quests === undefined || quests.length === 0) {
         return null;
     }
 

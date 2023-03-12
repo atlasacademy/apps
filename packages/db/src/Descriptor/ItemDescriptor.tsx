@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Item, Region } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
 import ItemIcon from "../Component/ItemIcon";
 import { mergeElements } from "../Helper/OutputHelper";
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 import TraitDescription from "./TraitDescription";
 
@@ -59,10 +58,7 @@ export function ItemDescriptorIconOnly(props: {
 }
 
 export function ItemDescriptorIndividuality(props: { region: Region; individuality: number }) {
-    const [items, setItems] = useState<Item.Item[]>(null as any);
-    useEffect(() => {
-        Api.searchItem(undefined, [props.individuality]).then((s) => setItems(s));
-    }, [props.region, props.individuality]);
+    const { data: items } = useApi("searchItem", undefined, [props.individuality]);
     if (items && items.length > 0) {
         return (
             <>
@@ -84,11 +80,8 @@ export function ItemDescriptorId(props: {
     height?: string | number;
     quantityHeight?: string | number;
 }) {
-    const [item, setItem] = useState<Item.Item>(null as any);
-    useEffect(() => {
-        Api.item(props.itemId).then((s) => setItem(s));
-    }, [props.region, props.itemId]);
-    if (item !== null) {
+    const { data: item } = useApi("item", props.itemId);
+    if (item !== undefined) {
         return (
             <>
                 <ItemDescriptor

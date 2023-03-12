@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 import { NoblePhantasm, Region } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
 import getRubyText from "../Helper/StringHelper";
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 
 interface IProps {
@@ -36,12 +36,7 @@ class NoblePhantasmDescriptor extends React.Component<IProps> {
 export default NoblePhantasmDescriptor;
 
 export const NoblePhantasmDescriptorId = ({ region, noblePhantasmId }: { region: Region; noblePhantasmId: number }) => {
-    const [noblePhantasm, setNoblePhantasm] = React.useState<NoblePhantasm.NoblePhantasmBasic | undefined>(undefined);
-
-    React.useEffect(() => {
-        Api.noblePhantasmBasic(noblePhantasmId).then((np) => setNoblePhantasm(np));
-    }, [noblePhantasmId]);
-
+    const { data: noblePhantasm } = useApi("noblePhantasmBasic", noblePhantasmId);
     const npLink = `/${region}/noble-phantasm/${noblePhantasmId}`;
 
     if (noblePhantasm === undefined) {

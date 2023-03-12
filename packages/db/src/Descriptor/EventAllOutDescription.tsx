@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { Region } from "@atlasacademy/api-connector";
 
-import { Event, Region } from "@atlasacademy/api-connector";
-
-import Api from "../Api";
+import useApi from "../Hooks/useApi";
 import { WarDescriptorId } from "./WarDescriptor";
 
 const EventAllOutDescription = ({
@@ -14,17 +12,12 @@ const EventAllOutDescription = ({
     eventId: number;
     alloutBattleId: number;
 }) => {
-    const [alloutBattle, setAlloutBattle] = useState<Event.EventAlloutBattle[]>([]);
+    const { data: alloutBattle } = useApi("eventAlloutBattle", eventId);
+    const chosenBattle = (alloutBattle ?? []).find((battle) => battle.alloutBattleId === alloutBattleId);
 
-    useEffect(() => {
-        Api.eventAlloutBattle(eventId).then((allouts) => setAlloutBattle(allouts));
-    }, [eventId]);
-
-    const chosenBattle = alloutBattle.find((battle) => battle.alloutBattleId === alloutBattleId);
     if (chosenBattle !== undefined) {
         return <WarDescriptorId region={region} warId={chosenBattle.warId} />;
     }
-
     return (
         <>
             Event {eventId} All out battle {alloutBattleId}

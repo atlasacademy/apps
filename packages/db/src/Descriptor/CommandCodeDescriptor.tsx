@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { CommandCode, Region } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
 import FaceIcon from "../Component/FaceIcon";
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 
 import "./Descriptor.css";
@@ -30,11 +29,8 @@ export default function CommandCodeDescriptor(props: {
 }
 
 export function CommandCodeDescriptorId(props: { region: Region; ccId: number; iconHeight?: number }) {
-    const [cc, setCC] = useState<CommandCode.CommandCodeBasic>(null as any);
-    useEffect(() => {
-        Api.commandCodeBasic(props.ccId).then((s) => setCC(s));
-    }, [props.ccId]);
-    return cc !== null ? (
+    const { data: cc } = useApi("commandCodeBasic", props.ccId);
+    return cc !== undefined ? (
         <CommandCodeDescriptor region={props.region} commandCode={cc} iconHeight={props.iconHeight} />
     ) : null;
 }

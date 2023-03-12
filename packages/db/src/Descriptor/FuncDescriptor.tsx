@@ -1,6 +1,6 @@
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { DataVal, Func, Region } from "@atlasacademy/api-connector";
@@ -16,6 +16,7 @@ import {
     hasFollowerDataVals,
 } from "../Helper/FuncHelper";
 import { Renderable, joinElements } from "../Helper/OutputHelper";
+import useApi from "../Hooks/useApi";
 import { FuncDescriptorSections } from "./Func/FuncDescriptorSections";
 import handleActionSection from "./Func/handleActionSection";
 import handleAffectsSection from "./Func/handleAffectsSection";
@@ -152,11 +153,8 @@ export function FuncDescriptorId(props: {
     levels?: number[];
     overcharge?: number;
 }) {
-    const [func, setFunc] = useState<Func.BasicFunc>(null as any);
-    useEffect(() => {
-        Api.funcBasic(props.funcId).then((s) => setFunc(s));
-    }, [props.region, props.funcId]);
-    if (func !== null) {
+    const { data: func } = useApi("funcBasic", props.funcId);
+    if (func !== undefined) {
         return (
             <FuncDescriptor
                 region={props.region}

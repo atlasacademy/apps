@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Region, War } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 
 export const getWarName = (war: War.WarBasic) =>
@@ -18,11 +17,8 @@ export default function WarDescriptor({ region, war }: { region: Region; war: Wa
 }
 
 export function WarDescriptorId(props: { region: Region; warId: number }) {
-    const [war, setWar] = useState<War.WarBasic>(null as any);
-    useEffect(() => {
-        Api.warBasic(props.warId).then((s) => setWar(s));
-    }, [props.warId]);
-    if (war !== null) {
+    const { data: war } = useApi("warBasic", props.warId);
+    if (war !== undefined) {
         return <WarDescriptor region={props.region} war={war} />;
     } else {
         return <>War {props.warId}</>;

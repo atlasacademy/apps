@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { Region } from "@atlasacademy/api-connector";
 
-import { Entity, Region } from "@atlasacademy/api-connector";
-
-import Api from "../Api";
+import useApi from "../Hooks/useApi";
 import EntityDescriptor from "./EntityDescriptor";
 
 export default function EntityReferenceDescriptor(props: {
@@ -11,10 +9,7 @@ export default function EntityReferenceDescriptor(props: {
     iconHeight?: number;
     tab?: string;
 }) {
-    const [entity, setEntity] = useState<Entity.EntityBasic | undefined>(undefined);
-    useEffect(() => {
-        Api.entityBasic(props.svtId).then((s) => setEntity(s));
-    }, [props.region, props.svtId]);
+    const { data: entity } = useApi("entityBasic", props.svtId);
     if (entity !== undefined) {
         return <EntityDescriptor region={props.region} entity={entity} iconHeight={props.iconHeight} tab={props.tab} />;
     } else {

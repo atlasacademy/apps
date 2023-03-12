@@ -1,11 +1,10 @@
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Quest, Region } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 
 export function QuestDescriptionNoApi(props: {
@@ -80,13 +79,8 @@ interface IProps {
 }
 
 export default function QuestDescriptor(props: IProps) {
-    const [quest, setQuest] = useState<Quest.QuestBasic>(null as any);
-    useEffect(() => {
-        Api.questBasic(props.questId)
-            .then((s) => setQuest(s))
-            .catch(() => {});
-    }, [props.questId]);
-    if (quest !== null) {
+    const { data: quest } = useApi("questBasic", props.questId);
+    if (quest !== undefined) {
         return (
             <QuestDescriptionNoApi
                 text={props.text}

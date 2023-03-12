@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { ClassName, Gift, Item, Quest, Region, Servant, War } from "@atlasacademy/api-connector";
+import { ClassName, Gift, Item, Quest, Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import Api from "../Api";
 import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { areIdenticalArrays, isSubset } from "../Helper/ArrayHelper";
 import { Renderable, mergeElements } from "../Helper/OutputHelper";
-import useEnumList from "../Hooks/useEnumList";
+import useApi from "../Hooks/useApi";
 import BuffTypeDescription from "./BuffTypeDescription";
 import { funcDescriptions } from "./Func/handleActionSection";
 import GiftDescriptor from "./GiftDescriptor";
@@ -242,11 +240,8 @@ export const MultipleQuestTypes = (props: { questTypeIds: number[]; enums?: { [k
 };
 
 export const MultipleWars = ({ region, warIds }: { region: Region; warIds: number[] }) => {
-    const [warList, setWarList] = useState([] as War.WarBasic[]);
-
-    useEffect(() => {
-        Api.warList().then((wars) => setWarList(wars));
-    }, []);
+    const { data: warList } = useApi("warList");
+    if (warList === undefined) return null;
 
     const wars = warIds.map((warId) => {
         const war = warList.find((war) => war.id === warId);
@@ -420,7 +415,7 @@ export const MultipleGifts = ({
 };
 
 export const MultipleBuffIds = ({ region, buffTypeIds }: { region: Region; buffTypeIds: number[] }) => {
-    const enumList = useEnumList();
+    const { data: enumList } = useApi("enumList");
     if (enumList === undefined) return null;
     return (
         <MergeElementsOr
@@ -435,7 +430,7 @@ export const MultipleBuffIds = ({ region, buffTypeIds }: { region: Region; buffT
 };
 
 export const MultipleFunctionIds = ({ region, funcTypeIds }: { region: Region; funcTypeIds: number[] }) => {
-    const enumList = useEnumList();
+    const { data: enumList } = useApi("enumList");
     if (enumList === undefined) return null;
     return (
         <MergeElementsOr

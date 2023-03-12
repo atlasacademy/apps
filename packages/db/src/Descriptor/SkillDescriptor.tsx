@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { Region, Skill } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
 import getRubyText from "../Helper/StringHelper";
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 
 import "./Descriptor.css";
@@ -52,11 +52,8 @@ export const SkillDescriptorId = (props: {
     iconHeight?: number;
     whiteSpace?: "normal" | "nowrap";
 }) => {
-    const [skill, setSkill] = useState<Skill.SkillBasic>(null as any);
-    useEffect(() => {
-        Api.skillBasic(props.skillId).then((s) => setSkill(s));
-    }, [props.skillId]);
-    if (skill !== null) {
+    const { data: skill } = useApi("skillBasic", props.skillId);
+    if (skill !== undefined) {
         return (
             <SkillDescriptor
                 region={props.region}

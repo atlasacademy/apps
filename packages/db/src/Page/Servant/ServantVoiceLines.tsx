@@ -1,13 +1,12 @@
 import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Alert, ButtonGroup, Dropdown, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { CraftEssence, Entity, Profile, ProfileVoiceType, Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import Api from "../../Api";
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import EntityDescriptor from "../../Descriptor/EntityDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
@@ -19,6 +18,7 @@ import VoicePlayCondDescriptor from "../../Descriptor/VoicePlayCondDescriptor";
 import VoicePrefixDescriptor from "../../Descriptor/VoicePrefixDescriptor";
 import { mergeElements } from "../../Helper/OutputHelper";
 import { VoiceSubtitleFormat } from "../../Helper/StringHelper";
+import useApi from "../../Hooks/useApi";
 import { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
@@ -194,10 +194,8 @@ export default function ServantVoiceLines(props: {
     servantName?: string;
 }) {
     const { t } = useTranslation();
-    const [relatedVoiceSvts, setRelatedVoiceSvts] = useState<Entity.EntityBasic[] | null>(null);
-    useEffect(() => {
-        Api.searchEntityVoiceCondSvt([props.servant.collectionNo]).then((s) => setRelatedVoiceSvts(s));
-    }, [props.servant]);
+
+    const { data: relatedVoiceSvts } = useApi("searchEntityVoiceCondSvt", [props.servant.collectionNo]);
 
     const { profile, ascensionAdd } = props.servant;
     const voices = profile?.voices;
@@ -262,7 +260,7 @@ export default function ServantVoiceLines(props: {
             </Alert>
             {props.servant.type !== Entity.EntityType.SERVANT_EQUIP && (
                 <Alert variant="success">
-                    {relatedVoiceSvts !== null ? (
+                    {relatedVoiceSvts !== undefined ? (
                         relatedVoiceSvts.length > 0 ? (
                             <>
                                 {t("RelatedVoiceSvtsBefore")}{" "}
@@ -279,7 +277,7 @@ export default function ServantVoiceLines(props: {
                     ) : (
                         t("RelatedVoiceSvtsFetching")
                     )}
-                    {relatedVoiceSvts !== null && relatedVoiceSvts.length > 0
+                    {relatedVoiceSvts !== undefined && relatedVoiceSvts.length > 0
                         ? mergeElements(
                               relatedVoiceSvts.map((svt) => (
                                   <EntityDescriptor key={svt.id} region={props.region} entity={svt} tab={"voices"} />

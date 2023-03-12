@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { Region } from "@atlasacademy/api-connector";
 
-import { Region, Servant } from "@atlasacademy/api-connector";
-
-import Api from "../Api";
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 import ServantDescriptor from "./ServantDescriptor";
 
@@ -13,11 +11,8 @@ export default function CostumeDescriptor(props: {
     iconHeight?: number;
     tab?: string;
 }) {
-    const [servant, serServant] = useState<Servant.Servant>(null as any);
-    useEffect(() => {
-        Api.servant(props.servantId).then((s) => serServant(s));
-    }, [props.servantId]);
-    if (servant !== null) {
+    const { data: servant } = useApi("servant", props.servantId);
+    if (servant !== undefined) {
         let costume = undefined;
         if (servant.profile !== undefined) {
             costume = Object.values(servant.profile.costume).find((costume) => costume.id === props.costumeLimit);

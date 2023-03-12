@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
 
 import { Buff, Region } from "@atlasacademy/api-connector";
 import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 
-import Api from "../Api";
 import BuffIcon from "../Component/BuffIcon";
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 import Description from "./Description";
 
@@ -49,11 +48,8 @@ class BuffDescription extends React.Component<IProps> {
 export default BuffDescription;
 
 export function BuffIdDescriptor(props: { region: Region; buffId: number }) {
-    const [buff, setBuff] = useState<Buff.BasicBuff>(null as any);
-    useEffect(() => {
-        Api.buffBasic(props.buffId).then((s) => setBuff(s));
-    }, [props.region, props.buffId]);
-    if (buff) {
+    const { data: buff } = useApi("buffBasic", props.buffId);
+    if (buff !== undefined) {
         return <BuffDescription region={props.region} buff={buff} />;
     } else {
         return null;

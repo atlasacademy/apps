@@ -1,11 +1,10 @@
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 
 import { Buff, ClassName } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
+import useApi from "../Hooks/useApi";
 import ClassIcon from "./ClassIcon";
 
 import "./BuffClassRelationOverwrite.css";
@@ -91,17 +90,14 @@ const SideRelationOverwrite = ({
 };
 
 const BuffClassRelationOverwrite = ({ relations }: { relations: Buff.BuffRelationOverwrite }) => {
-    const [classIds, setClassIds] = useState<Map<ClassName, number>>(new Map());
+    const { data: enumList } = useApi("enumList");
 
-    useEffect(() => {
-        Api.enumList().then((enums) => {
-            const classIds: Map<ClassName, number> = new Map();
-            for (const [key, value] of Object.entries(enums.SvtClass)) {
-                classIds.set(value, parseInt(key));
-            }
-            setClassIds(classIds);
-        });
-    }, []);
+    const classIds: Map<ClassName, number> = new Map();
+    if (enumList !== undefined) {
+        for (const [key, value] of Object.entries(enumList.SvtClass)) {
+            classIds.set(value, parseInt(key));
+        }
+    }
 
     return (
         <>
