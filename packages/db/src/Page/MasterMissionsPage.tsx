@@ -1,6 +1,5 @@
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -11,6 +10,7 @@ import { MasterMission, Region } from "@atlasacademy/api-connector";
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import LoadStatus from "../Helper/LoadStatus";
 import { getCurrentTimestamp, getTimeString } from "../Helper/TimeHelper";
 import Manager from "../Setting/Manager";
 
@@ -18,31 +18,30 @@ import "./ListingPage.css";
 
 const MasterMissionsPage = (props: { region: Region }) => {
     const { region } = props;
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<AxiosError | undefined>(undefined);
-    const [masterMissions, setMasterMissions] = useState<MasterMission.MasterMission[]>([]);
+    const [{ loading, data: masterMissions, error }, setLoadStatus] = useState<
+        LoadStatus<MasterMission.MasterMission[]>
+    >({ loading: true });
     const { t } = useTranslation();
 
     useEffect(() => {
         const controller = new AbortController();
         Manager.setRegion(region);
         Api.masterMissionList()
-            .then((r) => {
+            .then((mms) => {
                 if (controller.signal.aborted) return;
                 document.title = `[${region}] Master Missions - Atlas Academy DB`;
-                setMasterMissions(r);
-                setLoading(false);
+                setLoadStatus({ loading: false, data: mms });
             })
             .catch((e) => {
                 if (controller.signal.aborted) return;
-                setError(e);
+                setLoadStatus({ loading: false, error: e });
             });
         return () => {
             controller.abort();
         };
     }, [region]);
 
-    if (loading) return <Loading />;
+    if (loading || masterMissions === undefined) return <Loading />;
 
     if (error !== undefined) return <ErrorStatus error={error} />;
 

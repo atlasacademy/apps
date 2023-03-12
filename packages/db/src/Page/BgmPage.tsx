@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -16,6 +15,7 @@ import BgmDescriptor, { getBgmName } from "../Descriptor/BgmDescriptor";
 import ItemDescriptor from "../Descriptor/ItemDescriptor";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import QuestSearchDescriptor from "../Descriptor/QuestSearchDescriptor";
+import LoadStatus from "../Helper/LoadStatus";
 import { mergeElements } from "../Helper/OutputHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -24,9 +24,7 @@ import "../Helper/StringHelper.css";
 const BgmPage = (props: { region: Region; bgmId: number }) => {
     const { t } = useTranslation();
     const { region, bgmId } = props;
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<AxiosError | undefined>(undefined);
-    const [bgm, setBgm] = useState<BgmEntity | undefined>(undefined);
+    const [{ loading, data: bgm, error }, setLoadStatus] = useState<LoadStatus<BgmEntity>>({ loading: true });
 
     useEffect(() => {
         const controller = new AbortController();
@@ -34,13 +32,12 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
         Api.bgm(bgmId)
             .then((bgm) => {
                 if (controller.signal.aborted) return;
-                setBgm(bgm);
-                setLoading(false);
+                setLoadStatus({ loading: false, data: bgm });
                 document.title = `[${region}] BGM ${getBgmName(bgm)} - Atlas Academy DB`;
             })
             .catch((e) => {
                 if (controller.signal.aborted) return;
-                setError(e);
+                setLoadStatus({ loading: false, error: e });
             });
         return () => {
             controller.abort();

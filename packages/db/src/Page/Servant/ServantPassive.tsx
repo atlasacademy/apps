@@ -7,27 +7,33 @@ import { Buff, ConstantStr, Region, Servant } from "@atlasacademy/api-connector"
 
 import Api from "../../Api";
 import SkillBreakdown from "../../Breakdown/SkillBreakdown";
+import LoadStatus from "../../Helper/LoadStatus";
 import { mergeElements } from "../../Helper/OutputHelper";
 import ExtraPassive from "./ExtraPassive";
 
+interface ServantScriptPassiveLoadStatus extends LoadStatus<string[]> {
+    buffNames?: Map<string, Buff.BuffType>;
+}
+
 const ServantScriptPassive = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
     const { t } = useTranslation();
-    const [buffTypes, setBuffTypes] = useState<string[] | undefined>(undefined);
-    const [buffNames, setBuffNames] = useState<Map<string, Buff.BuffType> | undefined>(undefined);
+    const [{ data: buffTypes, buffNames }, setLoadStatus] = useState<ServantScriptPassiveLoadStatus>({
+        loading: true,
+    });
 
     useEffect(() => {
         const controller = new AbortController();
         if (servant.script.svtBuffTurnExtend) {
-            Api.constantStrs().then((constantStrs) => {
+            Promise.all([Api.constantStrs(), Api.enumList()]).then(([constantStrs, enumList]) => {
                 if (controller.signal.aborted) return;
                 const buffTurnExtendTypes = constantStrs[ConstantStr.ConstantStr.EXTEND_TURN_BUFF_TYPE];
                 if (buffTurnExtendTypes !== undefined) {
-                    setBuffTypes(buffTurnExtendTypes.split(","));
+                    setLoadStatus({
+                        loading: false,
+                        data: buffTurnExtendTypes.split(","),
+                        buffNames: new Map(Object.entries(enumList.NiceBuffType)),
+                    });
                 }
-            });
-            Api.enumList().then((enumList) => {
-                if (controller.signal.aborted) return;
-                setBuffNames(new Map(Object.entries(enumList.NiceBuffType)));
             });
         }
         return () => {

@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -12,6 +11,7 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
+import LoadStatus from "../Helper/LoadStatus";
 import { flatten } from "../Helper/PolyFill";
 import { getEventStatus, getTimeString } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -51,33 +51,38 @@ const MasterMissionCond = (props: {
     return <>{flatten(renderedConds)}</>;
 };
 
+interface MasterMissionLoadStatus extends LoadStatus<MasterMission.MasterMission> {
+    enumList?: EnumList;
+    servantCache?: Map<number, Servant.ServantBasic>;
+    itemCache?: Map<number, Item.Item>;
+}
+
 const MasterMissionPage = (props: { region: Region; masterMissionId: number }) => {
     const { region, masterMissionId } = props;
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<AxiosError | undefined>(undefined);
-    const [masterMission, setMasterMission] = useState<MasterMission.MasterMission | undefined>(undefined);
-    const [enumList, setEnumList] = useState<EnumList | undefined>(undefined);
-    const [servantCache, setServantCache] = useState<Map<number, Servant.ServantBasic> | undefined>(undefined);
-    const [itemCache, setItemCache] = useState<Map<number, Item.Item> | undefined>(undefined);
+    const [{ loading, data: masterMission, enumList, servantCache, itemCache, error }, setLoadStatus] =
+        useState<MasterMissionLoadStatus>({
+            loading: true,
+        });
     const { t } = useTranslation();
 
     useEffect(() => {
         const controller = new AbortController();
         Manager.setRegion(region);
         Promise.all([Api.masterMission(masterMissionId), Api.enumList(), Api.servantList(), Api.itemList()])
-            .then(([mmData, enums, servants, items]) => {
+            .then(([mmData, enumList, servants, items]) => {
                 if (controller.signal.aborted) return;
                 document.title = `[${region}] Master Mission ${masterMissionId} - Atlas Academy DB`;
-                setMasterMission(mmData);
-                setEnumList(enums);
-                setServantCache(new Map(servants.map((servant) => [servant.id, servant])));
-                setItemCache(new Map(items.map((item) => [item.id, item])));
-                setLoading(false);
+                setLoadStatus({
+                    loading: false,
+                    data: mmData,
+                    enumList,
+                    servantCache: new Map(servants.map((servant) => [servant.id, servant])),
+                    itemCache: new Map(items.map((item) => [item.id, item])),
+                });
             })
             .catch((e) => {
                 if (controller.signal.aborted) return;
-                setError(e);
-                setLoading(false);
+                setLoadStatus({ loading: true, error: e });
             });
         return () => {
             controller.abort();

@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { createRef, useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -18,6 +18,7 @@ import {
 } from "../Component/Script";
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
+import LoadStatus from "../Helper/LoadStatus";
 import { fromEntries } from "../Helper/PolyFill";
 import Manager from "../Setting/Manager";
 import ScriptMainData from "./Script/ScriptMainData";
@@ -39,32 +40,32 @@ const getScriptAssetURL = (region: Region, scriptId: string) => {
     return `${AssetHost}/${region}/Script/${scriptPath}.txt`;
 };
 
+interface ScriptLoadStatus extends LoadStatus<Script.Script> {
+    script: string;
+}
+
 const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const { region, scriptId } = props;
     const showScriptLine = Manager.showScriptLine();
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<AxiosError | undefined>(undefined);
-    const [script, setScript] = useState<string>("");
-    const [scriptData, setScriptData] = useState<Script.Script | undefined>(undefined);
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
+    const [{ loading, data: scriptData, script, error }, setLoadStatus] = useState<ScriptLoadStatus>({
+        loading: true,
+        script: "",
+    });
     const { t } = useTranslation();
 
     useEffect(() => {
         const controller = new AbortController();
         Manager.setRegion(region);
-        setError(undefined);
-        setLoading(true);
         Promise.all([axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }), Api.script(scriptId)])
             .then(([rawScript, scriptData]) => {
                 if (controller.signal.aborted) return;
-                setScript(rawScript.data);
-                setScriptData(scriptData);
-                setLoading(false);
                 document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
+                setLoadStatus({ loading: false, data: scriptData, script: rawScript.data });
             })
             .catch((e) => {
                 if (controller.signal.aborted) return;
-                setError(e);
+                setLoadStatus({ loading: false, error: e, script: "" });
             });
         return () => {
             controller.abort();
