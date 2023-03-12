@@ -50,17 +50,25 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const { t } = useTranslation();
 
     useEffect(() => {
+        const controller = new AbortController();
         Manager.setRegion(region);
         setError(undefined);
         setLoading(true);
         Promise.all([axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }), Api.script(scriptId)])
             .then(([rawScript, scriptData]) => {
+                if (controller.signal.aborted) return;
                 setScript(rawScript.data);
                 setScriptData(scriptData);
                 setLoading(false);
                 document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
             })
-            .catch((e) => setError(e));
+            .catch((e) => {
+                if (controller.signal.aborted) return;
+                setError(e);
+            });
+        return () => {
+            controller.abort();
+        };
     }, [region, scriptId]);
 
     if (error !== undefined) return <ErrorStatus error={error} />;

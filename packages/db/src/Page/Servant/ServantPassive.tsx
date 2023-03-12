@@ -16,17 +16,23 @@ const ServantScriptPassive = ({ region, servant }: { region: Region; servant: Se
     const [buffNames, setBuffNames] = useState<Map<string, Buff.BuffType> | undefined>(undefined);
 
     useEffect(() => {
+        const controller = new AbortController();
         if (servant.script.svtBuffTurnExtend) {
             Api.constantStrs().then((constantStrs) => {
+                if (controller.signal.aborted) return;
                 const buffTurnExtendTypes = constantStrs[ConstantStr.ConstantStr.EXTEND_TURN_BUFF_TYPE];
                 if (buffTurnExtendTypes !== undefined) {
                     setBuffTypes(buffTurnExtendTypes.split(","));
                 }
             });
             Api.enumList().then((enumList) => {
+                if (controller.signal.aborted) return;
                 setBuffNames(new Map(Object.entries(enumList.NiceBuffType)));
             });
         }
+        return () => {
+            controller.abort();
+        };
     }, [servant]);
 
     if (servant.script.svtBuffTurnExtend) {

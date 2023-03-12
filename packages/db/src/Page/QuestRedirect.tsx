@@ -14,10 +14,20 @@ const QuestRedirect = ({ region, id }: { region: Region; id: number }) => {
     const [quest, setQuest] = useState<Quest.Quest | undefined>(undefined);
 
     useEffect(() => {
+        const controller = new AbortController();
         Manager.setRegion(region);
         Api.quest(id)
-            .then((quest) => setQuest(quest))
-            .catch((e) => setError(e));
+            .then((quest) => {
+                if (controller.signal.aborted) return;
+                setQuest(quest);
+            })
+            .catch((e) => {
+                if (controller.signal.aborted) return;
+                setError(e);
+            });
+        return () => {
+            controller.abort();
+        };
     }, [region, id]);
 
     if (error !== undefined) return <ErrorStatus error={error} />;

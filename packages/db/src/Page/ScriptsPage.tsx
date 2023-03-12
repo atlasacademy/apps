@@ -61,22 +61,38 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         [searched, setSearched] = useState(thisStateCache?.searched ?? false),
         [resultSort, setResultSort] = useState<ScriptResultSort>("Score");
 
-    const search = (query: string, scriptFileName?: string, warId?: number, searchLimit?: number) => {
+    const search = (
+        abortController: AbortController,
+        query: string,
+        scriptFileName?: string,
+        warId?: number,
+        searchLimit?: number
+    ) => {
         setSearching(true);
         Api.searchScript(query, scriptFileName, warId !== undefined ? [warId] : undefined, searchLimit)
             .then((r) => {
+                if (abortController.signal.aborted) return;
                 setSearched(true);
                 setScripts(r);
                 setSearching(false);
             })
-            .catch((e) => setError(e));
+            .catch((e) => {
+                if (abortController.signal.aborted) return;
+                setError(e);
+            });
     };
 
-    const searchButton = (query?: string, scriptFileName?: string, warId?: number, searchLimit?: number) => {
+    const searchButton = (
+        abortController: AbortController,
+        query?: string,
+        scriptFileName?: string,
+        warId?: number,
+        searchLimit?: number
+    ) => {
         if (query === undefined || query.trim() === "") {
             alert("Please enter a query");
         } else {
-            search(query, scriptFileName, warId, searchLimit);
+            search(abortController, query, scriptFileName, warId, searchLimit);
             history.replace(`/${region}/${path}?${getQueryString(query, scriptFileName, warId)}`);
         }
     };
@@ -91,14 +107,14 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     }, [region, path, history]);
 
     useEffect(() => {
-        if (
-            (!stateCache.has(region) || stateCache.get(region)?.searchLimit !== searchLimit) &&
-            query !== undefined &&
-            query !== ""
-        ) {
+        const controller = new AbortController();
+        if ((!stateCache.has(region) || stateCache.get(region)?.searchLimit !== searchLimit) && query) {
             // for first run if URL query string is not empty or after changing searchLimit
-            search(query, scriptFileName, warId, searchLimit);
+            search(controller, query, scriptFileName, warId, searchLimit);
         }
+        return () => {
+            controller.abort();
+        };
     }, [region, query, scriptFileName, warId, searchLimit]);
 
     useEffect(() => {
@@ -163,7 +179,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             <form
                 onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
-                    searchButton(query, scriptFileName, warId, searchLimit);
+                    searchButton(new AbortController(), query, scriptFileName, warId, searchLimit);
                 }}
             >
                 <Form.Group>
@@ -202,7 +218,10 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     </Form.Text>
                 </Form.Group>
                 <div className="d-flex justify-content-between">
-                    <Button variant={"primary"} onClick={() => searchButton(query, scriptFileName, warId, searchLimit)}>
+                    <Button
+                        variant="primary"
+                        onClick={() => searchButton(new AbortController(), query, scriptFileName, warId, searchLimit)}
+                    >
                         {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
                     <Dropdown>

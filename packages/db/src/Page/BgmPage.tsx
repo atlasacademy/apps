@@ -29,14 +29,22 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
     const [bgm, setBgm] = useState<BgmEntity | undefined>(undefined);
 
     useEffect(() => {
+        const controller = new AbortController();
         Manager.setRegion(region);
         Api.bgm(bgmId)
             .then((bgm) => {
+                if (controller.signal.aborted) return;
                 setBgm(bgm);
                 setLoading(false);
                 document.title = `[${region}] BGM ${getBgmName(bgm)} - Atlas Academy DB`;
             })
-            .catch((e) => setError(e));
+            .catch((e) => {
+                if (controller.signal.aborted) return;
+                setError(e);
+            });
+        return () => {
+            controller.abort();
+        };
     }, [region, bgmId]);
 
     if (error !== undefined) return <ErrorStatus error={error} />;

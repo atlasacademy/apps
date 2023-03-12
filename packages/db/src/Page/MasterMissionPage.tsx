@@ -62,9 +62,11 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
     const { t } = useTranslation();
 
     useEffect(() => {
+        const controller = new AbortController();
         Manager.setRegion(region);
         Promise.all([Api.masterMission(masterMissionId), Api.enumList(), Api.servantList(), Api.itemList()])
             .then(([mmData, enums, servants, items]) => {
+                if (controller.signal.aborted) return;
                 document.title = `[${region}] Master Mission ${masterMissionId} - Atlas Academy DB`;
                 setMasterMission(mmData);
                 setEnumList(enums);
@@ -73,9 +75,13 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
                 setLoading(false);
             })
             .catch((e) => {
+                if (controller.signal.aborted) return;
                 setError(e);
                 setLoading(false);
             });
+        return () => {
+            controller.abort();
+        };
     }, [region, masterMissionId]);
 
     if (loading) return <Loading />;

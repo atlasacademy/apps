@@ -67,11 +67,16 @@ const Scene = (props: {
         charaGraphId = props.figure?.charaGraphId;
 
     useEffect(() => {
+        const controller = new AbortController();
         if (charaGraphId !== undefined) {
             Api.svtScript(charaGraphId).then((script) => {
+                if (controller.signal.aborted) return;
                 setScript(script[0]);
             });
         }
+        return () => {
+            controller.abort();
+        };
     }, [charaGraphId]);
 
     let fixOffsets = {

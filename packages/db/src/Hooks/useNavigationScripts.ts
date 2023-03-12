@@ -27,6 +27,7 @@ export default function useNavigationScripts({ scriptData, scriptId }: useNaviga
     const [lastScriptInWar, setLastScriptInWar] = useState<boolean>(false);
 
     useEffect(() => {
+        const controller = new AbortController();
         setPreviousScript(undefined);
         setNextScript(undefined);
         setFirstScriptInWar(false);
@@ -59,6 +60,8 @@ export default function useNavigationScripts({ scriptData, scriptId }: useNaviga
 
             if (!WARS_WITHOUT_MAIN_QUESTS.includes(quest.warId) && (!foundPrevious || !foundNext)) {
                 Api.war(quest.warId).then((war) => {
+                    if (controller.signal.aborted) return;
+
                     const warSpots = war.spots.map((spot) =>
                         spot.quests.filter((quest) => quest.type === Quest.QuestType.MAIN)
                     );
@@ -91,6 +94,9 @@ export default function useNavigationScripts({ scriptData, scriptId }: useNaviga
                 });
             }
         }
+        return () => {
+            controller.abort();
+        };
     }, [scriptData, scriptId]);
 
     return { nextScript, firstScriptInWar, previousScript, lastScriptInWar };

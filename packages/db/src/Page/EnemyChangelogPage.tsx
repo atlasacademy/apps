@@ -19,13 +19,21 @@ const EnemyChangelogPage = ({ region }: { region: Region }) => {
     const [quests, setQuests] = useState<Quest.QuestPhaseBasic[]>([]);
 
     useEffect(() => {
+        const controller = new AbortController();
         Manager.setRegion(region);
         Api.questEnemyChangelog()
             .then((quests) => {
+                if (controller.signal.aborted) return;
                 setQuests(quests);
                 setLoading(false);
             })
-            .catch((error) => setError(error));
+            .catch((error) => {
+                if (controller.signal.aborted) return;
+                setError(error);
+            });
+        return () => {
+            controller.abort();
+        };
     }, [region]);
 
     if (loading) return <Loading />;

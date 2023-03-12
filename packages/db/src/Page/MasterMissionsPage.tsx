@@ -24,14 +24,22 @@ const MasterMissionsPage = (props: { region: Region }) => {
     const { t } = useTranslation();
 
     useEffect(() => {
+        const controller = new AbortController();
         Manager.setRegion(region);
         Api.masterMissionList()
             .then((r) => {
+                if (controller.signal.aborted) return;
                 document.title = `[${region}] Master Missions - Atlas Academy DB`;
                 setMasterMissions(r);
                 setLoading(false);
             })
-            .catch((e) => setError(e));
+            .catch((e) => {
+                if (controller.signal.aborted) return;
+                setError(e);
+            });
+        return () => {
+            controller.abort();
+        };
     }, [region]);
 
     if (loading) return <Loading />;
