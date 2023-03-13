@@ -1,6 +1,6 @@
 import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useRef } from "react";
 import { Alert, ButtonGroup, Dropdown, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -194,8 +194,8 @@ export default function ServantVoiceLines(props: {
     servantName?: string;
 }) {
     const { t } = useTranslation();
-
-    const { data: relatedVoiceSvts } = useApi("searchEntityVoiceCondSvt", [props.servant.collectionNo]);
+    const colNo = useRef([props.servant.collectionNo]);
+    const { data: relatedVoiceSvts } = useApi("searchEntityVoiceCondSvt", colNo.current);
 
     const { profile, ascensionAdd } = props.servant;
     const voices = profile?.voices;

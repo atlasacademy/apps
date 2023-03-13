@@ -1,5 +1,6 @@
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { ClassName, Quest, Region } from "@atlasacademy/api-connector";
@@ -31,7 +32,7 @@ interface IProps {
 }
 
 export default function QuestSearchDescriptor(props: IProps) {
-    const { data: quests } = useApi("searchQuestPhase", {
+    const searchData = useRef({
         name: props.name,
         spotName: props.spotName,
         warId: props.warId,
@@ -48,6 +49,7 @@ export default function QuestSearchDescriptor(props: IProps) {
         enemySkillId: props.enemySkillId,
         enemyNoblePhantasmId: props.enemyNoblePhantasmId,
     });
+    const { data: quests } = useApi("searchQuestPhase", searchData.current);
     if (quests === undefined || quests.length === 0) {
         return null;
     }

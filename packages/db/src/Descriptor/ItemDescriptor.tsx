@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { Item, Region } from "@atlasacademy/api-connector";
@@ -58,7 +59,8 @@ export function ItemDescriptorIconOnly(props: {
 }
 
 export function ItemDescriptorIndividuality(props: { region: Region; individuality: number }) {
-    const { data: items } = useApi("searchItem", undefined, [props.individuality]);
+    const individuality = useRef([props.individuality]);
+    const { data: items } = useApi("searchItem", undefined, individuality.current);
     if (items && items.length > 0) {
         return (
             <>
