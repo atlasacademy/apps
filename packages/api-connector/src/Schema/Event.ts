@@ -42,6 +42,7 @@ export enum EventType {
     MYROOM_MULTIPLE_VIEW_CAMPAIGN = "myroomMultipleViewCampaign",
     RELAXED_QUEST_REQUIREMENT_CAMPAIGN = "relaxedQuestRequirementCampaign",
     INTERLUDE_CAMPAIGN = "interludeCampaign",
+    MYROOM_PHOTO_CAMPAIGN = "myroomPhotoCampaign",
 }
 
 export interface EventReward {

@@ -131,6 +131,8 @@ interface BaseDataVal {
     ActNoDamageBuff?: number;
     ActSelectIndex?: number;
     CopyTargetBuffType?: number[];
+    NotSkillCopyTargetFuncIds?: number[];
+    NotSkillCopyTargetIndividualities?: number[];
 }
 
 export interface DataVal extends BaseDataVal {
@@ -270,4 +272,6 @@ export enum DataValField {
     ACT_NO_DAMAGE_BUFF = "ActNoDamageBuff",
     ACT_SELECT_INDEX = "ActSelectIndex",
     COPY_TARGET_BUFF_TYPE = "CopyTargetBuffType",
+    NOT_SKILL_COPY_TARGET_FUNC_IDS = "NotSkillCopyTargetFuncIds",
+    NOT_SKILL_COPY_TARGET_INDIVIDUALITIES = "NotSkillCopyTargetIndividualities",
 }
