@@ -130,7 +130,6 @@ const itemPageTitles = new Map([
     ["noble-phantasm", { itemType: "Noble Phantasm", endpoint: "NP" }],
     ["craft-essence", { itemType: "Craft Essence", endpoint: "equip" }],
     ["command-code", { itemType: "Command Code", endpoint: "CC" }],
-    ["mystic-code", { itemType: "Mystic Code", endpoint: "MC" }],
     ["item", { itemType: "Material", endpoint: "item" }],
     ["event", { itemType: "Event", endpoint: "event" }],
     ["war", { itemType: "War", endpoint: "war" }],
@@ -293,6 +292,16 @@ async function handleDBEvent(event: Event, env: Env) {
             const { id, name, icon } = res;
             const title = `[${region}] Buff ${id}: ${name}`;
             return overwrite(responseDetail, title, icon);
+        }
+        case "mystic-code": {
+            const res = await fetchApi(env, region, "MC", target, language);
+            if (res === undefined) {
+                const title = `[${region}] Mystic Code - ${target}`;
+                return overwrite(responseDetail, title);
+            }
+            const { name, item } = res;
+            const title = `[${region}] Mystic Code - ${name}`;
+            return overwrite(responseDetail, title, item.female);
         }
         case "ai": {
             const aiType = target === "svt" ? "Servant" : "Field";
