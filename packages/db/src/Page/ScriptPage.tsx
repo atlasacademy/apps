@@ -41,7 +41,7 @@ const getScriptAssetURL = (region: Region, scriptId: string) => {
 };
 
 interface ScriptLoadStatus extends LoadStatus<Script.Script> {
-    script: string;
+    script?: string;
 }
 
 const ScriptPage = (props: { region: Region; scriptId: string }) => {
@@ -50,11 +50,11 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
     const [{ loading, data: scriptData, script, error }, setLoadStatus] = useState<ScriptLoadStatus>({
         loading: true,
-        script: "",
     });
     const { t } = useTranslation();
 
     useEffect(() => {
+        setLoadStatus({ loading: true });
         const controller = new AbortController();
         Manager.setRegion(region);
         Promise.all([axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }), Api.script(scriptId)])
@@ -76,7 +76,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
 
     if (loading) return <Loading />;
 
-    if (script === "" || scriptData === undefined) return null;
+    if (script === "" || script === undefined || scriptData === undefined) return null;
 
     const parsedScript = parseScript(region, script);
 
