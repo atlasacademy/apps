@@ -172,11 +172,6 @@ const SceneRow = (props: {
                     y: props.offsets?.y ?? 0,
                     charaGraphId: props.offsets?.charaGraphId ?? 0,
                 };
-
-                offsets = {
-                    y: props.offsets?.y ?? 0,
-                    charaGraphId: props.offsets?.charaGraphId ?? 0,
-                };
                 break;
             case ScriptComponentType.IMAGE_SET:
                 figure = {
@@ -628,13 +623,13 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 charaFadeIn = undefined;
                             }
 
-                            if (content.position && content.position.y !== 0) {
+                            if (content.position && (content.position.y !== 0 || offsets?.y !== content.position.y)) {
                                 switch (assetSet?.type) {
                                     case ScriptComponentType.CHARA_SET:
                                     case ScriptComponentType.CHARA_CHANGE:
                                         if (
                                             assetSet.charaGraphId.toString().startsWith("98") ||
-                                            content.position.y < 0
+                                            content.position.y <= 0
                                         ) {
                                             offsets = {
                                                 charaGraphId: assetSet.charaGraphId,
