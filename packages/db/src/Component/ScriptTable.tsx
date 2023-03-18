@@ -382,9 +382,20 @@ const ScriptBracketRow = (props: {
                             <source src={component.movieUrl} type="video/mp4" />
                         </video>
                     </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.SOUND_EFFECT:
+            return (
+                <tr ref={refs.get(component.soundEffect.audioAsset)}>
+                    <td>{t("Sound Effect")}</td>
+                    <td>
+                        <BgmDescriptor region={region} bgm={component.soundEffect} />
+                    </td>
+                    {showScriptLine && <td>{lineNumber}</td>}
+                </tr>
+            );
+        case ScriptComponentType.CUE_SOUND_EFFECT:
             return (
                 <tr ref={refs.get(component.soundEffect.audioAsset)}>
                     <td>{t("Sound Effect")}</td>

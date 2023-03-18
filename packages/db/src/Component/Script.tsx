@@ -38,6 +38,7 @@ export enum ScriptComponentType {
     DIALOGUE = "DIALOGUE",
     CHOICES = "CHOICES",
     SOUND_EFFECT = "SOUND_EFFECT",
+    CUE_SOUND_EFFECT = "CUE_SOUND_EFFECT",
     PICTURE_FRAME = "PICTURE_FRAME",
     WAIT = "WAIT",
     LABEL = "LABEL",
@@ -166,6 +167,13 @@ export type ScriptEnableFullScreen = {
 
 export type ScriptSoundEffect = {
     type: ScriptComponentType.SOUND_EFFECT;
+    soundEffect: ScriptSound;
+};
+
+export type ScriptCueSoundEffect = {
+    type: ScriptComponentType.CUE_SOUND_EFFECT;
+    soundEffectFileName: string;
+    soundEffectObjectName: string;
     soundEffect: ScriptSound;
 };
 
@@ -523,6 +531,7 @@ export type ScriptBracketComponent =
     | ScriptEnableFullScreen
     | ScriptUnParsed
     | ScriptSoundEffect
+    | ScriptCueSoundEffect
     | ScriptAssetSet
     | ScriptCharaChange
     | ScriptCharaTalk
@@ -838,7 +847,7 @@ function parseDialogueSpeaker(region: Region, line: string, parserState: ParserS
     };
 }
 
-function getSoundEffectUrl(region: Region, fileName: string): string {
+function getSoundEffectUrl(region: Region, fileName: string, fileFolder?: string): string {
     let folder = "SE";
     switch (fileName.slice(0, 2)) {
         case "ba":
@@ -854,7 +863,7 @@ function getSoundEffectUrl(region: Region, fileName: string): string {
             folder = "SE_21";
             break;
     }
-    return `${AssetHost}/${region}/Audio/${folder}/${fileName}.mp3`;
+    return `${AssetHost}/${region}/Audio/${fileFolder ?? folder}/${fileName}.mp3`;
 }
 
 function getBgmObject(fileName: string, audioUrl: string): ScriptSound {
@@ -1126,6 +1135,13 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
             return {
                 type: ScriptComponentType.SOUND_EFFECT,
                 soundEffect: getBgmObject(parameters[1], getSoundEffectUrl(region, parameters[1])),
+            };
+        case "cueSe":
+            return {
+                type: ScriptComponentType.CUE_SOUND_EFFECT,
+                soundEffectFileName: parameters[1],
+                soundEffectObjectName: parameters[2],
+                soundEffect: getBgmObject(parameters[2], getSoundEffectUrl(region, parameters[2], parameters[1])),
             };
         case "wt":
             return {
