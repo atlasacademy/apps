@@ -89,7 +89,7 @@ export const QuestListComponent = ({
                         <ScriptDescriptor region={region} scriptId={previousScript} scriptType="" />
                     )}
                 </td>
-                <th>{t("Next Script")}</th>
+                <th style={{ width: "25%" }}>{t("Next Script")}</th>
                 <td className="script-nav-link">
                     {nextScript === undefined ? (
                         t("N/A") + `${lastScriptInWar ? `: ${t("This is the last script in this war")}` : ""}`

@@ -78,7 +78,7 @@ const ScriptMainData = ({
                     <tr>
                         <th>{t("Raw Size")}</th>
                         <td>{`${(scriptData.scriptSizeBytes / 1024).toFixed(2)} KiB`}</td>
-                        <td colSpan={2}>
+                        <td style={{ width: "50%" }} colSpan={2}>
                             ~{Math.ceil(wordCount / WORDS_PER_MINUTE)} {t("minute read")}
                         </td>
                     </tr>

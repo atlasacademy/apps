@@ -35,12 +35,21 @@ import ScriptDialogueLine from "./ScriptDialogueLine";
 type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>>;
 type ScriptOffsets = { charaGraphId: number; y?: number };
 
-const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: RowBgmRefMap; lineNumber?: number }) => {
+const DialogueRow = (props: {
+    region: Region;
+    dialogue: ScriptDialogue;
+    refs: RowBgmRefMap;
+    lineNumber?: number;
+    wideScreen?: boolean;
+}) => {
     const showScriptLine = useContext(ShowScriptLineContext);
     return (
         <tr ref={props.refs.get(props.dialogue.voice?.audioAsset ?? props.dialogue.maleVoice?.audioAsset)}>
             <td>
-                <ScriptDialogueLine components={props.dialogue.speaker?.components ?? []} />
+                <ScriptDialogueLine
+                    components={props.dialogue.speaker?.components ?? []}
+                    wideScreen={props.wideScreen}
+                />
             </td>
             <td>
                 {props.dialogue.voice && (
@@ -57,7 +66,7 @@ const DialogueRow = (props: { region: Region; dialogue: ScriptDialogue; refs: Ro
                         <BgmDescriptor region={props.region} bgm={props.dialogue.femaleVoice} showName="Female" />
                     </div>
                 )}
-                <ScriptDialogueLine components={flatten(props.dialogue.components)} />
+                <ScriptDialogueLine components={flatten(props.dialogue.components)} wideScreen={props.wideScreen} />
             </td>
             {showScriptLine && <td>{props.lineNumber}</td>}
         </tr>
@@ -77,7 +86,15 @@ const ChoiceComponentsTable = (props: {
                 {props.choiceComponents.map((c, i) => {
                     switch (c.type) {
                         case ScriptComponentType.DIALOGUE:
-                            return <DialogueRow key={i} region={props.region} dialogue={c} refs={props.refs} />;
+                            return (
+                                <DialogueRow
+                                    key={i}
+                                    region={props.region}
+                                    dialogue={c}
+                                    refs={props.refs}
+                                    wideScreen={props.wideScreen}
+                                />
+                            );
                         default:
                             return (
                                 <ScriptBracketRow
@@ -109,6 +126,14 @@ const getSceneScale = (windowWidth: number, windowHeight: number, wideScreen: bo
     return 2;
 };
 
+export function useImageSize(wideScreen: boolean) {
+    const { windowWidth, windowHeight } = useWindowDimensions(),
+        sceneScale = getSceneScale(windowWidth, windowHeight, wideScreen),
+        height = (wideScreen ? 576 : 576) / sceneScale,
+        width = (wideScreen ? 1344 : 1024) / sceneScale;
+    return { height, width };
+}
+
 type ScriptCharaMovement = ScriptCharaFadeIn | ScriptCharaMove;
 
 const SceneRow = (props: {
@@ -123,13 +148,10 @@ const SceneRow = (props: {
     effects?: string[];
     filters: { content: ScriptCharaFilter; lineNumber?: number }[];
 }) => {
-    const { lineNumber, cameraFilter, effects } = props,
+    const { lineNumber, cameraFilter, effects, wideScreen } = props,
         { t } = useTranslation(),
-        resolution = props.wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
-        { windowWidth, windowHeight } = useWindowDimensions(),
-        sceneScale = getSceneScale(windowWidth, windowHeight, props.wideScreen),
-        height = (props.wideScreen ? 576 : 576) / sceneScale,
-        width = (props.wideScreen ? 1344 : 1024) / sceneScale,
+        resolution = wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
+        { height, width } = useImageSize(wideScreen),
         background = props.background ? { asset: props.background.backgroundAsset } : undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
@@ -490,7 +512,15 @@ const ScriptRow = (props: {
 
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
-            return <DialogueRow region={region} dialogue={component} refs={refs} lineNumber={lineNumber} />;
+            return (
+                <DialogueRow
+                    region={region}
+                    dialogue={component}
+                    refs={refs}
+                    lineNumber={lineNumber}
+                    wideScreen={wideScreen}
+                />
+            );
         case ScriptComponentType.CHOICES:
             return (
                 <tr>

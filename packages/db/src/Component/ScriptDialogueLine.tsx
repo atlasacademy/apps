@@ -5,12 +5,33 @@ import { Region } from "@atlasacademy/api-connector";
 import { replacePUACodePoints } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";
+import { useImageSize } from "./ScriptTable";
 
 import "../Helper/StringHelper.css";
 import "./ScriptDialogueLine.css";
 
-const DialogueBasic = (props: { component: DialogueBasicComponent; index?: number }) => {
-    const component = props.component;
+const DialogueBasicContainer = ({
+    component,
+    wideScreen,
+    children,
+}: {
+    component: DialogueBasicComponent;
+    wideScreen?: boolean;
+    children: React.ReactNode;
+}) => {
+    const { width } = useImageSize(wideScreen ?? false);
+    const sizeClass = component.size !== undefined ? `scriptDialogueText-${component.size}` : "";
+    const spanText = <span className={sizeClass}>{children}</span>;
+    if (component.align) {
+        return (
+            <div style={{ width: `${width}px`, textAlign: component.align, display: "inline-block" }}>{spanText}</div>
+        );
+    }
+    return spanText;
+};
+
+const DialogueBasicContent = (props: { component: DialogueBasicComponent; index?: number }) => {
+    const { component } = props;
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_NEW_LINE:
             if (props.index !== 0) {
@@ -68,10 +89,7 @@ const DialogueBasic = (props: { component: DialogueBasicComponent; index?: numbe
         case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
             return <>{replacePUACodePoints(component.trueName)}</>;
         case ScriptComponentType.DIALOGUE_TEXT:
-            const replacedPUA = replacePUACodePoints(component.text);
-            const sizeClass = component.size !== undefined ? `scriptDialogueText-${component.size}` : "";
-
-            return <span className={`newline ${sizeClass}`}>{replacedPUA}</span>;
+            return <span className="newline">{replacePUACodePoints(component.text)}</span>;
         case ScriptComponentType.DIALOGUE_TEXT_IMAGE:
             if (component.ruby === undefined)
                 return <img src={component.imageAsset} alt="Berserker Text" className="dialogueTextImage" />;
@@ -85,6 +103,22 @@ const DialogueBasic = (props: { component: DialogueBasicComponent; index?: numbe
         default:
             return null;
     }
+};
+
+const DialogueBasic = ({
+    component,
+    index,
+    wideScreen,
+}: {
+    component: DialogueBasicComponent;
+    index?: number;
+    wideScreen?: boolean;
+}) => {
+    return (
+        <DialogueBasicContainer component={component} wideScreen={wideScreen}>
+            <DialogueBasicContent component={component} index={index}></DialogueBasicContent>
+        </DialogueBasicContainer>
+    );
 };
 
 const DialoguePopover = ({
@@ -120,15 +154,23 @@ const dialogueBasicHasContent = (components: DialogueBasicComponent[]) => {
     return false;
 };
 
-export const DialogueChild = ({ component, index }: { component: DialogueChildComponent; index?: number }) => {
+export const DialogueChild = ({
+    component,
+    index,
+    wideScreen,
+}: {
+    component: DialogueChildComponent;
+    index?: number;
+    wideScreen?: boolean;
+}) => {
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
             const maleComponents = component.male.map((component, i) => (
-                <DialogueBasic key={i} component={component} />
+                <DialogueBasic key={i} component={component} wideScreen={wideScreen} />
             ));
             if (dialogueBasicHasContent(component.female)) {
                 const femaleComponents = component.female.map((component, i) => (
-                    <DialogueBasic key={i} component={component} />
+                    <DialogueBasic key={i} component={component} wideScreen={wideScreen} />
                 ));
 
                 return <DialoguePopover tooltipComponent={femaleComponents}>{maleComponents}</DialoguePopover>;
@@ -141,17 +183,17 @@ export const DialogueChild = ({ component, index }: { component: DialogueChildCo
         case ScriptComponentType.DIALOGUE_RUBY:
         case ScriptComponentType.DIALOGUE_TEXT:
         case ScriptComponentType.DIALOGUE_TEXT_IMAGE:
-            return <DialogueBasic component={component} index={index} />;
+            return <DialogueBasic component={component} index={index} wideScreen={wideScreen} />;
         default:
             return null;
     }
 };
 
-const ScriptDialogueLine = (props: { components: DialogueChildComponent[] }) => {
+const ScriptDialogueLine = (props: { components: DialogueChildComponent[]; wideScreen?: boolean }) => {
     return (
         <>
             {props.components.map((component, i) => (
-                <DialogueChild key={i} component={component} index={i} />
+                <DialogueChild key={i} component={component} index={i} wideScreen={props.wideScreen} />
             ))}
         </>
     );

@@ -77,42 +77,49 @@ export type ScriptLine = {
 
 export type DialogueTextSize = "small" | "medium" | "large" | "x-large";
 
-export type DialogueText = {
-    type: ScriptComponentType.DIALOGUE_TEXT;
-    text: string;
+export type DialogueTextAlign = "center" | "right";
+
+export type DialogueBasicComponentFormat = {
     colorHex?: string;
     size?: DialogueTextSize;
+    align?: DialogueTextAlign;
 };
 
-export type DialogueTextImage = {
+export type DialogueText = DialogueBasicComponentFormat & {
+    type: ScriptComponentType.DIALOGUE_TEXT;
+    text: string;
+};
+
+export type DialogueTextImage = DialogueBasicComponentFormat & {
     type: ScriptComponentType.DIALOGUE_TEXT_IMAGE;
     imageAsset: string;
     ruby?: string;
 };
 
-export type DialogueNewLine = {
+export type DialogueNewLine = DialogueBasicComponentFormat & {
     type: ScriptComponentType.DIALOGUE_NEW_LINE;
 };
 
-export type DialoguePlayerName = {
+export type DialoguePlayerName = DialogueBasicComponentFormat & {
     type: ScriptComponentType.DIALOGUE_PLAYER_NAME;
     colorHex?: string;
+    size?: DialogueTextSize;
 };
 
-export type DialogueLine = {
+export type DialogueLine = DialogueBasicComponentFormat & {
     type: ScriptComponentType.DIALOGUE_LINE;
     length: number;
     colorHex?: string;
 };
 
-export type DialogueRuby = {
+export type DialogueRuby = DialogueBasicComponentFormat & {
     type: ScriptComponentType.DIALOGUE_RUBY;
     text: string;
     ruby?: string;
     colorHex?: string;
 };
 
-export type DialogueSpeakerHiddenName = {
+export type DialogueSpeakerHiddenName = DialogueBasicComponentFormat & {
     type: ScriptComponentType.DIALOGUE_HIDDEN_NAME;
     svtId: number;
     hiddenName: string;
@@ -120,7 +127,7 @@ export type DialogueSpeakerHiddenName = {
     colorHex?: string;
 };
 
-export type DialogueSpeed = {
+export type DialogueSpeed = DialogueBasicComponentFormat & {
     type: ScriptComponentType.DIALOGUE_SPEED;
     speed: number;
 };
@@ -614,7 +621,7 @@ type ParserState = {
     conditionalJump?: ParserStateConditionalJump;
 };
 
-type ParserDialogueState = { colorHex?: string; size?: DialogueTextSize };
+type ParserDialogueState = { colorHex?: string; size?: DialogueTextSize; align?: DialogueTextAlign };
 
 function getPunctuation(region: Region) {
     if (region === Region.KR) return { colon: ":", questionMark: "?", exclamationMark: "!" };
@@ -663,11 +670,11 @@ function splitLine(line: string): string[] {
 }
 
 function isDialogueBasic(word: string): boolean {
-    const NOT_BASIC_SIGNATURES = ["se", "scene"];
+    const NOT_BASIC_SIGNATURES = ["se", "scene", "scrollStop"];
     for (const signature of NOT_BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return false;
     }
-    const BASIC_SIGNATURES = ["r", "sr", "csr", "s", "%1", "line", "#", "servantName", "image"];
+    const BASIC_SIGNATURES = ["r", "sr", "csr", "s", "speed", "%1", "line", "#", "servantName", "image"];
     for (const signature of BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return true;
     }
@@ -679,6 +686,11 @@ function parseDialogueBasic(
     word: string,
     parserDialogueState: ParserDialogueState
 ): DialogueBasicComponent {
+    const format = {
+        colorHex: parserDialogueState.colorHex,
+        size: parserDialogueState.size,
+        align: parserDialogueState.align,
+    };
     if (word[0] === "[") {
         if (word[1] === "#") {
             // Ruby Text `[#string:ruby]`
@@ -687,7 +699,7 @@ function parseDialogueBasic(
                 type: ScriptComponentType.DIALOGUE_RUBY,
                 text,
                 ruby,
-                colorHex: parserDialogueState.colorHex,
+                ...format,
             };
         }
 
@@ -696,23 +708,25 @@ function parseDialogueBasic(
             case "r":
             case "sr":
             case "csr":
-                return { type: ScriptComponentType.DIALOGUE_NEW_LINE };
+                return { type: ScriptComponentType.DIALOGUE_NEW_LINE, ...format };
             case "s":
+            case "speed":
                 return {
                     type: ScriptComponentType.DIALOGUE_SPEED,
                     speed: parameters[1] === "-" ? -1 : parseFloat(parameters[1]),
+                    ...format,
                 };
             case "%1":
                 // Player's name
                 return {
                     type: ScriptComponentType.DIALOGUE_PLAYER_NAME,
-                    colorHex: parserDialogueState.colorHex,
+                    ...format,
                 };
             case "line":
                 return {
                     type: ScriptComponentType.DIALOGUE_LINE,
                     length: parseFloat(parameters[1]),
-                    colorHex: parserDialogueState.colorHex,
+                    ...format,
                 };
             case "servantName":
                 const [svtId, hiddenName, trueName] = word
@@ -724,7 +738,7 @@ function parseDialogueBasic(
                     svtId: parseInt(svtId),
                     hiddenName,
                     trueName,
-                    colorHex: parserDialogueState.colorHex,
+                    ...format,
                 };
             case "image":
                 const [image, ruby] = word.slice(1, word.length - 1).split(":");
@@ -733,6 +747,7 @@ function parseDialogueBasic(
                     type: ScriptComponentType.DIALOGUE_TEXT_IMAGE,
                     imageAsset: `${AssetHost}/${region}/Marks/${imageName}.png`,
                     ruby,
+                    ...format,
                 };
         }
 
@@ -740,15 +755,14 @@ function parseDialogueBasic(
             return {
                 type: ScriptComponentType.DIALOGUE_LINE,
                 length: parseFloat(word.slice(5, word.length - 1)),
-                colorHex: parserDialogueState.colorHex,
+                ...format,
             };
         }
     }
     return {
         type: ScriptComponentType.DIALOGUE_TEXT,
         text: word,
-        colorHex: parserDialogueState.colorHex,
-        size: parserDialogueState.size,
+        ...format,
     };
 }
 
@@ -813,6 +827,16 @@ export function parseDialogueLine(region: Region, line: string, parserState: Par
                         parsed = true;
                         break;
                     }
+                    break;
+                case "align":
+                    if (parameters[1]) {
+                        parserDialogueState.align = parameters[1] as DialogueTextAlign;
+                        parsed = true;
+                    } else {
+                        parserDialogueState.align = undefined;
+                        parsed = true;
+                    }
+                    break;
             }
         }
         if (!parsed) {
