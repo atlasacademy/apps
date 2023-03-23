@@ -526,7 +526,7 @@ const ScriptRow = (props: {
                 <tr>
                     <td>{t("Choices")}</td>
                     <td>
-                        <ul>
+                        <ul className="mb-0">
                             {component.choices.map((choice) => (
                                 <li key={choice.id}>
                                     <ChoiceRouteInfo routeInfo={choice.routeInfo} />

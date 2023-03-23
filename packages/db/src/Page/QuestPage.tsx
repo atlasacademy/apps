@@ -187,7 +187,7 @@ class QuestPage extends React.Component<IProps, IState> {
                         <QuestRestriction region={this.props.region} questRestrictions={quest.restrictions} />
                     </Alert>
                 ) : null}
-                {quest.availableEnemyHashes.length > 1 && (
+                {quest.availableEnemyHashes.length > 1 && quest.type !== Quest.QuestType.WAR_BOARD && (
                     <Alert variant="success">
                         {t("This quest can have multiple enemy versions")}:{" "}
                         <Dropdown className="d-inline">
