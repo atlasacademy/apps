@@ -1,6 +1,6 @@
 import React from "react";
 
-import Card from "@atlasacademy/api-connector/dist/Enum/Card";
+import { Card } from "@atlasacademy/api-connector";
 
 import card_icon_arts from "../Assets/card_icon_arts.png";
 import card_icon_buster from "../Assets/card_icon_buster.png";

@@ -1,8 +1,9 @@
-import { Buff } from "@atlasacademy/api-connector";
-import { DataValField } from "@atlasacademy/api-connector/dist/Schema/DataVal";
+import { Buff, DataVal } from "@atlasacademy/api-connector";
+
+const DataValField = DataVal.DataValField;
 
 export interface BuffValuePercentType {
-    value: DataValField;
+    value: DataVal.DataValField;
     power: number;
 }
 
@@ -80,10 +81,10 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
 ]);
 
 export interface BuffValueTriggerType {
-    skill: DataValField;
-    level: DataValField;
-    position?: DataValField;
-    rate?: DataValField;
+    skill: DataVal.DataValField;
+    level: DataVal.DataValField;
+    position?: DataVal.DataValField;
+    rate?: DataVal.DataValField;
 }
 
 export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType>([
@@ -136,7 +137,7 @@ export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType
 ]);
 
 export interface BuffValueTraitType {
-    trait: DataValField;
+    trait: DataVal.DataValField;
 }
 
 export const buffValueTraitTypes = new Map<Buff.BuffType, BuffValueTraitType>([
@@ -144,7 +145,7 @@ export const buffValueTraitTypes = new Map<Buff.BuffType, BuffValueTraitType>([
 ]);
 
 export interface BuffValueCommandCardType {
-    card: DataValField;
+    card: DataVal.DataValField;
 }
 
 export const buffValueCommandCardTypes = new Map<Buff.BuffType, BuffValueCommandCardType>([

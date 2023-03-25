@@ -1,5 +1,4 @@
-import { Language } from "@atlasacademy/api-connector";
-import Region from "@atlasacademy/api-connector/dist/Enum/Region";
+import { Language, Region } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";
 
 import i18n, { uiLangLocalStorageKey } from "../i18n";

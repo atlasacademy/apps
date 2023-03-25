@@ -143,40 +143,45 @@ class Navigation extends React.Component<IProps, IState> {
                                         <Link
                                             to={this.regionLink(Region.JP)}
                                             className={`nav-link ${this.regionClass(Region.JP)}`}
+                                            title={t("View data from the JP version")}
                                         >
-                                            <JPFlag title={t("View data from the JP version")} />
+                                            <JPFlag />
                                         </Link>
                                     </Col>
                                     <Col>
                                         <Link
                                             to={this.regionLink(Region.NA)}
                                             className={`nav-link ${this.regionClass(Region.NA)}`}
+                                            title={t("View data from the NA version")}
                                         >
-                                            <USFlag title={t("View data from the NA version")} />
+                                            <USFlag />
                                         </Link>
                                     </Col>
                                     <Col>
                                         <Link
                                             to={this.regionLink(Region.CN)}
                                             className={`nav-link ${this.regionClass(Region.CN)}`}
+                                            title={t("View data from the CN version")}
                                         >
-                                            <CNFlag title={t("View data from the CN version")} />
+                                            <CNFlag />
                                         </Link>
                                     </Col>
                                     <Col>
                                         <Link
                                             to={this.regionLink(Region.KR)}
                                             className={`nav-link ${this.regionClass(Region.KR)}`}
+                                            title={t("View data from the KR version")}
                                         >
-                                            <KRFlag title={t("View data from the KR version")} />
+                                            <KRFlag />
                                         </Link>
                                     </Col>
                                     <Col>
                                         <Link
                                             to={this.regionLink(Region.TW)}
                                             className={`nav-link ${this.regionClass(Region.TW)}`}
+                                            title={t("View data from the TW version")}
                                         >
-                                            <TWFlag title={t("View data from the TW version")} />
+                                            <TWFlag />
                                         </Link>
                                     </Col>
                                 </Row>
