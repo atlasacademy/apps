@@ -4,3 +4,5 @@ coverage
 .vscode
 dist
 /app
+.github
+.devcontainer
