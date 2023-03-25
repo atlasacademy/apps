@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "CommonJS",
         "target": "ES6",
-        "lib": ["ESNext"],
+        "lib": ["ESNext", "DOM"],
         "declaration": true,
         "declarationMap": true,
         "moduleResolution": "Node",

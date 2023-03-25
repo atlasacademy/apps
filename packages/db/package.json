@@ -18,11 +18,14 @@
         "@types/react-cytoscapejs": "^1.2.2",
         "@types/react-dom": "^18.0.11",
         "@types/react-router-dom": "^5.3.3",
+        "@vitejs/plugin-react-swc": "^3.2.0",
         "axios": "^0.27.2",
         "bootstrap": "^4.6.2",
         "copy-to-clipboard": "^3.3.3",
         "cytoscape": "^3.23.0",
         "cytoscape-klay": "^3.1.4",
+        "eslint": "^8.36.0",
+        "eslint-config-react-app": "^7.0.1",
         "fuse.js": "^6.6.2",
         "highcharts": "10.3.1",
         "highcharts-react-official": "^3.2.0",
@@ -37,23 +40,23 @@
         "react-i18next": "^11.18.6",
         "react-json-view": "^1.21.3",
         "react-router-dom": "^5.3.4",
-        "react-scripts": "^5.0.1",
         "source-map-explorer": "^2.5.3",
-        "typescript": "^5.0.2"
+        "typescript": "^5.0.2",
+        "vite": "^4.2.1",
+        "vite-plugin-eslint": "^1.8.1",
+        "vite-plugin-svgr": "^2.4.0"
     },
     "overrides": {
         "react-json-view": {
             "react": "^18.2.0",
             "react-dom": "^18.2.0"
-        },
-        "react-scripts": {
-            "typescript": "^5.0.2"
         }
     },
     "scripts": {
-        "start": "CI=true react-scripts start",
-        "start-win": "set CI=true&& react-scripts start",
-        "build": "react-scripts build",
+        "start": "vite",
+        "start-win": "vite",
+        "build": "tsc && vite build",
+        "serve": "vite preview",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
         "test": "react-scripts test",
         "eject": "react-scripts eject",

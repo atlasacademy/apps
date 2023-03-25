@@ -5,6 +5,7 @@
     "description": "Library to interface with api.atlasacademy.io",
     "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/api-connector",
     "main": "dist/index.js",
+    "exports": "./dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
         "dist"
