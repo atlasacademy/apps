@@ -18,7 +18,9 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: Build sites
-        run: bash netlify_build.sh
+        run: |
+          sudo apt-get install -y moreutils
+          bash netlify_build.sh | ts -s '(%M:%.S)]' | ts '[%.T'
       - name: Install worker dependencies
         working-directory: 'packages/db-og-worker'
         run: npm ci
