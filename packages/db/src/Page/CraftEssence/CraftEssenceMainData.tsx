@@ -9,7 +9,7 @@ import RawDataViewer from "../../Component/RawDataViewer";
 import EntityReferenceDescriptor from "../../Descriptor/EntityReferenceDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
-import getRubyText from "../../Helper/StringHelper";
+import { Ruby } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 interface IProps extends WithTranslation {
@@ -30,7 +30,7 @@ class CraftEssenceMainData extends React.Component<IProps> {
                 label: t("Original Name"),
                 value: (
                     <span lang={lang(this.props.region)}>
-                        {getRubyText(this.props.region, craftEssence.originalName, craftEssence.ruby)}
+                        <Ruby region={this.props.region} text={craftEssence.originalName} ruby={craftEssence.ruby} />
                     </span>
                 ),
                 hidden: craftEssence.name === craftEssence.originalName,

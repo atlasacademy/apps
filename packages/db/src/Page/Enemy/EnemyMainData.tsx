@@ -9,7 +9,7 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import { asPercent, formatNumber } from "../../Helper/OutputHelper";
-import getRubyText from "../../Helper/StringHelper";
+import { Ruby } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 interface IProps {
@@ -32,7 +32,7 @@ class EnemyMainData extends React.Component<IProps> {
                                 label: "Original Name",
                                 value: (
                                     <span lang={lang(this.props.region)}>
-                                        {getRubyText(this.props.region, enemy.originalName, enemy.ruby)}
+                                        <Ruby region={this.props.region} text={enemy.originalName} ruby={enemy.ruby} />
                                     </span>
                                 ),
                                 hidden: enemy.name === enemy.originalName,

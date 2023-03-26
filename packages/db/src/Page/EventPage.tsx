@@ -16,7 +16,7 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
 import { flatten } from "../Helper/PolyFill";
-import { replacePUACodePoints } from "../Helper/StringHelper";
+import { FGOText } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
 import EventBulletinBoard from "./Event/EventBulletinBoard";
@@ -510,7 +510,9 @@ class EventPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1 lang={lang(this.props.region)}>{replacePUACodePoints(event.name)}</h1>
+                <h1 lang={lang(this.props.region)}>
+                    <FGOText text={event.name} />
+                </h1>
 
                 <br />
                 <div style={{ marginBottom: "3%" }}>
@@ -519,7 +521,11 @@ class EventPage extends React.Component<IProps, IState> {
                             { label: t("ID"), value: event.id },
                             {
                                 label: t("Name"),
-                                value: <span lang={lang(this.props.region)}>{replacePUACodePoints(event.name)}</span>,
+                                value: (
+                                    <span lang={lang(this.props.region)}>
+                                        <FGOText text={event.name} />
+                                    </span>
+                                ),
                             },
                             {
                                 label: t("Original Name"),

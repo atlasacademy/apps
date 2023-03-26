@@ -8,7 +8,7 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
-import getRubyText from "../../Helper/StringHelper";
+import { Ruby } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
@@ -36,7 +36,11 @@ class CommandCodeMainData extends React.Component<IProps> {
                             label: t("Original Name"),
                             value: (
                                 <span lang={lang(this.props.region)}>
-                                    {getRubyText(this.props.region, commandCode.originalName, commandCode.ruby)}
+                                    <Ruby
+                                        region={this.props.region}
+                                        text={commandCode.originalName}
+                                        ruby={commandCode.ruby}
+                                    />
                                 </span>
                             ),
                             hidden: commandCode.name === commandCode.originalName,

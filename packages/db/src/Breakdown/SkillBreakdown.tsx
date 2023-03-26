@@ -11,7 +11,7 @@ import { MergeElementsOr } from "../Descriptor/MultipleDescriptors";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { Renderable } from "../Helper/OutputHelper";
-import getRubyText from "../Helper/StringHelper";
+import { Ruby } from "../Helper/StringHelper";
 import { lang } from "../Setting/Manager";
 import EffectBreakdown from "./EffectBreakdown";
 
@@ -32,7 +32,12 @@ class SkillBreakdown extends React.Component<IProps> {
         const skillAdd =
             this.props.skill.skillAdd.length > 0 ? (
                 <Tooltip id="skillAdd-tooltip" style={{ fontSize: "1em" }} lang={lang(this.props.region)}>
-                    {getRubyText(this.props.region, skill.skillAdd[0].name, skill.skillAdd[0].ruby, true)}
+                    <Ruby
+                        region={this.props.region}
+                        text={skill.skillAdd[0].name}
+                        ruby={skill.skillAdd[0].ruby}
+                        splitRank={true}
+                    />
                 </Tooltip>
             ) : null;
 

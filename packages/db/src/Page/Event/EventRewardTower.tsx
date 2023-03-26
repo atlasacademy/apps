@@ -5,7 +5,7 @@ import { Event, Item, Region } from "@atlasacademy/api-connector";
 
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
 import { mergeElements } from "../../Helper/OutputHelper";
-import { colorString, interpolateString } from "../../Helper/StringHelper";
+import { FGOText } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 const EventRewardTower = ({
@@ -35,7 +35,7 @@ const EventRewardTower = ({
                                 {reward.floor}
                             </th>
                             <td lang={lang(region)}>
-                                {colorString(interpolateString(reward.boardMessage, [reward.floor]))}
+                                <FGOText text={reward.boardMessage} interpolatedVariables={[reward.floor]} />
                             </td>
                             <td>
                                 {mergeElements(

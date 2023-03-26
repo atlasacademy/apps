@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Region, Servant } from "@atlasacademy/api-connector";
 
 import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";
-import { ordinalNumeral } from "../../Helper/StringHelper";
+import { OrdinalNumeral } from "../../Helper/StringHelper";
 
 const ServantLimitImage = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
     const { t } = useTranslation();
@@ -16,9 +16,9 @@ const ServantLimitImage = ({ region, servant }: { region: Region; servant: Serva
             <ul className="mb-0">
                 {servant.ascensionImage.map((limitImage) => (
                     <li key={limitImage.limitCount}>
-                        {ordinalNumeral(limitImage.limitCount)} {t("AscensionAfterOrdinal")}: {t("LimitImageBefore")}{" "}
-                        {ordinalNumeral(limitImage.defaultLimitCount)} {t("AscensionAfterOrdinal")}{" "}
-                        {t("LimitImageAfter")}{" "}
+                        <OrdinalNumeral index={limitImage.limitCount} /> {t("AscensionAfterOrdinal")}:{" "}
+                        {t("LimitImageBefore")} <OrdinalNumeral index={limitImage.defaultLimitCount} />{" "}
+                        {t("AscensionAfterOrdinal")} {t("LimitImageAfter")}{" "}
                         <CondTargetValueDescriptor
                             region={region}
                             cond={limitImage.condType}

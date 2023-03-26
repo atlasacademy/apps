@@ -1,22 +1,34 @@
 import Fuse from "fuse.js";
+import React from "react";
 
 import { Region } from "@atlasacademy/api-connector";
 
 import { parseDialogueLine } from "../Component/Script";
 import { DialogueChild } from "../Component/ScriptDialogueLine";
-import { Renderable, mergeElements } from "./OutputHelper";
 
 import "./StringHelper.css";
 
-export default function getRubyText(region: Region, text: string, ruby: string, splitRank = false): Renderable {
-    if (region === Region.JP && !text.split(" ")[0].match(/[a-zA-Z]/g)) {
-        return <RubyText text={text} ruby={ruby} splitRank={splitRank} />;
-    } else {
-        return text;
-    }
-}
+const isEnglishText = (inputString: string) => {
+    const spaceRemoved = inputString.replaceAll(/\s/g, "");
+    const latinCharCount = (spaceRemoved.match(/[\u0020-\u024F]/g) ?? []).length;
+    return latinCharCount / spaceRemoved.length > 0.9;
+};
 
-export const RubyText = ({ text, ruby, splitRank }: { text: string; ruby: string; splitRank?: boolean }) => {
+export const Ruby = ({
+    region,
+    text,
+    ruby,
+    splitRank,
+}: {
+    region: Region;
+    text: string;
+    ruby: string;
+    splitRank?: boolean;
+}) => {
+    if (region !== Region.JP || isEnglishText(text)) {
+        return <>{text}</>;
+    }
+
     let textSplitted = text.split(" ");
     let rank = textSplitted[textSplitted.length - 1];
     let skillName = textSplitted.slice(0, -1).join(" ");
@@ -25,18 +37,22 @@ export const RubyText = ({ text, ruby, splitRank }: { text: string; ruby: string
     } else if (splitRank && rank.length > 0 && ["A", "B", "C", "D", "E"].includes(rank[0].toUpperCase())) {
         return (
             <ruby>
-                {replacePUACodePoints(skillName)}
+                <FGOText text={skillName} />
                 <rp>(</rp>
-                <rt>{replacePUACodePoints(ruby)}</rt>
+                <rt>
+                    <FGOText text={ruby} />
+                </rt>
                 <rp>)</rp>&nbsp;{rank}
             </ruby>
         );
     } else {
         return (
             <ruby>
-                {replacePUACodePoints(text)}
+                <FGOText text={text} />
                 <rp>(</rp>
-                <rt>{replacePUACodePoints(ruby)}</rt>
+                <rt>
+                    <FGOText text={ruby} />
+                </rt>
                 <rp>)</rp>
             </ruby>
         );
@@ -82,7 +98,7 @@ const OrdinalSuperscript = new Map([
     [3, "rd"],
 ]);
 
-export const ordinalNumeral = (index: number) => {
+export const OrdinalNumeral = ({ index }: { index: number }) => {
     const superscript = index % 100 >= 11 && index % 100 <= 19 ? "th" : OrdinalSuperscript.get(index % 10) ?? "th";
     return (
         <span>
@@ -94,10 +110,11 @@ export const ordinalNumeral = (index: number) => {
 
 export const colorString = (inputString: string) => {
     // Can't use the given colors since they might look bad on different db themes
-    return inputString.replace(/\[[a-zA-z0-9-]+\]/g, "");
+    return inputString.replace(/\[[a-zA-Z0-9]{6}\]/g, "").replace("[-]", "");
 };
 
-export const interpolateString = (inputString: string, variables: any[]) => {
+export const interpolateString = (inputString: string, variables?: any[]) => {
+    if (!variables) return inputString;
     for (let i = 0; i < variables.length; i++) {
         inputString = inputString.replace(`{${i}}`, variables[i].toString());
     }
@@ -106,11 +123,21 @@ export const interpolateString = (inputString: string, variables: any[]) => {
 
 const unicodeFromHex = (hex: string) => String.fromCharCode(parseInt(hex.slice(1), 16));
 
-export const replacePUACodePoints = (inputString: string): Renderable => {
-    const unicodeReplaced = inputString.replace(/u[0-9A-Z]{4}/g, unicodeFromHex);
-    const elements: Renderable[] = [];
+/**
+ * Render FGO text string
+ * - Interpolate variables
+ * - Replace unicode hex codepoint with the unicode text: "u307F" with "み"
+ * - Remove color code instead of rendering them since they might look bad on different db themes
+ * - Deal with PUA code points
+ */
+export const FGOText = ({ text, interpolatedVariables }: { text: string; interpolatedVariables?: any[] }) => {
+    const unicodeReplaced = text.replace(/u[0-9A-Z]{4}/g, unicodeFromHex);
+    const inpolatedText = interpolateString(unicodeReplaced, interpolatedVariables);
+    const coloredText = colorString(inpolatedText);
+
+    const elements: (string | React.ReactElement)[] = [];
     let normalText = "";
-    for (const char of unicodeReplaced) {
+    for (const char of coloredText) {
         const codePoint = char.charCodeAt(0);
         if ((codePoint >= 0xe000 && codePoint <= 0xf8ff) || [0x9bd6].includes(codePoint)) {
             elements.push(normalText);
@@ -138,7 +165,13 @@ export const replacePUACodePoints = (inputString: string): Renderable => {
         }
     }
     elements.push(normalText);
-    return mergeElements(elements, "");
+    return (
+        <>
+            {elements.map((element, i) => (
+                <React.Fragment key={i}>{element}</React.Fragment>
+            ))}
+        </>
+    );
 };
 
 export const removeSuffix = (inputString: string, suffix: string) => {

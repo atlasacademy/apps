@@ -2,7 +2,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { Region } from "@atlasacademy/api-connector";
 
-import { replacePUACodePoints } from "../Helper/StringHelper";
+import { FGOText } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";
 import { useImageSize } from "./ScriptTable";
@@ -68,9 +68,11 @@ const DialogueBasicContent = (props: { component: DialogueBasicComponent; index?
             if (component.text !== undefined && component.ruby !== undefined) {
                 return (
                     <ruby className="dialogueRuby">
-                        {replacePUACodePoints(component.text)}
+                        <FGOText text={component.text} />
                         <rp>(</rp>
-                        <rt>{replacePUACodePoints(component.ruby)}</rt>
+                        <rt>
+                            <FGOText text={component.ruby} />
+                        </rt>
                         <rp>)</rp>
                     </ruby>
                 );
@@ -83,13 +85,17 @@ const DialogueBasicContent = (props: { component: DialogueBasicComponent; index?
                         fontStyle: "normal",
                     }}
                 >
-                    {replacePUACodePoints(component.text)}
+                    <FGOText text={component.text} />
                 </em>
             );
         case ScriptComponentType.DIALOGUE_HIDDEN_NAME:
-            return <>{replacePUACodePoints(component.trueName)}</>;
+            return <FGOText text={component.trueName} />;
         case ScriptComponentType.DIALOGUE_TEXT:
-            return <span className="newline">{replacePUACodePoints(component.text)}</span>;
+            return (
+                <span className="newline">
+                    <FGOText text={component.text} />
+                </span>
+            );
         case ScriptComponentType.DIALOGUE_TEXT_IMAGE:
             if (component.ruby === undefined)
                 return <img src={component.imageAsset} alt="Berserker Text" className="dialogueTextImage" />;

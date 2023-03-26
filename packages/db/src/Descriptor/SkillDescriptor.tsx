@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Region, Skill } from "@atlasacademy/api-connector";
 
 import BuffIcon from "../Component/BuffIcon";
-import getRubyText from "../Helper/StringHelper";
+import { Ruby } from "../Helper/StringHelper";
 import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 
@@ -34,9 +34,16 @@ class SkillDescriptor extends React.Component<IProps> {
                 {this.props.skill.icon ? " " : undefined}
                 <span className="hover-text" style={{ whiteSpace: textWhiteSpace }} lang={lang(this.props.region)}>
                     [
-                    {this.props.skill.name
-                        ? getRubyText(this.props.region, this.props.skill.name, this.props.skill.ruby, true)
-                        : `Skill: ${this.props.skill.id}`}
+                    {this.props.skill.name ? (
+                        <Ruby
+                            region={this.props.region}
+                            text={this.props.skill.name}
+                            ruby={this.props.skill.ruby}
+                            splitRank={true}
+                        />
+                    ) : (
+                        `Skill: ${this.props.skill.id}`
+                    )}
                     ]
                 </span>
             </Link>

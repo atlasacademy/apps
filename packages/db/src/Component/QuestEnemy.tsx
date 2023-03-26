@@ -16,7 +16,7 @@ import NoblePhantasmPopover from "../Descriptor/NoblePhantasmPopover";
 import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { Renderable, asPercent, mergeElements } from "../Helper/OutputHelper";
-import { ordinalNumeral } from "../Helper/StringHelper";
+import { OrdinalNumeral } from "../Helper/StringHelper";
 
 import "./MoveButton.css";
 import "./QuestEnemy.css";
@@ -427,7 +427,7 @@ const QuestEnemyTable = (props: {
                   .filter((shift) => shift.shiftTo === enemy.npcId)
                   .map((shift) => (
                       <li key={`${shift.shiftFrom}-${shift.shiftTo}-${shift.index}`}>
-                          {ordinalNumeral(shift.index + 2)} break bar of{" "}
+                          <OrdinalNumeral index={shift.index + 2} /> break bar of{" "}
                           <EnemyNpcDescription
                               region={region}
                               hash={shift.shiftFrom}
@@ -444,7 +444,7 @@ const QuestEnemyTable = (props: {
                   .filter((change) => change.shiftTo === enemy.npcId)
                   .map((change) => (
                       <li key={`${change.shiftFrom}-${change.shiftTo}-${change.index}`}>
-                          {ordinalNumeral(change.index + 1)} transformation of{" "}
+                          <OrdinalNumeral index={change.index + 1} /> transformation of{" "}
                           <EnemyNpcDescription
                               region={region}
                               hash={change.shiftFrom}

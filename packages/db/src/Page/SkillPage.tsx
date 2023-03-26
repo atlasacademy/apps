@@ -26,7 +26,7 @@ import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import { QuestDescriptionNoApi } from "../Descriptor/QuestDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { emptyOrUndefinded } from "../Helper/ArrayHelper";
-import getRubyText, { replacePUACodePoints } from "../Helper/StringHelper";
+import { FGOText, Ruby } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 
@@ -124,9 +124,14 @@ class SkillPage extends React.Component<IProps, IState> {
                 {skill.skillAdd.map((skillAdd) => (
                     <React.Fragment key={skillAdd.priority}>
                         <span lang={lang(region)}>
-                            {getRubyText(region, skillAdd.name, skillAdd.ruby, true)}
+                            <Ruby region={region} text={skillAdd.name} ruby={skillAdd.ruby} splitRank={true} />
                             {skillAdd.name !== skillAdd.originalName && (
-                                <> ({getRubyText(region, skillAdd.originalName, skillAdd.ruby, true)})</>
+                                <Ruby
+                                    region={region}
+                                    text={skillAdd.originalName}
+                                    ruby={skillAdd.ruby}
+                                    splitRank={true}
+                                />
                             )}
                         </span>
                         {skillAdd.releaseConditions.map((cond) => (
@@ -150,7 +155,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     {skill.icon ? <BuffIcon location={skill.icon} height={48} /> : undefined}
                     {skill.icon ? " " : undefined}
                     <span lang={lang(this.props.region)}>
-                        {getRubyText(this.props.region, skill.name, skill.ruby, true)}
+                        <Ruby region={this.props.region} text={skill.name} ruby={skill.ruby} splitRank={true} />
                     </span>
                 </h1>
 
@@ -163,7 +168,7 @@ class SkillPage extends React.Component<IProps, IState> {
                             label: "Name",
                             value: (
                                 <span className="newline" lang={lang(this.props.region)}>
-                                    {replacePUACodePoints(skill.name)}
+                                    <FGOText text={skill.name} />
                                 </span>
                             ),
                         },

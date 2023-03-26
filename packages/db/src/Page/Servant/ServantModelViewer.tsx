@@ -7,7 +7,7 @@ import { Profile, Servant } from "@atlasacademy/api-connector";
 
 import { MergeElementsOr } from "../../Descriptor/MultipleDescriptors";
 import { isSubset } from "../../Helper/ArrayHelper";
-import { ordinalNumeral } from "../../Helper/StringHelper";
+import { OrdinalNumeral } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 const VIEWER_URL = "https://katboi01.github.io/FateViewer/?id=";
@@ -75,7 +75,9 @@ const AscensionModelViewer = ({ assetMap }: { assetMap: AssetMap }) => {
                         ascensionString = (
                             <>
                                 <MergeElementsOr
-                                    elements={perceivedAscensions.map((ascension) => ordinalNumeral(ascension))}
+                                    elements={perceivedAscensions.map((ascension) => (
+                                        <OrdinalNumeral index={ascension} />
+                                    ))}
                                     lastJoinWord={t("and")}
                                 />{" "}
                                 {t("AscensionAfterOrdinal")}

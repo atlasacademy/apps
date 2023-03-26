@@ -18,7 +18,7 @@ import SupportServantTables from "../Component/SupportServant";
 import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import shortenQuestHash from "../Descriptor/QuestHashDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
-import { colorString, removePrefix } from "../Helper/StringHelper";
+import { FGOText, removePrefix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import QuestDrops from "./Quest/QuestDrops";
 import QuestMainData from "./Quest/QuestMainData";
@@ -116,11 +116,13 @@ class QuestPage extends React.Component<IProps, IState> {
                         {quest.messages.length > 1 ? (
                             <ul className="mb-0">
                                 {quest.messages.map((message) => (
-                                    <li key={message.idx}>{colorString(message.message)}</li>
+                                    <li key={message.idx}>
+                                        <FGOText text={message.message} />
+                                    </li>
                                 ))}
                             </ul>
                         ) : (
-                            colorString(quest.messages[0].message)
+                            <FGOText text={quest.messages[0].message} />
                         )}
                     </Alert>
                 ) : null}

@@ -18,7 +18,7 @@ import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import { QuestDescriptionNoApi } from "../Descriptor/QuestDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { asPercent, mergeElements } from "../Helper/OutputHelper";
-import getRubyText from "../Helper/StringHelper";
+import { Ruby } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 
@@ -96,7 +96,9 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1 lang={lang(region)}>{getRubyText(this.props.region, noblePhantasm.name, noblePhantasm.ruby)}</h1>
+                <h1 lang={lang(region)}>
+                    <Ruby region={this.props.region} text={noblePhantasm.name} ruby={noblePhantasm.ruby} />
+                </h1>
                 <br />
 
                 <DataTable

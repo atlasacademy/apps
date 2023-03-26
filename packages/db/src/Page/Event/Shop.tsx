@@ -12,7 +12,7 @@ import CondTargetNumDescriptor from "../../Descriptor/CondTargetNumDescriptor";
 import { gemIds, magicGemIds, monumentIds, pieceIds, secretGemIds } from "../../Descriptor/MultipleDescriptors";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import ShopPurchaseDescriptor from "../../Descriptor/ShopPurchaseDescriptor";
-import { colorString } from "../../Helper/StringHelper";
+import { FGOText } from "../../Helper/StringHelper";
 import Manager, { lang } from "../../Setting/Manager";
 
 import "../../Helper/StringHelper.css";
@@ -220,7 +220,9 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                     <td style={{ minWidth: "10em" }}>
                                         <b lang={lang(region)}>{shop.name}</b>
                                         <div style={{ fontSize: "0.75rem" }} className="newline">
-                                            <span lang={lang(region)}>{colorString(shop.detail)}</span>
+                                            <span lang={lang(region)}>
+                                                <FGOText text={shop.detail} />
+                                            </span>
                                             <ScriptLink region={region} shop={shop} />
                                             <br />
                                             <div>

@@ -2,7 +2,7 @@ import { Region, Restriction } from "@atlasacademy/api-connector";
 
 import { listNumber } from "../Helper/ArrayHelper";
 import { mergeElements } from "../Helper/OutputHelper";
-import { ordinalNumeral } from "../Helper/StringHelper";
+import { OrdinalNumeral } from "../Helper/StringHelper";
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import EventAllOutDescription from "./EventAllOutDescription";
 import { MergeElementsOr, MultipleTraits } from "./MultipleDescriptors";
@@ -39,7 +39,12 @@ const RestrictionDescription = ({ region, restriction }: { region: Region; restr
             return (
                 <>
                     Support Servant must be at the{" "}
-                    <MergeElementsOr elements={targetVals.map((val) => ordinalNumeral(val))} lastJoinWord="or" />{" "}
+                    <MergeElementsOr
+                        elements={targetVals.map((val) => (
+                            <OrdinalNumeral index={val} />
+                        ))}
+                        lastJoinWord="or"
+                    />{" "}
                     position
                 </>
             );
@@ -53,7 +58,9 @@ const RestrictionDescription = ({ region, restriction }: { region: Region; restr
                         <>
                             at the{" "}
                             <MergeElementsOr
-                                elements={targetVals2.map((val) => ordinalNumeral(val))}
+                                elements={targetVals2.map((val) => (
+                                    <OrdinalNumeral index={val} />
+                                ))}
                                 lastJoinWord="or"
                             />{" "}
                             position

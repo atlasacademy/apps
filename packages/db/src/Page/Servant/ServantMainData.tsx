@@ -10,7 +10,7 @@ import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceRefere
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import { Renderable, asPercent } from "../../Helper/OutputHelper";
 import { formatNumber, mergeElements } from "../../Helper/OutputHelper";
-import getRubyText from "../../Helper/StringHelper";
+import { Ruby } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 import "./ServantMainData.css";
@@ -90,7 +90,7 @@ class ServantMainData extends React.Component<IProps> {
                             title: t("Original Name"),
                             content: (
                                 <span lang={lang(this.props.region)}>
-                                    {getRubyText(this.props.region, originalServantName, servant.ruby)}
+                                    <Ruby region={this.props.region} text={originalServantName} ruby={servant.ruby} />
                                 </span>
                             ),
                         })}
