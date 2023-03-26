@@ -54,12 +54,9 @@
     },
     "scripts": {
         "start": "vite",
-        "start-win": "vite",
         "build": "tsc && vite build",
         "serve": "vite preview",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
         "i18n": "i18next 'src/**/*.{tsx,ts}'"
     },
     "eslintConfig": {
@@ -80,8 +77,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "devDependencies": {
-        "@types/webpack": "^5.28.0"
     }
 }

@@ -1,4 +1,5 @@
 **/package-lock.json
+**/yarn.lock
 build
 coverage
 .vscode

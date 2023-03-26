@@ -1,15 +1,8 @@
 {
     "compilerOptions": {
         "target": "ESNext",
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ESNext"
-        ],
-        "types": [
-            "vite/client",
-            "vite-plugin-svgr/client"
-        ],
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "types": ["vite/client", "vite-plugin-svgr/client"],
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
@@ -25,7 +18,5 @@
         "downlevelIteration": true,
         "noFallthroughCasesInSwitch": true
     },
-    "include": [
-        "src"
-    ]
+    "include": ["src"]
 }

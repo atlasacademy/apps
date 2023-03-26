@@ -15,9 +15,10 @@ import HomePage from "./Page/HomePage";
 import Manager from "./Setting/Manager";
 import { Theme } from "./Setting/Theme";
 
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
+
+import "./App.css";
 
 const AiPage = React.lazy(() => import("./Page/AiPage"));
 const BgmPage = React.lazy(() => import("./Page/BgmPage"));

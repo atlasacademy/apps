@@ -11,25 +11,26 @@ You can join our Discod to discuss the development. Feel free to make pull reque
 ## Development workflow
 
 ```bash
-# install lerna
-npm i -g lerna
-
 # clone repo
-git clone https://github.com/atlasacademy/apps.git
+git clone https://github.com/atlasacademy/apps.git aa-apps
+cd aa-apps
+
+# install lerna and prettier. You should use prettier with the given config to format the files.
+npm ci
 
 # setup packages with local npm link
-lerna bootstrap --ci --force-local
+npx lerna bootstrap --ci --force-local
 
 # run typescript watchers
 npm run watch
 
 # run dev db on another terminal
 npm run start:db
-# or run this command on Windows: npm run start:db-win
 
 # ... make changes
 
 # commit changes
+npm run format
 git add -A && git commit -m "stuff"
 ```
 
