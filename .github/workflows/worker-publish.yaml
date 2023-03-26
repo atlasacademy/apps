@@ -18,6 +18,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: Build sites
+        shell: bash
         run: |
           sudo apt-get install -y moreutils
           bash netlify_build.sh | ts -s '(%M:%.S)]' | ts '[%.T'
