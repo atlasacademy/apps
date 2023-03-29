@@ -22,7 +22,7 @@ const RestrictionDescription = ({ region, restriction }: { region: Region; restr
         case Restriction.RestrictionType.INDIVIDUALITY:
             switch (restriction.rangeType) {
                 case Restriction.RestrictionRange.EQUAL:
-                    return <>Servants with {traits} must be deployed</>;
+                    return <>Only servants with {traits} can be deployed</>;
                 case Restriction.RestrictionRange.NOT_EQUAL:
                     return <>Servants with {traits} cannot be deployed</>;
             }
@@ -137,7 +137,7 @@ const RestrictionDescription = ({ region, restriction }: { region: Region; restr
         case Restriction.RestrictionType.FIXED_SVT_INDIVIDUALITY_POSITION_MAIN:
             return <>At least 1 servant with {traits} must be a starting member</>;
         case Restriction.RestrictionType.UNIQUE_INDIVIDUALITY:
-            return <>Two servants with {traits} cannot be in the lineup</>;
+            return <>Two servants with the same {traits} cannot be in the lineup</>;
     }
 
     return (

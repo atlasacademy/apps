@@ -9,7 +9,7 @@ import { DialogueChild } from "../Component/ScriptDialogueLine";
 import "./StringHelper.css";
 
 const isEnglishText = (inputString: string) => {
-    const spaceRemoved = inputString.replaceAll(/\s/g, "");
+    const spaceRemoved = inputString.replace(/\s/g, "");
     const latinCharCount = (spaceRemoved.match(/[\u0020-\u024F]/g) ?? []).length;
     return latinCharCount / spaceRemoved.length > 0.9;
 };
