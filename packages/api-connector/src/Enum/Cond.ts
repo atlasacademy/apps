@@ -173,6 +173,7 @@ export enum CondType {
     ALL_SVT_TARGET_SKILL_LV_NUM = "allSvtTargetSkillLvNum",
     SUPER_BOSS_DAMAGE_ABOVE = "superBossDamageAbove",
     SUPER_BOSS_DAMAGE_BELOW = "superBossDamageBelow",
+    NOT_WAR_CLEAR = "notWarClear",
 }
 
 export default CondType;

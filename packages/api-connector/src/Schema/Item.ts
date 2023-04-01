@@ -40,6 +40,7 @@ export enum ItemType {
     FRIENDSHIP_UP_ITEM = "friendshipUpItem",
     PP = "pp",
     TRADE_AP = "tradeAp",
+    RI = "ri",
 }
 
 export enum ItemUse {

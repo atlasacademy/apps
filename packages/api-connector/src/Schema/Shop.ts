@@ -19,6 +19,7 @@ export enum ShopType {
     START_UP_SUMMON = "startUpSummon",
     SHOP13 = "shop13",
     TRADE_AP = "tradeAp",
+    SHOP15 = "shop15",
 }
 
 export enum PayType {
