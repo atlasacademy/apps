@@ -26,10 +26,10 @@ table.listing-table .rarity-col {
     font-size: 0.9rem;
 }
 
-.listing-page th,
-.listing-page td,
-.listing-table th,
-.listing-table td {
+.listing-page table th,
+.listing-page table td,
+table.listing-table th,
+table.listing-table td {
     vertical-align: middle;
 }
 
