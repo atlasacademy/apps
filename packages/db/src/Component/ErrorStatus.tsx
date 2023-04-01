@@ -168,35 +168,12 @@ class ErrorStatus extends React.Component<IProps> {
             image = images[random];
 
         return (
-            <div id={"error-status"} style={{ maxWidth: "1000px", margin: "0 auto" }}>
-                <img
-                    alt={"Error"}
-                    src={image}
-                    style={{
-                        display: "block",
-                        height: 300,
-                        margin: "0 auto",
-                    }}
-                />
-                <p
-                    style={{
-                        width: "fit-content",
-                        margin: "0 auto",
-                        padding: "10px",
-                        whiteSpace: "pre-wrap",
-                        textAlign: "center",
-                    }}
-                >
+            <div id={"error-status"} className="my-0 mx-auto" style={{ maxWidth: "1000px" }}>
+                <img alt={"Error"} src={image} className="d-block my-0 mx-auto" style={{ height: 300 }} />
+                <p style={{ width: "fit-content" }} className="text-prewrap text-center my-0 mx-auto m-5">
                     <strong>ERROR: {message}</strong>
                 </p>
-                <ul
-                    style={{
-                        width: "fit-content",
-                        listStyleType: "none",
-                        margin: "0 auto",
-                        padding: 0,
-                    }}
-                >
+                <ul style={{ width: "fit-content", listStyleType: "none" }} className="p-0 mx-auto m-5">
                     {links.map((link, idx) => (
                         <li key={idx} className="d-inline my-0 mx-1">
                             {link}

@@ -7,7 +7,6 @@ import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 import SkillDescriptor from "./SkillDescriptor";
 
-import "../Component/MoveButton.css";
 import "./PopOver.css";
 
 const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
@@ -50,7 +49,11 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
                 ],
             }}
         >
-            <Button variant="link" className="move-button" title={`Click to view details of skill ${skill.name}`}>
+            <Button
+                variant="link"
+                className="reset-button-style"
+                title={`Click to view details of skill ${skill.name}`}
+            >
                 <span lang={lang(region)}>{SkillDescriptor.renderAsString(skill)}</span>
             </Button>
         </OverlayTrigger>

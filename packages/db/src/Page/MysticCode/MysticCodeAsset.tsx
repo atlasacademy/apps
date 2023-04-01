@@ -4,7 +4,7 @@ import renderCollapsibleContent from "../../Component/CollapsibleContent";
 
 const Image = ({ url, alt, floatDir }: { url: string; alt?: string; floatDir?: string }) => (
     <a href={url} target="_blank" rel="noopener noreferrer">
-        <img alt={alt ?? ""} src={url} style={{ maxWidth: "100%" }} className={floatDir && `float-${floatDir} w-50`} />
+        <img alt={alt ?? ""} src={url} className={"mw-100" + floatDir ? `float-${floatDir} w-50` : ""} />
     </a>
 );
 

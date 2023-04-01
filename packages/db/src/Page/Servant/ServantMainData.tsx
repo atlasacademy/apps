@@ -33,10 +33,10 @@ class ServantMainData extends React.Component<IProps> {
     private renderDoubleRow(content: [RenderableRow, RenderableRow]): Renderable {
         return (
             <tr>
-                <th style={{ width: "25%" }}>{content[0].title}</th>
-                <td style={{ width: "25%" }}>{content[0].content}</td>
-                <th style={{ width: "25%" }}>{content[1].title}</th>
-                <td style={{ width: "25%" }}>{content[1].content}</td>
+                <th className="w-25">{content[0].title}</th>
+                <td className="w-25">{content[0].content}</td>
+                <th className="w-25">{content[1].title}</th>
+                <td className="w-25">{content[1].content}</td>
             </tr>
         );
     }
@@ -44,8 +44,8 @@ class ServantMainData extends React.Component<IProps> {
     private renderSpanningRow(content: RenderableRow): Renderable {
         return (
             <tr>
-                <th style={{ width: "25%" }}>{content.title}</th>
-                <td colSpan={3} style={{ width: "75%" }}>
+                <th className="w-25">{content.title}</th>
+                <td colSpan={3} className="w-75">
                     {content.content}
                 </td>
             </tr>

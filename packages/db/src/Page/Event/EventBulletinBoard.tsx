@@ -57,7 +57,7 @@ const EventBulletinBoardReleaseCondition = ({
             </b>
             <br />
             {groups.length > 1 ? (
-                <ul style={{ marginBottom: 0 }}>
+                <ul className="mb-0">
                     {groups.map((group) => (
                         <li key={group}>
                             <BulletinReleaseGroup
@@ -98,7 +98,7 @@ const EventBulletinBoard = ({
         <Table hover responsive className="event-table">
             <thead>
                 <tr>
-                    <th style={{ textAlign: "center" }}>#</th>
+                    <th className="text-center">#</th>
                     <th>{t("Detail")}</th>
                 </tr>
             </thead>

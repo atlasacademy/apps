@@ -22,7 +22,6 @@ import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
 import Manager, { lang } from "../Setting/Manager";
 
-import "../Helper/StringHelper.css";
 import "./ItemPage.css";
 
 interface IProps extends RouteComponentProps {
@@ -488,7 +487,7 @@ class ItemPage extends React.Component<IProps, IState> {
                         {
                             label: "Detail",
                             value: (
-                                <span className="newline" lang={lang(this.props.region)}>
+                                <span className="text-prewrap" lang={lang(this.props.region)}>
                                     {item.detail}
                                 </span>
                             ),
@@ -537,7 +536,7 @@ class ItemPage extends React.Component<IProps, IState> {
                     ]}
                 />
 
-                <div style={{ marginBottom: "3%" }}>
+                <div className="mb-5">
                     <RawDataViewer text="Nice" data={item} url={Api.getUrl("nice", "item", this.props.id)} />
                     <RawDataViewer text="Raw" data={Api.getUrl("raw", "item", this.props.id)} />
                 </div>

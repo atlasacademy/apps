@@ -23,9 +23,9 @@ export default function BgmDescriptor(props: {
     showName?: string;
     showLink?: boolean;
     style?: React.CSSProperties;
+    className?: string;
 }) {
-    const bgm = props.bgm,
-        region = props.region;
+    const { bgm, region, className } = props;
     if (bgm.id === 0) {
         return null;
     } else if (bgm.audioAsset !== undefined) {
@@ -58,7 +58,7 @@ export default function BgmDescriptor(props: {
         );
     } else {
         return (
-            <Button variant={"info"} disabled style={props.style}>
+            <Button variant={"info"} disabled style={props.style} className={className}>
                 <span lang={lang(region)}>{bgm.name}</span>
             </Button>
         );

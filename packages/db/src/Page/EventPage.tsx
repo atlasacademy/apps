@@ -29,7 +29,6 @@ import EventTreasureBoxes from "./Event/EventTreasureBoxes";
 import EventVoices from "./Event/EventVoices";
 import ShopTab from "./Event/Shop";
 
-import "../Helper/StringHelper.css";
 import "./Event/EventTable.css";
 
 interface TabInfo {
@@ -210,11 +209,11 @@ class EventPage extends React.Component<IProps, IState> {
     ) {
         return (
             <>
-                <th scope="row" style={{ textAlign: "center" }} ref={this.state.missionRefs.get(mission.id)}>
+                <th scope="row" className="text-center" ref={this.state.missionRefs.get(mission.id)}>
                     {mission.type === Mission.MissionType.RANDOM ? mission.id : mission.dispNo}
                 </th>
                 <td>
-                    <b className="newline" lang={lang(region)}>
+                    <b className="text-prewrap" lang={lang(region)}>
                         {mission.name}
                     </b>
                     <br />
@@ -256,7 +255,7 @@ class EventPage extends React.Component<IProps, IState> {
             <Table hover responsive className="event-table">
                 <thead>
                     <tr>
-                        <th style={{ textAlign: "center" }}>#</th>
+                        <th className="text-center">#</th>
                         <th>{t("Detail")}</th>
                         <th>{t("Reward")}</th>
                     </tr>
@@ -515,7 +514,7 @@ class EventPage extends React.Component<IProps, IState> {
                 </h1>
 
                 <br />
-                <div style={{ marginBottom: "3%" }}>
+                <div className="mb-5">
                     <DataTable
                         data={[
                             { label: t("ID"), value: event.id },

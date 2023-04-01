@@ -14,7 +14,6 @@ import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
 import { lang } from "../../Setting/Manager";
 
-import "../../Component/MoveButton.css";
 import "./AiTable.css";
 
 enum SUBJECT {
@@ -234,7 +233,11 @@ function NextAi(props: {
 }) {
     if (props.avals.length >= 2 && props.avals[0] !== 0) {
         return (
-            <Button variant="link" className="move-button" onClick={() => props.handleNavigateAiId?.(props.avals[0])}>
+            <Button
+                variant="link"
+                className="reset-button-style"
+                onClick={() => props.handleNavigateAiId?.(props.avals[0])}
+            >
                 {AiDescriptor.renderAsString(props.aiType, props.avals[0])}
             </Button>
         );
@@ -256,7 +259,7 @@ export default function AiTable(props: {
     ais.sort((a, b) => b.priority - a.priority || b.probability - a.probability || a.idx - b.idx);
     const { t } = useTranslation();
     const outputTable = (
-        <Table responsive className={"ai-info"} style={{ whiteSpace: "nowrap" }} key={props.ais[0].id}>
+        <Table responsive className="ai-info text-nowrap" key={props.ais[0].id}>
             <tbody>
                 <tr>
                     <th>{t("AI Sub ID")}</th>

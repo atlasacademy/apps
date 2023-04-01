@@ -19,8 +19,6 @@ import LoadStatus from "../Helper/LoadStatus";
 import { mergeElements } from "../Helper/OutputHelper";
 import Manager, { lang } from "../Setting/Manager";
 
-import "../Helper/StringHelper.css";
-
 const BgmPage = (props: { region: Region; bgmId: number }) => {
     const { t } = useTranslation();
     const { region, bgmId } = props;
@@ -93,7 +91,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
         <>
             <h1>
                 <img src={bgm.logo} style={{ height: "1.5em" }} alt="BGM Logo" />
-                <span className="newline" lang={lang(region)}>
+                <span className="text-prewrap" lang={lang(region)}>
                     {showName}
                 </span>
             </h1>
@@ -103,7 +101,7 @@ const BgmPage = (props: { region: Region; bgmId: number }) => {
                     {
                         label: t("Name"),
                         value: (
-                            <span className="newline" lang={lang(region)}>
+                            <span className="text-prewrap" lang={lang(region)}>
                                 {showName}
                             </span>
                         ),

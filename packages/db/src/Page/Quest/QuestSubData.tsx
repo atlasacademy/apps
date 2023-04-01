@@ -30,7 +30,7 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                             {quest.flags.length > 0
                                 ? quest.flags.map((flag) => (
                                       <Link to={`/${region}/quests?flag=${flag}`} key={flag}>
-                                          <Badge style={{ marginRight: 5, background: "green", color: "white" }}>
+                                          <Badge className="mr-1" style={{ background: "green", color: "white" }}>
                                               {QuestFlagDescription.get(flag) ?? toTitleCase(flag)}
                                           </Badge>
                                       </Link>

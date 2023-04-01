@@ -3,8 +3,6 @@ import { Quest, Region } from "@atlasacademy/api-connector";
 import RestrictionDescription from "../Descriptor/RestrictionDescription";
 import { lang } from "../Setting/Manager";
 
-import "../Helper/StringHelper.css";
-
 const QuestRestriction = ({
     region,
     questRestrictions,
@@ -17,7 +15,7 @@ const QuestRestriction = ({
             <ul className="mb-0">
                 {questRestrictions.map((questRestriction) => (
                     <li key={questRestriction.restriction.id}>
-                        <div className="newline" lang={lang(region)}>
+                        <div className="text-prewrap" lang={lang(region)}>
                             <b>
                                 {questRestriction.dialogMessage ||
                                     questRestriction.noticeMessage ||

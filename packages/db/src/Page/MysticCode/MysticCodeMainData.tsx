@@ -8,8 +8,6 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import { lang } from "../../Setting/Manager";
 
-import "../../Helper/StringHelper.css";
-
 interface IProps extends WithTranslation {
     region: Region;
     mysticCode: MysticCode.MysticCode;
@@ -35,7 +33,7 @@ class MysticCodeMainData extends React.Component<IProps> {
                         {
                             label: t("Detail"),
                             value: (
-                                <span className="newline" lang={lang(this.props.region)}>
+                                <span className="text-prewrap" lang={lang(this.props.region)}>
                                     {mysticCode.detail}
                                 </span>
                             ),

@@ -11,7 +11,7 @@ const PhaseNavigator = (props: {
     const currentPhase = props.currentPhase,
         phases = props.quest.phases.sort((a, b) => a - b);
     return (
-        <Pagination style={{ marginBottom: 0, float: "right" }}>
+        <Pagination className="mb-0 float-right">
             <Pagination.Prev
                 disabled={currentPhase === Math.min(...phases)}
                 onClick={() => {

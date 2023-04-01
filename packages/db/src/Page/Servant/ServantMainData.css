@@ -1,6 +1,6 @@
 .servant-data-table,
-.servant-data-table > tbody > tr > th,
-.servant-data-table > tbody > tr > td {
+.servant-data-table th,
+.servant-data-table td {
     text-align: center;
     vertical-align: middle;
 }

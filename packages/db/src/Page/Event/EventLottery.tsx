@@ -83,7 +83,7 @@ const EventLottery = ({
 
     return (
         <>
-            <div style={{ margin: "1em 0" }}>
+            <div className="my-3 mx-0">
                 <b>{t("EventLotteryOneCost")}:</b>{" "}
                 <Link to={`/${region}/item/${lottery.cost.item.id}`}>
                     <ItemIcon region={region} item={lottery.cost.item} height={40} />{" "}

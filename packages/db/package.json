@@ -54,7 +54,7 @@
     },
     "scripts": {
         "start": "vite",
-        "build": "tsc && vite build",
+        "build": "tsc --noEmit && vite build",
         "serve": "vite preview",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
         "i18n": "i18next 'src/**/*.{tsx,ts}'"

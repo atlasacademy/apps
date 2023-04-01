@@ -77,11 +77,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                 />
                 <hr />
 
-                <Row
-                    style={{
-                        marginBottom: "3%",
-                    }}
-                >
+                <Row className="mb-5">
                     <Col xs={{ span: 12, order: 2 }} lg={{ span: 6, order: 1 }}>
                         <CraftEssenceMainData region={this.props.region} craftEssence={this.state.craftEssence} />
                     </Col>

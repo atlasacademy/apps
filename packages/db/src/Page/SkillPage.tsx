@@ -30,8 +30,6 @@ import { FGOText, Ruby } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import SkillVersion from "./Skill/SkillVersion";
 
-import "../Helper/StringHelper.css";
-
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
 interface IProps extends WithTranslation {
@@ -167,7 +165,7 @@ class SkillPage extends React.Component<IProps, IState> {
                         {
                             label: "Name",
                             value: (
-                                <span className="newline" lang={lang(this.props.region)}>
+                                <span className="text-prewrap" lang={lang(this.props.region)}>
                                     <FGOText text={skill.name} />
                                 </span>
                             ),
@@ -175,7 +173,7 @@ class SkillPage extends React.Component<IProps, IState> {
                         {
                             label: t("Original Name"),
                             value: (
-                                <span className="newline" lang={lang(this.props.region)}>
+                                <span className="text-prewrap" lang={lang(this.props.region)}>
                                     {skill.originalName}
                                 </span>
                             ),
@@ -184,7 +182,7 @@ class SkillPage extends React.Component<IProps, IState> {
                         {
                             label: t("Ruby"),
                             value: (
-                                <span className="newline" lang={lang(this.props.region)}>
+                                <span className="text-prewrap" lang={lang(this.props.region)}>
                                     {skill.ruby}
                                 </span>
                             ),
@@ -192,7 +190,7 @@ class SkillPage extends React.Component<IProps, IState> {
                         {
                             label: t("Detail"),
                             value: (
-                                <span className="newline" lang={lang(this.props.region)}>
+                                <span className="text-prewrap" lang={lang(this.props.region)}>
                                     {skill.detail}
                                 </span>
                             ),

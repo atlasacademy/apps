@@ -35,7 +35,7 @@ function AllVoicePlayGroups(props: {
 }) {
     if (props.groups.length > 1) {
         return (
-            <ul style={{ marginBottom: 0 }}>
+            <ul className="mb-0">
                 {props.groups.map((group) => (
                     <li key={group}>
                         <VoicePlayGroup

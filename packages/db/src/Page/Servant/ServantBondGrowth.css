@@ -1,14 +1,14 @@
 .servant-bond-table,
-.servant-bond-table > tbody > tr > td {
+.servant-bond-table td {
     text-align: center;
     vertical-align: middle;
 }
 
-.servant-bond-table > thead > tr > th {
+.servant-bond-table th {
     white-space: nowrap;
 }
 
-.servant-bond-table > thead > tr > th > img {
+.servant-bond-table th img {
     height: 25px;
     margin-bottom: 3px;
 }

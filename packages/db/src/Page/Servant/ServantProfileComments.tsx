@@ -10,7 +10,6 @@ import ProfileConditionDescriptor from "../../Descriptor/ProfileConditionDescrip
 import { FGOText } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
-import "../../Helper/StringHelper.css";
 import "./ServantProfileComments.css";
 
 interface IProps extends WithTranslation {
@@ -56,7 +55,7 @@ export class ServantProfileComments extends React.Component<IProps> {
                                                     />
                                                 </b>
                                             </Col>
-                                            <Col className="newline pr-0" lang={lang(this.props.region)}>
+                                            <Col className="text-prewrap pr-0" lang={lang(this.props.region)}>
                                                 <FGOText text={comment.comment} />
                                             </Col>
                                         </Row>

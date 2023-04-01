@@ -11,8 +11,6 @@ import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import { Ruby } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
-import "../../Helper/StringHelper.css";
-
 interface IProps extends WithTranslation {
     region: Region;
     commandCode: CommandCode.CommandCode;
@@ -67,7 +65,7 @@ class CommandCodeMainData extends React.Component<IProps> {
                         {
                             label: t("Comment"),
                             value: (
-                                <span className="newline" lang={lang(this.props.region)}>
+                                <span className="text-prewrap" lang={lang(this.props.region)}>
                                     {commandCode.comment}
                                 </span>
                             ),

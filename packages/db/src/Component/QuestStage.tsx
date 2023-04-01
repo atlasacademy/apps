@@ -68,7 +68,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
 
     return (
         <div>
-            <div style={{ margin: "1em 0", lineHeight: "3em" }}>
+            <div className="my-3 mx-0 lh-3">
                 <b>BGM:</b> <BgmDescriptor region={props.region} bgm={stage.bgm} showLink={true} />
                 {stage.fieldAis.length >= 1 ? (
                     <>

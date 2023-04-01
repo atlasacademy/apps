@@ -1,6 +1,7 @@
-.shopTable > thead > tr > th {
+.shopTable thead th {
     vertical-align: baseline;
 }
+
 ul.condition-list {
     text-align: left;
     margin: 0 0 0 1rem;

@@ -11,7 +11,6 @@ import GiftDescriptor from "../../Descriptor/GiftDescriptor";
 import { flatten } from "../../Helper/PolyFill";
 import { lang } from "../../Setting/Manager";
 
-import "../../Helper/StringHelper.css";
 import "./EventTable.css";
 
 const EventRecipe = ({
@@ -47,7 +46,7 @@ const EventRecipe = ({
                         </td>
                         <td>
                             <span lang={lang(region)}>{recipe.name}</span>
-                            <div style={{ fontSize: "0.75rem" }} className="newline">
+                            <div className="text-prewrap fs-075">
                                 {recipe.releaseConditions.length > 0 && recipe.closedMessage !== "" ? (
                                     <>
                                         {t("Release Condition")}:{" "}

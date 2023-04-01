@@ -5,8 +5,6 @@ import { Profile } from "@atlasacademy/api-connector";
 
 import { lang } from "../../Setting/Manager";
 
-import "../../Helper/StringHelper.css";
-
 const ServantCostumeDetails = (props: {
     costumes?: {
         [key: string]: Profile.CostumeDetail;
@@ -29,10 +27,10 @@ const ServantCostumeDetails = (props: {
                         {Object.values(props.costumes).map((costume) => (
                             <tr key={costume.id}>
                                 <th scope="row">{costume.costumeCollectionNo}</th>
-                                <td className="newline" lang={lang()}>
+                                <td className="text-prewrap" lang={lang()}>
                                     {costume.name}
                                 </td>
-                                <td className="newline" lang={lang()}>
+                                <td className="text-prewrap" lang={lang()}>
                                     {costume.detail}
                                 </td>
                             </tr>

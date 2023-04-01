@@ -165,7 +165,7 @@ class FuncsPage extends React.Component<IProps, IState> {
         const t = this.props.t;
         if (this.state.error) {
             return (
-                <div style={{ textAlign: "center" }}>
+                <div className="text-center">
                     <ErrorStatus error={this.state.error} />
                     <Button
                         variant={"primary"}

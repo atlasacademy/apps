@@ -31,7 +31,7 @@ const EventRewardTower = ({
                 {tower.rewards.map((reward) => {
                     return (
                         <tr key={reward.floor}>
-                            <th scope="row" style={{ textAlign: "center" }}>
+                            <th scope="row" className="text-center">
                                 {reward.floor}
                             </th>
                             <td lang={lang(region)}>

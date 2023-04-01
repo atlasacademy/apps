@@ -26,10 +26,10 @@ table.listing-table .rarity-col {
     font-size: 0.9rem;
 }
 
-.listing-page table > thead > tr > th,
-.listing-page table > tbody > tr > td,
-table.listing-table > thead > tr > th,
-table.listing-table > tbody > tr > td {
+.listing-page th,
+.listing-page td,
+.listing-table th,
+.listing-table td {
     vertical-align: middle;
 }
 
@@ -47,11 +47,11 @@ table.listing-table > tbody > tr > td {
     margin-bottom: 1rem;
 }
 
-.listing-page #item-search > form {
+.listing-page #item-search form {
     width: 100%;
 }
 
-.listing-page #item-search > form > input {
+.listing-page #item-search form input {
     margin-left: auto;
     width: 100%;
     text-align: center;

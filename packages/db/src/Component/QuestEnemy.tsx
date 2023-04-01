@@ -18,7 +18,6 @@ import TraitDescription from "../Descriptor/TraitDescription";
 import { Renderable, asPercent, mergeElements } from "../Helper/OutputHelper";
 import { OrdinalNumeral } from "../Helper/StringHelper";
 
-import "./MoveButton.css";
 import "./QuestEnemy.css";
 
 type RenderableRow = {
@@ -104,7 +103,7 @@ function EnemyNpcDescription(props: {
     const enemy = props.enemyLookUp.get(hash);
     if (enemy !== undefined) {
         return (
-            <Button variant="link" className="move-button" onClick={() => props.handleNavigateEnemyHash?.(hash)}>
+            <Button variant="link" className="reset-button-style" onClick={() => props.handleNavigateEnemyHash?.(hash)}>
                 {enemy.deckId}. <ClassIcon className={enemy.svt.className} rarity={enemy.svt.rarity} />{" "}
                 <FaceIcon
                     type={enemy.svt.type}
@@ -344,7 +343,7 @@ const numToPct = (value: number) =>
 export const QuestDropDescriptor = ({ region, drops }: { region: Region; drops: QuestEnemy.EnemyDrop[] }) => {
     return (
         <Alert variant="success">
-            <ul style={{ marginBottom: 0 }}>
+            <ul className="mb-0">
                 {drops.map((drop) => {
                     const dummyGift = {
                         ...drop,

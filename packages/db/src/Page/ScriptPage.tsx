@@ -149,7 +149,7 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                     parsedScript.components.map((c) => c.content)
                 )}
             >
-                <ButtonGroup style={{ margin: "1em 0" }}>
+                <ButtonGroup className="my-3 mx-0">
                     {hasDialogueLines ? (
                         <VoiceLinePlayer
                             audioAssetUrls={audioUrls}

@@ -240,7 +240,7 @@ class QuestsPage extends React.Component<IProps, IState> {
         const t = this.props.t;
         if (this.state.error) {
             return (
-                <div style={{ textAlign: "center" }}>
+                <div className="text-center">
                     <ErrorStatus error={this.state.error} />
                     <Button
                         variant={"primary"}
@@ -361,7 +361,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     {this.getNumberForm("enemySkillId", t("Enemy Skill ID"))}
                     {this.getNumberForm("enemyNoblePhantasmId", t("Enemy Noble Phantasm ID"))}
-                    <Button variant={"primary"} onClick={() => this.search()} style={{ marginBottom: "1em" }}>
+                    <Button variant={"primary"} onClick={() => this.search()} className="mb-3">
                         {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>
                 </form>

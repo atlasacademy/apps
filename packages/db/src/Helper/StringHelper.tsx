@@ -6,8 +6,6 @@ import { Region } from "@atlasacademy/api-connector";
 import { parseDialogueLine } from "../Component/Script";
 import { DialogueChild } from "../Component/ScriptDialogueLine";
 
-import "./StringHelper.css";
-
 const isEnglishText = (inputString: string) => {
     const spaceRemoved = inputString.replace(/\s/g, "");
     const latinCharCount = (spaceRemoved.match(/[\u0020-\u024F]/g) ?? []).length;

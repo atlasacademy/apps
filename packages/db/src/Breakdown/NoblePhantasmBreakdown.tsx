@@ -13,8 +13,6 @@ import { asPercent, mergeElements } from "../Helper/OutputHelper";
 import { lang } from "../Setting/Manager";
 import EffectBreakdown from "./EffectBreakdown";
 
-import "../Helper/StringHelper.css";
-
 interface IProps extends WithTranslation {
     region: Region;
     servant: Servant.Servant;
@@ -82,8 +80,7 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                     {this.props.hideCard ? null : (
                         <Col
                             lg={{ span: 3, order: 2 }}
-                            style={{ textAlign: "center", marginBottom: "2em" }}
-                            className={"text-lg-right d-lg-block d-xl-block"}
+                            className="text-lg-right d-lg-block d-xl-block text-center mb-4"
                         >
                             {this.npCommandCard()}
                         </Col>
@@ -113,11 +110,11 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                             </Alert>
                         ) : null}
 
-                        <p className="newline" lang={lang(this.props.region)}>
+                        <p className="text-prewrap" lang={lang(this.props.region)}>
                             {np.detail}
                         </p>
 
-                        <p style={{ lineHeight: "2em" }}>
+                        <p className="lh-2">
                             {npRank !== "" ? (
                                 <span>
                                     <b>{t("Rank")}:</b> {npRank}

@@ -4,7 +4,7 @@ import { MysticCode } from "@atlasacademy/api-connector";
 
 const MysticCodeExp = (props: { mysticCode: MysticCode.MysticCode }) => {
     const expTable = (
-        <Table style={{ textAlign: "center" }}>
+        <Table className="text-center">
             <thead>
                 <tr>
                     <th>Level</th>

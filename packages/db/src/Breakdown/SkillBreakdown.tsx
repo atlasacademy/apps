@@ -15,8 +15,6 @@ import { Ruby } from "../Helper/StringHelper";
 import { lang } from "../Setting/Manager";
 import EffectBreakdown from "./EffectBreakdown";
 
-import "../Helper/StringHelper.css";
-
 interface IProps {
     region: Region;
     skill: Skill.Skill;
@@ -74,7 +72,7 @@ class SkillBreakdown extends React.Component<IProps> {
                     </Alert>
                 ) : null}
 
-                <p className="newline" lang={lang(this.props.region)}>
+                <p className="text-prewrap" lang={lang(this.props.region)}>
                     {skill.detail}
                 </p>
 

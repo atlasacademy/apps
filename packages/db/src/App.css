@@ -1,3 +1,37 @@
 #app {
     margin-bottom: 100px;
 }
+
+.text-prewrap {
+    white-space: pre-wrap;
+}
+
+.w-1px {
+    width: 1px;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.lh-2 {
+    line-height: 2em;
+}
+
+.lh-3 {
+    line-height: 3em;
+}
+
+.fs-075 {
+    font-size: 0.75em;
+}
+
+.reset-button-style {
+    line-height: 1;
+    padding: 0;
+    vertical-align: baseline;
+}

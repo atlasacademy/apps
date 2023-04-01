@@ -4,8 +4,6 @@ import { lang } from "../Setting/Manager";
 import CondTargetNumDescriptor from "./CondTargetNumDescriptor";
 import MissionConditionApplicableQuests from "./MissionConditionApplicableQuests";
 
-import "../Helper/StringHelper.css";
-
 export default function MissionConditionDescriptor(props: {
     region: Region;
     cond: Mission.MissionCondition;
@@ -34,8 +32,8 @@ export default function MissionConditionDescriptor(props: {
     return (
         <>
             <i>{progressType}:</i>
-            <ul style={{ margin: 0 }}>
-                <li className="newline" lang={lang(props.region)}>
+            <ul className="m-0">
+                <li className="text-prewrap" lang={lang(props.region)}>
                     {props.cond.conditionMessage}
                 </li>
                 <li>

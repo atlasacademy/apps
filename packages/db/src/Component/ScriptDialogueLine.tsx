@@ -7,7 +7,6 @@ import Manager, { lang } from "../Setting/Manager";
 import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";
 import { useImageSize } from "./ScriptTable";
 
-import "../Helper/StringHelper.css";
 import "./ScriptDialogueLine.css";
 
 const DialogueBasicContainer = ({
@@ -92,7 +91,7 @@ const DialogueBasicContent = (props: { component: DialogueBasicComponent; index?
             return <FGOText text={component.trueName} />;
         case ScriptComponentType.DIALOGUE_TEXT:
             return (
-                <span className="newline">
+                <span className="text-prewrap">
                     <FGOText text={component.text} />
                 </span>
             );
@@ -142,7 +141,7 @@ const DialoguePopover = ({
 
     return (
         <OverlayTrigger placement="top" delay={{ show: 250, hide: 400 }} overlay={maleToolTip}>
-            <span style={{ textDecoration: "underline" }}>{children}</span>
+            <span className="underline">{children}</span>
         </OverlayTrigger>
     );
 };
@@ -181,7 +180,7 @@ export const DialogueChild = ({
 
                 return <DialoguePopover tooltipComponent={femaleComponents}>{maleComponents}</DialoguePopover>;
             } else {
-                return <span style={{ textDecoration: "underline" }}>{maleComponents}</span>;
+                return <span className="underline">{maleComponents}</span>;
             }
         case ScriptComponentType.DIALOGUE_NEW_LINE:
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:

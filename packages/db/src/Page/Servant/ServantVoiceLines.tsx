@@ -21,8 +21,6 @@ import { VoiceSubtitleFormat } from "../../Helper/StringHelper";
 import useApi from "../../Hooks/useApi";
 import { lang } from "../../Setting/Manager";
 
-import "../../Helper/StringHelper.css";
-
 const voiceTextField = (region: Region, voiceType: ProfileVoiceType) => {
     return (
         (region === Region.JP && voiceType === ProfileVoiceType.FIRST_GET) ||
@@ -69,12 +67,12 @@ export const VoiceLinesTable = ({
                     );
                     return (
                         <tr key={`line_${index}`}>
-                            <td style={{ verticalAlign: "middle" }}>
-                                <b className="newline" lang={lang(region)}>
+                            <td className="align-middle">
+                                <b className="text-prewrap" lang={lang(region)}>
                                     {voiceLineNames[index]}
                                 </b>
                                 <br />
-                                <div className="newline" lang={lang(region)}>
+                                <div className="text-prewrap" lang={lang(region)}>
                                     {voiceTextField(region, voice.type) ? (
                                         line.text.map((line, i) => (
                                             <VoiceSubtitleFormat key={i} region={region} inputString={line} />
@@ -86,7 +84,7 @@ export const VoiceLinesTable = ({
                                 {lineConds.length > 0 ||
                                 line.playConds.length > 0 ||
                                 line.summonScript !== undefined ? (
-                                    <Alert variant="info" style={{ marginBottom: 0, marginTop: "1em" }}>
+                                    <Alert variant="info" className="mb-0 mt-3">
                                         {line.summonScript === undefined ? null : (
                                             <>
                                                 {t("Summoning Script")}:{" "}
@@ -104,7 +102,7 @@ export const VoiceLinesTable = ({
                                                     {t("SforPlural")} ({t("All of the Following")}):
                                                 </b>
                                                 <br />
-                                                <ul style={{ marginBottom: 0 }}>
+                                                <ul className="mb-0">
                                                     {lineConds.map((cond, index) => (
                                                         <li key={index}>
                                                             <VoiceCondTypeDescriptor
@@ -139,7 +137,7 @@ export const VoiceLinesTable = ({
                                     </Alert>
                                 ) : null}
                             </td>
-                            <td style={{ verticalAlign: "middle", width: "1px" }}>
+                            <td className="w-1px align-middle">
                                 <ButtonGroup>
                                     <VoiceLinePlayer
                                         audioAssetUrls={line.audioAssets}

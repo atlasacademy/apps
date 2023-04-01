@@ -3,8 +3,6 @@ import { Region, Skill } from "@atlasacademy/api-connector";
 import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import { lang } from "../Setting/Manager";
 
-import "../Helper/StringHelper.css";
-
 const SkillGroupOverWrite = ({
     region,
     overwrites,
@@ -21,7 +19,7 @@ const SkillGroupOverWrite = ({
 
     return (
         <>
-            <p className="newline" lang={lang(region)}>
+            <p className="text-prewrap" lang={lang(region)}>
                 {overwrite.detail}
             </p>
             <EffectBreakdown region={region} funcs={overwrite.functions} levels={levels} tableTitle={title} />

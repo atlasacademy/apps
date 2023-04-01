@@ -63,17 +63,13 @@ class EnemyPage extends React.Component<IProps, IState> {
 
         return (
             <div id={"enemy"}>
-                <h1 style={{ marginBottom: "1rem" }}>
+                <h1 className="mb-3">
                     <ClassIcon className={enemy.className} rarity={enemy.rarity} height={50} />
                     &nbsp;
                     <span lang={lang(this.props.region)}>{enemy.name}</span>
                 </h1>
 
-                <Row
-                    style={{
-                        marginBottom: "3%",
-                    }}
-                >
+                <Row className="mb-5">
                     <Col xs={{ span: 12 }} lg={{ span: 6 }}>
                         <EnemyMainData region={this.props.region} enemy={enemy} />
                     </Col>

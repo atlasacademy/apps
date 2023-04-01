@@ -80,7 +80,7 @@ export const MultipleQuests = (props: {
         );
     } else {
         const questList = (
-            <ul style={{ marginBottom: 0 }}>
+            <ul className="mb-0">
                 {props.questIds.map((questId) => {
                     return (
                         <li key={questId}>

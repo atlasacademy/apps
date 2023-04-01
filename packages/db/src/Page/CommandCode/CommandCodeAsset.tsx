@@ -8,7 +8,7 @@ import { mergeElements } from "../../Helper/OutputHelper";
 
 const Image = ({ url, alt }: { url: string; alt?: string }) => (
     <a href={url} target="_blank" rel="noopener noreferrer">
-        <img alt={alt ?? ""} src={url} style={{ maxWidth: "100%" }} />
+        <img alt={alt ?? ""} src={url} className="mw-100" />
     </a>
 );
 

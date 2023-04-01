@@ -53,14 +53,14 @@ const DialogueRow = (props: {
             </td>
             <td>
                 {props.dialogue.voice && (
-                    <BgmDescriptor region={props.region} bgm={props.dialogue.voice} style={{ display: "block" }} />
+                    <BgmDescriptor region={props.region} bgm={props.dialogue.voice} className="d-block" />
                 )}
                 {props.dialogue.maleVoice && props.dialogue.femaleVoice && (
                     <div>
                         <BgmDescriptor
                             region={props.region}
                             bgm={props.dialogue.maleVoice}
-                            style={{ marginRight: "1em" }}
+                            className="mr-3"
                             showName="Male"
                         />
                         <BgmDescriptor region={props.region} bgm={props.dialogue.femaleVoice} showName="Female" />
@@ -81,7 +81,7 @@ const ChoiceComponentsTable = (props: {
 }) => {
     if (props.choiceComponents.length === 0) return null;
     return (
-        <Table hover responsive style={{ marginTop: "1em" }}>
+        <Table hover responsive className="mt-3">
             <tbody>
                 {props.choiceComponents.map((c, i) => {
                     switch (c.type) {
@@ -588,9 +588,11 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
         <Table hover responsive>
             <thead>
                 <tr>
-                    <th style={{ textAlign: "center", width: "10%" }}>{t("Speaker")}</th>
-                    <th style={{ textAlign: "center" }}>{t("Text")}</th>
-                    {showScriptLine && <th style={{ textAlign: "center" }}>{t("Line")}</th>}
+                    <th className="text-center" style={{ width: "10%" }}>
+                        {t("Speaker")}
+                    </th>
+                    <th className="text-center">{t("Text")}</th>
+                    {showScriptLine && <th className="text-center">{t("Line")}</th>}
                 </tr>
             </thead>
             <tbody lang={lang(props.region)}>

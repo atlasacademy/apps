@@ -25,8 +25,6 @@ import { removeSuffix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import WarMap from "./WarMap/WarMap";
 
-import "../Helper/StringHelper.css";
-
 const BannerImage = (props: { src?: string; index: number }) => {
     const [src, setSrc] = useState(props.src);
 
@@ -100,12 +98,7 @@ const PhaseLink = ({ region, quest, phase }: { region: Region; quest: Quest.Ques
         </>
     ) : null;
     return (
-        <Link
-            title={description}
-            key={phase}
-            to={`/${region}/quest/${quest.id}/${phase}`}
-            style={{ whiteSpace: "nowrap" }}
-        >
+        <Link title={description} key={phase} to={`/${region}/quest/${quest.id}/${phase}`} className="text-nowrap">
             {phase}
             {hasEnemiesIcon}
             {isRepeatableIcon}
@@ -188,7 +181,7 @@ const QuestTable = (props: {
                             </FirstPhaseLink>
                         </td>
                         {props.spots !== undefined ? (
-                            <td style={{ whiteSpace: "nowrap" }}>
+                            <td className="text-nowrap">
                                 <SpotImage src={props.spots[i].image} name={props.spots[i].name} height="2em" />{" "}
                                 <span style={{ whiteSpace: "normal" }} lang={lang(region)}>
                                     {props.spots[i].name}
@@ -236,7 +229,7 @@ const QuestTable = (props: {
                                           } else {
                                               return (
                                                   <>
-                                                      <span style={{ whiteSpace: "nowrap" }}>
+                                                      <span className="text-nowrap">
                                                           {phaseScript.phase}:{" "}
                                                           {mergeElements(
                                                               phaseScript.scripts.map((script) => (
@@ -553,17 +546,17 @@ class WarPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1 style={{ marginBottom: "1em" }} className="newline" lang={lang(this.props.region)}>
+                <h1 className="text-prewrap mb-3" lang={lang(this.props.region)}>
                     {war.flags.indexOf(War.WarFlag.SUB_FOLDER) === -1 ? war.longName : war.name}
                 </h1>
-                <div style={{ marginBottom: "3%" }}>
+                <div className="mb-5">
                     <DataTable
                         data={[
                             { label: t("ID"), value: war.id },
                             {
                                 label: t("Name"),
                                 value: (
-                                    <span className="newline" lang={lang(this.props.region)}>
+                                    <span className="text-prewrap" lang={lang(this.props.region)}>
                                         {war.name}
                                         <br />
                                         {war.originalName === war.name || war.originalName}
@@ -573,7 +566,7 @@ class WarPage extends React.Component<IProps, IState> {
                             {
                                 label: t("Long Name"),
                                 value: (
-                                    <span className="newline" lang={lang(this.props.region)}>
+                                    <span className="text-prewrap" lang={lang(this.props.region)}>
                                         {war.longName}
                                         <br />
                                         {war.originalLongName === war.longName || war.originalLongName}

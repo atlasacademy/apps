@@ -79,7 +79,7 @@ export default function QuestSearchDescriptor(props: IProps) {
     return (
         <>
             {props.returnList ? (
-                <ul style={{ marginBottom: 0 }}>
+                <ul className="mb-0">
                     {questDescriptions.map((quest, i) => (
                         <li key={i}>{quest}</li>
                     ))}

@@ -181,10 +181,10 @@ class ServantPage extends React.Component<IProps, IState> {
         return (
             <div id={"servant"}>
                 <ServantPicker region={this.props.region} servants={this.state.servants} id={servant.collectionNo} />
-                <hr style={{ marginBottom: "1rem" }} />
+                <hr className="mb-3" />
 
-                <div style={{ display: "flex", flexDirection: "row", marginBottom: 3 }}>
-                    <h1 style={{ marginBottom: "1rem" }} lang={lang(this.props.region)}>
+                <div className="d-flex flex-row">
+                    <h1 className="mb-3" lang={lang(this.props.region)}>
                         <ClassIcon className={servant.className} rarity={servant.rarity} height={50} />
                         &nbsp;
                         {this.getOverwriteName()}
@@ -369,7 +369,7 @@ class ServantPage extends React.Component<IProps, IState> {
                         <ServantStatGrowth region={this.props.region} servant={servant} />
                     </Tab>
                     <Tab eventKey={"lore"} title={t("Profile")}>
-                        <Alert variant="success" style={{ lineHeight: "2em" }}>
+                        <Alert variant="success" className="lh-2">
                             <IllustratorDescriptor
                                 region={this.props.region}
                                 illustrator={servant.profile?.illustrator}

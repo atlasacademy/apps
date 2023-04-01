@@ -15,7 +15,6 @@ import ShopPurchaseDescriptor from "../../Descriptor/ShopPurchaseDescriptor";
 import { FGOText } from "../../Helper/StringHelper";
 import Manager, { lang } from "../../Setting/Manager";
 
-import "../../Helper/StringHelper.css";
 import "./Shop.css";
 
 const ScriptLink = (props: { region: Region; shop: Shop.Shop }) => {
@@ -86,7 +85,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
 
     return (
         <>
-            <Alert variant="success" style={{ margin: "1em 0", display: "flex" }}>
+            <Alert variant="success" className="d-flex my-3 mx-0">
                 <div style={{ flexGrow: 1 }}>
                     {shopEnabled
                         ? amounts.size > 0
@@ -96,7 +95,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                     {[...amounts]
                         .filter(([_, amount]) => amount > 0)
                         .map(([itemId, amount]) => (
-                            <span style={{ whiteSpace: "nowrap", paddingRight: "1ch" }} key={itemId}>
+                            <span className="text-nowrap" style={{ paddingRight: "1ch" }} key={itemId}>
                                 <IconLink region={region} item={items.get(itemId)!} />
                                 <b>×{amount.toLocaleString()}</b>
                             </span>
@@ -155,12 +154,12 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
             <Table hover responsive className="shopTable">
                 <thead>
                     <tr>
-                        <th style={{ textAlign: "left" }}>{t("Detail")}</th>
-                        <th style={{ whiteSpace: "nowrap" }}>
+                        <th className="text-left">{t("Detail")}</th>
+                        <th className="text-nowrap">
                             {t("EventShopCurrency")}&nbsp;
                             <Dropdown as={ButtonGroup}>
                                 <Dropdown.Toggle size="sm">
-                                    <FontAwesomeIcon style={{ display: "inline" }} icon={faFilter} />
+                                    <FontAwesomeIcon className="d-inline" icon={faFilter} />
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {/* Actually a checkbox is the best here */}
@@ -219,7 +218,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                 <tr key={shop.id}>
                                     <td style={{ minWidth: "10em" }}>
                                         <b lang={lang(region)}>{shop.name}</b>
-                                        <div style={{ fontSize: "0.75rem" }} className="newline">
+                                        <div className="text-prewrap fs-075">
                                             <span lang={lang(region)}>
                                                 <FGOText text={shop.detail} />
                                             </span>
@@ -229,7 +228,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                                 {shop.releaseConditions.length ? (
                                                     <ul className="condition-list">
                                                         {shop.releaseConditions.map((cond, index) => (
-                                                            <li key={index} style={{ fontSize: "0.75rem" }}>
+                                                            <li key={index} className="fs-075">
                                                                 {cond.closedMessage && (
                                                                     <span lang={lang(region)}>
                                                                         {cond.closedMessage} —{" "}
@@ -252,24 +251,24 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
                                             </div>
                                         </div>
                                     </td>
-                                    <td style={{ textAlign: "center" }}>
+                                    <td className="text-center">
                                         {shop.payType !== Shop.PayType.FREE ? (
                                             <IconLink region={region} item={shop.cost.item} />
                                         ) : null}
                                     </td>
-                                    <td style={{ textAlign: "center" }}>
+                                    <td className="text-center">
                                         {shop.payType !== Shop.PayType.FREE ? shop.cost.amount.toLocaleString() : null}
                                     </td>
                                     <td>
                                         <ShopPurchaseDescriptor region={region} shop={shop} itemMap={itemCache} />
                                     </td>
-                                    <td style={{ textAlign: "center" }}>{shop.setNum.toLocaleString()}</td>
-                                    <td style={{ textAlign: "center" }}>
+                                    <td className="text-center">{shop.setNum.toLocaleString()}</td>
+                                    <td className="text-center">
                                         {shop.limitNum === 0 ? <>{t("Unlimited")}</> : limitNumIndicator}
                                     </td>
                                     {shopEnabled && (
                                         <>
-                                            <td style={{ textAlign: "center", maxWidth: "5em" }}>
+                                            <td className="text-center" style={{ maxWidth: "5em" }}>
                                                 <InputGroup size="sm">
                                                     <Form.Control
                                                         type="number"

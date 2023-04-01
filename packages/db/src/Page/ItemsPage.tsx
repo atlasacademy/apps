@@ -252,8 +252,8 @@ class ItemsPage extends React.Component<IProps, IState> {
                 <Table striped bordered hover responsive>
                     <thead>
                         <tr>
-                            <th style={{ textAlign: "center", width: "1px" }}>#</th>
-                            <th style={{ textAlign: "center", width: "1px" }}>{t("Thumbnail")}</th>
+                            <th className="text-center w-1px">#</th>
+                            <th className="text-center w-1px">{t("Thumbnail")}</th>
                             <th>{t("Name")}</th>
                         </tr>
                     </thead>

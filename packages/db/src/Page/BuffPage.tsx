@@ -18,8 +18,6 @@ import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
 import Manager, { lang } from "../Setting/Manager";
 
-import "../Helper/StringHelper.css";
-
 interface IProps extends WithTranslation {
     region: Region;
     id: number;
@@ -82,7 +80,7 @@ class BuffPage extends React.Component<IProps, IState> {
                         {
                             label: t("Detail"),
                             value: (
-                                <span className="newline" lang={lang(region)}>
+                                <span className="text-prewrap" lang={lang(region)}>
                                     {buff.detail}
                                 </span>
                             ),
@@ -162,7 +160,7 @@ class BuffPage extends React.Component<IProps, IState> {
                         {
                             label: t("Script"),
                             value: (
-                                <div style={{ whiteSpace: "pre-wrap", textAlign: "left" }}>
+                                <div className="text-left text-prewrap">
                                     <code>{JSON.stringify(buff.script, undefined, 2)}</code>
                                 </div>
                             ),
@@ -170,7 +168,7 @@ class BuffPage extends React.Component<IProps, IState> {
                         },
                     ]}
                 />
-                <div style={{ marginBottom: "3%" }}>
+                <div className="mb-5">
                     <RawDataViewer text="Nice" data={buff} url={Api.getUrl("nice", "buff", this.props.id)} />
                     <RawDataViewer text="Raw" data={Api.getUrl("raw", "buff", this.props.id)} />
                 </div>

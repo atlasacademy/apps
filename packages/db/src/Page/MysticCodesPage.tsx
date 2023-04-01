@@ -55,7 +55,9 @@ class MysticCodesPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th className="col-center">#</th>
-                            <th style={{ textAlign: "center", width: "140px" }}>{t("Thumbnail")}</th>
+                            <th className="text-center" style={{ width: "140px" }}>
+                                {t("Thumbnail")}
+                            </th>
                             <th>{t("Name")}</th>
                         </tr>
                     </thead>

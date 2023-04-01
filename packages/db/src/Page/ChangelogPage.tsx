@@ -168,7 +168,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
                 return renderCollapsibleContent({
                     title: (
                         <>
-                            <span style={{ fontFamily: "monospace" }}>{change.commit.substr(0, 6)}</span>
+                            <span style={{ fontFamily: "monospace" }}>{change.commit.slice(0, 6)}</span>
                             &nbsp;- {localTime ? timestamp.toString() : timestamp.toUTCString()}
                         </>
                     ),

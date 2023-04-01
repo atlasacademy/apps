@@ -1,7 +1,7 @@
-.ai-info > thead {
+.ai-info tr:first-child {
     font-weight: bold;
 }
 
-.ai-info > tbody > tr > td:first-child {
+.ai-info td:first-child {
     font-weight: bold;
 }

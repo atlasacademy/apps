@@ -6,7 +6,6 @@ import EffectBreakdown from "../Breakdown/EffectBreakdown";
 import { lang } from "../Setting/Manager";
 import NoblePhantasmDescriptor from "./NoblePhantasmDescriptor";
 
-import "../Component/MoveButton.css";
 import "./PopOver.css";
 
 const NoblePhantasmPopover = (props: { region: Region; noblePhantasm: NoblePhantasm.NoblePhantasm }) => {
@@ -48,7 +47,7 @@ const NoblePhantasmPopover = (props: { region: Region; noblePhantasm: NoblePhant
         >
             <Button
                 variant="link"
-                className="move-button"
+                className="reset-button-style"
                 title={`Click to view details of noble phantasm ${noblePhantasm.name}`}
             >
                 [<span lang={lang(region)}>{noblePhantasm.name}</span>]

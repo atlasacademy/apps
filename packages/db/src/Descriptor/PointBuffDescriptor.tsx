@@ -29,7 +29,7 @@ const PointBuffDescriptor = (props: { region: Region; pointBuff: Event.EventPoin
             {pointBuff.funcIds.length > 0 ? (
                 <>
                     <b>Functions:</b>{" "}
-                    <ul style={{ margin: 0 }}>
+                    <ul className="m-0">
                         {pointBuff.funcIds.map((funcId) => (
                             <li key={funcId}>
                                 <FuncDescriptorId region={region} funcId={funcId} />

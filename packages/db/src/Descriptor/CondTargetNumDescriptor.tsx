@@ -17,8 +17,6 @@ import {
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 
-import "../Component/MoveButton.css";
-
 export default function CondTargetNumDescriptor(props: {
     region: Region;
     cond: CondType;
@@ -145,7 +143,7 @@ export default function CondTargetNumDescriptor(props: {
                         Claim mission{" "}
                         <Button
                             variant="link"
-                            className="move-button"
+                            className="reset-button-style"
                             onClick={() => props.handleNavigateMissionId?.(targets[0])}
                         >
                             {missionDispNo}: <span lang={lang(region)}>{missionName}</span>

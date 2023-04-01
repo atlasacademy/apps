@@ -93,7 +93,7 @@ class SettingForm extends React.Component<IProps> {
                         </Form.Control>
                     </Form.Group>
                 </Form>
-                <ButtonGroup style={{ width: "100%", marginBottom: "1em" }}>
+                <ButtonGroup className="mb-3 w-100">
                     <Button
                         variant={Manager.shopPlannerEnabled() ? "success" : "secondary"}
                         onClick={() => this.updateShopPlannerEnabled(!Manager.shopPlannerEnabled())}
@@ -101,7 +101,7 @@ class SettingForm extends React.Component<IProps> {
                         {t("Shop planner")}: {Manager.shopPlannerEnabled() ? t("Enabled") : t("Disabled")}
                     </Button>
                 </ButtonGroup>
-                <ButtonGroup style={{ width: "100%", marginBottom: "1em" }}>
+                <ButtonGroup className="mb-3 w-100">
                     <Button
                         variant={Manager.scriptSceneEnabled() ? "success" : "secondary"}
                         onClick={() => this.updateScriptSceneEnabled(!Manager.scriptSceneEnabled())}
@@ -109,7 +109,7 @@ class SettingForm extends React.Component<IProps> {
                         {t("Script Scene")}: {Manager.scriptSceneEnabled() ? t("Enabled") : t("Disabled")}
                     </Button>
                 </ButtonGroup>
-                <ButtonGroup style={{ width: "100%", marginBottom: "1em" }}>
+                <ButtonGroup className="mb-3 w-100">
                     <Button
                         variant={Manager.showScriptLine() ? "success" : "secondary"}
                         onClick={() => Manager.setShowScriptLine(!Manager.showScriptLine())}
@@ -117,7 +117,7 @@ class SettingForm extends React.Component<IProps> {
                         {t("Original line number in scripts")}: {Manager.showScriptLine() ? t("Shown") : t("Hidden")}
                     </Button>
                 </ButtonGroup>
-                <ButtonGroup style={{ width: "100%" }}>
+                <ButtonGroup className="w-100">
                     <Button
                         variant={Manager.hideEnemyFunctions() ? "success" : "secondary"}
                         onClick={() => this.updateHideEnemyFunction(!Manager.hideEnemyFunctions())}

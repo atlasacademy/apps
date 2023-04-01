@@ -24,8 +24,6 @@ import QuestDrops from "./Quest/QuestDrops";
 import QuestMainData from "./Quest/QuestMainData";
 import QuestSubData from "./Quest/QuestSubData";
 
-import "../Helper/StringHelper.css";
-
 interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
@@ -96,7 +94,7 @@ class QuestPage extends React.Component<IProps, IState> {
                 <h1 lang={lang(this.props.region)}>{quest.name}</h1>
 
                 <br />
-                <Row style={{ marginBottom: "3%" }}>
+                <Row className="mb-5">
                     <Col xs={{ span: 12 }} lg={{ span: 6 }}>
                         <QuestMainData
                             region={this.props.region}
@@ -112,7 +110,7 @@ class QuestPage extends React.Component<IProps, IState> {
                     </Col>
                 </Row>
                 {quest.messages.length > 0 ? (
-                    <Alert variant="success" className="newline" lang={lang(this.props.region)}>
+                    <Alert variant="success" className="text-prewrap" lang={lang(this.props.region)}>
                         {quest.messages.length > 1 ? (
                             <ul className="mb-0">
                                 {quest.messages.map((message) => (
@@ -127,7 +125,7 @@ class QuestPage extends React.Component<IProps, IState> {
                     </Alert>
                 ) : null}
                 {quest.extraDetail.hintTitle || quest.hints.length > 0 ? (
-                    <Alert variant="success" className="newline" lang={lang(this.props.region)}>
+                    <Alert variant="success" className="text-prewrap" lang={lang(this.props.region)}>
                         {quest.extraDetail.hintTitle && (
                             <>
                                 <b>{quest.extraDetail.hintTitle}</b>

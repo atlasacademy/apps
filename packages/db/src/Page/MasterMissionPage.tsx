@@ -16,8 +16,6 @@ import { flatten } from "../Helper/PolyFill";
 import { getEventStatus, getTimeString } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
 
-import "../Helper/StringHelper.css";
-
 const MasterMissionCond = (props: {
     region: Region;
     mission: Mission.Mission;
@@ -105,7 +103,7 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
             </h1>
             <br />
 
-            <div style={{ marginBottom: "3%" }}>
+            <div className="mb-5">
                 <DataTable
                     data={[
                         { label: t("ID"), value: masterMissionId },
@@ -137,7 +135,7 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
             <Table hover responsive>
                 <thead>
                     <tr>
-                        <th style={{ textAlign: "center" }}>#</th>
+                        <th className="text-center">#</th>
                         <th>{t("Detail")}</th>
                         <th>{t("Reward")}</th>
                     </tr>
@@ -145,11 +143,11 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
                 <tbody>
                     {masterMission.missions.map((mission) => (
                         <tr key={mission.id}>
-                            <th scope="row" style={{ textAlign: "center" }}>
+                            <th scope="row" className="text-center">
                                 {mission.dispNo}
                             </th>
                             <td>
-                                <b className="newline" lang={lang(region)}>
+                                <b className="text-prewrap" lang={lang(region)}>
                                     {mission.name}
                                 </b>
                                 <br />

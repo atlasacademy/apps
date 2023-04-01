@@ -61,8 +61,8 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                 <Table responsive className="material-breakdown">
                     <thead>
                         <tr>
-                            <th style={this.props.showNextLevelInDescription ? { textAlign: "center" } : {}}>#</th>
-                            {this.doesntCostQP() ? null : <th style={{ textAlign: "center" }}>QP</th>}
+                            <th className={this.props.showNextLevelInDescription ? "text-center" : ""}>#</th>
+                            {this.doesntCostQP() ? null : <th className="text-center">QP</th>}
                             {this.populateRemainingCells(count, 0)}
                         </tr>
                     </thead>
@@ -71,10 +71,8 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                             return (
                                 <tr key={key}>
                                     <td
-                                        style={{
-                                            minWidth: this.props.idMinWidth,
-                                            textAlign: this.props.showNextLevelInDescription ? "center" : "left",
-                                        }}
+                                        className={this.props.showNextLevelInDescription ? "text-center" : "text-left"}
+                                        style={{ minWidth: this.props.idMinWidth }}
                                     >
                                         {this.props.showNextLevelInDescription ? (
                                             <>
