@@ -115,6 +115,12 @@ export default function handleAmountSection(
                 hideRate={true}
             />
         );
+    } else if (
+        func.funcType === Func.FuncType.LOSS_HP_SAFE &&
+        dataVal.Value !== undefined &&
+        dataVal.Value2 !== undefined
+    ) {
+        parts.push(`a random amount between ${dataVal.Value} and ${dataVal.Value2}`);
     } else if (func.funcType === Func.FuncType.DAMAGE_VALUE) {
         parts.push(`${dataVal.Value}–${dataVal.Value2} randomly`);
         if (dataVal.DamageRates !== undefined)
