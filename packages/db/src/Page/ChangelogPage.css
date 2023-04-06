@@ -1,8 +1,8 @@
-.changelog-table th {
+.changelog-table thead th {
     text-align: center;
 }
 
-.changelog-table td {
+.changelog-table tbody td {
     text-align: center;
     vertical-align: middle;
 }
