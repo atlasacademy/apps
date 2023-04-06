@@ -49,7 +49,7 @@ class NoblePhantasmVersion extends React.Component<IProps> {
                                 </Col>
                             </Row>
 
-                            <hr />
+                            <hr className="mt-0 mb-2" />
                         </div>
                     );
                 })}

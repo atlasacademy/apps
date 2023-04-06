@@ -89,7 +89,7 @@ class FuncMainData extends React.Component<IProps> {
                         },
                     ]}
                 />
-                <Row>
+                <Row className="mb-3">
                     <Col>
                         <RawDataViewer
                             text="Nice"

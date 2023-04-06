@@ -45,7 +45,7 @@ class SkillVersion extends React.Component<IProps> {
                                     </Col>
                                 </Row>
 
-                                <hr className="mb-2" />
+                                <hr className="mt-0 mb-2" />
                             </React.Fragment>
                         );
                     })}
