@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
 
-import { Servant } from "@atlasacademy/api-connector";
+import { Region, Servant } from "@atlasacademy/api-connector";
 
 import { FGOText } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
-const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
+const ServantBattleNames = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
     const { t } = useTranslation();
     return (
         <>
@@ -13,7 +13,7 @@ const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
             <ul>
                 <li>
                     {t("Default Battle Name")}:{" "}
-                    <span lang={lang()}>
+                    <span lang={lang(region)}>
                         <FGOText text={servant.battleName} />
                     </span>
                 </li>
@@ -23,7 +23,7 @@ const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
                             {t("AscensionBeforeNumber")}
                             {ascension}
                             {t("AscensionAfterNumber")}:{" "}
-                            <span lang={lang()}>
+                            <span lang={lang(region)}>
                                 <FGOText text={battleName} />
                             </span>
                         </li>
@@ -37,7 +37,7 @@ const ServantBattleNames = ({ servant }: { servant: Servant.Servant }) => {
                         return (
                             <li key={battleCharaId}>
                                 {t("Costume")}{" "}
-                                <span lang={lang()}>
+                                <span lang={lang(region)}>
                                     {custumeShortName ? <FGOText text={custumeShortName} /> : battleCharaId}:{" "}
                                     <FGOText text={battleName} />
                                 </span>

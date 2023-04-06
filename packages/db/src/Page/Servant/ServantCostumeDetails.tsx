@@ -1,11 +1,13 @@
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { Profile } from "@atlasacademy/api-connector";
+import { Profile, Region } from "@atlasacademy/api-connector";
 
+import { FGOText } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 const ServantCostumeDetails = (props: {
+    region: Region;
     costumes?: {
         [key: string]: Profile.CostumeDetail;
     };
@@ -27,11 +29,11 @@ const ServantCostumeDetails = (props: {
                         {Object.values(props.costumes).map((costume) => (
                             <tr key={costume.id}>
                                 <th scope="row">{costume.costumeCollectionNo}</th>
-                                <td className="text-prewrap" lang={lang()}>
-                                    {costume.name}
+                                <td className="text-prewrap" lang={lang(props.region)}>
+                                    <FGOText text={costume.shortName} />
                                 </td>
-                                <td className="text-prewrap" lang={lang()}>
-                                    {costume.detail}
+                                <td className="text-prewrap" lang={lang(props.region)}>
+                                    <FGOText text={costume.detail} />
                                 </td>
                             </tr>
                         ))}

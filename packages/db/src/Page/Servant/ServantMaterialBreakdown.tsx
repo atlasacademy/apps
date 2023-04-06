@@ -6,6 +6,8 @@ import { Entity, Item, Region } from "@atlasacademy/api-connector";
 
 import { AssetHost } from "../../Api";
 import ItemIcon from "../../Component/ItemIcon";
+import { FGOText } from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 
 import "./ServantMaterialBreakdown.css";
 
@@ -79,7 +81,9 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                                                 {parseInt(key)}→{parseInt(key) + 1}
                                             </>
                                         ) : (
-                                            key
+                                            <span lang={lang(this.props.region)}>
+                                                <FGOText text={key} />
+                                            </span>
                                         )}
                                     </td>
                                     {this.doesntCostQP() ? null : (

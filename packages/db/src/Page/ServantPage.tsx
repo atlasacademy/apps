@@ -173,7 +173,7 @@ class ServantPage extends React.Component<IProps, IState> {
         if (servant.profile) {
             for (const [costumeId, costume] of Object.entries(servant.costumeMaterials)) {
                 if (servant.profile?.costume[costumeId] !== undefined) {
-                    remappedCostumeMaterials[servant.profile?.costume[costumeId].name] = costume;
+                    remappedCostumeMaterials[servant.profile?.costume[costumeId].shortName] = costume;
                 }
             }
         }
@@ -385,9 +385,9 @@ class ServantPage extends React.Component<IProps, IState> {
                             questIds={servant.trialQuestIds}
                             title={t("Trial Quests")}
                         />
-                        <ServantBattleNames servant={servant} />
+                        <ServantBattleNames region={this.props.region} servant={servant} />
                         <ServantValentine region={this.props.region} servant={servant} />
-                        <ServantCostumeDetails costumes={servant.profile?.costume} />
+                        <ServantCostumeDetails region={this.props.region} costumes={servant.profile?.costume} />
                         <ServantProfileComments region={this.props.region} comments={servant.profile?.comments ?? []} />
                     </Tab>
                     <Tab eventKey={"assets"} title={t("Assets")}>
