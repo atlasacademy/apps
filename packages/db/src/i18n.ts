@@ -13,7 +13,7 @@ i18n.use(initReactI18next)
         read: (language: UILanguage, namespace: string, callback: ReadCallback): void => {
             import(`./Translations/${language}/${namespace}.json`)
                 .then((resources) => {
-                    callback(null, resources);
+                    callback(null, resources.default);
                 })
                 .catch((error) => {
                     callback(error, null);
