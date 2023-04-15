@@ -74,7 +74,7 @@ function handleBuffActionSection(
 ): void {
     const section = sections.action,
         parts = section.parts,
-        buff = func.buffs[0];
+        buff: Buff.Buff | undefined = func.buffs[0];
 
     parts.push("Apply");
     func.buffs.forEach((buff, index) => {
@@ -106,7 +106,7 @@ function handleBuffActionSection(
         sections.target.preposition = "for";
     }
 
-    if (buff.type === Buff.BuffType.BUFF_CONVERT) {
+    if (buff?.type === Buff.BuffType.BUFF_CONVERT) {
         const convert = buff.script.convert;
         if (convert !== undefined) {
             const convertLength = convert.convertBuffs.length;
