@@ -5,6 +5,7 @@ import { Alert, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { Region, Skill } from "@atlasacademy/api-connector";
 
+import MLBIcon from "../Assets/icon_limit_on.png";
 import SkillGroupOverWrite from "../Component/SkillGroupOverWrite";
 import EventDescriptor from "../Descriptor/EventDescriptor";
 import { MergeElementsOr } from "../Descriptor/MultipleDescriptors";
@@ -22,6 +23,7 @@ interface IProps {
     extraPassiveCond?: boolean;
     levels?: number;
     rankUp?: number;
+    mlbSkill?: boolean;
 }
 
 class SkillBreakdown extends React.Component<IProps> {
@@ -51,6 +53,9 @@ class SkillBreakdown extends React.Component<IProps> {
                             </OverlayTrigger>
                         </>
                     ) : null}
+                    {this.props.mlbSkill && (
+                        <img alt="Max Limit Break Skill" className="ml-1" title="Max Limit Break Skill" src={MLBIcon} />
+                    )}
                 </h3>
 
                 {this.props.rankUp !== undefined ? (

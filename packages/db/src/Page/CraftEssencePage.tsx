@@ -106,6 +106,7 @@ class CraftEssencePage extends React.Component<IProps, IState> {
                                                 region={this.props.region}
                                                 skill={skill}
                                                 cooldowns={false}
+                                                mlbSkill={skill.condLimitCount === 4}
                                             />
                                         </Col>
                                     );
