@@ -1,6 +1,7 @@
 import { Language, Region } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";
 
+import { CalcStringType } from "../Helper/CalcString";
 import i18n, { uiLangLocalStorageKey } from "../i18n";
 import { Theme } from "./Theme";
 
@@ -12,7 +13,8 @@ const languageKey = "language",
     shopPlannerEnabled = "shop.planner.enabled",
     scriptSceneEnabled = "script.scene.enabled",
     hideEnemyFunction = "aa-db.function.enemy.hide",
-    scriptShowLine = "aa-db.script.showLine";
+    scriptShowLine = "aa-db.script.showLine",
+    calcStringTypeKey = "aa-db.calcStringType";
 
 const callbacks: Function[] = [];
 
@@ -118,6 +120,22 @@ class Manager {
         if (theme === undefined) return;
 
         window.localStorage.setItem(themeKey, theme);
+        Manager.triggerCallbacks();
+    }
+
+    static calcStringType(): CalcStringType {
+        const value = window.localStorage.getItem(calcStringTypeKey),
+            calcType = Object.values(CalcStringType).find((v) => v === value);
+
+        return calcType ?? CalcStringType.OFF;
+    }
+
+    static calcStringEnabled(): boolean {
+        return Manager.calcStringType() !== CalcStringType.OFF;
+    }
+
+    static setcalcStringType(value: CalcStringType) {
+        window.localStorage.setItem(calcStringTypeKey, value);
         Manager.triggerCallbacks();
     }
 

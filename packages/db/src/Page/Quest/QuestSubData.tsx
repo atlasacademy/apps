@@ -7,13 +7,15 @@ import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api from "../../Api";
 import ClassIcon from "../../Component/ClassIcon";
+import CopyToClipboard from "../../Component/CopyToClipboard";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";
 import { QuestFlagDescription } from "../../Descriptor/QuestEnumDescription";
 import TraitDescription from "../../Descriptor/TraitDescription";
+import { getStagesCalcString } from "../../Helper/CalcString";
 import { mergeElements } from "../../Helper/OutputHelper";
-import { lang } from "../../Setting/Manager";
+import Manager, { lang } from "../../Setting/Manager";
 
 const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPhase }) => {
     const { t } = useTranslation();
@@ -87,6 +89,16 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                 {
                     label: t("Battle BG ID"),
                     value: <Link to={`/${region}/quests?battleBgId=${quest.battleBgId}`}>{quest.battleBgId}</Link>,
+                },
+                {
+                    label: t("Quest Calc String"),
+                    value: (
+                        <CopyToClipboard
+                            text={getStagesCalcString(Manager.calcStringType(), quest.stages)}
+                            title={t("Copy stage calc string to clipboard")}
+                        />
+                    ),
+                    hidden: quest.stages.length === 0 || quest.enemyHash === undefined,
                 },
                 {
                     label: "Raw",

@@ -15,8 +15,11 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import NoblePhantasmPopover from "../Descriptor/NoblePhantasmPopover";
 import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
+import { getEnemyCalcString } from "../Helper/CalcString";
 import { Renderable, asPercent, mergeElements } from "../Helper/OutputHelper";
 import { OrdinalNumeral } from "../Helper/StringHelper";
+import Manager from "../Setting/Manager";
+import CopyToClipboard from "./CopyToClipboard";
 
 import "./QuestEnemy.css";
 
@@ -401,7 +404,8 @@ const QuestEnemyTable = (props: {
     handleNavigateEnemyHash?: (hash: string) => void;
 }) => {
     const enemy = props.enemy,
-        region = props.region;
+        region = props.region,
+        { t } = useTranslation();
 
     const callerDescription =
         enemy.deck === QuestEnemy.DeckType.CALL
@@ -460,6 +464,11 @@ const QuestEnemyTable = (props: {
                 {enemy.deckId}.{" "}
                 <EntityDescriptor region={region} entity={enemy.svt} overwriteName={enemy.name} iconHeight={40} />{" "}
                 <span className="quest-svt-lv">Lv. {enemy.lv}</span>
+                {Manager.calcStringEnabled() && (
+                    <span className="ml-3">
+                        <CopyToClipboard text={getEnemyCalcString(enemy)} title={t("Copy calc string to clipboard")} />
+                    </span>
+                )}
             </h3>
             <ul>
                 {callerDescription}

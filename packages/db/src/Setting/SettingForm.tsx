@@ -3,8 +3,9 @@ import { Button, ButtonGroup, Form } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 
 import { Language } from "@atlasacademy/api-connector";
-import { UILanguage } from "@atlasacademy/api-descriptor";
+import { UILanguage, toTitleCase } from "@atlasacademy/api-descriptor";
 
+import { CalcStringType } from "../Helper/CalcString";
 import Manager from "./Manager";
 import { Theme } from "./Theme";
 
@@ -70,10 +71,8 @@ class SettingForm extends React.Component<IProps> {
                             onChange={(ev: Event) => Manager.setUiLanguage(ev.target.value as UILanguage)}
                         >
                             {Object.values(UILanguage).map((v) => (
-                                <option key={v} value={v}>
-                                    <span lang={UILanguageDescriptor.get(v)?.langAttribute}>
-                                        {UILanguageDescriptor.get(v)?.langName}
-                                    </span>
+                                <option key={v} value={v} lang={UILanguageDescriptor.get(v)?.langAttribute}>
+                                    {UILanguageDescriptor.get(v)?.langName}
                                 </option>
                             ))}
                         </Form.Control>
@@ -88,6 +87,20 @@ class SettingForm extends React.Component<IProps> {
                             {Object.values(Theme).map((v) => (
                                 <option key={v} value={v}>
                                     {v}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>{t("Calc String Type")}</Form.Label>
+                        <Form.Control
+                            as={"select"}
+                            value={Manager.calcStringType()}
+                            onChange={(ev: Event) => Manager.setcalcStringType(ev.target.value as CalcStringType)}
+                        >
+                            {Object.values(CalcStringType).map((v) => (
+                                <option key={v} value={v}>
+                                    {toTitleCase(v)}
                                 </option>
                             ))}
                         </Form.Control>

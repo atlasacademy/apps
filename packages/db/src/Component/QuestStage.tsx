@@ -1,15 +1,20 @@
 import { useRef } from "react";
 import { Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Ai, Quest, Region } from "@atlasacademy/api-connector";
 
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
+import { getStageCalcString } from "../Helper/CalcString";
 import { mergeElements } from "../Helper/OutputHelper";
+import Manager from "../Setting/Manager";
+import CopyToClipboard from "./CopyToClipboard";
 import QuestEnemyTable, { FromToEntry, hashEnemy } from "./QuestEnemy";
 
 const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
-    const stage = props.stage;
+    const stage = props.stage,
+        { t } = useTranslation();
     const fieldAiDescriptions = stage.fieldAis.map((ai) => (
         <AiDescriptor region={props.region} aiType={Ai.AiType.FIELD} id={ai.id} />
     ));
@@ -21,7 +26,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
     const callEntries: { caller: string; callee: number }[] = [];
     for (const enemy of stage.enemies) {
         if (enemy.enemyScript.call) {
-            for (const npcId of enemy.enemyScript.call) {
+            for (const npcId of new Set(enemy.enemyScript.call)) {
                 callEntries.push({ caller: hashEnemy(enemy), callee: npcId });
             }
         }
@@ -30,26 +35,26 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
     const shiftEntries: FromToEntry[] = [];
     for (const enemy of stage.enemies) {
         if (enemy.enemyScript.shift) {
-            enemy.enemyScript.shift.map((npcId, index) =>
+            for (const [npcId, index] of enemy.enemyScript.shift.entries()) {
                 shiftEntries.push({
                     shiftFrom: hashEnemy(enemy),
                     shiftTo: npcId,
                     index,
-                })
-            );
+                });
+            }
         }
     }
 
     const changeEntries: FromToEntry[] = [];
     for (const enemy of stage.enemies) {
         if (enemy.enemyScript.change) {
-            enemy.enemyScript.change.map((npcId, index) =>
+            for (const [npcId, index] of enemy.enemyScript.change.entries()) {
                 changeEntries.push({
                     shiftFrom: hashEnemy(enemy),
                     shiftTo: npcId,
                     index,
-                })
-            );
+                });
+            }
         }
     }
 
@@ -92,6 +97,22 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                         </Row>
                     </>
                 ) : null}
+                {stage.enemyFieldPosCount && (
+                    <div>
+                        <b>Number of enemies appearing at the same time:</b> {stage.enemyFieldPosCount}
+                    </div>
+                )}
+                {Manager.calcStringEnabled() && (
+                    <div>
+                        <b>{t("Stage calc string")}:</b>{" "}
+                        <CopyToClipboard
+                            text={getStageCalcString(Manager.calcStringType(), stage.enemies, {
+                                waveSize: stage.enemyFieldPosCount,
+                            })}
+                            title={t("Copy stage calc string to clipboard")}
+                        />
+                    </div>
+                )}
             </div>
 
             {stage.enemies.map((enemy) => (

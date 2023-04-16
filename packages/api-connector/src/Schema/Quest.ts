@@ -123,11 +123,20 @@ export interface StageStartMovie {
     waveStartMovie: string;
 }
 
+export enum StageLimitActType {
+    WIN = "win",
+    LOSE = "lose",
+}
+
 export interface Stage {
     wave: number;
     bgm: Bgm;
     fieldAis: { day?: number; raid?: number; id: number }[];
     call: number[];
+    enemyFieldPosCount?: number;
+    enemyActCount?: number;
+    turn?: number;
+    limitAct?: StageLimitActType;
     waveStartMovies: StageStartMovie[];
     enemies: QuestEnemy[];
 }
