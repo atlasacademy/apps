@@ -1,4 +1,4 @@
-import { ClassName, Quest, QuestEnemy } from "@atlasacademy/api-connector";
+import { Attribute, ClassName, Quest, QuestEnemy } from "@atlasacademy/api-connector";
 
 export enum CalcStringType {
     OFF = "off",
@@ -14,12 +14,15 @@ const DEFAULT_ESM = new Map([
     [ClassName.MOON_CANCER, 1.2],
 ]);
 
+const ATTRIBUTE_NAME = new Map([[Attribute.Attribute.HUMAN, "man"]]);
+
 export const getEnemyCalcString = (enemy: QuestEnemy.QuestEnemy): string => {
     const defaultESM = DEFAULT_ESM.get(enemy.svt.className) ?? 1,
         enemyEsm = enemy.serverMod.tdRate / 1000,
-        esmString = enemyEsm !== defaultESM ? ` esm${enemyEsm}` : "";
+        esmString = enemyEsm !== defaultESM ? ` esm${enemyEsm}` : "",
+        attributeString = ATTRIBUTE_NAME.get(enemy.svt.attribute) ?? enemy.svt.attribute.toLowerCase();
 
-    return `${enemy.svt.className.toLowerCase()} ${enemy.svt.attribute.toLowerCase()} hp${enemy.hp}${esmString}`;
+    return `${enemy.svt.className.toLowerCase()} ${attributeString} hp${enemy.hp}${esmString}`;
 };
 
 export const getStageCalcString = (
