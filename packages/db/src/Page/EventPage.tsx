@@ -20,6 +20,7 @@ import { FGOText } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
 import EventBulletinBoard from "./Event/EventBulletinBoard";
+import EventCommandAssist from "./Event/EventCommandAssist";
 import EventFortification from "./Event/EventFortification";
 import EventLottery from "./Event/EventLottery";
 import EventRecipe from "./Event/EventRecipe";
@@ -36,12 +37,13 @@ interface TabInfo {
         | "ladder"
         | "shop"
         | "mission"
-        | "random-mission"
+        | "randomMission"
         | "tower"
         | "lottery"
         | "treasureBox"
         | "recipes"
-        | "fortification";
+        | "fortification"
+        | "commandAssist";
     id: number;
     title: string | React.ReactNode;
     tabKey: string;
@@ -335,7 +337,7 @@ class EventPage extends React.Component<IProps, IState> {
                     event.warIds,
                     enums
                 );
-            case "random-mission":
+            case "randomMission":
                 return this.renderMissionTab(
                     region,
                     event.missions.filter((mission) => mission.type === Mission.MissionType.RANDOM),
@@ -364,6 +366,15 @@ class EventPage extends React.Component<IProps, IState> {
                         servantMap={this.state.servantCache}
                     />
                 );
+            case "commandAssist":
+                return (
+                    <EventCommandAssist
+                        region={this.props.region}
+                        commandAssists={event.commandAssists}
+                        missions={new Map(event.missions.map((mission) => [mission.id, mission]))}
+                        missionGroups={event.missionGroups}
+                    />
+                );
         }
     }
 
@@ -388,7 +399,7 @@ class EventPage extends React.Component<IProps, IState> {
         if (event.missions.length > 0) {
             if (event.missions.some((mission) => mission.type === Mission.MissionType.RANDOM)) {
                 tabs.push({
-                    type: "random-mission",
+                    type: "randomMission",
                     id: 0,
                     title: t("Random Missions"),
                     tabKey: "random-missions",
@@ -400,6 +411,10 @@ class EventPage extends React.Component<IProps, IState> {
                 title: t("Missions"),
                 tabKey: "missions",
             });
+        }
+
+        if (event.commandAssists) {
+            tabs.push({ type: "commandAssist", id: 0, title: t("Command Assists"), tabKey: "command-assists" });
         }
 
         const lotteries = new Set(event.lotteries.map((lottery) => lottery.id));

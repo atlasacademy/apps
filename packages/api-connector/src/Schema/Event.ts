@@ -1,5 +1,7 @@
+import Card from "../Enum/Card";
 import CondType from "../Enum/Cond";
 import { BgmEntity } from "./Bgm";
+import { CombineAdjustTarget, CombineCalc } from "./Combine";
 import { CommonConsume } from "./CommonConsume";
 import { CommonRelease } from "./CommonRelease";
 import { Gift } from "./Gift";
@@ -7,6 +9,7 @@ import { Item, ItemBackgroundType } from "./Item";
 import { Mission } from "./Mission";
 import { VoiceGroup, VoiceLine } from "./Profile";
 import { PayType, Shop } from "./Shop";
+import { Skill } from "./Skill";
 import { SvtClassSupportGroupType } from "./Support";
 
 export interface EventAlloutBattle {
@@ -299,6 +302,45 @@ export interface EventFortification {
     servants: EventFortificationSvt[];
 }
 
+export interface EventRandomMission {
+    missionId: number;
+    missionRank: number;
+    condType: CondType;
+    condId: number;
+    condNum: number;
+}
+
+export interface EventMissionGroup {
+    id: number;
+    missionIds: number[];
+}
+
+export interface EventQuest {
+    questId: number;
+}
+
+export interface EventCampaign {
+    targetIds: number[];
+    warIds: number[];
+    target: CombineAdjustTarget;
+    idx: number;
+    value: number;
+    calcType: CombineCalc;
+    entryCondMessage: string;
+}
+
+export interface EventCommandAssist {
+    id: number;
+    priority: number;
+    lv: number;
+    name: string;
+    assistCard: Card;
+    image: string;
+    skill: Skill;
+    skillLv: number;
+    releaseConditions: CommonRelease[];
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -334,12 +376,17 @@ export interface Event {
     pointGroups: EventPointGroup[];
     pointBuffs: EventPointBuff[];
     missions: Mission[];
+    randomMissions: EventRandomMission[];
+    missionGroups: EventMissionGroup[];
     towers: EventTower[];
     lotteries: EventLottery[];
     treasureBoxes: EventTreasureBox[];
     bulletinBoards: EventBulletinBoard[];
     recipes: EventRecipe[];
     fortifications: EventFortification[];
+    campaigns: EventCampaign[];
+    campaignQuests: EventQuest[];
+    commandAssists: EventCommandAssist[];
     digging?: EventDigging;
     cooltime?: EventCooltime;
     voicePlays: EventVoicePlay[];

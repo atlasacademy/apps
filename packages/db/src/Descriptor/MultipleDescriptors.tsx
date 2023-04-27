@@ -100,7 +100,7 @@ export const MultipleQuests = (props: {
         } else {
             return (
                 <CollapsibleLight
-                    title={`These ${numQuest} quests`}
+                    title={`The following ${numQuest} quests`}
                     content={questList}
                     eventKey={props.questIds.map((q) => q.toString()).join("-")}
                     defaultActiveKey={""}

@@ -1,8 +1,9 @@
-import { CondType, Quest, Region, Servant } from "@atlasacademy/api-connector";
+import { CondType, Event, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import CostumeDescriptor from "./CostumeDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import { ItemDescriptorId } from "./ItemDescriptor";
+import { missionRange } from "./MultipleDescriptors";
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 
@@ -14,11 +15,11 @@ export default function CondTargetValueDescriptor(props: {
     forceFalseDescription?: string;
     servants?: Map<number, Servant.ServantBasic>;
     quests?: Map<number, Quest.QuestBasic>;
+    missions?: Map<number, Mission.Mission>;
+    missionGroups?: Event.EventMissionGroup[];
 }) {
     const forceFalseDescription = props.forceFalseDescription ? props.forceFalseDescription : "Not possible";
-    const region = props.region;
-    const target = props.target;
-    const value = props.value;
+    const { region, target, value, missions, missionGroups } = props;
     switch (props.cond) {
         case CondType.NONE:
             return null;
@@ -161,6 +162,14 @@ export default function CondTargetValueDescriptor(props: {
             return (
                 <>
                     Doesn't have <ItemDescriptorId region={region} itemId={target} /> ×{value}
+                </>
+            );
+        case CondType.EVENT_MISSION_GROUP_ACHIEVE:
+            const missionGroup = (missionGroups ?? []).find((group) => group.id === target)!;
+            const missionDispNos = missionGroup.missionIds.map((id) => missions?.get(id)?.dispNo ?? id);
+            return (
+                <>
+                    Finished {value} missions out of {missionRange(missionDispNos)}
                 </>
             );
         default:

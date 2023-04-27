@@ -186,7 +186,7 @@ async function handleDBEvent(event: Event, env: Env) {
     const language =
         event.request.cf !== undefined &&
         "country" in event.request.cf &&
-        ["JP", "TW", "CN"].includes(event.request.cf.country)
+        ["JP", "TW", "CN"].includes(event.request.cf.country as string)
             ? "jp"
             : "en";
 

@@ -112,5 +112,6 @@ export interface Mission {
     rewardRarity: number;
     notfyPriority: number;
     presentMessageId: number;
+    groups: number[];
     conds: MissionCondition[];
 }

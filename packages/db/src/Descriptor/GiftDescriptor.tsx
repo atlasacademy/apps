@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { Event, Gift, Item, Region, Servant } from "@atlasacademy/api-connector";
 
 import { AssetHost } from "../Api";
@@ -24,7 +26,14 @@ export default function GiftDescriptor(props: {
                 <>
                     <br />
                     {props.gift.giftAdds.map((giftAdd) => (
-                        <GiftAddDescriptor key={giftAdd.priority} region={props.region} giftAdd={giftAdd} />
+                        <GiftAddDescriptor
+                            key={giftAdd.priority}
+                            region={props.region}
+                            giftAdd={giftAdd}
+                            items={props.items}
+                            servants={props.servants}
+                            pointBuffs={props.pointBuffs}
+                        />
                     ))}
                 </>
             ) : null}
@@ -79,6 +88,7 @@ export function BaseGiftDescriptor(props: {
     servants?: Map<number, Servant.ServantBasic>;
     pointBuffs?: Map<number, Event.EventPointBuff>;
 }) {
+    const { t } = useTranslation();
     const { gift, region } = props;
     switch (gift.type) {
         case Gift.GiftType.SERVANT:
@@ -150,7 +160,18 @@ export function BaseGiftDescriptor(props: {
             } else {
                 return <>Event Buff {gift.objectId}</>;
             }
-        // case Gift.GiftType.EVENT_BOARD_GAME_TOKEN:
+
+        case Gift.GiftType.EVENT_COMMAND_ASSIST:
+            return (
+                <>
+                    <img
+                        src={`${AssetHost}/${region}/Items/${gift.objectId}.png`}
+                        alt={`Command assist ${gift.objectId}`}
+                        height={50}
+                    />{" "}
+                    {t("Increase the level of command assist by")} {gift.num}
+                </>
+            );
         default:
             return (
                 <>
