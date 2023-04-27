@@ -43,6 +43,8 @@ export const missionRange = (missions: number[]) => {
             const last = range[range.length - 1];
             if (first === last) {
                 return `${first}`;
+            } else if (first === last - 1) {
+                return `${first}, ${last}`;
             } else {
                 return `${first}–${last}`;
             }
