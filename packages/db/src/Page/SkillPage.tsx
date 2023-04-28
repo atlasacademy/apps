@@ -265,7 +265,7 @@ class SkillPage extends React.Component<IProps, IState> {
                         {
                             label: t("Used in Quests"),
                             value: (
-                                <ul>
+                                <ul className="mb-0">
                                     {this.state.relatedQuests.slice(0, 10).map((quest) => (
                                         <li key={`${quest.id}-${quest.phase}`}>
                                             <QuestDescriptionNoApi

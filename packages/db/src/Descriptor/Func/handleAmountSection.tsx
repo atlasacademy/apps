@@ -190,22 +190,28 @@ export default function handleAmountSection(
         parts.push(<NoblePhantasmDescriptorId region={region} noblePhantasmId={dataVal.CounterId} />);
     } else if (func.funcType === Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD && dataVal.FieldIndividuality !== undefined) {
         parts.push(<TraitDescription region={region} trait={dataVal.FieldIndividuality} />);
+    } else if (
+        func.buffs[0]?.type === Buff.BuffType.HP_REDUCE_TO_REGAIN &&
+        dataVal.HpReduceToRegainIndiv !== undefined
+    ) {
+        section.preposition = "from";
+        if (dataVal.Value !== undefined) {
+            parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal} />);
+            parts.push("of");
+        } else {
+            parts.push("100% of");
+        }
+        parts.push(
+            <TraitDescription
+                region={region}
+                trait={dataVal.HpReduceToRegainIndiv}
+                owner="buffs"
+                ownerParameter="vals"
+            />
+        );
+        parts.push("damage");
     } else if (func.buffs[0] !== undefined && dataVal.Value !== undefined) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal} />);
-
-        if (func.buffs[0]?.type === Buff.BuffType.HP_REDUCE_TO_REGAIN && dataVal.HpReduceToRegainIndiv !== undefined) {
-            section.preposition = "from";
-            parts.push("of");
-            parts.push(
-                <TraitDescription
-                    region={region}
-                    trait={dataVal.HpReduceToRegainIndiv}
-                    owner="buffs"
-                    ownerParameter="vals"
-                />
-            );
-            parts.push("damage");
-        }
 
         if (
             dataVal.ParamAddValue !== undefined ||
