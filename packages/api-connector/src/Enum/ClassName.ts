@@ -25,6 +25,7 @@ enum ClassName {
     U_OLGA_MARIE_ALIEN_GOD = "uOlgaMarieAlienGod",
     U_OLGA_MARIE = "uOlgaMarie",
     BEAST = "beast",
+    BEAST_VI = "beastVI",
     UNKNOWN = "unknown",
     AGARTHA_PENTH = "agarthaPenth",
     CCC_FINALE_EMIYA_ALTER = "cccFinaleEmiyaAlter",

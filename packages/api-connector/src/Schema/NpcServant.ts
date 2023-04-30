@@ -1,6 +1,6 @@
 import { EnemySkill } from "./QuestEnemy";
 import { ServantBasic } from "./Servant";
-import { SupportServantLimit, SupportServantTd } from "./SupportServant";
+import { SupportServantFlag, SupportServantLimit, SupportServantTd } from "./SupportServant";
 import { Trait } from "./Trait";
 
 export interface NpcServant {
@@ -14,4 +14,5 @@ export interface NpcServant {
     skills: EnemySkill;
     noblePhantasm: SupportServantTd;
     limit: SupportServantLimit;
+    flags: SupportServantFlag[];
 }
