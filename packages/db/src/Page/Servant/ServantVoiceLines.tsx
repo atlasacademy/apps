@@ -243,7 +243,7 @@ export default function ServantVoiceLines(props: {
             );
             return (
                 <React.Fragment key={prefix}>
-                    {renderCollapsibleContent({ title: title, content: outputTable, subheader: false })}
+                    {renderCollapsibleContent({ title, content: outputTable, subheader: false })}
                 </React.Fragment>
             );
         } else {

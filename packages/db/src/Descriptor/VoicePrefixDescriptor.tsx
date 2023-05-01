@@ -23,7 +23,7 @@ let VoicePrefixDescriptor = (props: IProps) => {
         .map((asc) => +asc[0]);
     let costumeConds = Object.entries(voicePrefix.costume || {})
         .filter(([_, prefix]) => prefix === currentVoicePrefix)
-        .map((costumeId) => costumes?.[costumeId[0]].name);
+        .map((costumeId) => costumes?.[costumeId[0]].shortName);
     if (ascConds.length === 0 && costumeConds.length === 0) {
         ascConds = [...Array(5).keys()];
     }
