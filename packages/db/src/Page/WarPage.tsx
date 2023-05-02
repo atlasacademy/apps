@@ -8,7 +8,7 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 
-import { Bgm, Item, Quest, Region, War } from "@atlasacademy/api-connector";
+import { Bgm, CondType, Item, Quest, Region, War } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
@@ -17,6 +17,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
+import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import { QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
@@ -107,6 +108,20 @@ const PhaseLink = ({ region, quest, phase }: { region: Region; quest: Quest.Ques
     );
 };
 
+const InterludeServantIcon = ({ region, quest }: { region: Region; quest: Quest.Quest }) => {
+    const { t } = useTranslation();
+    const condSvtGet = quest.releaseConditions.find((cond) => cond.type === CondType.SVT_GET);
+    if (quest.type === Quest.QuestType.FRIENDSHIP && condSvtGet) {
+        return (
+            <>
+                <EntityReferenceDescriptor region={region} svtId={condSvtGet.targetId} /> {t("interlude")}:{" "}
+            </>
+        );
+    }
+
+    return <></>;
+};
+
 const getQuestSection = (quest: Quest.Quest) => {
     if (quest.chapterSubStr !== "") {
         return removeSuffix(quest.chapterSubStr, ":");
@@ -176,6 +191,7 @@ const QuestTable = (props: {
                             </FirstPhaseLink>
                         </td>
                         <td style={{ maxWidth: "15em" }}>
+                            <InterludeServantIcon region={region} quest={quest} />
                             <FirstPhaseLink region={region} quest={quest} lang={lang(region)}>
                                 {quest.name}
                             </FirstPhaseLink>
