@@ -19,7 +19,7 @@ export default function (type: Buff.BuffType): string {
         return typeDescription;
     } else if (triggerType) {
         if (triggerType.counterNp) return "Counter NP";
-        return `Trigger Skill ${triggerType.when ? ` ${triggerType.when} ` : triggerType.after ? "on " : "before "}${
+        return `Trigger Skill ${triggerType.when ? ` ${triggerType.when} ` : triggerType.after ? "after " : "before "}${
             triggerType.event
         }`;
     }
