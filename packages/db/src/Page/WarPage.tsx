@@ -111,10 +111,14 @@ const PhaseLink = ({ region, quest, phase }: { region: Region; quest: Quest.Ques
 const InterludeServantIcon = ({ region, quest }: { region: Region; quest: Quest.Quest }) => {
     const { t } = useTranslation();
     const condSvtGet = quest.releaseConditions.find((cond) => cond.type === CondType.SVT_GET);
-    if (quest.type === Quest.QuestType.FRIENDSHIP && condSvtGet) {
+    const condSvtLimit = quest.releaseConditions.find((cond) => cond.type === CondType.SVT_LIMIT);
+    const condSvtFriendship = quest.releaseConditions.find((cond) => cond.type === CondType.SVT_FRIENDSHIP);
+
+    if (quest.type === Quest.QuestType.FRIENDSHIP && (condSvtGet || condSvtLimit) && condSvtFriendship) {
         return (
             <>
-                <EntityReferenceDescriptor region={region} svtId={condSvtGet.targetId} /> {t("interlude")}:{" "}
+                <EntityReferenceDescriptor region={region} svtId={(condSvtGet?.targetId ?? condSvtLimit?.targetId)!} />{" "}
+                {t("interlude")}:{" "}
             </>
         );
     }
