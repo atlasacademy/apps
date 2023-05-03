@@ -91,7 +91,9 @@ class QuestPage extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <h1 lang={lang(this.props.region)}>{quest.name}</h1>
+                <h1 lang={lang(this.props.region)}>
+                    <FGOText text={quest.name} />
+                </h1>
 
                 <br />
                 <Row className="mb-5">

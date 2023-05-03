@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Quest, Region } from "@atlasacademy/api-connector";
 
+import { FGOText } from "../Helper/StringHelper";
 import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 
@@ -62,7 +63,9 @@ export function QuestDescriptionNoApi(props: {
         return (
             <Link to={`/${props.region}/quest/${quest.id}/${props.questPhase}${stageUri}`}>
                 {showType && type !== "" ? `${type} ` : ""}
-                <span lang={lang(props.region)}>{quest.name}</span>
+                <span lang={lang(props.region)}>
+                    <FGOText text={quest.name} />
+                </span>
                 {phase} <FontAwesomeIcon icon={faShare} />
             </Link>
         );

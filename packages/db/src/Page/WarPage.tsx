@@ -22,7 +22,7 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import { QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
-import { removeSuffix } from "../Helper/StringHelper";
+import { FGOText, removeSuffix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import WarMap from "./WarMap/WarMap";
 
@@ -197,14 +197,14 @@ const QuestTable = (props: {
                         <td style={{ maxWidth: "15em" }}>
                             <InterludeServantIcon region={region} quest={quest} />
                             <FirstPhaseLink region={region} quest={quest} lang={lang(region)}>
-                                {quest.name}
+                                <FGOText text={quest.name} />
                             </FirstPhaseLink>
                         </td>
                         {props.spots !== undefined ? (
                             <td className="text-nowrap">
                                 <SpotImage src={props.spots[i].image} name={props.spots[i].name} height="2em" />{" "}
                                 <span style={{ whiteSpace: "normal" }} lang={lang(region)}>
-                                    {props.spots[i].name}
+                                    <FGOText text={props.spots[i].name} />
                                 </span>
                             </td>
                         ) : null}
@@ -329,7 +329,7 @@ const Spot = (props: {
     const title = (
         <span lang={lang(props.region)}>
             <SpotImage src={spot.image} name={spot.name} height="1.5em" />
-            {spot.name} {spotNameChanges}
+            <FGOText text={spot.name} /> <FGOText text={spotNameChanges} />
         </span>
     );
 

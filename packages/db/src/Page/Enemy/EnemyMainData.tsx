@@ -9,7 +9,7 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
 import { asPercent, formatNumber } from "../../Helper/OutputHelper";
-import { Ruby } from "../../Helper/StringHelper";
+import { FGOText, Ruby } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 
 interface IProps {
@@ -27,7 +27,14 @@ class EnemyMainData extends React.Component<IProps> {
                     <DataTable
                         data={[
                             { label: "ID", value: enemy.id },
-                            { label: "Name", value: <span lang={lang(this.props.region)}>{enemy.name}</span> },
+                            {
+                                label: "Name",
+                                value: (
+                                    <span lang={lang(this.props.region)}>
+                                        <FGOText text={enemy.name} />
+                                    </span>
+                                ),
+                            },
                             {
                                 label: "Original Name",
                                 value: (

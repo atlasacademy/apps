@@ -137,7 +137,7 @@ export const FGOText = ({ text, interpolatedVariables }: { text: string; interpo
     let normalText = "";
     for (const char of coloredText) {
         const codePoint = char.charCodeAt(0);
-        if ((codePoint >= 0xe000 && codePoint <= 0xf8ff) || [0x9bd6].includes(codePoint)) {
+        if ((codePoint >= 0xe000 && codePoint <= 0xf8ff) || [0x9bd6, 0x8fbf].includes(codePoint)) {
             elements.push(normalText);
             normalText = "";
             switch (codePoint) {
@@ -154,6 +154,22 @@ export const FGOText = ({ text, interpolatedVariables }: { text: string; interpo
                     break;
                 case 0xe001:
                     elements.push(<span lang="ja-JP">鯖</span>);
+                    break;
+                case 0x8fbf:
+                    elements.push(<span lang="ja-JP">辿</span>);
+                    break;
+                case 0xe002:
+                    elements.push(<span lang="zh-CN">辿</span>);
+                    break;
+                case 0xe003:
+                case 0xe004:
+                case 0xe005:
+                case 0xe006:
+                case 0xe007:
+                case 0xe008:
+                case 0xe009:
+                case 0xe00a:
+                    elements.push(<span lang="ja-JP">▋</span>);
                     break;
                 default:
                     elements.push(char);

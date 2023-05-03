@@ -7,6 +7,7 @@ import DataTable from "../../Component/DataTable";
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
 import QuestConsumeDescriptor from "../../Descriptor/QuestConsumeDescriptor";
 import { QuestTypeDescription } from "../../Descriptor/QuestEnumDescription";
+import { FGOText } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
 import PhaseNavigator from "./QuestPhaseNavigator";
 
@@ -87,7 +88,14 @@ const QuestMainData = (props: {
                         </Link>
                     ),
                 },
-                { label: t("Spot"), value: <span lang={lang(props.region)}>{quest.spotName}</span> },
+                {
+                    label: t("Spot"),
+                    value: (
+                        <span lang={lang(props.region)}>
+                            <FGOText text={quest.spotName} />
+                        </span>
+                    ),
+                },
                 { label: t("Open"), value: new Date(quest.openedAt * 1000).toLocaleString() },
                 { label: t("Close"), value: new Date(quest.closedAt * 1000).toLocaleString() },
             ]}

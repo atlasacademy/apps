@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Quest, Region } from "@atlasacademy/api-connector";
 
 import { QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
+import { FGOText } from "../Helper/StringHelper";
 import { lang } from "../Setting/Manager";
 
 const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.QuestPhaseBasic[] }) => {
@@ -34,7 +35,9 @@ const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.Que
                                 <Link to={questLink}>{quest.phase}</Link>
                             </td>
                             <td lang={lang(region)}>
-                                <Link to={questLink}>{quest.name}</Link>
+                                <Link to={questLink}>
+                                    <FGOText text={quest.name} />
+                                </Link>
                             </td>
                             <td className="col-center">{QuestTypeDescription.get(quest.type)}</td>
                             <td className="col-center">
