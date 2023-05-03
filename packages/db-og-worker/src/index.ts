@@ -61,6 +61,16 @@ function toTitleCase(value: string): string {
     return words.join(" ");
 }
 
+const PUA_map = new Map([
+    ["\ue000", "神人"],
+    ["\ue001", "鯖"],
+    ["\ue002", "辿"],
+]);
+
+function replacePUA(inputString: string): string {
+    return inputString.replace(/[\ue000-\uf8ff]/g, (match) => PUA_map.get(match) ?? "▋");
+}
+
 async function fetchApi(env: Env, region: string, endpoint: string, target: string, language: "jp" | "en" = "en") {
     const dataType = ["item", "function", "bgm", "mm"].includes(endpoint) ? "nice" : "basic";
     const url = `https://api.atlasacademy.io/${dataType}/${region}/${endpoint}/${target}?lang=${language}`;
@@ -83,8 +93,8 @@ function overwrite(
     description?: string
 ) {
     const defaultDescription = "Atlas Academy DB - FGO Game Data Navigator",
-        metaDescription = description ?? title ?? `${defaultDescription} - without any of the fluffs.`,
-        ogTitle = title ?? defaultDescription,
+        metaDescription = replacePUA(description ?? title ?? `${defaultDescription} - without any of the fluffs.`),
+        ogTitle = replacePUA(title ?? defaultDescription),
         ogDescription = defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
@@ -97,7 +107,7 @@ function overwrite(
 
     return titleRewriter
         .on('[property="og:image"]', new Handler(image))
-        .on('[property="og:image:alt"]', new Handler(`${title ?? "Atlas Academy"} icon`))
+        .on('[property="og:image:alt"]', new Handler(replacePUA(`${title ?? "Atlas Academy"} icon`)))
         .transform(response.response);
 }
 
