@@ -40,7 +40,24 @@ class EnemySubData extends React.Component<IProps> {
                 hits: number[] = values[i] ?? [],
                 hitBreakdown = hits.map((hit) => asPercent(hit, 0)).join(", ");
 
-            parts.push(`${key}: ${hitBreakdown} - ${hits.length} ${hits.length > 1 ? "Hits" : "Hit"}`);
+            let attackType = "";
+
+            if (["weak", "strength"].includes(key)) {
+                attackType = this.props.enemy.cardDetails[key as "weak" | "strength"]?.attackType ?? "";
+
+                attackTypeLadder: switch (attackType) {
+                    case "one":
+                        attackType = " [One Enemy]";
+                        break attackTypeLadder;
+                    case "all":
+                        attackType = " [All Enemies]";
+                        break attackTypeLadder;
+                    default:
+                        break attackTypeLadder;
+                }
+            }
+
+            parts.push(`${key}: ${hitBreakdown} - ${hits.length} ${hits.length > 1 ? "Hits" : "Hit"}${attackType}`);
         }
 
         return <div>{mergeElements(parts, <br />)}</div>;
