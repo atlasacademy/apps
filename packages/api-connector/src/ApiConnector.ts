@@ -49,7 +49,7 @@ import {
     QuestType,
 } from "./Schema/Quest";
 import { Script, ScriptSearchOptions, ScriptSearchResult, SvtScript } from "./Schema/Script";
-import { GrailCostInfoMap, Servant, ServantBasic } from "./Schema/Servant";
+import { GrailCostInfoMap, Servant, ServantBasic, ServantWithLore } from "./Schema/Servant";
 import { PayType, PurchaseType, Shop, ShopSearchOptions, ShopType } from "./Schema/Shop";
 import { Skill, SkillBasic, SkillSearchOptions, SkillType } from "./Schema/Skill";
 import { Trait } from "./Schema/Trait";
@@ -751,6 +751,8 @@ class ApiConnector {
         return this.cache.entityList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
+    servant(id: number, lore: false, cacheDuration?: number): Promise<Servant>;
+    servant(id: number, lore: true, cacheDuration?: number): Promise<ServantWithLore>;
     servant(id: number, lore = false, cacheDuration?: number): Promise<Servant> {
         const queryString = this.getQueryString(this.getURLSearchParams({ lore }));
         const fetch = () => {
