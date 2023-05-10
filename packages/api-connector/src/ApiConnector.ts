@@ -779,12 +779,14 @@ class ApiConnector {
         return this.cache.servantList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    servantListNice(cacheDuration?: number): Promise<Servant[]> {
+    servantListNice(lore: false, cacheDuration?: number): Promise<Servant[]>;
+    servantListNice(lore: true, cacheDuration?: number): Promise<ServantWithLore[]>;
+    servantListNice(lore = false, cacheDuration?: number): Promise<Servant[]> {
         let source: string;
         if (this.showJPdataWithEnglishText()) {
-            source = `${this.host}/export/JP/nice_servant_lang_en.json`;
+            source = `${this.host}/export/JP/nice_servant${lore ? "_lore" : ""}_lang_en.json`;
         } else {
-            source = `${this.host}/export/${this.region}/nice_servant.json`;
+            source = `${this.host}/export/${this.region}/nice_servant${lore ? "_lore" : ""}.json`;
         }
 
         const fetch = () => ApiConnector.fetch<Servant[]>(source);
