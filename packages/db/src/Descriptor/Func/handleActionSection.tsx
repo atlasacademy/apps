@@ -37,7 +37,8 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.GAIN_HP_FROM_TARGETS, "Absorb HP"],
     [Func.FuncType.GAIN_HP_PER, "Restore HP to Percent"],
     [Func.FuncType.GAIN_NP, "Charge NP"],
-    [Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM, "Charge NP per Trait"],
+    [Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM, "Charge NP per Buff Trait"],
+    [Func.FuncType.GAIN_NP_INDIVIDUAL_SUM, "Charge NP per Trait"],
     [Func.FuncType.GAIN_NP_FROM_TARGETS, "Absorb NP Charge"],
     [Func.FuncType.GAIN_STAR, "Gain Critical Stars"],
     [Func.FuncType.HASTEN_NPTURN, "Increase Charge"],
@@ -224,7 +225,24 @@ function handleChargeNpPerTraitActionSection(
         });
     }
 
-    parts.push("traits");
+    parts.push("trait");
+
+    if (func.funcType === Func.FuncType.GAIN_NP_INDIVIDUAL_SUM && dataVal.Value2 !== undefined) {
+        switch (dataVal.Value2) {
+            case 0:
+                parts.push("on self");
+                break;
+            case 1:
+                parts.push("on party members");
+                break;
+            case 2:
+                parts.push("on enemies");
+                break;
+            case 3:
+                parts.push("on party memberes and enemies");
+                break;
+        }
+    }
 
     sections.amount.preposition = "by";
     sections.target.preposition = "for";
@@ -252,7 +270,10 @@ export default function handleActionSection(
         handleMoveStateActionSection(region, sections, func, dataVal, dependFunc);
 
         return;
-    } else if (func.funcType === Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM) {
+    } else if (
+        func.funcType === Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM ||
+        func.funcType === Func.FuncType.GAIN_NP_INDIVIDUAL_SUM
+    ) {
         handleChargeNpPerTraitActionSection(region, sections, func, dataVal);
 
         return;
