@@ -1,7 +1,7 @@
 {
     "name": "@atlasacademy/api-descriptor",
     "module": "commonjs",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "description": "Library to describe entities from api.atlasacademy.io",
     "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/api-descriptor",
     "main": "dist/index.js",
@@ -22,7 +22,7 @@
         "typescript": "^5.0.2"
     },
     "dependencies": {
-        "@atlasacademy/api-connector": "^4.0.4"
+        "@atlasacademy/api-connector": "^4.0.5"
     },
     "publishConfig": {
         "access": "public"
