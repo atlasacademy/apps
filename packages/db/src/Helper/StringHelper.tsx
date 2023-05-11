@@ -169,7 +169,7 @@ export const FGOText = ({ text, interpolatedVariables }: { text: string; interpo
                 case 0xe008:
                 case 0xe009:
                 case 0xe00a:
-                    elements.push(<span lang="ja-JP">▋</span>);
+                    elements.push(<span lang="ja-JP">▊</span>);
                     break;
                 default:
                     elements.push(char);

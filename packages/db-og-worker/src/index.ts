@@ -68,7 +68,10 @@ const PUA_map = new Map([
 ]);
 
 function replacePUA(inputString: string): string {
-    return inputString.replace(/[\ue000-\uf8ff]/g, (match) => PUA_map.get(match) ?? "▋");
+    return inputString
+        .replace(/[\ue000-\uf8ff]/g, (match) => PUA_map.get(match) ?? "▊")
+        .replace("\t", " ")
+        .replace("\n", " ");
 }
 
 async function fetchApi(env: Env, region: string, endpoint: string, target: string, language: "jp" | "en" = "en") {
