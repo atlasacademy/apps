@@ -1,3 +1,4 @@
+import * as CardDetail from "./Enum/Card";
 import * as Ai from "./Schema/Ai";
 import * as Attribute from "./Schema/Attribute";
 import * as Bgm from "./Schema/Bgm";
@@ -53,6 +54,7 @@ export {
     EnumList,
     Attribute,
     Card,
+    CardDetail,
     Change,
     ClassName,
     CondType,
