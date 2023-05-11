@@ -49,7 +49,7 @@ import {
     QuestType,
 } from "./Schema/Quest";
 import { Script, ScriptSearchOptions, ScriptSearchResult, SvtScript } from "./Schema/Script";
-import { GrailCostInfoMap, Servant, ServantBasic } from "./Schema/Servant";
+import { GrailCostInfoMap, Servant, ServantBasic, ServantWithLore } from "./Schema/Servant";
 import { PayType, PurchaseType, Shop, ShopSearchOptions, ShopType } from "./Schema/Shop";
 import { Skill, SkillBasic, SkillSearchOptions, SkillType } from "./Schema/Skill";
 import { Trait } from "./Schema/Trait";
@@ -187,6 +187,7 @@ class ApiConnector {
         servant: new ResultCache<number, Servant>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
         servantListNice: new ResultCache<null, Servant[]>(),
+        servantListNiceWithLore: new ResultCache<null, ServantWithLore[]>(),
         shop: new ResultCache<number, Shop>(),
         shopSearch: new ResultCache<string, Shop[]>(),
         shopList: new ResultCache<null, Shop[]>(),
@@ -751,6 +752,8 @@ class ApiConnector {
         return this.cache.entityList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
+    servant(id: number, lore: false, cacheDuration?: number): Promise<Servant>;
+    servant(id: number, lore: true, cacheDuration?: number): Promise<ServantWithLore>;
     servant(id: number, lore = false, cacheDuration?: number): Promise<Servant> {
         const queryString = this.getQueryString(this.getURLSearchParams({ lore }));
         const fetch = () => {
@@ -790,6 +793,21 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.servantListNice.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
+    }
+
+    servantListNiceWithLore(cacheDuration?: number): Promise<ServantWithLore[]> {
+        let source: string;
+        if (this.showJPdataWithEnglishText()) {
+            source = `${this.host}/export/JP/nice_servant_lore_lang_en.json`;
+        } else {
+            source = `${this.host}/export/${this.region}/nice_servant_lore.json`;
+        }
+
+        const fetch = () => ApiConnector.fetch<ServantWithLore[]>(source);
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.servantListNiceWithLore.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     svtScript(ids: number[], cacheDuration?: number): Promise<SvtScript[]> {

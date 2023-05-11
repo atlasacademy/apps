@@ -14,6 +14,10 @@ export interface Servant extends Entity {
     profile?: Profile;
 }
 
+export interface ServantWithLore extends Servant {
+    profile: NonNullable<Servant["profile"]>;
+}
+
 export interface ServantBasic extends EntityBasic {
     type: EntityType.NORMAL | EntityType.HEROINE | EntityType.ENEMY_COLLECTION_DETAIL;
 }
