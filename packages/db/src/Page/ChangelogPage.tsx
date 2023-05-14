@@ -162,9 +162,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
                     openedChange = false;
                 }
 
-                let timestamp = new Date(
-                    +change.timestamp * 1000 - +!!localTime * new Date().getTimezoneOffset() * 60 * 1000
-                );
+                let timestamp = new Date(+change.timestamp * 1000);
                 return renderCollapsibleContent({
                     title: (
                         <>
