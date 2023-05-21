@@ -413,7 +413,7 @@ class EventPage extends React.Component<IProps, IState> {
             });
         }
 
-        if (event.commandAssists) {
+        if (event.commandAssists.length > 0) {
             tabs.push({ type: "commandAssist", id: 0, title: t("Command Assists"), tabKey: "command-assists" });
         }
 
