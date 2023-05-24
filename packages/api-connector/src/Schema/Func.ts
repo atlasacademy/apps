@@ -42,6 +42,7 @@ export enum FuncTargetType {
     ENEMY_ONE_NO_TARGET_NO_ACTION = "enemyOneNoTargetNoAction",
     PT_ONE_HP_LOWEST_VALUE = "ptOneHpLowestValue",
     PT_ONE_HP_LOWEST_RATE = "ptOneHpLowestRate",
+    ENEMY_RANGE = "enemyRange",
 }
 
 export enum FuncType {
@@ -107,6 +108,8 @@ export enum FuncType {
     BREAK_GAUGE_UP = "breakGaugeUp",
     BREAK_GAUGE_DOWN = "breakGaugeDown",
     MOVE_TO_LAST_SUBMEMBER = "moveToLastSubmember",
+    EXTEND_USER_EQUIP_SKILL = "extendUserEquipSkill",
+    UPDATE_ENEMY_ENTRY_MAX_COUNT_EACH_TURN = "updateEnemyEntryMaxCountEachTurn",
     EXP_UP = "expUp",
     QP_UP = "qpUp",
     DROP_UP = "dropUp",

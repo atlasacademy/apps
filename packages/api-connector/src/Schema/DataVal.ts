@@ -133,6 +133,9 @@ interface BaseDataVal {
     CopyTargetBuffType?: number[];
     NotSkillCopyTargetFuncIds?: number[];
     NotSkillCopyTargetIndividualities?: number[];
+    IntervalTurn?: number;
+    IntervalCount?: number;
+    TargetEnemyRange?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -274,4 +277,7 @@ export enum DataValField {
     COPY_TARGET_BUFF_TYPE = "CopyTargetBuffType",
     NOT_SKILL_COPY_TARGET_FUNC_IDS = "NotSkillCopyTargetFuncIds",
     NOT_SKILL_COPY_TARGET_INDIVIDUALITIES = "NotSkillCopyTargetIndividualities",
+    INTERVAL_TURN = "IntervalTurn",
+    INTERVAL_COUNT = "IntervalCount",
+    TARGET_ENEMY_RANGE = "TargetEnemyRange",
 }
