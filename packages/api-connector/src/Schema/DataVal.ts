@@ -133,6 +133,8 @@ interface BaseDataVal {
     CopyTargetBuffType?: number[];
     NotSkillCopyTargetFuncIds?: number[];
     NotSkillCopyTargetIndividualities?: number[];
+    ClassIconAuraEffectId?: number;
+    ActMasterGenderType?: number;
     IntervalTurn?: number;
     IntervalCount?: number;
     TargetEnemyRange?: number;
@@ -277,6 +279,8 @@ export enum DataValField {
     COPY_TARGET_BUFF_TYPE = "CopyTargetBuffType",
     NOT_SKILL_COPY_TARGET_FUNC_IDS = "NotSkillCopyTargetFuncIds",
     NOT_SKILL_COPY_TARGET_INDIVIDUALITIES = "NotSkillCopyTargetIndividualities",
+    CLASS_ICON_AURA_EFFECT_ID = "ClassIconAuraEffectId",
+    ACT_MASTER_GENDER_TYPE = "ActMasterGenderType",
     INTERVAL_TURN = "IntervalTurn",
     INTERVAL_COUNT = "IntervalCount",
     TARGET_ENEMY_RANGE = "TargetEnemyRange",

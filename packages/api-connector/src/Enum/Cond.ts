@@ -174,7 +174,13 @@ export enum CondType {
     SUPER_BOSS_DAMAGE_ABOVE = "superBossDamageAbove",
     SUPER_BOSS_DAMAGE_BELOW = "superBossDamageBelow",
     EVENT_MISSION_GROUP_ACHIEVE = "eventMissionGroupAchieve",
+    SVT_FRIENDSHIP_CLASS_NUM_ABOVE = "svtFriendshipClassNumAbove",
     NOT_WAR_CLEAR = "notWarClear",
+    SVT_SKILL_LV_CLASS_NUM_ABOVE = "svtSkillLvClassNumAbove",
+    SVT_CLASS_LV_UP_COUNT = "svtClassLvUpCount",
+    SVT_CLASS_SKILL_LV_UP_COUNT = "svtClassSkillLvUpCount",
+    SVT_CLASS_LIMIT_UP_COUNT = "svtClassLimitUpCount",
+    SVT_CLASS_FRIENDSHIP_COUNT = "svtClassFriendshipCount",
 }
 
 export default CondType;
