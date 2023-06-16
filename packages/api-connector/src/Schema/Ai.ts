@@ -219,6 +219,7 @@ export enum AiActType {
     NOBLE_PHANTASM = "noblePhantasm",
     BATTLE_END = "battleEnd",
     LOSE_END = "loseEnd",
+    BATTLE_END_NOT_RELATED_SURVIVAL_STATUS = "battleEndNotRelatedSurvivalStatus",
     CHANGE_THINKING = "changeThinking",
 }
 

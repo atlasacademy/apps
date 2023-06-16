@@ -145,6 +145,7 @@ export enum FuncType {
     GAIN_NP_INDIVIDUAL_SUM = "gainNpIndividualSum",
     SET_QUEST_ROUTE_FLAG = "setQuestRouteFlag",
     LAST_USE_PLAYER_SKILL_COPY = "lastUsePlayerSkillCopy",
+    CHANGE_ENEMY_MASTER_FACE = "changeEnemyMasterFace",
 }
 
 export interface BasicFunc {
