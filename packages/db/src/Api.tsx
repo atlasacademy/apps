@@ -304,7 +304,8 @@ class Api {
         notTrait?: number[],
         voiceCondSvt?: number[],
         illustrator?: string,
-        cv?: string
+        cv?: string,
+        profileContains?: string
     ): Promise<Entity.EntityBasic[]> {
         return apiConnector.searchEntity({
             name,
@@ -318,6 +319,7 @@ class Api {
             voiceCondSvt,
             illustrator,
             cv,
+            profileContains
         });
     }
 

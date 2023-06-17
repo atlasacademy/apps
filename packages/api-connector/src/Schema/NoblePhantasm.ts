@@ -34,6 +34,7 @@ export interface NoblePhantasmBasic {
 export interface NoblePhantasm extends NoblePhantasmBasic {
     id: number;
     num: number;
+    npNum: number;
     card: Card;
     name: string;
     originalName: string;

@@ -61,6 +61,7 @@ interface IState {
     notTrait: number[];
     illustrator?: string;
     cv?: string;
+    profileContains?:string;
 }
 
 class EntitiesPage extends React.Component<IProps, IState> {
@@ -92,6 +93,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                 flag: searchParams.getAll("flag") as Entity.EntityFlag[],
                 trait: searchParams.getAll("trait").map((num) => parseInt(num)),
                 notTrait: searchParams.getAll("notTrait").map((num) => parseInt(num)),
+                profileContains: searchParams.get("profileContains") ?? undefined,
             };
         } else if (props.traitSelected) {
             this.state = {
@@ -159,6 +161,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             notTrait: this.state.notTrait,
             illustrator: this.state.illustrator,
             cv: this.state.cv,
+            profileContains: this.state.profileContains
         }).toString();
     }
 
@@ -172,6 +175,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             !this.state.name &&
             !this.state.illustrator &&
             !this.state.cv &&
+            !this.state.profileContains &&
             (this.state.type === undefined || this.state.type.length === 0) &&
             (this.state.className === undefined || this.state.className.length === 0) &&
             (this.state.gender === undefined || this.state.gender.length === 0) &&
@@ -198,7 +202,8 @@ class EntitiesPage extends React.Component<IProps, IState> {
             this.state.notTrait,
             undefined,
             this.state.illustrator,
-            this.state.cv
+            this.state.cv,
+            this.state.profileContains
         )
             .then((entities) => {
                 this.setQueryURL();
@@ -373,6 +378,18 @@ class EntitiesPage extends React.Component<IProps, IState> {
                                         this.setState({ cv: value });
                                     }}
                                     disableLabelStyling={true}
+                                    lang={lang(this.props.region)}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col sm={4}>
+                            <Form.Group>
+                                <Form.Label>{t("Profile text")}</Form.Label>
+                                <Form.Control
+                                    value={this.state.profileContains ?? ""}
+                                    onChange={(ev: ChangeEvent) => {
+                                        this.setState({ profileContains: ev.target.value });
+                                    }}
                                     lang={lang(this.props.region)}
                                 />
                             </Form.Group>

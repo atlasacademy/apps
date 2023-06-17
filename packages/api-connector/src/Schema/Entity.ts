@@ -288,4 +288,5 @@ export type EntitySearchOptions = {
     voiceCondSvt?: number[];
     illustrator?: string;
     cv?: string;
+    profileContains?: string;
 };
