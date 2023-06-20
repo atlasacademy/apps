@@ -752,7 +752,7 @@ class ApiConnector {
         return this.cache.entityList.get(null, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
-    servant(id: number, lore: false, cacheDuration?: number): Promise<Servant>;
+    servant(id: number, lore?: false, cacheDuration?: number): Promise<Servant>;
     servant(id: number, lore: true, cacheDuration?: number): Promise<ServantWithLore>;
     servant(id: number, lore = false, cacheDuration?: number): Promise<Servant> {
         const queryString = this.getQueryString(this.getURLSearchParams({ lore }));
