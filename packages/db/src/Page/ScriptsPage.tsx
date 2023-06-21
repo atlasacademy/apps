@@ -26,17 +26,19 @@ const stateCache = new Map<
         query: string | undefined;
         scriptFileName: string | undefined;
         warId: number | undefined;
+        rawScript: boolean;
         scripts: Script.ScriptSearchResult[];
         searched: boolean;
         searchLimit: number;
     }
 >();
 
-const getQueryString = (query?: string, scriptFileName?: string, warId?: number) => {
+const getQueryString = (query?: string, scriptFileName?: string, warId?: number, rawScript?: boolean) => {
     return getURLSearchParams({
         query,
         scriptFileName,
         warId,
+        rawScript: rawScript ? true : undefined,
     }).toString();
 };
 
@@ -53,6 +55,11 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             searchParams.get("scriptFileName") ?? thisStateCache?.scriptFileName ?? undefined
         ),
         [warId, setWarId] = useState(getNumParam(searchParams, "warId") ?? thisStateCache?.warId ?? undefined),
+        [rawScript, setRawScript] = useState<boolean>(
+            searchParams.get("rawScript") !== null
+                ? searchParams.get("rawScript") === "true"
+                : thisStateCache?.rawScript ?? false
+        ),
         [searchLimit, setSearchLimit] = useState(50),
         [wars, setWars] = useState([] as War.WarBasic[]),
         [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(thisStateCache?.scripts ?? []),
@@ -66,10 +73,17 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         query: string,
         scriptFileName?: string,
         warId?: number,
+        rawScript?: boolean,
         searchLimit?: number
     ) => {
         setSearching(true);
-        Api.searchScript(query, scriptFileName, warId !== undefined ? [warId] : undefined, searchLimit)
+        Api.searchScript(
+            query,
+            scriptFileName,
+            warId !== undefined ? [warId] : undefined,
+            rawScript ? true : undefined,
+            searchLimit
+        )
             .then((r) => {
                 if (abortController.signal.aborted) return;
                 setSearched(true);
@@ -87,13 +101,14 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         query?: string,
         scriptFileName?: string,
         warId?: number,
+        rawScript?: boolean,
         searchLimit?: number
     ) => {
         if (query === undefined || query.trim() === "") {
             alert("Please enter a query");
         } else {
-            search(abortController, query, scriptFileName, warId, searchLimit);
-            history.replace(`/${region}/${path}?${getQueryString(query, scriptFileName, warId)}`);
+            search(abortController, query, scriptFileName, warId, rawScript, searchLimit);
+            history.replace(`/${region}/${path}?${getQueryString(query, scriptFileName, warId, rawScript)}`);
         }
     };
 
@@ -108,18 +123,18 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
 
     useEffect(() => {
         const controller = new AbortController();
-        if ((!stateCache.has(region) || stateCache.get(region)?.searchLimit !== searchLimit) && query) {
+        if ((!stateCache.get(region)?.searched || stateCache.get(region)?.searchLimit !== searchLimit) && query) {
             // for first run if URL query string is not empty or after changing searchLimit
-            search(controller, query, scriptFileName, warId, searchLimit);
+            search(controller, query, scriptFileName, warId, rawScript, searchLimit);
         }
         return () => {
             controller.abort();
         };
-    }, [region, query, scriptFileName, warId, searchLimit]);
+    }, [region, query, scriptFileName, warId, rawScript, searchLimit]);
 
     useEffect(() => {
-        stateCache.set(region, { query, scriptFileName, warId, scripts, searched, searchLimit });
-    }, [region, query, scriptFileName, warId, scripts, searched, searchLimit]);
+        stateCache.set(region, { query, scriptFileName, warId, scripts, rawScript, searched, searchLimit });
+    }, [region, query, scriptFileName, warId, rawScript, scripts, searched, searchLimit]);
 
     useEffect(() => {
         document.title = `[${region}] ${t("Scripts")} - Atlas Academy DB`;
@@ -179,7 +194,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
             <form
                 onSubmit={(ev: React.FormEvent) => {
                     ev.preventDefault();
-                    searchButton(new AbortController(), query, scriptFileName, warId, searchLimit);
+                    searchButton(new AbortController(), query, scriptFileName, warId, rawScript, searchLimit);
                 }}
             >
                 <Form.Group>
@@ -217,10 +232,22 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                         The script ID should contain this string. For example 30001 for LB1, 94036 for Ooku.
                     </Form.Text>
                 </Form.Group>
+                <Form.Check
+                    inline
+                    type="switch"
+                    id="raw-script-search"
+                    label="Search raw script"
+                    className="mb-3"
+                    onChange={(ev) => {
+                        setRawScript(ev.target.checked);
+                    }}
+                />
                 <div className="d-flex justify-content-between">
                     <Button
                         variant="primary"
-                        onClick={() => searchButton(new AbortController(), query, scriptFileName, warId, searchLimit)}
+                        onClick={() =>
+                            searchButton(new AbortController(), query, scriptFileName, warId, rawScript, searchLimit)
+                        }
                     >
                         {t("Search")} <FontAwesomeIcon icon={faSearch} />
                     </Button>

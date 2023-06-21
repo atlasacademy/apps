@@ -373,9 +373,10 @@ class Api {
         query: string,
         scriptFileName?: string,
         warId?: number[],
+        rawScript?: boolean,
         limit?: number
     ): Promise<Script.ScriptSearchResult[]> {
-        return apiConnector.searchScript({ query, scriptFileName, warId, limit });
+        return apiConnector.searchScript({ query, scriptFileName, warId, rawScript, limit });
     }
 
     static getUrl(

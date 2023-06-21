@@ -39,5 +39,6 @@ export type ScriptSearchOptions = {
     query: string;
     scriptFileName?: string;
     warId?: number[];
+    rawScript?: boolean;
     limit?: number;
 };
