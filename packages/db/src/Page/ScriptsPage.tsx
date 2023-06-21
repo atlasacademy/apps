@@ -30,6 +30,7 @@ const stateCache = new Map<
         scripts: Script.ScriptSearchResult[];
         searched: boolean;
         searchLimit: number;
+        firstRun: boolean;
     }
 >();
 
@@ -123,7 +124,12 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
 
     useEffect(() => {
         const controller = new AbortController();
-        if ((!stateCache.get(region)?.searched || stateCache.get(region)?.searchLimit !== searchLimit) && query) {
+        if (
+            (!stateCache.has(region) ||
+                stateCache.get(region)?.firstRun ||
+                stateCache.get(region)?.searchLimit !== searchLimit) &&
+            query
+        ) {
             // for first run if URL query string is not empty or after changing searchLimit
             search(controller, query, scriptFileName, warId, rawScript, searchLimit);
         }
@@ -133,7 +139,16 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     }, [region, query, scriptFileName, warId, rawScript, searchLimit]);
 
     useEffect(() => {
-        stateCache.set(region, { query, scriptFileName, warId, scripts, rawScript, searched, searchLimit });
+        stateCache.set(region, {
+            query,
+            scriptFileName,
+            warId,
+            scripts,
+            rawScript,
+            searched,
+            searchLimit,
+            firstRun: !stateCache.has(region),
+        });
     }, [region, query, scriptFileName, warId, rawScript, scripts, searched, searchLimit]);
 
     useEffect(() => {
