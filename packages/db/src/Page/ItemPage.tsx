@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import React from "react";
 import { Button, Tab, Table, Tabs } from "react-bootstrap";
+import { WithTranslation, useTranslation, withTranslation } from "react-i18next";
 import { withRouter } from "react-router";
 import { Link, RouteComponentProps } from "react-router-dom";
 
@@ -21,10 +22,11 @@ import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
 import Manager, { lang } from "../Setting/Manager";
+import { t } from "../i18n";
 
 import "./ItemPage.css";
 
-interface IProps extends RouteComponentProps {
+interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
     tab?: string;
@@ -70,24 +72,24 @@ let usageDataColumns: {
     colspan?: number;
     displayExtractor?: (usage: MaterialUsageColumn) => string;
 }[] = [
-    { extractor: (usage: MaterialUsageColumn) => usage.ascensions, title: "Total Ascension" },
+    { extractor: (usage: MaterialUsageColumn) => usage.ascensions, title: t("Total Ascension") },
     {
         extractor: (usage: MaterialUsageColumn) => usage.skills * 3,
         displayExtractor: (usage: MaterialUsageColumn) =>
             `${usage.skills.toLocaleString()} (${(usage.skills * 3).toLocaleString()})`,
-        title: "Per Skill (Total)",
+        title: t("Per Skill (Total)"),
     },
     {
         extractor: (usage: MaterialUsageColumn) => usage.appendSkills * 3,
         displayExtractor: (usage: MaterialUsageColumn) =>
             `${usage.appendSkills.toLocaleString()} (${(usage.appendSkills * 3).toLocaleString()})`,
-        title: "Per Append Skill (Total)",
+        title: t("Per Append Skill (Total)"),
     },
-    { extractor: (usage: MaterialUsageColumn) => usage.costumes, title: "Costume" },
+    { extractor: (usage: MaterialUsageColumn) => usage.costumes, title: t("Costume") },
     {
         extractor: (usage: MaterialUsageColumn, blacklistedColumnIndexes?: number[]) =>
             getTotalUsage(usage, blacklistedColumnIndexes),
-        title: "Total",
+        title: t("Total"),
     },
 ];
 
@@ -96,6 +98,7 @@ function MaterialListingTable(props: {
     usageData: MaterialUsageData[];
     blacklistedColumnIndexes?: number[];
 }) {
+    const { t } = useTranslation();
     let { region, usageData, blacklistedColumnIndexes } = props;
     blacklistedColumnIndexes = blacklistedColumnIndexes ?? [];
 
@@ -111,7 +114,7 @@ function MaterialListingTable(props: {
     let usageDataColumnsWithServantColumn = [
         {
             extractor: (usage: MaterialUsageColumn) => (usage as MaterialUsageData).collectionNo,
-            title: "Servant",
+            title: t("Servant"),
             colspan: 2,
         },
         ...usageDataColumns,
@@ -352,6 +355,7 @@ class ItemPage extends React.Component<IProps, IState> {
     }
 
     private renderMaterialBreakdown(): JSX.Element {
+        const t = this.props.t;
         let tabs = [
             ClassName.SABER,
             ClassName.LANCER,
@@ -388,7 +392,7 @@ class ItemPage extends React.Component<IProps, IState> {
 
         return (
             <>
-                <h3>Servant Material Requirements</h3>
+                <h3>{t("Servant Material Requirements")}</h3>
                 <Table hover responsive className={"materialUsage"}>
                     <thead>
                         <tr>
@@ -398,7 +402,7 @@ class ItemPage extends React.Component<IProps, IState> {
                             ))}
                         </tr>
                         <tr key="total">
-                            <td className="materialOwner">Total</td>
+                            <td className="materialOwner">{t("Total")}</td>
                             {usageDataColumns.map((field) => (
                                 <td key={field.title}>
                                     {field?.displayExtractor?.(totalUsage) ??
@@ -407,7 +411,7 @@ class ItemPage extends React.Component<IProps, IState> {
                             ))}
                         </tr>
                         <tr key="switches">
-                            <td className="materialOwner">Show below?</td>
+                            <td className="materialOwner">{t("Show below?")}</td>
                             {usageDataColumns.map((_, index) => {
                                 let blacklisted = this.state.blacklistedColumnIndexes.includes(index);
                                 return (
@@ -420,7 +424,7 @@ class ItemPage extends React.Component<IProps, IState> {
                                                 this.setState({ blacklistedColumnIndexes: [...out] });
                                             }}
                                         >
-                                            {blacklisted ? "No" : "Yes"}
+                                            {blacklisted ? t("No") : t("Yes")}
                                         </Button>
                                     </td>
                                 );
@@ -446,16 +450,20 @@ class ItemPage extends React.Component<IProps, IState> {
         let servants = this.state.servants
             .filter((servant) => servant.type !== Entity.EntityType.ENEMY_COLLECTION_DETAIL)
             .sort((a, b) => a.collectionNo - b.collectionNo);
-        const region = this.props.region,
+        const { region, t } = this.props,
             servant = servants.find((servant) => this.reduceMaterials(servant.ascensionMaterials) > 0);
         if (!servant) return <b>Error while finding Event Servant</b>;
 
         return (
-            <DataTable data={[{ label: "Used by", value: <ServantDescriptor servant={servant} region={region} /> }]} />
+            <DataTable
+                data={[{ label: t("Used by"), value: <ServantDescriptor servant={servant} region={region} /> }]}
+            />
         );
     }
 
     render() {
+        const t = this.props.t;
+
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
 
         if (this.state.loading || !this.state.item) return <Loading />;
@@ -477,15 +485,15 @@ class ItemPage extends React.Component<IProps, IState> {
 
                 <DataTable
                     data={[
-                        { label: "ID", value: item.id },
-                        { label: "Name", value: <span lang={lang(this.props.region)}>{item.name}</span> },
+                        { label: t("ID"), value: item.id },
+                        { label: t("Name"), value: <span lang={lang(this.props.region)}>{item.name}</span> },
                         {
-                            label: "Original Name",
+                            label: t("Original Name"),
                             value: <span lang={lang(this.props.region)}>{item.originalName}</span>,
                             hidden: item.name === item.originalName,
                         },
                         {
-                            label: "Detail",
+                            label: t("Detail"),
                             value: (
                                 <span className="text-prewrap" lang={lang(this.props.region)}>
                                     {item.detail}
@@ -493,7 +501,7 @@ class ItemPage extends React.Component<IProps, IState> {
                             ),
                         },
                         {
-                            label: "Individuality",
+                            label: t("Individuality"),
                             value: (
                                 <div>
                                     {mergeElements(
@@ -505,9 +513,9 @@ class ItemPage extends React.Component<IProps, IState> {
                                 </div>
                             ),
                         },
-                        { label: "Type", value: item.type },
+                        { label: t("Type"), value: item.type },
                         {
-                            label: "Uses",
+                            label: t("Uses"),
                             value: (
                                 <div>
                                     <ItemUseDescription region={this.props.region} item={item} />
@@ -515,7 +523,7 @@ class ItemPage extends React.Component<IProps, IState> {
                             ),
                         },
                         {
-                            label: "Can be exchanged for",
+                            label: t("Can be exchanged for"),
                             value: (
                                 <ul>
                                     {item.itemSelects.map((itemSelect) => (
@@ -537,8 +545,8 @@ class ItemPage extends React.Component<IProps, IState> {
                 />
 
                 <div className="mb-5">
-                    <RawDataViewer text="Nice" data={item} url={Api.getUrl("nice", "item", this.props.id)} />
-                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "item", this.props.id)} />
+                    <RawDataViewer text={t("Nice")} data={item} url={Api.getUrl("nice", "item", this.props.id)} />
+                    <RawDataViewer text={t("Raw")} data={Api.getUrl("raw", "item", this.props.id)} />
                 </div>
 
                 {itemIsMaterial(item) ? (
@@ -553,4 +561,4 @@ class ItemPage extends React.Component<IProps, IState> {
     }
 }
 
-export default withRouter(ItemPage);
+export default withRouter(withTranslation()(ItemPage));
