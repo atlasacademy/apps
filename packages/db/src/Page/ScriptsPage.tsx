@@ -1,12 +1,12 @@
 import { faSearch, faSort, faSortDown, faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Dropdown, Form, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { Region, Script, War } from "@atlasacademy/api-connector";
+import { Region, Script } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
@@ -16,6 +16,7 @@ import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { getWarName } from "../Descriptor/WarDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
 import { getNumParam } from "../Helper/URLSearchParamsHelper";
+import useApi from "../Hooks/useApi";
 import Manager, { lang } from "../Setting/Manager";
 
 import "./ScriptsPage.css";
@@ -30,7 +31,6 @@ const stateCache = new Map<
         scripts: Script.ScriptSearchResult[];
         searched: boolean;
         searchLimit: number;
-        firstRun: boolean;
     }
 >();
 
@@ -62,12 +62,13 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                 : thisStateCache?.rawScript ?? false
         ),
         [searchLimit, setSearchLimit] = useState(50),
-        [wars, setWars] = useState([] as War.WarBasic[]),
         [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(thisStateCache?.scripts ?? []),
         [error, setError] = useState<AxiosError | undefined>(undefined),
         [searching, setSearching] = useState(false),
         [searched, setSearched] = useState(thisStateCache?.searched ?? false),
-        [resultSort, setResultSort] = useState<ScriptResultSort>("Score");
+        [resultSort, setResultSort] = useState<ScriptResultSort>("Score"),
+        { data: wars } = useApi("warList"),
+        firstRun = useRef(true);
 
     const search = (
         abortController: AbortController,
@@ -123,14 +124,14 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     }, [region, path, history]);
 
     useEffect(() => {
+        if (firstRun.current && query) {
+            search(new AbortController(), query, scriptFileName, warId, rawScript, searchLimit);
+        }
+    }, [region, query, scriptFileName, warId, rawScript, searchLimit]);
+
+    useEffect(() => {
         const controller = new AbortController();
-        if (
-            (!stateCache.has(region) ||
-                stateCache.get(region)?.firstRun ||
-                stateCache.get(region)?.searchLimit !== searchLimit) &&
-            query
-        ) {
-            // for first run if URL query string is not empty or after changing searchLimit
+        if (stateCache.get(region)?.searchLimit !== searchLimit && query) {
             search(controller, query, scriptFileName, warId, rawScript, searchLimit);
         }
         return () => {
@@ -139,16 +140,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     }, [region, query, scriptFileName, warId, rawScript, searchLimit]);
 
     useEffect(() => {
-        stateCache.set(region, {
-            query,
-            scriptFileName,
-            warId,
-            scripts,
-            rawScript,
-            searched,
-            searchLimit,
-            firstRun: !stateCache.has(region),
-        });
+        stateCache.set(region, { query, scriptFileName, warId, scripts, rawScript, searched, searchLimit });
     }, [region, query, scriptFileName, warId, rawScript, scripts, searched, searchLimit]);
 
     useEffect(() => {
@@ -156,7 +148,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     }, [region, t]);
 
     useEffect(() => {
-        Api.warList().then((r) => setWars(r));
+        firstRun.current = false;
     }, []);
 
     if (error !== undefined) {
@@ -226,8 +218,8 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     <Form.Label>{t("War")}</Form.Label>
                     <SearchableSelect<number>
                         id="select-warId"
-                        options={wars.map((war) => war.id)}
-                        labels={new Map(wars.map((war) => [war.id, getWarName(war).replace("\n", " ")]))}
+                        options={(wars ?? []).map((war) => war.id)}
+                        labels={new Map((wars ?? []).map((war) => [war.id, getWarName(war).replace("\n", " ")]))}
                         selected={warId}
                         onChange={(value?: number) => {
                             setWarId(value);
