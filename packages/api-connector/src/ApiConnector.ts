@@ -19,6 +19,7 @@ import {
     ClassRelationOverwriteType,
 } from "./Schema/Buff";
 import { Change } from "./Schema/Change";
+import { ClassBoard } from "./Schema/ClassBoard";
 import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode";
 import { CommonRelease } from "./Schema/CommonRelease";
 import { Constants } from "./Schema/Constant";
@@ -26,6 +27,7 @@ import { ConstantStrs } from "./Schema/ConstantStr";
 import { CraftEssence, CraftEssenceBasic } from "./Schema/CraftEssence";
 import { Cv } from "./Schema/Cv";
 import { Enemy } from "./Schema/Enemy";
+import { EnemyMaster } from "./Schema/EnemyMaster";
 import { EntityBasic, EntityFlag, EntitySearchOptions, EntityType, Gender } from "./Schema/Entity";
 import { Event, EventAlloutBattle, EventBasic, EventType } from "./Schema/Event";
 import { BasicFunc, Func, FuncSearchOptions, FuncTargetTeam, FuncTargetType, FuncType } from "./Schema/Func";
@@ -141,6 +143,8 @@ class ApiConnector {
         cardConstantMap: new ResultCache<null, CardConstantMap>(),
         classAffinityMap: new ResultCache<null, ClassAffinityMap>(),
         classAttackRateMap: new ResultCache<null, ClassAttackRateMap>(),
+        classBoard: new ResultCache<number, ClassBoard>(),
+        classBoardList: new ResultCache<null, ClassBoard[]>(),
         commandCode: new ResultCache<number, CommandCode>(),
         commandCodeBasic: new ResultCache<number, CommandCodeBasic>(),
         commandCodeList: new ResultCache<null, CommandCodeBasic[]>(),
@@ -152,6 +156,7 @@ class ApiConnector {
         commonRelease: new ResultCache<number, CommonRelease[]>(),
         cvList: new ResultCache<null, Cv[]>(),
         enemy: new ResultCache<number, Enemy>(),
+        enemyMaster: new ResultCache<number, EnemyMaster>(),
         entityBasic: new ResultCache<number, EntityBasic>(),
         entityList: new ResultCache<null, EntityBasic[]>(),
         entitySearch: new ResultCache<string, EntityBasic[]>(),
@@ -876,6 +881,34 @@ class ApiConnector {
         if (cacheDuration === undefined) return fetch();
 
         return this.cache.shop.get(id, fetch, cacheDuration);
+    }
+
+    enemyMaster(id: number, cacheDuration?: number): Promise<EnemyMaster> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<EnemyMaster>(`${this.host}/nice/${this.region}/enemy-master/${id}${query}`);
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.enemyMaster.get(id, fetch, cacheDuration);
+    }
+
+    classBoard(id: number, cacheDuration?: number): Promise<ClassBoard> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<ClassBoard>(`${this.host}/nice/${this.region}/class-board/${id}${query}`);
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.classBoard.get(id, fetch, cacheDuration);
+    }
+
+    classBoardList(cacheDuration?: number): Promise<ClassBoard[]> {
+        const fetch = () =>
+            ApiConnector.fetch<ClassBoard[]>(`${this.host}/export/${this.region}/nice_class_board.json`);
+        return this.cache.classBoardList.get(null, fetch, cacheDuration);
     }
 
     shopList(cacheDuration?: number): Promise<Shop[]> {

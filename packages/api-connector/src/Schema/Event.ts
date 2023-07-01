@@ -5,7 +5,7 @@ import { CombineAdjustTarget, CombineCalc } from "./Combine";
 import { CommonConsume } from "./CommonConsume";
 import { CommonRelease } from "./CommonRelease";
 import { Gift } from "./Gift";
-import { Item, ItemBackgroundType } from "./Item";
+import { Item, ItemAmount, ItemBackgroundType } from "./Item";
 import { Mission } from "./Mission";
 import { VoiceGroup, VoiceLine } from "./Profile";
 import { PayType, Shop } from "./Shop";
@@ -116,7 +116,7 @@ export interface EventLottery {
     id: number;
     slot: number;
     payType: PayType;
-    cost: { item: Item; amount: number };
+    cost: ItemAmount;
     priority: number;
     limited: boolean;
     boxes: EventLotteryBox[];

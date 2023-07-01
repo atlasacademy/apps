@@ -73,6 +73,11 @@ export interface Item {
     itemSelects: ItemSelect[];
 }
 
+export interface ItemAmount {
+    item: Item;
+    amount: number;
+}
+
 export type ItemSearchOptions = {
     name?: string;
     individuality?: number[];

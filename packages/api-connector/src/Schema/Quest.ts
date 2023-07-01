@@ -3,7 +3,7 @@ import CondType from "../Enum/Cond";
 import { Bgm } from "./Bgm";
 import { FrequencyType } from "./Frequency";
 import { Gift } from "./Gift";
-import { Item } from "./Item";
+import { Item, ItemAmount } from "./Item";
 import { NpcServant } from "./NpcServant";
 import { EnemyDrop, QuestEnemy } from "./QuestEnemy";
 import { Restriction } from "./Restriction";
@@ -206,7 +206,7 @@ export interface Quest {
     flags: QuestFlag[];
     consumeType: QuestConsumeType;
     consume: number;
-    consumeItem: { item: Item; amount: number }[];
+    consumeItem: ItemAmount[];
     afterClear: QuestAfterClearType;
     recommendLv: string;
     spotId: number;

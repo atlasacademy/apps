@@ -3,7 +3,7 @@ import ClassName from "../Enum/ClassName";
 import CondType from "../Enum/Cond";
 import { Attribute } from "./Attribute";
 import { CommonRelease } from "./CommonRelease";
-import { Item } from "./Item";
+import { Item, ItemAmount } from "./Item";
 import { NoblePhantasm } from "./NoblePhantasm";
 import { Skill } from "./Skill";
 import { Trait } from "./Trait";
@@ -86,7 +86,7 @@ export interface CardDetail {
 }
 
 export interface EntityLevelUpMaterials {
-    items: { item: Item; amount: number }[];
+    items: ItemAmount[];
     qp: number;
 }
 
@@ -137,7 +137,7 @@ export interface AppendPassive {
     num: number;
     priority: number;
     skill: Skill;
-    unlockMaterials: { item: Item; amount: number }[];
+    unlockMaterials: ItemAmount[];
 }
 
 export interface EntityTraitAdd {

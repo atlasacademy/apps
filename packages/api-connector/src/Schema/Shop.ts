@@ -1,7 +1,7 @@
 import CondType from "../Enum/Cond";
 import { CommonConsume } from "./CommonConsume";
 import { Gift } from "./Gift";
-import { Item } from "./Item";
+import { Item, ItemAmount } from "./Item";
 
 export enum ShopType {
     NONE = "none",
@@ -97,7 +97,7 @@ export interface Shop {
     infoMessage: string;
     warningMessage: string;
     payType: PayType;
-    cost: { item: Item; amount: number };
+    cost: ItemAmount;
     consumes: CommonConsume[];
     purchaseType: PurchaseType;
     targetIds: number[];
