@@ -547,17 +547,17 @@ class WarPage extends React.Component<IProps, IState> {
                 ""
             );
 
-        let banners: string[] = [];
-        if (war.banner !== undefined) banners.push(war.banner);
+        let banners: Set<string> = new Set();
+        if (war.banner !== undefined) banners.add(war.banner);
         for (let warAdd of war.warAdds) {
             if (warAdd.type === War.WarOverwriteType.BANNER && warAdd.overwriteBanner !== undefined) {
-                banners.push(warAdd.overwriteBanner);
+                banners.add(warAdd.overwriteBanner);
             }
         }
 
         const bannerImages = (
             <>
-                {banners.map((banner, index) => (
+                {Array.from(banners).map((banner, index) => (
                     <BannerImage key={index} index={index} src={banner} />
                 ))}
             </>
