@@ -15,6 +15,7 @@ export enum GiftType {
     EVENT_POINT_BUFF = "eventPointBuff",
     EVENT_BOARD_GAME_TOKEN = "eventBoardGameToken",
     EVENT_COMMAND_ASSIST = "eventCommandAssist",
+    EVENT_HEEL_PORTRAIT = "eventHeelPortrait",
 }
 
 export interface BaseGift {
