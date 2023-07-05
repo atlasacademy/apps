@@ -341,6 +341,16 @@ export interface EventCommandAssist {
     releaseConditions: CommonRelease[];
 }
 
+export interface EventHeelPortrait {
+    id: number;
+    name: string;
+    image: string;
+    dispCondType: CondType;
+    dispCondId: number;
+    dispCondNum: number;
+    script: Record<string, unknown>;
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -387,6 +397,7 @@ export interface Event {
     campaigns: EventCampaign[];
     campaignQuests: EventQuest[];
     commandAssists: EventCommandAssist[];
+    heelPortraits: EventHeelPortrait[];
     digging?: EventDigging;
     cooltime?: EventCooltime;
     voicePlays: EventVoicePlay[];

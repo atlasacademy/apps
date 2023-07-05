@@ -22,6 +22,7 @@ import Manager, { lang } from "../Setting/Manager";
 import EventBulletinBoard from "./Event/EventBulletinBoard";
 import EventCommandAssist from "./Event/EventCommandAssist";
 import EventFortification from "./Event/EventFortification";
+import EventHeelPortrait from "./Event/EventHeelPortrait";
 import EventLottery from "./Event/EventLottery";
 import EventRecipe from "./Event/EventRecipe";
 import EventReward from "./Event/EventReward";
@@ -43,7 +44,8 @@ interface TabInfo {
         | "treasureBox"
         | "recipes"
         | "fortification"
-        | "commandAssist";
+        | "commandAssist"
+        | "heel";
     id: number;
     title: string | React.ReactNode;
     tabKey: string;
@@ -375,6 +377,8 @@ class EventPage extends React.Component<IProps, IState> {
                         missionGroups={event.missionGroups}
                     />
                 );
+            case "heel":
+                return <EventHeelPortrait region={this.props.region} heelPortraits={event.heelPortraits} />;
         }
     }
 
@@ -508,6 +512,10 @@ class EventPage extends React.Component<IProps, IState> {
                     };
                 })
         );
+
+        if (event.heelPortraits.length > 0) {
+            tabs.push({ type: "heel", id: 0, title: t("Heel Portraits"), tabKey: "heel-portraits" });
+        }
 
         const wars =
             this.state.wars.length === 1 ? (

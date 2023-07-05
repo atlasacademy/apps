@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Event, Gift, Item, Region, Servant } from "@atlasacademy/api-connector";
 
 import { AssetHost } from "../Api";
+import { lang } from "../Setting/Manager";
 import { CommandCodeDescriptorId } from "./CommandCodeDescriptor";
 import CondTargetValueDescriptor from "./CondTargetValueDescriptor";
 import CostumeDescriptor from "./CostumeDescriptor";
@@ -18,6 +19,7 @@ export default function GiftDescriptor(props: {
     items?: Map<number, Item.Item>;
     servants?: Map<number, Servant.ServantBasic>;
     pointBuffs?: Map<number, Event.EventPointBuff>;
+    heelPortraits?: Map<number, Event.EventHeelPortrait>;
 }) {
     return (
         <>
@@ -47,12 +49,14 @@ export function GiftAddDescriptor({
     items,
     servants,
     pointBuffs,
+    heelPortraits,
 }: {
     region: Region;
     giftAdd: Gift.GiftAdd;
     items?: Map<number, Item.Item>;
     servants?: Map<number, Servant.ServantBasic>;
     pointBuffs?: Map<number, Event.EventPointBuff>;
+    heelPortraits?: Map<number, Event.EventHeelPortrait>;
 }) {
     return (
         <>
@@ -68,6 +72,7 @@ export function GiftAddDescriptor({
                     items={items}
                     servants={servants}
                     pointBuffs={pointBuffs}
+                    heelPortraits={heelPortraits}
                 />
             ))}{" "}
             —{" "}
@@ -87,6 +92,7 @@ export function BaseGiftDescriptor(props: {
     items?: Map<number, Item.Item>;
     servants?: Map<number, Servant.ServantBasic>;
     pointBuffs?: Map<number, Event.EventPointBuff>;
+    heelPortraits?: Map<number, Event.EventHeelPortrait>;
 }) {
     const { t } = useTranslation();
     const { gift, region } = props;
@@ -170,6 +176,18 @@ export function BaseGiftDescriptor(props: {
                         height={50}
                     />{" "}
                     {t("Increase the level of command assist by")} {gift.num}
+                </>
+            );
+        case Gift.GiftType.EVENT_HEEL_PORTRAIT:
+            const heelPortrait = props.heelPortraits?.get(gift.objectId);
+            return (
+                <>
+                    <img
+                        src={heelPortrait?.image}
+                        alt={`${heelPortrait?.name} Heel Portrait`}
+                        style={{ height: "2em", width: "auto" }}
+                    />{" "}
+                    <span lang={lang(region)}>{heelPortrait?.name}</span> {t("Heel Portrait")}
                 </>
             );
         default:

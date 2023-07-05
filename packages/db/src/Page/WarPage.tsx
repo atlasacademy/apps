@@ -8,7 +8,7 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 
-import { Bgm, CondType, Item, Quest, Region, War } from "@atlasacademy/api-connector";
+import { Bgm, CondType, Event, Gift, Item, Quest, Region, War } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
@@ -25,6 +25,20 @@ import { mergeElements } from "../Helper/OutputHelper";
 import { FGOText, removeSuffix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import WarMap from "./WarMap/WarMap";
+
+const warQuestHasGiftType = (war: War.War, giftType: Gift.GiftType): boolean => {
+    for (const spot of war.spots) {
+        for (const quest of spot.quests) {
+            for (const gift of quest.gifts) {
+                if (gift.type === giftType) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+};
 
 const BannerImage = (props: { src?: string; index: number }) => {
     const [src, setSrc] = useState(props.src);
@@ -165,6 +179,7 @@ const QuestTable = (props: {
     itemMap: Map<number, Item.Item>;
     spots?: War.Spot[];
     showSection?: boolean;
+    heelPortraits?: Map<number, Event.EventHeelPortrait>;
 }) => {
     const { region, quests } = props,
         hasScript = props.quests.find((quest) => quest.phaseScripts.length > 0) !== undefined,
@@ -229,7 +244,12 @@ const QuestTable = (props: {
                             ) : null}
                             {quest.gifts.map((gift) => (
                                 <div key={`${gift.objectId}-${gift.priority}`}>
-                                    <GiftDescriptor region={region} gift={gift} items={props.itemMap} />
+                                    <GiftDescriptor
+                                        region={region}
+                                        gift={gift}
+                                        items={props.itemMap}
+                                        heelPortraits={props.heelPortraits}
+                                    />
                                     <br />
                                 </div>
                             ))}
@@ -315,8 +335,9 @@ const Spot = (props: {
     spot: War.Spot;
     filterQuest: (quest: Quest.Quest) => boolean;
     itemMap: Map<number, Item.Item>;
+    heelPortraits?: Map<number, Event.EventHeelPortrait>;
 }) => {
-    const spot = props.spot;
+    const { region, spot, itemMap, heelPortraits } = props;
     const filteredQuest = spot.quests.filter(props.filterQuest);
 
     if (filteredQuest.length === 0) return null;
@@ -327,13 +348,15 @@ const Spot = (props: {
         .join("");
 
     const title = (
-        <span lang={lang(props.region)}>
+        <span lang={lang(region)}>
             <SpotImage src={spot.image} name={spot.name} height="1.5em" />
             <FGOText text={spot.name} /> <FGOText text={spotNameChanges} />
         </span>
     );
 
-    const questTable = <QuestTable region={props.region} quests={filteredQuest} itemMap={props.itemMap} />;
+    const questTable = (
+        <QuestTable region={region} quests={filteredQuest} itemMap={itemMap} heelPortraits={heelPortraits} />
+    );
 
     return renderCollapsibleContent({
         title: title,
@@ -350,6 +373,7 @@ const SpotQuestList = (props: {
     filterQuest: (quest: Quest.Quest) => boolean;
     itemMap: Map<number, Item.Item>;
     last?: boolean;
+    heelPortraits?: Map<number, Event.EventHeelPortrait>;
 }) => {
     const spots = (
         <div>
@@ -360,6 +384,7 @@ const SpotQuestList = (props: {
                     spot={spot}
                     filterQuest={props.filterQuest}
                     itemMap={props.itemMap}
+                    heelPortraits={props.heelPortraits}
                 />
             ))}
         </div>
@@ -456,6 +481,7 @@ interface IState {
     loading: boolean;
     war?: War.War;
     itemCache: Map<number, Item.Item>;
+    event?: Event.Event;
     warAddBgms: Bgm.BgmEntity[];
     spotRefs: Map<number, React.Ref<any>>;
 }
@@ -496,6 +522,9 @@ class WarPage extends React.Component<IProps, IState> {
                         .filter((warAdd) => warAdd.type === War.WarOverwriteType.BGM)
                         .map((warAdd) => Api.bgm(warAdd.overwriteId))
                 ).then((warAddBgms) => this.setState({ warAddBgms }));
+                if (warQuestHasGiftType(war, Gift.GiftType.EVENT_HEEL_PORTRAIT)) {
+                    Api.event(war.eventId).then((event) => this.setState({ event }));
+                }
             })
             .catch((error) => this.setState({ error, loading: false }));
     }
@@ -656,6 +685,11 @@ class WarPage extends React.Component<IProps, IState> {
                                 filterQuest={questFilter}
                                 itemMap={this.state.itemCache}
                                 last={index === array.length - 1}
+                                heelPortraits={
+                                    this.state.event && this.state.event.heelPortraits
+                                        ? new Map(this.state.event.heelPortraits.map((heel) => [heel.id, heel]))
+                                        : undefined
+                                }
                             />
                         );
                     })}
