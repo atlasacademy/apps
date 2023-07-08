@@ -18,7 +18,7 @@ const getSelectString = (servant: Servant.ServantBasic) => {
     const classString = toTitleCase(servant.className);
     const selectString = `${servant.collectionNo.toString().padStart(3, "0")} - ${servant.name}`;
 
-    if (!servant.name.includes(classString)) return `${selectString} (${classString})`;
+    if (!servant.name.includes(`(${classString})`)) return `${selectString} (${classString})`;
 
     return selectString;
 };
