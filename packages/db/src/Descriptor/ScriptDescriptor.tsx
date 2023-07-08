@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { Region } from "@atlasacademy/api-connector";
 
+import { ScriptSource } from "../Component/Script";
 import { lang } from "../Setting/Manager";
 
 const getOrder = (scriptId: string) => {
@@ -45,17 +46,25 @@ export const getScriptType = (scriptId: string) => {
     }
 };
 
-const ScriptDescriptor = (props: { region: Region; scriptId: string; scriptName?: string; scriptType?: string }) => {
+const ScriptDescriptor = (props: {
+    region: Region;
+    scriptId: string;
+    scriptName?: string;
+    scriptType?: string;
+    scriptSource?: ScriptSource;
+}) => {
     const defaultScriptType = getScriptType(props.scriptId),
         scriptName =
-            props.scriptName === undefined ? props.scriptId : <span lang={lang(props.region)}>{props.scriptName}</span>;
+            props.scriptName === undefined ? props.scriptId : <span lang={lang(props.region)}>{props.scriptName}</span>,
+        scriptSourceQuery =
+            props.scriptSource && props.scriptSource !== "original" ? `?scriptSource=${props.scriptSource}` : "";
     if (props.scriptType === "") {
-        return <Link to={`/${props.region}/script/${props.scriptId}`}>{scriptName}</Link>;
+        return <Link to={`/${props.region}/script/${props.scriptId}${scriptSourceQuery}`}>{scriptName}</Link>;
     }
     return (
         <>
             {props.scriptType ?? defaultScriptType}:&nbsp;
-            <Link to={`/${props.region}/script/${props.scriptId}`}>{scriptName}</Link>
+            <Link to={`/${props.region}/script/${props.scriptId}${scriptSourceQuery}`}>{scriptName}</Link>
         </>
     );
 };

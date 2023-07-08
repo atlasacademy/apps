@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Quest, Region, Script } from "@atlasacademy/api-connector";
 
+import { ScriptSource } from "../../Component/Script";
 import { QuestDescriptionNoApi } from "../../Descriptor/QuestDescriptor";
 import ScriptDescriptor, { getScriptType } from "../../Descriptor/ScriptDescriptor";
 import { lang } from "../../Setting/Manager";
@@ -35,6 +36,7 @@ interface questListComponentProps {
     nextScript?: string;
     firstScriptInWar?: boolean;
     lastScriptInWar?: boolean;
+    scriptSource?: ScriptSource;
 }
 
 export const QuestListComponent = ({
@@ -46,6 +48,7 @@ export const QuestListComponent = ({
     nextScript,
     firstScriptInWar,
     lastScriptInWar,
+    scriptSource,
 }: questListComponentProps): JSX.Element => {
     const { t } = useTranslation();
     return (
@@ -86,7 +89,12 @@ export const QuestListComponent = ({
                     {previousScript === undefined ? (
                         t("N/A") + `${firstScriptInWar ? `: ${t("This is the first script in this war")}` : ""}`
                     ) : (
-                        <ScriptDescriptor region={region} scriptId={previousScript} scriptType="" />
+                        <ScriptDescriptor
+                            region={region}
+                            scriptId={previousScript}
+                            scriptType=""
+                            scriptSource={scriptSource}
+                        />
                     )}
                 </td>
                 <th className="w-25">{t("Next Script")}</th>
@@ -94,7 +102,12 @@ export const QuestListComponent = ({
                     {nextScript === undefined ? (
                         t("N/A") + `${lastScriptInWar ? `: ${t("This is the last script in this war")}` : ""}`
                     ) : (
-                        <ScriptDescriptor region={region} scriptId={nextScript} scriptType="" />
+                        <ScriptDescriptor
+                            region={region}
+                            scriptId={nextScript}
+                            scriptType=""
+                            scriptSource={scriptSource}
+                        />
                     )}
                 </td>
             </tr>

@@ -4,6 +4,8 @@ import { AssetHost } from "../Api";
 import { flatten } from "../Helper/PolyFill";
 import { splitString } from "../Helper/StringHelper";
 
+export type ScriptSource = "original" | "rayshift";
+
 export enum ScriptComponentType {
     UNPARSED = "UNPARSED",
     ENABLE_FULL_SCREEN = "ENABLE_FULL_SCREEN",

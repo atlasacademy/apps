@@ -2,6 +2,7 @@ import axios from "axios";
 import { createRef, useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 import { Region, Script } from "@atlasacademy/api-connector";
 
@@ -40,24 +41,41 @@ const getScriptAssetURL = (region: Region, scriptId: string) => {
     return `${AssetHost}/${region}/Script/${scriptPath}.txt`;
 };
 
+const getRayshiftScriptAssetURL = (scriptId: string) => {
+    return `https://rayshift.io/api/v1/translate/script-ingame/${scriptId}`;
+};
+
+const getRayshiftScriptCheckURL = (scriptId: string) => {
+    return `https://rayshift.io/api/v1/translate/check-ingame/${scriptId}`;
+};
+
 interface ScriptLoadStatus extends LoadStatus<Script.Script> {
     script?: string;
 }
 
-const ScriptPage = (props: { region: Region; scriptId: string }) => {
-    const { region, scriptId } = props;
+const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) => {
+    const location = useLocation(),
+        searchParams = new URLSearchParams(location.search),
+        useRayshiftScript = searchParams.get("scriptSource") === "rayshift";
+
     const showScriptLine = Manager.showScriptLine();
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
     const [{ loading, data: scriptData, script, error }, setLoadStatus] = useState<ScriptLoadStatus>({
         loading: true,
     });
+    const [hasRayshiftScript, setHasRayshiftScript] = useState<boolean>(false);
     const { t } = useTranslation();
 
     useEffect(() => {
         setLoadStatus({ loading: true });
         const controller = new AbortController();
         Manager.setRegion(region);
-        Promise.all([axios.get<string>(getScriptAssetURL(region, scriptId), { timeout: 10000 }), Api.script(scriptId)])
+
+        const rawScriptURL = useRayshiftScript
+            ? getRayshiftScriptAssetURL(scriptId)
+            : getScriptAssetURL(region, scriptId);
+
+        Promise.all([axios.get<string>(rawScriptURL, { timeout: 10000 }), Api.script(scriptId)])
             .then(([rawScript, scriptData]) => {
                 if (controller.signal.aborted) return;
                 document.title = `[${region}] Script ${scriptId} - Atlas Academy DB`;
@@ -70,7 +88,28 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
         return () => {
             controller.abort();
         };
-    }, [region, scriptId]);
+    }, [region, scriptId, useRayshiftScript]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        if (region === Region.JP && !useRayshiftScript) {
+            axios
+                .head(getRayshiftScriptCheckURL(scriptId), { timeout: 10000 })
+                .then((r) => {
+                    if (controller.signal.aborted) return;
+                    if (r.status === 200) setHasRayshiftScript(true);
+                })
+                .catch(() => {
+                    if (controller.signal.aborted) return;
+                    setHasRayshiftScript(false);
+                });
+        }
+
+        return () => {
+            controller.abort();
+        };
+    }, [region, scriptId, useRayshiftScript]);
 
     if (error !== undefined) return <ErrorStatus error={error} />;
 
@@ -148,6 +187,8 @@ const ScriptPage = (props: { region: Region; scriptId: string }) => {
                     region,
                     parsedScript.components.map((c) => c.content)
                 )}
+                goToScriptVersion={useRayshiftScript ? "original" : hasRayshiftScript ? "rayshift" : undefined}
+                scriptSource={useRayshiftScript ? "rayshift" : undefined}
             >
                 <ButtonGroup className="my-3 mx-0">
                     {hasDialogueLines ? (

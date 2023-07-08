@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Region, Script } from "@atlasacademy/api-connector";
 
+import { ScriptSource } from "../../Component/Script";
 import { flatten } from "../../Helper/PolyFill";
 import useNavigationScripts from "../../Hooks/useNavigationScripts";
 import { QuestListComponent } from "./ScriptMainData.components";
@@ -16,11 +17,15 @@ const ScriptMainData = ({
     scriptData,
     wordCount,
     children,
+    scriptSource,
+    goToScriptVersion,
 }: {
     region: Region;
     scriptData: Script.Script;
     wordCount: number;
     children?: React.ReactNode;
+    scriptSource?: ScriptSource;
+    goToScriptVersion?: ScriptSource;
 }) => {
     const { scriptId } = scriptData,
         { t } = useTranslation();
@@ -49,6 +54,7 @@ const ScriptMainData = ({
                 nextScript={nextScript}
                 firstScriptInWar={firstScriptInWar}
                 lastScriptInWar={lastScriptInWar}
+                scriptSource={scriptSource}
             />
         );
 
@@ -71,6 +77,16 @@ const ScriptMainData = ({
             break;
     }
 
+    let scriptVersionLink = undefined;
+    switch (goToScriptVersion) {
+        case "original":
+            scriptVersionLink = `/${region}/script/${scriptId}`;
+            break;
+        case "rayshift":
+            scriptVersionLink = `/${region}/script/${scriptId}?scriptSource=${goToScriptVersion}`;
+            break;
+    }
+
     return (
         <>
             <Table bordered hover responsive className="data-table script-data">
@@ -83,6 +99,14 @@ const ScriptMainData = ({
                         </td>
                     </tr>
                     {questList}
+                    {scriptVersionLink && (
+                        <tr>
+                            <th>{t("Other version")}</th>
+                            <td colSpan={3}>
+                                <Link to={scriptVersionLink}>{goToScriptVersion}</Link>
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
             </Table>
             {children}
