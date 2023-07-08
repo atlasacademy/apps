@@ -54,7 +54,13 @@ class ItemIcon extends React.Component<IProps> {
                     src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
                 />
                 <img alt={"Item icon background"} className={"item-icon-bg"} src={bg} />
-                <img alt={this.props.item.name} className={"item-icon-image"} src={this.props.item.icon} />
+                <img
+                    alt={this.props.item.name}
+                    className={"item-icon-image"}
+                    src={this.props.item.icon}
+                    width={128}
+                    height={128}
+                />
                 {this.getQuantity()}
             </span>
         );
