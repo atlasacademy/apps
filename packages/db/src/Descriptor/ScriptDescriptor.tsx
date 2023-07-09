@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { Region } from "@atlasacademy/api-connector";
 
-import { ScriptSource } from "../Component/Script";
+import { CompareRegion, ScriptSource } from "../Component/Script";
 import { lang } from "../Setting/Manager";
 
 const getOrder = (scriptId: string) => {
@@ -46,18 +46,26 @@ export const getScriptType = (scriptId: string) => {
     }
 };
 
+export const getScriptQueryString = (scriptSource?: ScriptSource, compareSource?: CompareRegion) => {
+    const scriptQuery = new URLSearchParams();
+    if (scriptSource && scriptSource !== "original") scriptQuery.set("scriptSource", scriptSource);
+    if (compareSource) scriptQuery.set("compareSource", compareSource);
+
+    return scriptQuery.toString() ? `?${scriptQuery}` : "";
+};
+
 const ScriptDescriptor = (props: {
     region: Region;
     scriptId: string;
     scriptName?: string;
     scriptType?: string;
     scriptSource?: ScriptSource;
+    compareSource?: CompareRegion;
 }) => {
     const defaultScriptType = getScriptType(props.scriptId),
         scriptName =
             props.scriptName === undefined ? props.scriptId : <span lang={lang(props.region)}>{props.scriptName}</span>,
-        scriptSourceQuery =
-            props.scriptSource && props.scriptSource !== "original" ? `?scriptSource=${props.scriptSource}` : "";
+        scriptSourceQuery = getScriptQueryString(props.scriptSource, props.compareSource);
     if (props.scriptType === "") {
         return <Link to={`/${props.region}/script/${props.scriptId}${scriptSourceQuery}`}>{scriptName}</Link>;
     }

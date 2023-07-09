@@ -211,7 +211,7 @@ export const VoiceSubtitleFormat = ({ region, inputString }: { region: Region; i
     return (
         <>
             {components.map((component, i) => (
-                <DialogueChild key={i} component={component} index={i} />
+                <DialogueChild key={i} region={region} component={component} index={i} />
             ))}
         </>
     );

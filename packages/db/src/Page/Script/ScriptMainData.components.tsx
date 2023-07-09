@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Quest, Region, Script } from "@atlasacademy/api-connector";
 
-import { ScriptSource } from "../../Component/Script";
+import { CompareRegion, ScriptSource } from "../../Component/Script";
 import { QuestDescriptionNoApi } from "../../Descriptor/QuestDescriptor";
 import ScriptDescriptor, { getScriptType } from "../../Descriptor/ScriptDescriptor";
 import { lang } from "../../Setting/Manager";
@@ -37,6 +37,7 @@ interface questListComponentProps {
     firstScriptInWar?: boolean;
     lastScriptInWar?: boolean;
     scriptSource?: ScriptSource;
+    compareSource?: CompareRegion;
 }
 
 export const QuestListComponent = ({
@@ -49,6 +50,7 @@ export const QuestListComponent = ({
     firstScriptInWar,
     lastScriptInWar,
     scriptSource,
+    compareSource,
 }: questListComponentProps): JSX.Element => {
     const { t } = useTranslation();
     return (
@@ -94,6 +96,7 @@ export const QuestListComponent = ({
                             scriptId={previousScript}
                             scriptType=""
                             scriptSource={scriptSource}
+                            compareSource={compareSource}
                         />
                     )}
                 </td>
@@ -107,6 +110,7 @@ export const QuestListComponent = ({
                             scriptId={nextScript}
                             scriptType=""
                             scriptSource={scriptSource}
+                            compareSource={compareSource}
                         />
                     )}
                 </td>

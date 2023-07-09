@@ -1,8 +1,8 @@
 import axios from "axios";
 import { createRef, useEffect, useState } from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup, Dropdown, DropdownButton } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { Region, Script } from "@atlasacademy/api-connector";
 
@@ -11,6 +11,7 @@ import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import {
+    CompareRegion,
     ScriptComponent,
     ScriptComponentType,
     ScriptComponentWrapper,
@@ -49,6 +50,16 @@ const getRayshiftScriptCheckURL = (scriptId: string) => {
     return `https://rayshift.io/api/v1/translate/check-ingame/${scriptId}`;
 };
 
+const getRegion = (queryData: string | null): CompareRegion | undefined => {
+    if (Object.values(Region).includes(queryData as Region)) {
+        return queryData as Region;
+    }
+
+    if (queryData === "rayshift") return "rayshift";
+
+    return undefined;
+};
+
 interface ScriptLoadStatus extends LoadStatus<Script.Script> {
     script?: string;
 }
@@ -56,7 +67,8 @@ interface ScriptLoadStatus extends LoadStatus<Script.Script> {
 const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) => {
     const location = useLocation(),
         searchParams = new URLSearchParams(location.search),
-        useRayshiftScript = searchParams.get("scriptSource") === "rayshift";
+        useRayshiftScript = searchParams.get("scriptSource") === "rayshift",
+        compareSource = getRegion(searchParams.get("compareSource"));
 
     const showScriptLine = Manager.showScriptLine();
     const [enableScene, setEnableScene] = useState<boolean>(Manager.scriptSceneEnabled());
@@ -64,6 +76,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
         loading: true,
     });
     const [hasRayshiftScript, setHasRayshiftScript] = useState<boolean>(false);
+    const [compareScript, setCompareScript] = useState<string | undefined>(undefined);
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -110,6 +123,31 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
             controller.abort();
         };
     }, [region, scriptId, useRayshiftScript]);
+
+    useEffect(() => {
+        if (compareSource === undefined) return;
+        setLoadStatus({ loading: true });
+        const controller = new AbortController();
+
+        const rawScriptURL =
+            compareSource === "rayshift"
+                ? getRayshiftScriptAssetURL(scriptId)
+                : getScriptAssetURL(compareSource, scriptId);
+
+        axios
+            .get<string>(rawScriptURL, { timeout: 10000 })
+            .then((rawScript) => {
+                if (controller.signal.aborted) return;
+                if (rawScript.status === 200) setCompareScript(rawScript.data);
+            })
+            .catch(() => {
+                if (controller.signal.aborted) return;
+                setLoadStatus({ loading: false });
+            });
+        return () => {
+            controller.abort();
+        };
+    }, [compareSource, scriptId]);
 
     if (error !== undefined) return <ErrorStatus error={error} />;
 
@@ -174,6 +212,11 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
     }
     showRawData.set("ALL_COMPONENTS", parsedScript.components);
 
+    const availableCompareRegions: ("none" | CompareRegion)[] = (["none"] as ("none" | CompareRegion)[]).concat(
+        Object.values(Region).filter((r) => r !== region)
+    );
+    if (hasRayshiftScript) availableCompareRegions.push("rayshift");
+
     return (
         <>
             <h1>
@@ -189,6 +232,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                 )}
                 goToScriptVersion={useRayshiftScript ? "original" : hasRayshiftScript ? "rayshift" : undefined}
                 scriptSource={useRayshiftScript ? "rayshift" : undefined}
+                compareSource={compareSource}
             >
                 <ButtonGroup className="my-3 mx-0">
                     {hasDialogueLines ? (
@@ -218,9 +262,38 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                         block={false}
                         url={getScriptAssetURL(region, scriptId)}
                     />
+                    <DropdownButton as={ButtonGroup} id="compare-dropdown" title="Compare script">
+                        {availableCompareRegions.map((r) => (
+                            <Dropdown.Item
+                                key={r}
+                                eventKey={r}
+                                as={Link}
+                                to={`/${region}/script/${scriptId}${r === "none" ? "" : `?compareSource=${r}`}`}
+                                active={compareSource === r || (compareSource === undefined && r === "none")}
+                            >
+                                {r === "none" ? "None" : r === "rayshift" ? t("Rayshift (Unofficial translation)") : r}
+                            </Dropdown.Item>
+                        ))}
+                    </DropdownButton>
                 </ButtonGroup>
                 <ShowScriptLineContext.Provider value={showScriptLine}>
-                    <ScriptTable region={region} script={parsedScript} showScene={enableScene} refs={scrollRefs} />
+                    <ScriptTable
+                        region={region}
+                        script={parsedScript}
+                        showScene={enableScene}
+                        refs={scrollRefs}
+                        compareScript={
+                            compareSource !== undefined && compareScript !== undefined
+                                ? {
+                                      region: compareSource === "rayshift" ? Region.NA : compareSource,
+                                      script: parseScript(
+                                          compareSource === "rayshift" ? Region.NA : compareSource,
+                                          compareScript
+                                      ),
+                                  }
+                                : undefined
+                        }
+                    />
                 </ShowScriptLineContext.Provider>
             </ScriptMainData>
         </>

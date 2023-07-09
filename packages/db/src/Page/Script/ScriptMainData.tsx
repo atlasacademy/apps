@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 import { Region, Script } from "@atlasacademy/api-connector";
 
-import { ScriptSource } from "../../Component/Script";
+import { CompareRegion, ScriptSource } from "../../Component/Script";
+import { getScriptQueryString } from "../../Descriptor/ScriptDescriptor";
 import { flatten } from "../../Helper/PolyFill";
 import useNavigationScripts from "../../Hooks/useNavigationScripts";
 import { QuestListComponent } from "./ScriptMainData.components";
@@ -19,6 +20,7 @@ const ScriptMainData = ({
     children,
     scriptSource,
     goToScriptVersion,
+    compareSource,
 }: {
     region: Region;
     scriptData: Script.Script;
@@ -26,6 +28,7 @@ const ScriptMainData = ({
     children?: React.ReactNode;
     scriptSource?: ScriptSource;
     goToScriptVersion?: ScriptSource;
+    compareSource?: CompareRegion;
 }) => {
     const { scriptId } = scriptData,
         { t } = useTranslation();
@@ -55,6 +58,7 @@ const ScriptMainData = ({
                 firstScriptInWar={firstScriptInWar}
                 lastScriptInWar={lastScriptInWar}
                 scriptSource={scriptSource}
+                compareSource={compareSource}
             />
         );
 
@@ -90,7 +94,7 @@ const ScriptMainData = ({
             break;
     }
 
-    const scriptSourceQuery = scriptSource && scriptSource !== "original" ? `?scriptSource=${scriptSource}` : "";
+    const scriptQueryString = getScriptQueryString(scriptSource, compareSource);
 
     return (
         <>
@@ -123,7 +127,7 @@ const ScriptMainData = ({
                                 className="w-100 mb-2"
                                 variant="light"
                                 as={Link}
-                                to={`/${region}/script/${previousScript}${scriptSourceQuery}`}
+                                to={`/${region}/script/${previousScript}${scriptQueryString}`}
                             >
                                 {t("Previous Script")}: {previousScript}
                             </Button>
@@ -135,7 +139,7 @@ const ScriptMainData = ({
                                 className="w-100"
                                 variant="light"
                                 as={Link}
-                                to={`/${region}/script/${nextScript}${scriptSourceQuery}`}
+                                to={`/${region}/script/${nextScript}${scriptQueryString}`}
                             >
                                 {t("Next Script")}: {nextScript}
                             </Button>

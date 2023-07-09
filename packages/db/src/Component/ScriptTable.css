@@ -1,0 +1,14 @@
+.script-table tr th:first-child {
+    max-width: 20%;
+}
+
+.script-table tr td:first-child {
+    max-width: 20%;
+}
+
+.script-table .main-dialogue,
+.script-table .compare-dialogue,
+.script-table .main-choice,
+.script-table .compare-choice {
+    width: 40%;
+}

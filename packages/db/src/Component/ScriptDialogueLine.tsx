@@ -3,7 +3,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Region } from "@atlasacademy/api-connector";
 
 import { FGOText } from "../Helper/StringHelper";
-import Manager, { lang } from "../Setting/Manager";
+import { lang } from "../Setting/Manager";
 import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";
 import { useImageSize } from "./ScriptTable";
 
@@ -29,17 +29,24 @@ const DialogueBasicContainer = ({
     return spanText;
 };
 
-const DialogueBasicContent = (props: { component: DialogueBasicComponent; index?: number }) => {
-    const { component } = props;
+const DialogueBasicContent = ({
+    region,
+    component,
+    index,
+}: {
+    region: Region;
+    component: DialogueBasicComponent;
+    index?: number;
+}) => {
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_NEW_LINE:
-            if (props.index !== 0) {
+            if (index !== 0) {
                 return <br />;
             } else {
                 return null;
             }
         case ScriptComponentType.DIALOGUE_PLAYER_NAME:
-            switch (Manager.region()) {
+            switch (region) {
                 case Region.JP:
                     return <>藤丸</>;
                 case Region.NA:
@@ -111,17 +118,19 @@ const DialogueBasicContent = (props: { component: DialogueBasicComponent; index?
 };
 
 const DialogueBasic = ({
+    region,
     component,
     index,
     wideScreen,
 }: {
+    region: Region;
     component: DialogueBasicComponent;
     index?: number;
     wideScreen?: boolean;
 }) => {
     return (
         <DialogueBasicContainer component={component} wideScreen={wideScreen}>
-            <DialogueBasicContent component={component} index={index}></DialogueBasicContent>
+            <DialogueBasicContent region={region} component={component} index={index}></DialogueBasicContent>
         </DialogueBasicContainer>
     );
 };
@@ -160,10 +169,12 @@ const dialogueBasicHasContent = (components: DialogueBasicComponent[]) => {
 };
 
 export const DialogueChild = ({
+    region,
     component,
     index,
     wideScreen,
 }: {
+    region: Region;
     component: DialogueChildComponent;
     index?: number;
     wideScreen?: boolean;
@@ -171,11 +182,11 @@ export const DialogueChild = ({
     switch (component.type) {
         case ScriptComponentType.DIALOGUE_GENDER:
             const maleComponents = component.male.map((component, i) => (
-                <DialogueBasic key={i} component={component} wideScreen={wideScreen} />
+                <DialogueBasic key={i} region={region} component={component} wideScreen={wideScreen} />
             ));
             if (dialogueBasicHasContent(component.female)) {
                 const femaleComponents = component.female.map((component, i) => (
-                    <DialogueBasic key={i} component={component} wideScreen={wideScreen} />
+                    <DialogueBasic key={i} region={region} component={component} wideScreen={wideScreen} />
                 ));
 
                 return <DialoguePopover tooltipComponent={femaleComponents}>{maleComponents}</DialoguePopover>;
@@ -188,17 +199,23 @@ export const DialogueChild = ({
         case ScriptComponentType.DIALOGUE_RUBY:
         case ScriptComponentType.DIALOGUE_TEXT:
         case ScriptComponentType.DIALOGUE_TEXT_IMAGE:
-            return <DialogueBasic component={component} index={index} wideScreen={wideScreen} />;
+            return <DialogueBasic region={region} component={component} index={index} wideScreen={wideScreen} />;
         default:
             return null;
     }
 };
 
-const ScriptDialogueLine = (props: { components: DialogueChildComponent[]; wideScreen?: boolean }) => {
+const ScriptDialogueLine = (props: { region: Region; components: DialogueChildComponent[]; wideScreen?: boolean }) => {
     return (
         <>
             {props.components.map((component, i) => (
-                <DialogueChild key={i} component={component} index={i} wideScreen={props.wideScreen} />
+                <DialogueChild
+                    key={i}
+                    region={props.region}
+                    component={component}
+                    index={i}
+                    wideScreen={props.wideScreen}
+                />
             ))}
         </>
     );

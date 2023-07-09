@@ -24,6 +24,8 @@ import {
     ScriptCharaMove,
     ScriptChoiceRouteInfo,
     ScriptChoiceRouteType,
+    ScriptChoices,
+    ScriptComponent,
     ScriptComponentType,
     ScriptComponentWrapper,
     ScriptDialogue,
@@ -31,6 +33,8 @@ import {
     ScriptPictureFrame,
 } from "./Script";
 import ScriptDialogueLine from "./ScriptDialogueLine";
+
+import "./ScriptTable.css";
 
 type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>>;
 type ScriptOffsets = { charaGraphId: number; y?: number };
@@ -41,17 +45,36 @@ const DialogueRow = (props: {
     refs: RowBgmRefMap;
     lineNumber?: number;
     wideScreen?: boolean;
+    compareRegion?: Region;
+    compareMap?: Map<number, ScriptComponent>;
 }) => {
+    const { compareRegion } = props;
     const showScriptLine = useContext(ShowScriptLineContext);
+    const compareComponent = props.compareMap?.get(props.lineNumber ?? -1);
+    const hasCompareComponent =
+        compareRegion !== undefined &&
+        compareComponent !== undefined &&
+        compareComponent.type === ScriptComponentType.DIALOGUE;
+
     return (
         <tr ref={props.refs.get(props.dialogue.voice?.audioAsset ?? props.dialogue.maleVoice?.audioAsset)}>
             <td>
                 <ScriptDialogueLine
+                    region={props.region}
                     components={props.dialogue.speaker?.components ?? []}
                     wideScreen={props.wideScreen}
                 />
+                {hasCompareComponent && (
+                    <div lang={lang(compareRegion)}>
+                        <ScriptDialogueLine
+                            region={compareRegion}
+                            components={compareComponent.speaker?.components ?? []}
+                            wideScreen={props.wideScreen}
+                        />
+                    </div>
+                )}
             </td>
-            <td>
+            <td className={`${hasCompareComponent ? "main-dialogue" : ""}`}>
                 {props.dialogue.voice && (
                     <BgmDescriptor region={props.region} bgm={props.dialogue.voice} className="d-block" />
                 )}
@@ -66,8 +89,21 @@ const DialogueRow = (props: {
                         <BgmDescriptor region={props.region} bgm={props.dialogue.femaleVoice} showName="Female" />
                     </div>
                 )}
-                <ScriptDialogueLine components={flatten(props.dialogue.components)} wideScreen={props.wideScreen} />
+                <ScriptDialogueLine
+                    region={props.region}
+                    components={flatten(props.dialogue.components)}
+                    wideScreen={props.wideScreen}
+                />
             </td>
+            {hasCompareComponent && (
+                <td lang={lang(props.compareRegion)} className="compare-dialogue">
+                    <ScriptDialogueLine
+                        region={compareRegion}
+                        components={flatten(compareComponent.components)}
+                        wideScreen={props.wideScreen}
+                    />
+                </td>
+            )}
             {showScriptLine && <td>{props.lineNumber}</td>}
         </tr>
     );
@@ -112,6 +148,73 @@ const ChoiceComponentsTable = (props: {
     );
 };
 
+const ChoiceRow = ({
+    region,
+    component,
+    refs,
+    lineNumber,
+    wideScreen,
+    compareRegion,
+    compareMap,
+}: {
+    region: Region;
+    component: ScriptChoices;
+    refs: RowBgmRefMap;
+    lineNumber?: number;
+    wideScreen?: boolean;
+    compareRegion?: Region;
+    compareMap?: Map<number, ScriptComponent>;
+}) => {
+    const { t } = useTranslation();
+    const showScriptLine = useContext(ShowScriptLineContext);
+    const compareComponent = compareMap?.get(lineNumber ?? -1);
+    const hasCompareComponent =
+        compareRegion !== undefined &&
+        compareComponent !== undefined &&
+        compareComponent.type === ScriptComponentType.CHOICES;
+
+    return (
+        <tr>
+            <td>{t("Choices")}</td>
+            <td className={`${hasCompareComponent ? "main-choice" : ""}`}>
+                <ul className="mb-0">
+                    {component.choices.map((choice) => (
+                        <li key={choice.id}>
+                            <ChoiceRouteInfo routeInfo={choice.routeInfo} />
+                            <ScriptDialogueLine region={region} components={choice.option} />
+                            <ChoiceComponentsTable
+                                region={region}
+                                choiceComponents={choice.results}
+                                refs={refs}
+                                wideScreen={wideScreen}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </td>
+            {showScriptLine && <td>{lineNumber}</td>}
+            {hasCompareComponent && (
+                <td lang={lang(compareRegion)} className="compare-choice">
+                    <ul className="mb-0">
+                        {compareComponent.choices.map((choice) => (
+                            <li key={choice.id}>
+                                <ChoiceRouteInfo routeInfo={choice.routeInfo} />
+                                <ScriptDialogueLine region={compareRegion} components={choice.option} />
+                                <ChoiceComponentsTable
+                                    region={compareRegion}
+                                    choiceComponents={choice.results}
+                                    refs={refs}
+                                    wideScreen={wideScreen}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                </td>
+            )}
+        </tr>
+    );
+};
+
 const getSceneScale = (windowWidth: number, windowHeight: number, wideScreen: boolean) => {
     if (wideScreen) {
         if (windowWidth < 768) {
@@ -147,6 +250,7 @@ const SceneRow = (props: {
     cameraFilter: CameraFilterType;
     effects?: string[];
     filters: { content: ScriptCharaFilter; lineNumber?: number }[];
+    colSpan?: number;
 }) => {
     const { lineNumber, cameraFilter, effects, wideScreen } = props,
         { t } = useTranslation(),
@@ -231,7 +335,7 @@ const SceneRow = (props: {
         return (
             <tr>
                 <td />
-                <td>
+                <td colSpan={props.colSpan}>
                     <Scene
                         background={
                             props.charaFadeIn.assetSet?.type === ScriptComponentType.SCENE_SET
@@ -287,7 +391,7 @@ const SceneRow = (props: {
     return (
         <tr>
             <td />
-            <td>
+            <td colSpan={props.colSpan}>
                 <Scene
                     background={background}
                     foreground={foreground}
@@ -355,8 +459,9 @@ const ScriptBracketRow = (props: {
     refs: RowBgmRefMap;
     lineNumber?: number;
     wideScreen?: boolean;
+    colSpan?: number;
 }) => {
-    const { region, component, refs, lineNumber, wideScreen } = props,
+    const { region, component, refs, lineNumber, wideScreen, colSpan } = props,
         { windowWidth } = useWindowDimensions(),
         showScriptLine = useContext(ShowScriptLineContext),
         { t } = useTranslation();
@@ -384,7 +489,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr ref={refs.get(component.bgm.audioAsset)}>
                     <td>{t("BGM")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         <BgmDescriptor region={region} bgm={component.bgm} />
                     </td>
                     {showScriptLine && <td>{lineNumber}</td>}
@@ -394,7 +499,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr>
                     <td>{t("Movie")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         <video controls preload="none" width={getVideoWidth(windowWidth, wideScreen)}>
                             <source src={component.movieUrl} type="video/mp4" />
                         </video>
@@ -406,7 +511,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr ref={refs.get(component.soundEffect.audioAsset)}>
                     <td>{t("Sound Effect")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         <BgmDescriptor region={region} bgm={component.soundEffect} />
                     </td>
                     {showScriptLine && <td>{lineNumber}</td>}
@@ -416,7 +521,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr ref={refs.get(component.soundEffect.audioAsset)}>
                     <td>{t("Sound Effect")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         <BgmDescriptor region={region} bgm={component.soundEffect} />
                     </td>
                     {showScriptLine && <td>{lineNumber}</td>}
@@ -426,7 +531,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr>
                     <td>{t("Flag")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         Set flag <code>{component.name}</code> to <code>{component.value}</code>
                     </td>
                     {showScriptLine && <td>{lineNumber}</td>}
@@ -443,7 +548,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr>
                     <td>{t("Branch")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         Go to label <code>{component.labelName}</code>
                         {condition} {getGoToLabel(component.labelName)}
                     </td>
@@ -454,7 +559,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr>
                     <td>{t("Branch")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         Go to label <code>{component.labelName}</code> if quest{" "}
                         <QuestDescriptor region={region} questId={component.questId} /> hasn't been cleared{" "}
                         {getGoToLabel(component.labelName)}
@@ -466,7 +571,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr>
                     <td>{t("Branch")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         Go to label <code>{component.maleLabelName}</code> {getGoToLabel(component.maleLabelName)} if
                         chosen gender is male or <code>{component.femaleLabelName}</code>{" "}
                         {getGoToLabel(component.femaleLabelName)} if female
@@ -478,7 +583,7 @@ const ScriptBracketRow = (props: {
             return (
                 <tr ref={refs.get(component.name)}>
                     <td>{t("Label")}</td>
-                    <td>
+                    <td colSpan={colSpan}>
                         <code>{component.name}</code>
                     </td>
                     {showScriptLine && <td>{lineNumber}</td>}
@@ -504,11 +609,11 @@ const ScriptRow = (props: {
     wrapper: ScriptComponentWrapper;
     refs: RowBgmRefMap;
     wideScreen?: boolean;
+    compareRegion?: Region;
+    compareMap?: Map<number, ScriptComponent>;
 }) => {
-    const { region, wrapper, refs, wideScreen } = props;
+    const { region, wrapper, refs, wideScreen, compareRegion, compareMap } = props;
     const { content: component, lineNumber } = wrapper;
-    const showScriptLine = useContext(ShowScriptLineContext);
-    const { t } = useTranslation();
 
     switch (component.type) {
         case ScriptComponentType.DIALOGUE:
@@ -519,30 +624,21 @@ const ScriptRow = (props: {
                     refs={refs}
                     lineNumber={lineNumber}
                     wideScreen={wideScreen}
+                    compareRegion={compareRegion}
+                    compareMap={compareMap}
                 />
             );
         case ScriptComponentType.CHOICES:
             return (
-                <tr>
-                    <td>{t("Choices")}</td>
-                    <td>
-                        <ul className="mb-0">
-                            {component.choices.map((choice) => (
-                                <li key={choice.id}>
-                                    <ChoiceRouteInfo routeInfo={choice.routeInfo} />
-                                    <ScriptDialogueLine components={choice.option} />
-                                    <ChoiceComponentsTable
-                                        region={region}
-                                        choiceComponents={choice.results}
-                                        refs={refs}
-                                        wideScreen={wideScreen}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                    </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
-                </tr>
+                <ChoiceRow
+                    region={region}
+                    component={component}
+                    refs={refs}
+                    lineNumber={lineNumber}
+                    wideScreen={wideScreen}
+                    compareRegion={compareRegion}
+                    compareMap={compareMap}
+                />
             );
         default:
             return (
@@ -552,14 +648,30 @@ const ScriptRow = (props: {
                     refs={refs}
                     lineNumber={lineNumber}
                     wideScreen={wideScreen}
+                    colSpan={props.compareMap !== undefined ? 2 : undefined}
                 />
             );
     }
 };
 
-const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: boolean; refs: RowBgmRefMap }) => {
+const ScriptTable = (props: {
+    region: Region;
+    script: ScriptInfo;
+    showScene?: boolean;
+    refs: RowBgmRefMap;
+    compareScript?: { region: Region; script: ScriptInfo };
+}) => {
     const scriptComponents = props.script.components,
-        { t } = useTranslation();
+        { t } = useTranslation(),
+        compareMap =
+            props.compareScript !== undefined
+                ? (new Map(
+                      props.compareScript.script.components
+                          .filter((c) => c.lineNumber !== undefined)
+                          .map((c) => [c.lineNumber, c.content])
+                  ) as Map<number, ScriptComponent>)
+                : undefined,
+        colSpan = compareMap !== undefined ? 2 : undefined;
 
     let backgroundComponent: ScriptBackground | undefined,
         figureComponent: ScriptCharaFace | ScriptCharaFaceFade | undefined,
@@ -585,13 +697,15 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
     }
 
     return (
-        <Table hover responsive>
+        <Table hover responsive className="script-table">
             <thead>
                 <tr>
                     <th className="text-center" style={{ width: "10%" }}>
                         {t("Speaker")}
                     </th>
-                    <th className="text-center">{t("Text")}</th>
+                    <th className="text-center" colSpan={colSpan}>
+                        {t("Text")}
+                    </th>
                     {showScriptLine && <th className="text-center">{t("Line")}</th>}
                 </tr>
             </thead>
@@ -612,6 +726,7 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 wideScreen={wideScreen}
                                 lineNumber={lineNumber}
                                 effects={[...effects]}
+                                colSpan={colSpan}
                             />
                         );
 
@@ -754,6 +869,8 @@ const ScriptTable = (props: { region: Region; script: ScriptInfo; showScene?: bo
                                 wrapper={component}
                                 refs={props.refs}
                                 wideScreen={wideScreen}
+                                compareRegion={props.compareScript?.region}
+                                compareMap={compareMap}
                             />
                         </React.Fragment>
                     );

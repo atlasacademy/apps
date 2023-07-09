@@ -6,6 +6,8 @@ import { splitString } from "../Helper/StringHelper";
 
 export type ScriptSource = "original" | "rayshift";
 
+export type CompareRegion = Region | "rayshift";
+
 export enum ScriptComponentType {
     UNPARSED = "UNPARSED",
     ENABLE_FULL_SCREEN = "ENABLE_FULL_SCREEN",
