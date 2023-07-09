@@ -87,6 +87,8 @@ const ScriptMainData = ({
             break;
     }
 
+    const scriptSourceQuery = scriptSource && scriptSource !== "original" ? `?scriptSource=${scriptSource}` : "";
+
     return (
         <>
             <Table bordered hover responsive className="data-table script-data">
@@ -118,7 +120,7 @@ const ScriptMainData = ({
                                 className="w-100 mb-2"
                                 variant="light"
                                 as={Link}
-                                to={`/${region}/script/${previousScript}`}
+                                to={`/${region}/script/${previousScript}${scriptSourceQuery}`}
                             >
                                 {t("Previous Script")}: {previousScript}
                             </Button>
@@ -126,7 +128,12 @@ const ScriptMainData = ({
                     </Col>
                     <Col xs={12} sm="auto" className="ml-auto">
                         {nextScript === undefined ? null : (
-                            <Button className="w-100" variant="light" as={Link} to={`/${region}/script/${nextScript}`}>
+                            <Button
+                                className="w-100"
+                                variant="light"
+                                as={Link}
+                                to={`/${region}/script/${nextScript}${scriptSourceQuery}`}
+                            >
                                 {t("Next Script")}: {nextScript}
                             </Button>
                         )}
