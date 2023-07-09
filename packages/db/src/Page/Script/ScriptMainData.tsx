@@ -77,13 +77,16 @@ const ScriptMainData = ({
             break;
     }
 
-    let scriptVersionLink = undefined;
+    let goToScriptVersionLink = undefined,
+        goToScriptVersionDesc = undefined;
     switch (goToScriptVersion) {
         case "original":
-            scriptVersionLink = `/${region}/script/${scriptId}`;
+            goToScriptVersionLink = `/${region}/script/${scriptId}`;
+            goToScriptVersionDesc = t("Original");
             break;
         case "rayshift":
-            scriptVersionLink = `/${region}/script/${scriptId}?scriptSource=${goToScriptVersion}`;
+            goToScriptVersionLink = `/${region}/script/${scriptId}?scriptSource=${goToScriptVersion}`;
+            goToScriptVersionDesc = t("Rayshift (Unofficial translation)");
             break;
     }
 
@@ -101,11 +104,11 @@ const ScriptMainData = ({
                         </td>
                     </tr>
                     {questList}
-                    {scriptVersionLink && (
+                    {goToScriptVersionLink && (
                         <tr>
                             <th>{t("Other version")}</th>
                             <td colSpan={3}>
-                                <Link to={scriptVersionLink}>{goToScriptVersion}</Link>
+                                <Link to={goToScriptVersionLink}>{goToScriptVersionDesc}</Link>
                             </td>
                         </tr>
                     )}
