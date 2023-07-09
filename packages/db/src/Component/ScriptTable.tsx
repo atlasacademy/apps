@@ -192,7 +192,6 @@ const ChoiceRow = ({
                     ))}
                 </ul>
             </td>
-            {showScriptLine && <td>{lineNumber}</td>}
             {hasCompareComponent && (
                 <td lang={lang(compareRegion)} className="compare-choice">
                     <ul className="mb-0">
@@ -211,6 +210,7 @@ const ChoiceRow = ({
                     </ul>
                 </td>
             )}
+            {showScriptLine && <td>{lineNumber}</td>}
         </tr>
     );
 };

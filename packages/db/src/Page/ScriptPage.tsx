@@ -106,7 +106,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
     useEffect(() => {
         const controller = new AbortController();
 
-        if (region === Region.JP && !useRayshiftScript) {
+        if ((region === Region.JP || region === Region.NA) && !useRayshiftScript) {
             axios
                 .head(getRayshiftScriptCheckURL(scriptId), { timeout: 10000 })
                 .then((r) => {
