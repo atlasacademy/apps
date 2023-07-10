@@ -298,7 +298,12 @@ const QuestTable = (props: {
     );
 };
 
-const MainQuests = (props: { region: Region; spots: War.Spot[]; itemMap: Map<number, Item.Item> }) => {
+const MainQuests = (props: {
+    region: Region;
+    spots: War.Spot[];
+    itemMap: Map<number, Item.Item>;
+    heelPortraits?: Map<number, Event.EventHeelPortrait>;
+}) => {
     const { t } = useTranslation();
     let mainQuests = [] as { quest: Quest.Quest; spot: War.Spot }[];
     for (let spot of props.spots) {
@@ -320,6 +325,7 @@ const MainQuests = (props: { region: Region; spots: War.Spot[]; itemMap: Map<num
             itemMap={props.itemMap}
             spots={mainQuests.map((quest) => quest.spot)}
             showSection={true}
+            heelPortraits={props.heelPortraits}
         />
     );
 
@@ -593,6 +599,11 @@ class WarPage extends React.Component<IProps, IState> {
                 <Link to={`/${this.props.region}/script/${war.scriptId}`}>{war.scriptId}</Link>
             );
 
+        const heelPortraits =
+            this.state.event && this.state.event.heelPortraits
+                ? new Map(this.state.event.heelPortraits.map((heel) => [heel.id, heel]))
+                : undefined;
+
         return (
             <div>
                 <h1 className="text-prewrap mb-3" lang={lang(this.props.region)}>
@@ -659,7 +670,12 @@ class WarPage extends React.Component<IProps, IState> {
                     warId={war.id}
                     title={t("Maps")}
                 />
-                <MainQuests region={this.props.region} spots={war.spots} itemMap={this.state.itemCache} />
+                <MainQuests
+                    region={this.props.region}
+                    spots={war.spots}
+                    itemMap={this.state.itemCache}
+                    heelPortraits={heelPortraits}
+                />
                 {[
                     Quest.QuestType.FREE,
                     Quest.QuestType.EVENT,
@@ -685,11 +701,7 @@ class WarPage extends React.Component<IProps, IState> {
                                 filterQuest={questFilter}
                                 itemMap={this.state.itemCache}
                                 last={index === array.length - 1}
-                                heelPortraits={
-                                    this.state.event && this.state.event.heelPortraits
-                                        ? new Map(this.state.event.heelPortraits.map((heel) => [heel.id, heel]))
-                                        : undefined
-                                }
+                                heelPortraits={heelPortraits}
                             />
                         );
                     })}
