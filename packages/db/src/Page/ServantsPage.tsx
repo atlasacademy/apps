@@ -21,7 +21,7 @@ import Manager, { lang } from "../Setting/Manager";
 import "./ListingPage.css";
 import "./ServantsPage.css";
 
-const classFilters: ClassName[] = [
+export const classFilters: ClassName[] = [
         ClassName.SABER,
         ClassName.ARCHER,
         ClassName.LANCER,

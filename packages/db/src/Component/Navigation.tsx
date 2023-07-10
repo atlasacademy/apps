@@ -122,6 +122,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     <NavDropdownPage path="events" description={t("Events")} />
                                     <NavDropdownPage path="bgms" description={t("BGMs")} />
                                     <NavDropdownPage path="master-missions" description={t("Master Missions")} />
+                                    <NavDropdownPage path="classboard" description={t("Class Board")} />
                                 </NavDropdown>
                                 <NavDropdown title={t("Search")} id="dropdown-search">
                                     <NavDropdownPage path="entities" description={t("Entities")} />

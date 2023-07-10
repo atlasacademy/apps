@@ -16,7 +16,7 @@ import { flatten } from "../Helper/PolyFill";
 import { getEventStatus, getTimeString } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
 
-const MasterMissionCond = (props: {
+export const MasterMissionCond = (props: {
     region: Region;
     mission: Mission.Mission;
     missionMap: Map<number, Mission.Mission>;
