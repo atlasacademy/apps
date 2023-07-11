@@ -11,7 +11,6 @@ interface Props {
 }
 
 const ClassBoardPage: React.FC<Props> = ({ region }) => {
-
     useEffect(() => {
         Manager.setRegion(region)
     }, [region])
@@ -19,8 +18,8 @@ const ClassBoardPage: React.FC<Props> = ({ region }) => {
     return (
         <ClassBoardProvider region={region}>
             <ClassBoardNavigation />
-            <ClassBoardBreakdown />
             <ClassBoardMap />
+            <ClassBoardBreakdown />
         </ClassBoardProvider>
     )
 }

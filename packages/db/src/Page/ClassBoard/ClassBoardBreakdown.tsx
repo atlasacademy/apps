@@ -9,17 +9,19 @@ import Manager from "../../Setting/Manager";
 
 import "./ClassBoardBreakdown.css";
 import ClassBoardMission from "./ClassBoardMission";
+import { ClassBoard } from "@atlasacademy/api-connector";
 
-const ClassBoardBreakdown: React.FC = () => {
-    const { squareData } = useContext(ClassBoardContext);
-    const { currentSquare } = squareData
+interface PropsBreakdownTable {
+    currentSquare?: ClassBoard.ClassBoardSquare
+}
 
+const BreakdownTable: React.FC<PropsBreakdownTable> = ({ currentSquare }) => {
     if (!currentSquare) {
         return null;
     }
     
     return (
-        <Table striped borderless style={{ borderRadius: "1rem", overflow: "hidden" }} responsive>
+            <Table striped borderless style={{ marginTop: "1rem" }} responsive>
             <tbody>
                 <tr>
                     <td width="5%" rowSpan={2}>
@@ -95,6 +97,20 @@ const ClassBoardBreakdown: React.FC = () => {
             </tbody>
         </Table>
     );
+}
+
+const ClassBoardBreakdown: React.FC = () => {
+    const { squareData, states } = useContext(ClassBoardContext);
+    const { currentSquare, squares } = squareData
+    const { showAllSkills } = states
+
+    if (showAllSkills.show) {
+        return squares.map((currentSquare) => {
+            return <BreakdownTable currentSquare={currentSquare} />
+        })
+    }
+
+    return <BreakdownTable currentSquare={currentSquare} />
 };
 
 export default ClassBoardBreakdown;

@@ -13,12 +13,17 @@ interface ClassBoardContextProps {
 
     squareData: {
         currentSquare?: ClassBoard.ClassBoardSquare
+        squares: ClassBoard.ClassBoardSquare[]
         changeSquare: (square: ClassBoard.ClassBoardSquare) => void
     }
 
     missionData: {
         currentMissions: MasterMission.MasterMission[]
         loading: boolean
+    }
+
+    states: {
+        showAllSkills: { show: boolean, setShow: React.Dispatch<React.SetStateAction<boolean>> }
     }
 }
 
@@ -36,11 +41,15 @@ export const ClassBoardContext = createContext<ClassBoardContextProps>({
     },
     squareData: {
         changeSquare: () => {},
+        squares: [],
         currentSquare: undefined
     },
     missionData: {
         currentMissions: [],
         loading: false
+    },
+    states: {
+        showAllSkills: { show: false, setShow: () => {} }
     }
 })
 
@@ -50,6 +59,7 @@ export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children
 
     const [boardIndex, changeBoardIndexState] = useState(0)
     const [currentSquare, changeStateSquare] = useState<ClassBoard.ClassBoardSquare>()
+    const [showAllSkills, setShowAllSkills] = useState(false)
 
     const classBoards = classBoardList.data || []
     const classBoard = classBoards[boardIndex] || undefined
@@ -64,10 +74,12 @@ export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children
         loading: classBoardList.loading,
         classBoard
     }
+    
 
     const squareData = {
         changeSquare,
-        currentSquare
+        currentSquare,
+        squares: classBoard?.squares || []
     }
 
     const missionData = {
@@ -75,8 +87,12 @@ export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children
         loading: masterMissions.loading
     }
 
+    const states = {
+        showAllSkills: { show: showAllSkills, setShow: setShowAllSkills }
+    }
+
     return (
-        <ClassBoardContext.Provider value={{ classBoardData, missionData, squareData }}>
+        <ClassBoardContext.Provider value={{ classBoardData, missionData, squareData, states }}>
             {children}
         </ClassBoardContext.Provider>
     )
