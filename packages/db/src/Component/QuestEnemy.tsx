@@ -1,4 +1,4 @@
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faPhone, faShieldHeart, faSkull, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import quantile from "@stdlib/stats-base-dists-t-quantile";
 import { Alert, Button, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
@@ -94,6 +94,21 @@ function describeMultipleSkills(region: Region, skills: Skill.Skill[]) {
     return mergeElements(skillDescriptions, <br />);
 }
 
+const DeckTypeDescriptor = ({ deckType }: { deckType: QuestEnemy.DeckType }) => {
+    switch (deckType) {
+        case QuestEnemy.DeckType.ENEMY:
+            return <FontAwesomeIcon icon={faSkull} title="Enemy Deck" />;
+        case QuestEnemy.DeckType.SHIFT:
+            return <FontAwesomeIcon icon={faShieldHeart} title="Shift Deck" />;
+        case QuestEnemy.DeckType.TRANSFORM:
+            return <FontAwesomeIcon icon={faWandMagicSparkles} title="Transform Deck" />;
+        case QuestEnemy.DeckType.CALL:
+            return <FontAwesomeIcon icon={faPhone} title="Call Deck" />;
+        default:
+            return <>{toTitleCase(deckType)}</>;
+    }
+};
+
 function EnemyNpcDescription(props: {
     region: Region;
     enemyLookUp: EnemyLookUp;
@@ -107,7 +122,8 @@ function EnemyNpcDescription(props: {
     if (enemy !== undefined) {
         return (
             <Button variant="link" className="reset-button-style" onClick={() => props.handleNavigateEnemyHash?.(hash)}>
-                {enemy.deckId}. <ClassIcon className={enemy.svt.className} rarity={enemy.svt.rarity} />{" "}
+                <DeckTypeDescriptor deckType={enemy.deck} /> {enemy.deckId}.{" "}
+                <ClassIcon className={enemy.svt.className} rarity={enemy.svt.rarity} />{" "}
                 <FaceIcon
                     type={enemy.svt.type}
                     rarity={enemy.svt.rarity}
@@ -461,7 +477,7 @@ const QuestEnemyTable = (props: {
     return (
         <>
             <h3>
-                {enemy.deckId}.{" "}
+                <DeckTypeDescriptor deckType={enemy.deck} /> {enemy.deckId}.{" "}
                 <EntityDescriptor region={region} entity={enemy.svt} overwriteName={enemy.name} iconHeight={40} />{" "}
                 <span className="quest-svt-lv">Lv. {enemy.lv}</span>
                 {Manager.calcStringEnabled() && (
