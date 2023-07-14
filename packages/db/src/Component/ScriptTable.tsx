@@ -15,6 +15,8 @@ import Manager, { lang } from "../Setting/Manager";
 import Scene from "./Scene";
 import {
     CameraFilterType,
+    DialogueChildComponent,
+    DialogueText,
     ScriptBackground,
     ScriptBracketComponent,
     ScriptCharaFace,
@@ -39,6 +41,13 @@ import "./ScriptTable.css";
 type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>>;
 type ScriptOffsets = { charaGraphId: number; y?: number };
 
+const combineDialogueString = (components: DialogueChildComponent[]): string => {
+    return components
+        .filter((c) => c.type === ScriptComponentType.DIALOGUE_TEXT)
+        .map((c) => (c as DialogueText).text)
+        .join(" ");
+};
+
 const DialogueRow = (props: {
     region: Region;
     dialogue: ScriptDialogue;
@@ -55,6 +64,10 @@ const DialogueRow = (props: {
         compareRegion !== undefined &&
         compareComponent !== undefined &&
         compareComponent.type === ScriptComponentType.DIALOGUE;
+    const sameCompareSpeakerName =
+        hasCompareComponent &&
+        combineDialogueString(props.dialogue.speaker?.components ?? []) ===
+            combineDialogueString(compareComponent.speaker?.components ?? []);
 
     return (
         <tr ref={props.refs.get(props.dialogue.voice?.audioAsset ?? props.dialogue.maleVoice?.audioAsset)}>
@@ -64,7 +77,7 @@ const DialogueRow = (props: {
                     components={props.dialogue.speaker?.components ?? []}
                     wideScreen={props.wideScreen}
                 />
-                {hasCompareComponent && (
+                {hasCompareComponent && !sameCompareSpeakerName && (
                     <div lang={lang(compareRegion)}>
                         <ScriptDialogueLine
                             region={compareRegion}
