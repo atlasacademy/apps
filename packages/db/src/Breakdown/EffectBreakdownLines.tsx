@@ -54,7 +54,7 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
     }
 
     render() {
-        const effectStyle = this.props.popOver ? { maxWidth: "400px" } : { width: "45%", minWidth: "300px" };
+        const effectStyle = this.props.popOver ? {} : { width: "45%", minWidth: "300px" };
         const t = this.props.t;
         return (
             <React.Fragment>
