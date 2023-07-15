@@ -161,6 +161,7 @@ export const QuestEnemyMainData = (props: {
     region: Region;
     enemy: QuestEnemy.QuestEnemy;
     supportDetail?: boolean;
+    extraRows?: React.ReactNode;
 }) => {
     const { region, enemy } = props,
         isSupportDetail = props.supportDetail ?? false;
@@ -260,6 +261,7 @@ export const QuestEnemyMainData = (props: {
                           content: describeMultipleSkills(region, enemy.classPassive.addPassive),
                       })
                     : null}
+                {props.extraRows}
             </tbody>
         </Table>
     );

@@ -46,8 +46,13 @@ const SupportCraftEssenseLink = (props: { region: Region; craftEssence: CraftEss
     return <CraftEssenceDescriptor region={region} craftEssence={craftEssence} />;
 };
 
-const SupportServantMainData = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
-    const { region, supportServant } = props;
+const SupportServantCE = ({
+    region,
+    supportServant,
+}: {
+    region: Region;
+    supportServant: SupportServant.SupportServant;
+}) => {
     const craftEssense = supportServant.equips[0];
     const craftEsseseSkills =
         craftEssense === undefined
@@ -55,6 +60,34 @@ const SupportServantMainData = (props: { region: Region; supportServant: Support
             : craftEssense.equip.skills.filter(
                   (skill) => craftEssense.lv >= skill.condLv && craftEssense.limitCount >= skill.condLimitCount
               );
+    return (
+        <>
+            {supportServant.equips.length > 0
+                ? renderSpanningRow({
+                      title: "Craft Essense",
+                      content: (
+                          <>
+                              <SupportCraftEssenseLink region={region} craftEssence={craftEssense.equip} /> LB{" "}
+                              {craftEssense.limitCount} Lv. {craftEssense.lv}
+                          </>
+                      ),
+                  })
+                : null}
+            {craftEsseseSkills.length > 0
+                ? renderSpanningRow({
+                      title: "Craft Essense Skills",
+                      content: mergeElements(
+                          craftEsseseSkills.map((skill) => <SkillPopover region={region} skill={skill} />),
+                          <br />
+                      ),
+                  })
+                : null}
+        </>
+    );
+};
+
+const SupportServantMainData = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
+    const { region, supportServant } = props;
     return (
         <Table bordered responsive className="quest-svt-data-table">
             <tbody>
@@ -112,26 +145,7 @@ const SupportServantMainData = (props: { region: Region; supportServant: Support
                           ),
                       })
                     : null}
-                {supportServant.equips.length > 0
-                    ? renderSpanningRow({
-                          title: "Craft Essense",
-                          content: (
-                              <>
-                                  <SupportCraftEssenseLink region={region} craftEssence={craftEssense.equip} /> LB{" "}
-                                  {craftEssense.limitCount} Lv. {craftEssense.lv}
-                              </>
-                          ),
-                      })
-                    : null}
-                {craftEsseseSkills.length > 0
-                    ? renderSpanningRow({
-                          title: "Craft Essense Skills",
-                          content: mergeElements(
-                              craftEsseseSkills.map((skill) => <SkillPopover region={region} skill={skill} />),
-                              <br />
-                          ),
-                      })
-                    : null}
+                <SupportServantCE region={region} supportServant={supportServant} />
             </tbody>
         </Table>
     );
@@ -193,7 +207,12 @@ const SupportServantTable = (props: { region: Region; supportServant: SupportSer
             <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>
                     {supportServant.detail ? (
-                        <QuestEnemyMainData region={region} enemy={supportServant.detail} supportDetail={true} />
+                        <QuestEnemyMainData
+                            region={region}
+                            enemy={supportServant.detail}
+                            supportDetail={true}
+                            extraRows={<SupportServantCE region={region} supportServant={supportServant} />}
+                        />
                     ) : (
                         <SupportServantMainData region={region} supportServant={supportServant} />
                     )}
