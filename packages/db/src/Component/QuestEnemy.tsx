@@ -157,9 +157,13 @@ function EnemyNpcListDescription(props: {
     return <>{mergeElements(enemyDescriptions, <br />)}</>;
 }
 
-export const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.QuestEnemy }) => {
-    const region = props.region,
-        enemy = props.enemy;
+export const QuestEnemyMainData = (props: {
+    region: Region;
+    enemy: QuestEnemy.QuestEnemy;
+    supportDetail?: boolean;
+}) => {
+    const { region, enemy } = props,
+        isSupportDetail = props.supportDetail ?? false;
     const { t } = useTranslation();
     return (
         <Table bordered responsive className="quest-svt-data-table">
@@ -178,26 +182,28 @@ export const QuestEnemyMainData = (props: { region: Region; enemy: QuestEnemy.Qu
                         content: asPercent(enemy.criticalRate, 1),
                     },
                 ])}
-                {renderDoubleRow([
-                    {
-                        title: t("NP bar"),
-                        content: `${enemy.chargeTurn} bar${enemy.chargeTurn > 1 ? "s" : ""}`,
-                    },
-                    {
-                        title: t("NP gain mod"),
-                        content: asPercent(enemy.serverMod.tdRate, 1),
-                    },
-                ])}
-                {renderDoubleRow([
-                    {
-                        title: t("Crit star mod"),
-                        content: asPercent(enemy.serverMod.starRate, 1),
-                    },
-                    {
-                        title: t("Defense NP gain mod"),
-                        content: asPercent(enemy.serverMod.tdAttackRate, 1),
-                    },
-                ])}
+                {!isSupportDetail &&
+                    renderDoubleRow([
+                        {
+                            title: t("NP bar"),
+                            content: `${enemy.chargeTurn} bar${enemy.chargeTurn > 1 ? "s" : ""}`,
+                        },
+                        {
+                            title: t("NP gain mod"),
+                            content: asPercent(enemy.serverMod.tdRate, 1),
+                        },
+                    ])}
+                {!isSupportDetail &&
+                    renderDoubleRow([
+                        {
+                            title: t("Crit star mod"),
+                            content: asPercent(enemy.serverMod.starRate, 1),
+                        },
+                        {
+                            title: t("Defense NP gain mod"),
+                            content: asPercent(enemy.serverMod.tdAttackRate, 1),
+                        },
+                    ])}
                 {enemy.skills.skillId1 !== 0
                     ? renderSpanningRow({
                           title: t("Skill 1"),
@@ -264,6 +270,7 @@ export const QuestEnemySubData = (props: {
     enemy: QuestEnemy.QuestEnemy;
     enemyLookUp: EnemyLookUp;
     handleNavigateEnemyHash?: (hash: string) => void;
+    supportDetail?: boolean;
 }) => {
     const region = props.region,
         enemy = props.enemy;
@@ -271,6 +278,7 @@ export const QuestEnemySubData = (props: {
         <TraitDescription region={region} trait={trait} overrideTraits={[{ id: enemy.svt.id, name: `Self` }]} />
     ));
     const { t } = useTranslation();
+    const isSupportDetail = props.supportDetail ?? false;
     return (
         <Table bordered responsive className="quest-svt-data-table">
             <tbody>
@@ -286,23 +294,25 @@ export const QuestEnemySubData = (props: {
                     title: t("Traits"),
                     content: mergeElements(traitDescriptions, <br />),
                 })}
-                {renderSpanningRow({
-                    title: t("AI"),
-                    content: (
-                        <AiDescriptor
-                            region={region}
-                            aiType={Ai.AiType.SVT}
-                            id={enemy.ai.aiId}
-                            skill1={enemy.skills.skillId1}
-                            skill2={enemy.skills.skillId2}
-                            skill3={enemy.skills.skillId3}
-                        />
-                    ),
-                })}
-                {renderDoubleRow([
-                    { title: t("Act Priority"), content: enemy.ai.actPriority },
-                    { title: t("Max Act Num"), content: enemy.ai.maxActNum },
-                ])}
+                {!isSupportDetail &&
+                    renderSpanningRow({
+                        title: t("AI"),
+                        content: (
+                            <AiDescriptor
+                                region={region}
+                                aiType={Ai.AiType.SVT}
+                                id={enemy.ai.aiId}
+                                skill1={enemy.skills.skillId1}
+                                skill2={enemy.skills.skillId2}
+                                skill3={enemy.skills.skillId3}
+                            />
+                        ),
+                    })}
+                {!isSupportDetail &&
+                    renderDoubleRow([
+                        { title: t("Act Priority"), content: enemy.ai.actPriority },
+                        { title: t("Max Act Num"), content: enemy.ai.maxActNum },
+                    ])}
                 {enemy.enemyScript.call && enemy.enemyScript.call.length > 0
                     ? renderSpanningRow({
                           title: t("Summon"),

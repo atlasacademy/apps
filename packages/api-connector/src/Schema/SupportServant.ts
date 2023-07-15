@@ -2,7 +2,7 @@ import CondType from "../Enum/Cond";
 import { CraftEssence } from "./CraftEssence";
 import { EntityBasic } from "./Entity";
 import { NoblePhantasm } from "./NoblePhantasm";
-import { EnemySkill } from "./QuestEnemy";
+import { EnemySkill, QuestEnemy } from "./QuestEnemy";
 import { Trait } from "./Trait";
 
 export enum SupportServantFlag {
@@ -66,4 +66,5 @@ export interface SupportServant {
     script: SupportServantScript;
     limit: SupportServantLimit;
     misc: SupportServantMisc;
+    detail?: QuestEnemy;
 }

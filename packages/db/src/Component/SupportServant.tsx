@@ -11,7 +11,14 @@ import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
-import { describeEnemyNoblePhantasm, describeEnemySkill, renderDoubleRow, renderSpanningRow } from "./QuestEnemy";
+import {
+    QuestEnemyMainData,
+    QuestEnemySubData,
+    describeEnemyNoblePhantasm,
+    describeEnemySkill,
+    renderDoubleRow,
+    renderSpanningRow,
+} from "./QuestEnemy";
 
 import "../Descriptor/Descriptor.css";
 import "./QuestEnemy.css";
@@ -185,10 +192,23 @@ const SupportServantTable = (props: { region: Region; supportServant: SupportSer
             </h4>
             <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>
-                    <SupportServantMainData region={region} supportServant={supportServant} />
+                    {supportServant.detail ? (
+                        <QuestEnemyMainData region={region} enemy={supportServant.detail} supportDetail={true} />
+                    ) : (
+                        <SupportServantMainData region={region} supportServant={supportServant} />
+                    )}
                 </Col>
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>
-                    <SupportServantSubData region={region} supportServant={supportServant} />
+                    {supportServant.detail ? (
+                        <QuestEnemySubData
+                            region={region}
+                            enemy={supportServant.detail}
+                            enemyLookUp={new Map()}
+                            supportDetail={true}
+                        />
+                    ) : (
+                        <SupportServantSubData region={region} supportServant={supportServant} />
+                    )}
                 </Col>
             </Row>
         </>

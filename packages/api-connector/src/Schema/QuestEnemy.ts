@@ -136,6 +136,7 @@ export enum DeckType {
     SKILL_SHIFT = "skillShift",
     MISSION_TARGET_SKILL_SHIFT = "missionTargetSkillShift",
     AI_NPC = "aiNpc",
+    SVT_FOLLOWER = "svtFollower",
 }
 
 export enum RoleType {
