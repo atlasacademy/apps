@@ -36,6 +36,7 @@ import * as Skill from "./Schema/Skill";
 import * as SupportServant from "./Schema/SupportServant";
 import * as Trait from "./Schema/Trait";
 import * as War from "./Schema/War";
+import * as ClassBoard from "./Schema/ClassBoard"
 import ApiConnector, { DataType, EnumList, ReverseData, ReverseDepth } from "./ApiConnector";
 import Card from "./Enum/Card";
 import ClassName from "./Enum/ClassName";
@@ -98,4 +99,5 @@ export {
     Skill,
     Trait,
     War,
+    ClassBoard
 };

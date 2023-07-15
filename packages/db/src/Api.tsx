@@ -31,6 +31,7 @@ import {
     Skill,
     Trait,
     War,
+    ClassBoard
 } from "@atlasacademy/api-connector";
 
 import Manager from "./Setting/Manager";
@@ -251,6 +252,14 @@ class Api {
 
     static async warList(): Promise<War.WarBasic[]> {
         return apiConnector.warList();
+    }
+
+    static async classBoardList(): Promise<ClassBoard.ClassBoard[]> {
+        return apiConnector.classBoardList(cacheDuration)
+    }
+
+    static async classBoard(id: number): Promise<ClassBoard.ClassBoard> {
+        return apiConnector.classBoard(id, cacheDuration)
     }
 
     static traitList(): Promise<Trait.Trait[]> {

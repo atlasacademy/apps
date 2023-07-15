@@ -1,0 +1,8 @@
+.items_requeriments {
+    padding: 0;
+}
+
+.items_requeriments > li {
+    display: inline;
+    margin-right: 1rem;
+}
