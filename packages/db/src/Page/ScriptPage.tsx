@@ -262,7 +262,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                         block={false}
                         url={getScriptAssetURL(region, scriptId)}
                     />
-                    <DropdownButton as={ButtonGroup} id="compare-dropdown" title="Compare script">
+                    <DropdownButton as={ButtonGroup} id="compare-dropdown" title={t("Compare script")}>
                         {availableCompareRegions.map((r) => (
                             <Dropdown.Item
                                 key={r}
@@ -271,7 +271,11 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                                 to={`/${region}/script/${scriptId}${r === "none" ? "" : `?compareSource=${r}`}`}
                                 active={compareSource === r || (compareSource === undefined && r === "none")}
                             >
-                                {r === "none" ? "None" : r === "rayshift" ? t("Rayshift (Unofficial translation)") : r}
+                                {r === "none"
+                                    ? t("None")
+                                    : r === "rayshift"
+                                    ? t("Rayshift (Unofficial translation)")
+                                    : r}
                             </Dropdown.Item>
                         ))}
                     </DropdownButton>

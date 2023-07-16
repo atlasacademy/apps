@@ -69,6 +69,7 @@
     "Character": "Character",
     "Choices": "Choices",
     "Class": "Class",
+    "Class Board": "Class Board",
     "Class Passive": "Class Passive",
     "Cleared": "Cleared",
     "Close": "Close",
@@ -78,6 +79,7 @@
     "Command Assists": "Command Assists",
     "Command Codes": "Command Codes",
     "Comment": "Comment",
+    "Compare script": "Compare script",
     "Condition": "Condition",
     "consumeStars_one": "Consume {{count}} star",
     "consumeStars_other": "Consume {{count}} stars",
@@ -260,6 +262,7 @@
     "Noble Phantasm": "Noble Phantasm",
     "Noble Phantasms": "Noble Phantasms",
     "Noble Phantasms Search": "Noble Phantasms Search",
+    "None": "None",
     "Not buyable in my room": "Not buyable in my room",
     "NP": "NP",
     "NP bar": "NP bar",
@@ -367,6 +370,7 @@
     "Settings": "Settings",
     "SforPlural": "s",
     "Shop planner": "Shop planner",
+    "Show All Skills": "Show All Skills",
     "Show below?": "Show below?",
     "Showing": "Showing",
     "Shown": "Shown",
@@ -458,6 +462,5 @@
     "Weight": "Weight",
     "with local timestamps": "with local timestamps",
     "with UTC timestamps": "with UTC timestamps",
-    "Yes": "Yes",
-    "Class Board": "Class Board"
+    "Yes": "Yes"
 }
