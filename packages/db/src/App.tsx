@@ -715,6 +715,20 @@ class App extends React.Component<any, IState> {
                                     );
                                 }}
                             />
+                            
+                            <Route
+                                exact
+                                path="/:region(JP)/classboard/:id([0-9]+)"
+                                render={(props) => {
+                                    const { region, id } = props.match.params;
+                                    return (
+                                        <Suspense fallback={<Loading />}>
+                                            <ClassBoardPage id={id} region={region as Region} />
+                                        </Suspense>
+                                    );
+                                }}
+                            />
+
                             <Route
                                 exact={true}
                                 path="/:region(JP|NA|CN|KR|TW)/:endpoint(bgm|buff|command-code|craft-essence|func|item|master-mission|mystic-code|noble-phantasm|quest|script|servant|skill|event|war)"

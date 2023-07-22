@@ -2,6 +2,7 @@ import { createContext, useState } from "react"
 import { ClassBoard, MasterMission, Region } from "@atlasacademy/api-connector"
 
 import useApi from "../Hooks/useApi"
+import ErrorStatus from "../Component/ErrorStatus"
 
 interface ClassBoardContextProps {
     classBoardData: {
@@ -29,7 +30,8 @@ interface ClassBoardContextProps {
 
 interface ClassBoardProviderProps {
     children: React.ReactNode,
-    region: Region
+    region: Region,
+    id?: string
 }
 
 export const ClassBoardContext = createContext<ClassBoardContextProps>({
@@ -53,19 +55,19 @@ export const ClassBoardContext = createContext<ClassBoardContextProps>({
     }
 })
 
-export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children, region }) => {
+export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children, id, region }) => {
     const classBoardList = useApi("classBoardList")
     const masterMissions = useApi("masterMissionList")
 
-    const [boardIndex, changeBoardIndexState] = useState(0)
+    const [currentBoardId, changeBoardId] = useState(Number(id) || 1)
     const [currentSquare, changeStateSquare] = useState<ClassBoard.ClassBoardSquare>()
     const [showAllSkills, setShowAllSkills] = useState(false)
 
     const classBoards = classBoardList.data || []
-    const classBoard = classBoards[boardIndex] || undefined
+    const classBoard = classBoards.find((classboard) => classboard.id === currentBoardId) || undefined
     const currentMissions = masterMissions.data || []
 
-    const changeBoard = (id: number) => changeBoardIndexState(id)
+    const changeBoard = (id: number) => changeBoardId(id)
     const changeSquare = (square: ClassBoard.ClassBoardSquare) => changeStateSquare(square)
 
     const classBoardData = {
@@ -90,7 +92,11 @@ export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children
     const states = {
         showAllSkills: { show: showAllSkills, setShow: setShowAllSkills }
     }
-
+    
+    if (classBoardData.classBoard === undefined && !classBoardData.loading) {
+        return <ErrorStatus region={region} key={404} />
+    }
+    
     return (
         <ClassBoardContext.Provider value={{ classBoardData, missionData, squareData, states }}>
             {children}

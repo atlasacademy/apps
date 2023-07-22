@@ -7,16 +7,17 @@ import { useEffect } from "react";
 import Manager from "../Setting/Manager";
 
 interface Props {
-    region: Region
+    region: Region,
+    id?: string
 }
 
-const ClassBoardPage: React.FC<Props> = ({ region }) => {
+const ClassBoardPage: React.FC<Props> = ({ region, id }) => {
     useEffect(() => {
         Manager.setRegion(region)
     }, [region])
-
+   
     return (
-        <ClassBoardProvider region={region}>
+        <ClassBoardProvider id={id} region={region}>
             <ClassBoardNavigation />
             <ClassBoardMap />
             <ClassBoardBreakdown />

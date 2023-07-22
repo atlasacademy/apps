@@ -1,20 +1,27 @@
 import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-
-import ClassIcon from "../../Component/ClassIcon";
+import { useHistory, generatePath } from "react-router-dom";
 import { ClassBoardContext } from "../../Contexts/ClassBoard";
-import { classFilters } from "../ServantsPage";
-
 import "./ClassBoardNavigation.css";
+import Manager from "../../Setting/Manager";
 
 const ClassBoardNavigation: React.FC = () => {
+    const history = useHistory()
     const { t } = useTranslation();
     const { classBoardData, states } = useContext(ClassBoardContext);
     const { changeBoard, classBoard, classBoards } = classBoardData;
-    const {
-        showAllSkills: { setShow, show },
-    } = states;
+    const { showAllSkills: { setShow, show } } = states;
+
+    const handleNavigation = (id: number) => {
+        const path = generatePath("/:region(JP)/classboard/:id([0-9]+)", { 
+            region: Manager.region(),
+            id: id
+        })
+
+        history.push(path)
+        changeBoard(id)
+    }
 
     const handleClickState = () => {
         setShow(!show);
@@ -23,19 +30,11 @@ const ClassBoardNavigation: React.FC = () => {
     return (
         <>
             <ul className="classboard_navigation">
-                {classFilters.map((val, index) => {
-                    const id = classBoards.findIndex((classBoard) => {
-                        return classBoard.classes.some((classElement) => classElement.className === val);
-                    });
-
-                    if (id < 0) {
-                        return null;
-                    }
-
+                {classBoards.map((classboard, index) => {
                     return (
-                        <li key={"nav-" + index}>
-                            <Button onClick={() => changeBoard(id)}>
-                                <ClassIcon className={val} height={35} />
+                        <li key={classboard.id}>
+                            <Button onClick={() => handleNavigation(classboard.id)}>
+                                <img height={35} src={`https://static.atlasacademy.io/JP/ClassIcons/btn_tab_${classboard.id}.png`} alt={classboard.name} />
                             </Button>
                         </li>
                     );

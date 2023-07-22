@@ -63,7 +63,7 @@ const BreakdownTable: React.FC<PropsBreakdownTable> = ({ currentSquare }) => {
                             <h4>Requirements</h4>
                             <hr />
                             {currentSquare.items.length > 0 &&
-                                currentSquare.items.map((item) => {
+                                currentSquare.items.map((item, i) => {
                                     return (
                                         <li key={item.item.id}>
                                             <ItemDescriptor
@@ -106,7 +106,7 @@ const ClassBoardBreakdown: React.FC = () => {
 
     if (showAllSkills.show) {
         return squares.map((currentSquare) => {
-            return <BreakdownTable currentSquare={currentSquare} />
+            return <BreakdownTable key={currentSquare.id} currentSquare={currentSquare} />
         })
     }
 
