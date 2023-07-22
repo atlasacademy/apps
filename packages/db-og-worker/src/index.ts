@@ -134,6 +134,7 @@ const listingPageTitles = new Map([
     ["changes", "Changelog"],
     ["enemy-changes", "Enemy data Changelog"],
     ["faq", "FAQ"],
+    ["classboard", "Class Board System"]
 ]);
 
 const itemPageTitles = new Map([
