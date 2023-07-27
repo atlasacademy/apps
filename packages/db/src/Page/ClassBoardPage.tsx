@@ -14,6 +14,7 @@ interface Props {
 const ClassBoardPage: React.FC<Props> = ({ region, id }) => {
     useEffect(() => {
         Manager.setRegion(region)
+        document.title = `[${region}] Class Board - Atlas Academy DB`
     }, [region])
    
     return (
