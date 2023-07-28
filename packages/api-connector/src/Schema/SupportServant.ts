@@ -16,6 +16,7 @@ export enum SupportServantFlag {
     HIDE_TREASURE_DEVICE_LV = "hideTreasureDeviceLv",
     HIDE_TREASURE_DEVICE_DETAIL = "hideTreasureDeviceDetail",
     HIDE_RARITY = "hideRarity",
+    NOT_CLASS_BOARD = "notClassBoard",
 }
 
 export interface SupportServantRelease {

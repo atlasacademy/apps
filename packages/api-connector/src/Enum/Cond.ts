@@ -183,6 +183,7 @@ export enum CondType {
     SVT_CLASS_FRIENDSHIP_COUNT = "svtClassFriendshipCount",
     COMPLETE_HEEL_PORTRAIT = "completeHeelPortrait",
     NOT_COMPLETE_HEEL_PORTRAIT = "notCompleteHeelPortrait",
+    CLASS_BOARD_SQUARE_RELEASED = "classBoardSquareReleased",
 }
 
 export default CondType;

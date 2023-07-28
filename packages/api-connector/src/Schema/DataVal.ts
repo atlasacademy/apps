@@ -137,7 +137,13 @@ interface BaseDataVal {
     ActMasterGenderType?: number;
     IntervalTurn?: number;
     IntervalCount?: number;
-    TargetEnemyRange?: number;
+    TriggeredFieldCountTarget?: number;
+    TriggeredFieldCountRange?: number[];
+    TargetEnemyRange?: number[];
+    TriggeredFuncPositionSameTarget?: number;
+    TriggeredFuncPositionAll?: number;
+    TriggeredTargetHpRange?: number[];
+    TriggeredTargetHpRateRange?: number[];
 }
 
 export interface DataVal extends BaseDataVal {
@@ -283,5 +289,11 @@ export enum DataValField {
     ACT_MASTER_GENDER_TYPE = "ActMasterGenderType",
     INTERVAL_TURN = "IntervalTurn",
     INTERVAL_COUNT = "IntervalCount",
+    TRIGGERED_FIELD_COUNT_TARGET = "TriggeredFieldCountTarget",
+    TRIGGERED_FIELD_COUNT_RANGE = "TriggeredFieldCountRange",
     TARGET_ENEMY_RANGE = "TargetEnemyRange",
+    TRIGGERED_FUNC_POSITION_SAME_TARGET = "TriggeredFuncPositionSameTarget",
+    TRIGGERED_FUNC_POSITION_ALL = "TriggeredFuncPositionAll",
+    TRIGGERED_TARGET_HP_RANGE = "TriggeredTargetHpRange",
+    TRIGGERED_TARGET_HP_RATE_RANGE = "TriggeredTargetHpRateRange",
 }
