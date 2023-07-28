@@ -1,27 +1,28 @@
 import { useContext } from "react";
 import { Table } from "react-bootstrap";
 
+import { ClassBoard } from "@atlasacademy/api-connector";
+
 import EffectBreakdown from "../../Breakdown/EffectBreakdown";
 import SkillBreakdown from "../../Breakdown/SkillBreakdown";
 import { ClassBoardContext } from "../../Contexts/ClassBoard";
 import ItemDescriptor from "../../Descriptor/ItemDescriptor";
 import Manager from "../../Setting/Manager";
+import ClassBoardMission from "./ClassBoardMission";
 
 import "./ClassBoardBreakdown.css";
-import ClassBoardMission from "./ClassBoardMission";
-import { ClassBoard } from "@atlasacademy/api-connector";
 
 interface PropsBreakdownTable {
-    currentSquare?: ClassBoard.ClassBoardSquare
+    currentSquare?: ClassBoard.ClassBoardSquare;
 }
 
 const BreakdownTable: React.FC<PropsBreakdownTable> = ({ currentSquare }) => {
     if (!currentSquare) {
         return null;
     }
-    
+
     return (
-            <Table striped borderless style={{ marginTop: "1rem" }} responsive>
+        <Table striped borderless style={{ marginTop: "1rem" }} responsive>
             <tbody>
                 <tr>
                     <td width="5%" rowSpan={2}>
@@ -52,9 +53,12 @@ const BreakdownTable: React.FC<PropsBreakdownTable> = ({ currentSquare }) => {
                                 levels={5}
                             />
                         )}
-                        {currentSquare.lock && 
-                            <ClassBoardMission items={currentSquare.lock.items} condTargetId={currentSquare.lock.condTargetId}/>
-                        }
+                        {currentSquare.lock && (
+                            <ClassBoardMission
+                                items={currentSquare.lock.items}
+                                condTargetId={currentSquare.lock.condTargetId}
+                            />
+                        )}
                     </td>
                 </tr>
                 <tr>
@@ -97,20 +101,20 @@ const BreakdownTable: React.FC<PropsBreakdownTable> = ({ currentSquare }) => {
             </tbody>
         </Table>
     );
-}
+};
 
 const ClassBoardBreakdown: React.FC = () => {
     const { squareData, states } = useContext(ClassBoardContext);
-    const { currentSquare, squares } = squareData
-    const { showAllSkills } = states
+    const { currentSquare, squares } = squareData;
+    const { showAllSkills } = states;
 
     if (showAllSkills.show) {
         return squares.map((currentSquare) => {
-            return <BreakdownTable key={currentSquare.id} currentSquare={currentSquare} />
-        })
+            return <BreakdownTable key={currentSquare.id} currentSquare={currentSquare} />;
+        });
     }
 
-    return <BreakdownTable currentSquare={currentSquare} />
+    return <BreakdownTable currentSquare={currentSquare} />;
 };
 
 export default ClassBoardBreakdown;

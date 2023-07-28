@@ -5,6 +5,7 @@ import {
     Bgm,
     Buff,
     Change,
+    ClassBoard,
     ClassName,
     CommandCode,
     ConstantStr,
@@ -31,7 +32,6 @@ import {
     Skill,
     Trait,
     War,
-    ClassBoard
 } from "@atlasacademy/api-connector";
 
 import Manager from "./Setting/Manager";
@@ -255,11 +255,11 @@ class Api {
     }
 
     static async classBoardList(): Promise<ClassBoard.ClassBoard[]> {
-        return apiConnector.classBoardList(cacheDuration)
+        return apiConnector.classBoardList(cacheDuration);
     }
 
     static async classBoard(id: number): Promise<ClassBoard.ClassBoard> {
-        return apiConnector.classBoard(id, cacheDuration)
+        return apiConnector.classBoard(id, cacheDuration);
     }
 
     static traitList(): Promise<Trait.Trait[]> {
@@ -328,7 +328,7 @@ class Api {
             voiceCondSvt,
             illustrator,
             cv,
-            profileContains
+            profileContains,
         });
     }
 

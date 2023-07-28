@@ -1,12 +1,16 @@
 @media only screen and (max-width: 900px) {
-    .breakdown_container, .map_lines  { transform: translateX(100px); }
+    .breakdown_container,
+    .map_lines {
+        transform: translateX(100px);
+    }
 }
 
 @media only screen and (max-width: 480px) {
-    .breakdown_container, .map_lines  { transform: translateX(350px); }
+    .breakdown_container,
+    .map_lines {
+        transform: translateX(350px);
+    }
 }
-
-
 
 .breakdown_wrapper {
     position: relative;
@@ -19,12 +23,11 @@
     overflow: auto;
     border-radius: 1rem;
 }
-  
+
 .breakdown_container {
     position: relative;
     z-index: 2;
 }
-
 
 .square_btn {
     transition: 500ms all;
@@ -32,14 +35,12 @@
     background: none;
     border: none;
     z-index: 1;
-    
+
     &:hover {
         transform: scale(1.5);
         cursor: pointer;
     }
 }
-
-
 
 .earth {
     position: absolute;
@@ -55,11 +56,10 @@
 
 @keyframes earthrotation {
     0% {
-        background-position: 100% 0
+        background-position: 100% 0;
     }
 
     100% {
         background-position: -100% 0;
     }
 }
-

@@ -1,27 +1,31 @@
 import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useHistory, generatePath } from "react-router-dom";
+import { generatePath, useHistory } from "react-router-dom";
+
 import { ClassBoardContext } from "../../Contexts/ClassBoard";
-import "./ClassBoardNavigation.css";
 import Manager from "../../Setting/Manager";
 
+import "./ClassBoardNavigation.css";
+
 const ClassBoardNavigation: React.FC = () => {
-    const history = useHistory()
+    const history = useHistory();
     const { t } = useTranslation();
     const { classBoardData, states } = useContext(ClassBoardContext);
     const { changeBoard, classBoard, classBoards } = classBoardData;
-    const { showAllSkills: { setShow, show } } = states;
+    const {
+        showAllSkills: { setShow, show },
+    } = states;
 
     const handleNavigation = (id: number) => {
-        const path = generatePath("/:region(JP)/classboard/:id([0-9]+)", { 
+        const path = generatePath("/:region(JP)/classboard/:id([0-9]+)", {
             region: Manager.region(),
-            id: id
-        })
+            id: id,
+        });
 
-        history.push(path)
-        changeBoard(id)
-    }
+        history.push(path);
+        changeBoard(id);
+    };
 
     const handleClickState = () => {
         setShow(!show);
@@ -34,7 +38,11 @@ const ClassBoardNavigation: React.FC = () => {
                     return (
                         <li key={classboard.id}>
                             <Button onClick={() => handleNavigation(classboard.id)}>
-                                <img height={35} src={`https://static.atlasacademy.io/JP/ClassIcons/btn_tab_${classboard.id}.png`} alt={classboard.name} />
+                                <img
+                                    height={35}
+                                    src={`https://static.atlasacademy.io/JP/ClassIcons/btn_tab_${classboard.id}.png`}
+                                    alt={classboard.name}
+                                />
                             </Button>
                         </li>
                     );

@@ -715,7 +715,7 @@ class App extends React.Component<any, IState> {
                                     );
                                 }}
                             />
-                            
+
                             <Route
                                 exact
                                 path="/:region(JP)/classboard/:id([0-9]+)"

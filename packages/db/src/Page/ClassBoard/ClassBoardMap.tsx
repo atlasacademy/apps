@@ -9,7 +9,7 @@ interface ClassBoardIconProps {
     x: string;
     y: string;
     image: string;
-    clickCallback: () => void
+    clickCallback: () => void;
 }
 
 const ClassBoardIcon: React.FC<ClassBoardIconProps> = ({ x, y, image, clickCallback }) => (
@@ -20,8 +20,8 @@ const ClassBoardIcon: React.FC<ClassBoardIconProps> = ({ x, y, image, clickCallb
 
 const ClassBoardMap: React.FC = () => {
     const { classBoardData, squareData } = useContext(ClassBoardContext);
-    const { loading, classBoard } = classBoardData
-    const { changeSquare } = squareData
+    const { loading, classBoard } = classBoardData;
+    const { changeSquare } = squareData;
 
     if (loading) {
         return <Loading />;
@@ -60,7 +60,13 @@ const ClassBoardMap: React.FC = () => {
                 })}
                 <img className="earth" src={classBoard?.icon} alt={classBoard?.name} />
             </div>
-            <svg className="map_lines" viewBox="-565 -365 1100 700" width={"1100px"} height={"700px"} style={{ position: "absolute" }}>
+            <svg
+                className="map_lines"
+                viewBox="-565 -365 1100 700"
+                width={"1100px"}
+                height={"700px"}
+                style={{ position: "absolute" }}
+            >
                 {classBoard?.lines.map((line, key) => {
                     const prevSquare = classBoard.squares.find((s) => s.id === line.prevSquareId);
                     const nextSquare = classBoard.squares.find((s) => s.id === line.nextSquareId);

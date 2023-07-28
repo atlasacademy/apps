@@ -1,37 +1,38 @@
-import { createContext, useState } from "react"
-import { ClassBoard, MasterMission, Region } from "@atlasacademy/api-connector"
+import { createContext, useState } from "react";
 
-import useApi from "../Hooks/useApi"
-import ErrorStatus from "../Component/ErrorStatus"
+import { ClassBoard, MasterMission, Region } from "@atlasacademy/api-connector";
+
+import ErrorStatus from "../Component/ErrorStatus";
+import useApi from "../Hooks/useApi";
 
 interface ClassBoardContextProps {
     classBoardData: {
-        classBoards: ClassBoard.ClassBoard[],
-        classBoard?: ClassBoard.ClassBoard,
-        loading: boolean
-        changeBoard: (id: number) => void
-    }
+        classBoards: ClassBoard.ClassBoard[];
+        classBoard?: ClassBoard.ClassBoard;
+        loading: boolean;
+        changeBoard: (id: number) => void;
+    };
 
     squareData: {
-        currentSquare?: ClassBoard.ClassBoardSquare
-        squares: ClassBoard.ClassBoardSquare[]
-        changeSquare: (square: ClassBoard.ClassBoardSquare) => void
-    }
+        currentSquare?: ClassBoard.ClassBoardSquare;
+        squares: ClassBoard.ClassBoardSquare[];
+        changeSquare: (square: ClassBoard.ClassBoardSquare) => void;
+    };
 
     missionData: {
-        currentMissions: MasterMission.MasterMission[]
-        loading: boolean
-    }
+        currentMissions: MasterMission.MasterMission[];
+        loading: boolean;
+    };
 
     states: {
-        showAllSkills: { show: boolean, setShow: React.Dispatch<React.SetStateAction<boolean>> }
-    }
+        showAllSkills: { show: boolean; setShow: React.Dispatch<React.SetStateAction<boolean>> };
+    };
 }
 
 interface ClassBoardProviderProps {
-    children: React.ReactNode,
-    region: Region,
-    id?: string
+    children: React.ReactNode;
+    region: Region;
+    id?: string;
 }
 
 export const ClassBoardContext = createContext<ClassBoardContextProps>({
@@ -39,68 +40,66 @@ export const ClassBoardContext = createContext<ClassBoardContextProps>({
         changeBoard: () => {},
         classBoards: [],
         loading: false,
-        classBoard: undefined
+        classBoard: undefined,
     },
     squareData: {
         changeSquare: () => {},
         squares: [],
-        currentSquare: undefined
+        currentSquare: undefined,
     },
     missionData: {
         currentMissions: [],
-        loading: false
+        loading: false,
     },
     states: {
-        showAllSkills: { show: false, setShow: () => {} }
-    }
-})
+        showAllSkills: { show: false, setShow: () => {} },
+    },
+});
 
 export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children, id, region }) => {
-    const classBoardList = useApi("classBoardList")
-    const masterMissions = useApi("masterMissionList")
+    const classBoardList = useApi("classBoardList");
+    const masterMissions = useApi("masterMissionList");
 
-    const [currentBoardId, changeBoardId] = useState(Number(id) || 1)
-    const [currentSquare, changeStateSquare] = useState<ClassBoard.ClassBoardSquare>()
-    const [showAllSkills, setShowAllSkills] = useState(false)
+    const [currentBoardId, changeBoardId] = useState(Number(id) || 1);
+    const [currentSquare, changeStateSquare] = useState<ClassBoard.ClassBoardSquare>();
+    const [showAllSkills, setShowAllSkills] = useState(false);
 
-    const classBoards = classBoardList.data || []
-    const classBoard = classBoards.find((classboard) => classboard.id === currentBoardId) || undefined
-    const currentMissions = masterMissions.data || []
+    const classBoards = classBoardList.data || [];
+    const classBoard = classBoards.find((classboard) => classboard.id === currentBoardId) || undefined;
+    const currentMissions = masterMissions.data || [];
 
-    const changeBoard = (id: number) => changeBoardId(id)
-    const changeSquare = (square: ClassBoard.ClassBoardSquare) => changeStateSquare(square)
+    const changeBoard = (id: number) => changeBoardId(id);
+    const changeSquare = (square: ClassBoard.ClassBoardSquare) => changeStateSquare(square);
 
     const classBoardData = {
         changeBoard,
         classBoards,
         loading: classBoardList.loading,
-        classBoard
-    }
-    
+        classBoard,
+    };
 
     const squareData = {
         changeSquare,
         currentSquare,
-        squares: classBoard?.squares || []
-    }
+        squares: classBoard?.squares || [],
+    };
 
     const missionData = {
         currentMissions: currentMissions,
-        loading: masterMissions.loading
-    }
+        loading: masterMissions.loading,
+    };
 
     const states = {
-        showAllSkills: { show: showAllSkills, setShow: setShowAllSkills }
-    }
-    
+        showAllSkills: { show: showAllSkills, setShow: setShowAllSkills },
+    };
+
     if (classBoardData.classBoard === undefined && !classBoardData.loading) {
-        return <ErrorStatus region={region} key={404} />
+        return <ErrorStatus region={region} key={404} />;
     }
-    
+
     return (
         <ClassBoardContext.Provider value={{ classBoardData, missionData, squareData, states }}>
             {children}
         </ClassBoardContext.Provider>
-    )
-}
-
+    );
+};

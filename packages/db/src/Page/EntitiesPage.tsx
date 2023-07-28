@@ -61,7 +61,7 @@ interface IState {
     notTrait: number[];
     illustrator?: string;
     cv?: string;
-    profileContains?:string;
+    profileContains?: string;
 }
 
 class EntitiesPage extends React.Component<IProps, IState> {
@@ -161,7 +161,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
             notTrait: this.state.notTrait,
             illustrator: this.state.illustrator,
             cv: this.state.cv,
-            profileContains: this.state.profileContains
+            profileContains: this.state.profileContains,
         }).toString();
     }
 
