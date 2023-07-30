@@ -142,8 +142,8 @@ interface BaseDataVal {
     TargetEnemyRange?: number[];
     TriggeredFuncPositionSameTarget?: number;
     TriggeredFuncPositionAll?: number;
-    TriggeredTargetHpRange?: number[];
-    TriggeredTargetHpRateRange?: number[];
+    TriggeredTargetHpRange?: string;
+    TriggeredTargetHpRateRange?: string;
 }
 
 export interface DataVal extends BaseDataVal {

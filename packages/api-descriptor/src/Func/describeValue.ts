@@ -59,6 +59,7 @@ export default function (
             Func.FuncType.SHORTEN_BUFFCOUNT,
             Func.FuncType.EXTEND_BUFFTURN,
             Func.FuncType.SHORTEN_BUFFTURN,
+            Func.FuncType.SHORTEN_SKILL,
         ].includes(func.funcType)
     ) {
         if (dataVal.Value !== undefined) {

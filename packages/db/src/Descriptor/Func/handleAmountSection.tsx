@@ -1,6 +1,7 @@
 import { Buff, DataVal, Func, Region } from "@atlasacademy/api-connector";
 
 import { asPercent, mergeElements } from "../../Helper/OutputHelper";
+import { OrdinalNumeral } from "../../Helper/StringHelper";
 import BuffValueDescription from "../BuffValueDescription";
 import EntityReferenceDescriptor from "../EntityReferenceDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
@@ -89,6 +90,14 @@ export default function handleAmountSection(
                 <TraitDescription region={region} trait={trait} owner="buffs" ownerParameter="vals" />
             ));
             parts.push(mergeElements(traits, "or"));
+        }
+    } else if (func.funcType === Func.FuncType.SHORTEN_SKILL) {
+        section.preposition = undefined;
+        if (dataVal.Target) {
+            parts.push("of", <OrdinalNumeral index={dataVal.Target} />, "skill");
+        }
+        if (dataVal.Value) {
+            parts.push("by", dataVal.Value);
         }
     } else if (func.funcType === Func.FuncType.LAST_USE_PLAYER_SKILL_COPY) {
         if (dataVal.Value) parts.push(dataVal.Value);

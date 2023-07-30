@@ -50,6 +50,10 @@ export interface SkillScript {
     HP_PER_LOWER?: number[];
     additionalSkillId?: number[];
     additionalSkillActorType?: number[];
+    tdTypeChangeIDs?: number[];
+    excludeTdChangeTypes?: number[];
+    actRarity?: number[][];
+    battleStartRemainingTurn?: number[];
     SelectAddInfo?: SelectAddInfo[];
 }
 

@@ -85,6 +85,8 @@
     "consumeStars_other": "Consume {{count}} stars",
     "Cooldown": "Cooldown",
     "Cooldown at level 1": "Cooldown at level 1",
+    "Cooldown battle start_one": "Start battle at {{count}} turn cooldown",
+    "Cooldown battle start_other": "Start battle at {{count}} turns cooldown",
     "Copy calc string to clipboard": "Copy calc string to clipboard",
     "Copy stage calc string to clipboard": "Copy stage calc string to clipboard",
     "Copy text to clipboard": "Copy \"{{text}}\" to clipboard",

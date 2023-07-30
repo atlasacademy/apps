@@ -84,6 +84,7 @@
     "consumeStars_other": "Consume {{count}} stars",
     "Cooldown": "쿨타임",
     "Cooldown at level 1": "1레벨 시 쿨타임",
+    "Cooldown battle start_other": "Cooldown battle start",
     "Copy calc string to clipboard": "Copy calc string to clipboard",
     "Copy stage calc string to clipboard": "Copy stage calc string to clipboard",
     "Copy text to clipboard": "Copy \"{{text}}\" to clipboard",

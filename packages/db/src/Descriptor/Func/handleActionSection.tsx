@@ -54,7 +54,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.QP_UP, "Increase QP Reward"],
     [Func.FuncType.REPLACE_MEMBER, "Swap members"],
     [Func.FuncType.SERVANT_FRIENDSHIP_UP, "Increase Bond Gain"],
-    [Func.FuncType.SHORTEN_SKILL, "Reduce Cooldowns"],
+    [Func.FuncType.SHORTEN_SKILL, "Reduce Cooldown"],
     [Func.FuncType.SUB_STATE, "Remove Effects"],
     [Func.FuncType.USER_EQUIP_EXP_UP, "Increase Mystic Code Exp"],
     [Func.FuncType.FUNC_126, "Remove Command Spell"],

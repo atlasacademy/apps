@@ -84,6 +84,7 @@
     "consumeStars_other": "消耗 {{count}} 個爆擊星",
     "Cooldown": "冷卻",
     "Cooldown at level 1": "Lv.1時冷卻",
+    "Cooldown battle start_other": "Cooldown battle start",
     "Copy calc string to clipboard": "複製計算用字串到剪貼簿",
     "Copy stage calc string to clipboard": "複製關卡階段計算用字串到剪貼簿",
     "Copy text to clipboard": "複製 \"{{text}}\" 到剪貼簿",

@@ -60,7 +60,19 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
             <React.Fragment>
                 {this.props.cooldowns && (this.props.level || this.props.levels) ? (
                     <tr>
-                        <td style={effectStyle}>{t("Cooldown")}</td>
+                        <td style={effectStyle}>
+                            {t("Cooldown")}
+                            {this.props.scripts?.battleStartRemainingTurn && (
+                                <>
+                                    {" "}
+                                    (
+                                    {t("Cooldown battle start", {
+                                        count: this.props.scripts?.battleStartRemainingTurn[0],
+                                    })}
+                                    )
+                                </>
+                            )}
+                        </td>
                         {this.props.cooldowns.map((cooldown, index) => {
                             return <td key={index}>{cooldown}</td>;
                         })}
