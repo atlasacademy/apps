@@ -164,7 +164,7 @@ class BuffPage extends React.Component<IProps, IState> {
                                     <code>{JSON.stringify(buff.script, undefined, 2)}</code>
                                 </div>
                             ),
-                            hidden: Object.keys(buff.script).length === 0,
+                            hidden: Object.keys(buff.script).length === 0 || buff.script.relationId !== undefined,
                         },
                     ]}
                 />

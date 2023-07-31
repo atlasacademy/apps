@@ -63,6 +63,7 @@ const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.EXTEND_BUFFTURN, "Increase Buff Turn"],
     [Func.FuncType.SHORTEN_BUFFTURN, "Reduce Buff Turn"],
     [Func.FuncType.LAST_USE_PLAYER_SKILL_COPY, "Copy Last Used Player Skill"],
+    [Func.FuncType.DISPLAY_BUFFSTRING, "Display Buff String"],
 ]);
 
 export default function (func: Func.Func): BasePartial[] {
