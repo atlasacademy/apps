@@ -9,7 +9,6 @@ mkdir -p src
 mkdir -p app/drop-lookup
 curl -L -o src/fgo-lookup.tar.gz https://github.com/atlasacademy/fgo-lookup/archive/master.tar.gz
 tar -C app/drop-lookup --strip-components=2 -zxvf src/fgo-lookup.tar.gz fgo-lookup-master/dist
-npm run build
 
 mkdir -p app/bingo
 curl -L -o src/bingo.tar.gz https://github.com/atlasacademy/bingo/archive/master.tar.gz
