@@ -15,6 +15,9 @@ export default defineConfig({
         commonjsOptions: {
             include: [],
         },
+        rollupOptions: {
+            maxParallelFileOps: 100,
+        },
     },
     optimizeDeps: {
         // https://vitejs.dev/guide/dep-pre-bundling.html#monorepos-and-linked-dependencies

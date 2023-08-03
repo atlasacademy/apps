@@ -13,7 +13,7 @@
         "@stdlib/stats-base-dists-t-quantile": "^0.0.7",
         "@types/cytoscape-klay": "^3.1.1",
         "@types/node": "^18.17.1",
-        "@types/react": "^18.2.17",
+        "@types/react": "^18.2.18",
         "@types/react-bootstrap-typeahead": "^5.1.9",
         "@types/react-cytoscapejs": "^1.2.2",
         "@types/react-dom": "^18.2.7",
@@ -42,7 +42,7 @@
         "react-router-dom": "^5.3.4",
         "source-map-explorer": "^2.5.3",
         "typescript": "^5.1.6",
-        "vite": "4.2",
+        "vite": "^4.4.8",
         "vite-plugin-eslint": "^1.8.1",
         "vite-plugin-svgr": "^3.2.0"
     },
