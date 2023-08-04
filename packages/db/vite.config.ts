@@ -1,11 +1,12 @@
 import react from "@vitejs/plugin-react-swc";
+import million from "million/compiler";
 import { defineConfig, splitVendorChunkPlugin } from "vite";
 import eslint from "vite-plugin-eslint";
 import svgrPlugin from "vite-plugin-svgr";
 
 export default defineConfig({
     base: "/db/",
-    plugins: [react(), eslint(), svgrPlugin(), splitVendorChunkPlugin()],
+    plugins: [million.vite({ mute: true, auto: true }), react(), eslint(), svgrPlugin(), splitVendorChunkPlugin()],
     server: {
         port: 3000,
     },
