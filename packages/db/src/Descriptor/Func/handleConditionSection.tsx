@@ -13,23 +13,19 @@ export default function handleConditionSection(
 
     if (dataVal.StarHigher !== undefined) parts.push(`[${dataVal.StarHigher}+ Critical Stars]`);
 
-    if (dataVal.TriggeredTargetHpRateRange !== undefined) {
-        const rateRange = dataVal.TriggeredTargetHpRateRange,
-            percentage = parseInt(rateRange.slice(1)) / 10;
+    const triggeredHpDataval = dataVal.TriggeredTargetHpRange ?? dataVal.TriggeredTargetHpRateRange;
+    if (triggeredHpDataval !== undefined) {
+        const compareKey = "<",
+            rawValue = triggeredHpDataval.replace(compareKey, ""),
+            hpValue = dataVal.TriggeredTargetHpRange !== undefined ? `${rawValue}HP` : `${parseInt(rawValue) / 10}%`;
 
         let direction = "";
-        switch (rateRange[0]) {
-            case "<":
-                direction = "below";
-                break;
-            case ">":
-                direction = "above";
-                break;
-            case "=":
-                direction = "at";
-                break;
+        if (triggeredHpDataval[0] === compareKey) {
+            direction = "below";
+        } else if (triggeredHpDataval.endsWith(compareKey)) {
+            direction = "above";
         }
 
-        parts.push(`If targets' HPs are ${direction} ${percentage}%,`);
+        parts.push(`If targets' HPs are ${direction} ${hpValue},`);
     }
 }
