@@ -78,6 +78,7 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
 
     // NP
     [Buff.BuffType.REGAIN_NP, { value: DataValField.VALUE, power: 2 }],
+    [Buff.BuffType.REDUCE_NP, { value: DataValField.VALUE, power: 2 }],
 ]);
 
 export interface BuffValueTriggerType {

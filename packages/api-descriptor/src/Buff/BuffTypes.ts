@@ -127,6 +127,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.REFLECTION_FUNCTION, "Trigger Skill on end of enemy's turn"],
     [Buff.BuffType.REGAIN_HP, "HP Per Turn"],
     [Buff.BuffType.REGAIN_NP, "NP Per Turn"],
+    [Buff.BuffType.REDUCE_NP, "NP Lost Per Turn"],
     [Buff.BuffType.REGAIN_STAR, "Stars Per Turn"],
     [Buff.BuffType.SELFTURNEND_FUNCTION, "Trigger Skill every Turn"],
     [Buff.BuffType.SPECIAL_INVINCIBLE, "Special invincible"],

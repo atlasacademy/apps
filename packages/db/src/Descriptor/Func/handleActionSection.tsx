@@ -92,11 +92,12 @@ function handleBuffActionSection(
         );
     });
 
-    if (
-        func.buffs[0]?.type === Buff.BuffType.FIELD_INDIVIDUALITY ||
-        func.buffs[0]?.type === Buff.BuffType.CHANGE_COMMAND_CARD_TYPE
-    ) {
+    if (func.buffs[0]?.type === Buff.BuffType.CHANGE_COMMAND_CARD_TYPE) {
         sections.amount.preposition = "to";
+    }
+
+    if (func.buffs[0]?.type === Buff.BuffType.FIELD_INDIVIDUALITY) {
+        sections.amount.preposition = "of";
     }
 
     sections.target.preposition = "on";
