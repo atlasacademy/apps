@@ -16,18 +16,32 @@ export default function handleChanceSection(
         parts.push(`[Set ${dataVal.ActSet} Weight: ${dataVal.ActSetWeight}]`);
     }
 
-    if (dataVal.TriggeredFuncPosition !== undefined) {
-        parts.push(`If function #${dataVal.TriggeredFuncPosition} succeeds, `);
+    const triggeredFuncPosition =
+        dataVal.TriggeredFuncPositionSameTarget ?? dataVal.TriggeredFuncPositionAll ?? dataVal.TriggeredFuncPosition;
+
+    if (triggeredFuncPosition !== undefined) {
+        const funcPosition = Math.abs(triggeredFuncPosition);
+        const funcResult = triggeredFuncPosition > 0 ? "succeeds" : "fails";
+
+        let target = "";
+        if (dataVal.TriggeredFuncPositionSameTarget !== undefined) {
+            target = "the same target";
+        } else if (dataVal.TriggeredFuncPositionAll !== undefined) {
+            target = "all targets";
+        } else if (dataVal.TriggeredFuncPosition !== undefined) {
+            target = "any target";
+        }
+
+        parts.push(`If function #${funcPosition} ${funcResult} on ${target},`);
     }
 
-    if (dataVal.Rate && dataVal.Rate < 0) {
-        const firstPart = dataVal.TriggeredFuncPosition !== undefined ? " and if " : "If";
-        parts.push(`${firstPart} previous function succeeds, ${-dataVal.Rate / 10}% Chance to`);
+    if (dataVal.Rate && dataVal.Rate < 0 && triggeredFuncPosition === undefined) {
+        parts.push(`If previous function succeeds, ${-dataVal.Rate / 10}% Chance to`);
     } else if (
         typeof dataVal.Rate === "number" &&
         (dataVal.Rate !== 1000 || func.funcType === Func.FuncType.INSTANT_DEATH)
     ) {
-        parts.push(dataVal.Rate / 10 + "% Chance to");
+        parts.push(Math.abs(dataVal.Rate) / 10 + "% Chance to");
     } else if (
         dataVal.RateCount &&
         (func.funcType === Func.FuncType.ENEMY_ENCOUNT_COPY_RATE_UP ||
