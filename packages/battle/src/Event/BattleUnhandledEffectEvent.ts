@@ -8,7 +8,7 @@ export default class BattleUnhandledEffectEvent extends BattleEvent {
         public actor: BattleActor,
         public target: BattleActor,
         public success: false,
-        public reference: Func.FuncType
+        public reference: Func.FuncType,
     ) {
         super(actor, target, success, reference);
     }

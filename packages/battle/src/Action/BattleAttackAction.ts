@@ -10,7 +10,7 @@ export class BattleAttackAction {
         public firstCard: Card,
         public grand: boolean,
         public np: boolean,
-        public num: number
+        public num: number,
     ) {
         //
     }
@@ -46,7 +46,7 @@ export class BattleAttackActionList {
 
         if (validCardCount >= 3) {
             this.actions.push(
-                new BattleAttackAction(actor, Card.EXTRA, false, firstCard, grand, false, this.actions.length + 1)
+                new BattleAttackAction(actor, Card.EXTRA, false, firstCard, grand, false, this.actions.length + 1),
             );
         }
 

@@ -51,7 +51,7 @@ function castProps(id: number, phase: number, servantProps: BattleServantActorPr
                 skill: skill,
                 level: 1,
             },
-            null
+            null,
         );
     });
 
@@ -65,7 +65,7 @@ function castProps(id: number, phase: number, servantProps: BattleServantActorPr
                 id,
                 servantProps.craftEssence,
                 craftEssenceLevel,
-                craftEssenceLimit
+                craftEssenceLimit,
             );
 
         baseAttack += servantProps.craftEssence.atkGrowth[craftEssenceLevel - 1] ?? 0;
@@ -104,7 +104,7 @@ function castSkill(
     actorId: number,
     position: number,
     level: number,
-    questIds: number[]
+    questIds: number[],
 ): BattleSkill | undefined {
     const skill = skills
         .filter((skill) => skill.num === position)
@@ -121,7 +121,7 @@ function extractCraftEssenceEffects(
     actorId: number,
     craftEssence: CraftEssence.CraftEssence,
     level: number,
-    limitBreak: number
+    limitBreak: number,
 ): BattleSkillPassive[] {
     const skillNums = craftEssence.skills.map((skill) => Number(skill.num)),
         minSkillNum = Math.min(...skillNums),
@@ -143,8 +143,8 @@ function extractCraftEssenceEffects(
                         skill,
                         level: 1,
                     },
-                    null
-                )
+                    null,
+                ),
             );
         }
     }
@@ -167,7 +167,7 @@ function getNoblePhantasm(id: number, servantProps: BattleServantActorProps): Ba
             level: servantProps.noblePhantasmLevel ?? 1,
             np: noblePhantasm,
         },
-        null
+        null,
     );
 }
 

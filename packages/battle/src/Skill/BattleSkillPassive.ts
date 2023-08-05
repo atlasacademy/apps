@@ -2,7 +2,10 @@ import BattleSkill, { BattleSkillProps, BattleSkillState } from "./BattleSkill";
 import BattleSkillFunc from "./BattleSkillFunc";
 
 export default class BattleSkillPassive extends BattleSkill {
-    constructor(public props: BattleSkillProps, state: BattleSkillState | null) {
+    constructor(
+        public props: BattleSkillProps,
+        state: BattleSkillState | null,
+    ) {
         super(
             props,
             state ?? {
@@ -16,10 +19,10 @@ export default class BattleSkillPassive extends BattleSkill {
                             passive: true,
                         },
                         null,
-                        this
+                        this,
                     );
                 }),
-            }
+            },
         );
 
         this.state.funcs.forEach((func) => (func.parent = this));

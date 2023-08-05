@@ -15,7 +15,7 @@ describe("BattleFuncQuestTraitTest", () => {
             actor
                 .buffs()
                 .all(false)
-                .filter((buff) => buff.props.buff.id === 2846)
+                .filter((buff) => buff.props.buff.id === 2846),
         ).to.be.of.length(0);
     });
 
@@ -32,7 +32,7 @@ describe("BattleFuncQuestTraitTest", () => {
             actor
                 .buffs()
                 .all(false)
-                .filter((buff) => buff.props.buff.id === 2846)
+                .filter((buff) => buff.props.buff.id === 2846),
         ).to.be.of.length(1);
     });
 });

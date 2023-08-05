@@ -25,7 +25,7 @@ export function buff(
     dataVal: DataVal.DataVal,
     passive: boolean,
     short: boolean,
-    state: BattleBuffState | null
+    state: BattleBuffState | null,
 ): BattleBuff {
     let data = buffCache.get(id);
 
@@ -46,7 +46,7 @@ export function buff(
             passive,
             short,
         },
-        state
+        state,
     );
 }
 
@@ -77,7 +77,7 @@ export function servant(
     id: number,
     team: BattleTeam,
     props?: Partial<BattleServantActorProps>,
-    state?: BattleActorState | null
+    state?: BattleActorState | null,
 ): BattleActor {
     let data = servantCache.get(id);
 
@@ -112,6 +112,6 @@ export function setupTestData(battle: Battle) {
             cards,
             classAffinity,
             classAttackRates,
-            <EnumList>enums
+            <EnumList>enums,
         );
 }

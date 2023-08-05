@@ -9,7 +9,7 @@ export default async function checkFuncAction(
     battle: Battle,
     func: BattleFunc,
     actor: BattleActor,
-    target: BattleActor
+    target: BattleActor,
 ): Promise<boolean> {
     let baseRate = func.state.dataVal.Rate ?? 0,
         skillName = func.parent.name(),
@@ -36,14 +36,14 @@ export default async function checkFuncAction(
                     .netBuffsRate(
                         Buff.BuffAction.TOLERANCE_SUBSTATE,
                         target.traits(target.buffs().traits(true)),
-                        actor.traits(traits)
+                        actor.traits(traits),
                     ),
                 successMagnification = actor
                     .buffs()
                     .netBuffsRate(
                         Buff.BuffAction.GRANT_SUBSTATE,
                         actor.traits(traits),
-                        target.traits(target.buffs().traits(true))
+                        target.traits(target.buffs().traits(true)),
                     );
 
             chance = Variable.float(rand).add(Variable.float(resistMagnification)).cast(VariableType.INT).value();

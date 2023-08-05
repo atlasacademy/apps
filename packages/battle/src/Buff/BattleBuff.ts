@@ -19,7 +19,10 @@ export interface BattleBuffState {
 export class BattleBuff {
     public state: BattleBuffState;
 
-    constructor(public props: BattleBuffProps, state: BattleBuffState | null) {
+    constructor(
+        public props: BattleBuffProps,
+        state: BattleBuffState | null,
+    ) {
         const turns = props.dataVal.Turn ?? -1,
             phases = turns === -1 ? -1 : turns * 2 + (props.short ? -1 : 0);
 

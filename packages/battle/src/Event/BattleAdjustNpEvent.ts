@@ -6,7 +6,7 @@ export default class BattleAdjustNpEvent extends BattleEvent {
         public actor: BattleActor,
         public target: BattleActor,
         public success: boolean,
-        public reference?: number
+        public reference?: number,
     ) {
         super(actor, target, success, reference);
     }

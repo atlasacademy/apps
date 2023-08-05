@@ -19,7 +19,10 @@ export interface BattleNoblePhantasmState {
 export default class BattleNoblePhantasm {
     public state: BattleNoblePhantasmState;
 
-    constructor(public props: BattleNoblePhantasmProps, state: BattleNoblePhantasmState | null) {
+    constructor(
+        public props: BattleNoblePhantasmProps,
+        state: BattleNoblePhantasmState | null,
+    ) {
         this.state = state ?? {
             funcs: this.props.np.functions.map((func) => {
                 return new BattleNoblePhantasmFunc(
@@ -30,7 +33,7 @@ export default class BattleNoblePhantasm {
                         passive: false,
                     },
                     null,
-                    this
+                    this,
                 );
             }),
         };

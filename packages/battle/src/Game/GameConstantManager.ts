@@ -31,7 +31,7 @@ export default class GameConstantManager {
         cardConstantMap?: CardConstantMap,
         classAffinityMap?: ClassAffinityMap,
         classAttackRates?: ClassAttackRateMap,
-        enumMap?: EnumList
+        enumMap?: EnumList,
     ) {
         this.attributeAffinityMap = attributeAffinityMap;
         this.buffConstantMap = buffConstantMap;

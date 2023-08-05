@@ -5,7 +5,7 @@ export default abstract class BattleEvent {
         public actor: BattleActor | null,
         public target: BattleActor | null,
         public success: boolean,
-        public reference?: any
+        public reference?: any,
     ) {
         //
     }

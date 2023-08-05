@@ -10,7 +10,7 @@ export default async function subStateFunc(
     battle: Battle,
     func: BattleFunc,
     actor: BattleActor,
-    target: BattleActor
+    target: BattleActor,
 ): Promise<BattleEvent[]> {
     const events: BattleEvent[] = [];
 

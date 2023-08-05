@@ -132,14 +132,14 @@ export default class BattleActorManager {
                 break;
             case Func.FuncTargetType.PT_ONE_OTHER:
                 targets.push(
-                    ...this.activeActorsByTeam(team).filter((_actor) => _actor.props.id !== targetAllyActor?.props.id)
+                    ...this.activeActorsByTeam(team).filter((_actor) => _actor.props.id !== targetAllyActor?.props.id),
                 );
                 break;
             case Func.FuncTargetType.ENEMY_OTHER:
                 targets.push(
                     ...this.activeActorsByTeam(team).filter(
-                        (_actor) => _actor.props.id !== targetOpponentActor?.props.id
-                    )
+                        (_actor) => _actor.props.id !== targetOpponentActor?.props.id,
+                    ),
                 );
                 break;
             case Func.FuncTargetType.PT_OTHER_FULL:
@@ -148,8 +148,8 @@ export default class BattleActorManager {
             case Func.FuncTargetType.ENEMY_OTHER_FULL:
                 targets.push(
                     ...this.aliveActorsByTeam(opponentTeam).filter(
-                        (_actor) => _actor.props.id !== targetOpponentActor?.props.id
-                    )
+                        (_actor) => _actor.props.id !== targetOpponentActor?.props.id,
+                    ),
                 );
                 break;
             case Func.FuncTargetType.PTSELECT_ONE_SUB:
@@ -162,14 +162,14 @@ export default class BattleActorManager {
                 targets.push(
                     this.activeActorsByTeam(team)
                         .filter((_actor) => _actor.props.id !== actor.props.id)
-                        .shift()
+                        .shift(),
                 );
                 break;
             case Func.FuncTargetType.PT_SELF_ANOTHER_LAST:
                 targets.push(
                     this.activeActorsByTeam(team)
                         .filter((_actor) => _actor.props.id !== actor.props.id)
-                        .pop()
+                        .pop(),
                 );
                 break;
             default:

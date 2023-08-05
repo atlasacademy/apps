@@ -15,20 +15,20 @@ function attackBonus(attack: BattleAttackAction, actor: BattleActor, target: Bat
 
     bonus = bonus.add(
         Variable.float(
-            actor.buffs().netBuffs(Buff.BuffAction.GIVEN_DAMAGE, actor.traits(attack.traits()), target.traits())
-        )
+            actor.buffs().netBuffs(Buff.BuffAction.GIVEN_DAMAGE, actor.traits(attack.traits()), target.traits()),
+        ),
     );
 
     bonus = bonus.add(
         Variable.float(
-            target.buffs().netBuffs(Buff.BuffAction.RECEIVE_DAMAGE, actor.traits(), target.traits(attack.traits()))
-        )
+            target.buffs().netBuffs(Buff.BuffAction.RECEIVE_DAMAGE, actor.traits(), target.traits(attack.traits())),
+        ),
     );
 
     if (!attack.np && attack.firstCard === Card.BUSTER && attack.grand) {
         let busterBraveBonus = Variable.float(actor.baseAttack());
         busterBraveBonus = busterBraveBonus.multiply(
-            Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CHAINBONUS_BUSTER_RATE))
+            Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CHAINBONUS_BUSTER_RATE)),
         );
 
         bonus = bonus.add(busterBraveBonus);
@@ -41,7 +41,7 @@ function attackMagnification(
     attack: BattleAttackAction,
     actor: BattleActor,
     target: BattleActor,
-    func?: BattleFunc
+    func?: BattleFunc,
 ): Variable {
     const attackUpValue = actor.buffs().netBuffs(Buff.BuffAction.ATK, actor.traits(attack.traits()), target.traits()),
         defensePierceBuffs = actor
@@ -65,7 +65,7 @@ function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target
     if (!canGainNp(actor)) return Variable.int(0);
 
     let npGain = Variable.float(
-        attack.np ? actor.noblePhantasm().gainForNp() : actor.noblePhantasm().gainForCard(attack.card)
+        attack.np ? actor.noblePhantasm().gainForNp() : actor.noblePhantasm().gainForCard(attack.card),
     );
 
     // Card NP Gain calcs
@@ -102,7 +102,7 @@ function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target
     const npGainBonusRate = actor.buffs().netBuffsRate(
         Buff.BuffAction.DROP_NP,
         actor.traits(attack.traits()),
-        target.traits(attack.traits()) // why? original has this. dunno. ref: BattleServantData.getUpDownDropNp
+        target.traits(attack.traits()), // why? original has this. dunno. ref: BattleServantData.getUpDownDropNp
     );
 
     npGain = npGain.multiply(Variable.float(npGainBonusRate));
@@ -110,7 +110,7 @@ function attackNpGainRate(attack: BattleAttackAction, actor: BattleActor, target
     // Critical NP Gain calcs
     if (attack.critical)
         npGain = npGain.multiply(
-            Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CRITICAL_TD_POINT_RATE))
+            Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CRITICAL_TD_POINT_RATE)),
         );
 
     if (npGain.value() < 0) npGain = Variable.float(0);
@@ -175,7 +175,7 @@ function classAffinityOverrideRate(
     attack: BattleAttackAction,
     actor: BattleActor,
     target: BattleActor,
-    attacking: boolean
+    attacking: boolean,
 ): number {
     let attackerClass = actor.className(attack, target, true),
         defenderClass = target.className(attack, actor, false),
@@ -189,7 +189,7 @@ function classAffinityOverrideRate(
                 actor.traits(attack.traits()),
                 target.traits(),
                 true,
-                true
+                true,
             );
     } else {
         overrideBuffs = target
@@ -199,7 +199,7 @@ function classAffinityOverrideRate(
                 actor.traits(),
                 target.traits(attack.traits()),
                 true,
-                true
+                true,
             );
     }
 
@@ -251,7 +251,7 @@ function commandCardAttack(
     battle: Battle,
     attack: BattleAttackAction,
     actor: BattleActor,
-    target: BattleActor
+    target: BattleActor,
 ): Variable {
     const cardConstant = battle.constants().cardConstants(attack.card, attack.np ? 1 : attack.num);
     if (!cardConstant) {
@@ -283,14 +283,14 @@ function commandCardAttack(
 
     cardBonus = cardBonus.add(
         Variable.float(
-            actor.state.buffs.netBuffsRate(Buff.BuffAction.COMMAND_ATK, actor.traits(attack.traits()), target.traits())
-        )
+            actor.state.buffs.netBuffsRate(Buff.BuffAction.COMMAND_ATK, actor.traits(attack.traits()), target.traits()),
+        ),
     );
 
     cardBonus = cardBonus.subtract(
         Variable.float(
-            actor.state.buffs.netBuffsRate(Buff.BuffAction.COMMAND_DEF, actor.traits(), target.traits(attack.traits()))
-        )
+            actor.state.buffs.netBuffsRate(Buff.BuffAction.COMMAND_DEF, actor.traits(), target.traits(attack.traits())),
+        ),
     );
 
     if (cardBonus.value() < 0) cardBonus = Variable.float(0);
@@ -326,23 +326,23 @@ function defenseNpGainRate(attack: BattleAttackAction, actor: BattleActor, targe
                 // why? original has this. dunno. ref: BattleServantData.getUpDownDropNp
                 // i think so np gain on arts card doesn't trigger if enemy hits you with an arts card
                 target.traits(),
-                actor.traits()
-            )
-        )
+                actor.traits(),
+            ),
+        ),
     );
 
     // Np gain on damage Mods calcs
     npGain = npGain.multiply(
         Variable.float(
-            target.buffs().netBuffsRate(Buff.BuffAction.DROP_NP_DAMAGE, actor.traits(attack.traits()), target.traits())
-        )
+            target.buffs().netBuffsRate(Buff.BuffAction.DROP_NP_DAMAGE, actor.traits(attack.traits()), target.traits()),
+        ),
     );
 
     // Np given for damage Mods calcs
     npGain = npGain.multiply(
         Variable.float(
-            actor.buffs().netBuffsRate(Buff.BuffAction.GIVE_NP, actor.traits(attack.traits()), target.traits())
-        )
+            actor.buffs().netBuffsRate(Buff.BuffAction.GIVE_NP, actor.traits(attack.traits()), target.traits()),
+        ),
     );
 
     if (npGain.value() < 0) npGain = Variable.float(0);
@@ -420,7 +420,7 @@ function powerMagnification(attack: BattleAttackAction, actor: BattleActor, targ
 
     // target traits
     magnification = magnification.add(
-        Variable.int(actor.buffs().netBuffs(Buff.BuffAction.DAMAGE, actor.traits(attack.traits()), target.traits()))
+        Variable.int(actor.buffs().netBuffs(Buff.BuffAction.DAMAGE, actor.traits(attack.traits()), target.traits())),
     );
 
     // target passive traits
@@ -431,9 +431,9 @@ function powerMagnification(attack: BattleAttackAction, actor: BattleActor, targ
                 .netBuffs(
                     Buff.BuffAction.DAMAGE_INDIVIDUALITY,
                     actor.traits(attack.traits()),
-                    target.buffs().traits(false)
-                )
-        )
+                    target.buffs().traits(false),
+                ),
+        ),
     );
 
     // target active traits
@@ -444,9 +444,9 @@ function powerMagnification(attack: BattleAttackAction, actor: BattleActor, targ
                 .netBuffs(
                     Buff.BuffAction.DAMAGE_INDIVIDUALITY_ACTIVEONLY,
                     actor.traits(attack.traits()),
-                    target.buffs().traits(true)
-                )
-        )
+                    target.buffs().traits(true),
+                ),
+        ),
     );
 
     // target active traits
@@ -457,9 +457,9 @@ function powerMagnification(attack: BattleAttackAction, actor: BattleActor, targ
                 .netBuffs(
                     Buff.BuffAction.DAMAGE_EVENT_POINT,
                     actor.traits(attack.traits()),
-                    target.buffs().traits(true)
-                )
-        )
+                    target.buffs().traits(true),
+                ),
+        ),
     );
 
     return Variable.float(magnification.value()).divide(Variable.float(1000));
@@ -471,7 +471,7 @@ async function randomAttack(battle: Battle): Promise<Variable> {
         .generate(
             battle.constants().getValue(Constant.Constant.ATTACK_RATE_RANDOM_MIN),
             battle.constants().getValue(Constant.Constant.ATTACK_RATE_RANDOM_MAX),
-            "ATTACK RANDOM RANGE"
+            "ATTACK RANDOM RANGE",
         );
 
     return Variable.float(random).divide(Variable.float(1000));
@@ -539,20 +539,20 @@ function starGenRate(attack: BattleAttackAction, actor: BattleActor, target: Bat
                 .netBuffsRate(
                     Buff.BuffAction.CRITICAL_POINT,
                     actor.traits(attack.traits()),
-                    target.traits(attack.traits())
-                )
-        )
+                    target.traits(attack.traits()),
+                ),
+        ),
     );
 
     // Star Drop Buff on Target Calcs
     starGen = starGen.subtract(
-        Variable.float(target.buffs().netBuffsRate(Buff.BuffAction.CRITICAL_POINT, target.traits(), actor.traits()))
+        Variable.float(target.buffs().netBuffsRate(Buff.BuffAction.CRITICAL_POINT, target.traits(), actor.traits())),
     );
 
     // Critical Bonus
     if (attack.critical)
         starGen = starGen.add(
-            Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CRITICAL_STAR_RATE))
+            Variable.float(actor.battle().constants().getRateValue(Constant.Constant.CRITICAL_STAR_RATE)),
         );
 
     if (starGen.value() < 0) starGen = Variable.float(0);
@@ -567,7 +567,7 @@ async function getDamageList(
     attack: BattleAttackAction,
     actor: BattleActor,
     target: BattleActor,
-    func?: BattleFunc
+    func?: BattleFunc,
 ): Promise<BattleEvent[]> {
     const hits = actor.hits(attack, target);
 
@@ -592,16 +592,16 @@ async function getDamageList(
 
     if (attack.critical)
         damageTotal = damageTotal.multiply(
-            Variable.float(battle.constants().getRateValue(Constant.Constant.CRITICAL_ATTACK_RATE))
+            Variable.float(battle.constants().getRateValue(Constant.Constant.CRITICAL_ATTACK_RATE)),
         );
 
     if (attack.card === Card.EXTRA && attack.grand)
         damageTotal = damageTotal.multiply(
-            Variable.float(battle.constants().getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_GRAND))
+            Variable.float(battle.constants().getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_GRAND)),
         );
     else if (attack.card === Card.EXTRA)
         damageTotal = damageTotal.multiply(
-            Variable.float(battle.constants().getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE))
+            Variable.float(battle.constants().getRateValue(Constant.Constant.EXTRA_ATTACK_RATE_SINGLE)),
         );
 
     damageTotal = damageTotal.multiply(specialDefence(attack, actor, target));

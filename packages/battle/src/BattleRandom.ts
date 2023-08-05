@@ -11,7 +11,7 @@ export class BattleRandom {
     constructor(
         public type: BattleRandomType,
         public values: number[] = [],
-        public callback?: (message: string) => Promise<number>
+        public callback?: (message: string) => Promise<number>,
     ) {
         //
     }

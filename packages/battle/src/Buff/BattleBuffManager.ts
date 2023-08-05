@@ -47,7 +47,7 @@ export default class BattleBuffManager {
         traits: Trait.Trait[],
         targetTraits: Trait.Trait[],
         plus: boolean,
-        checkTrait: boolean = false
+        checkTrait: boolean = false,
     ): BattleBuff[] {
         const buffConstant = this.battle().constants().buffConstants(group);
         if (!buffConstant) throw new Error(`UNKNOWN BUFF GROUP ${group}`);
@@ -167,7 +167,7 @@ export default class BattleBuffManager {
         type: Buff.BuffType,
         traits: Trait.Trait[],
         targetTraits: Trait.Trait[],
-        checkTrait: boolean = false
+        checkTrait: boolean = false,
     ): BattleBuff[] {
         return this.list.filter((buff) => {
             if (buff.props.buff.type !== type) return false;

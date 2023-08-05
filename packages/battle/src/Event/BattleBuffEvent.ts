@@ -7,7 +7,7 @@ export default class BattleBuffEvent extends BattleEvent {
         public actor: BattleActor,
         public target: BattleActor,
         public success: boolean,
-        public reference: BattleBuff
+        public reference: BattleBuff,
     ) {
         super(actor, target, success, reference);
     }

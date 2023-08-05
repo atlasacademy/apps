@@ -19,7 +19,7 @@ async function checkBuffSuccess(
     func: BattleFunc,
     buff: BattleBuff,
     actor: BattleActor,
-    target: BattleActor
+    target: BattleActor,
 ): Promise<boolean> {
     let baseRate = func.state.dataVal.Rate ?? 0,
         buffResist = target
@@ -46,7 +46,7 @@ function createBuffFromFunc(func: BattleFunc, i: number, passive: boolean, short
             passive,
             short,
         },
-        null
+        null,
     );
 }
 
@@ -56,7 +56,7 @@ export default async function addStateFunc(
     actor: BattleActor,
     target: BattleActor,
     short: boolean,
-    passive: boolean
+    passive: boolean,
 ): Promise<BattleEvent[]> {
     const events = [];
 

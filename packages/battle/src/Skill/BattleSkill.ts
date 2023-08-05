@@ -19,7 +19,10 @@ export interface BattleSkillState {
 export default class BattleSkill {
     public state: BattleSkillState;
 
-    constructor(public props: BattleSkillProps, state: BattleSkillState | null) {
+    constructor(
+        public props: BattleSkillProps,
+        state: BattleSkillState | null,
+    ) {
         this.state = state ?? {
             cooldown: 0,
             funcs: props.skill.functions.map((func, i) => {
@@ -31,7 +34,7 @@ export default class BattleSkill {
                         passive: false,
                     },
                     null,
-                    this
+                    this,
                 );
             }),
         };

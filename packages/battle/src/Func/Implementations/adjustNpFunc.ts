@@ -13,7 +13,7 @@ export default async function adjustNpFunc(
     battle: Battle,
     func: BattleFunc,
     actor: BattleActor,
-    target: BattleActor
+    target: BattleActor,
 ): Promise<BattleEvent[]> {
     if (
         !func.applicableToTarget(target) ||

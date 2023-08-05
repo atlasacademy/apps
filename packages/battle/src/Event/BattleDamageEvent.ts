@@ -15,7 +15,7 @@ export default class BattleDamageEvent extends BattleEvent {
         public actor: BattleActor,
         public target: BattleActor,
         public success: boolean,
-        public reference: BattleDamageEventData
+        public reference: BattleDamageEventData,
     ) {
         super(actor, target, success, reference);
     }

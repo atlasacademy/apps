@@ -9,7 +9,7 @@ export default class BattleSkillFunc extends BattleFunc {
                 dataVal: BattleFunc.dataVal(props.func, props.level, 1),
                 overcharge: 1,
             },
-            parent
+            parent,
         );
     }
 
