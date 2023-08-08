@@ -126,7 +126,6 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
 
     useEffect(() => {
         if (compareSource === undefined) return;
-        setLoadStatus({ loading: true });
         const controller = new AbortController();
 
         const rawScriptURL =
@@ -142,7 +141,6 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
             })
             .catch(() => {
                 if (controller.signal.aborted) return;
-                setLoadStatus({ loading: false });
             });
         return () => {
             controller.abort();
