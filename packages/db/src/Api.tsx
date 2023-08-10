@@ -206,6 +206,10 @@ class Api {
         return apiConnector.script(id, cacheDuration);
     }
 
+    static scriptRegion(region: Region, id: string): Promise<Script.Script> {
+        return new ApiConnector({ host: Host, region, language: Manager.language() }).script(id, cacheDuration);
+    }
+
     static ai(type: Ai.AiType, id: number): Promise<Ai.AiCollection> {
         return apiConnector.ai(type, id, cacheDuration);
     }

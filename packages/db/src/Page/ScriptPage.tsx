@@ -77,6 +77,9 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
     });
     const [hasRayshiftScript, setHasRayshiftScript] = useState<boolean>(false);
     const [compareScript, setCompareScript] = useState<string | undefined>(undefined);
+    const [regionHasScript, setRegionHasScript] = useState<Map<Region, boolean>>(
+        new Map(Object.values(Region).map((r) => [r, true]))
+    );
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -105,6 +108,22 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
 
     useEffect(() => {
         const controller = new AbortController();
+
+        Promise.all(
+            Object.values(Region)
+                .filter((r) => r !== region)
+                .map((region) =>
+                    Api.scriptRegion(region, scriptId)
+                        .then(() => {
+                            return { region, hasScript: true };
+                        })
+                        .catch(() => {
+                            return { region, hasScript: false };
+                        })
+                )
+        ).then((results) => {
+            setRegionHasScript(new Map(results.map((r) => [r.region, r.hasScript])));
+        });
 
         if ((region === Region.JP || region === Region.NA) && !useRayshiftScript) {
             axios
@@ -211,7 +230,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
     showRawData.set("ALL_COMPONENTS", parsedScript.components);
 
     const availableCompareRegions: ("none" | CompareRegion)[] = (["none"] as ("none" | CompareRegion)[]).concat(
-        Object.values(Region).filter((r) => r !== region)
+        Object.values(Region).filter((r) => r !== region && regionHasScript.get(r) === true)
     );
     if (hasRayshiftScript) availableCompareRegions.push("rayshift");
 
@@ -260,23 +279,25 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                         block={false}
                         url={getScriptAssetURL(region, scriptId)}
                     />
-                    <DropdownButton as={ButtonGroup} id="compare-dropdown" title={t("Compare script")}>
-                        {availableCompareRegions.map((r) => (
-                            <Dropdown.Item
-                                key={r}
-                                eventKey={r}
-                                as={Link}
-                                to={`/${region}/script/${scriptId}${r === "none" ? "" : `?compareSource=${r}`}`}
-                                active={compareSource === r || (compareSource === undefined && r === "none")}
-                            >
-                                {r === "none"
-                                    ? t("None")
-                                    : r === "rayshift"
-                                    ? t("Rayshift (Unofficial translation)")
-                                    : r}
-                            </Dropdown.Item>
-                        ))}
-                    </DropdownButton>
+                    {availableCompareRegions.length > 1 && (
+                        <DropdownButton as={ButtonGroup} id="compare-dropdown" title={t("Compare script")}>
+                            {availableCompareRegions.map((r) => (
+                                <Dropdown.Item
+                                    key={r}
+                                    eventKey={r}
+                                    as={Link}
+                                    to={`/${region}/script/${scriptId}${r === "none" ? "" : `?compareSource=${r}`}`}
+                                    active={compareSource === r || (compareSource === undefined && r === "none")}
+                                >
+                                    {r === "none"
+                                        ? t("None")
+                                        : r === "rayshift"
+                                        ? t("Rayshift (Unofficial translation)")
+                                        : r}
+                                </Dropdown.Item>
+                            ))}
+                        </DropdownButton>
+                    )}
                 </ButtonGroup>
                 <ShowScriptLineContext.Provider value={showScriptLine}>
                     <ScriptTable
