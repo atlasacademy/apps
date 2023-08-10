@@ -200,16 +200,16 @@ const ChoiceRow = ({
                     {component.choices.map((choice, i) => {
                         const compareChoice = compareComponent.choices[i];
                         return (
-                            <Table key={choice.id}>
+                            <Table key={choice.id} hover responsive className="mb-0">
                                 <tbody>
                                     <tr>
                                         <td></td>
-                                        <td>
+                                        <td className="main-choice">
                                             <li>
                                                 <ScriptDialogueLine region={region} components={choice.option} />
                                             </li>
                                         </td>
-                                        <td>
+                                        <td className="compare-choice">
                                             <li>
                                                 <ScriptDialogueLine region={region} components={compareChoice.option} />
                                             </li>
@@ -237,7 +237,7 @@ const ChoiceRow = ({
     return (
         <tr>
             <td>{t("Choices")}</td>
-            <td className={`${hasCompareComponent ? "main-choice" : ""}`}>
+            <td>
                 <ul className="mb-0">
                     {component.choices.map((choice) => (
                         <li key={choice.id}>
