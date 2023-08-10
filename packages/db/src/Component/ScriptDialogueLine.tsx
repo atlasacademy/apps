@@ -3,9 +3,9 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Region } from "@atlasacademy/api-connector";
 
 import { FGOText } from "../Helper/StringHelper";
+import { useImageSize } from "../Hooks/useImageSize";
 import { lang } from "../Setting/Manager";
 import { DialogueBasicComponent, DialogueChildComponent, ScriptComponentType } from "./Script";
-import { useImageSize } from "./ScriptTable";
 
 import "./ScriptDialogueLine.css";
 

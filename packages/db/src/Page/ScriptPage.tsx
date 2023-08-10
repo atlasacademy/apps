@@ -175,7 +175,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
             case ScriptComponentType.CHOICES:
                 for (const choice of component.choices) {
                     for (const choiceComponent of choice.results) {
-                        addAudioUrls(choiceComponent);
+                        addAudioUrls(choiceComponent.content);
                     }
                 }
                 break;

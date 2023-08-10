@@ -596,7 +596,7 @@ export type ScriptChoiceRouteInfo = {
 export type ScriptChoice = {
     id: number;
     option: DialogueChildComponent[];
-    results: ScriptChoiceChildComponent[];
+    results: ComponentWrapper<ScriptChoiceChildComponent>[];
     routeInfo?: ScriptChoiceRouteInfo;
 };
 
@@ -606,7 +606,8 @@ export type ScriptChoices = {
 };
 
 export type ScriptComponent = ScriptBracketComponent | ScriptDialogue | ScriptChoices;
-export type ScriptComponentWrapper = { content: ScriptComponent; lineNumber?: number };
+export type ComponentWrapper<T> = { content: T; lineNumber?: number };
+export type ScriptComponentWrapper = ComponentWrapper<ScriptComponent>;
 
 export type ScriptInfo = {
     components: ScriptComponentWrapper[];
@@ -1338,7 +1339,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
         //     parseDialogueLine(region, line, parserState)
         // );
         if (parserState.choice) {
-            choice.results.push({ ...dialogue });
+            choice.results.push({ content: { ...dialogue }, lineNumber: dialogue.lines[0]?.lineNumber });
         } else {
             components.push({
                 content: { ...dialogue },
@@ -1417,7 +1418,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                         } else {
                             const parsedComponent = parseBracketComponent(region, parameters, parserState);
                             if (parserState.choice) {
-                                choice.results.push(parsedComponent);
+                                choice.results.push({ content: parsedComponent, lineNumber: index });
                             } else {
                                 components.push({
                                     content: parsedComponent,
@@ -1538,7 +1539,7 @@ export const countWord = (region: Region, components: ScriptComponent[]) => {
             case ScriptComponentType.CHOICES:
                 for (const choice of component.choices) {
                     for (const choiceComponent of choice.results) {
-                        addWordCountNotChoice(choiceComponent);
+                        addWordCountNotChoice(choiceComponent.content);
                     }
                 }
                 break;

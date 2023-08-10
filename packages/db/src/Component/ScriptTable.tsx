@@ -9,12 +9,14 @@ import { Region } from "@atlasacademy/api-connector";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import { flatten } from "../Helper/PolyFill";
+import { useImageSize } from "../Hooks/useImageSize";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
 import ShowScriptLineContext from "../Page/Script/ShowScriptLineContext";
 import Manager, { lang } from "../Setting/Manager";
 import Scene from "./Scene";
 import {
     CameraFilterType,
+    ComponentWrapper,
     DialogueChildComponent,
     DialogueText,
     ScriptBackground,
@@ -24,6 +26,7 @@ import {
     ScriptCharaFadeIn,
     ScriptCharaFilter,
     ScriptCharaMove,
+    ScriptChoiceChildComponent,
     ScriptChoiceRouteInfo,
     ScriptChoiceRouteType,
     ScriptChoices,
@@ -124,40 +127,43 @@ const DialogueRow = (props: {
 
 const ChoiceComponentsTable = (props: {
     region: Region;
-    choiceComponents: (ScriptBracketComponent | ScriptDialogue)[];
+    choiceComponents: ComponentWrapper<ScriptChoiceChildComponent>[];
     refs: RowBgmRefMap;
     wideScreen?: boolean;
+    compareRegion?: Region;
+    compareMap?: Map<number, ScriptComponent>;
 }) => {
     if (props.choiceComponents.length === 0) return null;
     return (
-        <Table hover responsive className="mt-3">
-            <tbody>
-                {props.choiceComponents.map((c, i) => {
-                    switch (c.type) {
-                        case ScriptComponentType.DIALOGUE:
-                            return (
-                                <DialogueRow
-                                    key={i}
-                                    region={props.region}
-                                    dialogue={c}
-                                    refs={props.refs}
-                                    wideScreen={props.wideScreen}
-                                />
-                            );
-                        default:
-                            return (
-                                <ScriptBracketRow
-                                    key={i}
-                                    region={props.region}
-                                    component={c}
-                                    refs={props.refs}
-                                    wideScreen={props.wideScreen}
-                                />
-                            );
-                    }
-                })}
-            </tbody>
-        </Table>
+        <>
+            {props.choiceComponents.map((c, i) => {
+                switch (c.content.type) {
+                    case ScriptComponentType.DIALOGUE:
+                        return (
+                            <DialogueRow
+                                key={i}
+                                region={props.region}
+                                dialogue={c.content}
+                                refs={props.refs}
+                                lineNumber={c.lineNumber}
+                                wideScreen={props.wideScreen}
+                                compareRegion={props.compareRegion}
+                                compareMap={props.compareMap}
+                            />
+                        );
+                    default:
+                        return (
+                            <ScriptBracketRow
+                                key={i}
+                                region={props.region}
+                                component={c.content}
+                                refs={props.refs}
+                                wideScreen={props.wideScreen}
+                            />
+                        );
+                }
+            })}
+        </>
     );
 };
 
@@ -186,6 +192,48 @@ const ChoiceRow = ({
         compareComponent !== undefined &&
         compareComponent.type === ScriptComponentType.CHOICES;
 
+    if (hasCompareComponent) {
+        return (
+            <tr>
+                <td>{t("Choices")}</td>
+                <td colSpan={2}>
+                    {component.choices.map((choice, i) => {
+                        const compareChoice = compareComponent.choices[i];
+                        return (
+                            <Table key={choice.id}>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <li>
+                                                <ScriptDialogueLine region={region} components={choice.option} />
+                                            </li>
+                                        </td>
+                                        <td>
+                                            <li>
+                                                <ScriptDialogueLine region={region} components={compareChoice.option} />
+                                            </li>
+                                        </td>
+                                        {showScriptLine && <td></td>}
+                                    </tr>
+                                    <ChoiceComponentsTable
+                                        region={region}
+                                        choiceComponents={choice.results}
+                                        refs={refs}
+                                        wideScreen={wideScreen}
+                                        compareRegion={compareRegion}
+                                        compareMap={compareMap}
+                                    />
+                                </tbody>
+                            </Table>
+                        );
+                    })}
+                </td>
+                {showScriptLine && <td>{lineNumber}</td>}
+            </tr>
+        );
+    }
+
     return (
         <tr>
             <td>{t("Choices")}</td>
@@ -195,60 +243,24 @@ const ChoiceRow = ({
                         <li key={choice.id}>
                             <ChoiceRouteInfo routeInfo={choice.routeInfo} />
                             <ScriptDialogueLine region={region} components={choice.option} />
-                            <ChoiceComponentsTable
-                                region={region}
-                                choiceComponents={choice.results}
-                                refs={refs}
-                                wideScreen={wideScreen}
-                            />
+                            <Table hover responsive className="mt-3">
+                                <tbody>
+                                    <ChoiceComponentsTable
+                                        region={region}
+                                        choiceComponents={choice.results}
+                                        refs={refs}
+                                        wideScreen={wideScreen}
+                                    />
+                                </tbody>
+                            </Table>
                         </li>
                     ))}
                 </ul>
             </td>
-            {hasCompareComponent && (
-                <td lang={lang(compareRegion)} className="compare-choice">
-                    <ul className="mb-0">
-                        {compareComponent.choices.map((choice) => (
-                            <li key={choice.id}>
-                                <ChoiceRouteInfo routeInfo={choice.routeInfo} />
-                                <ScriptDialogueLine region={compareRegion} components={choice.option} />
-                                <ChoiceComponentsTable
-                                    region={compareRegion}
-                                    choiceComponents={choice.results}
-                                    refs={refs}
-                                    wideScreen={wideScreen}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                </td>
-            )}
             {showScriptLine && <td>{lineNumber}</td>}
         </tr>
     );
 };
-
-const getSceneScale = (windowWidth: number, windowHeight: number, wideScreen: boolean) => {
-    if (wideScreen) {
-        if (windowWidth < 768) {
-            return 4;
-        } else if (windowWidth <= 1024) {
-            return 2.5;
-        }
-    }
-    if (windowWidth < 768) {
-        return 3;
-    }
-    return 2;
-};
-
-export function useImageSize(wideScreen: boolean) {
-    const { windowWidth, windowHeight } = useWindowDimensions(),
-        sceneScale = getSceneScale(windowWidth, windowHeight, wideScreen),
-        height = (wideScreen ? 576 : 576) / sceneScale,
-        width = (wideScreen ? 1344 : 1024) / sceneScale;
-    return { height, width };
-}
 
 type ScriptCharaMovement = ScriptCharaFadeIn | ScriptCharaMove;
 
@@ -686,6 +698,16 @@ const ScriptTable = (props: {
                 : undefined,
         colSpan = compareMap !== undefined ? 2 : undefined;
 
+    for (const c of props.compareScript?.script.components ?? []) {
+        if (c.content.type === ScriptComponentType.CHOICES) {
+            for (const choice of c.content.choices) {
+                for (const res of choice.results) {
+                    compareMap?.set(res.lineNumber ?? -1, res.content);
+                }
+            }
+        }
+    }
+
     let backgroundComponent: ScriptBackground | undefined,
         figureComponent: ScriptCharaFace | ScriptCharaFaceFade | undefined,
         charaFadeIn: ScriptCharaMovement | undefined,
@@ -858,8 +880,8 @@ const ScriptTable = (props: {
                             break;
                         case ScriptComponentType.CHOICES:
                             flatten(content.choices.map((choice) => choice.results)).forEach((childChoice) => {
-                                if (childChoice.type === ScriptComponentType.BACKGROUND) {
-                                    backgroundComponent = childChoice;
+                                if (childChoice.content.type === ScriptComponentType.BACKGROUND) {
+                                    backgroundComponent = childChoice.content;
                                 }
                             });
                             break;
