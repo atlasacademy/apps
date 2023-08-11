@@ -243,16 +243,18 @@ const ChoiceRow = ({
                         <li key={choice.id}>
                             <ChoiceRouteInfo routeInfo={choice.routeInfo} />
                             <ScriptDialogueLine region={region} components={choice.option} />
-                            <Table hover responsive className="mt-3">
-                                <tbody>
-                                    <ChoiceComponentsTable
-                                        region={region}
-                                        choiceComponents={choice.results}
-                                        refs={refs}
-                                        wideScreen={wideScreen}
-                                    />
-                                </tbody>
-                            </Table>
+                            {choice.results.length > 0 && (
+                                <Table hover responsive className="mt-3 mb-0">
+                                    <tbody>
+                                        <ChoiceComponentsTable
+                                            region={region}
+                                            choiceComponents={choice.results}
+                                            refs={refs}
+                                            wideScreen={wideScreen}
+                                        />
+                                    </tbody>
+                                </Table>
+                            )}
                         </li>
                     ))}
                 </ul>
