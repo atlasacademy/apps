@@ -353,9 +353,7 @@ const worker = {
                 return fetch(url.href, { cf: { cacheTtl: 0 } });
             } else if (pathname.startsWith("/db")) {
                 return await handleDBEvent(event, env);
-            } else if (
-                ["chargers", "fgo-docs/", "drop-lookup/"].some((basePath) => pathname.startsWith(`/${basePath}`))
-            ) {
+            } else if (pathname.startsWith("/chargers") || pathname.startsWith("/fgo-docs/")) {
                 url.hostname = "atlasacademy.github.io";
                 if (pathname === "/chargers") {
                     url.pathname = "/chargers/";
