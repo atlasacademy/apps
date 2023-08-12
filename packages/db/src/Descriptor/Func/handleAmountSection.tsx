@@ -348,6 +348,10 @@ export default function handleAmountSection(
         section.showing = true;
     }
 
+    if (dataVal.CheckDuplicate === 1) {
+        parts.push("[Only one instance allowed]");
+    }
+
     if (support) {
         parts.push(")");
     }
