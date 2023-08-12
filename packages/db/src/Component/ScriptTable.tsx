@@ -92,7 +92,9 @@ const DialogueRow = (props: {
             </td>
             <td className={`${hasCompareComponent ? "main-dialogue" : ""}`}>
                 {props.dialogue.voice && (
-                    <BgmDescriptor region={props.region} bgm={props.dialogue.voice} className="d-block" />
+                    <div>
+                        <BgmDescriptor region={props.region} bgm={props.dialogue.voice} />
+                    </div>
                 )}
                 {props.dialogue.maleVoice && props.dialogue.femaleVoice && (
                     <div>
