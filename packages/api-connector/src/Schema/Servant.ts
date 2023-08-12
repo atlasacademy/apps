@@ -1,16 +1,10 @@
-import { Entity, EntityBasic, EntityType } from "./Entity";
+import { Entity, EntityBasic, EntityScript, EntityType } from "./Entity";
 import { Profile } from "./Profile";
 
-export interface ServantScript {
-    SkillRankUp?: {
-        [key: number]: number[];
-    };
-    svtBuffTurnExtend?: boolean;
-}
+export interface ServantScript extends EntityScript {}
 
 export interface Servant extends Entity {
     type: EntityType.NORMAL | EntityType.HEROINE | EntityType.ENEMY_COLLECTION_DETAIL;
-    script: ServantScript;
     profile?: Profile;
 }
 

@@ -47,7 +47,10 @@ class CraftEssenceAssets extends React.Component<IProps> {
                     />
                 </Alert>
                 <h3>{t("Portraits")}</h3>
-                <div>{this.displayAssets(this.props.craftEssence.extraAssets.charaGraph)}</div>
+                <div>
+                    {this.displayAssets(this.props.craftEssence.extraAssets.charaGraph)}
+                    {this.displayAssets(this.props.craftEssence.script?.maleImage?.charaGraph)}
+                </div>
 
                 <hr />
 

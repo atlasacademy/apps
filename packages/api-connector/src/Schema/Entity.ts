@@ -175,6 +175,14 @@ export interface EntityLimitImage {
     condNum: number;
 }
 
+export interface EntityScript {
+    SkillRankUp?: {
+        [key: number]: number[];
+    };
+    svtBuffTurnExtend?: boolean;
+    maleImage?: EntityAssets;
+}
+
 export interface Entity {
     id: number;
     collectionNo: number;
@@ -239,6 +247,7 @@ export interface Entity {
     appendSkillMaterials: EntityLevelUpMaterialProgression;
     costumeMaterials: EntityLevelUpMaterialProgression;
     coin?: EntityCoin;
+    script: EntityScript;
     skills: Skill[];
     classPassive: Skill[];
     extraPassive: Skill[];
