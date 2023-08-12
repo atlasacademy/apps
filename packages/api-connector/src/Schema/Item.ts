@@ -7,6 +7,7 @@ export enum ItemBackgroundType {
     SILVER = "silver",
     GOLD = "gold",
     QUEST_CLEAR_QP_REWARD = "questClearQPReward",
+    AQUA_BLUE = "aquaBlue",
 }
 
 export enum ItemType {

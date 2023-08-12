@@ -32,7 +32,21 @@ export default function handleAmountSection(
             func.buffs[0]?.type === Buff.BuffType.SUB_INDIVIDUALITY) &&
         typeof dataVal.Value === "number"
     ) {
-        parts.push(<TraitDescription region={region} trait={dataVal.Value} />);
+        const buff = func.buffs[0];
+        if (dataVal.Value) {
+            parts.push(<TraitDescription region={region} trait={dataVal.Value} />);
+        } else {
+            if (buff !== undefined && buff.vals.length > 0) {
+                parts.push(
+                    mergeElements(
+                        buff.vals
+                            .filter((trait) => !["buffPositiveEffect", "buffNegativeEffect"].includes(trait.name))
+                            .map((val) => <TraitDescription region={region} trait={val} />),
+                        ","
+                    )
+                );
+            }
+        }
     } else if (func.buffs[0]?.type === Buff.BuffType.SUB_FIELD_INDIVIDUALITY && dataVal.TargetList) {
         for (const traitId of dataVal.TargetList) {
             parts.push(<TraitDescription region={region} trait={traitId} />);

@@ -379,7 +379,7 @@ export default function handleActionSection(
             break;
         case Func.FuncType.MOVE_TO_LAST_SUBMEMBER:
             sections.amount.showing = false;
-            sections.target.preposition = "from";
+            sections.target.preposition = "for";
             break;
         case Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD:
             sections.amount.preposition = "to";

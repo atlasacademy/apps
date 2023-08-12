@@ -7,6 +7,7 @@ import listframes1_bg from "../Assets/list/listframes1_bg.png";
 import listframes2_bg from "../Assets/list/listframes2_bg.png";
 import listframes3_bg from "../Assets/list/listframes3_bg.png";
 import listframes4_bg from "../Assets/list/listframes4_bg.png";
+import listframes5_bg from "../Assets/list/listframes5_bg.png";
 import { formatNumber } from "../Helper/OutputHelper";
 
 import "./ItemIcon.css";
@@ -17,6 +18,7 @@ const frameBgMap = new Map<Item.ItemBackgroundType, string>([
     [Item.ItemBackgroundType.SILVER, listframes2_bg],
     [Item.ItemBackgroundType.GOLD, listframes3_bg],
     [Item.ItemBackgroundType.QUEST_CLEAR_QP_REWARD, listframes4_bg],
+    [Item.ItemBackgroundType.AQUA_BLUE, listframes5_bg],
 ]);
 
 interface IProps {
