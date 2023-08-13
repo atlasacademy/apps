@@ -55,12 +55,18 @@ class CraftEssenceAssets extends React.Component<IProps> {
                 <hr />
 
                 <h3>{t("Formation")}</h3>
-                <div>{this.displayAssets(this.props.craftEssence.extraAssets.equipFace)}</div>
+                <div>
+                    {this.displayAssets(this.props.craftEssence.extraAssets.equipFace)}
+                    {this.displayAssets(this.props.craftEssence.script?.maleImage?.equipFace)}
+                </div>
 
                 <hr />
 
                 <h3>{t("Thumbnail")}</h3>
-                <div>{this.displayAssets(this.props.craftEssence.extraAssets.faces)}</div>
+                <div>
+                    {this.displayAssets(this.props.craftEssence.extraAssets.faces)}
+                    {this.displayAssets(this.props.craftEssence.script?.maleImage?.faces)}
+                </div>
             </div>
         );
     }

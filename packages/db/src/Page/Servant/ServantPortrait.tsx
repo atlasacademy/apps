@@ -157,18 +157,16 @@ class ServantPortrait extends React.Component<IProps> {
         const assetArray = this.getAssetArray();
 
         return (
-            <div>
-                <div id={"servant-portrait"}>
-                    {this.getArrow(assetArray, false)}
-                    {this.getArrow(assetArray, true)}
-                    <img
-                        alt={this.props.servant.name}
-                        id={"servant-portrait-image"}
-                        width={512}
-                        height={724}
-                        src={this.getAssetLocation()}
-                    />
-                </div>
+            <div id={"servant-portrait"}>
+                {this.getArrow(assetArray, false)}
+                {this.getArrow(assetArray, true)}
+                <img
+                    alt={this.props.servant.name}
+                    id={"servant-portrait-image"}
+                    width={512}
+                    height={724}
+                    src={this.getAssetLocation()}
+                />
             </div>
         );
     }

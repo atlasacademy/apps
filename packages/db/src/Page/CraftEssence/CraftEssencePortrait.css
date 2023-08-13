@@ -1,5 +1,21 @@
-#craft-essence-portrait {
+#craft-essence-portrait-image {
     margin-bottom: 20px;
     width: 100%;
     height: auto;
+}
+
+#craft-essence-portrait > .arrow {
+    cursor: pointer;
+    height: 10%;
+    position: absolute;
+    /* padding of bootstrap col class */
+    right: -15px;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+#craft-essence-portrait > .arrow.back {
+    left: -15px;
+    right: auto;
+    transform: scaleX(-1) translateY(-50%);
 }
