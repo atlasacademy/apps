@@ -220,6 +220,9 @@ class QuestsPage extends React.Component<IProps, IState> {
                 <Form.Control
                     type="number"
                     value={this.state[stateVar]?.toString() ?? ""}
+                    onWheel={(ev: React.WheelEvent<HTMLInputElement>) => {
+                        ev.currentTarget.blur();
+                    }}
                     onChange={(ev: ChangeEvent) => {
                         if (ev.target.value !== "" && isPositiveInteger(ev.target.value)) {
                             this.setState({
