@@ -109,6 +109,17 @@ function handleBuffActionSection(
         sections.target.preposition = "for";
     }
 
+    if (buff !== undefined && buff.type !== Buff.BuffType.ADD_INDIVIDUALITY) {
+        const specialTraits = buff.vals.filter((trait) => trait.id >= 2000 && trait.id < 3000);
+        if (specialTraits.length > 0) {
+            parts.push("with");
+            specialTraits.forEach((trait, index) => {
+                if (index > 0) parts.push("&");
+                parts.push(<TraitDescription region={region} trait={trait} owner="buffs" ownerParameter="vals" />);
+            });
+        }
+    }
+
     if (buff?.type === Buff.BuffType.BUFF_CONVERT) {
         const convert = buff.script.convert;
         if (convert !== undefined) {
