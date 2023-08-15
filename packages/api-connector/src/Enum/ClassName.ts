@@ -33,6 +33,8 @@ enum ClassName {
     SALEM_ABBY = "salemAbby",
     ALL = "ALL",
     EXTRA = "EXTRA",
+    EXTRA_I = "EXTRA_I",
+    EXTRA_II = "EXTRA_II",
 }
 
 export default ClassName;

@@ -46,6 +46,8 @@ const classIds = new Map<ClassName, number>([
 
     [ClassName.ALL, 1001],
     [ClassName.EXTRA, 1002],
+    [ClassName.EXTRA_I, 1004],
+    [ClassName.EXTRA_II, 1005],
     [ClassName.UNKNOWN, 97],
 ]);
 const unknownClassId = 12;
