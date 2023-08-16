@@ -110,7 +110,9 @@ function handleBuffActionSection(
     }
 
     if (buff !== undefined && buff.type !== Buff.BuffType.ADD_INDIVIDUALITY) {
-        const specialTraits = buff.vals.filter((trait) => trait.id >= 2000 && trait.id < 3000);
+        const specialTraits = buff.vals.filter(
+            (trait) => trait.id >= 2000 && trait.id < 3000 && !["curse"].includes(trait.name)
+        );
         if (specialTraits.length > 0) {
             parts.push("with");
             specialTraits.forEach((trait, index) => {

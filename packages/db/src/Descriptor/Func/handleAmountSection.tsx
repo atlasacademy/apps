@@ -45,6 +45,8 @@ export default function handleAmountSection(
                         ","
                     )
                 );
+            } else {
+                section.preposition = undefined;
             }
         }
     } else if (func.buffs[0]?.type === Buff.BuffType.SUB_FIELD_INDIVIDUALITY && dataVal.TargetList) {
@@ -99,11 +101,11 @@ export default function handleAmountSection(
         section.preposition = "by";
         parts.push(`${dataVal.Value}`);
         if (dataVal.TargetList !== undefined) {
-            parts.push(`of buffs with`);
+            parts.push(`for buffs with`);
             const traits = dataVal.TargetList.map((trait) => (
                 <TraitDescription region={region} trait={trait} owner="buffs" ownerParameter="vals" />
             ));
-            parts.push(mergeElements(traits, "or"));
+            parts.push(mergeElements(traits, " or "));
         }
     } else if (func.funcType === Func.FuncType.SHORTEN_SKILL) {
         section.preposition = undefined;
