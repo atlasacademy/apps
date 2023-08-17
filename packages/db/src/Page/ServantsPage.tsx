@@ -433,13 +433,18 @@ class ServantsPage extends React.Component<IProps, IState> {
                             return (
                                 <tr key={servant.id}>
                                     <td className="col-center">
-                                        <Link to={route}>
-                                            {servant.collectionNo} (
-                                            <span className="listing-svtId" lang="en-US">
-                                                {servant.id}
-                                            </span>
+                                        <div>
+                                            <Link to={route}>{servant.collectionNo}</Link>
+                                        </div>
+                                        <div>
+                                            (
+                                            <Link to={`/${this.props.region}/servant/${servant.id}`}>
+                                                <span className="listing-svtId" lang="en-US">
+                                                    {servant.id}
+                                                </span>
+                                            </Link>
                                             )
-                                        </Link>
+                                        </div>
                                     </td>
                                     <td className="col-center">
                                         <ClassIcon className={servant.className} rarity={servant.rarity} height={50} />
