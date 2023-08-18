@@ -99,7 +99,7 @@ export default function handleAmountSection(
         dataVal.Value !== undefined
     ) {
         section.preposition = "by";
-        parts.push(`${dataVal.Value}`);
+        parts.push(`${dataVal.Value} turns`);
         if (dataVal.TargetList !== undefined) {
             parts.push(`for buffs with`);
             const traits = dataVal.TargetList.map((trait) => (

@@ -60,8 +60,8 @@ const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.SUB_FIELD_BUFF, "Remove Field Buff"],
     [Func.FuncType.EXTEND_BUFFCOUNT, "Increase Buff Count"],
     [Func.FuncType.SHORTEN_BUFFCOUNT, "Reduce Buff Count"],
-    [Func.FuncType.EXTEND_BUFFTURN, "Increase Buff Turn"],
-    [Func.FuncType.SHORTEN_BUFFTURN, "Reduce Buff Turn"],
+    [Func.FuncType.EXTEND_BUFFTURN, "Extend Buff Duration"],
+    [Func.FuncType.SHORTEN_BUFFTURN, "Shorten Buff Duration"],
     [Func.FuncType.LAST_USE_PLAYER_SKILL_COPY, "Copy Last Used Player Skill"],
     [Func.FuncType.DISPLAY_BUFFSTRING, "Display Buff String"],
 ]);
