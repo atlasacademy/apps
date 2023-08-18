@@ -21,7 +21,7 @@ import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import { QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
-import { mergeElements } from "../Helper/OutputHelper";
+import { Renderable, mergeElements } from "../Helper/OutputHelper";
 import { FGOText, removeSuffix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import WarMap from "./WarMap/WarMap";
@@ -373,7 +373,7 @@ const Spot = (props: {
 };
 
 const SpotQuestList = (props: {
-    title: string;
+    title: Renderable;
     region: Region;
     spots: War.Spot[];
     filterQuest: (quest: Quest.Quest) => boolean;
@@ -689,13 +689,17 @@ class WarPage extends React.Component<IProps, IState> {
                         return false;
                     })
                     .map((questType, index, array) => {
-                        const questTypeDescription = QuestTypeDescription.get(questType) ?? questType.toString();
+                        const questTypeDescription = (
+                            <>
+                                <QuestTypeDescription questType={questType} /> {t("Quests")}
+                            </>
+                        );
                         let questFilter = (quest: Quest.Quest) => quest.type === questType;
 
                         return (
                             <SpotQuestList
                                 key={questType}
-                                title={`${questTypeDescription} Quests`}
+                                title={questTypeDescription}
                                 region={this.props.region}
                                 spots={war.spots}
                                 filterQuest={questFilter}

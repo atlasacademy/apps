@@ -35,7 +35,7 @@ const QuestMainData = (props: {
                         />
                     ),
                 },
-                { label: t("Type"), value: QuestTypeDescription.get(quest.type) ?? quest.type },
+                { label: t("Type"), value: <QuestTypeDescription questType={quest.type} /> },
                 {
                     label: t("Cost"),
                     value: (

@@ -39,7 +39,9 @@ const QuestPhaseTable = ({ region, quests }: { region: Region; quests: Quest.Que
                                     <FGOText text={quest.name} />
                                 </Link>
                             </td>
-                            <td className="col-center">{QuestTypeDescription.get(quest.type)}</td>
+                            <td className="col-center">
+                                <QuestTypeDescription questType={quest.type} />
+                            </td>
                             <td className="col-center">
                                 <Link to={warLink}>{quest.warId}</Link>
                             </td>

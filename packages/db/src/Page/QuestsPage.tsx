@@ -15,7 +15,7 @@ import Loading from "../Component/Loading";
 import QuestPhaseTable from "../Component/QuestPhaseTable";
 import SearchableSelect from "../Component/SearchableSelect";
 import TraitsSelector from "../Component/TraitsSelector";
-import { QuestFlagDescription, QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
+import { QuestFlagDescription, QuestTypeDescriptionMap } from "../Descriptor/QuestEnumDescription";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
 import { getNumParam } from "../Helper/URLSearchParamsHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -302,7 +302,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         <SearchableSelect<Quest.QuestType>
                             id="select-QuestType"
                             options={Object.values(Quest.QuestType)}
-                            labels={QuestTypeDescription}
+                            labels={QuestTypeDescriptionMap}
                             selected={this.state.type}
                             onChange={(value?: Quest.QuestType) => {
                                 this.setState({ type: value });
