@@ -153,19 +153,19 @@ class ServantAssets extends React.Component<IProps> {
                 {content.map((content) => (
                     <div key={content.title}>{renderCollapsibleContent(content)}</div>
                 ))}
-                {this.props.servant.extraAssets.charaFigure.story
-                    ? renderCollapsibleContent({
-                          title: `${t("Story Figure")} (${t("May contain spoilers")})`,
-                          content: (
-                              <>
-                                  {this.displayAssets(this.props.servant.extraAssets.charaFigure, undefined, true)}
-                                  {this.displayAssets(this.props.servant.extraAssets.image, undefined, true)}
-                              </>
-                          ),
-                          subheader: false,
-                          initialOpen: false,
-                      })
-                    : ""}
+                {(this.props.servant.extraAssets.charaFigure.story ||
+                    Object.keys(this.props.servant.extraAssets.image.story ?? {}).length > 0) &&
+                    renderCollapsibleContent({
+                        title: `${t("Story Figure")} (${t("May contain spoilers")})`,
+                        content: (
+                            <>
+                                {this.displayAssets(this.props.servant.extraAssets.charaFigure, undefined, true)}
+                                {this.displayAssets(this.props.servant.extraAssets.image, undefined, true)}
+                            </>
+                        ),
+                        subheader: false,
+                        initialOpen: false,
+                    })}
                 <br />
                 {Object.entries(this.props.servant.extraAssets.charaFigureForm).map(([form, assetMap]) => (
                     <div key={form}>
