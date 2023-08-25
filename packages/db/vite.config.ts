@@ -18,6 +18,7 @@ export default defineConfig({
         rollupOptions: {
             maxParallelFileOps: 100,
         },
+        chunkSizeWarningLimit: 1000,
     },
     optimizeDeps: {
         // https://vitejs.dev/guide/dep-pre-bundling.html#monorepos-and-linked-dependencies

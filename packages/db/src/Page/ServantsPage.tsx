@@ -436,7 +436,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                         <div>
                                             <Link to={route}>{servant.collectionNo}</Link>
                                         </div>
-                                        <div>
+                                        <div className="text-nowrap">
                                             (
                                             <Link to={`/${this.props.region}/servant/${servant.id}`}>
                                                 <span className="listing-svtId" lang="en-US">
