@@ -1,6 +1,7 @@
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row, Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { CraftEssence, Region, SupportServant } from "@atlasacademy/api-connector";
@@ -24,12 +25,13 @@ import "../Descriptor/Descriptor.css";
 import "./QuestEnemy.css";
 
 const SupportCraftEssenseLink = (props: { region: Region; craftEssence: CraftEssence.CraftEssence }) => {
+    const { t } = useTranslation();
     const { region, craftEssence } = props;
     if (craftEssence.collectionNo === 0) {
         const faceUrl = craftEssence.extraAssets.equipFace.equip
                 ? craftEssence.extraAssets.equipFace.equip[craftEssence.id]
                 : undefined,
-            title = `Story Support CE ${craftEssence.id}`;
+            title = `${t("Story Support CE")} ${craftEssence.id}`;
         return (
             <Link to={`/${region}/craft-essence/${craftEssence.id}`} className="descriptor-link">
                 {faceUrl !== undefined ? (
@@ -53,6 +55,7 @@ const SupportServantCE = ({
     region: Region;
     supportServant: SupportServant.SupportServant;
 }) => {
+    const { t } = useTranslation();
     const craftEssense = supportServant.equips[0];
     const craftEsseseSkills =
         craftEssense === undefined
@@ -64,7 +67,7 @@ const SupportServantCE = ({
         <>
             {supportServant.equips.length > 0
                 ? renderSpanningRow({
-                      title: "Craft Essense",
+                      title: t("Craft Essence"),
                       content: (
                           <>
                               <SupportCraftEssenseLink region={region} craftEssence={craftEssense.equip} /> LB{" "}
@@ -75,7 +78,7 @@ const SupportServantCE = ({
                 : null}
             {craftEsseseSkills.length > 0
                 ? renderSpanningRow({
-                      title: "Craft Essense Skills",
+                      title: t("Craft Essence Skills"),
                       content: mergeElements(
                           craftEsseseSkills.map((skill) => <SkillPopover region={region} skill={skill} />),
                           <br />
@@ -88,22 +91,23 @@ const SupportServantCE = ({
 
 const SupportServantMainData = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
     const { region, supportServant } = props;
+    const { t } = useTranslation();
     return (
         <Table bordered responsive className="quest-svt-data-table">
             <tbody>
                 {renderDoubleRow([
                     {
-                        title: "ATK",
+                        title: t("ATK"),
                         content: supportServant.atk.toLocaleString(),
                     },
                     {
-                        title: "HP",
+                        title: t("HP"),
                         content: supportServant.hp.toLocaleString(),
                     },
                 ])}
                 {supportServant.skills.skillId1 !== 0
                     ? renderSpanningRow({
-                          title: "Skill 1",
+                          title: t("Skill 1"),
                           content: describeEnemySkill(
                               region,
                               supportServant.skills.skillId1,
@@ -114,7 +118,7 @@ const SupportServantMainData = (props: { region: Region; supportServant: Support
                     : null}
                 {supportServant.skills.skillId2 !== 0
                     ? renderSpanningRow({
-                          title: "Skill 2",
+                          title: t("Skill 2"),
                           content: describeEnemySkill(
                               region,
                               supportServant.skills.skillId2,
@@ -125,7 +129,7 @@ const SupportServantMainData = (props: { region: Region; supportServant: Support
                     : null}
                 {supportServant.skills.skillId3 !== 0
                     ? renderSpanningRow({
-                          title: "Skill 3",
+                          title: t("Skill 3"),
                           content: describeEnemySkill(
                               region,
                               supportServant.skills.skillId3,
@@ -136,7 +140,7 @@ const SupportServantMainData = (props: { region: Region; supportServant: Support
                     : null}
                 {supportServant.noblePhantasm.noblePhantasmId !== 0
                     ? renderSpanningRow({
-                          title: "Noble Phantasm",
+                          title: t("Noble Phantasm"),
                           content: describeEnemyNoblePhantasm(
                               region,
                               supportServant.noblePhantasm.noblePhantasmId,
@@ -153,11 +157,12 @@ const SupportServantMainData = (props: { region: Region; supportServant: Support
 
 const SupportServantSubData = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
     const { region, supportServant } = props;
+    const { t } = useTranslation();
     const traitDescriptions = supportServant.traits.map((trait) => (
         <TraitDescription
             region={region}
             trait={trait}
-            overrideTraits={[{ id: supportServant.svt.id, name: `Self` }]}
+            overrideTraits={[{ id: supportServant.svt.id, name: t("Self") }]}
         />
     ));
     return (
@@ -165,13 +170,13 @@ const SupportServantSubData = (props: { region: Region; supportServant: SupportS
             <tbody>
                 {traitDescriptions.length > 0
                     ? renderSpanningRow({
-                          title: "Traits",
+                          title: t("Traits"),
                           content: mergeElements(traitDescriptions, ", "),
                       })
                     : null}
                 {supportServant.releaseConditions.length > 0
                     ? renderSpanningRow({
-                          title: "Release Conditions",
+                          title: t("Release Conditions"),
                           content: mergeElements(
                               supportServant.releaseConditions.map((cond) => (
                                   <CondTargetValueDescriptor
