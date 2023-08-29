@@ -260,6 +260,7 @@ export type QuestPhaseSearchOptions = {
     bgmId?: number;
     fieldAiId?: number;
     enemySvtId?: number;
+    enemyName?: string;
     enemySvtAiId?: number;
     enemyTrait?: number[];
     enemyClassName?: ClassName[];

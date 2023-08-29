@@ -47,6 +47,7 @@ interface IState {
     bgmId?: number;
     fieldAiId?: number;
     enemySvtId?: number;
+    enemyName?: string;
     enemySvtAiId?: number;
     enemyTrait: number[];
     enemyClassName: ClassName[];
@@ -84,6 +85,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                 bgmId: getNumParam(searchParams, "bgmId"),
                 fieldAiId: getNumParam(searchParams, "fieldAiId"),
                 enemySvtId: getNumParam(searchParams, "enemySvtId"),
+                enemyName: searchParams.get("enemyName") ?? undefined,
                 enemySvtAiId: getNumParam(searchParams, "enemySvtAiId"),
                 enemyTrait: getQueryNums("enemyTrait"),
                 enemyClassName: searchParams.getAll("enemyClassName") as ClassName[],
@@ -136,6 +138,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             bgmId: this.state.bgmId,
             fieldAiId: this.state.fieldAiId,
             enemySvtId: this.state.enemySvtId,
+            enemyName: this.state.enemyName,
             enemySvtAiId: this.state.enemySvtAiId,
             enemyTrait: this.state.enemyTrait,
             enemyClassName: this.state.enemyClassName,
@@ -161,6 +164,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             this.state.bgmId === undefined &&
             this.state.fieldAiId === undefined &&
             this.state.enemySvtId === undefined &&
+            this.state.enemyName === undefined &&
             this.state.enemySvtAiId === undefined &&
             this.state.enemyTrait.length === 0 &&
             this.state.enemyClassName.length === 0 &&
@@ -186,6 +190,7 @@ class QuestsPage extends React.Component<IProps, IState> {
             bgmId: this.state.bgmId,
             fieldAiId: this.state.fieldAiId,
             enemySvtId: this.state.enemySvtId,
+            enemyName: this.state.enemyName,
             enemySvtAiId: this.state.enemySvtAiId,
             enemyTrait: this.state.enemyTrait,
             enemyClassName: this.state.enemyClassName,
@@ -336,6 +341,18 @@ class QuestsPage extends React.Component<IProps, IState> {
                     {this.getNumberForm("bgmId", t("BGM ID"))}
                     {this.getNumberForm("fieldAiId", t("Field AI ID"))}
                     {this.getNumberForm("enemySvtId", t("Enemy svt ID"))}
+                    <Form.Group>
+                        <Form.Label>{t("Enemy Name")}</Form.Label>
+                        <Form.Control
+                            value={this.state.enemyName ?? ""}
+                            onChange={(ev: ChangeEvent) => {
+                                this.setState({
+                                    enemyName: ev.target.value !== "" ? ev.target.value : undefined,
+                                });
+                            }}
+                            lang={lang(this.props.region)}
+                        />
+                    </Form.Group>
                     {this.getNumberForm("enemySvtAiId", t("Enemy Servant AI ID"))}
                     <Form.Group>
                         <Form.Label>{t("Enemy Trait")}</Form.Label>
