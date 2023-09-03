@@ -98,7 +98,10 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                             title={t("Copy stage calc string to clipboard")}
                         />
                     ),
-                    hidden: quest.stages.length === 0 || quest.enemyHash === undefined,
+                    hidden:
+                        Manager.calcStringType() === "off" ||
+                        quest.stages.length === 0 ||
+                        quest.enemyHash === undefined,
                 },
                 {
                     label: "Raw",

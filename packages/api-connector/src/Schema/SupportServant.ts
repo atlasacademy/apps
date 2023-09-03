@@ -54,6 +54,7 @@ export interface SupportServant {
     id: number;
     priority: number;
     name: string;
+    originalName: string;
     svt: EntityBasic;
     releaseConditions: SupportServantRelease[];
     lv: number;
