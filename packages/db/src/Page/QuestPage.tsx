@@ -200,12 +200,25 @@ class QuestPage extends React.Component<IProps, IState> {
                                 {quest.availableEnemyHashes.map((enemyHash) => (
                                     <Dropdown.Item
                                         key={enemyHash}
-                                        active={enemyHash === quest.enemyHash}
+                                        active={
+                                            enemyHash === quest.enemyHash &&
+                                            enemyHash === this.state.hash &&
+                                            enemyHash !== undefined
+                                        }
                                         onClick={() => this.setState({ hash: enemyHash })}
                                     >
                                         <code>{shortenQuestHash(enemyHash)}</code>
                                     </Dropdown.Item>
                                 ))}
+                                {
+                                    <Dropdown.Item
+                                        key={"default"}
+                                        active={this.state.hash === undefined}
+                                        onClick={() => this.setState({ hash: undefined })}
+                                    >
+                                        <code>average</code>
+                                    </Dropdown.Item>
+                                }
                             </Dropdown.Menu>
                         </Dropdown>
                     </Alert>
