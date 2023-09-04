@@ -23,6 +23,7 @@ interface IState {
     FQSpotsOnly: boolean;
     isMapLoaded: boolean;
     mapGimmicks: War.MapGimmick[];
+    disabledMapGimmickIds: number[];
     OGMapGimmicks: War.MapGimmick[];
     showRoads: boolean;
     showSpots: boolean;
@@ -157,6 +158,7 @@ class WarMap extends React.Component<IProps, IState> {
         this.state = {
             isMapLoaded: true,
             mapGimmicks: this.defaultToggleEnabled ? mapGimmicks : [],
+            disabledMapGimmickIds: [],
             OGMapGimmicks,
             FQSpotsOnly: true,
             showRoads: !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length,
@@ -248,9 +250,7 @@ class WarMap extends React.Component<IProps, IState> {
                                       alt=""
                                       onError={() =>
                                           this.setState({
-                                              OGMapGimmicks: this.state.OGMapGimmicks.filter(
-                                                  (filterGimmick) => filterGimmick.id !== gimmick.id
-                                              ),
+                                              disabledMapGimmickIds: [...this.state.disabledMapGimmickIds, gimmick.id],
                                           })
                                       }
                                       src={gimmick.image}
@@ -277,6 +277,7 @@ class WarMap extends React.Component<IProps, IState> {
                 ]}
                 title={"Gimmicks to display"}
                 defaultEnabled={this.defaultToggleEnabled}
+                disabledItems={this.state.disabledMapGimmickIds}
                 onClick={(enabledGimmicks) => {
                     let showRoads =
                         enabledGimmicks.some((gimmick) => gimmick === -Infinity) &&

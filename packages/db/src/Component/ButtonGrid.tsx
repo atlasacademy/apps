@@ -11,6 +11,8 @@ interface IProps {
     }[];
     /** All buttons enabled by default */
     defaultEnabled: boolean;
+    /** Buttons prevented from being interacted with */
+    disabledItems?: number[];
     /** Title for the grid */
     title: string;
     /** Inline style overrides for the container of the buttons */
@@ -143,7 +145,14 @@ class ButtonGrid extends React.Component<IProps, IState> {
                             <Button
                                 key={item.uniqueId}
                                 className="toggle-button"
-                                variant={this.state.buttonStates[item.uniqueId] ? "success" : "secondary"}
+                                variant={
+                                    this.props.disabledItems?.includes(item.uniqueId)
+                                        ? "danger"
+                                        : this.state.buttonStates[item.uniqueId]
+                                        ? "success"
+                                        : "secondary"
+                                }
+                                disabled={this.props.disabledItems?.includes(item.uniqueId)}
                                 style={this.props.buttonStyleOverride ?? {}}
                                 onClick={this.handleClick.bind(this)}
                             >
