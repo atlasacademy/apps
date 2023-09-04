@@ -216,7 +216,7 @@ class QuestPage extends React.Component<IProps, IState> {
                                         active={this.state.hash === undefined}
                                         onClick={() => this.setState({ hash: undefined })}
                                     >
-                                        <code>average</code>
+                                        <code>{t("average")}</code>
                                     </Dropdown.Item>
                                 }
                             </Dropdown.Menu>
