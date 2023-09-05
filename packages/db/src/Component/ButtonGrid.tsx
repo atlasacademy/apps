@@ -93,7 +93,9 @@ class ButtonGrid extends React.Component<IProps, IState> {
     handleToggle() {
         const enabledButtonIds = this.state.allToggled ? this.state.itemList.map((item) => item.uniqueId) : [];
         const buttonStates = this.state.allToggled
-            ? this.state.itemList.reduce((acc, curr) => ({ ...acc, [curr.uniqueId]: true }), {})
+            ? this.state.itemList
+                  .filter((item) => !this.props.disabledItems?.includes(item.uniqueId))
+                  .reduce((acc, curr) => ({ ...acc, [curr.uniqueId]: true }), {})
             : {};
 
         this.setState(
@@ -103,7 +105,13 @@ class ButtonGrid extends React.Component<IProps, IState> {
                 allToggled: !this.state.allToggled,
             },
             () => {
-                this.props.onClick(this.state.allToggled ? [] : this.state.itemList.map((item) => item.uniqueId));
+                this.props.onClick(
+                    this.state.allToggled
+                        ? []
+                        : this.state.itemList
+                              .filter((item) => !this.props.disabledItems?.includes(item.uniqueId))
+                              .map((item) => item.uniqueId)
+                );
             }
         );
     }
