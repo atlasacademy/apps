@@ -273,7 +273,7 @@ class WarMap extends React.Component<IProps, IState> {
                             (this.props.warId * 10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
                         }`.padStart(3, "0"),
                     })),
-                    ...(this.state.showRoads ? [{ uniqueId: -Infinity, displayName: "Roads" }] : []),
+                    { uniqueId: -Infinity, displayName: "Roads" },
                 ]}
                 title={"Gimmicks to display"}
                 defaultEnabled={this.defaultToggleEnabled}
