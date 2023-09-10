@@ -66,7 +66,8 @@ class QuestPage extends React.Component<IProps, IState> {
         }
         if (this.state.hash !== prevState.hash) {
             this.loadQuest(this.state.phase, this.state.hash);
-            const url = `/${this.props.region}/quest/${this.props.id}/${this.state.phase}?hash=${this.state.hash}`;
+            const hashQuery = this.state.hash ? `?hash=${this.state.hash}` : "";
+            const url = `/${this.props.region}/quest/${this.props.id}/${this.state.phase}${hashQuery}`;
             this.props.history.push(url);
         }
     }
@@ -87,6 +88,7 @@ class QuestPage extends React.Component<IProps, IState> {
         if (this.state.loading || !this.state.quest) return <Loading />;
 
         const quest = this.state.quest;
+        const currentQuestHash = this.state.hash ?? quest.enemyHash;
         const { t } = this.props;
 
         return (
@@ -183,7 +185,18 @@ class QuestPage extends React.Component<IProps, IState> {
                         </ul>
                     </Alert>
                 ) : null}
-                <QuestDrops region={this.props.region} drops={quest.drops} />
+                <QuestDrops
+                    region={this.props.region}
+                    drops={quest.drops}
+                    questHash={
+                        quest.availableEnemyHashes.length > 1
+                            ? this.state.hash === undefined
+                                ? "average"
+                                : currentQuestHash
+                            : undefined
+                    }
+                    questHashAverageGoTo={() => this.setState({ hash: undefined })}
+                />
                 {quest.restrictions.length > 0 ? (
                     <Alert variant="success">
                         <QuestRestriction region={this.props.region} questRestrictions={quest.restrictions} />
@@ -191,11 +204,9 @@ class QuestPage extends React.Component<IProps, IState> {
                 ) : null}
                 {quest.availableEnemyHashes.length > 1 && quest.type !== Quest.QuestType.WAR_BOARD && (
                     <Alert variant="success">
-                        {t("This quest can have multiple enemy versions")}:{" "}
+                        {t("This quest can have multiple enemy versions")}. {t("Currently showing enemy version")}:{" "}
                         <Dropdown className="d-inline">
-                            <Dropdown.Toggle variant="info">
-                                {shortenQuestHash(this.state.hash ?? quest.enemyHash ?? "")}
-                            </Dropdown.Toggle>
+                            <Dropdown.Toggle variant="info">{shortenQuestHash(currentQuestHash ?? "")}</Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {quest.availableEnemyHashes.map((enemyHash) => (
                                     <Dropdown.Item
@@ -210,15 +221,6 @@ class QuestPage extends React.Component<IProps, IState> {
                                         <code>{shortenQuestHash(enemyHash)}</code>
                                     </Dropdown.Item>
                                 ))}
-                                {
-                                    <Dropdown.Item
-                                        key={"default"}
-                                        active={this.state.hash === undefined}
-                                        onClick={() => this.setState({ hash: undefined })}
-                                    >
-                                        <code>{t("average")}</code>
-                                    </Dropdown.Item>
-                                }
                             </Dropdown.Menu>
                         </Dropdown>
                     </Alert>

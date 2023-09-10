@@ -1,4 +1,11 @@
-import { faInfoCircle, faPhone, faShieldHeart, faSkull, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import {
+    faInfoCircle,
+    faPhone,
+    faShare,
+    faShieldHeart,
+    faSkull,
+    faWandMagicSparkles,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import quantile from "@stdlib/stats-base-dists-t-quantile";
 import { Alert, Button, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
@@ -13,6 +20,7 @@ import AiDescriptor from "../Descriptor/AiDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import NoblePhantasmPopover from "../Descriptor/NoblePhantasmPopover";
+import shortenQuestHash from "../Descriptor/QuestHashDescriptor";
 import SkillPopover from "../Descriptor/SkillPopover";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { getEnemyCalcString } from "../Helper/CalcString";
@@ -371,9 +379,40 @@ export const QuestEnemySubData = (props: {
 const numToPct = (value: number) =>
     value < 1 ? `${(value * 100).toFixed(2)}%` : `${Math.round(value * 100).toLocaleString()}%`;
 
-export const QuestDropDescriptor = ({ region, drops }: { region: Region; drops: QuestEnemy.EnemyDrop[] }) => {
+export const QuestDropDescriptor = ({
+    region,
+    drops,
+    questHash,
+    questHashAverageGoTo,
+}: {
+    region: Region;
+    drops: QuestEnemy.EnemyDrop[];
+    questHash?: string | "average";
+    questHashAverageGoTo?: () => void;
+}) => {
+    const { t } = useTranslation();
+
     return (
         <Alert variant="success">
+            {questHash !== undefined ? (
+                questHash === "average" ? (
+                    <div className="mb-3">{t("Average drop rates accross all enemy versions")}</div>
+                ) : (
+                    <div className="mb-3">
+                        {t("Drop rates for enemy version")} <code>{shortenQuestHash(questHash)}</code>.{" "}
+                        <Button
+                            variant="link"
+                            style={{ verticalAlign: "baseline", padding: 0 }}
+                            onClick={() => {
+                                if (questHashAverageGoTo !== undefined) questHashAverageGoTo();
+                            }}
+                        >
+                            {t("Show average drop dates from all enemy versions")}&nbsp;
+                            <FontAwesomeIcon icon={faShare} />
+                        </Button>
+                    </div>
+                )
+            ) : null}
             <ul className="mb-0">
                 {drops.map((drop) => {
                     const dummyGift = {
