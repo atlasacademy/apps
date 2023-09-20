@@ -1,3 +1,7 @@
+import steggy_load_01 from "../Assets/Steggy_loading/load_icon_A01.png";
+import steggy_load_02 from "../Assets/Steggy_loading/load_icon_A02.png";
+import steggy_load_03 from "../Assets/Steggy_loading/load_icon_A03.png";
+import steggy_load_04 from "../Assets/Steggy_loading/load_icon_A04.png";
 import kon_load_00 from "../Assets/kon_loading/00.png";
 import kon_load_01 from "../Assets/kon_loading/01.png";
 import kon_load_03 from "../Assets/kon_loading/03.png";
@@ -33,6 +37,30 @@ const FouLoading = () => {
     );
 };
 
-const Loading = Math.random() > 0.5 ? () => <KonLoading /> : () => <FouLoading />;
+const SteggyLoading = () => {
+    return (
+        <div id="loading">
+            <img alt="Loading ..." className="fou f1" src={steggy_load_01} />
+            <img alt="Loading ..." className="fou f2" src={steggy_load_02} />
+            <img alt="Loading ..." className="fou f3" src={steggy_load_03} />
+            <img alt="Loading ..." className="fou f4" src={steggy_load_04} />
+        </div>
+    );
+};
+
+const randomNumber = Math.floor(Math.random() * 3);
+
+const Loading = () => {
+    switch (randomNumber) {
+        case 0:
+            return <KonLoading />;
+        case 1:
+            return <FouLoading />;
+        case 2:
+            return <SteggyLoading />;
+        default:
+            return <KonLoading />;
+    }
+};
 
 export default Loading;
