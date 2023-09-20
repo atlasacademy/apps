@@ -20,13 +20,14 @@ interface IProps {
 }
 
 interface IState {
-    FQSpotsOnly: boolean;
+    showFQSpots: boolean;
+    showNonFQSpots: boolean;
+    spots: War.Spot[];
     isMapLoaded: boolean;
     mapGimmicks: War.MapGimmick[];
     disabledMapGimmickIds: number[];
     OGMapGimmicks: War.MapGimmick[];
     showRoads: boolean;
-    showSpots: boolean;
 }
 
 const doNotGimmicks: number[] = [9056, 9080, 9136];
@@ -160,9 +161,10 @@ class WarMap extends React.Component<IProps, IState> {
             mapGimmicks: this.defaultToggleEnabled ? mapGimmicks : [],
             disabledMapGimmickIds: [],
             OGMapGimmicks,
-            FQSpotsOnly: true,
+            showFQSpots: true,
+            showNonFQSpots: true,
+            spots: this.props.allSpots,
             showRoads: !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length,
-            showSpots: !!this.props.spots.length,
         };
     }
 
@@ -222,9 +224,15 @@ class WarMap extends React.Component<IProps, IState> {
         const showGimmicks =
             !doNotGimmicks.includes(this.props.warId) && this.state.isMapLoaded && !!this.state.OGMapGimmicks.length;
 
-        const showFQSpotsOnlyButton =
+        const showFQSpotsButton =
             this.props.spots.filter((spot) => !spot.quests.some((quest) => quest.afterClear !== "repeatLast")) && // Only FQ spots are present
             this.state.isMapLoaded;
+
+        const showNonFQSpotsButton =
+            this.props.spots.filter((spot) => spot.quests.some((quest) => quest.afterClear !== "repeatLast")) && // Only Non-FQ spots are present
+            this.state.isMapLoaded;
+
+        const showRoadsButton = this.props.spotRoads.length && this.state.isMapLoaded;
 
         const mapImageElement = (
             <>
@@ -273,23 +281,15 @@ class WarMap extends React.Component<IProps, IState> {
                             (this.props.warId * 10 ** (("" + gimmick.id).length - ("" + this.props.warId).length)) // E.g. 913101...913201 => 001...201 for warId 9131
                         }`.padStart(3, "0"),
                     })),
-                    { uniqueId: -Infinity, displayName: "Roads" },
                 ]}
                 title={"Gimmicks to display"}
                 defaultEnabled={this.defaultToggleEnabled}
                 disabledItems={this.state.disabledMapGimmickIds}
                 onClick={(enabledGimmicks) => {
-                    let showRoads =
-                        enabledGimmicks.some((gimmick) => gimmick === -Infinity) &&
-                        !donotSpotroad.includes(this.props.warId) &&
-                        !!this.props.spotRoads.length &&
-                        this.state.isMapLoaded;
-
                     this.setState({
                         mapGimmicks: (this.state.OGMapGimmicks ?? []).filter((gimmick) =>
                             enabledGimmicks.includes(gimmick.id)
                         ),
-                        showRoads,
                     });
                 }}
             />
@@ -299,22 +299,27 @@ class WarMap extends React.Component<IProps, IState> {
             <div className="warmap-parent">
                 {showGimmicks ? gimmickToggles : []}
                 <div className="warmap-container">
-                    {this.state.isMapLoaded && this.state.showSpots
-                        ? this.props.spots
-                              .filter((spot) =>
-                                  this.state.FQSpotsOnly
+                    {this.state.isMapLoaded && this.props.spots.length
+                        ? [
+                              ...this.props.spots.filter((spot) =>
+                                  this.state.showFQSpots
                                       ? spot.quests.some((quest) => quest.afterClear === "repeatLast")
-                                      : true
-                              )
-                              .map((spot) => (
-                                  <WarSpot
-                                      key={spot.id}
-                                      map={this.props.map}
-                                      region={this.props.region}
-                                      spot={spot}
-                                      FQSpotsOnly={this.state.FQSpotsOnly}
-                                  />
-                              ))
+                                      : false
+                              ),
+                              ...this.props.spots.filter((spot) =>
+                                  this.state.showNonFQSpots
+                                      ? spot.quests.every((quest) => quest.afterClear !== "repeatLast")
+                                      : false
+                              ),
+                          ].map((spot) => (
+                              <WarSpot
+                                  key={spot.id}
+                                  map={this.props.map}
+                                  region={this.props.region}
+                                  spot={spot}
+                                  FQSpotsOnly={this.state.showFQSpots}
+                              />
+                          ))
                         : null}
                     {this.state.showRoads ? (
                         <SpotRoads
@@ -328,22 +333,41 @@ class WarMap extends React.Component<IProps, IState> {
                     )}
                     {this.state.isMapLoaded ? mapImageElement : <p>Map unavailable for this war.</p>}
                 </div>
-                {showFQSpotsOnlyButton ? (
+                {this.props.spots.length ? (
                     <div id="spot-button-container">
-                        <Button
-                            className="toggle-all-spots"
-                            variant={this.state.showSpots ? "success" : "secondary"}
-                            onClick={() => this.setState({ showSpots: !this.state.showSpots })}
-                        >
-                            Show spots
-                        </Button>
-                        <Button
-                            className="toggle-all-spots"
-                            variant={this.state.FQSpotsOnly ? "success" : "secondary"}
-                            onClick={() => this.setState({ FQSpotsOnly: !this.state.FQSpotsOnly })}
-                        >
-                            FQ spots only
-                        </Button>
+                        {showFQSpotsButton ? (
+                            <Button
+                                className="toggle-all-spots"
+                                variant={this.state.showFQSpots ? "success" : "secondary"}
+                                onClick={() => this.setState({ showFQSpots: !this.state.showFQSpots })}
+                            >
+                                FQ Spots
+                            </Button>
+                        ) : (
+                            []
+                        )}
+                        {showNonFQSpotsButton ? (
+                            <Button
+                                className="toggle-spots"
+                                variant={this.state.showNonFQSpots ? "success" : "secondary"}
+                                onClick={() => this.setState({ showNonFQSpots: !this.state.showNonFQSpots })}
+                            >
+                                Non-FQ Spots
+                            </Button>
+                        ) : (
+                            []
+                        )}
+                        {showRoadsButton ? (
+                            <Button
+                                className="toggle-spots"
+                                variant={this.state.showRoads ? "success" : "secondary"}
+                                onClick={() => this.setState({ showRoads: !this.state.showRoads })}
+                            >
+                                Roads
+                            </Button>
+                        ) : (
+                            []
+                        )}
                     </div>
                 ) : (
                     []
