@@ -16,6 +16,7 @@ interface IProps {
     allSpots: War.Spot[];
     warName: string;
     warId: number;
+    isEvent: boolean;
     spotRoads: War.SpotRoad[];
 }
 
@@ -164,7 +165,8 @@ class WarMap extends React.Component<IProps, IState> {
             showFQSpots: true,
             showNonFQSpots: false,
             spots: this.props.allSpots,
-            showRoads: !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length,
+            showRoads:
+                !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length && !this.props.isEvent,
         };
     }
 

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 
 import { Bgm, CondType, Event, Gift, Item, Quest, Region, War } from "@atlasacademy/api-connector";
+import { WarFlag } from "@atlasacademy/api-connector/dist/Schema/War";
 
 import Api from "../Api";
 import renderCollapsibleContent from "../Component/CollapsibleContent";
@@ -414,6 +415,7 @@ const WarMapList = (props: {
     spotRoads: War.SpotRoad[];
     warName: string;
     warId: number;
+    isEvent: boolean;
     last?: boolean;
 }) => {
     const groupBy = <T,>(array: T[], property: (x: T) => string): { [key: string]: Array<T> } =>
@@ -461,6 +463,7 @@ const WarMapList = (props: {
                             spotRoads={props.spotRoads}
                             warName={props.warName}
                             warId={props.warId}
+                            isEvent={props.isEvent}
                         />
                     </Tab>
                 ) : null;
@@ -668,6 +671,7 @@ class WarPage extends React.Component<IProps, IState> {
                     spotRoads={war.spotRoads}
                     warName={war.name}
                     warId={war.id}
+                    isEvent={war.flags.includes(WarFlag.IS_EVENT)}
                     title={t("Maps")}
                 />
                 <MainQuests
