@@ -182,6 +182,9 @@ export enum AiCond {
     COUNT_PLAYER_SKILL_HIGHER_INCLUDE_MASTER_SKILL = "countPlayerSkillHigherIncludeMasterSkill",
     COUNT_PLAYER_SKILL_LOWER_INCLUDE_MASTER_SKILL = "countPlayerSkillLowerIncludeMasterSkill",
     COUNT_PLAYER_SKILL_EQUAL_INCLUDE_MASTER_SKILL = "countPlayerSkillEqualIncludeMasterSkill",
+    TOTAL_TURN_HIGHER = "totalTurnHigher",
+    TOTAL_TURN_LOWER = "totalTurnLower",
+    TOTAL_TURN_EQUAL = "totalTurnEqual",
 }
 
 export enum AiTiming {

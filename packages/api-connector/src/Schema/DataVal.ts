@@ -144,6 +144,7 @@ interface BaseDataVal {
     TriggeredFuncPositionAll?: number;
     TriggeredTargetHpRange?: string;
     TriggeredTargetHpRateRange?: string;
+    ExcludeUnSubStateIndiv?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -296,4 +297,5 @@ export enum DataValField {
     TRIGGERED_FUNC_POSITION_ALL = "TriggeredFuncPositionAll",
     TRIGGERED_TARGET_HP_RANGE = "TriggeredTargetHpRange",
     TRIGGERED_TARGET_HP_RATE_RANGE = "TriggeredTargetHpRateRange",
+    EXCLUDE_UN_SUB_STATE_INDIV = "ExcludeUnSubStateIndiv",
 }
