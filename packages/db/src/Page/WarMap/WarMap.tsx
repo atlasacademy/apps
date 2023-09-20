@@ -162,7 +162,7 @@ class WarMap extends React.Component<IProps, IState> {
             disabledMapGimmickIds: [],
             OGMapGimmicks,
             showFQSpots: true,
-            showNonFQSpots: true,
+            showNonFQSpots: false,
             spots: this.props.allSpots,
             showRoads: !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length,
         };
