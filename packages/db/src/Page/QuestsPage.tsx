@@ -342,7 +342,9 @@ class QuestsPage extends React.Component<IProps, IState> {
                     {this.getNumberForm("fieldAiId", t("Field AI ID"))}
                     {this.getNumberForm("enemySvtId", t("Enemy svt ID"))}
                     <Form.Group>
-                        <Form.Label>{t("Enemy Name")}</Form.Label>
+                        <Form.Label>
+                            {t("Enemy Name")} ({t("Only exact matches")})
+                        </Form.Label>
                         <Form.Control
                             value={this.state.enemyName ?? ""}
                             onChange={(ev: ChangeEvent) => {
