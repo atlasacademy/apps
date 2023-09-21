@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import React from "react";
+import { Pagination } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -17,6 +18,8 @@ import Settings from "./Changelog/Settings";
 
 import "./ChangelogPage.css";
 
+const ITEM_PER_PAGE = 50;
+
 interface IProps extends WithTranslation {
     region: Region;
     visibleOnly?: boolean;
@@ -29,13 +32,58 @@ interface IState {
     changes: Change.Change[];
     servantList: Servant.ServantBasic[];
     ceList: CraftEssence.CraftEssenceBasic[];
+    page: number;
 }
+
+const ChangelogPagination = (props: {
+    page: number;
+    setPage: (page: number) => void;
+    pageCount: number;
+    maxShownPagesEachSide?: number;
+}) => {
+    const { page, setPage, pageCount } = props,
+        maxShownPagesEachSide = props.maxShownPagesEachSide ?? 2,
+        showLeftEllipsis = page >= maxShownPagesEachSide + 1,
+        showRightEllipsis = page <= pageCount - maxShownPagesEachSide * 2,
+        leftEllipsisPage = showRightEllipsis
+            ? Math.max(page - maxShownPagesEachSide, 0)
+            : pageCount - (maxShownPagesEachSide + 1) * 2,
+        rightEllipsisPage = showLeftEllipsis
+            ? Math.min(page + maxShownPagesEachSide, pageCount - 1)
+            : showRightEllipsis
+            ? maxShownPagesEachSide * 2 + 1
+            : pageCount,
+        pages = Array.from({ length: pageCount }, (_, i) => i),
+        shownPages = pages.slice(leftEllipsisPage, rightEllipsisPage + 1);
+
+    return (
+        <Pagination>
+            <Pagination.First onClick={() => setPage(0)} />
+            <Pagination.Prev onClick={() => setPage(page + -1)} />
+            {showLeftEllipsis && <Pagination.Ellipsis className="pagination-item" />}
+            {shownPages.map((page) => (
+                <Pagination.Item
+                    key={page}
+                    active={page === props.page}
+                    onClick={() => setPage(page)}
+                    className="pagination-item"
+                >
+                    {page + 1}
+                </Pagination.Item>
+            ))}
+            {showRightEllipsis && <Pagination.Ellipsis className="pagination-item" />}
+            <Pagination.Next onClick={() => setPage(page + 1)} />
+            <Pagination.Last onClick={() => setPage(pageCount - 1)} />
+        </Pagination>
+    );
+};
 
 class ChangelogPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {
+            page: 0,
             loading: true,
             changes: [],
             servantList: [],
@@ -62,6 +110,7 @@ class ChangelogPage extends React.Component<IProps, IState> {
         let openedChange = true;
 
         var content = changes
+            .slice(this.state.page * ITEM_PER_PAGE, (this.state.page + 1) * ITEM_PER_PAGE)
             .sort((firstChange, secondChange) => +secondChange.timestamp - +firstChange.timestamp)
             .map((change) => {
                 let renderedChanges = Object.entries(change.changes)
@@ -179,15 +228,20 @@ class ChangelogPage extends React.Component<IProps, IState> {
         if (visibleOnly) content = content.filter(Boolean);
 
         return (
-            <div>
+            <>
                 <Settings
                     visibleOnly={Manager.changelogVisibleOnly()}
                     updateVisibleOnly={Manager.setChangelogVisibleOnly}
                     localTime={Manager.changelogLocalTimestamp()}
                     updateLocalTime={Manager.setChangelogLocalTimestamp}
                 />
+                <ChangelogPagination
+                    page={this.state.page}
+                    setPage={(page) => this.setState({ page })}
+                    pageCount={Math.ceil(this.state.changes.length / ITEM_PER_PAGE)}
+                />
                 {content.length ? content : t("No changes found on the server.")}
-            </div>
+            </>
         );
     }
 }
