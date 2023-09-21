@@ -54,13 +54,11 @@ class TraitDescription extends React.Component<IProps, IState> {
             .includes(this.state.id);
 
         if (potentiallyServantId && !alreadyDescribedInOverride) {
-            const servantList = await Api.servantList();
-            for (const servant of servantList) {
-                if (servant.id === this.state.id) {
-                    this.setState({ trait: { id: servant.id, name: servant.name } });
-                    return;
-                }
-            }
+            try {
+                const entity = await Api.entityBasic(this.state.id);
+                this.setState({ trait: { id: entity.id, name: entity.name } });
+                return;
+            } catch {}
         }
 
         if (this.state.trait) return;

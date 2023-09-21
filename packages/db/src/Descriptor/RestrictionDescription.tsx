@@ -7,6 +7,7 @@ import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import EventAllOutDescription from "./EventAllOutDescription";
 import { MergeElementsOr, MultipleTraits } from "./MultipleDescriptors";
 import ServantDescriptorId from "./ServantDescriptorId";
+import TraitDescription from "./TraitDescription";
 
 const RestrictionDescription = ({ region, restriction }: { region: Region; restriction: Restriction.Restriction }) => {
     const { targetVals, targetVals2 } = restriction,
@@ -119,9 +120,9 @@ const RestrictionDescription = ({ region, restriction }: { region: Region; restr
         case Restriction.RestrictionType.MY_SVT_OR_SUPPORT:
             return (
                 <>
-                    One of player's own or Support{" "}
+                    One of player's own or Support with trait(s){" "}
                     {mergeElements(
-                        targetVals.map((svtId) => <EntityReferenceDescriptor region={region} svtId={svtId} />),
+                        targetVals.map((svtId) => <TraitDescription region={region} trait={svtId} />),
                         ", "
                     )}{" "}
                     must be used at position {targetVals2[0]}
