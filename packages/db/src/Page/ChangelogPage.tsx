@@ -95,7 +95,16 @@ class ChangelogPage extends React.Component<IProps, IState> {
         Manager.setRegion(this.props.region);
         document.title = `[${this.props.region}] Changelog - Atlas Academy DB`;
         Promise.all([Api.changelog(), Api.servantList(), Api.craftEssenceList()])
-            .then(([changes, servantList, ceList]) => this.setState({ changes, servantList, ceList, loading: false }))
+            .then(([changes, servantList, ceList]) =>
+                this.setState({
+                    changes: changes.sort(
+                        (firstChange, secondChange) => +secondChange.timestamp - +firstChange.timestamp
+                    ),
+                    servantList,
+                    ceList,
+                    loading: false,
+                })
+            )
             .catch((error) => this.setState({ error }));
     }
 
@@ -111,7 +120,6 @@ class ChangelogPage extends React.Component<IProps, IState> {
 
         var content = changes
             .slice(this.state.page * ITEM_PER_PAGE, (this.state.page + 1) * ITEM_PER_PAGE)
-            .sort((firstChange, secondChange) => +secondChange.timestamp - +firstChange.timestamp)
             .map((change) => {
                 let renderedChanges = Object.entries(change.changes)
                     .filter((changeEntry) => changeEntry[1].length)
