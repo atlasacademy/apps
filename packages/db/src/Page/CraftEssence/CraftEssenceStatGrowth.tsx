@@ -1,14 +1,11 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import highchartsAccessibility from "highcharts/modules/accessibility";
 import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 
 import { CraftEssence, Region } from "@atlasacademy/api-connector";
 
 import { formatNumber } from "../../Helper/OutputHelper";
-
-highchartsAccessibility(Highcharts);
 
 interface IProps extends WithTranslation {
     region: Region;

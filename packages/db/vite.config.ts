@@ -10,7 +10,7 @@ export default defineConfig({
         port: 3000,
     },
     build: {
-        target: "ios11",
+        target: "ios12",
         outDir: "build",
         commonjsOptions: {
             include: [],

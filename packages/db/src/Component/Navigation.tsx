@@ -10,11 +10,11 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { Language, Region } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";
 
-import { ReactComponent as CNFlag } from "../Assets/cn.svg";
-import { ReactComponent as JPFlag } from "../Assets/jp.svg";
-import { ReactComponent as KRFlag } from "../Assets/kr.svg";
-import { ReactComponent as TWFlag } from "../Assets/tw.svg";
-import { ReactComponent as USFlag } from "../Assets/us.svg";
+import CNFlag from "../Assets/cn.svg?react";
+import JPFlag from "../Assets/jp.svg?react";
+import KRFlag from "../Assets/kr.svg?react";
+import TWFlag from "../Assets/tw.svg?react";
+import USFlag from "../Assets/us.svg?react";
 import Manager from "../Setting/Manager";
 import SettingForm, { UILanguageDescriptor } from "../Setting/SettingForm";
 import { Theme } from "../Setting/Theme";

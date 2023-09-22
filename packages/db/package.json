@@ -11,9 +11,9 @@
         "@fortawesome/free-solid-svg-icons": "^6.4.2",
         "@fortawesome/react-fontawesome": "^0.2.0",
         "@stdlib/stats-base-dists-t-quantile": "^0.0.7",
-        "@types/cytoscape-klay": "^3.1.1",
-        "@types/node": "^18.17.11",
-        "@types/react": "^18.2.21",
+        "@types/cytoscape-klay": "^3.1.2",
+        "@types/node": "^18.17.18",
+        "@types/react": "^18.2.22",
         "@types/react-bootstrap-typeahead": "^5.1.9",
         "@types/react-cytoscapejs": "^1.2.2",
         "@types/react-dom": "^18.2.7",
@@ -24,12 +24,12 @@
         "copy-to-clipboard": "^3.3.3",
         "cytoscape": "^3.26.0",
         "cytoscape-klay": "^3.1.4",
-        "eslint": "^8.47.0",
+        "eslint": "^8.50.0",
         "eslint-config-react-app": "^7.0.1",
         "fuse.js": "^6.6.2",
-        "highcharts": "10.3.1",
-        "highcharts-react-official": "^3.2.0",
-        "i18next": "^23.4.5",
+        "highcharts": "^11.1.0",
+        "highcharts-react-official": "^3.2.1",
+        "i18next": "^23.5.1",
         "i18next-parser": "^8.7.0",
         "react": "^18.2.0",
         "react-bootstrap": "^1.6.7",
@@ -44,7 +44,7 @@
         "typescript": "^5.2.2",
         "vite": "^4.4.9",
         "vite-plugin-eslint": "^1.8.1",
-        "vite-plugin-svgr": "^3.2.0"
+        "vite-plugin-svgr": "^4.0.0"
     },
     "overrides": {
         "react-json-view": {
@@ -64,18 +64,5 @@
         "rules": {
             "no-console": "warn"
         }
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "iOS 11",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
     }
 }
