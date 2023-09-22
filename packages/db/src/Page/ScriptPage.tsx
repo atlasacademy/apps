@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createRef, useEffect, useState } from "react";
-import { Button, ButtonGroup, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, ButtonGroup, ButtonToolbar, Dropdown, DropdownButton } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 
@@ -251,54 +251,58 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                 scriptSource={useRayshiftScript ? "rayshift" : undefined}
                 compareSource={compareSource}
             >
-                <ButtonGroup className="my-3 mx-0">
-                    {hasDialogueLines ? (
-                        <VoiceLinePlayer
-                            audioAssetUrls={audioUrls}
-                            delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
-                            title={t("voice lines")}
-                            showTitle
-                            handleNavigateAssetUrl={scrollToRow}
+                <ButtonToolbar className="justify-content-between">
+                    <ButtonGroup className="mb-3 mx-0">
+                        {hasDialogueLines ? (
+                            <VoiceLinePlayer
+                                audioAssetUrls={audioUrls}
+                                delay={new Array(audioUrls.length).fill(0).fill(1, 1)}
+                                title={t("voice lines")}
+                                showTitle
+                                handleNavigateAssetUrl={scrollToRow}
+                            />
+                        ) : null}
+                        <Button
+                            variant={enableScene ? "success" : "secondary"}
+                            onClick={() => setEnableScene(!enableScene)}
+                        >
+                            {enableScene ? t("Scene Enabled") : t("Scene Disabled")}
+                        </Button>
+                        <Button
+                            variant={showScriptLine ? "success" : "secondary"}
+                            onClick={() => Manager.setShowScriptLine(!showScriptLine)}
+                        >
+                            {showScriptLine ? t("Line number shown") : t("Line number hidden")}
+                        </Button>
+                    </ButtonGroup>
+                    <ButtonGroup className="mb-3 mx-0">
+                        <RawDataViewer
+                            text={t("Parsed Script")}
+                            data={fromEntries(showRawData)}
+                            block={false}
+                            url={getScriptAssetURL(region, scriptId)}
                         />
-                    ) : null}
-                    <Button
-                        variant={enableScene ? "success" : "secondary"}
-                        onClick={() => setEnableScene(!enableScene)}
-                    >
-                        {enableScene ? t("Scene Enabled") : t("Scene Disabled")}
-                    </Button>
-                    <Button
-                        variant={showScriptLine ? "success" : "secondary"}
-                        onClick={() => Manager.setShowScriptLine(!showScriptLine)}
-                    >
-                        {showScriptLine ? t("Line number shown") : t("Line number hidden")}
-                    </Button>
-                    <RawDataViewer
-                        text={t("Parsed Script")}
-                        data={fromEntries(showRawData)}
-                        block={false}
-                        url={getScriptAssetURL(region, scriptId)}
-                    />
-                    {availableCompareRegions.length > 1 && (
-                        <DropdownButton as={ButtonGroup} id="compare-dropdown" title={t("Compare script")}>
-                            {availableCompareRegions.map((r) => (
-                                <Dropdown.Item
-                                    key={r}
-                                    eventKey={r}
-                                    as={Link}
-                                    to={`/${region}/script/${scriptId}${r === "none" ? "" : `?compareSource=${r}`}`}
-                                    active={compareSource === r || (compareSource === undefined && r === "none")}
-                                >
-                                    {r === "none"
-                                        ? t("None")
-                                        : r === "rayshift"
-                                        ? t("Rayshift (Unofficial translation)")
-                                        : r}
-                                </Dropdown.Item>
-                            ))}
-                        </DropdownButton>
-                    )}
-                </ButtonGroup>
+                        {availableCompareRegions.length > 1 && (
+                            <DropdownButton as={ButtonGroup} id="compare-dropdown" title={t("Compare script")}>
+                                {availableCompareRegions.map((r) => (
+                                    <Dropdown.Item
+                                        key={r}
+                                        eventKey={r}
+                                        as={Link}
+                                        to={`/${region}/script/${scriptId}${r === "none" ? "" : `?compareSource=${r}`}`}
+                                        active={compareSource === r || (compareSource === undefined && r === "none")}
+                                    >
+                                        {r === "none"
+                                            ? t("None")
+                                            : r === "rayshift"
+                                            ? t("Rayshift (Unofficial translation)")
+                                            : r}
+                                    </Dropdown.Item>
+                                ))}
+                            </DropdownButton>
+                        )}
+                    </ButtonGroup>
+                </ButtonToolbar>
                 <ShowScriptLineContext.Provider value={showScriptLine}>
                     <ScriptTable
                         region={region}
