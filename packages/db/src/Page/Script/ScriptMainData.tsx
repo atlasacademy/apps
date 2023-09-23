@@ -6,7 +6,6 @@ import { Region, Script } from "@atlasacademy/api-connector";
 
 import { CompareRegion, ScriptSource } from "../../Component/Script";
 import { getScriptQueryString } from "../../Descriptor/ScriptDescriptor";
-import { flatten } from "../../Helper/PolyFill";
 import useNavigationScripts from "../../Hooks/useNavigationScripts";
 import { QuestListComponent } from "./ScriptMainData.components";
 
@@ -42,9 +41,11 @@ const ScriptMainData = ({
         scriptIdPhaseNum = /[0-9]/.test(scriptIdPhase) ? parseInt(scriptIdPhase) : undefined;
 
     const scriptPhase =
-        flatten(scriptData.quests.map((quest) => quest.phaseScripts)).find((phaseScript) =>
-            phaseScript.scripts.map((script) => script.scriptId).includes(scriptId)
-        )?.phase ?? scriptIdPhaseNum;
+        scriptData.quests
+            .map((quest) => quest.phaseScripts)
+            .flat()
+            .find((phaseScript) => phaseScript.scripts.map((script) => script.scriptId).includes(scriptId))?.phase ??
+        scriptIdPhaseNum;
 
     const questList =
         scriptData.quests.length === 0 ? null : (

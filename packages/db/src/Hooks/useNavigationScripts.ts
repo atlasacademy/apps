@@ -4,7 +4,6 @@ import { Quest, Script } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import { dedupe } from "../Helper/ArrayHelper";
-import { flatten } from "../Helper/PolyFill";
 
 interface useNavigationScriptsProps {
     scriptData: Script.Script;
@@ -13,9 +12,10 @@ interface useNavigationScriptsProps {
 
 const getQuestSortedScriptIds = (quest: Quest.Quest) => {
     const phaseScripts = quest.phaseScripts.sort((a, b) => a.phase - b.phase);
-    const scriptIds = flatten(
-        phaseScripts.map((phase) => phase.scripts.sort((a, b) => a.scriptId.localeCompare(b.scriptId, "en")))
-    ).map((script) => script.scriptId);
+    const scriptIds = phaseScripts
+        .map((phase) => phase.scripts.sort((a, b) => a.scriptId.localeCompare(b.scriptId, "en")))
+        .flat()
+        .map((script) => script.scriptId);
 
     return dedupe(scriptIds);
 };
@@ -66,11 +66,11 @@ export default function useNavigationScripts({ scriptData, scriptId }: useNaviga
                         spot.quests.filter((quest) => quest.type === Quest.QuestType.MAIN)
                     );
 
-                    const warQuests = flatten(warSpots).sort((a, b) => a.id - b.id);
+                    const warQuests = warSpots.flat().sort((a, b) => a.id - b.id);
 
                     const warQuestsSortedScripts = warQuests.map((quest) => getQuestSortedScriptIds(quest));
 
-                    const warScriptIds = dedupe(flatten(warQuestsSortedScripts));
+                    const warScriptIds = dedupe(warQuestsSortedScripts.flat());
 
                     const warScriptIndex = warScriptIds.indexOf(scriptId);
 

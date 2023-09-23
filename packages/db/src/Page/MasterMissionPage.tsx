@@ -12,7 +12,6 @@ import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
 import LoadStatus from "../Helper/LoadStatus";
-import { flatten } from "../Helper/PolyFill";
 import { getEventStatus, getTimeString } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
 
@@ -46,7 +45,7 @@ export const MasterMissionCond = (props: {
                 />
             ))
     );
-    return <>{flatten(renderedConds)}</>;
+    return <>{renderedConds.flat()}</>;
 };
 
 interface MasterMissionLoadStatus extends LoadStatus<MasterMission.MasterMission> {

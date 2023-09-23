@@ -15,7 +15,6 @@ import RawDataViewer from "../Component/RawDataViewer";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor";
 import WarDescriptor from "../Descriptor/WarDescriptor";
-import { flatten } from "../Helper/PolyFill";
 import { FGOText } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -198,7 +197,7 @@ class EventPage extends React.Component<IProps, IState> {
                 ))
         );
 
-        return <>{flatten(renderedConds)}</>;
+        return <>{renderedConds.flat()}</>;
     }
 
     renderMissionRow(

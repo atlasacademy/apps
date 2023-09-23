@@ -14,7 +14,6 @@ import SkillReferenceDescriptor from "../Descriptor/SkillReferenceDescriptor";
 import { dedupe } from "../Helper/ArrayHelper";
 import { describeMutators, getDependFuncIds } from "../Helper/FuncHelper";
 import { asPercent } from "../Helper/OutputHelper";
-import { flatten } from "../Helper/PolyFill";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
 
@@ -47,7 +46,7 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        const dependFuncIds = dedupe(flatten(this.props.funcs.map((func) => getDependFuncIds(func))));
+        const dependFuncIds = dedupe(this.props.funcs.map((func) => getDependFuncIds(func)).flat());
         Promise.all(dependFuncIds.map((funcId) => Api.funcBasic(funcId))).then((basicFuncs) =>
             this.setState({ dependFuncs: new Map(basicFuncs.map((func) => [func.funcId, func])) })
         );

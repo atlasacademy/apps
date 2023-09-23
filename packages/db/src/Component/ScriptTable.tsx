@@ -8,7 +8,6 @@ import { Region } from "@atlasacademy/api-connector";
 
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
-import { flatten } from "../Helper/PolyFill";
 import { useImageSize } from "../Hooks/useImageSize";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
 import ShowScriptLineContext from "../Page/Script/ShowScriptLineContext";
@@ -109,7 +108,7 @@ const DialogueRow = (props: {
                 )}
                 <ScriptDialogueLine
                     region={props.region}
-                    components={flatten(props.dialogue.components)}
+                    components={props.dialogue.components.flat()}
                     wideScreen={props.wideScreen}
                 />
             </td>
@@ -117,7 +116,7 @@ const DialogueRow = (props: {
                 <td lang={lang(props.compareRegion)} className="compare-dialogue">
                     <ScriptDialogueLine
                         region={compareRegion}
-                        components={flatten(compareComponent.components)}
+                        components={compareComponent.components.flat()}
                         wideScreen={props.wideScreen}
                     />
                 </td>
@@ -883,11 +882,14 @@ const ScriptTable = (props: {
                             foreground = undefined;
                             break;
                         case ScriptComponentType.CHOICES:
-                            flatten(content.choices.map((choice) => choice.results)).forEach((childChoice) => {
-                                if (childChoice.content.type === ScriptComponentType.BACKGROUND) {
-                                    backgroundComponent = childChoice.content;
-                                }
-                            });
+                            content.choices
+                                .map((choice) => choice.results)
+                                .flat()
+                                .forEach((childChoice) => {
+                                    if (childChoice.content.type === ScriptComponentType.BACKGROUND) {
+                                        backgroundComponent = childChoice.content;
+                                    }
+                                });
                             break;
                     }
 

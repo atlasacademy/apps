@@ -21,7 +21,6 @@ import {
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
 import LoadStatus from "../Helper/LoadStatus";
-import { fromEntries } from "../Helper/PolyFill";
 import Manager from "../Setting/Manager";
 import ScriptMainData from "./Script/ScriptMainData";
 import ShowScriptLineContext from "./Script/ShowScriptLineContext";
@@ -278,7 +277,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                     <ButtonGroup className="mb-3 mx-0">
                         <RawDataViewer
                             text={t("Parsed Script")}
-                            data={fromEntries(showRawData)}
+                            data={Object.fromEntries(showRawData)}
                             block={false}
                             url={getScriptAssetURL(region, scriptId)}
                         />

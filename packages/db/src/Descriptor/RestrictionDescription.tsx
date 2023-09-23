@@ -3,7 +3,6 @@ import { Region, Restriction } from "@atlasacademy/api-connector";
 import { listNumber } from "../Helper/ArrayHelper";
 import { mergeElements } from "../Helper/OutputHelper";
 import { OrdinalNumeral } from "../Helper/StringHelper";
-import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import EventAllOutDescription from "./EventAllOutDescription";
 import { MergeElementsOr, MultipleTraits } from "./MultipleDescriptors";
 import ServantDescriptorId from "./ServantDescriptorId";

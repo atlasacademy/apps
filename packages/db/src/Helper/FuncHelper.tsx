@@ -4,7 +4,6 @@ import { FuncDescriptor } from "@atlasacademy/api-descriptor";
 import FuncValueDescriptor from "../Descriptor/FuncValueDescriptor";
 import { dedupe } from "./ArrayHelper";
 import { Renderable } from "./OutputHelper";
-import { flatten } from "./PolyFill";
 
 const hasChangingDataVals = function (vals: DataVal.DataVal[]): boolean {
     if (!vals.length) return false;
@@ -211,5 +210,5 @@ export function getDependFuncIds(func: Func.Func): number[] {
     const allDependFuncIds = [func.svals, func.svals2, func.svals3, func.svals4, func.svals5].map((svals) =>
         svals !== undefined ? svals.map((sval) => sval.DependFuncId) : []
     );
-    return dedupe(flatten(allDependFuncIds)).filter((funcId) => funcId !== undefined) as number[];
+    return dedupe(allDependFuncIds.flat()).filter((funcId) => funcId !== undefined) as number[];
 }

@@ -4,7 +4,6 @@ import { Event, Mission, Region } from "@atlasacademy/api-connector";
 
 import EffectBreakdown from "../../Breakdown/EffectBreakdown";
 import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";
-import { flatten } from "../../Helper/PolyFill";
 import { lang } from "../../Setting/Manager";
 
 const EventCommandAssist = ({
@@ -38,18 +37,21 @@ const EventCommandAssist = ({
                         <div className="mb-3">
                             <b>{t("Release Conditions")}:</b>
                             <ol>
-                                {flatten(assists.map((assist) => assist.releaseConditions)).map((cond, index) => (
-                                    <li key={index}>
-                                        <CondTargetValueDescriptor
-                                            region={region}
-                                            cond={cond.condType}
-                                            target={cond.condId}
-                                            value={cond.condNum}
-                                            missions={missions}
-                                            missionGroups={missionGroups}
-                                        />
-                                    </li>
-                                ))}
+                                {assists
+                                    .map((assist) => assist.releaseConditions)
+                                    .flat()
+                                    .map((cond, index) => (
+                                        <li key={index}>
+                                            <CondTargetValueDescriptor
+                                                region={region}
+                                                cond={cond.condType}
+                                                target={cond.condId}
+                                                value={cond.condNum}
+                                                missions={missions}
+                                                missionGroups={missionGroups}
+                                            />
+                                        </li>
+                                    ))}
                             </ol>
                         </div>
                         <EffectBreakdown

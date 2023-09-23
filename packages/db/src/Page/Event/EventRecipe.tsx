@@ -8,7 +8,6 @@ import ItemIcon from "../../Component/ItemIcon";
 import CommonConsumeDescriptor from "../../Descriptor/CommonConsumeDescriptor";
 import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
-import { flatten } from "../../Helper/PolyFill";
 import { lang } from "../../Setting/Manager";
 
 import "./EventTable.css";
@@ -85,12 +84,15 @@ const EventRecipe = ({
                             ))}
                         </td>
                         <td>
-                            {flatten(recipe.recipeGifts.map((recipeGift) => recipeGift.gifts)).map((gift, idx) => (
-                                <React.Fragment key={idx}>
-                                    <GiftDescriptor region={region} gift={gift} items={itemMap} />
-                                    <br />
-                                </React.Fragment>
-                            ))}
+                            {recipe.recipeGifts
+                                .map((recipeGift) => recipeGift.gifts)
+                                .flat()
+                                .map((gift, idx) => (
+                                    <React.Fragment key={idx}>
+                                        <GiftDescriptor region={region} gift={gift} items={itemMap} />
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                         </td>
                     </tr>
                 ))}

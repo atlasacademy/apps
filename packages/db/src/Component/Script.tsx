@@ -1,7 +1,6 @@
 import { Region } from "@atlasacademy/api-connector";
 
 import { AssetHost } from "../Api";
-import { flatten } from "../Helper/PolyFill";
 import { splitString } from "../Helper/StringHelper";
 
 export type ScriptSource = "original" | "rayshift";
@@ -1519,7 +1518,7 @@ export const countWord = (region: Region, components: ScriptComponent[]) => {
 
     const addWordCountNotChoice = (component: ScriptComponent) => {
         if (component.type === ScriptComponentType.DIALOGUE) {
-            for (const childComponent of flatten(component.components)) {
+            for (const childComponent of component.components.flat()) {
                 switch (childComponent.type) {
                     case ScriptComponentType.DIALOGUE_TEXT:
                     case ScriptComponentType.DIALOGUE_RUBY:
