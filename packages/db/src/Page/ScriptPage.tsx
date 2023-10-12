@@ -21,9 +21,12 @@ import {
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
 import LoadStatus from "../Helper/LoadStatus";
+import useScroll from "../Hooks/useScroll";
 import Manager from "../Setting/Manager";
 import ScriptMainData from "./Script/ScriptMainData";
 import ShowScriptLineContext from "./Script/ShowScriptLineContext";
+
+import classes from "./ScriptPage.module.css";
 
 const getScriptAssetURL = (region: Region, scriptId: string) => {
     let scriptPath = "";
@@ -80,6 +83,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
         new Map(Object.values(Region).map((r) => [r, true]))
     );
     const { t } = useTranslation();
+    const scrollPosition = useScroll();
 
     useEffect(() => {
         setLoadStatus({ loading: true });
@@ -235,6 +239,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
 
     return (
         <>
+            <div className={classes.scrollBarIndicator} style={{ width: `${scrollPosition * 100}%` }}></div>
             <h1>
                 {t("Script")} {scriptId}
             </h1>
