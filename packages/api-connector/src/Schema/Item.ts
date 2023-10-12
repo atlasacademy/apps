@@ -71,6 +71,8 @@ export interface Item {
     background: ItemBackgroundType;
     priority: number;
     dropPriority: number;
+    startedAt: number;
+    endedAt: number;
     itemSelects: ItemSelect[];
 }
 
