@@ -1,4 +1,6 @@
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useState } from "react";
+import { OverlayTrigger, Popover } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Region } from "@atlasacademy/api-connector";
 
@@ -143,15 +145,37 @@ const DialoguePopover = ({
     children: React.ReactNode;
     tooltipComponent: React.ReactNode;
 }) => {
-    const maleToolTip = (props: any) => (
-        <Tooltip lang={lang()} {...props}>
-            {tooltipComponent}
-        </Tooltip>
+    const [showPopover, setShowPopover] = useState(false);
+    const { t } = useTranslation();
+    const setShowPopOverHandler = (isOpen: boolean) => () => setShowPopover(isOpen);
+
+    const malePopover = (props: any) => (
+        <Popover
+            onMouseEnter={setShowPopOverHandler(true)}
+            onMouseLeave={setShowPopOverHandler(false)}
+            lang={lang()}
+            {...props}
+        >
+            <Popover.Title>{t("Male Dialogue")}</Popover.Title>
+            <Popover.Content>{tooltipComponent}</Popover.Content>
+        </Popover>
     );
 
     return (
-        <OverlayTrigger placement="top" delay={{ show: 250, hide: 400 }} overlay={maleToolTip}>
-            <span className="underline">{children}</span>
+        <OverlayTrigger
+            show={showPopover}
+            placement="top"
+            trigger={[]}
+            delay={{ show: 250, hide: 400 }}
+            overlay={malePopover}
+        >
+            <span
+                className="underline"
+                onMouseEnter={setShowPopOverHandler(true)}
+                onMouseLeave={setShowPopOverHandler(false)}
+            >
+                {children}
+            </span>
         </OverlayTrigger>
     );
 };
@@ -185,6 +209,7 @@ export const DialogueChild = ({
             const maleComponents = component.male.map((component, i) => (
                 <DialogueBasic key={i} region={region} component={component} wideScreen={wideScreen} />
             ));
+
             if (dialogueBasicHasContent(component.female)) {
                 const femaleComponents = component.female.map((component, i) => (
                     <DialogueBasic key={i} region={region} component={component} wideScreen={wideScreen} />
