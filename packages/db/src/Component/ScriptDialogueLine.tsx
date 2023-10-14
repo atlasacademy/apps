@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { OverlayTrigger, Popover } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { Region } from "@atlasacademy/api-connector";
 
@@ -144,6 +145,7 @@ const DialoguePopover = ({
     tooltipComponent: React.ReactNode;
 }) => {
     const [showPopover, setShowPopover] = useState(false);
+    const { t } = useTranslation();
     const setShowPopOverHandler = (isOpen: boolean) => () => setShowPopover(isOpen);
 
     const malePopover = (props: any) => (
@@ -153,7 +155,7 @@ const DialoguePopover = ({
             lang={lang()}
             {...props}
         >
-            <Popover.Title>Male Dialogue</Popover.Title>
+            <Popover.Title>{t("Male Dialogue")}</Popover.Title>
             <Popover.Content>{tooltipComponent}</Popover.Content>
         </Popover>
     );
