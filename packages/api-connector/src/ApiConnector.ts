@@ -906,8 +906,12 @@ class ApiConnector {
     }
 
     classBoardList(cacheDuration?: number): Promise<ClassBoard[]> {
-        const fetch = () =>
-            ApiConnector.fetch<ClassBoard[]>(`${this.host}/export/${this.region}/nice_class_board.json`);
+        let fileName = "nice_class_board";
+        if (this.showJPdataWithEnglishText()) {
+            fileName = "nice_class_board_lang_en";
+        }
+
+        const fetch = () => ApiConnector.fetch<ClassBoard[]>(`${this.host}/export/${this.region}/${fileName}.json`);
         return this.cache.classBoardList.get(null, fetch, cacheDuration);
     }
 
