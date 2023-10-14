@@ -250,9 +250,11 @@ class QuestPage extends React.Component<IProps, IState> {
                         })}
                     </>
                 ) : null}
+
+
                 {quest.stages.length > 0 ? (
                     <Tabs
-                        defaultActiveKey={this.props.stage !== undefined ? this.props.stage : 1}
+                        activeKey={this.props.stage !== undefined ? this.props.stage : 1}
                         onSelect={(key: string | null) => {
                             this.props.history.replace(
                                 `/${this.props.region}/quest/${this.props.id}/${this.state.phase}` +
