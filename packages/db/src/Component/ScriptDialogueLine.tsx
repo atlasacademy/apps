@@ -156,7 +156,7 @@ const DialoguePopover = ({
             lang={lang()}
             {...props}
         >
-            <Popover.Title>{t("Male Dialogue")}</Popover.Title>
+            <Popover.Title>{t("Female Dialogue")}</Popover.Title>
             <Popover.Content>{tooltipComponent}</Popover.Content>
         </Popover>
     );
