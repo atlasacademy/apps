@@ -72,6 +72,70 @@ const BASE_NAME = "/db";
 class App extends React.Component<any, IState> {
     constructor(props: any) {
         super(props);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const navigatorHasLanguage = (lang: string) =>
+            navigator.languages.some((language) => language.toLowerCase().includes(lang));
+
+        let uiLanguage: UILanguage | undefined = undefined;
+        const langQuery = urlParams.get("lang");
+        if (langQuery !== null) {
+            switch (langQuery.toLowerCase()) {
+                case "ko":
+                case "ko-kr":
+                    uiLanguage = UILanguage.KO_KR;
+                    break;
+                case "zh-tw":
+                    uiLanguage = UILanguage.ZH_TW;
+                    break;
+                case "zh":
+                case "zh-cn":
+                    uiLanguage = UILanguage.ZH_CN;
+                    break;
+                case "en":
+                case "en-us":
+                    uiLanguage = UILanguage.EN_US;
+                    break;
+            }
+            if (uiLanguage !== undefined) Manager.setUiLanguage(uiLanguage);
+        }
+        if (Manager.uiLanguageRaw() === undefined && (langQuery === null || uiLanguage === undefined)) {
+            let uiLanguageGuess: UILanguage | undefined = undefined;
+            if (navigatorHasLanguage("ko")) {
+                uiLanguageGuess = UILanguage.KO_KR;
+            } else if (navigatorHasLanguage("zh-tw")) {
+                uiLanguageGuess = UILanguage.ZH_TW;
+            } else if (navigatorHasLanguage("zh") || navigatorHasLanguage("zh-cn")) {
+                uiLanguageGuess = UILanguage.ZH_CN;
+            }
+            if (uiLanguageGuess !== undefined) Manager.setUiLanguage(uiLanguageGuess);
+        }
+
+        let dataLanguage: Language | undefined = undefined;
+        const dataLangQuery = urlParams.get("dataLang");
+        if (dataLangQuery !== null) {
+            switch (dataLangQuery.toLowerCase()) {
+                case "en":
+                case "en-us":
+                    dataLanguage = Language.ENGLISH;
+                    break;
+                case "default":
+                case "ja":
+                case "ja-jp":
+                default:
+                    dataLanguage = Language.DEFAULT;
+                    break;
+            }
+            if (dataLanguage !== undefined) Manager.setLanguage(dataLanguage);
+        }
+        if (Manager.languageRaw() === undefined && (dataLangQuery === null || dataLanguage === undefined)) {
+            let dataLanguageGuess: Language | undefined = undefined;
+            if (navigatorHasLanguage("ja") || navigatorHasLanguage("zh") || navigatorHasLanguage("ko")) {
+                dataLanguageGuess = Language.DEFAULT;
+            }
+            if (dataLanguageGuess !== undefined) Manager.setLanguage(dataLanguageGuess);
+        }
+
         this.state = {
             language: Manager.language(),
             uiLanguage: Manager.uiLanguage(),

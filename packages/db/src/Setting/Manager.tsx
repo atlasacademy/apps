@@ -65,11 +65,15 @@ class Manager {
         Manager.triggerCallbacks();
     }
 
-    static language(): Language {
+    static languageRaw(): Language | undefined {
         const value = window.localStorage.getItem(languageKey),
             language: Language | undefined = Object.values(Language).find((v) => v === value);
 
-        return language ?? Language.ENGLISH;
+        return language;
+    }
+
+    static language(): Language {
+        return this.languageRaw() ?? Language.ENGLISH;
     }
 
     static setLanguage(value: string) {
@@ -80,11 +84,15 @@ class Manager {
         Manager.triggerCallbacks();
     }
 
-    static uiLanguage(): UILanguage {
+    static uiLanguageRaw(): UILanguage | undefined {
         const value = window.localStorage.getItem(uiLanguageKey),
             language: UILanguage | undefined = Object.values(UILanguage).find((v) => v === value);
 
-        return language ?? UILanguage.EN_US;
+        return language;
+    }
+
+    static uiLanguage(): UILanguage {
+        return this.uiLanguageRaw() ?? UILanguage.EN_US;
     }
 
     static setUiLanguage(value: UILanguage) {

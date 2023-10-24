@@ -197,10 +197,12 @@ async function handleDBEvent(event: Event, env: Env) {
         return overwrite(responseDetail, title);
     }
 
+    const requestCountry = (event.request?.cf?.country as string) ?? "";
+    const acceptLangHeader = (event.request.headers.get("Accept-Language") ?? "").toUpperCase();
+
     const language =
-        event.request.cf !== undefined &&
-        "country" in event.request.cf &&
-        ["JP", "TW", "CN"].includes(event.request.cf.country as string)
+        ["JP", "TW", "CN", "KR"].includes(requestCountry) ||
+        ["JP", "ZH", "KO"].some((lang) => acceptLangHeader.includes(lang))
             ? "jp"
             : "en";
 
