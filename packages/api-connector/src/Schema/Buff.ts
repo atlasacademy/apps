@@ -302,6 +302,8 @@ export enum BuffType {
     COMMANDATTACK_AFTER_FUNCTION_MAIN_ONLY = "commandattackAfterFunctionMainOnly",
     ATTACK_BEFORE_FUNCTION_MAIN_ONLY = "attackBeforeFunctionMainOnly",
     ATTACK_AFTER_FUNCTION_MAIN_ONLY = "attackAfterFunctionMainOnly",
+    WAR_BOARD_NOT_ATTACKED = "warBoardNotAttacked",
+    WAR_BOARD_IGNORE_DEFEATPOINT = "warBoardIgnoreDefeatpoint",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",

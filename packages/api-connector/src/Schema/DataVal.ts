@@ -145,6 +145,11 @@ interface BaseDataVal {
     TriggeredTargetHpRange?: string;
     TriggeredTargetHpRateRange?: string;
     ExcludeUnSubStateIndiv?: number;
+    ProgressTurnOnBoard?: number;
+    CheckTargetResurrectable?: number;
+    CancelTransform?: number;
+    UnSubStateWhenContinue?: number;
+    CheckTargetHaveDefeatPoint?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -298,4 +303,9 @@ export enum DataValField {
     TRIGGERED_TARGET_HP_RANGE = "TriggeredTargetHpRange",
     TRIGGERED_TARGET_HP_RATE_RANGE = "TriggeredTargetHpRateRange",
     EXCLUDE_UN_SUB_STATE_INDIV = "ExcludeUnSubStateIndiv",
+    PROGRESS_TURN_ON_BOARD = "ProgressTurnOnBoard",
+    CHECK_TARGET_RESURRECTABLE = "CheckTargetResurrectable",
+    CANCEL_TRANSFORM = "CancelTransform",
+    UN_SUB_STATE_WHEN_CONTINUE = "UnSubStateWhenContinue",
+    CHECK_TARGET_HAVE_DEFEAT_POINT = "CheckTargetHaveDefeatPoint",
 }
