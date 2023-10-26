@@ -9,7 +9,9 @@ export { toTitleCase } from "./Helpers";
 
 export enum UILanguage {
     EN_US = "en-US",
+    ID_ID = "id-ID",
     ZH_CN = "zh-CN",
     ZH_TW = "zh-TW",
+    JA_JP = "ja-JP",
     KO_KR = "ko-KR",
 }

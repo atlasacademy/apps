@@ -21,6 +21,8 @@ export const UILanguageDescriptor = new Map([
     [UILanguage.ZH_CN, { langAttribute: "zh-CN", langName: "简体中文" }],
     [UILanguage.ZH_TW, { langAttribute: "zh-TW", langName: "繁體中文" }],
     [UILanguage.KO_KR, { langAttribute: "ko-KR", langName: "한국어" }],
+    [UILanguage.ID_ID, { langAttribute: "id-ID", langName: "Bahasa Indonesia" }],
+    [UILanguage.JA_JP, { langAttribute: "ja-JP", langName: "日本語" }],
 ]);
 
 class SettingForm extends React.Component<IProps> {

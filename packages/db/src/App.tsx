@@ -75,13 +75,16 @@ class App extends React.Component<any, IState> {
 
         const urlParams = new URLSearchParams(window.location.search);
 
-        let firstNavLanguage: UILanguage | "ja-JP" | undefined = undefined;
+        let firstNavLanguage: UILanguage | undefined = undefined;
         for (const lang of navigator.languages) {
             if (lang.startsWith("ko")) {
                 firstNavLanguage = UILanguage.KO_KR;
                 break;
             } else if (lang.startsWith("ja")) {
-                firstNavLanguage = "ja-JP";
+                firstNavLanguage = UILanguage.JA_JP;
+                break;
+            } else if (lang.startsWith("id")) {
+                firstNavLanguage = UILanguage.ID_ID;
                 break;
             } else if (["zh-TW", "zh-MO", "zh-HK", "zh-Hant"].some((zhHantCode) => lang.startsWith(zhHantCode))) {
                 firstNavLanguage = UILanguage.ZH_TW;
@@ -95,36 +98,43 @@ class App extends React.Component<any, IState> {
             }
         }
 
-        let uiLanguage: UILanguage | undefined = undefined;
+        let uiLangFromQuery: UILanguage | undefined = undefined;
         const langQuery = urlParams.get("lang");
         if (langQuery !== null) {
             switch (langQuery.toLowerCase()) {
                 case "ko":
                 case "ko-kr":
-                    uiLanguage = UILanguage.KO_KR;
+                    uiLangFromQuery = UILanguage.KO_KR;
+                    break;
+                case "ja":
+                case "ja-jp":
+                    uiLangFromQuery = UILanguage.JA_JP;
+                    break;
+                case "id":
+                case "id-id":
+                    uiLangFromQuery = UILanguage.ID_ID;
                     break;
                 case "zh-tw":
-                    uiLanguage = UILanguage.ZH_TW;
+                    uiLangFromQuery = UILanguage.ZH_TW;
                     break;
                 case "zh":
                 case "zh-cn":
-                    uiLanguage = UILanguage.ZH_CN;
+                    uiLangFromQuery = UILanguage.ZH_CN;
                     break;
                 case "en":
                 case "en-us":
-                    uiLanguage = UILanguage.EN_US;
+                    uiLangFromQuery = UILanguage.EN_US;
                     break;
             }
-            if (uiLanguage !== undefined) Manager.setUiLanguage(uiLanguage);
+            if (uiLangFromQuery !== undefined) Manager.setUiLanguage(uiLangFromQuery);
         }
-        if (Manager.uiLanguageRaw() === undefined && (langQuery === null || uiLanguage === undefined)) {
-            if (
-                firstNavLanguage === UILanguage.KO_KR ||
-                firstNavLanguage === UILanguage.ZH_TW ||
-                firstNavLanguage === UILanguage.ZH_CN
-            ) {
-                Manager.setUiLanguage(firstNavLanguage);
-            }
+        if (
+            Manager.uiLanguageRaw() === undefined &&
+            uiLangFromQuery === undefined &&
+            firstNavLanguage !== undefined &&
+            firstNavLanguage !== UILanguage.EN_US
+        ) {
+            Manager.setUiLanguage(firstNavLanguage);
         }
 
         let dataLanguage: Language | undefined = undefined;
@@ -146,10 +156,8 @@ class App extends React.Component<any, IState> {
         }
         if (Manager.languageRaw() === undefined && (dataLangQuery === null || dataLanguage === undefined)) {
             if (
-                firstNavLanguage === UILanguage.KO_KR ||
-                firstNavLanguage === UILanguage.ZH_TW ||
-                firstNavLanguage === UILanguage.ZH_CN ||
-                firstNavLanguage === "ja-JP"
+                firstNavLanguage !== undefined &&
+                [UILanguage.KO_KR, UILanguage.ZH_TW, UILanguage.ZH_CN, UILanguage.JA_JP].includes(firstNavLanguage)
             ) {
                 Manager.setLanguage(Language.DEFAULT);
             }
