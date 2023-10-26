@@ -137,30 +137,36 @@ class App extends React.Component<any, IState> {
             Manager.setUiLanguage(firstNavLanguage);
         }
 
-        let dataLanguage: Language | undefined = undefined;
+        let dataLangFromQuery: Language | undefined = undefined;
         const dataLangQuery = urlParams.get("dataLang");
         if (dataLangQuery !== null) {
             switch (dataLangQuery.toLowerCase()) {
                 case "en":
                 case "en-us":
-                    dataLanguage = Language.ENGLISH;
+                    dataLangFromQuery = Language.ENGLISH;
                     break;
                 case "default":
                 case "ja":
                 case "ja-jp":
                 default:
-                    dataLanguage = Language.DEFAULT;
+                    dataLangFromQuery = Language.DEFAULT;
                     break;
             }
-            if (dataLanguage !== undefined) Manager.setLanguage(dataLanguage);
+            if (dataLangFromQuery !== undefined) Manager.setLanguage(dataLangFromQuery);
         }
-        if (Manager.languageRaw() === undefined && (dataLangQuery === null || dataLanguage === undefined)) {
-            if (
-                firstNavLanguage !== undefined &&
-                [UILanguage.KO_KR, UILanguage.ZH_TW, UILanguage.ZH_CN, UILanguage.JA_JP].includes(firstNavLanguage)
-            ) {
-                Manager.setLanguage(Language.DEFAULT);
-            }
+
+        const languagesThatPreferDefaultData = [UILanguage.KO_KR, UILanguage.ZH_TW, UILanguage.ZH_CN, UILanguage.JA_JP];
+        const guessDefaultFromLangQuery =
+            uiLangFromQuery !== undefined && languagesThatPreferDefaultData.includes(uiLangFromQuery);
+        const guessDefaultFromFirstNavLang =
+            firstNavLanguage !== undefined && languagesThatPreferDefaultData.includes(firstNavLanguage);
+
+        if (
+            dataLangFromQuery === undefined &&
+            Manager.languageRaw() === undefined &&
+            (guessDefaultFromFirstNavLang || guessDefaultFromLangQuery)
+        ) {
+            Manager.setLanguage(Language.DEFAULT);
         }
 
         this.state = {
