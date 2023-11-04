@@ -104,25 +104,31 @@ class App extends React.Component<any, IState> {
             switch (langQuery.toLowerCase()) {
                 case "ko":
                 case "ko-kr":
+                case "ko_kr":
                     uiLangFromQuery = UILanguage.KO_KR;
                     break;
                 case "ja":
                 case "ja-jp":
+                case "ja_jp":
                     uiLangFromQuery = UILanguage.JA_JP;
                     break;
                 case "id":
                 case "id-id":
+                case "id_id":
                     uiLangFromQuery = UILanguage.ID_ID;
                     break;
                 case "zh-tw":
+                case "zh_tw":
                     uiLangFromQuery = UILanguage.ZH_TW;
                     break;
                 case "zh":
                 case "zh-cn":
+                case "zh_cn":
                     uiLangFromQuery = UILanguage.ZH_CN;
                     break;
                 case "en":
                 case "en-us":
+                case "en_us":
                     uiLangFromQuery = UILanguage.EN_US;
                     break;
             }
@@ -143,11 +149,13 @@ class App extends React.Component<any, IState> {
             switch (dataLangQuery.toLowerCase()) {
                 case "en":
                 case "en-us":
+                case "en_us":
                     dataLangFromQuery = Language.ENGLISH;
                     break;
                 case "default":
                 case "ja":
                 case "ja-jp":
+                case "ja_jp":
                 default:
                     dataLangFromQuery = Language.DEFAULT;
                     break;
