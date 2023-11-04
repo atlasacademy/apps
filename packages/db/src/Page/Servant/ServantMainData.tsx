@@ -8,6 +8,8 @@ import { toTitleCase } from "@atlasacademy/api-descriptor";
 import CommandCard from "../../Component/CommandCard";
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
+import { SvtClassDescriptor } from "../../Descriptor/SvtClassDestriptor";
+import { SvtAttrDescriptor } from "../../Descriptor/SvttAttrDestriptor";
 import { Renderable, asPercent } from "../../Helper/OutputHelper";
 import { formatNumber, mergeElements } from "../../Helper/OutputHelper";
 import { Ruby } from "../../Helper/StringHelper";
@@ -61,7 +63,7 @@ class ServantMainData extends React.Component<IProps> {
                     return (index > 0 ? ", " : "") + asPercent(hit, 0);
                 })}
                 &nbsp;-&nbsp;
-                {hits.length} Hits
+                {hits.length} {this.props.t("Hits")}
             </span>
         );
     }
@@ -77,8 +79,11 @@ class ServantMainData extends React.Component<IProps> {
                         { title: t("Collection"), content: servant.collectionNo },
                     ])}
                     {this.renderDoubleRow([
-                        { title: t("Class"), content: toTitleCase(servant.className) },
-                        { title: t("Attribute"), content: toTitleCase(servant.attribute) },
+                        { title: t("Class"), content: <SvtClassDescriptor svtClass={servant.className} /> },
+                        {
+                            title: t("Attribute"),
+                            content: <SvtAttrDescriptor attribute={servant.attribute} />,
+                        },
                     ])}
                     {this.renderDoubleRow([
                         { title: t("Rarity"), content: <RarityDescriptor rarity={servant.rarity} /> },
@@ -98,8 +103,8 @@ class ServantMainData extends React.Component<IProps> {
                         title: "HP",
                         content: (
                             <div>
-                                Base: {formatNumber(servant.hpBase)}
-                                &nbsp;&nbsp;&nbsp;&nbsp; Max: {formatNumber(servant.hpMax)}
+                                {t("Base")}: {formatNumber(servant.hpBase)}
+                                &nbsp;&nbsp;&nbsp;&nbsp; {t("Max")}: {formatNumber(servant.hpMax)}
                             </div>
                         ),
                     })}

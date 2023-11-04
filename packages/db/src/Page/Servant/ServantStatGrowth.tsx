@@ -79,13 +79,13 @@ class ServantStatGrowth extends React.Component<IProps> {
                             {
                                 type: "line",
                                 data: hpGrowth,
-                                name: "HP",
+                                name: t("HP"),
                                 yAxis: 0,
                                 tooltip: {
                                     pointFormatter: function () {
                                         let { x, y } = this as any;
                                         return (
-                                            `HP: <b>${formatNumber(y)}</b>` +
+                                            `${t("HP")}: <b>${formatNumber(y)}</b>` +
                                             (x > lvMax ? ` (${t("Grailed")})` : "") +
                                             `<br/>`
                                         );
@@ -102,13 +102,13 @@ class ServantStatGrowth extends React.Component<IProps> {
                             {
                                 type: "line",
                                 data: atkGrowth,
-                                name: "ATK",
+                                name: t("ATK"),
                                 yAxis: 0,
                                 tooltip: {
                                     pointFormatter: function () {
                                         let { x, y } = this as any;
                                         return (
-                                            `ATK: <b>${formatNumber(y)}</b>` +
+                                            `${t("ATK")}: <b>${formatNumber(y)}</b>` +
                                             (x > lvMax ? ` (${t("Grailed")})` : "") +
                                             `<br/>`
                                         );
@@ -127,7 +127,7 @@ class ServantStatGrowth extends React.Component<IProps> {
                         chart: { zoomType: "x" },
                         xAxis: [
                             {
-                                title: { text: "Level" },
+                                title: { text: t("Level") },
                                 crosshair: {
                                     dashStyle: "Dash",
                                 },

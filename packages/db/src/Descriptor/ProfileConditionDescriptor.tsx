@@ -1,20 +1,21 @@
 import React from "react";
+import { WithTranslation, withTranslation } from "react-i18next";
 
 import { CondType, Profile, Region } from "@atlasacademy/api-connector";
 
 import QuestDescriptor from "./QuestDescriptor";
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     comment: Profile.ProfileComment;
 }
 
 class ProfileConditionDescriptor extends React.Component<IProps> {
     render() {
-        const comment = this.props.comment;
+        const { comment, t } = this.props;
 
         if (comment.condType === CondType.NONE) {
-            return comment.additionalConds.length > 0 ? <></> : <>None</>;
+            return comment.additionalConds.length > 0 ? <></> : <>{t("None")}</>;
         } else if (comment.condType === CondType.QUEST_CLEAR && comment.condValues && comment.condValues.length > 0) {
             return (
                 <>
@@ -24,7 +25,7 @@ class ProfileConditionDescriptor extends React.Component<IProps> {
                         questId={comment.condValues[0]}
                         questPhase={Math.max(comment.condValue2, 1)}
                     />
-                    {!this.props.comment.condMessage ? " Cleared" : ""}
+                    {!this.props.comment.condMessage ? ` ${t("Cleared")}` : ""}
                 </>
             );
         } else if (
@@ -32,11 +33,11 @@ class ProfileConditionDescriptor extends React.Component<IProps> {
             comment.condValues &&
             comment.condValues.length > 0
         ) {
-            return <>Bond&nbsp;Lv.&nbsp;{comment.condValues[0]}</>;
+            return <span className="text-nowrap">{t("Bond Level", { level: comment.condValues[0] })}</span>;
         } else {
             return <>{this.props.comment.condMessage}</>;
         }
     }
 }
 
-export default ProfileConditionDescriptor;
+export default withTranslation()(ProfileConditionDescriptor);

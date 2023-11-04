@@ -15,7 +15,7 @@ module.exports = {
     indentation: 4,
     // Indentation of the catalog files
 
-    keepRemoved: false,
+    keepRemoved: true,
     // Keep keys from the catalog that are no longer in code
 
     keySeparator: ".",
@@ -42,7 +42,7 @@ module.exports = {
     lineEnding: "lf",
     // Control the line ending. See options at https://github.com/ryanve/eol
 
-    locales: ["en-US", "zh-CN", "zh-TW", "ko-KR"],
+    locales: ["en-US", "zh-CN", "zh-TW", "ko-KR", "ja-JP", "id-ID"],
     // An array of the locales in your applications
 
     namespaceSeparator: ":",

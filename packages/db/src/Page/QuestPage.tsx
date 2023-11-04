@@ -251,7 +251,6 @@ class QuestPage extends React.Component<IProps, IState> {
                     </>
                 ) : null}
 
-
                 {quest.stages.length > 0 ? (
                     <Tabs
                         activeKey={this.props.stage !== undefined ? this.props.stage : 1}

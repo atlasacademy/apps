@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { CondType, Profile, Region } from "@atlasacademy/api-connector";
 
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
@@ -10,12 +12,13 @@ const ProfileCommentAddDescriptor = ({
     region: Region;
     commentAdd: Profile.ProfileCommentAdd;
 }) => {
+    const { t } = useTranslation();
     const condValue = commentAdd.condValues[0];
     switch (commentAdd.condType) {
         case CondType.QUEST_CLEAR:
             return (
                 <>
-                    <QuestDescriptor region={region} questId={condValue} /> Cleared
+                    <QuestDescriptor region={region} questId={condValue} /> {t("Cleared")}
                 </>
             );
         case CondType.SVT_LIMIT:
@@ -23,11 +26,11 @@ const ProfileCommentAddDescriptor = ({
         case CondType.SVT_GET:
             return (
                 <>
-                    Summoned <EntityReferenceDescriptor region={region} svtId={condValue} />{" "}
+                    {t("Summoned")} <EntityReferenceDescriptor region={region} svtId={condValue} />
                 </>
             );
         case CondType.SVT_FRIENDSHIP:
-            return <>Bond&nbsp;Lv.&nbsp;{condValue}</>;
+            return <span className="text-nowrap">{t("Bond Level", { level: condValue })}</span>;
         case CondType.NONE:
             return <></>;
         default:

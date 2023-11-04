@@ -8,6 +8,8 @@ import Api from "../../Api";
 import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import RarityDescriptor from "../../Descriptor/RarityDescriptor";
+import { SvtClassDescriptor } from "../../Descriptor/SvtClassDestriptor";
+import { SvtAttrDescriptor } from "../../Descriptor/SvttAttrDestriptor";
 import { asPercent, formatNumber } from "../../Helper/OutputHelper";
 import { FGOText, Ruby } from "../../Helper/StringHelper";
 import { lang } from "../../Setting/Manager";
@@ -44,9 +46,9 @@ class EnemyMainData extends React.Component<IProps> {
                                 ),
                                 hidden: enemy.name === enemy.originalName,
                             },
-                            { label: "Class", value: toTitleCase(enemy.className) },
+                            { label: "Class", value: <SvtClassDescriptor svtClass={enemy.className} /> },
                             { label: "Rarity", value: <RarityDescriptor rarity={enemy.rarity} /> },
-                            { label: "Attribute", value: toTitleCase(enemy.attribute) },
+                            { label: "Attribute", value: <SvtAttrDescriptor attribute={enemy.attribute} /> },
                             {
                                 label: "HP",
                                 value: (

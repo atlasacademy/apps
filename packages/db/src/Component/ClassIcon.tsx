@@ -4,6 +4,7 @@ import { ClassName } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import { AssetHost } from "../Api";
+import { SvtClassDescriptor } from "../Descriptor/SvtClassDestriptor";
 
 const classTypes = new Map<number, number>([
     [0, 0],
@@ -62,7 +63,7 @@ interface IProps {
 class ClassIcon extends React.Component<IProps> {
     render() {
         if (!classIds.has(this.props.className) && this.props.textFallback) {
-            return <>{toTitleCase(this.props.className)}</>;
+            return <SvtClassDescriptor svtClass={this.props.className} />;
         }
         return (
             <img

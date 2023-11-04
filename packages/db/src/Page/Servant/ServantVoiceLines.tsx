@@ -9,6 +9,7 @@ import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import EntityDescriptor from "../../Descriptor/EntityDescriptor";
+import { ProfileVoiceTypeDescriptor } from "../../Descriptor/ProfileVoiceTypeDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
 import VoiceActorDescriptor from "../../Descriptor/VoiceActorDescriptor";
 import VoiceCondTypeDescriptor from "../../Descriptor/VoiceCondTypeDescriptor";
@@ -218,7 +219,9 @@ export default function ServantVoiceLines(props: {
                 <tbody>
                     {voices?.map((voice) => (
                         <tr key={`${voice.svtId}-${voice.type}-${voice.voicePrefix}`}>
-                            <td>{voice.type === ProfileVoiceType.GROETH ? "Growth" : toTitleCase(voice.type)}</td>
+                            <td>
+                                <ProfileVoiceTypeDescriptor voiceType={voice.type} />
+                            </td>
                             <td>
                                 <VoiceLinesTable
                                     region={props.region}

@@ -9,9 +9,10 @@ import { formatNumber } from "../../Helper/OutputHelper";
 import "./ServantBondGrowth.css";
 
 function BondCell(props = { value: 0, span: 1, previous: NaN }) {
+    const { t } = useTranslation();
     let diff = props.value - props.previous,
         cell = <td colSpan={props.span}>{formatNumber(props.value)}</td>;
-    let diffText = diff > 0 ? `From previous level : ${formatNumber(diff)}` : "";
+    let diffText = diff > 0 ? `${t("From previous level")}: ${formatNumber(diff)}` : "";
     return diffText ? (
         <OverlayTrigger
             placement="bottom"

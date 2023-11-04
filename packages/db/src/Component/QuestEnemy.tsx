@@ -22,6 +22,8 @@ import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import NoblePhantasmPopover from "../Descriptor/NoblePhantasmPopover";
 import shortenQuestHash from "../Descriptor/QuestHashDescriptor";
 import SkillPopover from "../Descriptor/SkillPopover";
+import { SvtClassDescriptor } from "../Descriptor/SvtClassDestriptor";
+import { SvtAttrDescriptor } from "../Descriptor/SvttAttrDestriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { getEnemyCalcString } from "../Helper/CalcString";
 import { Renderable, asPercent, mergeElements } from "../Helper/OutputHelper";
@@ -294,11 +296,11 @@ export const QuestEnemySubData = (props: {
             <tbody>
                 {renderSpanningRow({
                     title: t("Class"),
-                    content: toTitleCase(enemy.svt.className),
+                    content: <SvtClassDescriptor svtClass={enemy.svt.className} />,
                 })}
                 {renderSpanningRow({
                     title: t("Attribute"),
-                    content: toTitleCase(enemy.svt.attribute),
+                    content: <SvtAttrDescriptor attribute={enemy.svt.attribute} />,
                 })}
                 {renderSpanningRow({
                     title: t("Traits"),
