@@ -18,6 +18,7 @@ table.listing-table .rarity-col {
     .listing-page .rarity-col,
     table.listing-table .rarity-col {
         min-width: 10em;
+        white-space: nowrap;
     }
 }
 

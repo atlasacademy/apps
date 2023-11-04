@@ -253,7 +253,7 @@ class ItemsPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th className="text-center w-1px">#</th>
-                            <th className="text-center w-1px">{t("Thumbnail")}</th>
+                            <th className="text-center w-1px text-nowrap">{t("Thumbnail")}</th>
                             <th>{t("Name")}</th>
                         </tr>
                     </thead>

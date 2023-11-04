@@ -309,7 +309,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th className="col-center">#</th>
-                            <th className="col-center">{t("Thumbnail")}</th>
+                            <th className="col-center text-nowrap">{t("Thumbnail")}</th>
                             <th>{t("Name")}</th>
                             <th className="rarity-col">{t("Rarity")}</th>
                         </tr>
