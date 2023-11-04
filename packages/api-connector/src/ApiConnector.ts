@@ -589,7 +589,7 @@ class ApiConnector {
         if (this.showJPdataWithEnglishText()) {
             source = `${this.host}/export/JP/nice_cv_lang_en.json`;
         } else {
-            source = `${this.host}/export/${this.region}/nice_illustrator.json`;
+            source = `${this.host}/export/${this.region}/nice_cv.json`;
         }
 
         const fetch = () => ApiConnector.fetch<Cv[]>(source);
