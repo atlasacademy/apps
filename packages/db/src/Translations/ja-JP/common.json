@@ -52,7 +52,7 @@
     "Bond": "絆",
     "Bond CE": "絆礼装",
     "Bond CE's Owner": "絆礼装の対象サーヴァント",
-    "Bond Level": "絆レベル",
+    "Bond Level": "絆レベル{{level}}",
     "Bond levels": "絆レベル",
     "Branch": "分岐",
     "Break bar": "ブレイクゲージ",

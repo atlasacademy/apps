@@ -52,7 +52,7 @@
     "Bond": "Bond",
     "Bond CE": "CE Max Bond",
     "Bond CE's Owner": "Pemilik CE Max Bond",
-    "Bond Level": "Bond Level",
+    "Bond Level": "Bond Lv. {{level}}",
     "Bond levels": "Bond level",
     "Branch": "Cabang",
     "Break bar": "Break bar",

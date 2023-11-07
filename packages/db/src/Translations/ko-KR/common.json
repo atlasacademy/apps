@@ -52,7 +52,7 @@
     "Bond": "인연",
     "Bond CE": "인연예장",
     "Bond CE's Owner": "인연예장 주인",
-    "Bond Level": "Bond Level",
+    "Bond Level": "Bond Lv. {{level}}",
     "Bond levels": "인연 레벨",
     "Branch": "분점",
     "Break bar": "브레이크 바",
