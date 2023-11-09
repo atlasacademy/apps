@@ -21,6 +21,7 @@ import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
 import { QuestTypeDescription } from "../Descriptor/QuestEnumDescription";
 import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
+import { dedupe } from "../Helper/ArrayHelper";
 import { Renderable, mergeElements } from "../Helper/OutputHelper";
 import { FGOText, removeSuffix } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
@@ -348,15 +349,16 @@ const Spot = (props: {
 
     if (filteredQuest.length === 0) return null;
 
-    const spotNameChanges = spot.spotAdds
-        .filter((spotAdd) => spotAdd.overrideType === War.SpotOverwriteType.NAME)
-        .map((spotAdd) => `/ ${spotAdd.targetText}`)
-        .join("");
+    const spotNameChanges = dedupe(
+        spot.spotAdds
+            .filter((spotAdd) => spotAdd.overrideType === War.SpotOverwriteType.NAME)
+            .map((spotAdd) => spotAdd.targetText)
+    ).join(" / ");
 
     const title = (
         <span lang={lang(region)}>
             <SpotImage src={spot.image} name={spot.name} height="1.5em" />
-            <FGOText text={spot.name} /> <FGOText text={spotNameChanges} />
+            <FGOText text={spot.name} /> {spotNameChanges !== "" && "/"} <FGOText text={spotNameChanges} />
         </span>
     );
 
