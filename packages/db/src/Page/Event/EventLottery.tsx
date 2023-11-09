@@ -1,13 +1,12 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Event, Item, Region } from "@atlasacademy/api-connector";
 
-import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import CollapsibleContent from "../../Component/CollapsibleContent";
 import ItemIcon from "../../Component/ItemIcon";
 import GiftDescriptor from "../../Descriptor/GiftDescriptor";
 import { mergeElements } from "../../Helper/OutputHelper";
@@ -99,14 +98,13 @@ const EventLottery = ({
                 }${t("EventLotteryBoxBehind")}`;
 
                 return (
-                    <React.Fragment key={boxIndex}>
-                        {renderCollapsibleContent({
-                            title: title,
-                            content: <EventLotteryBox region={region} boxes={boxes} itemMap={itemMap} />,
-                            subheader: true,
-                            initialOpen: false,
-                        })}
-                    </React.Fragment>
+                    <CollapsibleContent
+                        key={boxIndex}
+                        title={title}
+                        content={<EventLotteryBox region={region} boxes={boxes} itemMap={itemMap} />}
+                        subheader
+                        initialOpen={false}
+                    />
                 );
             })}
         </>

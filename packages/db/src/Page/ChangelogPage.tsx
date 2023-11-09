@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Change, CraftEssence, Region, Servant } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
-import renderCollapsibleContent from "../Component/CollapsibleContent";
+import CollapsibleContent from "../Component/CollapsibleContent";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import { BasicCraftEssenceDescriptor } from "../Descriptor/CraftEssenceDescriptor";
@@ -220,17 +220,19 @@ class ChangelogPage extends React.Component<IProps, IState> {
                 }
 
                 let timestamp = new Date(+change.timestamp * 1000);
-                return renderCollapsibleContent({
-                    title: (
-                        <>
-                            <span style={{ fontFamily: "monospace" }}>{change.commit.slice(0, 6)}</span>
-                            &nbsp;- {localTime ? timestamp.toString() : timestamp.toUTCString()}
-                        </>
-                    ),
-                    content: <>{hasChanges ? renderedChanges : t("No visible changes found")}</>,
-                    subheader: true,
-                    initialOpen: initialOpen,
-                });
+                return (
+                    <CollapsibleContent
+                        title={
+                            <>
+                                <span style={{ fontFamily: "monospace" }}>{change.commit.slice(0, 6)}</span>
+                                &nbsp;- {localTime ? timestamp.toString() : timestamp.toUTCString()}
+                            </>
+                        }
+                        content={<>{hasChanges ? renderedChanges : t("No visible changes found")}</>}
+                        subheader
+                        initialOpen={initialOpen}
+                    />
+                );
             });
 
         if (visibleOnly) content = content.filter(Boolean);

@@ -13,24 +13,23 @@ export function ArrowToggle({ eventKey }: { eventKey: string }) {
     return <FontAwesomeIcon className={`collapsible-header-collapse-actions ${rotateClass}`} icon={faChevronDown} />;
 }
 
-function renderCollapsibleContent(
-    {
-        title,
-        content,
-        subheader,
-        separator,
-        initialOpen,
-        accordionKey,
-    }: {
-        title: Renderable;
-        content: Renderable;
-        subheader: boolean;
-        separator?: boolean;
-        initialOpen?: boolean;
-        accordionKey?: string;
-    },
-    enableBottomMargin = true
-) {
+export default function CollapsibleContent({
+    title,
+    content,
+    subheader,
+    separator,
+    initialOpen,
+    accordionKey,
+    enableBottomMargin,
+}: {
+    title: Renderable;
+    content: Renderable;
+    subheader: boolean;
+    separator?: boolean;
+    initialOpen?: boolean;
+    accordionKey?: string;
+    enableBottomMargin?: boolean;
+}) {
     if (initialOpen === undefined) initialOpen = true;
     if (separator === undefined) separator = true;
     const eventKey = accordionKey ?? `${title}`;
@@ -50,7 +49,7 @@ function renderCollapsibleContent(
                 </Accordion.Toggle>
                 {/* 2 px to align the hr line with the start of content */}
                 <Accordion.Collapse eventKey={eventKey}>
-                    <div style={{ marginTop: "2px", marginBottom: enableBottomMargin ? "1em" : "unset" }}>
+                    <div style={{ marginTop: "2px", marginBottom: enableBottomMargin === false ? "unset" : "1em" }}>
                         {content}
                     </div>
                 </Accordion.Collapse>
@@ -58,8 +57,6 @@ function renderCollapsibleContent(
         </Accordion>
     );
 }
-
-export default renderCollapsibleContent;
 
 export const CollapsibleLight = ({
     title,

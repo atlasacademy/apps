@@ -8,7 +8,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { Quest, Region } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
-import renderCollapsibleContent from "../Component/CollapsibleContent";
+import CollapsibleContent from "../Component/CollapsibleContent";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
 import QuestAiNpc from "../Component/QuestAiNpc";
@@ -113,7 +113,7 @@ class QuestPage extends React.Component<IProps, IState> {
                         <QuestSubData region={this.props.region} quest={quest} />
                     </Col>
                 </Row>
-                {quest.messages.length > 0 ? (
+                {quest.messages.length > 0 && (
                     <Alert variant="success" className="text-prewrap" lang={lang(this.props.region)}>
                         {quest.messages.length > 1 ? (
                             <ul className="mb-0">
@@ -127,8 +127,8 @@ class QuestPage extends React.Component<IProps, IState> {
                             <FGOText text={quest.messages[0].message} />
                         )}
                     </Alert>
-                ) : null}
-                {quest.extraDetail.hintTitle || quest.hints.length > 0 ? (
+                )}
+                {(quest.extraDetail.hintTitle || quest.hints.length > 0) && (
                     <Alert variant="success" className="text-prewrap" lang={lang(this.props.region)}>
                         {quest.extraDetail.hintTitle && (
                             <>
@@ -149,8 +149,8 @@ class QuestPage extends React.Component<IProps, IState> {
                             </>
                         )}
                     </Alert>
-                ) : null}
-                {quest.scripts.length > 0 ? (
+                )}
+                {quest.scripts.length > 0 && (
                     <Alert variant="success">
                         {quest.scripts.length > 1 ? (
                             <ul className="mb-0">
@@ -164,7 +164,7 @@ class QuestPage extends React.Component<IProps, IState> {
                             <ScriptDescriptor region={this.props.region} scriptId={quest.scripts[0].scriptId} />
                         )}
                     </Alert>
-                ) : null}
+                )}
                 {quest.extraDetail.questSelect !== undefined &&
                 quest.extraDetail.questSelect.filter((questId) => questId !== this.props.id).length > 0 ? (
                     <Alert variant="success">
@@ -197,11 +197,11 @@ class QuestPage extends React.Component<IProps, IState> {
                     }
                     questHashAverageGoTo={() => this.setState({ hash: undefined })}
                 />
-                {quest.restrictions.length > 0 ? (
+                {quest.restrictions.length > 0 && (
                     <Alert variant="success">
                         <QuestRestriction region={this.props.region} questRestrictions={quest.restrictions} />
                     </Alert>
-                ) : null}
+                )}
                 {quest.availableEnemyHashes.length > 1 && quest.type !== Quest.QuestType.WAR_BOARD && (
                     <Alert variant="success">
                         {t("This quest can have multiple enemy versions")}. {t("Currently showing enemy version")}:{" "}
@@ -225,33 +225,30 @@ class QuestPage extends React.Component<IProps, IState> {
                         </Dropdown>
                     </Alert>
                 )}
-                {quest.extraDetail.aiNpc !== undefined || quest.extraDetail.aiMultiNpc !== undefined ? (
+                {(quest.extraDetail.aiNpc !== undefined || quest.extraDetail.aiMultiNpc !== undefined) && (
                     <QuestAiNpc
                         region={this.props.region}
                         aiNpcs={(quest.extraDetail.aiNpc !== undefined ? [quest.extraDetail.aiNpc] : []).concat(
                             quest.extraDetail.aiMultiNpc ?? []
                         )}
                     />
-                ) : null}
-                {quest.supportServants.length > 0 ? (
-                    <>
-                        {renderCollapsibleContent({
-                            title: quest.isNpcOnly
+                )}
+                {quest.supportServants.length > 0 && (
+                    <CollapsibleContent
+                        title={
+                            quest.isNpcOnly
                                 ? t("Forced Support Servant", { count: quest.supportServants.length })
-                                : t("Support Servant", { count: quest.supportServants.length }),
-                            content: (
-                                <SupportServantTables
-                                    region={this.props.region}
-                                    supportServants={quest.supportServants}
-                                />
-                            ),
-                            subheader: false,
-                            initialOpen: false,
-                        })}
-                    </>
-                ) : null}
+                                : t("Support Servant", { count: quest.supportServants.length })
+                        }
+                        content={
+                            <SupportServantTables region={this.props.region} supportServants={quest.supportServants} />
+                        }
+                        subheader={false}
+                        initialOpen={false}
+                    />
+                )}
 
-                {quest.stages.length > 0 ? (
+                {quest.stages.length > 0 && (
                     <Tabs
                         activeKey={this.props.stage !== undefined ? this.props.stage : 1}
                         onSelect={(key: string | null) => {
@@ -268,7 +265,7 @@ class QuestPage extends React.Component<IProps, IState> {
                             </Tab>
                         ))}
                     </Tabs>
-                ) : null}
+                )}
             </div>
         );
     }

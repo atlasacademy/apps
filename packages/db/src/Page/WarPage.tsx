@@ -11,7 +11,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { Bgm, CondType, Event, Gift, Item, Quest, Region, War } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
-import renderCollapsibleContent from "../Component/CollapsibleContent";
+import CollapsibleContent from "../Component/CollapsibleContent";
 import DataTable from "../Component/DataTable";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
@@ -330,11 +330,7 @@ const MainQuests = (props: {
         />
     );
 
-    return renderCollapsibleContent({
-        title: t("Main Quests"),
-        content: questTable,
-        subheader: false,
-    });
+    return <CollapsibleContent title={t("Main Quests")} content={questTable} subheader={false} />;
 };
 
 const Spot = (props: {
@@ -366,12 +362,7 @@ const Spot = (props: {
         <QuestTable region={region} quests={filteredQuest} itemMap={itemMap} heelPortraits={heelPortraits} />
     );
 
-    return renderCollapsibleContent({
-        title: title,
-        content: questTable,
-        subheader: true,
-        initialOpen: filteredQuest.length > 0,
-    });
+    return <CollapsibleContent title={title} content={questTable} subheader initialOpen={filteredQuest.length > 0} />;
 };
 
 const SpotQuestList = (props: {
@@ -398,13 +389,8 @@ const SpotQuestList = (props: {
         </div>
     );
 
-    return renderCollapsibleContent(
-        {
-            title: props.title,
-            content: spots,
-            subheader: false,
-        },
-        !props.last
+    return (
+        <CollapsibleContent title={props.title} content={spots} subheader={false} enableBottomMargin={!props.last} />
     );
 };
 
@@ -471,14 +457,7 @@ const WarMapList = (props: {
             })}
         </Tabs>
     );
-    return renderCollapsibleContent(
-        {
-            title: props.title,
-            content: warMaps,
-            subheader: false,
-        },
-        !last
-    );
+    return <CollapsibleContent title={props.title} content={warMaps} subheader={false} enableBottomMargin={!last} />;
 };
 
 interface IProps extends RouteComponentProps, WithTranslation {

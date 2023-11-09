@@ -4,7 +4,7 @@ import { WithTranslation, withTranslation } from "react-i18next";
 
 import { Entity, Region, Servant } from "@atlasacademy/api-connector";
 
-import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import CollapsibleContent from "../../Component/CollapsibleContent";
 import IllustratorDescriptor from "../../Descriptor/IllustratorDescriptor";
 import ServantLimitImage from "./ServantLimitImage";
 import ServantModelViewer from "./ServantModelViewer";
@@ -76,23 +76,21 @@ class ServantAssets extends React.Component<IProps> {
                 {this.displayAssets(this.props.servant.extraAssets.charaFigure)}
                 <br />
                 {Object.entries(this.props.servant.extraAssets.charaFigureForm).map(([form, assetMap]) => (
-                    <div key={form}>
-                        {renderCollapsibleContent({
-                            title: `${t("Form")} ${form}`,
-                            content: this.displayAssets(assetMap),
-                            subheader: true,
-                        })}
-                    </div>
+                    <CollapsibleContent
+                        key={form}
+                        title={`${t("Form")} ${form}`}
+                        content={this.displayAssets(assetMap)}
+                        subheader
+                    />
                 ))}
                 <br />
                 {Object.entries(this.props.servant.extraAssets.charaFigureMulti).map(([idx, assetMap]) => (
-                    <div key={idx}>
-                        {renderCollapsibleContent({
-                            title: `${t("Character")} ${idx}`,
-                            content: this.displayAssets(assetMap),
-                            subheader: true,
-                        })}
-                    </div>
+                    <CollapsibleContent
+                        key={idx}
+                        title={`${t("Character")} ${idx}`}
+                        content={this.displayAssets(assetMap)}
+                        subheader
+                    />
                 ))}
             </>
         );
@@ -151,32 +149,38 @@ class ServantAssets extends React.Component<IProps> {
                 <ServantModelViewer servant={this.props.servant} />
                 <ServantLimitImage region={this.props.region} servant={this.props.servant} />
                 {content.map((content) => (
-                    <div key={content.title}>{renderCollapsibleContent(content)}</div>
+                    <CollapsibleContent
+                        key={content.title}
+                        title={content.title}
+                        content={content.content}
+                        subheader={content.subheader}
+                    />
                 ))}
                 {(this.props.servant.extraAssets.charaFigure.story ||
-                    Object.keys(this.props.servant.extraAssets.image.story ?? {}).length > 0) &&
-                    renderCollapsibleContent({
-                        title: `${t("Story Figure")} (${t("May contain spoilers")})`,
-                        content: (
+                    Object.keys(this.props.servant.extraAssets.image.story ?? {}).length > 0) && (
+                    <CollapsibleContent
+                        title={`${t("Story Figure")} (${t("May contain spoilers")})`}
+                        content={
                             <>
                                 {this.displayAssets(this.props.servant.extraAssets.charaFigure, undefined, true)}
                                 {this.displayAssets(this.props.servant.extraAssets.image, undefined, true)}
                             </>
-                        ),
-                        subheader: false,
-                        initialOpen: false,
-                    })}
+                        }
+                        subheader={false}
+                        initialOpen={false}
+                    />
+                )}
                 <br />
                 {Object.entries(this.props.servant.extraAssets.charaFigureForm).map(([form, assetMap]) => (
                     <div key={form}>
-                        {assetMap.story
-                            ? renderCollapsibleContent({
-                                  title: `${t("Story Figure")} ${t("Form")} ${form}`,
-                                  content: this.displayAssets(assetMap, undefined, true),
-                                  subheader: true,
-                                  initialOpen: false,
-                              })
-                            : null}
+                        {assetMap.story && (
+                            <CollapsibleContent
+                                title={`${t("Story Figure")} ${t("Form")} ${form}`}
+                                content={this.displayAssets(assetMap, undefined, true)}
+                                subheader
+                                initialOpen={false}
+                            />
+                        )}
                     </div>
                 ))}
             </div>

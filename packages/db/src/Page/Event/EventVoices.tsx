@@ -1,10 +1,9 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { Event, Profile, Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import CollapsibleContent from "../../Component/CollapsibleContent";
 import { lang } from "../../Setting/Manager";
 import { VoiceLinesTable } from "../Servant/ServantVoiceLines";
 
@@ -52,15 +51,14 @@ const EventVoices = ({
                 const voiceGroupKey = `${voiceGroup.svtId}-${voiceGroup.voicePrefix}-${voiceGroup.type}`;
 
                 return (
-                    <React.Fragment key={voiceGroupKey}>
-                        {renderCollapsibleContent({
-                            title: <span lang={lang(region)}>{title}</span>,
-                            content: voiceLineTable,
-                            subheader: false,
-                            accordionKey: voiceGroupKey,
-                            separator: i !== 0,
-                        })}
-                    </React.Fragment>
+                    <CollapsibleContent
+                        key={voiceGroupKey}
+                        title={<span lang={lang(region)}>{title}</span>}
+                        content={voiceLineTable}
+                        subheader={false}
+                        accordionKey={voiceGroupKey}
+                        separator={i !== 0}
+                    />
                 );
             })}
         </>

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Ai, Region, Trait } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
-import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import CollapsibleContent from "../../Component/CollapsibleContent";
 import AiDescriptor from "../../Descriptor/AiDescriptor";
 import { BuffIdDescriptor } from "../../Descriptor/BuffDescription";
 import NoblePhantasmPopover from "../../Descriptor/NoblePhantasmPopover";
@@ -364,9 +364,5 @@ export default function AiTable(props: {
             </tbody>
         </Table>
     );
-    return renderCollapsibleContent({
-        title: `AI ${ais[0].id}`,
-        content: outputTable,
-        subheader: false,
-    });
+    return <CollapsibleContent title={`AI ${ais[0].id}`} content={outputTable} subheader={false} />;
 }

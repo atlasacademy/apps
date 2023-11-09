@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { CraftEssence, Entity, Profile, ProfileVoiceType, Region, Servant } from "@atlasacademy/api-connector";
 
-import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import CollapsibleContent from "../../Component/CollapsibleContent";
 import EntityDescriptor from "../../Descriptor/EntityDescriptor";
 import { ProfileVoiceTypeDescriptor } from "../../Descriptor/ProfileVoiceTypeDescriptor";
 import ScriptDescriptor from "../../Descriptor/ScriptDescriptor";
@@ -243,11 +243,7 @@ export default function ServantVoiceLines(props: {
                     costumes={profile?.costume}
                 />
             );
-            return (
-                <React.Fragment key={prefix}>
-                    {renderCollapsibleContent({ title, content: outputTable, subheader: false })}
-                </React.Fragment>
-            );
+            return <CollapsibleContent key={prefix} title={title} content={outputTable} subheader={false} />;
         } else {
             return <React.Fragment key={prefix}>{outputTable}</React.Fragment>;
         }

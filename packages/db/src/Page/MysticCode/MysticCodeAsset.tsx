@@ -1,10 +1,16 @@
+import { useTranslation } from "react-i18next";
+
 import { MysticCode } from "@atlasacademy/api-connector";
 
-import renderCollapsibleContent from "../../Component/CollapsibleContent";
+import CollapsibleContent from "../../Component/CollapsibleContent";
 
 const Image = ({ url, alt, floatDir }: { url: string; alt?: string; floatDir?: string }) => (
     <a href={url} target="_blank" rel="noopener noreferrer">
-        <img alt={alt ?? ""} src={url} className={"mw-100" + floatDir ? `float-${floatDir} w-50` : ""} />
+        <img
+            alt={alt ?? ""}
+            src={url}
+            className={"mw-100" + (floatDir !== undefined ? `float-${floatDir} w-50` : "")}
+        />
     </a>
 );
 
@@ -12,33 +18,33 @@ const MCImages = ({
     mcAssets,
     mcName,
     assetType,
-    float = undefined,
+    float,
 }: {
     mcAssets: { male: string; female: string };
     mcName: string;
     assetType: "Figure" | "Face" | "Item";
-    float?: true;
+    float?: boolean;
 }) => (
     <>
-        <Image url={mcAssets.male} alt={`Male ${mcName} ${assetType}`} floatDir={float && "start"} />
-        <Image url={mcAssets.female} alt={`Female ${mcName} ${assetType}`} floatDir={float && "end"} />
+        <Image url={mcAssets.male} alt={`Male ${mcName} ${assetType}`} floatDir={float ? "start" : undefined} />
+        <Image url={mcAssets.female} alt={`Female ${mcName} ${assetType}`} floatDir={float ? "end" : undefined} />
     </>
 );
 
 const MysticCodeAssets = ({ mysticCode }: { mysticCode: MysticCode.MysticCode }) => {
+    const { t } = useTranslation();
     const mcName = `${mysticCode.name} Mystic Code`;
     return (
         <>
-            {renderCollapsibleContent({
-                title: "Figures",
-                content: (
+            <CollapsibleContent
+                title={t("Figures")}
+                content={
                     <>
-                        {" "}
                         <MCImages
                             mcAssets={mysticCode.extraAssets.masterFigure}
                             mcName={mcName}
                             assetType="Face"
-                            float={true}
+                            float
                         />
                         {mysticCode.costumes.map((costume, idx) => (
                             <MCImages
@@ -46,41 +52,39 @@ const MysticCodeAssets = ({ mysticCode }: { mysticCode: MysticCode.MysticCode })
                                 mcAssets={costume.extraAssets.masterFigure}
                                 mcName={mcName}
                                 assetType="Face"
-                                float={true}
+                                float
                             />
-                        ))}{" "}
+                        ))}
                     </>
-                ),
-                subheader: false,
-            })}
-            {renderCollapsibleContent(
-                {
-                    title: "Faces",
-                    content: (
-                        <>
-                            <MCImages mcAssets={mysticCode.extraAssets.masterFace} mcName={mcName} assetType="Face" />
-                            {mysticCode.costumes.map((costume) => (
+                }
+                subheader={false}
+            />
+            <CollapsibleContent
+                title={t("Faces")}
+                content={
+                    <>
+                        <MCImages mcAssets={mysticCode.extraAssets.masterFace} mcName={mcName} assetType="Face" />
+                        {mysticCode.costumes.map((costume) => (
+                            <div>
                                 <MCImages
                                     key={costume.id}
                                     mcAssets={costume.extraAssets.masterFace}
                                     mcName={mcName}
                                     assetType="Face"
                                 />
-                            ))}
-                        </>
-                    ),
-                    subheader: false,
-                },
-                false
-            )}
-            {renderCollapsibleContent(
-                {
-                    title: "Items",
-                    content: <MCImages mcAssets={mysticCode.extraAssets.item} mcName={mcName} assetType="Item" />,
-                    subheader: true,
-                },
-                true
-            )}
+                            </div>
+                        ))}
+                    </>
+                }
+                subheader={false}
+                enableBottomMargin={false}
+            />
+            <CollapsibleContent
+                title={t("Items")}
+                content={<MCImages mcAssets={mysticCode.extraAssets.item} mcName={mcName} assetType="Item" />}
+                subheader
+                enableBottomMargin
+            />
         </>
     );
 };

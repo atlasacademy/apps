@@ -6,7 +6,7 @@ import { Ai, Quest, QuestEnemy, Region } from "@atlasacademy/api-connector";
 
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
-import renderCollapsibleContent from "./CollapsibleContent";
+import CollapsibleContent from "./CollapsibleContent";
 import { QuestEnemyMainData, QuestEnemySubData } from "./QuestEnemy";
 
 const BasicAiNpcDescriptor = ({
@@ -63,18 +63,16 @@ const QuestAiNpc = ({ region, aiNpcs }: { region: Region; aiNpcs: Quest.QuestPha
         }
 
         return (
-            <>
-                {renderCollapsibleContent({
-                    title: (
-                        <>
-                            {t("AI NPC")}: <BasicAiNpcDescriptor region={region} aiNpc={aiNpc} iconHeight={40} />
-                        </>
-                    ),
-                    content: <AiNpcDetailTable region={region} enemy={aiNpc.detail} />,
-                    subheader: true,
-                    initialOpen: false,
-                })}
-            </>
+            <CollapsibleContent
+                title={
+                    <>
+                        {t("AI NPC")}: <BasicAiNpcDescriptor region={region} aiNpc={aiNpc} iconHeight={40} />
+                    </>
+                }
+                content={<AiNpcDetailTable region={region} enemy={aiNpc.detail} />}
+                subheader
+                initialOpen={false}
+            />
         );
     }
 
@@ -93,16 +91,7 @@ const QuestAiNpc = ({ region, aiNpcs }: { region: Region; aiNpcs: Quest.QuestPha
         </>
     );
 
-    return (
-        <>
-            {renderCollapsibleContent({
-                title: t("AI NPC"),
-                content: multiNpcContent,
-                subheader: true,
-                initialOpen: false,
-            })}
-        </>
-    );
+    return <CollapsibleContent title={t("AI NPC")} content={multiNpcContent} subheader initialOpen={false} />;
 };
 
 export default QuestAiNpc;
