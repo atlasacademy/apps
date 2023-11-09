@@ -5,7 +5,6 @@ import { Alert, ButtonGroup, Dropdown, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { CraftEssence, Entity, Profile, ProfileVoiceType, Region, Servant } from "@atlasacademy/api-connector";
-import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import renderCollapsibleContent from "../../Component/CollapsibleContent";
 import EntityDescriptor from "../../Descriptor/EntityDescriptor";

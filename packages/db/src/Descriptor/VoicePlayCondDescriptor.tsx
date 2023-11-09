@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { Profile, Region, Servant } from "@atlasacademy/api-connector";
 
 import { mergeElements } from "../Helper/OutputHelper";
@@ -68,14 +70,12 @@ export default function VoicePlayCondDescriptor(props: {
     playConds: Profile.VoicePlayCond[];
     servants: Map<number, Servant.ServantBasic>;
 }) {
+    const { t } = useTranslation();
     const groups = Array.from(new Set(props.playConds.map((playCond) => playCond.condGroup)));
     if (props.playConds.length > 0) {
         return (
             <>
-                <b>
-                    Play Requirement
-                    {groups.length > 1 ? "s (any of the following):" : ":"}
-                </b>
+                <b>{t(groups.length === 1 ? "Voice Play Requirement_one" : "Voice Play Requirement_other")}:</b>
                 <br />
                 <AllVoicePlayGroups
                     region={props.region}

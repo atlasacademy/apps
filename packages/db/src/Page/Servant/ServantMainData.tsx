@@ -3,7 +3,6 @@ import { Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 
 import { Region, Servant } from "@atlasacademy/api-connector";
-import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import CommandCard from "../../Component/CommandCard";
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
