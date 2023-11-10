@@ -1,6 +1,29 @@
+import { faLanguage } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { Region } from "@atlasacademy/api-connector";
+import { UILanguage } from "@atlasacademy/api-descriptor";
+
+import { mergeElements } from "../../Helper/OutputHelper";
+import Manager from "../../Setting/Manager";
+import { UILanguageDescriptor } from "../../Setting/SettingForm";
+
+const UILanguageLink = ({ uiLang }: { uiLang: UILanguage }) => {
+    return (
+        <Button
+            className="p-0 user-select-auto align-baseline"
+            variant="link"
+            lang={uiLang}
+            onClick={() => {
+                Manager.setUiLanguage(uiLang);
+            }}
+        >
+            {UILanguageDescriptor.get(uiLang)?.langName}
+        </Button>
+    );
+};
 
 export default function home(region?: Region) {
     return (
@@ -31,6 +54,33 @@ export default function home(region?: Region) {
                 </a>
                 . The data at api.atlasacademy.io is automatically maintained and will be refreshed within an hour of a
                 new release of the game.
+            </p>
+
+            <p>
+                The website is also available in{" "}
+                {mergeElements(
+                    Object.values(UILanguage).map((uiLang) => <UILanguageLink key={uiLang} uiLang={uiLang} />),
+                    ", "
+                )}
+                . You can change the UI Language using the{" "}
+                <Button variant="info">
+                    <FontAwesomeIcon icon={faLanguage} title="UI Language" />
+                </Button>{" "}
+                button.
+            </p>
+
+            <p>
+                Any translation help is greatly appreciated. The translations are available and can be edited at our{" "}
+                <a href="https://weblate.atlasacademy.io/" target="blank_">
+                    Weblate
+                </a>{" "}
+                instance.{" "}
+                <a href="https://weblate.atlasacademy.io/engage/atlas-academy/" className="display-inline">
+                    <img
+                        src="https://weblate.atlasacademy.io/widget/atlas-academy/atlas-academy-db/svg-badge.svg"
+                        alt="Translation status"
+                    />
+                </a>
             </p>
 
             <p>
