@@ -71,7 +71,7 @@ export default function home(region?: Region) {
 
             <p>
                 Any translation help is greatly appreciated. The translations are available and can be edited at our{" "}
-                <a href="https://weblate.atlasacademy.io/" target="blank_">
+                <a href="https://weblate.atlasacademy.io/" target="_blank" rel="noreferrer">
                     Weblate
                 </a>{" "}
                 instance.{" "}

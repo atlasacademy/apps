@@ -68,6 +68,7 @@
     "Cards": "配卡",
     "Cards_other": "配卡",
     "CEs": "礼装",
+    "Chaldea App": "Chaldea App",
     "Changelog": "更新日志",
     "Character": "角色",
     "Choices": "选项",
@@ -193,6 +194,7 @@
     "Form": "形式",
     "Formation": "编制",
     "Fortifications": "梁山泊任命",
+    "foundResult_one": "查询到{{count}}条结果",
     "foundResult_other": "找到{{count}}条结果",
     "Free": "Free",
     "From previous level": "从上一级",
@@ -292,6 +294,7 @@
     "only entries with visible changes": "仅可见变更的记录",
     "Only exact matches": "仅精确匹配",
     "Open": "开放",
+    "Open in Laplace Simulator": "Open in Laplace Simulator",
     "Opening Script": "开场剧情",
     "Option": "选项",
     "Original": "原始",
@@ -584,6 +587,5 @@
     "Weight": "权重",
     "with local timestamps": "使用本地时间戳",
     "with UTC timestamps": "使用UTC时间戳",
-    "Yes": "Yes",
-    "foundResult_one": "查询到{{count}}条结果"
+    "Yes": "Yes"
 }

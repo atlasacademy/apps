@@ -2,7 +2,6 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 
 import { Enemy, Region } from "@atlasacademy/api-connector";
-import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api from "../../Api";
 import DataTable from "../../Component/DataTable";

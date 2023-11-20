@@ -1,3 +1,5 @@
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -102,6 +104,20 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                         Manager.calcStringType() === "off" ||
                         quest.stages.length === 0 ||
                         quest.enemyHash === undefined,
+                },
+                {
+                    label: t("Chaldea App"),
+                    value: (
+                        <a
+                            className="descriptor-link"
+                            target="_blank"
+                            rel="noreferrer"
+                            href={`https://link.chaldea.center/db/${region}/quest/${quest.id}/${quest.phase}`}
+                        >
+                            <span className="hover-text">{t("Open in Laplace Simulator")}</span>{" "}
+                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} title={t("Open in Laplace Simulator")} />
+                        </a>
+                    ),
                 },
                 {
                     label: "Raw",
