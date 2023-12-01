@@ -183,14 +183,13 @@ class ServantPage extends React.Component<IProps, IState> {
                 <ServantPicker region={this.props.region} servants={this.state.servants} id={servant.collectionNo} />
                 <hr className="mb-3" />
 
-                <div className="d-flex flex-row">
-                    <h1 className="mb-3" lang={lang(this.props.region)}>
+                <h1 className="mb-3 d-flex flex-row" lang={lang(this.props.region)}>
+                    <div className="mx-3 d-flex align-items-center">
                         <ClassIcon className={servant.className} rarity={servant.rarity} height={50} />
-                        &nbsp;
-                        {this.getOverwriteName()}
-                    </h1>
-                    <span style={{ flexGrow: 1 }} />
-                </div>
+                    </div>
+                    <div>{this.getOverwriteName()}</div>
+                </h1>
+
                 <Row className="mb-3">
                     <Col xs={{ span: 12, order: 2 }} lg={{ span: 6, order: 1 }}>
                         <ServantMainData
