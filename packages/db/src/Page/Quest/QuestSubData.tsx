@@ -118,6 +118,7 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                             <FontAwesomeIcon icon={faArrowUpRightFromSquare} title={t("Open in Laplace Simulator")} />
                         </a>
                     ),
+                    hidden: quest.stages.every((stage) => stage.enemies.length === 0),
                 },
                 {
                     label: "Raw",
