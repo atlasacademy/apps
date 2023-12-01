@@ -1,19 +1,22 @@
 import { useRef } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Alert, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { Ai, Quest, Region } from "@atlasacademy/api-connector";
 
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
+import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { getStageCalcString } from "../Helper/CalcString";
+import { numToPct } from "../Helper/NumberHelper";
 import { mergeElements } from "../Helper/OutputHelper";
+import QuestDrops from "../Page/Quest/QuestDrops";
 import Manager from "../Setting/Manager";
 import CopyToClipboard from "./CopyToClipboard";
 import QuestEnemyTable, { FromToEntry, hashEnemy } from "./QuestEnemy";
 
 const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
-    const stage = props.stage,
+    const { region, stage } = props,
         { t } = useTranslation();
     const fieldAiDescriptions = stage.fieldAis.map((ai) => (
         <AiDescriptor region={props.region} aiType={Ai.AiType.FIELD} id={ai.id} />
@@ -112,6 +115,28 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                             title={t("Copy stage calc string to clipboard")}
                         />
                     </div>
+                )}
+                {stage.cutin !== undefined && (
+                    <Alert variant="success" className="my-3 lh-1p5">
+                        <b>{t("Cut-in random appearance:")}</b>
+                        <ul className="mb-0">
+                            <li>
+                                {t("Skills")}
+                                <ul>
+                                    {stage.cutin.skills.map((skill) => (
+                                        <li key={skill.skill.id}>
+                                            <SkillDescriptor region={region} skill={skill.skill} />:{" "}
+                                            {numToPct(skill.appearCount / (stage.cutin?.runs ?? 1))}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                            <li>
+                                {t("Drops")}
+                                <QuestDrops region={region} drops={stage.cutin.drops} />
+                            </li>
+                        </ul>
+                    </Alert>
                 )}
             </div>
 

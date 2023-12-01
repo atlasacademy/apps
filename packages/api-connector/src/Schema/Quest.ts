@@ -7,6 +7,7 @@ import { Item, ItemAmount } from "./Item";
 import { NpcServant } from "./NpcServant";
 import { EnemyDrop, QuestEnemy } from "./QuestEnemy";
 import { Restriction } from "./Restriction";
+import { Skill } from "./Skill";
 import { SupportServant } from "./SupportServant";
 import { Trait } from "./Trait";
 
@@ -128,6 +129,17 @@ export enum StageLimitActType {
     LOSE = "lose",
 }
 
+export interface StageSkill {
+    skill: Skill;
+    appearCount: number;
+}
+
+export interface StageCutin {
+    runs: number;
+    skills: StageSkill[];
+    drops: EnemyDrop[];
+}
+
 export interface Stage {
     wave: number;
     bgm: Bgm;
@@ -138,6 +150,7 @@ export interface Stage {
     turn?: number;
     limitAct?: StageLimitActType;
     waveStartMovies: StageStartMovie[];
+    cutin?: StageCutin;
     enemies: QuestEnemy[];
 }
 

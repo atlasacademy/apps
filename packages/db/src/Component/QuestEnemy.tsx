@@ -26,6 +26,7 @@ import { SvtClassDescriptor } from "../Descriptor/SvtClassDestriptor";
 import { SvtAttrDescriptor } from "../Descriptor/SvttAttrDestriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { getEnemyCalcString } from "../Helper/CalcString";
+import { numToPct } from "../Helper/NumberHelper";
 import { Renderable, asPercent, mergeElements } from "../Helper/OutputHelper";
 import { OrdinalNumeral } from "../Helper/StringHelper";
 import Manager from "../Setting/Manager";
@@ -45,10 +46,10 @@ export const hashEnemy = (enemy: QuestEnemy.QuestEnemy) => `${enemy.deck}-${enem
 export function renderDoubleRow(content: [RenderableRow, RenderableRow]): Renderable {
     return (
         <tr>
-            <th>{content[0].title}</th>
-            <td>{content[0].content}</td>
-            <th>{content[1].title}</th>
-            <td>{content[1].content}</td>
+            <th className="w-25pct align-middle">{content[0].title}</th>
+            <td className="w-25pct align-middle">{content[0].content}</td>
+            <th className="w-25pct align-middle">{content[1].title}</th>
+            <td className="w-25pct align-middle">{content[1].content}</td>
         </tr>
     );
 }
@@ -56,8 +57,10 @@ export function renderDoubleRow(content: [RenderableRow, RenderableRow]): Render
 export function renderSpanningRow(content: RenderableRow): Renderable {
     return (
         <tr>
-            <th>{content.title}</th>
-            <td colSpan={3}>{content.content}</td>
+            <th className="align-middle">{content.title}</th>
+            <td colSpan={3} className="align-middle">
+                {content.content}
+            </td>
         </tr>
     );
 }
@@ -286,9 +289,17 @@ export const QuestEnemySubData = (props: {
 }) => {
     const region = props.region,
         enemy = props.enemy;
-    const traitDescriptions = enemy.traits.map((trait) => (
-        <TraitDescription region={region} trait={trait} overrideTraits={[{ id: enemy.svt.id, name: `Self` }]} />
-    ));
+    const traitDescriptions = enemy.traits
+        .sort((a, b) => a.id - b.id)
+        .map((trait) => (
+            <TraitDescription
+                className="text-nowrap mx-0p5"
+                key={trait.id}
+                region={region}
+                trait={trait}
+                overrideTraits={[{ id: enemy.svt.id, name: `Self` }]}
+            />
+        ));
     const { t } = useTranslation();
     const isSupportDetail = props.supportDetail ?? false;
     return (
@@ -304,7 +315,7 @@ export const QuestEnemySubData = (props: {
                 })}
                 {renderSpanningRow({
                     title: t("Traits"),
-                    content: mergeElements(traitDescriptions, <br />),
+                    content: <>{traitDescriptions}</>,
                 })}
                 {!isSupportDetail &&
                     renderSpanningRow({
@@ -378,9 +389,6 @@ export const QuestEnemySubData = (props: {
     );
 };
 
-const numToPct = (value: number) =>
-    value < 1 ? `${(value * 100).toFixed(2)}%` : `${Math.round(value * 100).toLocaleString()}%`;
-
 export const QuestDropDescriptor = ({
     region,
     drops,
@@ -395,7 +403,7 @@ export const QuestDropDescriptor = ({
     const { t } = useTranslation();
 
     return (
-        <Alert variant="success">
+        <>
             {questHash !== undefined ? (
                 questHash === "average" ? (
                     <div className="mb-3">{t("Average drop rates accross all enemy versions")}</div>
@@ -453,7 +461,7 @@ export const QuestDropDescriptor = ({
                     );
                 })}
             </ul>
-        </Alert>
+        </>
     );
 };
 
@@ -545,7 +553,11 @@ const QuestEnemyTable = (props: {
                 {changeOriginDescription}
             </ul>
 
-            {enemy.drops.length > 0 ? <QuestDropDescriptor region={region} drops={enemy.drops} /> : null}
+            {enemy.drops.length > 0 && (
+                <Alert variant="success">
+                    <QuestDropDescriptor region={region} drops={enemy.drops} />
+                </Alert>
+            )}
 
             <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>

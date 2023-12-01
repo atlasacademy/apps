@@ -10,8 +10,20 @@
     white-space: nowrap;
 }
 
+.mx-0p5 {
+    margin: 0 0.125em;
+}
+
+.w-25pct {
+    width: 25%;
+}
+
 .w-1px {
     width: 1px;
+}
+
+.align-middle {
+    vertical-align: middle;
 }
 
 .underline {
@@ -20,6 +32,14 @@
 
 .flex-row {
     flex-direction: row;
+}
+
+.lh-1 {
+    line-height: 1em;
+}
+
+.lh-1p5 {
+    line-height: 1.5em;
 }
 
 .lh-2 {

@@ -8,6 +8,8 @@ import Api from "../Api";
 import Description from "./Description";
 
 interface IProps {
+    className?: string;
+    style?: React.CSSProperties;
     region: Region;
     trait: Trait.Trait | number;
     disableLink?: boolean;
@@ -106,9 +108,13 @@ class TraitDescription extends React.Component<IProps, IState> {
         const trait = this.state.trait ?? this.state.id;
 
         return this.props.disableLink ? (
-            <span>[{this.getDescription(trait)}]</span>
+            <span className={this.props.className} style={this.props.style}>
+                [{this.getDescription(trait)}]
+            </span>
         ) : (
-            <Link to={this.getLocation()}>[{this.getDescription(trait)}]</Link>
+            <Link to={this.getLocation()} className={this.props.className} style={this.props.style}>
+                [{this.getDescription(trait)}]
+            </Link>
         );
     }
 }
