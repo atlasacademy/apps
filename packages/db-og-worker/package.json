@@ -17,12 +17,12 @@
     },
     "devDependencies": {
         "@cloudflare/kv-asset-handler": "^0.3.0",
-        "@cloudflare/workers-types": "^4.20231025.0",
-        "@typescript-eslint/eslint-plugin": "^6.9.1",
-        "@typescript-eslint/parser": "^6.9.1",
-        "eslint": "^8.53.0",
+        "@cloudflare/workers-types": "^4.20231121.0",
+        "@typescript-eslint/eslint-plugin": "^6.13.1",
+        "@typescript-eslint/parser": "^6.13.1",
+        "eslint": "^8.54.0",
         "eslint-config-typescript": "^3.0.0",
-        "typescript": "^5.2.2",
-        "wrangler": "^3.15.0"
+        "typescript": "^5.3.2",
+        "wrangler": "^3.18.0"
     }
 }

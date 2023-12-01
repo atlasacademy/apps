@@ -2,9 +2,9 @@
     "name": "root",
     "private": true,
     "devDependencies": {
-        "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+        "@trivago/prettier-plugin-sort-imports": "^4.3.0",
         "lerna": "^3.22.1",
-        "prettier": "^3.0.3"
+        "prettier": "^3.1.0"
     },
     "scripts": {
         "format": "prettier --write packages/",
