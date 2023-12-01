@@ -125,6 +125,10 @@ export enum BuffAction {
     FUNCTION_COMMANDATTACK_AFTER_MAIN_ONLY = "functionCommandattackAfterMainOnly",
     FUNCTION_ATTACK_BEFORE_MAIN_ONLY = "functionAttackBeforeMainOnly",
     FUNCTION_ATTACK_AFTER_MAIN_ONLY = "functionAttackAfterMainOnly",
+    FUNCTION_SKILL_AFTER = "functionSkillAfter",
+    FUNCTION_SKILL_AFTER_MAIN_ONLY = "functionSkillAfterMainOnly",
+    FUNCTION_TREASURE_DEVICE_AFTER = "functionTreasureDeviceAfter",
+    FUNCTION_TREASURE_DEVICE_AFTER_MAIN_ONLY = "functionTreasureDeviceAfterMainOnly",
 }
 
 export enum BuffLimit {
@@ -304,6 +308,10 @@ export enum BuffType {
     ATTACK_AFTER_FUNCTION_MAIN_ONLY = "attackAfterFunctionMainOnly",
     WAR_BOARD_NOT_ATTACKED = "warBoardNotAttacked",
     WAR_BOARD_IGNORE_DEFEATPOINT = "warBoardIgnoreDefeatpoint",
+    SKILL_AFTER_FUNCTION = "skillAfterFunction",
+    TREASURE_DEVICE_AFTER_FUNCTION = "treasureDeviceAfterFunction",
+    SKILL_AFTER_FUNCTION_MAIN_ONLY = "skillAfterFunctionMainOnly",
+    TREASURE_DEVICE_AFTER_FUNCTION_MAIN_ONLY = "treasureDeviceAfterFunctionMainOnly",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",
@@ -404,6 +412,8 @@ export interface BasicBuff {
 
 export interface Buff extends BasicBuff {
     script: BuffScript<Buff>;
+    originalName: string;
+    originalScript: Record<string, any>;
     detail: string;
     buffGroup: number;
     maxRate: number;

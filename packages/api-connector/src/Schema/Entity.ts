@@ -127,6 +127,8 @@ export interface ServantAscensionAdditions {
     overWriteTDFileName: ServantAscensionAdditionDetails<string>;
     overWriteTDRank: ServantAscensionAdditionDetails<string>;
     overWriteTDTypeText: ServantAscensionAdditionDetails<string>;
+    lvMax: ServantAscensionAdditionDetails<number>;
+    rarity: ServantAscensionAdditionDetails<number>;
     charaGraphChange: ServantAscensionAdditionDetails<string>;
     charaGraphChangeCommonRelease: ServantAscensionAdditionDetails<CommonRelease[]>;
     faceChange: ServantAscensionAdditionDetails<string>;

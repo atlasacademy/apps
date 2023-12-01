@@ -195,6 +195,16 @@ export interface QuestPhaseAiNpc {
     aiIds: number[];
 }
 
+interface QuestPhaseOverwriteEquipSkill {
+    lv: number;
+    id: number;
+}
+
+interface QuestPhaseOverwriteEquipSkills {
+    iconId: number;
+    skills: QuestPhaseOverwriteEquipSkill[];
+}
+
 export interface QuestPhaseExtraDetail {
     questSelect?: number[];
     singleForceSvtId?: number;
@@ -202,6 +212,8 @@ export interface QuestPhaseExtraDetail {
     hintMessage?: string;
     aiNpc?: QuestPhaseAiNpc;
     aiMultiNpc?: QuestPhaseAiNpc[];
+    overwriteEquipSkills?: QuestPhaseOverwriteEquipSkills;
+    waveSetup?: number;
 }
 
 export interface QuestPhaseRestriction {

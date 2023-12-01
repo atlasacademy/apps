@@ -52,6 +52,7 @@ export interface SupportServantMisc {
 
 export interface SupportServant {
     id: number;
+    npcSvtFollowerId: number;
     priority: number;
     name: string;
     originalName: string;

@@ -67,6 +67,7 @@ export interface ExtraPassive {
     condFriendshipRank: number;
     eventId: number;
     flag: number;
+    releaseConditions: CommonRelease[];
     startedAt: number;
     endedAt: number;
 }

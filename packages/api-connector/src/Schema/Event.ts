@@ -11,6 +11,7 @@ import { VoiceGroup, VoiceLine } from "./Profile";
 import { PayType, Shop } from "./Shop";
 import { Skill } from "./Skill";
 import { SvtClassSupportGroupType } from "./Support";
+import { WarBoard } from "./WarBoard";
 
 export interface EventAlloutBattle {
     eventId: number;
@@ -71,6 +72,8 @@ export interface EventPointBuff {
     detail: string;
     icon: string;
     background: ItemBackgroundType;
+    skillIcon?: string;
+    lv?: number;
     value: number;
 }
 
@@ -351,6 +354,15 @@ export interface EventHeelPortrait {
     script: Record<string, unknown>;
 }
 
+export interface EventMural {
+    id: number;
+    message: string;
+    images: string[];
+    num: number;
+    condQuestId: number;
+    condQuestPhase: number;
+}
+
 export interface EventBasic {
     id: number;
     type: EventType;
@@ -361,6 +373,40 @@ export interface EventBasic {
     finishedAt: number;
     materialOpenedAt: number;
     warIds: number[];
+}
+
+export enum EventOverwriteType {
+    BG_IMAGE = "bgImage",
+    BGM = "bgm",
+    NAME = "name",
+    BANNER = "banner",
+    NOTICE_BANNER = "noticeBanner",
+}
+
+export interface EventAdd {
+    overwriteType: EventOverwriteType;
+    priority: number;
+    overwriteId: number;
+    overwriteText: string;
+    overwriteBanner?: string;
+    condType: CondType;
+    targetId: number;
+    startedAt: number;
+    endedAt: number;
+}
+
+export enum EventPointActivityObjectType {
+    QUEST_ID = "questId",
+    SKILL_ID = "skillId",
+    SHOP_ID = "shopId",
+}
+
+export interface EventPointActivity {
+    groupId: number;
+    point: number;
+    objectType: EventPointActivityObjectType;
+    objectId: number;
+    objectValue: number;
 }
 
 export interface Event {
@@ -380,16 +426,19 @@ export interface Event {
     finishedAt: number;
     materialOpenedAt: number;
     warIds: number[];
+    eventAdds: EventAdd[];
     shop: Shop[];
     rewards: EventReward[];
     rewardScenes: EventRewardScene[];
     pointGroups: EventPointGroup[];
     pointBuffs: EventPointBuff[];
+    pointActivities: EventPointActivity[];
     missions: Mission[];
     randomMissions: EventRandomMission[];
     missionGroups: EventMissionGroup[];
     towers: EventTower[];
     lotteries: EventLottery[];
+    warBoards: WarBoard[];
     treasureBoxes: EventTreasureBox[];
     bulletinBoards: EventBulletinBoard[];
     recipes: EventRecipe[];
@@ -398,6 +447,7 @@ export interface Event {
     campaignQuests: EventQuest[];
     commandAssists: EventCommandAssist[];
     heelPortraits: EventHeelPortrait[];
+    murals: EventMural[];
     digging?: EventDigging;
     cooltime?: EventCooltime;
     voicePlays: EventVoicePlay[];
