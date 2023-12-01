@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios, { AxiosError } from "axios";
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import { WithTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Entity, NoblePhantasm, Quest, Region } from "@atlasacademy/api-connector";
@@ -24,7 +25,7 @@ import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 
 interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
-interface IProps {
+interface IProps extends WithTranslation {
     region: Region;
     id: number;
 }
@@ -92,38 +93,38 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
         if (this.state.loading || !this.state.noblePhantasm) return <Loading />;
 
         const noblePhantasm = this.state.noblePhantasm,
-            region = this.props.region;
+            { region, t } = this.props;
 
         return (
             <div>
                 <h1 lang={lang(region)}>
-                    <Ruby region={this.props.region} text={noblePhantasm.name} ruby={noblePhantasm.ruby} />
+                    <Ruby region={region} text={noblePhantasm.name} ruby={noblePhantasm.ruby} />
                 </h1>
                 <br />
 
                 <DataTable
                     data={[
-                        { label: "ID", value: noblePhantasm.id },
-                        { label: "Name", value: <span lang={lang(region)}>{noblePhantasm.name}</span> },
+                        { label: t("ID"), value: noblePhantasm.id },
+                        { label: t("Name"), value: <span lang={lang(region)}>{noblePhantasm.name}</span> },
                         {
-                            label: "Original Name",
+                            label: t("Original Name"),
                             value: <span lang={lang(region)}>{noblePhantasm.originalName}</span>,
                             hidden: noblePhantasm.name === noblePhantasm.originalName,
                         },
-                        { label: "Ruby", value: <span lang={lang(region)}>{noblePhantasm.ruby}</span> },
-                        { label: "Detail", value: <span lang={lang(region)}>{noblePhantasm.detail}</span> },
-                        { label: "Rank", value: noblePhantasm.rank },
-                        { label: "Type", value: <span lang={lang(region)}>{noblePhantasm.type}</span> },
-                        { label: "Card Type", value: toTitleCase(noblePhantasm.card) },
+                        { label: t("Ruby"), value: <span lang={lang(region)}>{noblePhantasm.ruby}</span> },
+                        { label: t("Detail"), value: <span lang={lang(region)}>{noblePhantasm.detail}</span> },
+                        { label: t("Rank"), value: noblePhantasm.rank },
+                        { label: t("Type"), value: <span lang={lang(region)}>{noblePhantasm.type}</span> },
+                        { label: t("Card Type"), value: toTitleCase(noblePhantasm.card) },
                         {
-                            label: "Hits",
+                            label: t("Hits"),
                             value: mergeElements(
                                 noblePhantasm.npDistribution.map((hit) => asPercent(hit, 0)),
                                 ", "
                             ),
                         },
                         {
-                            label: "Traits",
+                            label: t("Traits"),
                             value: mergeElements(
                                 noblePhantasm.individuality.map((trait) => (
                                     <TraitDescription
@@ -137,7 +138,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                             ),
                         },
                         {
-                            label: "Owner",
+                            label: t("Owner"),
                             value: (
                                 <div>
                                     {(noblePhantasm.reverse?.basic?.servant ?? []).map((servant) => {
@@ -155,7 +156,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                             ),
                         },
                         {
-                            label: "Used in Quests",
+                            label: t("Used in Quests"),
                             value: (
                                 <ul>
                                     {this.state.relatedQuests.slice(0, 10).map((quest) => (
@@ -169,7 +170,9 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                                     ))}
                                     {this.state.relatedQuests.length > 10 ? (
                                         <li>
-                                            <Link to={`/${this.props.region}/quests?enemySkillId=${this.props.id}`}>
+                                            <Link
+                                                to={`/${this.props.region}/quests?enemyNoblePhantasmId=${this.props.id}`}
+                                            >
                                                 and {this.state.relatedQuests.length - 10} other quests{" "}
                                                 <FontAwesomeIcon icon={faShare} />
                                             </Link>
@@ -183,15 +186,15 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 />
                 <span>
                     <RawDataViewer
-                        text="Nice"
+                        text={t("Nice")}
                         data={noblePhantasm}
                         url={Api.getUrl("nice", "NP", this.props.id, { expand: true })}
                     />
-                    <RawDataViewer text="Raw" data={Api.getUrl("raw", "NP", this.props.id, { expand: true })} />
+                    <RawDataViewer text={t("Raw")} data={Api.getUrl("raw", "NP", this.props.id, { expand: true })} />
                 </span>
 
                 <br />
-                <h3>Breakdown</h3>
+                <h3>{t("Breakdown")}</h3>
                 <EffectBreakdown
                     region={this.props.region}
                     funcs={noblePhantasm.functions}
@@ -201,7 +204,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
 
                 <br />
                 <br />
-                <h3>Detailed Effects</h3>
+                <h3>{t("Detailed Effects")}</h3>
                 <Row>
                     <Col>
                         <Form inline style={{ justifyContent: "flex-end" }}>
@@ -212,7 +215,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                             >
                                 {[1, 2, 3, 4, 5].map((level) => (
                                     <option key={level} value={level}>
-                                        NP LEVEL {level}
+                                        {t("NP LEVEL")} {level}
                                     </option>
                                 ))}
                             </Form.Control>
@@ -227,7 +230,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                             >
                                 {[1, 2, 3, 4, 5].map((level) => (
                                     <option key={level} value={level}>
-                                        OVERCHARGE {level}
+                                        {t("OVERCHARGE")} {level}
                                     </option>
                                 ))}
                             </Form.Control>
@@ -247,4 +250,4 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
     }
 }
 
-export default NoblePhantasmPage;
+export default withTranslation()(NoblePhantasmPage);
