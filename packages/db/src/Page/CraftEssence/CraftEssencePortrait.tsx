@@ -7,7 +7,7 @@ import img_arrow_load from "../../Assets/img_arrow_load.png";
 import "./CraftEssencePortrait.css";
 
 interface IState {
-    assetType: "normal" | "male";
+    assetType: "normal" | "male" | "ex";
 }
 
 interface IProps {
@@ -25,21 +25,26 @@ class CraftEssencePortrait extends React.Component<IProps, IState> {
         const assetMap =
             this.state.assetType === "normal"
                 ? this.props.craftEssence.extraAssets.charaGraph.equip
-                : this.props.craftEssence.script?.maleImage?.charaGraph?.equip;
+                : this.state.assetType === "male"
+                  ? this.props.craftEssence.script?.maleImage?.charaGraph?.equip
+                  : this.props.craftEssence.extraAssets.charaGraphEx.equip;
         if (!assetMap) return undefined;
 
         return Object.values(assetMap).shift();
     }
 
     private hasExtraAsset(): boolean {
-        return this.props.craftEssence.script?.maleImage?.charaGraph !== undefined;
+        return (
+            this.props.craftEssence.script?.maleImage?.charaGraph !== undefined ||
+            this.props.craftEssence.extraAssets.charaGraphEx.equip !== undefined
+        );
     }
 
     private getArrow(next: boolean) {
         if (!this.hasExtraAsset()) return null;
 
         if (!next && this.state.assetType === "normal") return null;
-        if (next && this.state.assetType === "male") return null;
+        if (next && (this.state.assetType === "male" || this.state.assetType === "ex")) return null;
 
         return (
             <img
@@ -49,9 +54,15 @@ class CraftEssencePortrait extends React.Component<IProps, IState> {
                 onClick={() => {
                     switch (this.state.assetType) {
                         case "normal":
-                            this.setState({ assetType: "male" });
+                            this.setState({
+                                assetType:
+                                    this.props.craftEssence.script?.maleImage?.charaGraph !== undefined ? "male" : "ex",
+                            });
                             break;
                         case "male":
+                            this.setState({ assetType: "normal" });
+                            break;
+                        case "ex":
                             this.setState({ assetType: "normal" });
                             break;
                     }
