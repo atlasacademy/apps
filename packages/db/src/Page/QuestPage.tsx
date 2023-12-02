@@ -185,20 +185,22 @@ class QuestPage extends React.Component<IProps, IState> {
                         </ul>
                     </Alert>
                 ) : null}
-                <Alert variant="success">
-                    <QuestDrops
-                        region={this.props.region}
-                        drops={quest.drops}
-                        questHash={
-                            quest.availableEnemyHashes.length > 1
-                                ? this.state.hash === undefined
-                                    ? "average"
-                                    : currentQuestHash
-                                : undefined
-                        }
-                        questHashAverageGoTo={() => this.setState({ hash: undefined })}
-                    />
-                </Alert>
+                {quest.drops.length > 0 && (
+                    <Alert variant="success">
+                        <QuestDrops
+                            region={this.props.region}
+                            drops={quest.drops}
+                            questHash={
+                                quest.availableEnemyHashes.length > 1
+                                    ? this.state.hash === undefined
+                                        ? "average"
+                                        : currentQuestHash
+                                    : undefined
+                            }
+                            questHashAverageGoTo={() => this.setState({ hash: undefined })}
+                        />
+                    </Alert>
+                )}
                 {quest.restrictions.length > 0 && (
                     <Alert variant="success">
                         <QuestRestriction region={this.props.region} questRestrictions={quest.restrictions} />
