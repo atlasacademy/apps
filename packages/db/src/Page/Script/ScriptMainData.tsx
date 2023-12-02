@@ -6,6 +6,7 @@ import { Region, Script } from "@atlasacademy/api-connector";
 
 import { CompareRegion, ScriptSource } from "../../Component/Script";
 import { getScriptQueryString } from "../../Descriptor/ScriptDescriptor";
+import { toFixedLocale } from "../../Helper/NumberHelper";
 import useNavigationScripts from "../../Hooks/useNavigationScripts";
 import { QuestListComponent } from "./ScriptMainData.components";
 
@@ -103,7 +104,7 @@ const ScriptMainData = ({
                 <tbody>
                     <tr>
                         <th>{t("Raw Size")}</th>
-                        <td>{`${(scriptData.scriptSizeBytes / 1024).toFixed(2)} KiB`}</td>
+                        <td>{`${toFixedLocale(scriptData.scriptSizeBytes / 1024, 2)} KiB`}</td>
                         <td className="w-50" colSpan={2}>
                             ~{Math.ceil(wordCount / WORDS_PER_MINUTE)} {t("minute read")}
                         </td>
