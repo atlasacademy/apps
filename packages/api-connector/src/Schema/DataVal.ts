@@ -150,6 +150,7 @@ interface BaseDataVal {
     CancelTransform?: number;
     UnSubStateWhenContinue?: number;
     CheckTargetHaveDefeatPoint?: number;
+    NPFixedDamageValue?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -308,4 +309,5 @@ export enum DataValField {
     CANCEL_TRANSFORM = "CancelTransform",
     UN_SUB_STATE_WHEN_CONTINUE = "UnSubStateWhenContinue",
     CHECK_TARGET_HAVE_DEFEAT_POINT = "CheckTargetHaveDefeatPoint",
+    NP_FIXED_DAMAGE_VALUE = "NPFixedDamageValue",
 }

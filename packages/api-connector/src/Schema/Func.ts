@@ -147,6 +147,7 @@ export enum FuncType {
     LAST_USE_PLAYER_SKILL_COPY = "lastUsePlayerSkillCopy",
     CHANGE_ENEMY_MASTER_FACE = "changeEnemyMasterFace",
     DAMAGE_VALUE_SAFE_ONCE = "damageValueSafeOnce",
+    GUTS = "guts",
 }
 
 export interface BasicFunc {

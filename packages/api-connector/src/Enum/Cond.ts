@@ -204,6 +204,7 @@ export enum CondType {
     NOT_QUEST_GROUP_CLEAR_NUM = "notQuestGroupClearNum",
     RAID_GROUP_OPEN_ABOVE = "raidGroupOpenAbove",
     RAID_GROUP_OPEN_BELOW = "raidGroupOpenBelow",
+    TREASURE_DEVICE_ACCELERATE = "treasureDeviceAccelerate",
 }
 
 export default CondType;

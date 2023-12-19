@@ -129,6 +129,7 @@ export enum BuffAction {
     FUNCTION_SKILL_AFTER_MAIN_ONLY = "functionSkillAfterMainOnly",
     FUNCTION_TREASURE_DEVICE_AFTER = "functionTreasureDeviceAfter",
     FUNCTION_TREASURE_DEVICE_AFTER_MAIN_ONLY = "functionTreasureDeviceAfterMainOnly",
+    GUTS = "guts",
 }
 
 export enum BuffLimit {
