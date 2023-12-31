@@ -33,7 +33,7 @@ export default function handleAmountSection(
         typeof dataVal.Value === "number"
     ) {
         const buff = func.buffs[0];
-        if (dataVal.Value) {
+        if (dataVal.Value && ![9999].includes(dataVal.Value)) {
             parts.push(<TraitDescription region={region} trait={dataVal.Value} />);
         } else {
             if (buff !== undefined && buff.vals.length > 0) {
