@@ -128,7 +128,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
             setRegionHasScript(new Map(results.map((r) => [r.region, r.hasScript])));
         });
 
-        if ((region === Region.JP || region === Region.NA) && !useRayshiftScript) {
+        if (!useRayshiftScript) {
             axios
                 .head(getRayshiftScriptCheckURL(scriptId), { timeout: 10000 })
                 .then((r) => {
@@ -299,8 +299,8 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                                         {r === "none"
                                             ? t("None")
                                             : r === "rayshift"
-                                            ? t("Rayshift (Unofficial translation)")
-                                            : r}
+                                              ? t("Rayshift (Unofficial translation)")
+                                              : r}
                                     </Dropdown.Item>
                                 ))}
                             </DropdownButton>
