@@ -210,7 +210,7 @@ const ChoiceRow = ({
                                                 <ScriptDialogueLine region={region} components={choice.option} />
                                             </li>
                                         </td>
-                                        <td className="compare-choice">
+                                        <td className="compare-choice" lang={lang(compareRegion)}>
                                             <li>
                                                 <ScriptDialogueLine region={region} components={compareChoice.option} />
                                             </li>
