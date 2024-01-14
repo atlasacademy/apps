@@ -140,17 +140,35 @@ export interface StageCutin {
     drops: EnemyDrop[];
 }
 
+export enum BattleFieldEnvironmentGrantType {
+    None = "none",
+    Stage = "stage",
+    Function = "function",
+}
+
+export interface BattleBg {
+    id: number;
+    type: BattleFieldEnvironmentGrantType;
+    priority: number;
+    individuality: Trait[];
+    imageId: number;
+}
+
 export interface Stage {
     wave: number;
     bgm: Bgm;
+    startEffectId: number;
     fieldAis: { day?: number; raid?: number; id: number }[];
     call: number[];
     enemyFieldPosCount?: number;
     enemyActCount?: number;
     turn?: number;
     limitAct?: StageLimitActType;
+    battleBg?: BattleBg;
+    NoEntryIds: number[];
     waveStartMovies: StageStartMovie[];
     cutin?: StageCutin;
+    originalScript: Record<string, any>;
     enemies: QuestEnemy[];
 }
 
@@ -262,10 +280,12 @@ export interface QuestPhase extends Quest {
     bond: number;
     isNpcOnly: boolean;
     battleBgId: number;
+    battleBg?: BattleBg;
     extraDetail: QuestPhaseExtraDetail;
     scripts: PhaseScript[];
     enemyHash?: string;
     availableEnemyHashes: string[];
+    dropsFromAllHashes?: boolean;
     messages: QuestMessage[];
     hints: QuestHint[];
     restrictions: QuestPhaseRestriction[];
