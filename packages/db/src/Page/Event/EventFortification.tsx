@@ -123,8 +123,8 @@ const EventFortification = ({
                             {fortification.workType === Event.EventWorkType.MILITSRY_AFFAIRS
                                 ? "Military"
                                 : fortification.workType === Event.EventWorkType.INTERNAL_AFFAIRS
-                                ? "Political"
-                                : "Internal"}
+                                  ? "Political"
+                                  : "Internal"}
                         </td>
                         <td className="text-center">{fortification.maxFortificationPoint.toLocaleString()}</td>
                         <td>

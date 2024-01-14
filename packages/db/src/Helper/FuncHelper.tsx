@@ -67,8 +67,8 @@ export function getDataValList(func: Partial<Func.Func>): DataVal.DataVal[] {
     return isLevel && isOvercharge
         ? getMixedDataValList(func)
         : isOvercharge
-        ? getOverchargeDataValList(func)
-        : getLevelDataValList(func);
+          ? getOverchargeDataValList(func)
+          : getLevelDataValList(func);
 }
 
 export function getFollowerDataValList(func: Partial<Func.Func>): DataVal.DataVal[] {

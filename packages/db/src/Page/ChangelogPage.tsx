@@ -51,8 +51,8 @@ const ChangelogPagination = (props: {
         rightEllipsisPage = showLeftEllipsis
             ? Math.min(page + maxShownPagesEachSide, pageCount - 1)
             : showRightEllipsis
-            ? maxShownPagesEachSide * 2 + 1
-            : pageCount,
+              ? maxShownPagesEachSide * 2 + 1
+              : pageCount,
         pages = Array.from({ length: pageCount }, (_, i) => i),
         shownPages = pages.slice(leftEllipsisPage, rightEllipsisPage + 1);
 

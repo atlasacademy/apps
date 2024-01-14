@@ -157,8 +157,8 @@ class ButtonGrid extends React.Component<IProps, IState> {
                                     this.props.disabledItems?.includes(item.uniqueId)
                                         ? "danger"
                                         : this.state.buttonStates[item.uniqueId]
-                                        ? "success"
-                                        : "secondary"
+                                          ? "success"
+                                          : "secondary"
                                 }
                                 disabled={this.props.disabledItems?.includes(item.uniqueId)}
                                 style={this.props.buttonStyleOverride ?? {}}

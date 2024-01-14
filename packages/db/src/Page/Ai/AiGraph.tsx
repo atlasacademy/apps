@@ -127,10 +127,8 @@ export default function AiGraph({
                 },
             ]}
             cy={(cytoscape) =>
-                cytoscape.on(
-                    "tap",
-                    "node",
-                    (cytoscapeEvent) => handleNavigateAiId?.(+cytoscapeEvent.target.id().split("-")[0])
+                cytoscape.on("tap", "node", (cytoscapeEvent) =>
+                    handleNavigateAiId?.(+cytoscapeEvent.target.id().split("-")[0])
                 )
             }
         />
