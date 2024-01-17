@@ -205,6 +205,9 @@ export enum CondType {
     RAID_GROUP_OPEN_ABOVE = "raidGroupOpenAbove",
     RAID_GROUP_OPEN_BELOW = "raidGroupOpenBelow",
     TREASURE_DEVICE_ACCELERATE = "treasureDeviceAccelerate",
+    PLAY_QUEST_PHASE = "playQuestPhase",
+    NOT_PLAY_QUEST_PHASE = "notPlayQuestPhase",
+    EVENT_START_TO_END = "eventStartToEnd",
 }
 
 export default CondType;

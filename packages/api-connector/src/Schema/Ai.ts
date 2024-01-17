@@ -185,6 +185,9 @@ export enum AiCond {
     TOTAL_TURN_HIGHER = "totalTurnHigher",
     TOTAL_TURN_LOWER = "totalTurnLower",
     TOTAL_TURN_EQUAL = "totalTurnEqual",
+    CHECK_WAR_BOARD_SQUARE_INDIVIDUALITY = "checkWarBoardSquareIndividuality",
+    CHECK_PT_HIGHER_NPGAUGE = "checkPtHigherNpgauge",
+    CHECK_SELF_HIGHER_NPGAUGE = "checkSelfHigherNpgauge",
 }
 
 export enum AiTiming {
