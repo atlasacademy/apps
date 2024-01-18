@@ -174,6 +174,10 @@ export default function handleAffectsSection(
 
             parts.push(<TraitDescription region={region} trait={trait} describeNegative={!negativeTrait} />);
         });
+
+        if (dataVal.ExcludeUnSubStateIndiv === 1) {
+            parts.push("(Excluding Unremovable)");
+        }
     }
 
     if (!parts.length) {
