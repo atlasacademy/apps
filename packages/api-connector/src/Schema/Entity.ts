@@ -185,6 +185,23 @@ export interface EntityScript {
     maleImage?: EntityAssets;
 }
 
+export enum EntityOverwriteType {
+    TREASURE_DEVICE = "treasureDevice",
+}
+
+export interface EntityOverwriteValue {
+    overwriteNoblePhantasm?: NoblePhantasm;
+}
+
+export interface EntityOverwrite {
+    type: EntityOverwriteType;
+    priority: number;
+    condType: CondType;
+    condTargetId: number;
+    condValue: number;
+    overwriteValue: EntityOverwriteValue;
+}
+
 export interface Entity {
     id: number;
     collectionNo: number;
@@ -244,6 +261,7 @@ export interface Entity {
     traitAdd: EntityTraitAdd[];
     svtChange: EntityChange[];
     ascensionImage: EntityLimitImage[];
+    overwrites: EntityOverwrite[];
     ascensionMaterials: EntityLevelUpMaterialProgression;
     skillMaterials: EntityLevelUpMaterialProgression;
     appendSkillMaterials: EntityLevelUpMaterialProgression;
