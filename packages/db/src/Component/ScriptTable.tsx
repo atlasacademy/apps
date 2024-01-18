@@ -268,6 +268,7 @@ const ChoiceRow = ({
 type ScriptCharaMovement = ScriptCharaFadeIn | ScriptCharaMove;
 
 const SceneRow = (props: {
+    region: Region;
     background?: ScriptBackground;
     figure?: ScriptCharaFace | ScriptCharaFaceFade;
     charaFadeIn?: ScriptCharaMovement;
@@ -365,6 +366,7 @@ const SceneRow = (props: {
                 <td />
                 <td colSpan={props.colSpan}>
                     <Scene
+                        region={props.region}
                         background={
                             props.charaFadeIn.assetSet?.type === ScriptComponentType.SCENE_SET
                                 ? { asset: props.charaFadeIn.assetSet.backgroundAsset }
@@ -421,6 +423,7 @@ const SceneRow = (props: {
             <td />
             <td colSpan={props.colSpan}>
                 <Scene
+                    region={props.region}
                     background={background}
                     foreground={foreground}
                     offsetsFigure={offsets}
@@ -754,6 +757,7 @@ const ScriptTable = (props: {
                     let sceneRow,
                         renderScene = () => (
                             <SceneRow
+                                region={props.region}
                                 filters={filters}
                                 foreground={foreground}
                                 cameraFilter={cameraFilter}
@@ -921,6 +925,7 @@ const ScriptTable = (props: {
                 (figureComponent !== undefined || backgroundComponent !== undefined || charaFadeIn !== undefined) &&
                 !sceneDisplayed ? (
                     <SceneRow
+                        region={props.region}
                         foreground={foreground}
                         filters={filters}
                         cameraFilter={cameraFilter}

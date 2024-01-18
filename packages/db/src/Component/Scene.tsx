@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { Script } from "@atlasacademy/api-connector";
+import { Region, Script } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
+import Api, { AssetHost } from "../Api";
+import { getImageSize } from "../Helper/getImageSize";
 import { CameraFilterType } from "./Script";
 
 import "./Scene.css";
@@ -33,6 +34,7 @@ const getFilter = ({
 };
 
 const Scene = (props: {
+    region: Region;
     background?: {
         asset: string;
     };
@@ -63,12 +65,21 @@ const Scene = (props: {
     effects?: string[];
 }) => {
     const [script, setScript] = useState<Script.SvtScript | undefined>(undefined),
-        { cameraFilter, effects } = props,
+        [figureWidth, setFigureWidth] = useState(1024),
+        { cameraFilter, effects, region } = props,
         charaGraphId = props.figure?.charaGraphId;
 
     useEffect(() => {
         const controller = new AbortController();
         if (charaGraphId !== undefined) {
+            Promise.all([
+                Api.svtScript(charaGraphId),
+                getImageSize(`${AssetHost}/${region}/CharaFigure/${charaGraphId}/${charaGraphId}_merged.png`),
+            ]).then(([scriptInfo, size]) => {
+                if (controller.signal.aborted) return;
+                setScript(scriptInfo[0]);
+                if (size.width !== -1) setFigureWidth(size.width);
+            });
             Api.svtScript(charaGraphId).then((script) => {
                 if (controller.signal.aborted) return;
                 setScript(script[0]);
@@ -77,27 +88,29 @@ const Scene = (props: {
         return () => {
             controller.abort();
         };
-    }, [charaGraphId]);
+    }, [region, charaGraphId]);
 
     let fixOffsets = {
         y: props.offsetsFigure?.charaGraphId === charaGraphId ? props.offsetsFigure?.y : 0,
     };
 
     let scale = props.width / props.resolution.width,
-        backgroundTop = 25 * scale * -1,
-        figureWrapperWidth = 1024 * scale,
-        figureWrapperLeft = ((props.resolution.width - 1024) / 2 + (script ? script.offsetX : 0)) * scale,
+        backgroundHeight = 626,
+        backgroundTop = ((backgroundHeight - props.resolution.height) / 2) * scale * -1,
+        figureWrapperWidth = props.resolution.width * scale,
+        figureWrapperLeft = (script ? script.offsetX : 0) * scale,
         figureWrapperTop = (script ? -script.offsetY + -(fixOffsets.y ?? 0) : 0) * scale,
+        figureLeft = ((props.resolution.width - figureWidth) / 2 + (script ? script.offsetX : 0)) * scale,
         faceElement = null,
         equipElement = null;
 
     if (props.figure && props.figure.face > 0 && script) {
         let face = props.figure.face - 1,
-            faceSize = script.extendData.faceSize ?? 256,
-            figureWidth = 1024,
+            defaultFaceSize = 256,
+            faceSize = script.extendData.faceSize ?? defaultFaceSize,
             size = faceSize * scale,
             offsetX = 0,
-            offsetY = faceSize === 256 ? 768 : 1024,
+            offsetY = faceSize === defaultFaceSize ? 1024 - defaultFaceSize : 1024,
             perRow = Math.floor(figureWidth / faceSize),
             col = face % perRow,
             row = Math.floor(face / perRow),
@@ -106,7 +119,7 @@ const Scene = (props: {
             backgroundPositionX: number | string = (col * faceSize * -1 - offsetX) * scale,
             backgroundPositionY: number | string = ((page * figureWidth + rowInPage * faceSize) * -1 - offsetY) * scale,
             backgroundSize: number | string = scale * figureWidth,
-            left = script.faceX * scale,
+            left = script.faceX * scale + figureLeft,
             top = script.faceY * scale,
             height = size,
             width = size;
@@ -180,6 +193,8 @@ const Scene = (props: {
                         style={{
                             backgroundImage: `url("${props.figure.asset}")`,
                             filter: getFilter({ silhoeutte: props.figure.silhouette, cameraFilter, effects }),
+                            backgroundSize: scale * figureWidth,
+                            left: figureLeft,
                         }}
                         className="scene-figure"
                     />
