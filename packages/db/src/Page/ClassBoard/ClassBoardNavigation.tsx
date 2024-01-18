@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { generatePath, useHistory } from "react-router-dom";
 
+import { AssetHost } from "../../Api";
 import { ClassBoardContext } from "../../Contexts/ClassBoard";
 import Manager from "../../Setting/Manager";
 
@@ -40,7 +41,7 @@ const ClassBoardNavigation: React.FC = () => {
                             <Button onClick={() => handleNavigation(classboard.id)}>
                                 <img
                                     height={35}
-                                    src={`https://static.atlasacademy.io/JP/ClassIcons/btn_tab_${classboard.id}.png`}
+                                    src={`${AssetHost}/JP/ClassIcons/btn_tab_${classboard.id}.png`}
                                     alt={classboard.name}
                                 />
                             </Button>

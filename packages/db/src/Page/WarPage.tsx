@@ -244,7 +244,7 @@ const QuestTable = (props: {
                                 </>
                             ) : null}
                             {quest.gifts.map((gift) => (
-                                <div key={`${gift.objectId}-${gift.priority}`}>
+                                <div key={`${gift.objectId}-${gift.priority}-${gift.type}`}>
                                     <GiftDescriptor
                                         region={region}
                                         gift={gift}
@@ -262,14 +262,14 @@ const QuestTable = (props: {
                                           const phaseScript = quest.phaseScripts.find((ps) => ps.phase === phase);
                                           if (phaseScript === undefined) {
                                               return (
-                                                  <>
+                                                  <React.Fragment key={phase}>
                                                       {phase}
                                                       <br />
-                                                  </>
+                                                  </React.Fragment>
                                               );
                                           } else {
                                               return (
-                                                  <>
+                                                  <React.Fragment key={phase}>
                                                       <span className="text-nowrap">
                                                           {phaseScript.phase}:{" "}
                                                           {mergeElements(
@@ -285,7 +285,7 @@ const QuestTable = (props: {
                                                           )}
                                                       </span>
                                                       <br />
-                                                  </>
+                                                  </React.Fragment>
                                               );
                                           }
                                       })
