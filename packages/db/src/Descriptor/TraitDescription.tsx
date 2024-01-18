@@ -87,12 +87,19 @@ class TraitDescription extends React.Component<IProps, IState> {
     private getLocation(): string {
         let owner = this.props.owner ?? "entities";
         let ownerParameter = this.props.ownerParameter ?? "trait";
-        if (this.state.trait !== undefined) {
-            if (this.state.trait.name.startsWith("buff")) {
+        if (
+            this.state.trait !== undefined &&
+            this.props.owner === undefined &&
+            this.props.ownerParameter === undefined
+        ) {
+            if (
+                this.state.trait.name.startsWith("buff") ||
+                (this.state.trait.id >= 3000 && this.state.trait.id <= 4000)
+            ) {
                 owner = "buffs";
                 ownerParameter = "vals";
             }
-            if (this.state.trait.name.startsWith("enemy")) {
+            if (this.state.trait.name.startsWith("enemy") || this.state.trait.id < 3000) {
                 owner = "quests";
                 ownerParameter = "enemyTrait";
             }
