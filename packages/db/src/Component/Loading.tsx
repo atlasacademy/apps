@@ -11,6 +11,10 @@ import load_icon_A01 from "../Assets/load_icon_A01.png";
 import load_icon_A02 from "../Assets/load_icon_A02.png";
 import load_icon_A03 from "../Assets/load_icon_A03.png";
 import load_icon_A04 from "../Assets/load_icon_A04.png";
+import cat1 from "../Assets/remmant_loading/cat1.png";
+import cat2 from "../Assets/remmant_loading/cat2.png";
+import dog1 from "../Assets/remmant_loading/dog1.png";
+import dog2 from "../Assets/remmant_loading/dog2.png";
 
 import "./Loading.css";
 
@@ -48,7 +52,18 @@ const SteggyLoading = () => {
     );
 };
 
-const randomNumber = Math.floor(Math.random() * 3);
+const RemmantLoading = () => {
+    return (
+        <div id="loading">
+            <img alt="Loading ..." className="catdog base1 f1" src={cat1} />
+            <img alt="Loading ..." className="catdog base2 f2" src={dog2} />
+            <img alt="Loading ..." className="catdog base3 f3" src={cat2} />
+            <img alt="Loading ..." className="catdog base4 f4" src={dog1} />
+        </div>
+    );
+};
+
+const randomNumber = Math.floor(Math.random() * 4);
 
 const Loading = () => {
     switch (randomNumber) {
@@ -58,6 +73,8 @@ const Loading = () => {
             return <FouLoading />;
         case 2:
             return <SteggyLoading />;
+        case 3:
+            return <RemmantLoading />;
         default:
             return <KonLoading />;
     }

@@ -148,3 +148,65 @@
         visibility: hidden;
     }
 }
+
+#loading .catdog {
+    position: absolute;
+    top: calc(50% - 128px);
+    transform: scale(0.3125);
+    visibility: hidden;
+    animation-duration: 2.5s;
+    animation-timing-function: steps(5);
+    animation-iteration-count: infinite;
+}
+#loading .catdog.f1 {
+    visibility: visible;
+    left: calc(50% - 128px - 105px);
+}
+#loading .catdog.f2 {
+    left: calc(50% - 128px - 35px);
+    animation-name: kon-loading-animation-f2;
+}
+#loading .catdog.f3 {
+    left: calc(50% - 128px + 35px);
+    animation-name: kon-loading-animation-f3;
+}
+#loading .catdog.f4 {
+    left: calc(50% - 128px + 105px);
+    animation-name: kon-loading-animation-f4;
+}
+
+@keyframes catdog-loading-animation-f2 {
+    20% {
+        visibility: visible;
+    }
+    80% {
+        visibility: hidden;
+    }
+}
+
+@keyframes catdog-loading-animation-f3 {
+    20% {
+        visibility: hidden;
+    }
+    40% {
+        visibility: visible;
+    }
+    80% {
+        visibility: hidden;
+    }
+}
+
+@keyframes catdog-loading-animation-f4 {
+    20% {
+        visibility: hidden;
+    }
+    40% {
+        visibility: hidden;
+    }
+    60% {
+        visibility: visible;
+    }
+    80% {
+        visibility: hidden;
+    }
+}
