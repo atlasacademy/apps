@@ -106,7 +106,7 @@ class TraitDescription extends React.Component<IProps, IState> {
                 owner = "buffs";
                 ownerParameter = "vals";
             }
-            if (this.state.trait.name.startsWith("enemy") || this.state.trait.id < 3000) {
+            if (this.state.trait.name.startsWith("enemy")) {
                 owner = "quests";
                 ownerParameter = "enemyTrait";
             }
