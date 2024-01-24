@@ -58,7 +58,14 @@ class TraitDescription extends React.Component<IProps, IState> {
         if (potentiallyServantId && !alreadyDescribedInOverride) {
             try {
                 const entity = await Api.entityBasic(this.state.id);
-                this.setState({ trait: { id: entity.id, name: entity.name } });
+                this.setState({
+                    trait: {
+                        id: entity.id,
+                        name: entity.name,
+                        negative:
+                            typeof this.props.trait === "number" ? this.props.trait < 0 : this.props.trait.negative,
+                    },
+                });
                 return;
             } catch {}
         }
