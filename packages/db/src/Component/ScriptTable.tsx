@@ -718,6 +718,7 @@ const ScriptTable = (props: {
         figureComponent: ScriptCharaFace | ScriptCharaFaceFade | undefined,
         charaFadeIn: ScriptCharaMovement | undefined,
         wideScreen = false,
+        sceneSpeakerCode: string | undefined = undefined,
         sceneDisplayed = false,
         offsets: ScriptOffsets | undefined,
         cameraFilter: CameraFilterType = "normal",
@@ -755,22 +756,25 @@ const ScriptTable = (props: {
                     const { content, lineNumber } = component;
 
                     let sceneRow,
-                        renderScene = () => (
-                            <SceneRow
-                                region={props.region}
-                                filters={filters}
-                                foreground={foreground}
-                                cameraFilter={cameraFilter}
-                                offsets={offsets}
-                                background={backgroundComponent}
-                                figure={figureComponent}
-                                charaFadeIn={charaFadeIn}
-                                wideScreen={wideScreen}
-                                lineNumber={lineNumber}
-                                effects={[...effects]}
-                                colSpan={colSpan}
-                            />
-                        );
+                        renderScene = () => {
+                            sceneSpeakerCode = undefined;
+                            return (
+                                <SceneRow
+                                    region={props.region}
+                                    filters={filters}
+                                    foreground={foreground}
+                                    cameraFilter={cameraFilter}
+                                    offsets={offsets}
+                                    background={backgroundComponent}
+                                    figure={figureComponent}
+                                    charaFadeIn={charaFadeIn}
+                                    wideScreen={wideScreen}
+                                    lineNumber={lineNumber}
+                                    effects={[...effects]}
+                                    colSpan={colSpan}
+                                />
+                            );
+                        };
 
                     switch (content.type) {
                         case ScriptComponentType.ENABLE_FULL_SCREEN:
@@ -790,6 +794,7 @@ const ScriptTable = (props: {
                             if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
 
                             figureComponent = content;
+                            sceneSpeakerCode = content.speakerCode;
                             sceneDisplayed = false;
                             break;
 
@@ -798,6 +803,7 @@ const ScriptTable = (props: {
                             if (figureComponent && !sceneDisplayed) sceneRow = renderScene();
 
                             figureComponent = content;
+                            sceneSpeakerCode = content.speakerCode;
                             sceneDisplayed = false;
                             break;
 
@@ -810,6 +816,17 @@ const ScriptTable = (props: {
                                 charaFadeIn = content;
                                 sceneRow = renderScene();
                                 charaFadeIn = undefined;
+                            }
+
+                            if (assetSet && content.speakerCode !== sceneSpeakerCode) {
+                                figureComponent = {
+                                    type: ScriptComponentType.CHARA_FACE,
+                                    speakerCode: content.speakerCode,
+                                    face: 1,
+                                    assetSet,
+                                };
+                                sceneRow = renderScene();
+                                figureComponent = undefined;
                             }
 
                             if (content.position && (content.position.y !== 0 || offsets?.y !== content.position.y)) {
