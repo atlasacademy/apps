@@ -31,6 +31,7 @@ import { EnemyMaster } from "./Schema/EnemyMaster";
 import { EntityBasic, EntityFlag, EntitySearchOptions, EntityType, Gender } from "./Schema/Entity";
 import { Event, EventAlloutBattle, EventBasic, EventType } from "./Schema/Event";
 import { BasicFunc, Func, FuncSearchOptions, FuncTargetTeam, FuncTargetType, FuncType } from "./Schema/Func";
+import { Gacha } from "./Schema/Gacha";
 import { GiftType } from "./Schema/Gift";
 import { Illustrator } from "./Schema/Illustrator";
 import { Info } from "./Schema/Info";
@@ -168,6 +169,8 @@ class ApiConnector {
         func: new ResultCache<number, Func>(),
         funcBasic: new ResultCache<number, BasicFunc>(),
         funcSearch: new ResultCache<string, BasicFunc[]>(),
+        gacha: new ResultCache<number, Gacha>(),
+        gachaList: new ResultCache<null, Gacha[]>(),
         grailCostInfoMap: new ResultCache<null, GrailCostInfoMap>(),
         illustratorList: new ResultCache<null, Illustrator[]>(),
         item: new ResultCache<number, Item>(),
@@ -913,6 +916,27 @@ class ApiConnector {
 
         const fetch = () => ApiConnector.fetch<ClassBoard[]>(`${this.host}/export/${this.region}/${fileName}.json`);
         return this.cache.classBoardList.get(null, fetch, cacheDuration);
+    }
+
+    gacha(id: number, cacheDuration?: number): Promise<Gacha> {
+        const query = this.getQueryString(new URLSearchParams());
+        const fetch = () => {
+            return ApiConnector.fetch<Gacha>(`${this.host}/nice/${this.region}/gacha/${id}${query}`);
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        return this.cache.gacha.get(id, fetch, cacheDuration);
+    }
+
+    gachaList(cacheDuration?: number): Promise<Gacha[]> {
+        let fileName = "nice_gacha";
+        if (this.showJPdataWithEnglishText()) {
+            fileName = "nice_gacha_lang_en";
+        }
+
+        const fetch = () => ApiConnector.fetch<ClassBoard[]>(`${this.host}/export/${this.region}/${fileName}.json`);
+        return this.cache.gachaList.get(null, fetch, cacheDuration);
     }
 
     shopList(cacheDuration?: number): Promise<Shop[]> {

@@ -17,6 +17,7 @@ import * as Entity from "./Schema/Entity";
 import * as Event from "./Schema/Event";
 import * as Frequency from "./Schema/Frequency";
 import * as Func from "./Schema/Func";
+import * as Gacha from "./Schema/Gacha";
 import * as Gift from "./Schema/Gift";
 import * as Info from "./Schema/Info";
 import * as Item from "./Schema/Item";
@@ -78,6 +79,7 @@ export {
     Event,
     Func,
     Frequency,
+    Gacha,
     Gift,
     Item,
     Illustrator,
