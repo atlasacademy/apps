@@ -44,6 +44,7 @@ interface IState {
     numFunctions: number[];
     minNpNpGain?: number;
     maxNpNpGain?: number;
+    svalsContain?: string;
 }
 
 class NoblePhantasmsPage extends React.Component<IProps, IState> {
@@ -70,6 +71,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                 ...defaultState,
                 name: searchParams.get("name") ?? undefined,
                 card: searchParams.getAll("card") as Card[],
+                svalsContain: searchParams.get("svalsContain") ?? undefined,
                 individuality: getQueryNums("individuality"),
                 hits: getQueryNums("hits"),
                 strengthStatus: getQueryNums("strengthStatus"),
@@ -125,6 +127,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
             numFunctions: this.state.numFunctions,
             minNpNpGain: this.state.minNpNpGain,
             maxNpNpGain: this.state.maxNpNpGain,
+            svalsContain: this.state.svalsContain,
         }).toString();
     }
 
@@ -132,6 +135,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
         // no filter set
         if (
             !this.state.name &&
+            !this.state.svalsContain &&
             this.state.card.length === 0 &&
             this.state.individuality.length === 0 &&
             this.state.hits.length === 0 &&
@@ -157,6 +161,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
             numFunctions: this.state.numFunctions,
             minNpNpGain: this.state.minNpNpGain,
             maxNpNpGain: this.state.maxNpNpGain,
+            svalsContain: this.state.svalsContain,
         })
             .then((noblePhantasms) => {
                 this.setQueryURL();
@@ -324,6 +329,21 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                                     this.setState({
                                         maxNpNpGain: undefined,
                                     });
+                                }
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>
+                            <code>svals</code> {t("raw string should contain the following snippet")}
+                        </Form.Label>
+                        <Form.Control
+                            value={this.state.svalsContain ?? ""}
+                            onChange={(ev: ChangeEvent) => {
+                                if (ev.target.value !== "") {
+                                    this.setState({ svalsContain: ev.target.value });
+                                } else {
+                                    this.setState({ svalsContain: undefined });
                                 }
                             }}
                         />
