@@ -64,7 +64,7 @@ class ServantTraits extends React.Component<IProps> {
             if (costumes !== undefined) {
                 const costume = costumes[diff.id];
                 if (costume !== undefined) {
-                    return `${t("Costume")} ${costume.name}`;
+                    return `${t("Costume")} ${costume.shortName}`;
                 }
             }
         }
