@@ -409,6 +409,39 @@ export interface EventPointActivity {
     objectValue: number;
 }
 
+export enum EventSvtType {
+    NONE = "none",
+    JOIN = "join",
+    COND_JOIN = "condJoin",
+    DIRECT_JOIN = "directJoin",
+}
+
+export interface EventSvtScript {
+    addGetMessage: string;
+    addMessageReleaseConditions: CommonRelease[];
+    isProtectedDuringEvent: boolean;
+    joinQuestId: number;
+    joinShopId: number;
+    notPresentAnonymous: boolean;
+    notPresentRarePri: number;
+    ruby: string;
+}
+
+export interface EventSvt {
+    svtId: number;
+    script: EventSvtScript;
+    originalScript: Record<string, any>;
+    type: EventSvtType;
+    joinMessage: string;
+    getMessage: string;
+    leaveMessage: string;
+    name: string;
+    battleName: string;
+    releaseConditions: CommonRelease[];
+    startedAt: number;
+    endedAt: number;
+}
+
 export interface Event {
     id: number;
     type: EventType;
@@ -429,6 +462,7 @@ export interface Event {
     eventAdds: EventAdd[];
     shop: Shop[];
     rewards: EventReward[];
+    svts: EventSvt[];
     rewardScenes: EventRewardScene[];
     pointGroups: EventPointGroup[];
     pointBuffs: EventPointBuff[];
