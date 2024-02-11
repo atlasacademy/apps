@@ -10,7 +10,11 @@ interface SProps {
     key?: Shop.ShopType;
 }
 
-export default function useShop() {
+interface Props {
+    selectEventCallback: () => void;
+}
+
+export default function useShop(props?: Props) {
     const [currentShop, setCurrentShop] = useState<SProps>({ shops: [] });
     const [itemCache, setItemCache] = useState<Map<number, Item.Item>>(new Map());
 
@@ -20,6 +24,7 @@ export default function useShop() {
             const shops = await Api.searchShop({ type: [shopType] }); // Maybe is necesary memorize output of data to reduce requests flow to the server
 
             setCurrentShop({ shops, key: shopType });
+            props && props.selectEventCallback();
         }
     };
 

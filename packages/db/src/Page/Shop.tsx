@@ -1,4 +1,4 @@
-import { Tab, Tabs, Table } from "react-bootstrap"
+import { Tab, Tabs, Table, Button } from "react-bootstrap"
 import { Region, Shop, Item } from "@atlasacademy/api-connector";
 
 import useShop from "../Hooks/useShop";
@@ -6,6 +6,8 @@ import EntityReferenceDescriptor from "../Descriptor/EntityReferenceDescriptor";
 import ItemSetDescriptor from "../Descriptor/ItemSetDescriptor";
 import { CommandCodeDescriptorId } from "../Descriptor/CommandCodeDescriptor";
 import ItemDescriptor, { ItemDescriptorId } from "../Descriptor/ItemDescriptor";
+import usePaginator from "../Hooks/usePaginator";
+import { useState } from "react";
 
 interface Props {
     region: Region
@@ -95,26 +97,60 @@ const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new Map()}) 
     }
 }
 
+interface ShopTableProps {
+    shops: Shop.Shop[]
+    region: Region
+    itemCache: Map<number, Item.Item>
+}
+
+const ShopTable: React.FC<ShopTableProps> = ({ shops, itemCache, region  }) => {
+    return (
+        <Table className="mt-4" striped bordered hover responsive>
+            <thead>
+                <tr>
+                    <th style={{ width: "33%" }}>Item</th>
+                    <th style={{ width: "33%" }}>Requeriments</th>
+                    <th style={{ width: "33%" }}>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {shops.map((shop) => <ShopRow region={region} shop={shop} key={shop.id} itemMap={itemCache} />)}
+            </tbody>
+        </Table>
+    )
+}
+
 const ShopPage: React.FC<Props> = ({ region }) => {
-   const { SelectShopEvent, currentShop, itemCache } = useShop()
+   const [availableActive, setAvailableActive] = useState(true);
+   const { SelectShopEvent, currentShop, itemCache } = useShop({ selectEventCallback })
+   
+   const btnStyle = availableActive ? "success" : "danger"
+   const now = Date.now() / 1000
+   const filteredShops = currentShop.shops
+    .filter(shop => !availableActive || (shop.openedAt <= now && shop.closedAt >= now))
+    .sort((a, b) => b.openedAt - a.openedAt);
+
+   const { items: shops, Paginator, goToPage } = usePaginator<Shop.Shop>(filteredShops, { itemsPerPage: 20, maxVisibleButtons: 10 })
+    
+    function selectEventCallback () {
+        goToPage(1) // Reset paginator when change tabs
+    }
 
     return (
         <main>
-            <h1>Shops</h1>
+            <h1>Davinci Shop</h1>
+            
+            <section className="d-flex align-items-center justify-content-between w-full my-4">
+                <Button onClick={() => setAvailableActive(!availableActive)} variant={btnStyle}>Available</Button>
+                <Paginator />
+            </section>
+
             <Tabs onSelect={SelectShopEvent} className="mt-4" defaultActiveKey="mana" id="shops">
                 <Tab eventKey="mana" title="Shop Prisma">
-                    <Table className="mt-4" striped bordered hover responsive>
-                        <thead>
-                            <tr>
-                                <th style={{ width: "33%" }}>Item</th>
-                                <th style={{ width: "33%" }}>Requeriments</th>
-                                <th style={{ width: "33%" }}>Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentShop.shops.map((shop) => <ShopRow region={region} shop={shop} key={shop.id} itemMap={itemCache} />)}
-                        </tbody>
-                    </Table>
+                    <ShopTable itemCache={itemCache} shops={shops} region={region} />
+                </Tab>
+                <Tab eventKey="rarePri" title="Shop Rare Prisma">
+                    <ShopTable itemCache={itemCache} shops={shops} region={region} />
                 </Tab>
             </Tabs>
         </main>
