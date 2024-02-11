@@ -58,6 +58,7 @@ const EventsPage = React.lazy(() => import("./Page/EventsPage"));
 const WarPage = React.lazy(() => import("./Page/WarPage"));
 const WarsPage = React.lazy(() => import("./Page/WarsPage"));
 const ClassBoardPage = React.lazy(() => import("./Page/ClassBoardPage"));
+const ShopPage = React.lazy(() => import("./Page/Shop"));
 
 interface IState {
     language: Language;
@@ -829,6 +830,19 @@ class App extends React.Component<any, IState> {
                                     return (
                                         <Suspense fallback={<Loading />}>
                                             <ClassBoardPage id={id} region={region as Region} />
+                                        </Suspense>
+                                    );
+                                }}
+                            />
+
+                            <Route
+                                exact
+                                path="/:region(JP|NA|CN|KR|TW)/shop"
+                                render={(props) => {
+                                    const { region } = props.match.params;
+                                    return (
+                                        <Suspense fallback={<Loading />}>
+                                            <ShopPage region={region as Region} />
                                         </Suspense>
                                     );
                                 }}
