@@ -29,6 +29,7 @@ import {
     ReverseDepth,
     Script,
     Servant,
+    Shop,
     Skill,
     Trait,
     War,
@@ -390,6 +391,10 @@ class Api {
         limit?: number
     ): Promise<Script.ScriptSearchResult[]> {
         return apiConnector.searchScript({ query, scriptFileName, warId, rawScript, limit });
+    }
+
+    static searchShop(options: Shop.ShopSearchOptions): Promise<Shop.Shop[]> {
+        return apiConnector.searchShop(options)
     }
 
     static getUrl(
