@@ -208,6 +208,9 @@ export enum CondType {
     PLAY_QUEST_PHASE = "playQuestPhase",
     NOT_PLAY_QUEST_PHASE = "notPlayQuestPhase",
     EVENT_START_TO_END = "eventStartToEnd",
+    COMMON_VALUE_ABOVE = "commonValueAbove",
+    COMMON_VALUE_BELOW = "commonValueBelow",
+    COMMON_VALUE_EQUAL = "commonValueEqual",
 }
 
 export default CondType;

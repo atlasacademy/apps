@@ -56,6 +56,7 @@ export enum WarFlag {
     IS_WAR_ICON_FREE = "isWarIconFree",
     IS_WAR_ICON_CENTER = "isWarIconCenter",
     NOTICE_BOARD = "noticeBoard",
+    CHANGE_DISP_CLOSED_MESSAGE = "changeDispClosedMessage",
 }
 
 export interface Map {

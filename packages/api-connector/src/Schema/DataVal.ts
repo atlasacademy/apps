@@ -151,6 +151,7 @@ interface BaseDataVal {
     UnSubStateWhenContinue?: number;
     CheckTargetHaveDefeatPoint?: number;
     NPFixedDamageValue?: number;
+    IgnoreShiftSafeDamage?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -310,4 +311,5 @@ export enum DataValField {
     UN_SUB_STATE_WHEN_CONTINUE = "UnSubStateWhenContinue",
     CHECK_TARGET_HAVE_DEFEAT_POINT = "CheckTargetHaveDefeatPoint",
     NP_FIXED_DAMAGE_VALUE = "NPFixedDamageValue",
+    IGNORE_SHIFT_SAFE_DAMAGE = "IgnoreShiftSafeDamage",
 }

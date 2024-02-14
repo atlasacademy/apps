@@ -29,8 +29,26 @@ export enum EntityFlag {
     IGNORE_COMBINE_LIMIT_SPECIAL = "ignoreCombineLimitSpecial",
     SVT_EQUIP_EXP = "svtEquipExp",
     SVT_EQUIP_CHOCOLATE = "svtEquipChocolate",
+    SVT_EQUIP_MANA_EXCHANGE = "svtEquipManaExchange",
+    SVT_EQUIP_CAMPAIGN = "svtEquipCampaign",
+    SVT_EQUIP_EVENT = "svtEquipEvent",
+    SVT_EQUIP_EVENT_REWARD = "svtEquipEventReward",
     NORMAL = "normal",
     GOETIA = "goetia",
+    MAT_DROP_RATE_UP_CE = "matDropRateUpCe",
+    UNKNOWN = "unknown",
+}
+
+export enum EntityFlagOriginal {
+    ONLY_USE_FOR_NPC = "onlyUseForNpc",
+    SVT_EQUIP_FRIEND_SHIP = "svtEquipFriendShip",
+    IGNORE_COMBINE_LIMIT_SPECIAL = "ignoreCombineLimitSpecial",
+    SVT_EQUIP_EXP = "svtEquipExp",
+    SVT_EQUIP_CHOCOLATE = "svtEquipChocolate",
+    SVT_EQUIP_MANA_EXCHANGE = "svtEquipManaExchange",
+    SVT_EQUIP_CAMPAIGN = "svtEquipCampaign",
+    SVT_EQUIP_EVENT = "svtEquipEvent",
+    SVT_EQUIP_EVENT_REWARD = "svtEquipEventReward",
 }
 
 export enum Gender {
@@ -213,6 +231,7 @@ export interface Entity {
     className: ClassName;
     type: EntityType;
     flag: EntityFlag;
+    flags: EntityFlagOriginal[];
     rarity: number;
     cost: number;
     lvMax: number;
