@@ -79,7 +79,7 @@ const MasterMissionPage = (props: { region: Region; masterMissionId: number }) =
             })
             .catch((e) => {
                 if (controller.signal.aborted) return;
-                setLoadStatus({ loading: true, error: e });
+                setLoadStatus({ loading: false, error: e });
             });
         return () => {
             controller.abort();
