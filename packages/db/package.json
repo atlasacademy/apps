@@ -43,8 +43,8 @@
         "react-router-dom": "^5.3.4",
         "source-map-explorer": "^2.5.3",
         "typescript": "^5.4.2",
-        "vite": "^5.1.5",
-        "vite-plugin-eslint": "^1.8.1",
+        "vite": "5.0",
+        "vite-plugin-eslint2": "^4.4.0",
         "vite-plugin-svgr": "^4.2.0"
     },
     "overrides": {},
