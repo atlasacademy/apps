@@ -245,6 +245,7 @@ export interface QuestPhaseRestriction {
 export interface Quest {
     id: number;
     name: string;
+    originalName: string;
     type: QuestType;
     flags: QuestFlag[];
     consumeType: QuestConsumeType;

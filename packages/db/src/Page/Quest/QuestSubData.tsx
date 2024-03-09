@@ -106,6 +106,11 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                         quest.enemyHash === undefined,
                 },
                 {
+                    label: t("Original Name"),
+                    value: <>{quest.originalName}</>,
+                    hidden: quest.name === quest.originalName,
+                },
+                {
                     label: t("Chaldea App"),
                     value: (
                         <a
