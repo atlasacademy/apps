@@ -107,7 +107,7 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                 },
                 {
                     label: t("Original Name"),
-                    value: <>{quest.originalName}</>,
+                    value: <span lang={lang(region)}>{quest.originalName}</span>,
                     hidden: quest.name === quest.originalName,
                 },
                 {
