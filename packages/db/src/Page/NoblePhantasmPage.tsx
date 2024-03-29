@@ -19,7 +19,7 @@ import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import { QuestDescriptionNoApi } from "../Descriptor/QuestDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { asPercent, mergeElements } from "../Helper/OutputHelper";
-import { Ruby } from "../Helper/StringHelper";
+import { FGOText, Ruby } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 import NoblePhantasmVersion from "./NoblePhantasm/NoblePhantasmVersion";
 
@@ -105,10 +105,21 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 <DataTable
                     data={[
                         { label: t("ID"), value: noblePhantasm.id },
-                        { label: t("Name"), value: <span lang={lang(region)}>{noblePhantasm.name}</span> },
+                        {
+                            label: t("Name"),
+                            value: (
+                                <span lang={lang(region)}>
+                                    <FGOText text={noblePhantasm.name} />
+                                </span>
+                            ),
+                        },
                         {
                             label: t("Original Name"),
-                            value: <span lang={lang(region)}>{noblePhantasm.originalName}</span>,
+                            value: (
+                                <span lang={lang(region)}>
+                                    <FGOText text={noblePhantasm.originalName} />
+                                </span>
+                            ),
                             hidden: noblePhantasm.name === noblePhantasm.originalName,
                         },
                         { label: t("Ruby"), value: <span lang={lang(region)}>{noblePhantasm.ruby}</span> },

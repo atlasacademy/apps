@@ -16,6 +16,7 @@ import RawDataViewer from "../Component/RawDataViewer";
 import FuncDescriptor from "../Descriptor/FuncDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
+import { FGOText } from "../Helper/StringHelper";
 import Manager, { lang } from "../Setting/Manager";
 
 interface IProps extends WithTranslation {
@@ -75,13 +76,17 @@ class BuffPage extends React.Component<IProps, IState> {
                         { label: t("ID"), value: buff.id },
                         {
                             label: t("Name"),
-                            value: <span lang={lang(region)}>{buff.name}</span>,
+                            value: (
+                                <span lang={lang(region)}>
+                                    <FGOText text={buff.name} />
+                                </span>
+                            ),
                         },
                         {
                             label: t("Detail"),
                             value: (
                                 <span className="text-prewrap" lang={lang(region)}>
-                                    {buff.detail}
+                                    <FGOText text={buff.detail} />
                                 </span>
                             ),
                         },

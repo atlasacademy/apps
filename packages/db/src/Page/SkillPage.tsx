@@ -174,7 +174,7 @@ class SkillPage extends React.Component<IProps, IState> {
                             label: t("Original Name"),
                             value: (
                                 <span className="text-prewrap" lang={lang(this.props.region)}>
-                                    {skill.originalName}
+                                    <FGOText text={skill.originalName} />
                                 </span>
                             ),
                             hidden: skill.name === skill.originalName,
