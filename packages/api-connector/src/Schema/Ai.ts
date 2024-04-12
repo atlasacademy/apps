@@ -188,6 +188,12 @@ export enum AiCond {
     CHECK_WAR_BOARD_SQUARE_INDIVIDUALITY = "checkWarBoardSquareIndividuality",
     CHECK_PT_HIGHER_NPGAUGE = "checkPtHigherNpgauge",
     CHECK_SELF_HIGHER_NPGAUGE = "checkSelfHigherNpgauge",
+    CHECK_BATTLE_VALUE_ABOVE = "checkBattleValueAbove",
+    CHECK_BATTLE_VALUE_EQUAL = "checkBattleValueEqual",
+    CHECK_BATTLE_VALUE_NOT_EQUAL = "checkBattleValueNotEqual",
+    CHECK_BATTLE_VALUE_BELOW = "checkBattleValueBelow",
+    CHECK_BATTLE_VALUE_BETWEEN = "checkBattleValueBetween",
+    CHECK_BATTLE_VALUE_NOT_BETWEEN = "checkBattleValueNotBetween",
 }
 
 export enum AiTiming {

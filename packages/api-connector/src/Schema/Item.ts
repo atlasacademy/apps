@@ -43,6 +43,7 @@ export enum ItemType {
     TRADE_AP = "tradeAp",
     RI = "ri",
     STORMPOD = "stormpod",
+    BATTLE_ITEM = "battleItem",
 }
 
 export enum ItemUse {

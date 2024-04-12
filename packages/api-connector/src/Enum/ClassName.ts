@@ -27,6 +27,8 @@ enum ClassName {
     BEAST = "beast",
     BEAST_VI = "beastVI",
     BEAST_VI_BOSS = "beastVIBoss",
+    U_OLGA_MARIE_FLARE = "uOlgaMarieFlare",
+    U_OLGA_MARIE_AQUA = "uOlgaMarieAqua",
     UNKNOWN = "unknown",
     AGARTHA_PENTH = "agarthaPenth",
     CCC_FINALE_EMIYA_ALTER = "cccFinaleEmiyaAlter",
@@ -35,6 +37,8 @@ enum ClassName {
     EXTRA = "EXTRA",
     EXTRA_I = "EXTRA_I",
     EXTRA_II = "EXTRA_II",
+    U_OLGA_MARIE_FLARE_COLLECTION = "uOlgaMarieFlareCollection",
+    U_OLGA_MARIE_AQUA_COLLECTION = "uOlgaMarieAquaCollection",
 }
 
 export default ClassName;

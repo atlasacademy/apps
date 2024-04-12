@@ -16,6 +16,7 @@ export enum GiftType {
     EVENT_BOARD_GAME_TOKEN = "eventBoardGameToken",
     EVENT_COMMAND_ASSIST = "eventCommandAssist",
     EVENT_HEEL_PORTRAIT = "eventHeelPortrait",
+    BATTLE_ITEM = "battleItem",
 }
 
 export interface BaseGift {
