@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { CondType, Event, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import CostumeDescriptor from "./CostumeDescriptor";
@@ -20,6 +22,7 @@ export default function CondTargetValueDescriptor(props: {
 }) {
     const forceFalseDescription = props.forceFalseDescription ? props.forceFalseDescription : "Not possible";
     const { region, target, value, missions, missionGroups } = props;
+    const { t } = useTranslation();
     switch (props.cond) {
         case CondType.NONE:
             return null;
@@ -165,7 +168,13 @@ export default function CondTargetValueDescriptor(props: {
                 </>
             );
         case CondType.EVENT_MISSION_GROUP_ACHIEVE:
-            const missionGroup = (missionGroups ?? []).find((group) => group.id === target)!;
+            const missionGroup = (missionGroups ?? []).find((group) => group.id === target);
+            if (missionGroup === undefined)
+                return (
+                    <>
+                        {t("Event mission group achieve")} target {props.target}
+                    </>
+                );
             const missionDispNos = missionGroup.missionIds.map((id) => missions?.get(id)?.dispNo ?? id);
             return (
                 <>
