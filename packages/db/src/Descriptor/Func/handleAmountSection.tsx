@@ -109,8 +109,8 @@ export default function handleAmountSection(
         }
     } else if (func.funcType === Func.FuncType.SHORTEN_SKILL) {
         section.preposition = undefined;
-        if (dataVal.Target) {
-            parts.push("of", <OrdinalNumeral index={dataVal.Target} />, "skill");
+        if (dataVal.Value2) {
+            parts.push("of", <OrdinalNumeral index={dataVal.Value2} />, "skill");
         }
         if (dataVal.Value) {
             parts.push("by", dataVal.Value);
