@@ -1,3 +1,5 @@
+import { Trait } from "@atlasacademy/api-connector";
+
 export const areIdenticalArrays = (arrayA: number[], arrayB: number[]) => {
     if (arrayA.length !== arrayB.length) return false;
 
@@ -28,6 +30,13 @@ export function doIntersect<T>(arrayA: T[], arrayB: T[]): boolean {
     }
 
     return false;
+}
+
+export function traitIntersect(arrayA: Trait.Trait[], arrayB: Trait.Trait[]): boolean {
+    return doIntersect(
+        arrayA.map((t) => t.id),
+        arrayB.map((t) => t.id)
+    );
 }
 
 export function emptyOrUndefinded<T>(array: T[] | undefined): boolean {

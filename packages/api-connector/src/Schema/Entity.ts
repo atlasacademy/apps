@@ -313,6 +313,7 @@ export interface EntityBasic {
     classId: number;
     className: ClassName;
     attribute: Attribute;
+    traits: Trait[];
     rarity: number;
     atkMax: number;
     hpMax: number;

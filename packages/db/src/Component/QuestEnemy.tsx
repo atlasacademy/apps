@@ -11,11 +11,12 @@ import quantile from "@stdlib/stats-base-dists-t-quantile";
 import { Alert, Button, Col, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { Ai, NoblePhantasm, QuestEnemy, Region, Skill } from "@atlasacademy/api-connector";
+import { Ai, NoblePhantasm, Quest, QuestEnemy, Region, Skill } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import ClassIcon from "../Component/ClassIcon";
 import FaceIcon from "../Component/FaceIcon";
+import { AiAllocationDescriptor, findSupportAiAllocation } from "../Descriptor/AiAllocationDescriptor";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
 import GiftDescriptor from "../Descriptor/GiftDescriptor";
@@ -280,15 +281,21 @@ export const QuestEnemyMainData = (props: {
     );
 };
 
-export const QuestEnemySubData = (props: {
+export const QuestEnemySubData = ({
+    region,
+    enemy,
+    enemyLookUp,
+    handleNavigateEnemyHash,
+    supportDetail,
+    stages,
+}: {
     region: Region;
     enemy: QuestEnemy.QuestEnemy;
     enemyLookUp: EnemyLookUp;
     handleNavigateEnemyHash?: (hash: string) => void;
     supportDetail?: boolean;
+    stages?: Quest.Stage[];
 }) => {
-    const region = props.region,
-        enemy = props.enemy;
     const traitDescriptions = enemy.traits
         .sort((a, b) => a.id - b.id)
         .map((trait) => (
@@ -301,7 +308,7 @@ export const QuestEnemySubData = (props: {
             />
         ));
     const { t } = useTranslation();
-    const isSupportDetail = props.supportDetail ?? false;
+    const isSupportDetail = supportDetail ?? false;
     return (
         <Table bordered responsive className="quest-svt-data-table">
             <tbody>
@@ -331,6 +338,22 @@ export const QuestEnemySubData = (props: {
                             />
                         ),
                     })}
+                {isSupportDetail &&
+                    stages &&
+                    findSupportAiAllocation(enemy.traits, stages).length > 0 &&
+                    renderSpanningRow({
+                        title: t("AI"),
+                        content: (
+                            <AiAllocationDescriptor
+                                region={region}
+                                traits={enemy.traits}
+                                stages={stages}
+                                skill1={enemy.skills.skillId1}
+                                skill2={enemy.skills.skillId2}
+                                skill3={enemy.skills.skillId3}
+                            />
+                        ),
+                    })}
                 {!isSupportDetail &&
                     renderDoubleRow([
                         { title: t("Act Priority"), content: enemy.ai.actPriority },
@@ -344,8 +367,8 @@ export const QuestEnemySubData = (props: {
                                   region={region}
                                   npcIds={enemy.enemyScript.call}
                                   deck={QuestEnemy.DeckType.CALL}
-                                  enemyLookUp={props.enemyLookUp}
-                                  handleNavigateEnemyHash={props.handleNavigateEnemyHash}
+                                  enemyLookUp={enemyLookUp}
+                                  handleNavigateEnemyHash={handleNavigateEnemyHash}
                               />
                           ),
                       })
@@ -358,8 +381,8 @@ export const QuestEnemySubData = (props: {
                                   region={region}
                                   npcIds={enemy.enemyScript.shift}
                                   deck={QuestEnemy.DeckType.SHIFT}
-                                  enemyLookUp={props.enemyLookUp}
-                                  handleNavigateEnemyHash={props.handleNavigateEnemyHash}
+                                  enemyLookUp={enemyLookUp}
+                                  handleNavigateEnemyHash={handleNavigateEnemyHash}
                               />
                           ),
                       })
@@ -372,8 +395,8 @@ export const QuestEnemySubData = (props: {
                                   region={region}
                                   npcIds={enemy.enemyScript.change}
                                   deck={QuestEnemy.DeckType.CHANGE}
-                                  enemyLookUp={props.enemyLookUp}
-                                  handleNavigateEnemyHash={props.handleNavigateEnemyHash}
+                                  enemyLookUp={enemyLookUp}
+                                  handleNavigateEnemyHash={handleNavigateEnemyHash}
                               />
                           ),
                       })

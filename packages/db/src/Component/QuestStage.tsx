@@ -4,9 +4,11 @@ import { useTranslation } from "react-i18next";
 
 import { Ai, Quest, Region } from "@atlasacademy/api-connector";
 
+import { findOwnAiAllocation } from "../Descriptor/AiAllocationDescriptor";
 import AiDescriptor from "../Descriptor/AiDescriptor";
 import BgmDescriptor from "../Descriptor/BgmDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
+import TraitDescription from "../Descriptor/TraitDescription";
 import { getStageCalcString } from "../Helper/CalcString";
 import { numToPct } from "../Helper/NumberHelper";
 import { mergeElements } from "../Helper/OutputHelper";
@@ -84,6 +86,26 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                         <b>Field AI:</b> {mergeElements(fieldAiDescriptions, " ")}
                     </>
                 ) : null}
+                {findOwnAiAllocation(stage.aiAllocations ?? []).length > 0 && (
+                    <>
+                        <br />
+                        <div className="lh-2">
+                            <span>{t("If applicable servants are brought to the field:")}</span>
+                            <ul className="mb-0">
+                                {(stage.aiAllocations ?? []).map((ai, idx) => (
+                                    <li key={idx}>
+                                        {t("AI")}{" "}
+                                        {ai.aiIds.map((aiId) => (
+                                            <AiDescriptor region={region} id={aiId} aiType={Ai.AiType.SVT} />
+                                        ))}{" "}
+                                        {t("is applied to servants with")}{" "}
+                                        <TraitDescription region={region} trait={ai.individuality} />
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </>
+                )}
                 {stage.waveStartMovies.length > 0 ? (
                     <>
                         <br />

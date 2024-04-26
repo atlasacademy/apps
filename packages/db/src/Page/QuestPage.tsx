@@ -245,7 +245,11 @@ class QuestPage extends React.Component<IProps, IState> {
                                 : t("Support Servant", { count: quest.supportServants.length })
                         }
                         content={
-                            <SupportServantTables region={this.props.region} supportServants={quest.supportServants} />
+                            <SupportServantTables
+                                region={this.props.region}
+                                supportServants={quest.supportServants}
+                                stages={quest.stages}
+                            />
                         }
                         subheader={false}
                         initialOpen={false}

@@ -154,6 +154,19 @@ export interface BattleBg {
     imageId: number;
 }
 
+export enum AiAllocationSvtFlag {
+    ALL = "all",
+    OWN = "own",
+    FRIEND = "friend",
+    NPC = "npc",
+}
+
+export interface AiAllocation {
+    aiIds: number[];
+    individuality: Trait;
+    applySvtType: AiAllocationSvtFlag[];
+}
+
 export interface Stage {
     wave: number;
     bgm: Bgm;
@@ -168,6 +181,7 @@ export interface Stage {
     NoEntryIds: number[];
     waveStartMovies: StageStartMovie[];
     cutin?: StageCutin;
+    aiAllocations?: AiAllocation[];
     originalScript: Record<string, any>;
     enemies: QuestEnemy[];
 }

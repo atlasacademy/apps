@@ -4,8 +4,9 @@ import { Col, Row, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { CraftEssence, Region, SupportServant } from "@atlasacademy/api-connector";
+import { CraftEssence, Quest, Region, SupportServant } from "@atlasacademy/api-connector";
 
+import { AiAllocationDescriptor, findSupportAiAllocation } from "../Descriptor/AiAllocationDescriptor";
 import CondTargetValueDescriptor from "../Descriptor/CondTargetValueDescriptor";
 import CraftEssenceDescriptor from "../Descriptor/CraftEssenceDescriptor";
 import EntityDescriptor from "../Descriptor/EntityDescriptor";
@@ -155,8 +156,15 @@ const SupportServantMainData = (props: { region: Region; supportServant: Support
     );
 };
 
-const SupportServantSubData = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
-    const { region, supportServant } = props;
+const SupportServantSubData = ({
+    region,
+    supportServant,
+    stages,
+}: {
+    region: Region;
+    supportServant: SupportServant.SupportServant;
+    stages: Quest.Stage[];
+}) => {
     const { t } = useTranslation();
     const traitDescriptions = supportServant.traits.map((trait) => (
         <TraitDescription
@@ -190,13 +198,32 @@ const SupportServantSubData = (props: { region: Region; supportServant: SupportS
                           ),
                       })
                     : null}
+                {stages &&
+                    findSupportAiAllocation(supportServant.svt.traits, stages).length > 0 &&
+                    renderSpanningRow({
+                        title: t("AI"),
+                        content: (
+                            <AiAllocationDescriptor
+                                region={region}
+                                traits={supportServant.svt.traits.concat(supportServant.traits)}
+                                stages={stages}
+                            />
+                        ),
+                    })}
             </tbody>
         </Table>
     );
 };
 
-const SupportServantTable = (props: { region: Region; supportServant: SupportServant.SupportServant }) => {
-    const { region, supportServant } = props;
+const SupportServantTable = ({
+    region,
+    supportServant,
+    stages,
+}: {
+    region: Region;
+    supportServant: SupportServant.SupportServant;
+    stages: Quest.Stage[];
+}) => {
     return (
         <>
             <h4>
@@ -229,9 +256,10 @@ const SupportServantTable = (props: { region: Region; supportServant: SupportSer
                             enemy={supportServant.detail}
                             enemyLookUp={new Map()}
                             supportDetail={true}
+                            stages={stages}
                         />
                     ) : (
-                        <SupportServantSubData region={region} supportServant={supportServant} />
+                        <SupportServantSubData region={region} supportServant={supportServant} stages={stages} />
                     )}
                 </Col>
             </Row>
@@ -239,12 +267,24 @@ const SupportServantTable = (props: { region: Region; supportServant: SupportSer
     );
 };
 
-const SupportServantTables = (props: { region: Region; supportServants: SupportServant.SupportServant[] }) => {
-    const { region, supportServants } = props;
+const SupportServantTables = ({
+    region,
+    supportServants,
+    stages,
+}: {
+    region: Region;
+    supportServants: SupportServant.SupportServant[];
+    stages: Quest.Stage[];
+}) => {
     return (
         <>
             {supportServants.map((supportServant) => (
-                <SupportServantTable key={supportServant.id} region={region} supportServant={supportServant} />
+                <SupportServantTable
+                    key={supportServant.id}
+                    region={region}
+                    supportServant={supportServant}
+                    stages={stages}
+                />
             ))}
         </>
     );
