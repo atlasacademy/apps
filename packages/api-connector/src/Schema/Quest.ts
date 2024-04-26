@@ -230,10 +230,13 @@ export interface QuestPhaseAiNpc {
 interface QuestPhaseOverwriteEquipSkill {
     lv: number;
     id: number;
+    condId?: number;
 }
 
 interface QuestPhaseOverwriteEquipSkills {
-    iconId: number;
+    iconId?: number;
+    cutInView?: number;
+    notDispEquipSkillIconSplit?: number;
     skills: QuestPhaseOverwriteEquipSkill[];
 }
 
@@ -246,6 +249,8 @@ export interface QuestPhaseExtraDetail {
     aiMultiNpc?: QuestPhaseAiNpc[];
     overwriteEquipSkills?: QuestPhaseOverwriteEquipSkills;
     waveSetup?: number;
+    interruptibleQuest?: number;
+    masterImageId?: number;
 }
 
 export interface QuestPhaseRestriction {
