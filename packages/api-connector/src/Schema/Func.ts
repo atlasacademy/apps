@@ -149,6 +149,8 @@ export enum FuncType {
     DAMAGE_VALUE_SAFE_ONCE = "damageValueSafeOnce",
     ADD_BATTLE_VALUE = "addBattleValue",
     SET_BATTLE_VALUE = "setBattleValue",
+    GAIN_MULTIPLY_NP = "gainMultiplyNp",
+    LOSS_MULTIPLY_NP = "lossMultiplyNp",
 }
 
 export interface BasicFunc {

@@ -211,6 +211,10 @@ export enum CondType {
     COMMON_VALUE_ABOVE = "commonValueAbove",
     COMMON_VALUE_BELOW = "commonValueBelow",
     COMMON_VALUE_EQUAL = "commonValueEqual",
+    ELAPSED_TIME_AFTER_QUEST_CLEAR = "elapsedTimeAfterQuestClear",
+    WITH_STARTING_MEMBER = "withStartingMember",
+    LATEST_QUEST_PHASE_EQUAL = "latestQuestPhaseEqual",
+    NOT_LATEST_QUEST_PHASE_EQUAL = "notLatestQuestPhaseEqual",
 }
 
 export default CondType;

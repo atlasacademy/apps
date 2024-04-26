@@ -104,7 +104,6 @@ interface BaseDataVal {
     BehaveAsFamilyBuff?: number;
     UnSubStateWhileLinkedToOthers?: number;
     NotAccompanyWhenLinkedTargetMoveState?: number;
-    AllowSubBgmPlaying?: number;
     NotTargetSkillIdArray?: number[];
     ShortTurn?: number;
     FieldIndividuality?: number[];
@@ -152,6 +151,23 @@ interface BaseDataVal {
     CheckTargetHaveDefeatPoint?: number;
     NPFixedDamageValue?: number;
     IgnoreShiftSafeDamage?: number;
+    ActAttackFunction?: number;
+    DelayRemoveBuffExpiredOnPlayerTurn?: number;
+    AllowRemoveBuff?: number;
+    NotExecFunctionIfKeepAliveOnWarBoard?: number;
+    SnapShotParamAddSelfIndv?: number[];
+    SnapShotParamAddOpIndv?: number[];
+    SnapShotParamAddFieldIndv?: number[];
+    SnapShotParamAddValue?: number;
+    SnapShotParamAddMaxValue?: number;
+    SnapShotParamAddMaxCount?: number;
+    NotExecOnTransform?: number;
+    NotRemoveOnTransform?: number;
+    PriorityBgm?: number;
+    BgmAllowSubPlaying?: number;
+    BgPriority?: number;
+    PriorityBg?: number;
+    ResetBgmPriorityAtWaveStart?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -264,7 +280,6 @@ export enum DataValField {
     BEHAVE_AS_FAMILY_BUFF = "BehaveAsFamilyBuff",
     UNSUBSTATE_WHILE_LINKED_TO_OTHERS = "UnSubStateWhileLinkedToOthers",
     NOT_ACCOMPANY_WHEN_LINKED_TARGET_MOVE_STATE = "NotAccompanyWhenLinkedTargetMoveState",
-    ALLOW_SUB_BGM_PLAYING = "AllowSubBgmPlaying",
     NOT_TARGET_SKILL_ID_ARRAY = "NotTargetSkillIdArray",
     SHORT_TURN = "ShortTurn",
     FIELD_INDIVIDUALITY = "FieldIndividuality",
@@ -312,4 +327,21 @@ export enum DataValField {
     CHECK_TARGET_HAVE_DEFEAT_POINT = "CheckTargetHaveDefeatPoint",
     NP_FIXED_DAMAGE_VALUE = "NPFixedDamageValue",
     IGNORE_SHIFT_SAFE_DAMAGE = "IgnoreShiftSafeDamage",
+    ACT_ATTACK_FUNCTION = "ActAttackFunction",
+    DELAY_REMOVE_BUFF_EXPIRED_ON_PLAYER_TURN = "DelayRemoveBuffExpiredOnPlayerTurn",
+    ALLOW_REMOVE_BUFF = "AllowRemoveBuff",
+    NOT_EXEC_FUNCTION_IF_KEEP_ALIVE_ON_WAR_BOARD = "NotExecFunctionIfKeepAliveOnWarBoard",
+    SNAP_SHOT_PARAM_ADD_SELF_INDV = "SnapShotParamAddSelfIndv",
+    SNAP_SHOT_PARAM_ADD_OP_INDV = "SnapShotParamAddOpIndv",
+    SNAP_SHOT_PARAM_ADD_FIELD_INDV = "SnapShotParamAddFieldIndv",
+    SNAP_SHOT_PARAM_ADD_VALUE = "SnapShotParamAddValue",
+    SNAP_SHOT_PARAM_ADD_MAX_VALUE = "SnapShotParamAddMaxValue",
+    SNAP_SHOT_PARAM_ADD_MAX_COUNT = "SnapShotParamAddMaxCount",
+    NOT_EXEC_ON_TRANSFORM = "NotExecOnTransform",
+    NOT_REMOVE_ON_TRANSFORM = "NotRemoveOnTransform",
+    PRIORITY_BGM = "PriorityBgm",
+    BGM_ALLOW_SUB_PLAYING = "BgmAllowSubPlaying",
+    BG_PRIORITY = "BgPriority",
+    PRIORITY_BG = "PriorityBg",
+    RESET_BGM_PRIORITY_AT_WAVE_START = "ResetBgmPriorityAtWaveStart",
 }

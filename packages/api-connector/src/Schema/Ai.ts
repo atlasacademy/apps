@@ -194,6 +194,14 @@ export enum AiCond {
     CHECK_BATTLE_VALUE_BELOW = "checkBattleValueBelow",
     CHECK_BATTLE_VALUE_BETWEEN = "checkBattleValueBetween",
     CHECK_BATTLE_VALUE_NOT_BETWEEN = "checkBattleValueNotBetween",
+    CHECK_USE_MASTER_SKILL_INDEX = "checkUseMasterSkillIndex",
+    CHECK_USE_MASTER_SKILL_INDEX_THIS_TURN = "checkUseMasterSkillIndexThisTurn",
+    COUNT_MASTER_SKILL_HIGHER_THIS_TURN = "countMasterSkillHigherThisTurn",
+    COUNT_MASTER_SKILL_LOWER_THIS_TURN = "countMasterSkillLowerThisTurn",
+    COUNT_MASTER_SKILL_EQUAL_THIS_TURN = "countMasterSkillEqualThisTurn",
+    COUNT_MASTER_SKILL_HIGHER_THIS_WAVE = "countMasterSkillHigherThisWave",
+    COUNT_MASTER_SKILL_LOWER_THIS_WAVE = "countMasterSkillLowerThisWave",
+    COUNT_MASTER_SKILL_EQUAL_THIS_WAVE = "countMasterSkillEqualThisWave",
 }
 
 export enum AiTiming {
