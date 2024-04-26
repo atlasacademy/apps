@@ -42,8 +42,8 @@ export const upDownBuffs: UpDownBuffType[] = [
     { up: Buff.BuffType.UP_DEFENCE, down: Buff.BuffType.DOWN_DEFENCE, description: "DEF" },
     { up: Buff.BuffType.UP_DEFENCECOMMANDALL, down: Buff.BuffType.DOWN_DEFENCECOMMANDALL, description: "Resistance" },
     {
-        up: Buff.BuffType.UP_DEFENCECOMMAN_DAMAGE,
-        down: Buff.BuffType.DOWN_DEFENCECOMMAN_DAMAGE,
+        up: Buff.BuffType.UP_DEFENCE_COMMANDDAMAGE,
+        down: Buff.BuffType.DOWN_DEFENCE_COMMANDDAMAGE,
         description: "Damage Resistance",
     },
     { up: Buff.BuffType.UP_DROPNP, down: Buff.BuffType.DOWN_DROPNP, description: "NP Gain" },
@@ -101,7 +101,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.AVOIDANCE, "Evade"],
     [Buff.BuffType.AVOIDANCE_INDIVIDUALITY, "Evade"],
     [Buff.BuffType.CHANGE_COMMAND_CARD_TYPE, "Change Command Card Types"],
-    [Buff.BuffType.COMMANDCODEATTACK_FUNCTION, "Command Code Effect"],
+    [Buff.BuffType.COMMANDCODEATTACK_BEFORE_FUNCTION, "Command Code Effect"],
     [Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION, "Command Code After Effect"],
     [Buff.BuffType.BREAK_AVOIDANCE, "Sure Hit"],
     [Buff.BuffType.DELAY_FUNCTION, "Trigger Skill after Duration"],
@@ -153,9 +153,9 @@ export interface BuffTriggerType {
 }
 
 export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
-    [Buff.BuffType.ATTACK_FUNCTION, { after: true, event: "attacks" }],
+    [Buff.BuffType.ATTACK_AFTER_FUNCTION, { after: true, event: "attacks" }],
     [Buff.BuffType.ATTACK_BEFORE_FUNCTION, { after: false, event: "attacks" }],
-    [Buff.BuffType.COMMANDATTACK_FUNCTION, { after: true, event: "normal attacks" }],
+    [Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION, { after: true, event: "normal attacks" }],
     [Buff.BuffType.DEADATTACK_FUNCTION, { after: true, when: "after", event: "defeating an enemy" }],
     [Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION, { after: false, event: "normal attacks" }],
     [Buff.BuffType.DAMAGE_FUNCTION, { after: true, when: "on receiving", event: "attacks" }],

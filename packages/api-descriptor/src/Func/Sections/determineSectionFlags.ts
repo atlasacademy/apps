@@ -147,7 +147,7 @@ function determineBuffSectionFlags(func: Func.Func, flags: Sections): Sections {
 
     flags.target.preposition = "on";
     switch (func.buffs[0]?.type) {
-        case Buff.BuffType.COMMANDATTACK_FUNCTION:
+        case Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION:
         case Buff.BuffType.NPATTACK_PREV_BUFF:
         case Buff.BuffType.COUNTER_FUNCTION:
             flags.target.preposition = "for";

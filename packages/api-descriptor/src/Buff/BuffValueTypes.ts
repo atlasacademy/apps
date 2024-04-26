@@ -68,8 +68,8 @@ export const buffValuePercentTypes = new Map<Buff.BuffType, BuffValuePercentType
     [Buff.BuffType.BUFF_RATE, { value: DataValField.VALUE, power: 1 }],
     [Buff.BuffType.UP_MAXHP, { value: DataValField.VALUE, power: 1 }],
     [Buff.BuffType.DOWN_MAXHP, { value: DataValField.VALUE, power: 1 }],
-    [Buff.BuffType.UP_DEFENCECOMMAN_DAMAGE, { value: DataValField.VALUE, power: 1 }],
-    [Buff.BuffType.DOWN_DEFENCECOMMAN_DAMAGE, { value: DataValField.VALUE, power: 1 }],
+    [Buff.BuffType.UP_DEFENCE_COMMANDDAMAGE, { value: DataValField.VALUE, power: 1 }],
+    [Buff.BuffType.DOWN_DEFENCE_COMMANDDAMAGE, { value: DataValField.VALUE, power: 1 }],
     [Buff.BuffType.UP_FUNCGAIN_NP, { value: DataValField.VALUE, power: 1 }],
     [Buff.BuffType.DOWN_FUNCGAIN_NP, { value: DataValField.VALUE, power: 1 }],
     [Buff.BuffType.HP_REDUCE_TO_REGAIN, { value: DataValField.VALUE, power: 1 }],
@@ -90,10 +90,10 @@ export interface BuffValueTriggerType {
 
 export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType>([
     [Buff.BuffType.REFLECTION_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
-    [Buff.BuffType.ATTACK_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [Buff.BuffType.ATTACK_AFTER_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
     [Buff.BuffType.DEADATTACK_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
     [
-        Buff.BuffType.COMMANDATTACK_FUNCTION,
+        Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION,
         {
             skill: DataValField.VALUE,
             level: DataValField.VALUE2,

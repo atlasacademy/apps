@@ -102,7 +102,7 @@ function handleBuffActionSection(
 
     sections.target.preposition = "on";
     if (
-        func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_FUNCTION ||
+        func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION ||
         func.buffs[0]?.type === Buff.BuffType.NPATTACK_PREV_BUFF ||
         func.buffs[0]?.type === Buff.BuffType.COUNTER_FUNCTION
     ) {
