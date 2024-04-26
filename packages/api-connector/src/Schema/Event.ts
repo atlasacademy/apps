@@ -140,7 +140,6 @@ export interface EventTreasureBox {
     treasureBoxGifts: EventTreasureBoxGift[];
     maxDrawNumOnce: number;
     extraGifts: Gift[];
-    commonConsume: CommonConsume;
     consumes: CommonConsume[];
 }
 
@@ -217,7 +216,6 @@ export interface EventCooltimeReward {
     spotId: number;
     lv: number;
     name: number;
-    commonRelease: CommonRelease;
     releaseConditions: CommonRelease[];
     cooltime: number;
     addEventPointRate: number;

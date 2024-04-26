@@ -5,6 +5,7 @@ import { Event, Item, Region } from "@atlasacademy/api-connector";
 
 import CommonConsumeDescriptor from "../../Descriptor/CommonConsumeDescriptor";
 import { MultipleGifts } from "../../Descriptor/MultipleDescriptors";
+import { mergeElements } from "../../Helper/OutputHelper";
 
 import "../ListingPage.css";
 
@@ -63,11 +64,12 @@ const TreasureBox = ({
                 </li>
                 <li>
                     {t("EventTreasureBoxDrawCost")}:{" "}
-                    <CommonConsumeDescriptor
-                        region={region}
-                        commonConsume={treasureBox.commonConsume}
-                        itemMap={itemMap}
-                    />
+                    {mergeElements(
+                        treasureBox.consumes.map((consume) => (
+                            <CommonConsumeDescriptor region={region} commonConsume={consume} itemMap={itemMap} />
+                        )),
+                        ", "
+                    )}
                 </li>
                 <li>
                     {t("EventTreasureBoxExtraGift")}:{" "}

@@ -90,7 +90,6 @@ export interface MissionCondition {
     conditionMessage: string;
     closedMessage: string;
     flag: number;
-    detail?: MissionConditionDetail;
     details?: MissionConditionDetail[];
 }
 
