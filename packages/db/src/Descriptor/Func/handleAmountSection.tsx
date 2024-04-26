@@ -214,7 +214,12 @@ export default function handleAmountSection(
         parts.push("that triggers");
         parts.push(<NoblePhantasmDescriptorId region={region} noblePhantasmId={dataVal.CounterId} />);
     } else if (func.funcType === Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD && dataVal.FieldIndividuality !== undefined) {
-        parts.push(<TraitDescription region={region} trait={dataVal.FieldIndividuality} />);
+        parts.push(
+            mergeElements(
+                dataVal.FieldIndividuality.map((trait) => <TraitDescription region={region} trait={trait} />),
+                ", "
+            )
+        );
     } else if (
         func.buffs[0]?.type === Buff.BuffType.HP_REDUCE_TO_REGAIN &&
         dataVal.HpReduceToRegainIndiv !== undefined

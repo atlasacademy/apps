@@ -107,7 +107,7 @@ interface BaseDataVal {
     AllowSubBgmPlaying?: number;
     NotTargetSkillIdArray?: number[];
     ShortTurn?: number;
-    FieldIndividuality?: number;
+    FieldIndividuality?: number[];
     BGId?: number;
     BGType?: number;
     BgmId?: number;
