@@ -40,12 +40,14 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM, "Charge NP per Buff Trait"],
     [Func.FuncType.GAIN_NP_INDIVIDUAL_SUM, "Charge NP per Trait"],
     [Func.FuncType.GAIN_NP_FROM_TARGETS, "Absorb NP Charge"],
+    [Func.FuncType.GAIN_MULTIPLY_NP, "Gain Multiple of current NP"],
     [Func.FuncType.GAIN_STAR, "Gain Critical Stars"],
     [Func.FuncType.HASTEN_NPTURN, "Increase Charge"],
     [Func.FuncType.INSTANT_DEATH, "Apply Death"],
     [Func.FuncType.LOSS_HP, "Drain HP"],
     [Func.FuncType.LOSS_HP_SAFE, "Drain HP without killing"],
     [Func.FuncType.LOSS_NP, "Drain NP"],
+    [Func.FuncType.LOSS_MULTIPLY_NP, "Lose Portion of current NP"],
     [Func.FuncType.LOSS_STAR, "Remove Critical Stars"],
     [Func.FuncType.MOVE_STATE, "Move Effects"],
     [Func.FuncType.MOVE_TO_LAST_SUBMEMBER, "Move to last reserve slot"],
@@ -379,6 +381,7 @@ export default function handleActionSection(
         case Func.FuncType.EXTEND_SKILL:
         case Func.FuncType.GAIN_HP:
         case Func.FuncType.GAIN_NP:
+        case Func.FuncType.GAIN_MULTIPLY_NP:
         case Func.FuncType.HASTEN_NPTURN:
         case Func.FuncType.SHORTEN_SKILL:
         case Func.FuncType.EXTEND_BUFFCOUNT:

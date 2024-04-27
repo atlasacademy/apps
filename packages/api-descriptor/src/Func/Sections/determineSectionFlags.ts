@@ -101,6 +101,7 @@ export default function (func: Func.Func): Sections {
         case Func.FuncType.EXTEND_SKILL:
         case Func.FuncType.GAIN_HP:
         case Func.FuncType.GAIN_NP:
+        case Func.FuncType.GAIN_MULTIPLY_NP:
         case Func.FuncType.HASTEN_NPTURN:
         case Func.FuncType.SHORTEN_SKILL:
             flags.amount.preposition = "by";

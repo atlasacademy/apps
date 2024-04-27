@@ -78,6 +78,8 @@ export default function (
                 case Func.FuncType.DAMAGE_NP_COUNTER:
                 case Func.FuncType.GAIN_HP_PER:
                 case Func.FuncType.QP_DROP_UP:
+                case Func.FuncType.GAIN_MULTIPLY_NP:
+                case Func.FuncType.LOSS_MULTIPLY_NP:
                     addPartials([new ValuePartial(ValueType.PERCENT, dataVal.Value / 10)]);
                     break;
                 case Func.FuncType.GAIN_NP:
