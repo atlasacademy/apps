@@ -50,6 +50,7 @@ export const upDownBuffs: UpDownBuffType[] = [
     { up: Buff.BuffType.UP_GAIN_HP, down: Buff.BuffType.DOWN_GAIN_HP, description: "Received Healing" },
     { up: Buff.BuffType.UP_GIVEGAIN_HP, down: Buff.BuffType.DOWN_GIVEGAIN_HP, description: "Healing Dealt" },
     { up: Buff.BuffType.UP_FUNC_HP_REDUCE, down: Buff.BuffType.DOWN_FUNC_HP_REDUCE, description: "DoT Effectiveness" },
+    { up: Buff.BuffType.ADD_FUNC_HP_REDUCE, down: Buff.BuffType.SUB_FUNC_HP_REDUCE, description: "DoT Value" },
     {
         up: Buff.BuffType.UP_GRANT_INSTANTDEATH,
         down: Buff.BuffType.DOWN_GRANT_INSTANTDEATH,
