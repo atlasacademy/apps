@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 
-import { Region, Servant } from "@atlasacademy/api-connector";
+import { CardDetail, Region, Servant } from "@atlasacademy/api-connector";
 
 import CommandCard from "../../Component/CommandCard";
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
@@ -53,23 +53,44 @@ class ServantMainData extends React.Component<IProps> {
         );
     }
 
-    private showHits(hits: number[] | undefined): JSX.Element | string {
-        if (hits === undefined) return "";
+    private showHits(card: keyof Servant.Servant["cardDetails"]): JSX.Element | string {
+        const cardInfo = this.props.servant.cardDetails[card];
+        if (cardInfo === undefined) return "";
 
         return (
-            <span>
-                {hits.map((hit, index) => {
-                    return (index > 0 ? ", " : "") + asPercent(hit, 0);
-                })}
-                &nbsp;-&nbsp;
-                {hits.length} {this.props.t("Hits")}
-            </span>
+            <>
+                <span>
+                    {cardInfo.hitsDistribution.map((hit, index) => {
+                        return (index > 0 ? ", " : "") + asPercent(hit, 0);
+                    })}
+                    &nbsp;-&nbsp;
+                    {cardInfo.hitsDistribution.length}{" "}
+                    {cardInfo.attackType === CardDetail.AttackType.ALL ? `${this.props.t("AOE")} ` : ""}
+                    {this.props.t("Hits")}
+                </span>
+                <div>
+                    {cardInfo.damageRate !== undefined &&
+                        `${this.props.t("Damage Mod")}: ${asPercent(cardInfo?.damageRate, 1)}`}
+                </div>
+                <div>
+                    {cardInfo.attackNpRate !== undefined &&
+                        `${this.props.t("Attack NP Mod")}: ${asPercent(cardInfo?.attackNpRate, 1)}`}
+                </div>
+                <div>
+                    {cardInfo.defenseNpRate !== undefined &&
+                        `${this.props.t("Defense NP Mod")}: ${asPercent(cardInfo?.defenseNpRate, 1)}`}
+                </div>
+                <div>
+                    {cardInfo.dropStarRate !== undefined &&
+                        `${this.props.t("Star Drop Mod")}: ${asPercent(cardInfo?.dropStarRate, 1)}`}
+                </div>
+            </>
         );
     }
 
     render() {
         const { servant, servantName, originalServantName, t } = this.props;
-        const { buster, arts, quick, extra } = servant.hitsDistribution;
+
         return (
             <Table bordered responsive className="servant-data-table">
                 <tbody>
@@ -135,10 +156,10 @@ class ServantMainData extends React.Component<IProps> {
                             </div>
                         ),
                     })}
-                    {this.renderSpanningRow({ title: "Buster", content: this.showHits(buster) })}
-                    {this.renderSpanningRow({ title: "Arts", content: this.showHits(arts) })}
-                    {this.renderSpanningRow({ title: "Quick", content: this.showHits(quick) })}
-                    {this.renderSpanningRow({ title: "Extra", content: this.showHits(extra) })}
+                    {this.renderSpanningRow({ title: "Buster", content: this.showHits("buster") })}
+                    {this.renderSpanningRow({ title: "Arts", content: this.showHits("arts") })}
+                    {this.renderSpanningRow({ title: "Quick", content: this.showHits("quick") })}
+                    {this.renderSpanningRow({ title: "Extra", content: this.showHits("extra") })}
                     {this.renderDoubleRow([
                         { title: t("Star Weight"), content: servant.starAbsorb },
                         { title: t("Star Gen"), content: asPercent(servant.starGen, 1) },

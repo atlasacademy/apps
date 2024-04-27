@@ -33,14 +33,15 @@ class EnemySubData extends React.Component<IProps> {
 
     private hitDistribution() {
         const parts: Renderable[] = [],
-            hitDistribution = this.props.enemy.hitsDistribution,
-            keys = Object.keys(hitDistribution) as Card[],
-            values = Object.values(hitDistribution),
+            cardDetails = this.props.enemy.cardDetails,
+            keys = Object.keys(cardDetails) as Card[],
+            details = Object.values(cardDetails),
             t = this.props.t;
 
         for (let i = 0; i < keys.length; i++) {
             const key = keys[i],
-                hits: number[] = values[i] ?? [],
+                detail = details[i],
+                hits: number[] = detail.hitsDistribution ?? [],
                 hitBreakdown = hits.map((hit) => asPercent(hit, 0)).join(", ");
 
             let attackType = "";
@@ -58,7 +59,43 @@ class EnemySubData extends React.Component<IProps> {
                 }
             }
 
-            parts.push(`${toTitleCase(key)}: ${hitBreakdown} - ${t("Hits", { count: hits.length })}${attackType}`);
+            const isAoe = detail.attackType === CardDetail.AttackType.ALL ? this.props.t("AOE") : "";
+
+            parts.push(
+                `${toTitleCase(key)} ${isAoe}: ${hitBreakdown} - ${t("Hits", { count: hits.length })}${attackType}`
+            );
+            if (
+                detail.damageRate !== undefined ||
+                detail.attackNpRate !== undefined ||
+                detail.defenseNpRate !== undefined ||
+                detail.dropStarRate !== undefined
+            ) {
+                parts.push(
+                    <ul className="mb-0">
+                        {detail.damageRate !== undefined && (
+                            <li>
+                                {toTitleCase(key)} {this.props.t("Damage Mod")}: {asPercent(detail.damageRate, 1)}
+                            </li>
+                        )}
+                        {detail.attackNpRate !== undefined && (
+                            <li>
+                                {toTitleCase(key)} {this.props.t("Attack NP Mod")}: {asPercent(detail.attackNpRate, 1)}
+                            </li>
+                        )}
+                        {detail.defenseNpRate !== undefined && (
+                            <li>
+                                {toTitleCase(key)} {this.props.t("Defense NP Mod")}:{" "}
+                                {asPercent(detail.defenseNpRate, 1)}
+                            </li>
+                        )}
+                        {detail.dropStarRate !== undefined && (
+                            <li>
+                                {toTitleCase(key)} {this.props.t("Star Drop Mod")}: {asPercent(detail.dropStarRate, 1)}
+                            </li>
+                        )}
+                    </ul>
+                );
+            }
         }
 
         return <div>{mergeElements(parts, <br />)}</div>;
@@ -70,7 +107,6 @@ class EnemySubData extends React.Component<IProps> {
                 {this.props.enemy.traits.map((trait) => (
                     <React.Fragment key={trait.id}>
                         <TraitDescription region={this.props.region} trait={trait} />
-                        <br />
                     </React.Fragment>
                 ))}
             </>
