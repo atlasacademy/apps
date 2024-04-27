@@ -91,6 +91,18 @@ export interface BuffValueTriggerType {
 export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType>([
     [Buff.BuffType.REFLECTION_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
     [Buff.BuffType.ATTACK_AFTER_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [
+        Buff.BuffType.COMMANDCODEATTACK_BEFORE_FUNCTION_MAIN_ONLY,
+        { skill: DataValField.VALUE, level: DataValField.VALUE2 },
+    ],
+    [
+        Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION_MAIN_ONLY,
+        { skill: DataValField.VALUE, level: DataValField.VALUE2 },
+    ],
+    [Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION_MAIN_ONLY, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION_MAIN_ONLY, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [Buff.BuffType.ATTACK_BEFORE_FUNCTION_MAIN_ONLY, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [Buff.BuffType.ATTACK_AFTER_FUNCTION_MAIN_ONLY, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
     [Buff.BuffType.DEADATTACK_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
     [
         Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION,

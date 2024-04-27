@@ -77,7 +77,7 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         if (triggerType.when) {
             partials.push(new TextPartial(` ${triggerType.when} `));
         } else {
-            partials.push(new ParticlePartial(triggerType.after ? " on " : " before "));
+            partials.push(new ParticlePartial(triggerType.after ? " after " : " before "));
         }
 
         if (buff.ckSelfIndv.length) {
@@ -86,6 +86,8 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         }
 
         partials.push(new TextPartial(triggerType.event));
+
+        if (triggerType.mainOnly) partials.push(new TextPartial(" (Main Only)"));
 
         const targetParticle = buff.type === Buff.BuffType.DEADATTACK_FUNCTION ? "with" : undefined;
         partials.push(...appendTraitFilters([], buff.ckOpIndv, buff.script.checkIndvType, undefined, targetParticle));

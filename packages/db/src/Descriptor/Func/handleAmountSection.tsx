@@ -68,7 +68,13 @@ export default function handleAmountSection(
             func.buffs[0]?.type === Buff.BuffType.GUTS_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.SELFTURNEND_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.WAVESTART_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.REFLECTION_FUNCTION) &&
+            func.buffs[0]?.type === Buff.BuffType.REFLECTION_FUNCTION ||
+            func.buffs[0]?.type === Buff.BuffType.COMMANDCODEATTACK_BEFORE_FUNCTION_MAIN_ONLY ||
+            func.buffs[0]?.type === Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION_MAIN_ONLY ||
+            func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION_MAIN_ONLY ||
+            func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION_MAIN_ONLY ||
+            func.buffs[0]?.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION_MAIN_ONLY ||
+            func.buffs[0]?.type === Buff.BuffType.ATTACK_AFTER_FUNCTION_MAIN_ONLY) &&
         typeof dataVal.Value === "number"
     ) {
         section.preposition = undefined;

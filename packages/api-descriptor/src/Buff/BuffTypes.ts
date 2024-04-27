@@ -152,6 +152,7 @@ export interface BuffTriggerType {
     when?: string;
     event: string;
     counterNp?: boolean;
+    mainOnly?: boolean;
 }
 
 export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
@@ -167,4 +168,10 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.WAVESTART_FUNCTION, { after: true, event: "wave start" }],
     [Buff.BuffType.REFLECTION_FUNCTION, { after: true, event: "end of enemy's turn" }],
     [Buff.BuffType.COUNTER_FUNCTION, { after: true, event: "NP", counterNp: true }],
+    [Buff.BuffType.COMMANDCODEATTACK_BEFORE_FUNCTION_MAIN_ONLY, { after: false, event: "attacks", mainOnly: true }],
+    [Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION_MAIN_ONLY, { after: true, event: "attacks", mainOnly: true }],
+    [Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION_MAIN_ONLY, { after: false, event: "attacks", mainOnly: true }],
+    [Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION_MAIN_ONLY, { after: true, event: "attacks", mainOnly: true }],
+    [Buff.BuffType.ATTACK_BEFORE_FUNCTION_MAIN_ONLY, { after: false, event: "attacks", mainOnly: true }],
+    [Buff.BuffType.ATTACK_AFTER_FUNCTION_MAIN_ONLY, { after: true, event: "attacks", mainOnly: true }],
 ]);
