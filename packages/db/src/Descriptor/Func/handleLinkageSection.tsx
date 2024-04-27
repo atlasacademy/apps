@@ -14,6 +14,10 @@ export default function handleLinkageSection(
     const section = sections.linkage,
         parts = section.parts;
 
+    if (dataVal.CheckDuplicate === 1) {
+        parts.push("[This function instance can only be executed once]");
+    }
+
     if (dataVal.AddLinkageTargetIndividualty !== undefined && dataVal.BehaveAsFamilyBuff === 1) {
         parts.push(
             <>
