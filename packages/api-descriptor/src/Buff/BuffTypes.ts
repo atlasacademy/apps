@@ -100,6 +100,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.SUB_INDIVIDUALITY, "Remove Trait"],
     [Buff.BuffType.AVOIDANCE, "Evade"],
     [Buff.BuffType.AVOIDANCE_INDIVIDUALITY, "Evade"],
+    [Buff.BuffType.AVOIDANCE_ATTACK_DEATH_DAMAGE, "Evade if Attack is Lethal"],
     [Buff.BuffType.CHANGE_COMMAND_CARD_TYPE, "Change Command Card Types"],
     [Buff.BuffType.COMMANDCODEATTACK_BEFORE_FUNCTION, "Command Code Effect"],
     [Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION, "Command Code After Effect"],
