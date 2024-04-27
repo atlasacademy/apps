@@ -25,7 +25,8 @@ interface IProps {
         | "ckOpIndv"
         | "individuality"
         | "fieldIndividuality"
-        | "enemyTrait";
+        | "enemyTrait"
+        | "funcIndividuality";
 }
 
 interface IState {

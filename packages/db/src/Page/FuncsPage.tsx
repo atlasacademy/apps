@@ -43,6 +43,7 @@ interface IState {
     vals: number[];
     tvals: number[];
     questTvals: number[];
+    funcIndividuality: number[];
 }
 
 class FuncsPage extends React.Component<IProps, IState> {
@@ -57,6 +58,7 @@ class FuncsPage extends React.Component<IProps, IState> {
             vals: [],
             tvals: [],
             questTvals: [],
+            funcIndividuality: [],
         };
 
         let state: IState = defaultState;
@@ -72,6 +74,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                 vals: getQueryNums("vals"),
                 tvals: getQueryNums("tvals"),
                 questTvals: getQueryNums("questTvals"),
+                funcIndividuality: getQueryNums("questTvals"),
             };
         } else {
             state = stateCache.get(props.region) ?? defaultState;
@@ -116,6 +119,7 @@ class FuncsPage extends React.Component<IProps, IState> {
             vals: this.state.vals,
             tvals: this.state.tvals,
             questTvals: this.state.questTvals,
+            funcIndividuality: this.state.funcIndividuality,
         }).toString();
     }
 
@@ -132,7 +136,8 @@ class FuncsPage extends React.Component<IProps, IState> {
             (!this.state.targetTeam || this.state.targetTeam.length === 0)! &&
             this.state.vals.length === 0 &&
             this.state.tvals.length === 0 &&
-            this.state.questTvals.length === 0
+            this.state.questTvals.length === 0 &&
+            this.state.funcIndividuality.length === 0
         ) {
             this.setState({ funcs: [] });
             this.props.history.replace(`/${this.props.region}/${this.props.path}`);
@@ -149,7 +154,8 @@ class FuncsPage extends React.Component<IProps, IState> {
             this.state.targetTeam,
             this.state.vals,
             this.state.tvals,
-            this.state.questTvals
+            this.state.questTvals,
+            this.state.funcIndividuality
         )
             .then((funcs) => {
                 this.setQueryURL();
@@ -319,6 +325,17 @@ class FuncsPage extends React.Component<IProps, IState> {
                             initialTraits={this.state.questTvals}
                             onUpdate={(trait) => {
                                 this.setState({ questTvals: trait });
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>{t("Func Individuality")}</Form.Label>
+                        <TraitsSelector
+                            region={this.props.region}
+                            traitList={this.state.traitList}
+                            initialTraits={this.state.funcIndividuality}
+                            onUpdate={(trait) => {
+                                this.setState({ funcIndividuality: trait });
                             }}
                         />
                     </Form.Group>

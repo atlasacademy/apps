@@ -347,7 +347,8 @@ class Api {
         targetTeam?: Func.FuncTargetTeam[],
         vals?: number[],
         tvals?: number[],
-        questTvals?: number[]
+        questTvals?: number[],
+        funcIndividuality?: number[]
     ): Promise<Func.BasicFunc[]> {
         return apiConnector.searchFunc({
             popupText,
@@ -357,6 +358,7 @@ class Api {
             vals,
             tvals,
             questTvals,
+            funcIndividuality,
             reverse: true,
             reverseDepth: ReverseDepth.SERVANT,
         });

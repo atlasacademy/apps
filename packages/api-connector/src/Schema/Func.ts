@@ -199,6 +199,7 @@ export type FuncSearchOptions = {
     vals?: number[];
     tvals?: number[];
     questTvals?: number[];
+    funcIndividuality?: number[];
     reverse?: boolean;
     reverseData?: ReverseData;
     reverseDepth?: ReverseDepth;
