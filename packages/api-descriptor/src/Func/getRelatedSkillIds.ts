@@ -31,6 +31,10 @@ export default function (func: Func.Func, dataVals?: DataVal.DataVal[]): related
         buff.type === Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION ||
         buff.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION ||
         buff.type === Buff.BuffType.SELFTURNSTART_FUNCTION ||
+        buff.type === Buff.BuffType.SKILL_AFTER_FUNCTION ||
+        buff.type === Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION ||
+        buff.type === Buff.BuffType.SKILL_AFTER_FUNCTION_MAIN_ONLY ||
+        buff.type === Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION_MAIN_ONLY ||
         buff.type === Buff.BuffType.COMMANDCODEATTACK_BEFORE_FUNCTION_MAIN_ONLY ||
         buff.type === Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION_MAIN_ONLY ||
         buff.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION_MAIN_ONLY ||

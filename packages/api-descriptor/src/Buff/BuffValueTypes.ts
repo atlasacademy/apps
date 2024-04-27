@@ -147,6 +147,10 @@ export const buffValueTriggerTypes = new Map<Buff.BuffType, BuffValueTriggerType
             level: DataValField.COUNTER_LV,
         },
     ],
+    [Buff.BuffType.SKILL_AFTER_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [Buff.BuffType.SKILL_AFTER_FUNCTION_MAIN_ONLY, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
+    [Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION_MAIN_ONLY, { skill: DataValField.VALUE, level: DataValField.VALUE2 }],
 ]);
 
 export interface BuffValueTraitType {
