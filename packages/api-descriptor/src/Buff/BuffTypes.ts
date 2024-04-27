@@ -143,6 +143,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.BUFF_CONVERT, "Convert Buff"],
     [Buff.BuffType.SHIFT_GUTS, "Guts on Break"],
     [Buff.BuffType.SHIFT_GUTS_RATIO, "Guts on Break"],
+    [Buff.BuffType.AVOID_FUNCTION_EXECUTE_SELF, "Block Function Execution on Self"],
 ]);
 
 export interface BuffTriggerType {

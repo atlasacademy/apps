@@ -74,7 +74,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                 vals: getQueryNums("vals"),
                 tvals: getQueryNums("tvals"),
                 questTvals: getQueryNums("questTvals"),
-                funcIndividuality: getQueryNums("questTvals"),
+                funcIndividuality: getQueryNums("funcIndividuality"),
             };
         } else {
             state = stateCache.get(props.region) ?? defaultState;

@@ -122,6 +122,16 @@ function handleBuffActionSection(
         }
     }
 
+    if (func.buffs[0]?.type === Buff.BuffType.AVOID_FUNCTION_EXECUTE_SELF) {
+        parts.push("against functions with");
+        func.buffs[0].ckSelfIndv.forEach((trait, index) => {
+            if (index > 0) parts.push("&");
+            parts.push(
+                <TraitDescription region={region} trait={trait} owner="funcs" ownerParameter="funcIndividuality" />
+            );
+        });
+    }
+
     if (buff?.type === Buff.BuffType.BUFF_CONVERT) {
         const convert = buff.script.convert;
         if (convert !== undefined) {
