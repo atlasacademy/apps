@@ -124,6 +124,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.MULTIATTACK, "Multiple Hits"],
     [Buff.BuffType.PIERCE_INVINCIBLE, "Ignore Invincible"],
     [Buff.BuffType.PIERCE_DEFENCE, "Ignore DEF"],
+    [Buff.BuffType.PIERCE_SUBDAMAGE, "Ignore Damage Cut"],
     [Buff.BuffType.PREVENT_DEATH_BY_DAMAGE, "Prevent death by damage"],
     [Buff.BuffType.REFLECTION_FUNCTION, "Trigger Skill on end of enemy's turn"],
     [Buff.BuffType.REGAIN_HP, "HP Per Turn"],
