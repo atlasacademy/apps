@@ -220,6 +220,8 @@ export default function handleAmountSection(
                 ", "
             )
         );
+    } else if (func.funcType === Func.FuncType.SUB_STATE) {
+        section.preposition = "";
     } else if (
         func.buffs[0]?.type === Buff.BuffType.HP_REDUCE_TO_REGAIN &&
         dataVal.HpReduceToRegainIndiv !== undefined
