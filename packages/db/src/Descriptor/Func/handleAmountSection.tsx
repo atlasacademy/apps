@@ -2,6 +2,7 @@ import { Buff, DataVal, Func, Region } from "@atlasacademy/api-connector";
 
 import { asPercent, mergeElements } from "../../Helper/OutputHelper";
 import { OrdinalNumeral } from "../../Helper/StringHelper";
+import { BgmDescriptorId } from "../BgmDescriptor";
 import BuffValueDescription from "../BuffValueDescription";
 import EntityReferenceDescriptor from "../EntityReferenceDescriptor";
 import FuncValueDescriptor from "../FuncValueDescriptor";
@@ -53,6 +54,9 @@ export default function handleAmountSection(
         for (const traitId of dataVal.TargetList) {
             parts.push(<TraitDescription region={region} trait={traitId} />);
         }
+    } else if (func.buffs[0]?.type === Buff.BuffType.CHANGE_BGM && dataVal.BgmId) {
+        section.preposition = "to";
+        parts.push(<BgmDescriptorId region={region} bgmId={dataVal.BgmId} showLink />);
     } else if (
         (func.buffs[0]?.type === Buff.BuffType.ATTACK_AFTER_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION ||
@@ -365,6 +369,10 @@ export default function handleAmountSection(
         section.preposition = undefined;
         parts.push(`[Max ${dataVal.SameBuffLimitNum} stacks]`);
         section.showing = true;
+    }
+
+    if (func.funcType === Func.FuncType.CHANGE_BGM && dataVal.Value !== undefined) {
+        section.showing = false;
     }
 
     if (support) {

@@ -9,6 +9,7 @@ const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.ADD_STATE, "Apply Buff"],
     [Func.FuncType.ADD_STATE_SHORT, "Apply Buff (short)"],
     [Func.FuncType.CARD_RESET, "Shuffle Cards"],
+    [Func.FuncType.CHANGE_BGM, "Change BGM"],
     [Func.FuncType.CHANGE_BGM_COSTUME, "Change BGM"],
     [Func.FuncType.DAMAGE_NP, "Deal Damage"],
     [Func.FuncType.DAMAGE_NP_HPRATIO_LOW, "Deal Damage with Bonus for Low Health"],

@@ -47,6 +47,10 @@ export default function handleTargetSection(
 
     let targetType: Func.FuncTargetType | undefined = func.funcTargetType;
 
+    if (func.funcType === Func.FuncType.CHANGE_BGM && dataVal.Value !== undefined) {
+        section.showing = false;
+    }
+
     if (
         [
             Func.FuncType.ABSORB_NPTURN,

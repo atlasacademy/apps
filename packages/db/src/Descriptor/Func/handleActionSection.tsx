@@ -1,5 +1,6 @@
 import { Buff, DataVal, Func, Region } from "@atlasacademy/api-connector";
 
+import { BgmDescriptorId } from "../BgmDescriptor";
 import BuffDescription from "../BuffDescription";
 import TraitDescription from "../TraitDescription";
 import { FuncDescriptorSections } from "./FuncDescriptorSections";
@@ -9,6 +10,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.ADD_STATE, "Apply Buff"],
     [Func.FuncType.ADD_STATE_SHORT, "Apply Buff (short)"],
     [Func.FuncType.CARD_RESET, "Shuffle Cards"],
+    [Func.FuncType.CHANGE_BGM, "Change BGM"],
     [Func.FuncType.CHANGE_BGM_COSTUME, "Change BGM"],
     [Func.FuncType.DAMAGE_NP, "Deal Damage"],
     [Func.FuncType.DAMAGE_NP_HPRATIO_LOW, "Deal Damage with Bonus for Low Health"],
@@ -319,6 +321,10 @@ export default function handleActionSection(
     } else if (func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM) {
         parts.push("Deal damage");
         sections.amount.preposition = "";
+        return;
+    } else if (func.funcType === Func.FuncType.CHANGE_BGM && dataVal.Value !== undefined) {
+        parts.push("Change BGM to");
+        parts.push(<BgmDescriptorId region={region} bgmId={dataVal.Value} showLink />);
         return;
     } else if (func.funcType === Func.FuncType.GAIN_STAR && dataVal.MultipleGainStar === 1) {
         parts.push("Gain Critical Stars");

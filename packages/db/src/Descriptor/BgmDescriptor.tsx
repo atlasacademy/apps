@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import { Bgm, Region } from "@atlasacademy/api-connector";
 
+import useApi from "../Hooks/useApi";
 import { lang } from "../Setting/Manager";
 import VoiceLinePlayer from "./VoiceLinePlayer";
 
@@ -15,6 +16,36 @@ export const getBgmName = (bgm: Bgm.Bgm) => {
     } else {
         return bgm.fileName;
     }
+};
+
+export const BgmDescriptorId = ({
+    region,
+    bgmId,
+    showName,
+    showLink,
+    style,
+    className,
+}: {
+    region: Region;
+    bgmId: number;
+    showName?: string;
+    showLink?: boolean;
+    style?: React.CSSProperties;
+    className?: string;
+}) => {
+    const { data: bgm } = useApi("bgm", bgmId);
+    if (bgm === undefined) return <></>;
+
+    return (
+        <BgmDescriptor
+            region={region}
+            bgm={bgm}
+            showName={showName}
+            showLink={showLink}
+            style={style}
+            className={className}
+        />
+    );
 };
 
 export default function BgmDescriptor(props: {
