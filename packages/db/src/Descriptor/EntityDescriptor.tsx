@@ -10,30 +10,37 @@ export default function EntityDescriptor(props: {
     iconHeight?: number;
     tab?: string;
     overwriteName?: string;
+    forceType?: Entity.EntityType;
 }) {
     const entity = props.entity;
-    if (entity.collectionNo !== 0) {
-        if (entity.type === Entity.EntityType.SERVANT_EQUIP) {
-            return (
-                <BasicCraftEssenceDescriptor
-                    region={props.region}
-                    craftEssence={entity as CraftEssence.CraftEssenceBasic}
-                    iconHeight={props.iconHeight}
-                    tab={props.tab}
-                    overwriteName={props.overwriteName}
-                />
-            );
-        } else if (entity.type === Entity.EntityType.NORMAL || entity.type === Entity.EntityType.HEROINE) {
-            return (
-                <BasicServantDescriptor
-                    region={props.region}
-                    servant={entity as Servant.ServantBasic}
-                    iconHeight={props.iconHeight}
-                    tab={props.tab}
-                    overwriteName={props.overwriteName}
-                />
-            );
-        }
+    if (
+        props.forceType === Entity.EntityType.SERVANT_EQUIP ||
+        (entity.collectionNo !== 0 && entity.type === Entity.EntityType.SERVANT_EQUIP)
+    ) {
+        return (
+            <BasicCraftEssenceDescriptor
+                region={props.region}
+                craftEssence={entity as CraftEssence.CraftEssenceBasic}
+                iconHeight={props.iconHeight}
+                tab={props.tab}
+                overwriteName={props.overwriteName}
+            />
+        );
+    } else if (
+        props.forceType === Entity.EntityType.NORMAL ||
+        props.forceType === Entity.EntityType.HEROINE ||
+        (entity.collectionNo !== 0 &&
+            (entity.type === Entity.EntityType.NORMAL || entity.type === Entity.EntityType.HEROINE))
+    ) {
+        return (
+            <BasicServantDescriptor
+                region={props.region}
+                servant={entity as Servant.ServantBasic}
+                iconHeight={props.iconHeight}
+                tab={props.tab}
+                overwriteName={props.overwriteName}
+            />
+        );
     }
 
     return (

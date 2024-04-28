@@ -1,4 +1,4 @@
-import { Buff, DataVal, Func, Region } from "@atlasacademy/api-connector";
+import { Buff, DataVal, Entity, Func, Region } from "@atlasacademy/api-connector";
 
 import { asPercent, mergeElements } from "../../Helper/OutputHelper";
 import { OrdinalNumeral } from "../../Helper/StringHelper";
@@ -207,7 +207,9 @@ export default function handleAmountSection(
     ) {
         parts.push(<FuncValueDescriptor region={region} func={func} staticDataVal={dataVal} dataVal={dataVal} />);
     } else if (func.funcType === Func.FuncType.TRANSFORM_SERVANT && dataVal.Value !== undefined) {
-        parts.push(<EntityReferenceDescriptor region={region} svtId={dataVal.Value} />);
+        parts.push(
+            <EntityReferenceDescriptor region={region} svtId={dataVal.Value} forceType={Entity.EntityType.NORMAL} />
+        );
         if (dataVal.SetLimitCount !== undefined) parts.push(`at ascension ${dataVal.SetLimitCount}`);
     } else if (func.buffs[0]?.type === Buff.BuffType.NPATTACK_PREV_BUFF) {
         if (typeof dataVal.SkillID !== "number") {
