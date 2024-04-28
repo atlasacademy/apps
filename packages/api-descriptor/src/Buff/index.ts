@@ -1,3 +1,4 @@
+import * as BuffTypes from "./BuffTypes";
 import BuffReferencePartial from "./BuffReferencePartial";
 import describe from "./describe";
 import describeType from "./describeType";
@@ -8,4 +9,5 @@ export default {
     describeType,
     describeValue,
     BuffReferencePartial,
+    BuffTypes,
 };

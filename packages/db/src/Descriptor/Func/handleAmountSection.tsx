@@ -1,4 +1,5 @@
 import { Buff, DataVal, Entity, Func, Region } from "@atlasacademy/api-connector";
+import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 
 import { asPercent, mergeElements } from "../../Helper/OutputHelper";
 import { OrdinalNumeral } from "../../Helper/StringHelper";
@@ -58,32 +59,7 @@ export default function handleAmountSection(
         section.preposition = "to";
         parts.push(<BgmDescriptorId region={region} bgmId={dataVal.BgmId} showLink />);
     } else if (
-        (func.buffs[0]?.type === Buff.BuffType.ATTACK_AFTER_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.DEADATTACK_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.COMMANDCODEATTACK_BEFORE_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.DAMAGE_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.DEAD_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.DELAY_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.ENTRY_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.GUTS_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.SELFTURNEND_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.WAVESTART_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.REFLECTION_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.SKILL_AFTER_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.CONTINUE_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION ||
-            func.buffs[0]?.type === Buff.BuffType.SKILL_AFTER_FUNCTION_MAIN_ONLY ||
-            func.buffs[0]?.type === Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION_MAIN_ONLY ||
-            func.buffs[0]?.type === Buff.BuffType.COMMANDCODEATTACK_BEFORE_FUNCTION_MAIN_ONLY ||
-            func.buffs[0]?.type === Buff.BuffType.COMMANDCODEATTACK_AFTER_FUNCTION_MAIN_ONLY ||
-            func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION_MAIN_ONLY ||
-            func.buffs[0]?.type === Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION_MAIN_ONLY ||
-            func.buffs[0]?.type === Buff.BuffType.ATTACK_BEFORE_FUNCTION_MAIN_ONLY ||
-            func.buffs[0]?.type === Buff.BuffType.ATTACK_AFTER_FUNCTION_MAIN_ONLY) &&
+        BuffDescriptor.BuffTypes.buffTriggerTypes.has(func.buffs[0]?.type) &&
         typeof dataVal.Value === "number"
     ) {
         section.preposition = undefined;
