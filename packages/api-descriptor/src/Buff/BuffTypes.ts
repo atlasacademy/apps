@@ -174,6 +174,7 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.WAVESTART_FUNCTION, { after: true, event: "wave start" }],
     [Buff.BuffType.REFLECTION_FUNCTION, { after: true, event: "end of enemy's turn" }],
     [Buff.BuffType.COUNTER_FUNCTION, { after: true, event: "NP", counterNp: true }],
+    [Buff.BuffType.CONTINUE_FUNCTION, { after: true, event: "Party Revive" }],
     [Buff.BuffType.SKILL_AFTER_FUNCTION, { after: true, event: "skill" }],
     [Buff.BuffType.SKILL_AFTER_FUNCTION_MAIN_ONLY, { after: true, event: "skill", mainOnly: true }],
     [Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION, { after: true, event: "NP attack" }],

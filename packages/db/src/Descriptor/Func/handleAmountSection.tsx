@@ -74,6 +74,7 @@ export default function handleAmountSection(
             func.buffs[0]?.type === Buff.BuffType.WAVESTART_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.REFLECTION_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.SKILL_AFTER_FUNCTION ||
+            func.buffs[0]?.type === Buff.BuffType.CONTINUE_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION ||
             func.buffs[0]?.type === Buff.BuffType.SKILL_AFTER_FUNCTION_MAIN_ONLY ||
             func.buffs[0]?.type === Buff.BuffType.TREASURE_DEVICE_AFTER_FUNCTION_MAIN_ONLY ||
