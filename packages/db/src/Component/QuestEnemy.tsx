@@ -1,4 +1,5 @@
 import {
+    faGift,
     faInfoCircle,
     faPhone,
     faShare,
@@ -563,7 +564,20 @@ const QuestEnemyTable = (props: {
             <h3>
                 <DeckTypeDescriptor deckType={enemy.deck} /> {enemy.deckId}.{" "}
                 <EntityDescriptor region={region} entity={enemy.svt} overwriteName={enemy.name} iconHeight={40} />{" "}
-                <span className="quest-svt-lv">Lv. {enemy.lv}</span>
+                <span className="quest-svt-lv">
+                    Lv. {enemy.lv}
+                    {enemy.infoScript.isAddition ? (
+                        <>
+                            {" "}
+                            [&nbsp;
+                            <FontAwesomeIcon icon={faGift} />
+                            &nbsp;
+                            {t("Spawn Bonus Enemy")}]
+                        </>
+                    ) : (
+                        ""
+                    )}
+                </span>
                 {Manager.calcStringEnabled() && (
                     <span className="ml-3">
                         <CopyToClipboard text={getEnemyCalcString(enemy)} title={t("Copy calc string to clipboard")} />
