@@ -11,6 +11,7 @@ import FuncValueDescriptor from "../FuncValueDescriptor";
 import { MultipleBuffIds, MultipleFunctionIds } from "../MultipleDescriptors";
 import { NoblePhantasmDescriptorId } from "../NoblePhantasmDescriptor";
 import SkillReferenceDescriptor from "../SkillReferenceDescriptor";
+import { AttributeDescriptor } from "../SvttAttrDestriptor";
 import TraitDescription from "../TraitDescription";
 import { FuncDescriptorSections } from "./FuncDescriptorSections";
 
@@ -56,6 +57,9 @@ export default function handleAmountSection(
         for (const traitId of dataVal.TargetList) {
             parts.push(<TraitDescription region={region} trait={traitId} />);
         }
+    } else if (func.buffs[0]?.type === Buff.BuffType.OVERWRITE_SUBATTRIBUTE && dataVal.Value) {
+        section.preposition = "to";
+        parts.push(<AttributeDescriptor attributeId={dataVal.Value} />);
     } else if (func.buffs[0]?.type === Buff.BuffType.CHANGE_BGM && dataVal.BgmId) {
         section.preposition = "to";
         parts.push(<BgmDescriptorId region={region} bgmId={dataVal.BgmId} showLink />);
