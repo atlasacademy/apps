@@ -160,6 +160,7 @@ export interface BasicFunc {
     funcTargetTeam: FuncTargetTeam;
     functvals: Trait[];
     funcquestTvals: number[];
+    funcPopupText: string;
     buffs: Buff[];
     traitVals?: Trait[];
     reverse?: {
@@ -171,7 +172,6 @@ export interface BasicFunc {
 }
 
 export interface Func extends BasicFunc {
-    funcPopupText: string;
     funcPopupIcon?: string;
     svals: DataVal[];
     svals2?: DataVal[];

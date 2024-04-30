@@ -416,6 +416,10 @@ export default function handleActionSection(
         case Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD:
             sections.amount.preposition = "to";
             sections.target.showing = false;
+            break;
+        case Func.FuncType.DISPLAY_BUFFSTRING:
+            sections.target.preposition = "on";
+            break;
     }
 
     parts.push(funcDescriptions.get(func.funcType) ?? func.funcType);

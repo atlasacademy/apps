@@ -134,6 +134,10 @@ export default function (func: Func.Func): Sections {
             flags.target.preposition = "from";
 
             return flags;
+        case Func.FuncType.DISPLAY_BUFFSTRING:
+            flags.target.preposition = "on";
+
+            return flags;
         default:
             return flags;
     }

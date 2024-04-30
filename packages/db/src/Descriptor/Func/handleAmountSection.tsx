@@ -3,6 +3,7 @@ import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 
 import { asPercent, mergeElements } from "../../Helper/OutputHelper";
 import { OrdinalNumeral } from "../../Helper/StringHelper";
+import { lang } from "../../Setting/Manager";
 import { BgmDescriptorId } from "../BgmDescriptor";
 import BuffValueDescription from "../BuffValueDescription";
 import EntityReferenceDescriptor from "../EntityReferenceDescriptor";
@@ -74,6 +75,9 @@ export default function handleAmountSection(
             parts.push("that triggers");
         }
         parts.push(<SkillReferenceDescriptor region={region} id={dataVal.Value} />);
+    } else if (func.funcType === Func.FuncType.DISPLAY_BUFFSTRING) {
+        section.preposition = undefined;
+        parts.push(<span lang={lang(region)}>[{func.funcPopupText}]</span>);
     } else if (func.funcType === Func.FuncType.CARD_RESET && dataVal.Value) {
         section.preposition = undefined;
         parts.push(`${dataVal.Value} time${dataVal.Value > 1 ? "s" : ""}`);
