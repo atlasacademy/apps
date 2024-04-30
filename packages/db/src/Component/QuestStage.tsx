@@ -90,7 +90,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                     <>
                         <br />
                         <div className="lh-2">
-                            <span>{t("If applicable servants are brought to the field:")}</span>
+                            <span>{t("If applicable servants are brought to the field")}:</span>
                             <ul className="mb-0">
                                 {(stage.aiAllocations ?? []).map((ai, idx) => (
                                     <li key={idx}>
@@ -140,7 +140,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                 )}
                 {stage.cutin !== undefined && (
                     <Alert variant="success" className="my-3 lh-1p5">
-                        <b>{t("Cut-in random appearance:")}</b>
+                        <b>{t("Cut-in random appearance")}:</b>
                         <ul className="mb-0">
                             <li>
                                 {t("Skills")}

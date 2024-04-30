@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
     contextSeparator: "_",
     // Key separator used in your translation keys
 
@@ -105,3 +105,5 @@ module.exports = {
     // configuration property supported by i18next (https://www.i18next.com/overview/configuration-options).
     // { compatibilityJSON: 'v3' } can be used to generate v3 compatible plurals.
 };
+
+export default config;
