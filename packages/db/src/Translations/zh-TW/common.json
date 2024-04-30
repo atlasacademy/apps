@@ -588,5 +588,6 @@
     "Weight": "權重",
     "with local timestamps": "以本地時間戳記",
     "with UTC timestamps": "以UTC時間戳記",
-    "Yes": "Yes"
+    "Yes": "Yes",
+    "foundResult_one": "查詢到{{count}}條結果"
 }
