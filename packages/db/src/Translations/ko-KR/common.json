@@ -589,5 +589,7 @@
     "Weight": "Weight",
     "with local timestamps": "지역 시간 기준",
     "with UTC timestamps": "UTC 기준",
-    "Yes": "Yes"
+    "Yes": "Yes",
+    "Hits_one": "{{count}} Hit",
+    "Cards_one": "{{count}} Card"
 }
