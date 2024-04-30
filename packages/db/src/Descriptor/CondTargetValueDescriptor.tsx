@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { CondType, Event, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import CostumeDescriptor from "./CostumeDescriptor";
+import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import { ItemDescriptorId } from "./ItemDescriptor";
 import { missionRange } from "./MultipleDescriptors";
@@ -179,6 +180,12 @@ export default function CondTargetValueDescriptor(props: {
             return (
                 <>
                     Finished {value} missions out of {missionRange(missionDispNos)}
+                </>
+            );
+        case CondType.WITH_STARTING_MEMBER:
+            return (
+                <>
+                    <EntityReferenceDescriptor region={region} svtId={target} /> {t("in starting party")}
                 </>
             );
         default:
