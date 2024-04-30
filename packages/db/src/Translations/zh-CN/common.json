@@ -66,7 +66,7 @@
     "Can be exchanged for": "可用于交换",
     "Card": "色卡",
     "Cards": "配卡",
-    "Cards_other": "配卡",
+    "Cards_other": "{{count}} 張卡",
     "CEs": "礼装",
     "Chaldea App": "Chaldea App",
     "Changelog": "更新日志",
@@ -219,7 +219,7 @@
     "Hidden": "隐藏",
     "Hit Count": "Hit数",
     "Hits": "Hits",
-    "Hits_other": "Hits",
+    "Hits_other": "{{count}} Hits",
     "HP": "HP",
     "Icon": "图标",
     "ID": "ID",
@@ -589,5 +589,7 @@
     "Weight": "权重",
     "with local timestamps": "使用本地时间戳",
     "with UTC timestamps": "使用UTC时间戳",
-    "Yes": "Yes"
+    "Yes": "Yes",
+    "Hits_one": "{{count}} Hit",
+    "Cards_one": "{{count}} 張卡"
 }
