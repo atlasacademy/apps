@@ -1,4 +1,5 @@
 import {
+    faClover,
     faGift,
     faInfoCircle,
     faPhone,
@@ -573,6 +574,17 @@ const QuestEnemyTable = (props: {
                             <FontAwesomeIcon icon={faGift} />
                             &nbsp;
                             {t("Spawn Bonus Enemy")}]
+                        </>
+                    ) : (
+                        ""
+                    )}
+                    {enemy.enemyScript.probability_type ? (
+                        <>
+                            {" "}
+                            [&nbsp;
+                            <FontAwesomeIcon icon={faClover} />
+                            &nbsp;
+                            {t("Rare Enemy")}]
                         </>
                     ) : (
                         ""

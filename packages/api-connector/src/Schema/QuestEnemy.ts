@@ -42,6 +42,7 @@ export interface EnemyScript {
     npInfoEnable?: boolean;
     npCharge?: number;
     NoSkipDead?: boolean;
+    probability_type?: number;
 }
 
 export interface EnemyInfoScript {
