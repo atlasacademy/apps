@@ -9,6 +9,7 @@ import { UILanguage } from "@atlasacademy/api-descriptor";
 import { mergeElements } from "../../Helper/OutputHelper";
 import Manager from "../../Setting/Manager";
 import { UILanguageDescriptor } from "../../Setting/SettingForm";
+import { WeblateStat } from "./weblate";
 
 const UILanguageLink = ({ uiLang }: { uiLang: UILanguage }) => {
     return (
@@ -25,7 +26,7 @@ const UILanguageLink = ({ uiLang }: { uiLang: UILanguage }) => {
     );
 };
 
-export default function home(region?: Region) {
+export default function home(region?: Region, translationStats?: Map<UILanguage, WeblateStat>) {
     return (
         <div>
             <h1>Atlas Academy DB</h1>
@@ -72,15 +73,27 @@ export default function home(region?: Region) {
             <p>
                 Any translation help is greatly appreciated. The translations are available and can be edited at our{" "}
                 <a href="https://weblate.atlasacademy.io/" target="_blank" rel="noreferrer">
-                    Weblate
-                </a>{" "}
-                instance.{" "}
-                <a href="https://weblate.atlasacademy.io/engage/atlas-academy/" className="display-inline">
-                    <img
-                        src="https://weblate.atlasacademy.io/widget/atlas-academy/atlas-academy-db/svg-badge.svg"
-                        alt="Translation status"
-                    />
+                    Weblate instance
                 </a>
+                . Translation progress:
+                <ul>
+                    {translationStats !== undefined &&
+                        Object.values(UILanguage)
+                            .filter((uiLang) => uiLang !== UILanguage.EN_US && translationStats.has(uiLang))
+                            .map((uiLang) => {
+                                const stats = translationStats.get(uiLang);
+                                if (stats === undefined) return <></>;
+                                return (
+                                    <li key={uiLang}>
+                                        <a href={stats.url} target="_blank" rel="noopener noreferrer">
+                                            {UILanguageDescriptor.get(uiLang)?.langName}
+                                        </a>
+                                        : {Math.floor(100 - stats.failing_percent)}%{" "}
+                                        {stats.failing_percent < 1 ? "✔️" : ""}
+                                    </li>
+                                );
+                            })}
+                </ul>
             </p>
 
             <p>
