@@ -77,8 +77,8 @@ const QuestMainData = (props: {
                     value:
                         quest.afterClear === Quest.QuestAfterClearType.REPEAT_LAST &&
                         props.phase === Math.max(...quest.phases)
-                            ? "True"
-                            : "False",
+                            ? t("True")
+                            : t("False"),
                 },
                 {
                     label: t("War"),

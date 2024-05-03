@@ -38,7 +38,7 @@ class ServantTraits extends React.Component<IProps> {
                 removedTraits = existingTraits.filter((trait) => ids.indexOf(trait.id) === -1);
 
             if (ids.length > 0) {
-                diffs.push({ type: "Ascension", id: key, addedTraits, removedTraits });
+                diffs.push({ type: this.props.t("Ascension"), id: key, addedTraits, removedTraits });
             }
         }
 
@@ -51,7 +51,7 @@ class ServantTraits extends React.Component<IProps> {
 
             if (ids.length === 0) continue;
 
-            diffs.push({ type: "Costume", id: key, addedTraits, removedTraits });
+            diffs.push({ type: this.props.t("Costume"), id: key, addedTraits, removedTraits });
         }
 
         return diffs;
@@ -59,7 +59,7 @@ class ServantTraits extends React.Component<IProps> {
 
     private describeDiff(diff: TraitDiff): string {
         const { t } = this.props;
-        if (diff.type === "Costume") {
+        if (diff.type === t("Costume")) {
             const costumes = this.props.servant.profile?.costume;
             if (costumes !== undefined) {
                 const costume = costumes[diff.id];

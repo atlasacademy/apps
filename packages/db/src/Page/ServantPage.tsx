@@ -203,14 +203,14 @@ class ServantPage extends React.Component<IProps, IState> {
                         <Row>
                             <Col>
                                 <RawDataViewer
-                                    text="Nice"
+                                    text={t("Nice")}
                                     data={servant}
                                     url={Api.getUrl("nice", "servant", this.props.id, { lore: true, expand: true })}
                                 />
                             </Col>
                             <Col>
                                 <RawDataViewer
-                                    text="Raw"
+                                    text={t("Raw")}
                                     data={Api.getUrl("raw", "servant", this.props.id, { lore: true, expand: true })}
                                 />
                             </Col>

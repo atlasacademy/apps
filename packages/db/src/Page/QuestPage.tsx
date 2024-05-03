@@ -268,7 +268,7 @@ class QuestPage extends React.Component<IProps, IState> {
                         }}
                     >
                         {quest.stages.map((stage) => (
-                            <Tab key={stage.wave} eventKey={stage.wave} title={`Stage ${stage.wave}`}>
+                            <Tab key={stage.wave} eventKey={stage.wave} title={`${t("Stage")} ${stage.wave}`}>
                                 <QuestStage region={this.props.region} stage={stage} />
                             </Tab>
                         ))}

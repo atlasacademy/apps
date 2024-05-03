@@ -142,7 +142,7 @@ class ServantStatGrowth extends React.Component<IProps> {
                         tooltip: {
                             shared: true,
                             useHTML: true,
-                            headerFormat: '<span style="font-size: 12px">Level <b>{point.key}</b></span><br/>',
+                            headerFormat: `<span style="font-size: 12px">${t("Level")} <b>{point.key}</b></span><br/>`,
                         },
                     }}
                 />

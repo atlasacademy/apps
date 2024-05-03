@@ -79,11 +79,11 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
     return (
         <div>
             <div className="my-3 mx-0 lh-3">
-                <b>BGM:</b> <BgmDescriptor region={props.region} bgm={stage.bgm} showLink={true} />
+                <b>{t("BGM")}:</b> <BgmDescriptor region={props.region} bgm={stage.bgm} showLink={true} />
                 {stage.fieldAis.length >= 1 ? (
                     <>
                         <br />
-                        <b>Field AI:</b> {mergeElements(fieldAiDescriptions, " ")}
+                        <b>{t("Field AI")}:</b> {mergeElements(fieldAiDescriptions, " ")}
                     </>
                 ) : null}
                 {findOwnAiAllocation(stage.aiAllocations ?? []).length > 0 && (
@@ -109,7 +109,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                 {stage.waveStartMovies.length > 0 ? (
                     <>
                         <br />
-                        <b>Movie:</b>
+                        <b>{t("Movie")}:</b>
                         <br />
                         <Row>
                             {stage.waveStartMovies.map((movie, index) => (
@@ -124,7 +124,7 @@ const QuestStage = (props: { region: Region; stage: Quest.Stage }) => {
                 ) : null}
                 {stage.enemyFieldPosCount && (
                     <div>
-                        <b>Number of enemies appearing at the same time:</b> {stage.enemyFieldPosCount}
+                        <b>{t("Number of enemies appearing at the same time")}:</b> {stage.enemyFieldPosCount}
                     </div>
                 )}
                 {Manager.calcStringEnabled() && (

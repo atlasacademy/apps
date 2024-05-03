@@ -111,15 +111,16 @@ function describeMultipleSkills(region: Region, skills: Skill.Skill[]) {
 }
 
 const DeckTypeDescriptor = ({ deckType }: { deckType: QuestEnemy.DeckType }) => {
+    const { t } = useTranslation();
     switch (deckType) {
         case QuestEnemy.DeckType.ENEMY:
-            return <FontAwesomeIcon icon={faSkull} title="Enemy Deck" />;
+            return <FontAwesomeIcon icon={faSkull} title={t("Enemy Deck")} />;
         case QuestEnemy.DeckType.SHIFT:
-            return <FontAwesomeIcon icon={faShieldHeart} title="Shift Deck" />;
+            return <FontAwesomeIcon icon={faShieldHeart} title={t("Shift Deck")} />;
         case QuestEnemy.DeckType.TRANSFORM:
-            return <FontAwesomeIcon icon={faWandMagicSparkles} title="Transform Deck" />;
+            return <FontAwesomeIcon icon={faWandMagicSparkles} title={t("Transform Deck")} />;
         case QuestEnemy.DeckType.CALL:
-            return <FontAwesomeIcon icon={faPhone} title="Call Deck" />;
+            return <FontAwesomeIcon icon={faPhone} title={t("Call Deck")} />;
         default:
             return <>{toTitleCase(deckType)}</>;
     }
@@ -133,6 +134,7 @@ function EnemyNpcDescription(props: {
     hash?: string;
     handleNavigateEnemyHash?: (hash: string) => void;
 }) {
+    const { t } = useTranslation();
     const hash = props.hash ?? `${props.deck}-${props.npcId}`;
     const enemy = props.enemyLookUp.get(hash);
     if (enemy !== undefined) {
@@ -146,11 +148,15 @@ function EnemyNpcDescription(props: {
                     location={enemy.svt.face}
                     mightNotExist={true}
                 />{" "}
-                {enemy.name} Lv. {enemy.lv}
+                {enemy.name} {t("Lv.")} {enemy.lv}
             </Button>
         );
     } else {
-        return <>Enemy {props.npcId}</>;
+        return (
+            <>
+                {t("Enemy")} {props.npcId}
+            </>
+        );
     }
 }
 
@@ -186,8 +192,8 @@ export const QuestEnemyMainData = (props: {
         <Table bordered responsive className="quest-svt-data-table">
             <tbody>
                 {renderDoubleRow([
-                    { title: "ATK", content: enemy.atk.toLocaleString() },
-                    { title: "HP", content: enemy.hp.toLocaleString() },
+                    { title: t("ATK"), content: enemy.atk.toLocaleString() },
+                    { title: t("HP"), content: enemy.hp.toLocaleString() },
                 ])}
                 {renderDoubleRow([
                     {
@@ -203,7 +209,7 @@ export const QuestEnemyMainData = (props: {
                     renderDoubleRow([
                         {
                             title: t("NP bar"),
-                            content: `${enemy.chargeTurn} bar${enemy.chargeTurn > 1 ? "s" : ""}`,
+                            content: `${t("bar", { count: enemy.chargeTurn })}`,
                         },
                         {
                             title: t("NP gain mod"),
@@ -405,8 +411,8 @@ export const QuestEnemySubData = ({
                     : null}
                 {enemy.enemyScript.leader
                     ? renderSpanningRow({
-                          title: "Leader",
-                          content: "Battle ends if servant is defeated",
+                          title: t("Leader"),
+                          content: t("Battle ends if servant is defeated"),
                       })
                     : null}
             </tbody>
@@ -465,13 +471,13 @@ export const QuestDropDescriptor = ({
                         ciText = (
                             <>
                                 <br />
-                                95% CI: {numToPct(lower)} – {numToPct(upper)}
+                                95% {t("CI")}: {numToPct(lower)} – {numToPct(upper)}
                             </>
                         );
                     }
                     const tooltip = (
                         <Tooltip id={`drop-detail-tooltip`} style={{ fontSize: "1em" }}>
-                            {drop.dropCount.toLocaleString()} drops / {drop.runs.toLocaleString()} runs
+                            {drop.dropCount.toLocaleString()} {t("drops")} / {drop.runs.toLocaleString()} {t("runs")}
                             {ciText}
                         </Tooltip>
                     );
@@ -515,7 +521,7 @@ const QuestEnemyTable = (props: {
                   .filter((call) => call.callee === enemy.npcId)
                   .map((call) => (
                       <li key={`${call.caller}-${call.callee}`}>
-                          Can be summoned by{" "}
+                          {t("Can be summoned by")}{" "}
                           <EnemyNpcDescription
                               region={region}
                               hash={call.caller}
@@ -532,7 +538,7 @@ const QuestEnemyTable = (props: {
                   .filter((shift) => shift.shiftTo === enemy.npcId)
                   .map((shift) => (
                       <li key={`${shift.shiftFrom}-${shift.shiftTo}-${shift.index}`}>
-                          <OrdinalNumeral index={shift.index + 2} /> break bar of{" "}
+                          <OrdinalNumeral index={shift.index + 2} /> {t("break bar of")}{" "}
                           <EnemyNpcDescription
                               region={region}
                               hash={shift.shiftFrom}
@@ -549,7 +555,7 @@ const QuestEnemyTable = (props: {
                   .filter((change) => change.shiftTo === enemy.npcId)
                   .map((change) => (
                       <li key={`${change.shiftFrom}-${change.shiftTo}-${change.index}`}>
-                          <OrdinalNumeral index={change.index + 1} /> transformation of{" "}
+                          <OrdinalNumeral index={change.index + 1} /> {t("transformation of")}{" "}
                           <EnemyNpcDescription
                               region={region}
                               hash={change.shiftFrom}
@@ -566,7 +572,7 @@ const QuestEnemyTable = (props: {
                 <DeckTypeDescriptor deckType={enemy.deck} /> {enemy.deckId}.{" "}
                 <EntityDescriptor region={region} entity={enemy.svt} overwriteName={enemy.name} iconHeight={40} />{" "}
                 <span className="quest-svt-lv">
-                    Lv. {enemy.lv}
+                    {t("Lv.")} {enemy.lv}
                     {enemy.infoScript.isAddition ? (
                         <>
                             {" "}

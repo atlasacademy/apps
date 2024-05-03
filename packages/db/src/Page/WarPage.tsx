@@ -622,19 +622,19 @@ class WarPage extends React.Component<IProps, IState> {
                             { label: t("Banner"), value: bannerImages },
                             { label: t("BGM"), value: <>{bgmPlayers}</> },
                             {
-                                label: "Raw",
+                                label: t("Raw"),
                                 value: (
                                     <Row>
                                         <Col>
                                             <RawDataViewer
-                                                text="Nice"
+                                                text={t("Nice")}
                                                 data={war}
                                                 url={Api.getUrl("nice", "war", this.props.warId)}
                                             />
                                         </Col>
                                         <Col>
                                             <RawDataViewer
-                                                text="Raw"
+                                                text={t("Raw")}
                                                 data={Api.getUrl("raw", "war", this.props.warId)}
                                             />
                                         </Col>

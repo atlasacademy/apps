@@ -126,19 +126,19 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
                     hidden: quest.stages.every((stage) => stage.enemies.length === 0),
                 },
                 {
-                    label: "Raw",
+                    label: t("Raw"),
                     value: (
                         <Row>
                             <Col>
                                 <RawDataViewer
-                                    text="Nice"
+                                    text={t("Nice")}
                                     data={quest}
                                     url={Api.getUrl("nice", "quest", `${quest.id}/${quest.phase}`)}
                                 />
                             </Col>
                             <Col>
                                 <RawDataViewer
-                                    text="Raw"
+                                    text={t("Raw")}
                                     data={Api.getUrl("raw", "quest", `${quest.id}/${quest.phase}`)}
                                 />
                             </Col>
