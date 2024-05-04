@@ -159,7 +159,7 @@ export default function handleAffectsSection(
         );
     }
 
-    if (func.functvals.length > 0) {
+    if (func.functvals.length > 0 || func.overWriteTvalsList.length > 0) {
         const negativeTrait = func.functvals.length > 0 && func.functvals.every((val) => val.negative === true);
         if (func.funcTargetType === Func.FuncTargetType.SELF) {
             parts.push(`if self ${negativeTrait ? "doesn't have" : "has"}`);
@@ -173,6 +173,21 @@ export default function handleAffectsSection(
             if (index > 0) parts.push("or");
 
             parts.push(<TraitDescription region={region} trait={trait} describeNegative={!negativeTrait} />);
+        });
+
+        func.overWriteTvalsList.forEach((traits, index) => {
+            if (index > 0) parts.push(" or ");
+
+            parts.push(
+                <>
+                    {func.overWriteTvalsList.length > 1 ? "(" : ""}
+                    {mergeElements(
+                        traits.map((trait) => <TraitDescription region={region} trait={trait} />),
+                        " and "
+                    )}
+                    {func.overWriteTvalsList.length > 1 ? ")" : ""}
+                </>
+            );
         });
 
         if (dataVal.ExcludeUnSubStateIndiv === 1) {

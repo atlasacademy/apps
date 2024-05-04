@@ -101,6 +101,17 @@ export default function (func: Func.Func, dataVal: DataVal.DataVal): BasePartial
         });
     }
 
+    if (func.overWriteTvalsList.length > 0) {
+        func.overWriteTvalsList.forEach((traits, index) => {
+            if (index > 0) addPartials(partials, [new TextPartial(" or ")]);
+            addPartials(partials, [new TextPartial("(")]);
+            traits.forEach((trait) => {
+                addPartials(partials, describe(trait).partials(), " & ");
+            });
+            addPartials(partials, [new TextPartial(")")]);
+        });
+    }
+
     return partials;
 }
 

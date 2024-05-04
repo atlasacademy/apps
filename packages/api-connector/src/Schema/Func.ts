@@ -160,6 +160,7 @@ export interface BasicFunc {
     funcTargetTeam: FuncTargetTeam;
     functvals: Trait[];
     funcquestTvals: number[];
+    overWriteTvalsList: Trait[][];
     funcPopupText: string;
     buffs: Buff[];
     traitVals?: Trait[];

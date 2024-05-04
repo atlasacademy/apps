@@ -10,6 +10,7 @@ import DataTable from "../../Component/DataTable";
 import RawDataViewer from "../../Component/RawDataViewer";
 import BuffDescription from "../../Descriptor/BuffDescription";
 import TraitDescription from "../../Descriptor/TraitDescription";
+import { mergeElements } from "../../Helper/OutputHelper";
 import { lang } from "../../Setting/Manager";
 
 interface IProps extends WithTranslation {
@@ -56,6 +57,21 @@ class FuncMainData extends React.Component<IProps> {
                                             <TraitDescription key={trait.id} region={this.props.region} trait={trait} />
                                         );
                                     })}
+                                    {mergeElements(
+                                        func.overWriteTvalsList.map((traits) => (
+                                            <>
+                                                (
+                                                {mergeElements(
+                                                    traits.map((trait) => (
+                                                        <TraitDescription region={this.props.region} trait={trait} />
+                                                    )),
+                                                    " and "
+                                                )}
+                                                )
+                                            </>
+                                        )),
+                                        " or "
+                                    )}
                                 </div>
                             ),
                         },
