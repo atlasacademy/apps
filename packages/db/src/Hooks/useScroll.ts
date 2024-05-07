@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const getCurrentPosition = () => {
+export const getCurrentPosition = () => {
     const scrollLimit =
         Math.max(
             document.body.scrollHeight,
