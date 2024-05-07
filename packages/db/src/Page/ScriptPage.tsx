@@ -21,7 +21,7 @@ import {
 import ScriptTable from "../Component/ScriptTable";
 import VoiceLinePlayer from "../Descriptor/VoiceLinePlayer";
 import LoadStatus from "../Helper/LoadStatus";
-import useScroll from "../Hooks/useScroll";
+import { getCurrentPosition } from "../Hooks/useScroll";
 import Manager from "../Setting/Manager";
 import ScriptMainData from "./Script/ScriptMainData";
 import ShowScriptLineContext from "./Script/ShowScriptLineContext";
@@ -83,7 +83,6 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
         new Map(Object.values(Region).map((r) => [r, true]))
     );
     const { t } = useTranslation();
-    const scrollPosition = useScroll();
 
     useEffect(() => {
         setLoadStatus({ loading: true });
@@ -169,6 +168,17 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
         };
     }, [compareSource, scriptId]);
 
+    useEffect(() => {
+        const scroll = () => {
+            const currentPosition = getCurrentPosition();
+            const elem = document.getElementById("scroll-bar");
+            if (elem !== null) elem.style.width = `${currentPosition * 100}%`;
+        };
+        document.addEventListener("scroll", scroll);
+
+        return () => document.removeEventListener("scroll", scroll);
+    }, []);
+
     if (error !== undefined) return <ErrorStatus error={error} />;
 
     if (loading) return <Loading />;
@@ -239,7 +249,7 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
 
     return (
         <>
-            <div className={classes.scrollBarIndicator} style={{ width: `${scrollPosition * 100}%` }}></div>
+            <div id="scroll-bar" className={classes.scrollBarIndicator} style={{ width: 0 }}></div>
             <h1>
                 {t("Script")} {scriptId}
             </h1>
