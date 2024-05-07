@@ -401,6 +401,11 @@ const SceneRow = (props: {
                                 [{t("Craft Essence")}]
                             </a>
                         ) : null}
+                        {props.charaFadeIn?.assetSet?.type === ScriptComponentType.IMAGE_SET ? (
+                            <a href={figure?.asset} target="_blank" rel="noreferrer">
+                                [{t("Image")}]
+                            </a>
+                        ) : null}
                     </div>
                 </td>
                 {showScriptLine && <td>{props.lineNumber}</td>}
@@ -457,6 +462,11 @@ const SceneRow = (props: {
                             rel="noreferrer"
                         >
                             [{t("Craft Essence")}]
+                        </a>
+                    ) : null}
+                    {props.figure?.assetSet?.type === ScriptComponentType.IMAGE_SET ? (
+                        <a href={figure?.asset} target="_blank" rel="noreferrer">
+                            [{t("Image")}]
                         </a>
                     ) : null}
                 </div>
