@@ -18,6 +18,7 @@ interface IProps {
 
 interface IState {
     data?: object;
+    dataUrl?: string;
     showing: boolean;
 }
 
@@ -42,15 +43,24 @@ class RawDataViewer extends React.Component<IProps, IState> {
         this.setState({ showing: false });
     }
 
+    componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>) {
+        if (typeof this.props.data === "string") {
+            if (prevState.dataUrl !== undefined && prevState.dataUrl !== this.props.data) {
+                this.setState({ showing: false, data: undefined, dataUrl: undefined });
+            }
+        }
+    }
+
     async show() {
-        if (this.state.data) {
-            this.setState({ showing: true });
-        } else if (typeof this.props.data === "object") {
+        if (typeof this.props.data === "object") {
             this.setState({ showing: true, data: this.props.data });
+        } else if (this.state.data !== undefined) {
+            this.setState({ showing: true });
         } else {
             try {
                 this.setState({
                     showing: true,
+                    dataUrl: this.props.data,
                     data: (await axios.get<any>(this.props.data)).data,
                 });
             } catch (e) {
