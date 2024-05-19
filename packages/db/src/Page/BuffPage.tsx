@@ -163,6 +163,10 @@ class BuffPage extends React.Component<IProps, IState> {
                             ),
                         },
                         {
+                            label: t("Max Rate"),
+                            value: <>{(buff.maxRate / 10).toLocaleString()}%</>,
+                        },
+                        {
                             label: t("Script"),
                             value: (
                                 <div className="text-left text-prewrap">
