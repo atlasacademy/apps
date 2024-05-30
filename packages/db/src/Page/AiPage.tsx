@@ -101,7 +101,8 @@ class AiPage extends React.Component<IProps, IState> {
                     <br />
                 )
             ) : (
-                <QuestSearchDescriptor region={this.props.region} enemySvtAiId={this.props.id} />
+                // <QuestSearchDescriptor region={this.props.region} enemySvtAiId={this.props.id} />
+                <></>
             );
 
         return (
