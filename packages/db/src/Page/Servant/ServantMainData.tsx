@@ -66,7 +66,7 @@ class ServantMainData extends React.Component<IProps> {
                     &nbsp;-&nbsp;
                     {cardInfo.hitsDistribution.length}{" "}
                     {cardInfo.attackType === CardDetail.AttackType.ALL ? `${this.props.t("AOE")} ` : ""}
-                    {this.props.t("Hits")}
+                    {this.props.t("Hits", { count: cardInfo.hitsDistribution.length })}
                 </span>
                 <div>
                     {cardInfo.damageRate !== undefined &&

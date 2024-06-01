@@ -128,7 +128,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                         { label: t("Type"), value: <span lang={lang(region)}>{noblePhantasm.type}</span> },
                         { label: t("Card Type"), value: toTitleCase(noblePhantasm.card) },
                         {
-                            label: t("Hits"),
+                            label: t("Hits", { count: noblePhantasm.npDistribution.length }),
                             value: mergeElements(
                                 noblePhantasm.npDistribution.map((hit) => asPercent(hit, 0)),
                                 ", "
