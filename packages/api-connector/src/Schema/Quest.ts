@@ -261,6 +261,16 @@ export interface QuestPhaseRestriction {
     title: string;
 }
 
+export interface QuestPhasePresent {
+    phase: number;
+    gifts: Gift[];
+    giftIcon?: string;
+    condType: CondType;
+    condId: number;
+    condNum: number;
+    originalScript: Record<string, any>;
+}
+
 export interface Quest {
     id: number;
     name: string;
@@ -282,6 +292,7 @@ export interface Quest {
     giftIcon?: string;
     gifts: Gift[];
     releaseConditions: QuestRelease[];
+    presents: QuestPhasePresent[];
     phases: number[];
     phasesWithEnemies: number[];
     phasesNoBattle: number[];
