@@ -133,7 +133,7 @@ class NoblePhantasmBreakdown extends React.Component<IProps> {
                                     <br />
                                 </span>
                             ) : null}
-                            <b>{t("Hits", { count: np.npDistribution.length })}:</b> {np.npDistribution.length} Hits –{" "}
+                            <b>{t("Hits", { count: np.npDistribution.length })}:</b>{" "}
                             {mergeElements(
                                 np.npDistribution.map((hit) => asPercent(hit, 0)),
                                 ", "
