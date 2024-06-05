@@ -1433,14 +1433,16 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 break;
             case questionMark:
                 if (line[1] === exclamationMark) {
-                    choices.push({ ...choice });
-                    components.push({
-                        content: {
-                            type: ScriptComponentType.CHOICES,
-                            choices,
-                        },
-                        lineNumber: index,
-                    });
+                    if (choice.option.length > 0) {
+                        choices.push({ ...choice });
+                        components.push({
+                            content: {
+                                type: ScriptComponentType.CHOICES,
+                                choices,
+                            },
+                            lineNumber: index,
+                        });
+                    }
                     resetChoiceVariables();
                     choices = [];
                     parserState.choice = false;
