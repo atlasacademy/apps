@@ -674,7 +674,7 @@ function splitLine(line: string): string[] {
 }
 
 function isDialogueBasic(word: string): boolean {
-    const NOT_BASIC_SIGNATURES = ["se", "scene", "scrollStop"];
+    const NOT_BASIC_SIGNATURES = ["se", "scene", "scrollStop", "shake"];
     for (const signature of NOT_BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return false;
     }
