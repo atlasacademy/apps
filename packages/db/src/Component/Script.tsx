@@ -820,7 +820,7 @@ export function parseDialogueLine(region: Region, line: string, parserState: Par
                 case "f":
                 case "fontSize":
                 case "font":
-                    if (parameters[1] === "-") {
+                    if (parameters[1] === "-" || parameters[1] === undefined) {
                         parserDialogueState.size = undefined;
                         parsed = true;
                         break;
