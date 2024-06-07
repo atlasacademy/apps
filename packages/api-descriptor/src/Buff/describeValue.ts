@@ -4,14 +4,13 @@ import CardReferencePartial from "../Card/CardReferencePartial";
 import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor";
 import SkillReferencePartial from "../Skill/SkillReferencePartial";
 import TraitReferencePartial from "../Trait/TraitReferencePartial";
+import { BuffTriggerType, buffTriggerTypes } from "./BuffTypes";
 import {
     BuffValueCommandCardType,
     BuffValueTraitType,
-    BuffValueTriggerType,
     buffValueCommandCardTypes,
     buffValuePercentTypes,
     buffValueTraitTypes,
-    buffValueTriggerTypes,
 } from "./BuffValueTypes";
 
 export default function (buff: Buff.Buff, dataVal?: DataVal.DataVal): Descriptor | undefined {
@@ -25,9 +24,9 @@ export default function (buff: Buff.Buff, dataVal?: DataVal.DataVal): Descriptor
         );
     }
 
-    const buffValueTriggerType = buffValueTriggerTypes.get(buff.type);
-    if (buffValueTriggerType) {
-        return describeTriggerValue(dataVal ?? {}, buffValueTriggerType);
+    const buffTriggerType = buffTriggerTypes.get(buff.type);
+    if (buffTriggerType) {
+        return describeTriggerValue(dataVal ?? {}, buffTriggerType);
     }
 
     const buffValueTraitType = buffValueTraitTypes.get(buff.type);
@@ -123,10 +122,10 @@ function describeTraitValue(dataVal: DataVal.DataVal, traitType: BuffValueTraitT
     return partials.length > 0 ? new Descriptor(partials) : undefined;
 }
 
-function describeTriggerValue(dataVal: DataVal.DataVal, triggerType: BuffValueTriggerType): Descriptor | undefined {
+function describeTriggerValue(dataVal: DataVal.DataVal, triggerType: BuffTriggerType): Descriptor | undefined {
     const partials: BasePartial[] = [],
-        skill = dataVal[triggerType.skill],
-        level = dataVal[triggerType.level];
+        skill = dataVal[triggerType.skill ?? DataVal.DataValField.VALUE],
+        level = dataVal[triggerType.level ?? DataVal.DataValField.VALUE2];
     // position = triggerType.position ? dataVal[triggerType.position] : undefined,
     // rate = triggerType.rate ? dataVal[triggerType.rate] : undefined;
 

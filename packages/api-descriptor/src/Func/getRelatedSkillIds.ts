@@ -13,13 +13,13 @@ export default function (func: Func.Func, dataVals?: DataVal.DataVal[]): related
 
     if (func.funcType !== Func.FuncType.ADD_STATE && func.funcType !== Func.FuncType.ADD_STATE_SHORT) return [];
 
-    const buff = func.buffs[0];
-    if (buffTriggerTypes.has(buff.type)) {
-        return getUniqueDataValField(vals, DataVal.DataValField.VALUE, DataVal.DataValField.VALUE2);
-    }
-
-    if (buff.type === Buff.BuffType.NPATTACK_PREV_BUFF) {
-        return getUniqueDataValField(vals, DataVal.DataValField.SKILL_ID, DataVal.DataValField.SKILL_LV);
+    const buffTriggerType = buffTriggerTypes.get(func.buffs[0].type);
+    if (buffTriggerType !== undefined && !buffTriggerType.counterNp) {
+        return getUniqueDataValField(
+            vals,
+            buffTriggerType.skill ?? DataVal.DataValField.VALUE,
+            buffTriggerType.level ?? DataVal.DataValField.VALUE2
+        );
     }
 
     return [];

@@ -25,7 +25,10 @@ export default function handleAmountSection(
     dependFunc?: Func.BasicFunc
 ): void {
     const section = sections.amount,
-        parts = section.parts;
+        parts = section.parts,
+        buffTriggerType = BuffDescriptor.BuffTypes.buffTriggerTypes.get(func.buffs[0]?.type),
+        buffTriggerSkillId =
+            buffTriggerType !== undefined ? dataVal[buffTriggerType.skill ?? DataVal.DataValField.VALUE] : undefined;
 
     if (support) {
         parts.push("( Support only:");
@@ -63,10 +66,7 @@ export default function handleAmountSection(
     } else if (func.buffs[0]?.type === Buff.BuffType.CHANGE_BGM && dataVal.BgmId) {
         section.preposition = "to";
         parts.push(<BgmDescriptorId region={region} bgmId={dataVal.BgmId} showLink />);
-    } else if (
-        BuffDescriptor.BuffTypes.buffTriggerTypes.has(func.buffs[0]?.type) &&
-        typeof dataVal.Value === "number"
-    ) {
+    } else if (buffTriggerType !== undefined && !buffTriggerType.counterNp && typeof buffTriggerSkillId === "number") {
         section.preposition = undefined;
         if (dataVal.UseRate !== undefined) {
             parts.push(`that has ${dataVal.UseRate / 10}% chance to trigger`);
@@ -78,7 +78,7 @@ export default function handleAmountSection(
         } else {
             parts.push("that triggers");
         }
-        parts.push(<SkillReferenceDescriptor region={region} id={dataVal.Value} />);
+        parts.push(<SkillReferenceDescriptor region={region} id={buffTriggerSkillId} />);
     } else if (func.funcType === Func.FuncType.DISPLAY_BUFFSTRING) {
         section.preposition = undefined;
         parts.push(<span lang={lang(region)}>[{func.funcPopupText}]</span>);
@@ -196,15 +196,6 @@ export default function handleAmountSection(
             <EntityReferenceDescriptor region={region} svtId={dataVal.Value} forceType={Entity.EntityType.NORMAL} />
         );
         if (dataVal.SetLimitCount !== undefined) parts.push(`at ascension ${dataVal.SetLimitCount}`);
-    } else if (func.buffs[0]?.type === Buff.BuffType.NPATTACK_PREV_BUFF) {
-        if (typeof dataVal.SkillID !== "number") {
-            section.showing = false;
-            return;
-        }
-
-        section.preposition = undefined;
-        parts.push("that triggers");
-        parts.push(<SkillReferenceDescriptor region={region} id={dataVal.SkillID} />);
     } else if (func.buffs[0]?.type === Buff.BuffType.COUNTER_FUNCTION) {
         if (typeof dataVal.CounterId !== "number") {
             section.showing = false;

@@ -1,4 +1,4 @@
-import { Buff } from "@atlasacademy/api-connector";
+import { Buff, DataVal } from "@atlasacademy/api-connector";
 
 export interface UpDownBuffType {
     up?: Buff.BuffType;
@@ -132,7 +132,6 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.REGAIN_NP, "NP Per Turn"],
     [Buff.BuffType.REDUCE_NP, "NP Lost Per Turn"],
     [Buff.BuffType.REGAIN_STAR, "Stars Per Turn"],
-    [Buff.BuffType.SELFTURNEND_FUNCTION, "Trigger Skill every Turn"],
     [Buff.BuffType.SPECIAL_INVINCIBLE, "Special invincible"],
     [Buff.BuffType.ADD_SELFDAMAGE, "Damage Up"],
     [Buff.BuffType.SUB_SELFDAMAGE, "Damage Cut"],
@@ -157,21 +156,50 @@ export interface BuffTriggerType {
     event: string;
     counterNp?: boolean;
     mainOnly?: boolean;
+    skill?: DataVal.DataValField;
+    level?: DataVal.DataValField;
+    position?: DataVal.DataValField;
+    rate?: DataVal.DataValField;
 }
+
+const DataValField = DataVal.DataValField;
 
 export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.ATTACK_AFTER_FUNCTION, { after: true, event: "attacks" }],
     [Buff.BuffType.ATTACK_BEFORE_FUNCTION, { after: false, event: "attacks" }],
-    [Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION, { after: true, event: "normal attacks" }],
+    [Buff.BuffType.COMMANDATTACK_AFTER_FUNCTION, { after: true, event: "normal attacks", rate: DataValField.USE_RATE }],
     [Buff.BuffType.DEADATTACK_FUNCTION, { after: true, when: "after", event: "defeating an enemy" }],
     [Buff.BuffType.COMMANDATTACK_BEFORE_FUNCTION, { after: false, event: "normal attacks" }],
     [Buff.BuffType.DAMAGE_FUNCTION, { after: true, when: "on receiving", event: "attacks" }],
     [Buff.BuffType.DEAD_FUNCTION, { after: true, event: "death" }],
     [Buff.BuffType.ENTRY_FUNCTION, { after: true, event: "entry" }],
-    [Buff.BuffType.NPATTACK_PREV_BUFF, { after: true, event: "NP attack" }],
-    [Buff.BuffType.WAVESTART_FUNCTION, { after: true, event: "wave start" }],
+    [
+        Buff.BuffType.NPATTACK_PREV_BUFF,
+        {
+            after: true,
+            event: "NP attack",
+            skill: DataValField.SKILL_ID,
+            level: DataValField.SKILL_LV,
+            position: DataValField.VALUE,
+        },
+    ],
+    [
+        Buff.BuffType.SELFTURNEND_FUNCTION,
+        {
+            after: true,
+            when: "every",
+            event: "turn",
+            skill: DataValField.VALUE,
+            level: DataValField.VALUE2,
+            rate: DataValField.USE_RATE,
+        },
+    ],
+    [Buff.BuffType.WAVESTART_FUNCTION, { after: true, event: "wave start", rate: DataValField.USE_RATE }],
     [Buff.BuffType.REFLECTION_FUNCTION, { after: true, event: "end of enemy's turn" }],
-    [Buff.BuffType.COUNTER_FUNCTION, { after: true, event: "NP", counterNp: true }],
+    [
+        Buff.BuffType.COUNTER_FUNCTION,
+        { after: true, event: "NP", counterNp: true, skill: DataValField.COUNTER_ID, level: DataValField.COUNTER_LV },
+    ],
     [Buff.BuffType.CONTINUE_FUNCTION, { after: true, event: "Party Revive" }],
     [Buff.BuffType.GUTS_FUNCTION, { after: true, event: "Guts" }],
     [Buff.BuffType.SKILL_AFTER_FUNCTION, { after: true, event: "skill" }],
