@@ -107,7 +107,6 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.AVOIDANCE_ATTACK_DEATH_DAMAGE, "Evade if Attack is Lethal"],
     [Buff.BuffType.CHANGE_COMMAND_CARD_TYPE, "Change Command Card Types"],
     [Buff.BuffType.BREAK_AVOIDANCE, "Sure Hit"],
-    [Buff.BuffType.DELAY_FUNCTION, "Trigger Skill after Duration"],
     [Buff.BuffType.DONOT_ACT, "Unable to Act"],
     [Buff.BuffType.DONOT_NOBLE, "NP Seal"],
     [Buff.BuffType.DONOT_NOBLE_COND_MISMATCH, "NP Block if Condition Failed"],
@@ -127,7 +126,6 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.PIERCE_DEFENCE, "Ignore DEF"],
     [Buff.BuffType.PIERCE_SUBDAMAGE, "Ignore Damage Cut"],
     [Buff.BuffType.PREVENT_DEATH_BY_DAMAGE, "Prevent death by damage"],
-    [Buff.BuffType.REFLECTION_FUNCTION, "Trigger Skill on end of enemy's turn"],
     [Buff.BuffType.REGAIN_HP, "HP Per Turn"],
     [Buff.BuffType.REGAIN_NP, "NP Per Turn"],
     [Buff.BuffType.REDUCE_NP, "NP Lost Per Turn"],
@@ -195,6 +193,7 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
         },
     ],
     [Buff.BuffType.WAVESTART_FUNCTION, { after: true, event: "wave start", rate: DataValField.USE_RATE }],
+    [Buff.BuffType.DELAY_FUNCTION, { after: true, event: "Duration" }],
     [Buff.BuffType.REFLECTION_FUNCTION, { after: true, event: "end of enemy's turn" }],
     [
         Buff.BuffType.COUNTER_FUNCTION,
