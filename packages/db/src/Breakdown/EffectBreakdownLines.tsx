@@ -195,6 +195,7 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
                                     <tr className="trigger-skill" key={relatedSkill.skillId}>
                                         <td colSpan={11}>
                                             <CollapsibleLight
+                                                border="0"
                                                 title={
                                                     <span className="trigger-skill-name">
                                                         {relatedSkill.skillId}:{" "}

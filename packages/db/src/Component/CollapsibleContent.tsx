@@ -64,16 +64,18 @@ export const CollapsibleLight = ({
     eventKey,
     defaultActiveKey,
     mountOnEnter,
+    border,
 }: {
     title: Renderable;
     content: Renderable;
     eventKey: string;
     defaultActiveKey: string;
     mountOnEnter?: boolean;
+    border?: string;
 }) => {
     return (
         <Accordion defaultActiveKey={defaultActiveKey}>
-            <Card className="collapsible-card">
+            <Card className="collapsible-card" border={border}>
                 <Accordion.Toggle as="div" className="collapsible-header-tight" eventKey={eventKey}>
                     <span className="collapsible-header-title">{title}</span>
                     <span className="collapsible-header-arrow">
