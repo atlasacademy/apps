@@ -280,11 +280,14 @@ const SceneRow = (props: {
     effects?: string[];
     filters: { content: ScriptCharaFilter; lineNumber?: number }[];
     colSpan?: number;
+    halfWidth?: boolean;
 }) => {
-    const { lineNumber, cameraFilter, effects, wideScreen } = props,
+    const { lineNumber, cameraFilter, effects, wideScreen, halfWidth } = props,
         { t } = useTranslation(),
         resolution = wideScreen ? { height: 576, width: 1344 } : { height: 576, width: 1024 },
-        { height, width } = useImageSize(wideScreen),
+        imageSize = useImageSize(wideScreen),
+        height = halfWidth ? imageSize.height / 2 : imageSize.height,
+        width = halfWidth ? imageSize.width / 2 : imageSize.width,
         background = props.background ? { asset: props.background.backgroundAsset } : undefined;
 
     const showScriptLine = useContext(ShowScriptLineContext);
@@ -701,6 +704,7 @@ const ScriptTable = (props: {
     showScene?: boolean;
     refs: RowBgmRefMap;
     compareScript?: { region: Region; script: ScriptInfo };
+    halfWidth?: boolean;
 }) => {
     const scriptComponents = props.script.components,
         { t } = useTranslation(),
@@ -749,7 +753,7 @@ const ScriptTable = (props: {
     }
 
     return (
-        <Table hover responsive className="script-table">
+        <Table hover responsive className="script-table" style={props.halfWidth ? { fontSize: "10pt" } : {}}>
             <thead>
                 <tr>
                     <th className="text-center" style={{ width: "10%" }}>
@@ -782,6 +786,7 @@ const ScriptTable = (props: {
                                     lineNumber={lineNumber}
                                     effects={[...effects]}
                                     colSpan={colSpan}
+                                    halfWidth={props.halfWidth}
                                 />
                             );
                         };
@@ -961,6 +966,7 @@ const ScriptTable = (props: {
                         figure={figureComponent}
                         wideScreen={wideScreen}
                         effects={[...effects]}
+                        halfWidth={props.halfWidth}
                     />
                 ) : null}
             </tbody>

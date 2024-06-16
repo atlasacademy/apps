@@ -15,6 +15,7 @@ import {
     ScriptComponent,
     ScriptComponentType,
     ScriptComponentWrapper,
+    areComparableScripts,
     countWord,
     parseScript,
 } from "../Component/Script";
@@ -247,6 +248,14 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
     );
     if (hasRayshiftScript) availableCompareRegions.push("rayshift");
 
+    const parsedCompareScript =
+        compareSource !== undefined && compareScript !== undefined
+            ? parseScript(compareSource === "rayshift" ? Region.NA : compareSource, compareScript)
+            : undefined;
+    const compareRegion = compareSource === "rayshift" ? Region.NA : compareSource;
+    const comparableScripts =
+        parsedCompareScript !== undefined && areComparableScripts(parsedScript, parsedCompareScript);
+
     return (
         <>
             <div id="scroll-bar" className={classes.scrollBarIndicator} style={{ width: 0 }}></div>
@@ -318,23 +327,40 @@ const ScriptPage = ({ region, scriptId }: { region: Region; scriptId: string }) 
                     </ButtonGroup>
                 </ButtonToolbar>
                 <ShowScriptLineContext.Provider value={showScriptLine}>
-                    <ScriptTable
-                        region={region}
-                        script={parsedScript}
-                        showScene={enableScene}
-                        refs={scrollRefs}
-                        compareScript={
-                            compareSource !== undefined && compareScript !== undefined
-                                ? {
-                                      region: compareSource === "rayshift" ? Region.NA : compareSource,
-                                      script: parseScript(
-                                          compareSource === "rayshift" ? Region.NA : compareSource,
-                                          compareScript
-                                      ),
-                                  }
-                                : undefined
-                        }
-                    />
+                    {parsedCompareScript !== undefined && compareRegion !== undefined && !comparableScripts ? (
+                        <div className="d-flex">
+                            <div className="w-50pct">
+                                <ScriptTable
+                                    halfWidth
+                                    region={region}
+                                    script={parsedScript}
+                                    showScene={enableScene}
+                                    refs={scrollRefs}
+                                />
+                            </div>
+                            <div className="w-50pct">
+                                <ScriptTable
+                                    halfWidth
+                                    region={compareRegion}
+                                    script={parsedCompareScript}
+                                    showScene={enableScene}
+                                    refs={scrollRefs}
+                                />
+                            </div>
+                        </div>
+                    ) : (
+                        <ScriptTable
+                            region={region}
+                            script={parsedScript}
+                            showScene={enableScene}
+                            refs={scrollRefs}
+                            compareScript={
+                                compareSource !== undefined && compareRegion !== undefined && comparableScripts
+                                    ? { region: compareRegion, script: parsedCompareScript }
+                                    : undefined
+                            }
+                        />
+                    )}
                 </ShowScriptLineContext.Provider>
             </ScriptMainData>
         </>

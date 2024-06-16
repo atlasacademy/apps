@@ -1551,3 +1551,20 @@ export const countWord = (region: Region, components: ScriptComponent[]) => {
 
     return wordCount;
 };
+
+export const areComparableScripts = (mainScript: ScriptInfo, compareScript: ScriptInfo): boolean => {
+    for (let i = 0; i < mainScript.components.length; i++) {
+        const mainComponent = mainScript.components[i];
+        const compareComponent = compareScript.components[i];
+
+        if (
+            mainComponent === undefined ||
+            compareComponent === undefined ||
+            mainComponent.lineNumber !== compareComponent.lineNumber ||
+            mainComponent.content.type !== compareComponent.content.type
+        )
+            return false;
+    }
+
+    return true;
+};
