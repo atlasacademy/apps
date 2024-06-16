@@ -121,7 +121,7 @@ const DialogueRow = (props: {
                     />
                 </td>
             )}
-            {showScriptLine && <td>{props.lineNumber}</td>}
+            {showScriptLine && <td className="text-center">{props.lineNumber}</td>}
         </tr>
     );
 };
@@ -230,7 +230,7 @@ const ChoiceRow = ({
                         );
                     })}
                 </td>
-                {showScriptLine && <td>{lineNumber}</td>}
+                {showScriptLine && <td className="text-center">{lineNumber}</td>}
             </tr>
         );
     }
@@ -260,7 +260,7 @@ const ChoiceRow = ({
                     ))}
                 </ul>
             </td>
-            {showScriptLine && <td>{lineNumber}</td>}
+            {showScriptLine && <td className="text-center">{lineNumber}</td>}
         </tr>
     );
 };
@@ -408,7 +408,7 @@ const SceneRow = (props: {
                         ) : null}
                     </div>
                 </td>
-                {showScriptLine && <td>{props.lineNumber}</td>}
+                {showScriptLine && <td className="text-center">{props.lineNumber}</td>}
             </tr>
         );
     }
@@ -471,7 +471,7 @@ const SceneRow = (props: {
                     ) : null}
                 </div>
             </td>
-            {showScriptLine && <td>{props.lineNumber}</td>}
+            {showScriptLine && <td className="text-center">{props.lineNumber}</td>}
         </tr>
     );
 };
@@ -533,7 +533,7 @@ const ScriptBracketRow = (props: {
                     <td colSpan={colSpan}>
                         <BgmDescriptor region={region} bgm={component.bgm} />
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.CRI_MOVIE:
@@ -545,7 +545,7 @@ const ScriptBracketRow = (props: {
                             <source src={component.movieUrl} type="video/mp4" />
                         </video>
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.SOUND_EFFECT:
@@ -555,7 +555,7 @@ const ScriptBracketRow = (props: {
                     <td colSpan={colSpan}>
                         <BgmDescriptor region={region} bgm={component.soundEffect} />
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.CUE_SOUND_EFFECT:
@@ -565,7 +565,7 @@ const ScriptBracketRow = (props: {
                     <td colSpan={colSpan}>
                         <BgmDescriptor region={region} bgm={component.soundEffect} />
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.FLAG:
@@ -575,7 +575,7 @@ const ScriptBracketRow = (props: {
                     <td colSpan={colSpan}>
                         Set flag <code>{component.name}</code> to <code>{component.value}</code>
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.BRANCH:
@@ -593,7 +593,7 @@ const ScriptBracketRow = (props: {
                         Go to label <code>{component.labelName}</code>
                         {condition} {getGoToLabel(component.labelName)}
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.BRANCH_QUEST_NOT_CLEAR:
@@ -605,7 +605,7 @@ const ScriptBracketRow = (props: {
                         <QuestDescriptor region={region} questId={component.questId} /> hasn't been cleared{" "}
                         {getGoToLabel(component.labelName)}
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.BRANCH_MASTER_GENDER:
@@ -617,7 +617,7 @@ const ScriptBracketRow = (props: {
                         chosen gender is male or <code>{component.femaleLabelName}</code>{" "}
                         {getGoToLabel(component.femaleLabelName)} if female
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         case ScriptComponentType.LABEL:
@@ -627,7 +627,7 @@ const ScriptBracketRow = (props: {
                     <td colSpan={colSpan}>
                         <code>{component.name}</code>
                     </td>
-                    {showScriptLine && <td>{lineNumber}</td>}
+                    {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>
             );
         default:
