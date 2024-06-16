@@ -17,12 +17,12 @@
     },
     "devDependencies": {
         "@cloudflare/kv-asset-handler": "^0.3.2",
-        "@cloudflare/workers-types": "^4.20240423.0",
-        "@typescript-eslint/eslint-plugin": "^7.7.1",
-        "@typescript-eslint/parser": "^7.7.1",
+        "@cloudflare/workers-types": "^4.20240614.0",
+        "@typescript-eslint/eslint-plugin": "^7.13.0",
+        "@typescript-eslint/parser": "^7.13.0",
         "eslint": "^8.57.0",
         "eslint-config-typescript": "^3.0.0",
         "typescript": "^5.4.5",
-        "wrangler": "^3.52.0"
+        "wrangler": "^3.60.3"
     }
 }

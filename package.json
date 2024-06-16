@@ -4,7 +4,7 @@
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^4.3.0",
         "lerna": "^3.22.1",
-        "prettier": "^3.2.5"
+        "prettier": "^3.3.2"
     },
     "scripts": {
         "format": "prettier --write packages/",
