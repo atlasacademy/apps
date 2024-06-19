@@ -215,6 +215,9 @@ export enum CondType {
     WITH_STARTING_MEMBER = "withStartingMember",
     LATEST_QUEST_PHASE_EQUAL = "latestQuestPhaseEqual",
     NOT_LATEST_QUEST_PHASE_EQUAL = "notLatestQuestPhaseEqual",
+    PURCHASE_SHOP_NUM = "purchaseShopNum",
+    MISSION_ACHIEVE_NUM_BELOW = "missionAchieveNumBelow",
+    MISSION_ACHIEVE_NUM_ABOVE = "missionAchieveNumAbove",
 }
 
 export default CondType;

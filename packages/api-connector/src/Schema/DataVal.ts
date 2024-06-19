@@ -167,7 +167,13 @@ interface BaseDataVal {
     BgmAllowSubPlaying?: number;
     BgPriority?: number;
     PriorityBg?: number;
-    ResetBgmPriorityAtWaveStart?: number;
+    ResetPriorityBgmAtWaveStart?: number;
+    ControlOtherBgmAtOverStageBgm_Priority?: number;
+    ControlOtherBgmAtOverStageBgm_Target?: number;
+    ExtendBuffHalfTurnInOpponentTurn?: number;
+    ShortenBuffHalfTurnInOpponentTurn?: number;
+    ExtendBuffHalfTurnInPartyTurn?: number;
+    ShortenBuffHalfTurnInPartyTurn?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -343,5 +349,11 @@ export enum DataValField {
     BGM_ALLOW_SUB_PLAYING = "BgmAllowSubPlaying",
     BG_PRIORITY = "BgPriority",
     PRIORITY_BG = "PriorityBg",
-    RESET_BGM_PRIORITY_AT_WAVE_START = "ResetBgmPriorityAtWaveStart",
+    RESET_PRIORITY_BGM_AT_WAVE_START = "ResetPriorityBgmAtWaveStart",
+    CONTROL_OTHER_BGM_AT_OVER_STAGE_BGM_PRIORITY = "ControlOtherBgmAtOverStageBgm_Priority",
+    CONTROL_OTHER_BGM_AT_OVER_STAGE_BGM_TARGET = "ControlOtherBgmAtOverStageBgm_Target",
+    EXTEND_BUFF_HALF_TURN_IN_OPPONENT_TURN = "ExtendBuffHalfTurnInOpponentTurn",
+    SHORTEN_BUFF_HALF_TURN_IN_OPPONENT_TURN = "ShortenBuffHalfTurnInOpponentTurn",
+    EXTEND_BUFF_HALF_TURN_IN_PARTY_TURN = "ExtendBuffHalfTurnInPartyTurn",
+    SHORTEN_BUFF_HALF_TURN_IN_PARTY_TURN = "ShortenBuffHalfTurnInPartyTurn",
 }
