@@ -216,8 +216,10 @@ export enum CondType {
     LATEST_QUEST_PHASE_EQUAL = "latestQuestPhaseEqual",
     NOT_LATEST_QUEST_PHASE_EQUAL = "notLatestQuestPhaseEqual",
     PURCHASE_SHOP_NUM = "purchaseShopNum",
-    MISSION_ACHIEVE_NUM_BELOW = "missionAchieveNumBelow",
-    MISSION_ACHIEVE_NUM_ABOVE = "missionAchieveNumAbove",
+    EVENT_TRADE_TOTAL_NUM = "eventTradeTotalNum",
+    LIMITED_MISSION_ACHIEVE_NUM_BELOW = "limitedMissionAchieveNumBelow",
+    LIMITED_MISSION_ACHIEVE_NUM_ABOVE = "limitedMissionAchieveNumAbove",
+    NOT_SVT_VOICE_PLAYED = "notSvtVoicePlayed",
 }
 
 export default CondType;

@@ -174,6 +174,7 @@ interface BaseDataVal {
     ShortenBuffHalfTurnInOpponentTurn?: number;
     ExtendBuffHalfTurnInPartyTurn?: number;
     ShortenBuffHalfTurnInPartyTurn?: number;
+    LinkageBuffGrantSuccessEvenIfOtherFailed?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -356,4 +357,5 @@ export enum DataValField {
     SHORTEN_BUFF_HALF_TURN_IN_OPPONENT_TURN = "ShortenBuffHalfTurnInOpponentTurn",
     EXTEND_BUFF_HALF_TURN_IN_PARTY_TURN = "ExtendBuffHalfTurnInPartyTurn",
     SHORTEN_BUFF_HALF_TURN_IN_PARTY_TURN = "ShortenBuffHalfTurnInPartyTurn",
+    LINKAGE_BUFF_GRANT_SUCCESS_EVEN_IF_OTHER_FAILED = "LinkageBuffGrantSuccessEvenIfOtherFailed",
 }

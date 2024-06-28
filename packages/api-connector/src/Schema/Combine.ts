@@ -38,4 +38,6 @@ export enum CombineAdjustTarget {
     QUEST_FRIENDSHIP = "questFriendship",
     LARGE_SUCCESS_BY_CLASS = "largeSuccessByClass",
     SUPER_SUCCESS_BY_CLASS = "superSuccessByClass",
+    EXCHANGE_SVT = "exchangeSvt",
+    QUEST_ITEM_FIRST_TIME = "questItemFirstTime",
 }
