@@ -19,6 +19,12 @@ export enum SupportServantFlag {
     NOT_CLASS_BOARD = "notClassBoard",
 }
 
+export enum NpcFollowerFlag {
+    RECOMMENDED_ICON = "recommendedIcon",
+    IS_MY_SVT_OR_NPC = "isMySvtOrNpc",
+    FIXED_NPC = "fixedNpc",
+}
+
 export interface SupportServantRelease {
     type: CondType;
     targetId: number;
@@ -65,6 +71,7 @@ export interface SupportServant {
     skills: EnemySkill;
     noblePhantasm: SupportServantTd;
     flags: SupportServantFlag[];
+    followerFlags: NpcFollowerFlag[];
     equips: SupportServantEquip[];
     script: SupportServantScript;
     limit: SupportServantLimit;

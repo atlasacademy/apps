@@ -79,6 +79,8 @@ export interface EntityAssets {
     charaFigure: EntityAssetMap;
     charaFigureForm: { [key: string]: EntityAssetMap };
     charaFigureMulti: { [key: string]: EntityAssetMap };
+    charaFigureMultiCombine: { [key: string]: EntityAssetMap };
+    charaFigureMultiLimitUp: { [key: string]: EntityAssetMap };
     charaGraph: EntityAssetMap;
     charaGraphEx: EntityAssetMap;
     commands: EntityAssetMap;
@@ -133,6 +135,7 @@ export interface EntityCoin {
 }
 
 export interface ServantAscensionAdditions {
+    attribute: ServantAscensionAdditionDetails<Attribute>;
     individuality: ServantAscensionAdditionDetails<Trait[]>;
     voicePrefix: ServantAscensionAdditionDetails<number>;
     overWriteServantName: ServantAscensionAdditionDetails<string>;
