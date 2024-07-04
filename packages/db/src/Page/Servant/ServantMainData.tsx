@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 
-import { CardDetail, Region, Servant } from "@atlasacademy/api-connector";
+import { Attribute, CardDetail, Region, Servant } from "@atlasacademy/api-connector";
 
 import CommandCard from "../../Component/CommandCard";
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
@@ -23,6 +23,7 @@ interface IProps extends WithTranslation {
     originalServantName?: string;
     assetType?: "ascension" | "costume";
     assetId?: number;
+    attribute?: Attribute.Attribute;
 }
 
 type RenderableRow = {
@@ -101,7 +102,7 @@ class ServantMainData extends React.Component<IProps> {
                         { title: t("Class"), content: <SvtClassDescriptor svtClass={servant.className} /> },
                         {
                             title: t("Attribute"),
-                            content: <SvtAttrDescriptor attribute={servant.attribute} />,
+                            content: <SvtAttrDescriptor attribute={this.props.attribute ?? servant.attribute} />,
                         },
                     ])}
                     {this.renderDoubleRow([

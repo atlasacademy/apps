@@ -1,12 +1,41 @@
 import React from "react";
-import { WithTranslation, withTranslation } from "react-i18next";
+import { WithTranslation, useTranslation, withTranslation } from "react-i18next";
 
 import { CondType, Region, Servant, Trait } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import CondTargetValueDescriptor from "../../Descriptor/CondTargetValueDescriptor";
+import { SvtAttrDescriptor } from "../../Descriptor/SvttAttrDestriptor";
 import TraitDescription from "../../Descriptor/TraitDescription";
 import { mergeElements } from "../../Helper/OutputHelper";
+
+const AttributeDiff = ({ servant }: { servant: Servant.Servant }) => {
+    const { t } = useTranslation();
+    if (
+        Object.entries(servant.ascensionAdd.attribute.ascension).length === 0 &&
+        Object.entries(servant.ascensionAdd.attribute.costume).length === 0
+    )
+        return <></>;
+
+    return (
+        <>
+            <h3>{t("Attribute Changes")}</h3>
+            <ul>
+                {Object.entries(servant.ascensionAdd.attribute.ascension).map(([limit, attribute]) => (
+                    <li key={limit}>
+                        {t("Ascension")} {limit}: <SvtAttrDescriptor attribute={attribute} />
+                    </li>
+                ))}
+                {Object.entries(servant.ascensionAdd.attribute.costume).map(([limit, attribute]) => (
+                    <li key={limit}>
+                        {t("Costume")} {servant.profile?.costume[limit].shortName ?? limit}:{" "}
+                        <SvtAttrDescriptor attribute={attribute} />
+                    </li>
+                ))}
+            </ul>
+        </>
+    );
+};
 
 interface TraitDiff {
     type: "Ascension" | "Costume";
@@ -75,6 +104,7 @@ class ServantTraits extends React.Component<IProps> {
         const { t } = this.props;
         return (
             <div>
+                <AttributeDiff servant={this.props.servant} />
                 <h3>{t("Basic Traits")}</h3>
                 <p>
                     {mergeElements(

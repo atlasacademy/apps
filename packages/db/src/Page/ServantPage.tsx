@@ -54,6 +54,18 @@ const getOverwriteName = (servant?: Servant.Servant, assetId?: number, originalN
     return originalName ? servant?.originalName : servant?.name;
 };
 
+const getOverwriteAttribute = (servant?: Servant.Servant, assetId?: number) => {
+    if (assetId && servant?.ascensionAdd.attribute) {
+        const limit = assetId === 1 ? 0 : assetId;
+        if (limit in servant?.ascensionAdd.attribute.ascension) {
+            return servant?.ascensionAdd.attribute.ascension[limit];
+        } else if (limit in servant?.ascensionAdd.attribute.costume) {
+            return servant?.ascensionAdd.attribute.costume[limit];
+        }
+    }
+    return servant?.attribute;
+};
+
 interface IProps extends RouteComponentProps, WithTranslation {
     region: Region;
     id: number;
@@ -161,6 +173,10 @@ class ServantPage extends React.Component<IProps, IState> {
         return getOverwriteName(this.state.servant, this.state.assetId, originalName);
     }
 
+    private getOverwriteAttribute() {
+        return getOverwriteAttribute(this.state.servant, this.state.assetId);
+    }
+
     render() {
         const t = this.props.t;
         if (this.state.error) return <ErrorStatus error={this.state.error} />;
@@ -197,6 +213,7 @@ class ServantPage extends React.Component<IProps, IState> {
                             servant={this.state.servant}
                             servantName={this.getOverwriteName()}
                             originalServantName={this.getOverwriteName(true)}
+                            attribute={this.getOverwriteAttribute()}
                             assetType={this.state.assetType}
                             assetId={this.state.assetId}
                         />
