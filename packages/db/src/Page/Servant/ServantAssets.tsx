@@ -86,8 +86,24 @@ class ServantAssets extends React.Component<IProps> {
                 <br />
                 {Object.entries(this.props.servant.extraAssets.charaFigureMulti).map(([idx, assetMap]) => (
                     <CollapsibleContent
-                        key={idx}
+                        key={`default-${idx}`}
                         title={`${t("Character")} ${idx}`}
+                        content={this.displayAssets(assetMap)}
+                        subheader
+                    />
+                ))}
+                {Object.entries(this.props.servant.extraAssets.charaFigureMultiCombine).map(([idx, assetMap]) => (
+                    <CollapsibleContent
+                        key={`combine-${idx}`}
+                        title={`${t("Character")} ${idx} ${t("Level Up")}`}
+                        content={this.displayAssets(assetMap)}
+                        subheader
+                    />
+                ))}
+                {Object.entries(this.props.servant.extraAssets.charaFigureMultiLimitUp).map(([idx, assetMap]) => (
+                    <CollapsibleContent
+                        key={`limitup-${idx}`}
+                        title={`${t("Character")} ${idx} ${t("Ascension")}`}
                         content={this.displayAssets(assetMap)}
                         subheader
                     />
