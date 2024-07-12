@@ -678,7 +678,7 @@ function isDialogueBasic(word: string): boolean {
     for (const signature of NOT_BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return false;
     }
-    const BASIC_SIGNATURES = ["r", "sr", "csr", "s", "speed", "%1", "line", "#", "servantName", "image"];
+    const BASIC_SIGNATURES = ["r", "sr", "csr", "s", "speed", "%1", "line", "#", "servantName", "image", "i"];
     for (const signature of BASIC_SIGNATURES) {
         if (word.startsWith("[" + signature)) return true;
     }
@@ -745,6 +745,7 @@ function parseDialogueBasic(
                     ...format,
                 };
             case "image":
+            case "i":
                 const [image, ruby] = word.slice(1, word.length - 1).split(":");
                 const imageName = image.split(" ")[1];
                 return {
