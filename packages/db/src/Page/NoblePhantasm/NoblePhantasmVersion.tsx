@@ -45,7 +45,7 @@ class NoblePhantasmVersion extends React.Component<IProps> {
                                 </Col>
                                 <Col xs={12} md={6}>
                                     <h5>{t("Values")}</h5>
-                                    <DataValMainData dataVal={dataVal ?? {}} />
+                                    <DataValMainData region={this.props.region} dataVal={dataVal ?? {}} />
                                 </Col>
                             </Row>
 

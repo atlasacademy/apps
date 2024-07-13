@@ -1,3 +1,5 @@
+import { Func } from "./Func";
+
 interface BaseDataVal {
     Rate?: number;
     Turn?: number;
@@ -44,6 +46,7 @@ interface BaseDataVal {
     OnFieldCount?: number;
     TargetRarityList?: number[];
     DependFuncId?: number;
+    DependFunc?: Func;
     InvalidHide?: number;
     OutEnemyNpcId?: number;
     InEnemyNpcId?: number;
@@ -227,6 +230,7 @@ export enum DataValField {
     ON_FIELD_COUNT = "OnFieldCount",
     TARGET_RARITY_LIST = "TargetRarityList",
     DEPEND_FUNC_ID = "DependFuncId",
+    DEPEND_FUNC = "DependFunc",
     INVALID_HIDE = "InvalidHide",
     OUT_ENEMY_NPC_ID = "OutEnemyNpcId",
     IN_ENEMY_NPC_ID = "InEnemyNpcId",
