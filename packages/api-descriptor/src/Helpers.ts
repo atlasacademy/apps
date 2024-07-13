@@ -1,3 +1,5 @@
+import { Func } from "@atlasacademy/api-connector";
+
 import { BasePartial, ParticlePartial } from "./Descriptor";
 
 export function insertParticles(partials: BasePartial[], particle: string): BasePartial[] {
@@ -29,13 +31,14 @@ export function toTitleCase(value: string): string {
     return words.join(" ");
 }
 
-export function hasUniqueValues(values: (string | string[] | number | number[] | undefined)[]): boolean {
+export function hasUniqueValues(values: (string | string[] | number | number[] | undefined | Func.Func)[]): boolean {
     if (values.length === 0) return false;
 
     return (
         new Set(
             values.map((value) => {
                 if (Array.isArray(value)) return value.join(",");
+                if (typeof value == "object") return JSON.stringify(value);
 
                 return value;
             })

@@ -18,13 +18,14 @@ const hasChangingDataVals = function (vals: DataVal.DataVal[]): boolean {
     return false;
 };
 
-const hasUniqueValues = function (values: (string | string[] | number | number[] | undefined)[]): boolean {
+const hasUniqueValues = function (values: (string | string[] | number | number[] | undefined | Func.Func)[]): boolean {
     if (values.length === 0) return false;
 
     return (
         new Set(
             values.map((value) => {
                 if (Array.isArray(value)) return value.join(",");
+                if (typeof value == "object") return JSON.stringify(value);
 
                 return value;
             })
