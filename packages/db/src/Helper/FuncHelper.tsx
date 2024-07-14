@@ -33,11 +33,7 @@ const hasUniqueValues = function (values: (string | string[] | number | number[]
     );
 };
 
-export function describeMutators(
-    region: Region,
-    func: Func.Func,
-    dependFuncs: Map<number, Func.BasicFunc>
-): Renderable[] {
+export function describeMutators(region: Region, func: Func.Func): Renderable[] {
     const dataVals = getDataValList(func),
         staticVals = getStaticFieldValues(dataVals),
         mutatingVals = getMutatingFieldValues(dataVals);
@@ -48,7 +44,7 @@ export function describeMutators(
             func={func}
             staticDataVal={staticVals}
             dataVal={mutatingVal}
-            dependFunc={dependFuncs.get(mutatingVal.DependFuncId ?? staticVals.DependFuncId ?? -1)}
+            dependFunc={mutatingVal.DependFunc ?? staticVals.DependFunc}
         />
     ));
 }

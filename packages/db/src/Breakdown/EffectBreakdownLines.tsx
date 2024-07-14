@@ -5,14 +5,12 @@ import { WithTranslation, withTranslation } from "react-i18next";
 import { Card, Func, NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
 import { FuncDescriptor } from "@atlasacademy/api-descriptor";
 
-import Api from "../Api";
 import CardType from "../Component/CardType";
 import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { default as FuncDescription } from "../Descriptor/FuncDescriptor";
 import { NoblePhantasmDescriptorId } from "../Descriptor/NoblePhantasmDescriptor";
 import SkillReferenceDescriptor from "../Descriptor/SkillReferenceDescriptor";
-import { dedupe } from "../Helper/ArrayHelper";
-import { describeMutators, getDependFuncIds } from "../Helper/FuncHelper";
+import { describeMutators } from "../Helper/FuncHelper";
 import { asPercent } from "../Helper/OutputHelper";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
@@ -34,24 +32,7 @@ interface IProps extends WithTranslation {
     additionalSkillId?: number[];
 }
 
-interface IState {
-    dependFuncs: Map<number, Func.BasicFunc>;
-}
-
-class EffectBreakdownLines extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
-
-        this.state = { dependFuncs: new Map() };
-    }
-
-    componentDidMount() {
-        const dependFuncIds = dedupe(this.props.funcs.map((func) => getDependFuncIds(func)).flat());
-        Promise.all(dependFuncIds.map((funcId) => Api.funcBasic(funcId))).then((basicFuncs) =>
-            this.setState({ dependFuncs: new Map(basicFuncs.map((func) => [func.funcId, func])) })
-        );
-    }
-
+class EffectBreakdownLines extends React.Component<IProps> {
     render() {
         const effectStyle = this.props.popOver ? {} : { width: "45%", minWidth: "300px" };
         const t = this.props.t;
@@ -114,12 +95,12 @@ class EffectBreakdownLines extends React.Component<IProps, IState> {
                     </tr>
                 ) : null}
                 {this.props.funcs.map((func, index) => {
-                    let mutatingDescriptions = describeMutators(this.props.region, func, this.state.dependFuncs),
+                    const mutatingDescriptions = describeMutators(this.props.region, func),
                         relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func).filter(
                             (skill) => !this.props.triggerSkillIdStack.includes(skill.skillId)
                         ),
-                        relatedNpIds = FuncDescriptor.getRelatedNpIds(func),
-                        additionalSkillRow = <></>;
+                        relatedNpIds = FuncDescriptor.getRelatedNpIds(func);
+                    let additionalSkillRow = <></>;
 
                     if (index === this.props.funcs.length - 1 && this.props.additionalSkillId) {
                         relatedSkillIds.push({

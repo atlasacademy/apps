@@ -45,22 +45,18 @@ export default function handleTargetSection(
     const section = sections.target,
         parts = section.parts;
 
-    let targetType: Func.FuncTargetType | undefined = func.funcTargetType;
-
-    if (func.funcType === Func.FuncType.CHANGE_BGM && dataVal.Value !== undefined) {
-        section.showing = false;
-    }
-
-    if (
+    const targetType =
         [
             Func.FuncType.ABSORB_NPTURN,
             Func.FuncType.GAIN_HP_FROM_TARGETS,
             Func.FuncType.GAIN_NP_FROM_TARGETS,
             Func.FuncType.MOVE_STATE,
-        ].includes(func.funcType) &&
-        dependFunc !== undefined
-    ) {
-        targetType = dependFunc.funcTargetType;
+        ].includes(func.funcType) && dependFunc !== undefined
+            ? dependFunc.funcTargetType
+            : func.funcTargetType;
+
+    if (func.funcType === Func.FuncType.CHANGE_BGM && dataVal.Value !== undefined) {
+        section.showing = false;
     }
 
     if (targetType) {

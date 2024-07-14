@@ -39,22 +39,11 @@ interface IProps {
     overcharge?: number;
 }
 
-interface IState {
-    dependFunc?: Func.BasicFunc;
-}
-
-class FuncDescriptor extends React.Component<IProps, IState> {
+class FuncDescriptor extends React.Component<IProps> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {};
-    }
-
-    componentDidMount() {
-        const dataVal = this.getDataVal();
-        if (dataVal.DependFuncId !== undefined) {
-            Api.funcBasic(dataVal.DependFuncId).then((dependFunc) => this.setState({ dependFunc }));
-        }
     }
 
     getDataVal(): DataVal.DataVal {
@@ -104,14 +93,14 @@ class FuncDescriptor extends React.Component<IProps, IState> {
         handleTeamSection(region, sections, func, dataVal);
         handleConditionSection(region, sections, func, dataVal);
         handleChanceSection(region, sections, func, dataVal);
-        handleActionSection(region, sections, func, dataVal, this.state.dependFunc);
-        handleAmountSection(region, sections, func, dataVal, mutatingDataVal, false, this.state.dependFunc);
+        handleActionSection(region, sections, func, dataVal, dataVal.DependFunc);
+        handleAmountSection(region, sections, func, dataVal, mutatingDataVal, false, dataVal.DependFunc);
         handleOnFieldSection(region, sections, func, dataVal);
         handleAffectsSection(region, sections, func, dataVal);
         if (followerDataVal) {
-            handleAmountSection(region, sections, func, followerDataVal, mutatingDataVal, true, this.state.dependFunc);
+            handleAmountSection(region, sections, func, followerDataVal, mutatingDataVal, true, dataVal.DependFunc);
         }
-        handleTargetSection(region, sections, func, dataVal, this.state.dependFunc);
+        handleTargetSection(region, sections, func, dataVal, dataVal.DependFunc);
         handleDurationSection(region, sections, func, dataVal);
         handleLinkageSection(region, sections, func, dataVal);
         handleScalingSection(region, sections, func, dataVal);
