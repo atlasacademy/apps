@@ -45,13 +45,17 @@ export default function handleTargetSection(
     const section = sections.target,
         parts = section.parts;
 
+    if (func.funcType === Func.FuncType.MOVE_STATE && dependFunc !== undefined) {
+        const fromTarget = targetDescriptions.get(dependFunc.funcTargetType) ?? dependFunc.funcTargetType;
+        const toTarget = targetDescriptions.get(func.funcTargetType) ?? func.funcTargetType;
+        parts.push(`${fromTarget} to ${toTarget}`);
+        return;
+    }
+
     const targetType =
-        [
-            Func.FuncType.ABSORB_NPTURN,
-            Func.FuncType.GAIN_HP_FROM_TARGETS,
-            Func.FuncType.GAIN_NP_FROM_TARGETS,
-            Func.FuncType.MOVE_STATE,
-        ].includes(func.funcType) && dependFunc !== undefined
+        [Func.FuncType.ABSORB_NPTURN, Func.FuncType.GAIN_HP_FROM_TARGETS, Func.FuncType.GAIN_NP_FROM_TARGETS].includes(
+            func.funcType
+        ) && dependFunc !== undefined
             ? dependFunc.funcTargetType
             : func.funcTargetType;
 
@@ -61,8 +65,5 @@ export default function handleTargetSection(
 
     if (targetType) {
         parts.push(targetDescriptions.get(targetType) ?? targetType);
-    }
-    if (func.funcType === Func.FuncType.MOVE_STATE) {
-        parts.push("to self");
     }
 }
