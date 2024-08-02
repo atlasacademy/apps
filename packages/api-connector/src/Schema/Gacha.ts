@@ -13,6 +13,7 @@ export interface GachaStoryAdjust {
 export enum GachaFlag {
     PC_MESSAGE = "pcMessage",
     BONUS_SELECT = "bonusSelect",
+    DISPLAY_FEATURED_SVT = "displayFeaturedSvt",
 }
 
 export interface Gacha {

@@ -9,5 +9,6 @@ export enum SvtClassSupportGroupType {
     BERSERKER = "berserker",
     EXTRA = "extra",
     MIX = "mix",
+    RECOMMEND = "recommend",
     NOT_SUPPORT = "notSupport",
 }

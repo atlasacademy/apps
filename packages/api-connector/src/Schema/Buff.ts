@@ -141,6 +141,13 @@ export enum BuffAction {
     SPECIAL_RECEIVE_DAMAGE = "specialReceiveDamage",
     FUNC_HP_REDUCE_VALUE = "funcHpReduceValue",
     CHANGE_BGM = "changeBgm",
+    FUNCTION_CONFIRM_COMMAND = "functionConfirmCommand",
+    FUNCTION_SKILL_BEFORE = "functionSkillBefore",
+    FUNCTION_SKILL_TARGETED_BEFORE = "functionSkillTargetedBefore",
+    FUNCTION_FIELD_INDIVIDUALITY_CHANGED = "functionFieldIndividualityChanged",
+    FUNCTION_TREASURE_DEVICE_BEFORE = "functionTreasureDeviceBefore",
+    FUNCTION_START_TACTICAL_BEFORE = "functionStartTacticalBefore",
+    SHORTEN_SKILL_AFTER_USE_SKILL = "shortenSkillAfterUseSkill",
 }
 
 export enum BuffLimit {
@@ -335,6 +342,13 @@ export enum BuffType {
     ADD_FUNC_HP_REDUCE = "addFuncHpReduce",
     SUB_FUNC_HP_REDUCE = "subFuncHpReduce",
     CHANGE_BGM = "changeBgm",
+    CONFIRM_COMMAND_FUNCTION = "confirmCommandFunction",
+    SKILL_BEFORE_FUNCTION = "skillBeforeFunction",
+    SKILL_TARGETED_BEFORE_FUNCTION = "skillTargetedBeforeFunction",
+    FIELD_INDIVIDUALITY_CHANGED_FUNCTION = "fieldIndividualityChangedFunction",
+    TREASURE_DEVICE_BEFORE_FUNCTION = "treasureDeviceBeforeFunction",
+    START_TACTICAL_BEFORE_FUNCTION = "startTacticalBeforeFunction",
+    SHORTEN_SKILL_AFTER_USE_SKILL = "shortenSkillAfterUseSkill",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",

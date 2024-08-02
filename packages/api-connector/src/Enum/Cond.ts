@@ -220,6 +220,10 @@ export enum CondType {
     LIMITED_MISSION_ACHIEVE_NUM_BELOW = "limitedMissionAchieveNumBelow",
     LIMITED_MISSION_ACHIEVE_NUM_ABOVE = "limitedMissionAchieveNumAbove",
     NOT_SVT_VOICE_PLAYED = "notSvtVoicePlayed",
+    BATTLE_POINT_ABOVE = "battlePointAbove",
+    BATTLE_POINT_BELOW = "battlePointBelow",
+    NOT_HAVE_CHARGE_STONE = "notHaveChargeStone",
+    HAVE_CHARGE_STONE = "haveChargeStone",
 }
 
 export default CondType;

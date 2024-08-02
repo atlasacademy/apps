@@ -178,6 +178,18 @@ interface BaseDataVal {
     ExtendBuffHalfTurnInPartyTurn?: number;
     ShortenBuffHalfTurnInPartyTurn?: number;
     LinkageBuffGrantSuccessEvenIfOtherFailed?: number;
+    BattlePointId?: number;
+    BattlePointValue?: number;
+    BattlePointUiUpdateType?: number;
+    BattlePointOverwrite?: number;
+    CheckOverChargeStageRange?: string;
+    CheckBattlePointPhaseRange?: string;
+    StartingPosition?: number;
+    FriendShipAbove?: number;
+    DamageRateBattlePointPhase?: number;
+    ParamAddBattlePointPhaseId?: number;
+    ParamAddBattlePointPhaseValue?: number;
+    ShortenMaxCountEachSkill?: number;
 }
 
 export interface DataVal extends BaseDataVal {
@@ -362,4 +374,16 @@ export enum DataValField {
     EXTEND_BUFF_HALF_TURN_IN_PARTY_TURN = "ExtendBuffHalfTurnInPartyTurn",
     SHORTEN_BUFF_HALF_TURN_IN_PARTY_TURN = "ShortenBuffHalfTurnInPartyTurn",
     LINKAGE_BUFF_GRANT_SUCCESS_EVEN_IF_OTHER_FAILED = "LinkageBuffGrantSuccessEvenIfOtherFailed",
+    BATTLE_POINT_ID = "BattlePointId",
+    BATTLE_POINT_VALUE = "BattlePointValue",
+    BATTLE_POINT_UI_UPDATE_TYPE = "BattlePointUiUpdateType",
+    BATTLE_POINT_OVERWRITE = "BattlePointOverwrite",
+    CHECK_OVER_CHARGE_STAGE_RANGE = "CheckOverChargeStageRange",
+    CHECK_BATTLE_POINT_PHASE_RANGE = "CheckBattlePointPhaseRange",
+    STARTING_POSITION = "StartingPosition",
+    FRIEND_SHIP_ABOVE = "FriendShipAbove",
+    DAMAGE_RATE_BATTLE_POINT_PHASE = "DamageRateBattlePointPhase",
+    PARAM_ADD_BATTLE_POINT_PHASE_ID = "ParamAddBattlePointPhaseId",
+    PARAM_ADD_BATTLE_POINT_PHASE_VALUE = "ParamAddBattlePointPhaseValue",
+    SHORTEN_MAX_COUNT_EACH_SKILL = "ShortenMaxCountEachSkill",
 }
