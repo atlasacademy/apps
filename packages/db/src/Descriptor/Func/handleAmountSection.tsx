@@ -82,6 +82,8 @@ export default function handleAmountSection(
     } else if (func.funcType === Func.FuncType.DISPLAY_BUFFSTRING) {
         section.preposition = undefined;
         parts.push(<span lang={lang(region)}>[{func.funcPopupText}]</span>);
+    } else if (func.funcType === Func.FuncType.ADD_BATTLE_POINT) {
+        parts.push(dataVal.BattlePointValue);
     } else if (func.funcType === Func.FuncType.CARD_RESET && dataVal.Value) {
         section.preposition = undefined;
         parts.push(`${dataVal.Value} time${dataVal.Value > 1 ? "s" : ""}`);
