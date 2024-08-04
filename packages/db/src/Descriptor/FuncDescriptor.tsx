@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 import { DataVal, Func, Region } from "@atlasacademy/api-connector";
 
-import Api from "../Api";
 import {
     getDataValList,
     getFollowerDataValList,
