@@ -108,8 +108,8 @@ function describeDataVal(
         partials.push(new ParticlePartial(" /Stack"));
     }
 
-    if (dataVal.BattlePointValue) {
-        partials.push(dataVal.BattlePointValue);
+    if (dataVal.BattlePointValue !== undefined) {
+        partials.push(new ValuePartial(valueType, dataVal.BattlePointValue));
     }
 
     return partials.length > 0 ? new Descriptor(partials) : undefined;
