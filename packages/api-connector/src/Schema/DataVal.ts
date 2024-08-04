@@ -1,5 +1,15 @@
 import { Func } from "./Func";
 
+export interface CheckBattlePointPhaseRange {
+    battlePointId: number;
+    range: string[];
+}
+
+export interface DamageRateBattlePointPhase {
+    battlePointPhase: number;
+    value: number;
+}
+
 interface BaseDataVal {
     Rate?: number;
     Turn?: number;
@@ -182,15 +192,17 @@ interface BaseDataVal {
     BattlePointValue?: number;
     BattlePointUiUpdateType?: number;
     BattlePointOverwrite?: number;
-    CheckOverChargeStageRange?: string;
-    CheckBattlePointPhaseRange?: string;
-    StartingPosition?: number;
+    CheckOverChargeStageRange?: string[];
+    CheckBattlePointPhaseRange?: CheckBattlePointPhaseRange[];
+    StartingPosition?: number[];
     FriendShipAbove?: number;
-    DamageRateBattlePointPhase?: number;
+    DamageRateBattlePointPhase?: DamageRateBattlePointPhase[];
     ParamAddBattlePointPhaseId?: number;
     ParamAddBattlePointPhaseValue?: number;
-    ShortenMaxCountEachSkill?: number;
+    ShortenMaxCountEachSkill?: number[];
 }
+
+export type BaseDataValType = BaseDataVal[keyof BaseDataVal];
 
 export interface DataVal extends BaseDataVal {
     DependFuncVals?: BaseDataVal;

@@ -39,6 +39,7 @@ enum ClassName {
     EXTRA_II = "EXTRA_II",
     U_OLGA_MARIE_FLARE_COLLECTION = "uOlgaMarieFlareCollection",
     U_OLGA_MARIE_AQUA_COLLECTION = "uOlgaMarieAquaCollection",
+    BEAST_ERESH = "beastEresh",
 }
 
 export default ClassName;

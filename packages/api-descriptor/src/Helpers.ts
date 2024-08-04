@@ -1,4 +1,4 @@
-import { Func } from "@atlasacademy/api-connector";
+import { DataVal } from "@atlasacademy/api-connector";
 
 import { BasePartial, ParticlePartial } from "./Descriptor";
 
@@ -31,7 +31,7 @@ export function toTitleCase(value: string): string {
     return words.join(" ");
 }
 
-export function hasUniqueValues(values: (string | string[] | number | number[] | undefined | Func.Func)[]): boolean {
+export function hasUniqueValues(values: DataVal.BaseDataValType[]): boolean {
     if (values.length === 0) return false;
 
     return (

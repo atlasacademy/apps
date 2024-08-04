@@ -1,6 +1,7 @@
 import * as CardDetail from "./Enum/Card";
 import * as Ai from "./Schema/Ai";
 import * as Attribute from "./Schema/Attribute";
+import * as BattlePoint from "./Schema/BattlePoint";
 import * as Bgm from "./Schema/Bgm";
 import * as Buff from "./Schema/Buff";
 import * as Change from "./Schema/Change";
@@ -65,6 +66,7 @@ export {
     ProfileVoiceType,
     Ai,
     Bgm,
+    BattlePoint,
     Buff,
     CommandCode,
     CommonConsume,

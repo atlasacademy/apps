@@ -2,6 +2,7 @@ import Card, { AttackType } from "../Enum/Card";
 import ClassName from "../Enum/ClassName";
 import CondType from "../Enum/Cond";
 import { Attribute } from "./Attribute";
+import { BattlePoint } from "./BattlePoint";
 import { CommonRelease } from "./CommonRelease";
 import { Item, ItemAmount } from "./Item";
 import { NoblePhantasm } from "./NoblePhantasm";
@@ -289,6 +290,7 @@ export interface Entity {
     appendSkillMaterials: EntityLevelUpMaterialProgression;
     costumeMaterials: EntityLevelUpMaterialProgression;
     coin?: EntityCoin;
+    battlePoints: BattlePoint[];
     script: EntityScript;
     skills: Skill[];
     classPassive: Skill[];
