@@ -18,7 +18,7 @@
     },
     "license": "ISC",
     "devDependencies": {
-        "typescript": "^5.5.3"
+        "typescript": "^5.5.4"
     },
     "dependencies": {
         "@atlasacademy/api-connector": "^5.0.0"
