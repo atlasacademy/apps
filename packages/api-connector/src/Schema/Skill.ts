@@ -39,6 +39,12 @@ export interface SelectAddInfo {
     btn: SelectAddInfoButton[];
 }
 
+export interface TdChangeByBattlePoint {
+    battlePointId: number;
+    phase: number;
+    noblePhantasmId: number;
+}
+
 export interface SkillScript {
     NP_HIGHER?: number[];
     NP_LOWER?: number[];
@@ -55,6 +61,8 @@ export interface SkillScript {
     actRarity?: number[][];
     battleStartRemainingTurn?: number[];
     SelectAddInfo?: SelectAddInfo[];
+    IgnoreBattlePointUp?: number[][];
+    tdChangeByBattlePoint?: TdChangeByBattlePoint[];
 }
 
 export interface ExtraPassive {

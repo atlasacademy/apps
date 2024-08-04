@@ -251,6 +251,7 @@ export interface QuestPhaseExtraDetail {
     waveSetup?: number;
     interruptibleQuest?: number;
     masterImageId?: number;
+    IgnoreBattlePointUp?: number[];
 }
 
 export interface QuestPhaseRestriction {
