@@ -35,7 +35,7 @@ function appendTraitFilters(
 }
 
 function traitReferences(traits: Trait.Trait[], checkIndvType?: number): BasePartial[] {
-    const joinWord = checkIndvType === 1 ? " and " : " or ";
+    const joinWord = checkIndvType === 1 || checkIndvType === 3 ? " and " : " or ";
     return insertParticles(
         traits.map((trait) => new TraitReferencePartial(trait)),
         joinWord
@@ -81,7 +81,7 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         }
 
         if (buff.ckSelfIndv.length) {
-            partials.push(...traitReferences(buff.ckSelfIndv));
+            partials.push(...traitReferences(buff.ckSelfIndv, buff.script.checkIndvType));
             partials.push(new ParticlePartial(" "));
         }
 
