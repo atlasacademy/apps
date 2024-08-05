@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import React from "react";
+import { Badge, Col, Row, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Buff, ConstantStr, Region, Servant } from "@atlasacademy/api-connector";
+import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api from "../../Api";
 import SkillBreakdown from "../../Breakdown/SkillBreakdown";
 import LoadStatus from "../../Helper/LoadStatus";
 import { mergeElements } from "../../Helper/OutputHelper";
 import ExtraPassive from "./ExtraPassive";
+
+import "../ListingPage.css";
 
 interface ServantScriptPassiveLoadStatus extends LoadStatus<string[]> {
     buffNames?: Map<string, Buff.BuffType>;
@@ -70,10 +74,51 @@ const ServantScriptPassive = ({ region, servant }: { region: Region; servant: Se
     return <></>;
 };
 
+const ServantBattlePoint = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
+    const { t } = useTranslation();
+    return (
+        <>
+            {servant.battlePoints.map((bp) => (
+                <React.Fragment key={bp.id}>
+                    <h3 className="mt-2 mb-3">
+                        {t("Battle Point")} {bp.id}
+                    </h3>
+
+                    {bp.flags.map((flag) => (
+                        <Badge key={flag} className="mr-1" style={{ background: "green", color: "white" }}>
+                            {toTitleCase(flag)}
+                        </Badge>
+                    ))}
+
+                    <Table responsive className="my-4 listing-page">
+                        <thead>
+                            <tr>
+                                <th className="col-center">{t("Level")}</th>
+                                <th className="col-center">{t("Value")}</th>
+                                <th className="col-center">{t("Name")}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {bp.phases.map((phase) => (
+                                <tr key={phase.phase}>
+                                    <td className="col-center">{phase.phase}</td>
+                                    <td className="col-center">{phase.value}</td>
+                                    <td className="col-center">{phase.name}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </React.Fragment>
+            ))}
+        </>
+    );
+};
+
 const ServantPassive = ({ region, servant }: { region: Region; servant: Servant.Servant }) => {
     const { t } = useTranslation();
     return (
         <>
+            <ServantBattlePoint region={region} servant={servant} />
             <Row>
                 {servant.classPassive.map((skill) => {
                     return (
