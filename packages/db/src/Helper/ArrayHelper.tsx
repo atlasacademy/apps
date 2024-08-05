@@ -10,6 +10,16 @@ export const areIdenticalArrays = (arrayA: number[], arrayB: number[]) => {
     return true;
 };
 
+export function areIdenticalSets<T>(setA: Set<T>, setB: Set<T>) {
+    if (setA.size !== setB.size) return false;
+
+    for (let item of setA) {
+        if (!setB.has(item)) return false;
+    }
+
+    return true;
+}
+
 export const isSubset = (bigger: number[], smaller: number[]) => {
     const biggerSet = new Set(bigger);
     for (const s of smaller) {
