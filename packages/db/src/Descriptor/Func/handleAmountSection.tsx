@@ -141,6 +141,16 @@ export default function handleAmountSection(
                 hideRate={true}
             />
         );
+    } else if (func.funcType === Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE) {
+        parts.push(
+            <FuncValueDescriptor
+                region={region}
+                func={func}
+                staticDataVal={dataVal}
+                dataVal={dataVal}
+                hideRate={true}
+            />
+        );
     } else if (
         func.funcType === Func.FuncType.LOSS_HP_SAFE &&
         dataVal.Value !== undefined &&

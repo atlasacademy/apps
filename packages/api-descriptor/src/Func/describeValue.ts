@@ -76,6 +76,7 @@ export default function (
                 case Func.FuncType.DAMAGE_NP_RARE:
                 case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                 case Func.FuncType.DAMAGE_NP_COUNTER:
+                case Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE:
                 case Func.FuncType.GAIN_HP_PER:
                 case Func.FuncType.QP_DROP_UP:
                 case Func.FuncType.GAIN_MULTIPLY_NP:
@@ -106,6 +107,43 @@ export default function (
 
         if (dataVal.Correction !== undefined) {
             switch (func.funcType) {
+                case Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE:
+                    if (dataVal.Value2 !== undefined) {
+                        partials.push(new TextPartial(" times bonus of "));
+
+                        if (
+                            dataVal.DamageRateBattlePointPhase !== undefined &&
+                            dataVal.DamageRateBattlePointPhase.length === 1 &&
+                            dataVal.Value2 - dataVal.Correction === dataVal.DamageRateBattlePointPhase[0].value
+                        ) {
+                            partials.push(
+                                new ValuePartial(ValueType.PERCENT, (dataVal.Value2 - dataVal.Correction) / 10),
+                                new TextPartial(" + "),
+                                new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10),
+                                new TextPartial(" × Master Affection lvl")
+                            );
+                        } else {
+                            if (dataVal.DamageRateBattlePointPhase) {
+                                dataVal.DamageRateBattlePointPhase.forEach((bp) => {
+                                    partials.push(
+                                        new ValuePartial(ValueType.PERCENT, bp.value / 10),
+                                        new TextPartial(` at Master Affection lvl `),
+                                        new ValuePartial(ValueType.NUMBER, bp.battlePointPhase),
+                                        new TextPartial(` or `)
+                                    );
+                                });
+                            }
+
+                            partials.push(
+                                new TextPartial(dataVal.DamageRateBattlePointPhase ? ` else ` : ""),
+                                new ValuePartial(ValueType.PERCENT, dataVal.Value2 / 10),
+                                new TextPartial(" + "),
+                                new ValuePartial(ValueType.PERCENT, dataVal.Correction / 10),
+                                new TextPartial(" × max(Master Affection lvl - 1, 0)")
+                            );
+                        }
+                    }
+                    break;
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
                 case Func.FuncType.DAMAGE_NP_RARE:
                 case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
@@ -144,6 +182,7 @@ export default function (
                     case Func.FuncType.DAMAGE_NP_RARE:
                     case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                     case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
+                    case Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE:
                     case Func.FuncType.SERVANT_FRIENDSHIP_UP:
                     case Func.FuncType.ADD_FIELD_CHANGE_TO_FIELD:
                     case Func.FuncType.GAIN_NP_INDIVIDUAL_SUM:
