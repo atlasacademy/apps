@@ -146,6 +146,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.SHIFT_GUTS_RATIO, "Guts on Break"],
     [Buff.BuffType.AVOID_FUNCTION_EXECUTE_SELF, "Block Function Execution on Self"],
     [Buff.BuffType.OVERWRITE_SUBATTRIBUTE, "Overwrite Attribute"],
+    [Buff.BuffType.SHORTEN_SKILL_AFTER_USE_SKILL, "Reduce Skill Cooldown after Skill Use"],
 ]);
 
 export interface BuffTriggerType {
