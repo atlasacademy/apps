@@ -125,5 +125,17 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         partials.push(...traitReferences(buff.script.UpBuffRateBuffIndiv, 0));
     }
 
+    if (buff.script.fromCommandSpell !== undefined) {
+        partials.push(new TextPartial(" from command spell"));
+    }
+
+    if (buff.script.useFirstTimeInTurn !== undefined) {
+        partials.push(new TextPartial(" if used first in turn"));
+    }
+
+    if (buff.script.fromMasterEquip !== undefined) {
+        partials.push(new TextPartial(" from Master Mystic Codes"));
+    }
+
     return new Descriptor(partials);
 }

@@ -222,7 +222,7 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.ATTACK_AFTER_FUNCTION_MAIN_ONLY, { after: true, event: "attacks", mainOnly: true }],
     [Buff.BuffType.FIELD_INDIVIDUALITY_CHANGED_FUNCTION, { after: false, event: "", when: "" }],
     [Buff.BuffType.CONFIRM_COMMAND_FUNCTION, { after: true, event: "command card chosen" }],
-    [Buff.BuffType.SKILL_BEFORE_FUNCTION, { after: false, event: "skill" }],
-    [Buff.BuffType.TREASURE_DEVICE_BEFORE_FUNCTION, { after: false, event: "noble phantasm" }],
+    [Buff.BuffType.SKILL_BEFORE_FUNCTION, { after: false, event: "skill is used" }],
+    [Buff.BuffType.TREASURE_DEVICE_BEFORE_FUNCTION, { after: false, event: "noble phantasm is used" }],
     [Buff.BuffType.SKILL_TARGETED_BEFORE_FUNCTION, { after: false, event: "targeted by skill" }],
 ]);

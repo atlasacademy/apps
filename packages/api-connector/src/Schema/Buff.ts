@@ -415,6 +415,9 @@ export interface BuffScript<T> {
     DamageRelease?: number;
     INDIVIDUALITIE?: Trait;
     INDIVIDUALITIE_COUNT_ABOVE?: number;
+    INDIVIDUALITIE_COUNT_BELOW?: number;
+    INDIVIDUALITIE_AND?: Trait[];
+    INDIVIDUALITIE_OR?: Trait[];
     UpBuffRateBuffIndiv?: Trait[];
     HP_LOWER?: number;
     HP_HIGHER?: number;
@@ -428,6 +431,9 @@ export interface BuffScript<T> {
     TargetIndiv?: Trait;
     extendLowerLimit?: number;
     convert?: BuffConvertIndividuality<T> | BuffConvertBuff<T> | BuffConvertNone<T>;
+    useFirstTimeInTurn?: number;
+    fromCommandSpell?: number;
+    fromMasterEquip?: number;
 }
 
 export interface BasicBuff {
