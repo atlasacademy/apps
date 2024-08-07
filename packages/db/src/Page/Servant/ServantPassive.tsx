@@ -93,8 +93,8 @@ const ServantBattlePoint = ({ region, servant }: { region: Region; servant: Serv
                     <Table responsive className="my-4 listing-page">
                         <thead>
                             <tr>
-                                <th className="col-center">{t("Level")}</th>
-                                <th className="col-center">{t("Value")}</th>
+                                <th className="col-center">{t("Master Affection Level")}</th>
+                                <th className="col-center">{t("Battle Point Value")}</th>
                                 <th className="col-center">{t("Name")}</th>
                             </tr>
                         </thead>

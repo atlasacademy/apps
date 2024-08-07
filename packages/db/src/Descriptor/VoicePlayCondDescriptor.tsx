@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { Profile, Region, Servant } from "@atlasacademy/api-connector";
+import { BattlePoint, Profile, Region, Servant } from "@atlasacademy/api-connector";
 
 import { mergeElements } from "../Helper/OutputHelper";
 import CondTargetValueDescriptor from "./CondTargetValueDescriptor";
@@ -9,6 +9,7 @@ function VoicePlayGroup(props: {
     region: Region;
     playConds: Profile.VoicePlayCond[];
     servants: Map<number, Servant.ServantBasic>;
+    battlePoints?: BattlePoint.BattlePoint[];
 }) {
     return (
         <>
@@ -21,6 +22,7 @@ function VoicePlayGroup(props: {
                         value={playCond.condValues[0]}
                         servants={props.servants}
                         forceFalseDescription={"Can't be played in my room"}
+                        battlePoints={props.battlePoints}
                     />
                 )),
                 " and "
@@ -34,6 +36,7 @@ function AllVoicePlayGroups(props: {
     groups: number[];
     playConds: Profile.VoicePlayCond[];
     servants: Map<number, Servant.ServantBasic>;
+    battlePoints?: BattlePoint.BattlePoint[];
 }) {
     if (props.groups.length > 1) {
         return (
@@ -44,6 +47,7 @@ function AllVoicePlayGroups(props: {
                             region={props.region}
                             playConds={props.playConds.filter((playCond) => playCond.condGroup === group)}
                             servants={props.servants}
+                            battlePoints={props.battlePoints}
                         />
                     </li>
                 ))}
@@ -58,6 +62,7 @@ function AllVoicePlayGroups(props: {
                         region={props.region}
                         playConds={props.playConds.filter((playCond) => playCond.condGroup === group)}
                         servants={props.servants}
+                        battlePoints={props.battlePoints}
                     />
                 ))}
             </>
@@ -69,6 +74,7 @@ export default function VoicePlayCondDescriptor(props: {
     region: Region;
     playConds: Profile.VoicePlayCond[];
     servants: Map<number, Servant.ServantBasic>;
+    battlePoints?: BattlePoint.BattlePoint[];
 }) {
     const { t } = useTranslation();
     const groups = Array.from(new Set(props.playConds.map((playCond) => playCond.condGroup)));
@@ -82,6 +88,7 @@ export default function VoicePlayCondDescriptor(props: {
                     groups={groups}
                     playConds={props.playConds}
                     servants={props.servants}
+                    battlePoints={props.battlePoints}
                 />
             </>
         );

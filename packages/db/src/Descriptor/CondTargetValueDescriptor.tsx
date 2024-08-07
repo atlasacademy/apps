@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { CondType, Event, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
+import { BattlePoint, CondType, Event, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import CostumeDescriptor from "./CostumeDescriptor";
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
@@ -20,10 +20,24 @@ export default function CondTargetValueDescriptor(props: {
     quests?: Map<number, Quest.QuestBasic>;
     missions?: Map<number, Mission.Mission>;
     missionGroups?: Event.EventMissionGroup[];
+    battlePoints?: BattlePoint.BattlePoint[];
 }) {
     const forceFalseDescription = props.forceFalseDescription ? props.forceFalseDescription : "Not possible";
     const { region, target, value, missions, missionGroups } = props;
     const { t } = useTranslation();
+
+    const bpNames = new Map<number, Map<number, string>>();
+
+    for (const bp of props.battlePoints ?? []) {
+        const bpPhaseNames = new Map<number, string>();
+        for (const bpPhase of bp.phases) {
+            if (!Array.from(bpPhaseNames.values()).includes(bpPhase.name)) {
+                bpPhaseNames.set(bpPhase.value, bpPhase.name);
+            }
+        }
+        bpNames.set(bp.id, bpPhaseNames);
+    }
+
     switch (props.cond) {
         case CondType.NONE:
             return null;
@@ -186,6 +200,34 @@ export default function CondTargetValueDescriptor(props: {
             return (
                 <>
                     <EntityReferenceDescriptor region={region} svtId={target} /> {t("in starting party")}
+                </>
+            );
+        case CondType.BATTLE_POINT_ABOVE:
+            const bpAboveName = bpNames.get(props.target)?.get(props.value);
+            if (bpAboveName !== undefined) {
+                return (
+                    <>
+                        {t("Master Affection lvl")} ≥ {bpAboveName}
+                    </>
+                );
+            }
+            return (
+                <>
+                    {t("Battle point")} {props.target} ≥ {props.value}
+                </>
+            );
+        case CondType.BATTLE_POINT_BELOW:
+            const bpBelowName = bpNames.get(props.target)?.get(props.value + 1);
+            if (bpBelowName !== undefined) {
+                return (
+                    <>
+                        {t("Master Affection lvl")} &lt; {bpBelowName}
+                    </>
+                );
+            }
+            return (
+                <>
+                    {t("Battle point")} {props.target} ≤ {props.value}
                 </>
             );
         default:

@@ -4,7 +4,15 @@ import React, { useRef } from "react";
 import { Alert, ButtonGroup, Dropdown, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { CraftEssence, Entity, Profile, ProfileVoiceType, Region, Servant } from "@atlasacademy/api-connector";
+import {
+    BattlePoint,
+    CraftEssence,
+    Entity,
+    Profile,
+    ProfileVoiceType,
+    Region,
+    Servant,
+} from "@atlasacademy/api-connector";
 
 import CollapsibleContent from "../../Component/CollapsibleContent";
 import EntityDescriptor from "../../Descriptor/EntityDescriptor";
@@ -35,6 +43,7 @@ export const VoiceLinesTable = ({
     mergedDownloadNamePrefix,
     servants,
     costumes,
+    battlePoints,
 }: {
     region: Region;
     voice: Profile.VoiceGroup;
@@ -43,6 +52,7 @@ export const VoiceLinesTable = ({
     costumes?: {
         [key: string]: Profile.CostumeDetail;
     };
+    battlePoints?: BattlePoint.BattlePoint[];
 }) => {
     const { t } = useTranslation();
     const voiceLines = voice.voiceLines.sort((a, b) => (b.priority || 0) - (a.priority || 0));
@@ -133,6 +143,7 @@ export const VoiceLinesTable = ({
                                             region={region}
                                             playConds={line.playConds}
                                             servants={servants}
+                                            battlePoints={battlePoints}
                                         />
                                     </Alert>
                                 ) : null}
@@ -228,6 +239,7 @@ export default function ServantVoiceLines(props: {
                                     mergedDownloadNamePrefix={`${props.servant.collectionNo} - ${props.servant.name}`}
                                     servants={props.servants}
                                     costumes={props.servant.profile?.costume}
+                                    battlePoints={props.servant.battlePoints}
                                 />
                             </td>
                         </tr>
