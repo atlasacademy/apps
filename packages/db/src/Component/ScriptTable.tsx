@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { Region } from "@atlasacademy/api-connector";
 
-import BgmDescriptor from "../Descriptor/BgmDescriptor";
+import BgmDescriptor, { BgmDescriptorFileName } from "../Descriptor/BgmDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import { useImageSize } from "../Hooks/useImageSize";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
@@ -534,7 +534,7 @@ const ScriptBracketRow = (props: {
                 <tr ref={refs.get(component.bgm.audioAsset)}>
                     <td>{t("BGM")}</td>
                     <td colSpan={colSpan}>
-                        <BgmDescriptor region={region} bgm={component.bgm} />
+                        <BgmDescriptorFileName region={region} bgm={component.bgm} />
                     </td>
                     {showScriptLine && <td className="text-center">{lineNumber}</td>}
                 </tr>

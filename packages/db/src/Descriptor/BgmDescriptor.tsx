@@ -18,53 +18,41 @@ export const getBgmName = (bgm: Bgm.Bgm) => {
     }
 };
 
-export const BgmDescriptorId = ({
-    region,
-    bgmId,
-    showName,
-    showLink,
-    style,
-    className,
-}: {
+interface BgmProps {
     region: Region;
-    bgmId: number;
     showName?: string;
     showLink?: boolean;
     style?: React.CSSProperties;
     className?: string;
-}) => {
-    const { data: bgm } = useApi("bgm", bgmId);
+}
+
+export const BgmDescriptorId = (props: BgmProps & { bgmId: number }) => {
+    const { data: bgm } = useApi("bgm", props.bgmId);
     if (bgm === undefined) return <></>;
 
-    return (
-        <BgmDescriptor
-            region={region}
-            bgm={bgm}
-            showName={showName}
-            showLink={showLink}
-            style={style}
-            className={className}
-        />
-    );
+    return <BgmDescriptor {...props} bgm={bgm} />;
 };
 
-export default function BgmDescriptor(props: {
-    region: Region;
-    bgm: Bgm.Bgm;
-    showName?: string;
-    showLink?: boolean;
-    style?: React.CSSProperties;
-    className?: string;
-}) {
-    const { bgm, region, className } = props;
+export const BgmDescriptorFileName = (props: BgmProps & { bgm: Bgm.Bgm }) => {
+    const { data: bgmApi } = useApi("bgm", -1, props.bgm.fileName);
+
+    if (bgmApi === undefined) {
+        return <BgmDescriptor {...props} />;
+    } else {
+        return <BgmDescriptor {...props} bgm={bgmApi} />;
+    }
+};
+
+export default function BgmDescriptor(props: BgmProps & { bgm: Bgm.Bgm }) {
+    const { bgm, region, className, style } = props;
     if (bgm.id === 0) {
         return null;
     } else if (bgm.audioAsset !== undefined) {
         const showName = getBgmName(bgm);
         const toLink = props.showLink ? (
             <>
-                <Button variant="primary" as={Link} to={`/${props.region}/bgm/${bgm.id}`}>
-                    <FontAwesomeIcon icon={faShare} title={`Go to ${props.region} BGM ${showName}`} />
+                <Button variant="primary" as={Link} to={`/${region}/bgm/${bgm.id}`}>
+                    <FontAwesomeIcon icon={faShare} title={`Go to ${region} BGM ${showName}`} />
                 </Button>
             </>
         ) : null;
@@ -80,7 +68,7 @@ export default function BgmDescriptor(props: {
         );
         return (
             <>
-                <ButtonGroup size="sm" style={props.style}>
+                <ButtonGroup size="sm" style={style}>
                     <VoiceLinePlayer audioAssetUrls={[bgm.audioAsset]} delay={[0]} title={bgm.name} />
                     {downloadButton}
                     {toLink}
@@ -89,7 +77,7 @@ export default function BgmDescriptor(props: {
         );
     } else {
         return (
-            <Button variant={"info"} disabled style={props.style} className={className}>
+            <Button variant={"info"} disabled style={style} className={className}>
                 <span lang={lang(region)}>{bgm.name}</span>
             </Button>
         );

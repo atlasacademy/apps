@@ -52,8 +52,8 @@ class Api {
         apiConnector = new ApiConnector({ host: Host, region, language });
     }
 
-    static bgm(id: number): Promise<Bgm.BgmEntity> {
-        return apiConnector.bgm(id, cacheDuration);
+    static bgm(id: number, fileName?: string): Promise<Bgm.BgmEntity> {
+        return apiConnector.bgm(id, cacheDuration, fileName);
     }
 
     static bgmList(): Promise<Bgm.BgmEntity[]> {

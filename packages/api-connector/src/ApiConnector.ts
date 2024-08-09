@@ -303,8 +303,12 @@ class ApiConnector {
         );
     }
 
-    bgm(id: number, cacheDuration?: number): Promise<BgmEntity> {
-        const query = this.getQueryString(new URLSearchParams());
+    bgm(id: number, cacheDuration?: number, fileName?: string): Promise<BgmEntity> {
+        const params = new URLSearchParams();
+        if (fileName) {
+            params.append("fileName", fileName);
+        }
+        const query = this.getQueryString(params);
         const fetch = () => {
             return ApiConnector.fetch<BgmEntity>(`${this.host}/nice/${this.region}/bgm/${id}${query}`);
         };

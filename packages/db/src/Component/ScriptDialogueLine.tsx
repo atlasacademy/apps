@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { Region } from "@atlasacademy/api-connector";
 
-import BgmDescriptor from "../Descriptor/BgmDescriptor";
+import { BgmDescriptorFileName } from "../Descriptor/BgmDescriptor";
 import { FGOText } from "../Helper/StringHelper";
 import { useImageSize } from "../Hooks/useImageSize";
 import { lang } from "../Setting/Manager";
@@ -227,7 +227,7 @@ export const DialogueChild = ({
         case ScriptComponentType.DIALOGUE_TEXT_IMAGE:
             return <DialogueBasic region={region} component={component} index={index} wideScreen={wideScreen} />;
         case ScriptComponentType.BGM:
-            return <BgmDescriptor region={region} bgm={component.bgm} style={{ padding: "0 0.5em" }} />;
+            return <BgmDescriptorFileName region={region} bgm={component.bgm} style={{ padding: "0 0.5em" }} />;
         default:
             return null;
     }
