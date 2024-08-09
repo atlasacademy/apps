@@ -6,6 +6,7 @@ import { BattlePoint } from "./BattlePoint";
 import { CommonRelease } from "./CommonRelease";
 import { Item, ItemAmount } from "./Item";
 import { NoblePhantasm } from "./NoblePhantasm";
+import { SvtScript } from "./Script";
 import { Skill } from "./Skill";
 import { Trait } from "./Trait";
 
@@ -290,6 +291,7 @@ export interface Entity {
     appendSkillMaterials: EntityLevelUpMaterialProgression;
     costumeMaterials: EntityLevelUpMaterialProgression;
     coin?: EntityCoin;
+    charaScripts: SvtScript[];
     battlePoints: BattlePoint[];
     script: EntityScript;
     skills: Skill[];
