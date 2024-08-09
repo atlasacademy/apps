@@ -1,11 +1,11 @@
 {
     "name": "paper-moon",
-    "version": "0.3.105",
+    "version": "0.3.106",
     "homepage": "/paper-moon",
     "private": true,
     "dependencies": {
-        "@atlasacademy/api-connector": "^5.0.0",
-        "@atlasacademy/battle": "^0.5.12",
+        "@atlasacademy/api-connector": "^5.1.0",
+        "@atlasacademy/battle": "^0.5.13",
         "@reduxjs/toolkit": "^1.5.1",
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
