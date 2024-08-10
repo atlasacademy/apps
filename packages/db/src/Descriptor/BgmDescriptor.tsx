@@ -37,7 +37,7 @@ export const BgmDescriptorFileName = (props: BgmProps & { bgm: Bgm.Bgm }) => {
     const { data: bgmApi } = useApi("bgm", -1, props.bgm.fileName);
 
     if (bgmApi === undefined) {
-        return <BgmDescriptor {...props} />;
+        return <BgmDescriptor {...props} bgm={props.bgm} />;
     } else {
         return <BgmDescriptor {...props} bgm={bgmApi} />;
     }

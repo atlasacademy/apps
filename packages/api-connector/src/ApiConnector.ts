@@ -135,7 +135,7 @@ class ApiConnector {
     private cache = {
         ai: new ResultCache<{ type: AiType; id: number }, AiCollection>(),
         attributeAffinityMap: new ResultCache<null, AttributeAffinityMap>(),
-        bgm: new ResultCache<number, BgmEntity>(),
+        bgm: new ResultCache<string, BgmEntity>(),
         bgmList: new ResultCache<null, BgmEntity[]>(),
         buff: new ResultCache<number, Buff>(),
         buffBasic: new ResultCache<number, BasicBuff>(),
@@ -315,7 +315,9 @@ class ApiConnector {
 
         if (cacheDuration === undefined) return fetch();
 
-        return this.cache.bgm.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+        const cacheKey = `${id}${fileName || ""}`;
+
+        return this.cache.bgm.get(cacheKey, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     bgmList(cacheDuration?: number): Promise<BgmEntity[]> {
