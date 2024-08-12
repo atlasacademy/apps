@@ -1,6 +1,7 @@
 // Thanks to crunker by jackedgson
 // https://github.com/jackedgson/crunker/blob/master/src/crunker.js
 import axios from "axios";
+import { createMp3Encoder } from "wasm-media-encoders";
 
 const padAudio = (audioContext: AudioContext, buffer: AudioBuffer, delay: number) => {
     if (delay === 0) {
@@ -101,7 +102,7 @@ const writeWav = (buffer: AudioBuffer) => {
     return view;
 };
 
-const mergeVoiceLine = async (audioAssetUrls: string[], delay: number[], fileName?: string) => {
+const mergeVoiceLine = async (audioAssetUrls: string[], delay: number[], format: "mp3" | "wav", fileName?: string) => {
     let AudioContext =
         window.AudioContext || // Default
         (window as any).webkitAudioContext || // Safari and old versions of Chrome
@@ -130,8 +131,53 @@ const mergeVoiceLine = async (audioAssetUrls: string[], delay: number[], fileNam
             }
 
             const combinedAudio = concatAudios(audioContext, paddedAudioBuffers);
-            const audioDataView = writeWav(combinedAudio);
-            const audioBlob = new Blob([audioDataView], { type: "audio/wav" });
+            const encodedData =
+                format === "wav"
+                    ? writeWav(combinedAudio)
+                    : await createMp3Encoder().then((encoder) => {
+                          encoder.configure({
+                              sampleRate: combinedAudio.sampleRate,
+                              channels: combinedAudio.numberOfChannels === 1 ? 1 : 2,
+                              // Preferably VBR but there's a bug with duration in the VBR file
+                              // https://github.com/arseneyr/wasm-media-encoders/issues/7
+                              bitrate: 128,
+                          });
+
+                          let outBuffer = new Uint8Array(1024 * 1024);
+                          let offset = 0;
+                          let moreData = true;
+
+                          while (true) {
+                              const mp3Data = moreData
+                                  ? encoder.encode(
+                                        combinedAudio.numberOfChannels === 1
+                                            ? [combinedAudio.getChannelData(0)]
+                                            : [combinedAudio.getChannelData(0), combinedAudio.getChannelData(1)]
+                                    )
+                                  : encoder.finalize();
+
+                              /* mp3Data is a Uint8Array that is still owned by the encoder and MUST be copied */
+
+                              if (mp3Data.length + offset > outBuffer.length) {
+                                  const newBuffer = new Uint8Array(mp3Data.length + offset);
+                                  newBuffer.set(outBuffer);
+                                  outBuffer = newBuffer;
+                              }
+
+                              outBuffer.set(mp3Data, offset);
+                              offset += mp3Data.length;
+
+                              if (!moreData) {
+                                  break;
+                              }
+
+                              moreData = false;
+                          }
+
+                          return new Uint8Array(outBuffer.buffer, 0, offset);
+                      });
+
+            const audioBlob = new Blob([encodedData], { type: format === "wav" ? "audio/wav" : "audio/mpeg" });
 
             const audioIds = audioAssetUrls.map((url) => {
                 const splittedUrl = url.split("/");
@@ -141,7 +187,7 @@ const mergeVoiceLine = async (audioAssetUrls: string[], delay: number[], fileNam
 
             const a = document.createElement("a");
             a.href = URL.createObjectURL(audioBlob);
-            a.download = `${fileName ?? "merged"} - ${audioIds.join("&")}.wav`;
+            a.download = `${fileName ?? "merged"} - ${audioIds.join("&")}.${format}`;
             a.click();
         } catch (e) {
             alert("Failed to download some voice line parts.");

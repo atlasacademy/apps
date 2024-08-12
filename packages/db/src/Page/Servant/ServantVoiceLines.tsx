@@ -169,10 +169,19 @@ export const VoiceLinesTable = ({
                                                 title={`${t("Download")} ${voiceLineNames[index]} ${t("Merged File")}`}
                                                 onClick={() => {
                                                     const fileName = `${mergedDownloadNamePrefix} - ${voiceLineNames[index]}`;
-                                                    mergeVoiceLine(line.audioAssets, line.delay, fileName);
+                                                    mergeVoiceLine(line.audioAssets, line.delay, "wav", fileName);
                                                 }}
                                             >
-                                                {t("Merged")}
+                                                {t("Merged")} (WAV)
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                title={`${t("Download")} ${voiceLineNames[index]} ${t("Merged File")}`}
+                                                onClick={() => {
+                                                    const fileName = `${mergedDownloadNamePrefix} - ${voiceLineNames[index]}`;
+                                                    mergeVoiceLine(line.audioAssets, line.delay, "mp3", fileName);
+                                                }}
+                                            >
+                                                {t("Merged")} (MP3)
                                             </Dropdown.Item>
                                             {line.audioAssets.map((asset, i) => (
                                                 <Dropdown.Item

@@ -45,7 +45,8 @@
         "typescript": "^5.5.4",
         "vite": "5.0",
         "vite-plugin-eslint2": "^4.4.0",
-        "vite-plugin-svgr": "^4.2.0"
+        "vite-plugin-svgr": "^4.2.0",
+        "wasm-media-encoders": "^0.7.0"
     },
     "overrides": {},
     "scripts": {
