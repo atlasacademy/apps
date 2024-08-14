@@ -188,7 +188,7 @@ interface BaseDataVal {
     ExtendBuffHalfTurnInPartyTurn?: number;
     ShortenBuffHalfTurnInPartyTurn?: number;
     LinkageBuffGrantSuccessEvenIfOtherFailed?: number;
-    DisplayNoEffectCauses?: number;
+    DisplayNoEffectCauses?: string;
     BattlePointId?: number;
     BattlePointValue?: number;
     BattlePointUiUpdateType?: number;
