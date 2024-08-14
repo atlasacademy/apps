@@ -222,8 +222,13 @@ export enum CondType {
     NOT_SVT_VOICE_PLAYED = "notSvtVoicePlayed",
     BATTLE_POINT_ABOVE = "battlePointAbove",
     BATTLE_POINT_BELOW = "battlePointBelow",
+    BEFORE_SPECIFIED_DATE = "beforeSpecifiedDate",
     NOT_HAVE_CHARGE_STONE = "notHaveChargeStone",
     HAVE_CHARGE_STONE = "haveChargeStone",
+    BATTLE_FUNCTION_TARGET_ALL_INDIVIDUALITY = "battleFunctionTargetAllIndividuality",
+    BATTLE_FUNCTION_TARGET_ONE_INDIVIDUALITY = "battleFunctionTargetOneIndividuality",
+    NOT_BATTLE_FUNCTION_TARGET_ALL_INDIVIDUALITY = "notBattleFunctionTargetAllIndividuality",
+    NOT_BATTLE_FUNCTION_TARGET_ONE_INDIVIDUALITY = "notBattleFunctionTargetOneIndividuality",
 }
 
 export default CondType;

@@ -188,6 +188,7 @@ interface BaseDataVal {
     ExtendBuffHalfTurnInPartyTurn?: number;
     ShortenBuffHalfTurnInPartyTurn?: number;
     LinkageBuffGrantSuccessEvenIfOtherFailed?: number;
+    DisplayNoEffectCauses?: number;
     BattlePointId?: number;
     BattlePointValue?: number;
     BattlePointUiUpdateType?: number;
@@ -386,6 +387,7 @@ export enum DataValField {
     EXTEND_BUFF_HALF_TURN_IN_PARTY_TURN = "ExtendBuffHalfTurnInPartyTurn",
     SHORTEN_BUFF_HALF_TURN_IN_PARTY_TURN = "ShortenBuffHalfTurnInPartyTurn",
     LINKAGE_BUFF_GRANT_SUCCESS_EVEN_IF_OTHER_FAILED = "LinkageBuffGrantSuccessEvenIfOtherFailed",
+    DISPLAY_NO_EFFECT_CAUSES = "DisplayNoEffectCauses",
     BATTLE_POINT_ID = "BattlePointId",
     BATTLE_POINT_VALUE = "BattlePointValue",
     BATTLE_POINT_UI_UPDATE_TYPE = "BattlePointUiUpdateType",
