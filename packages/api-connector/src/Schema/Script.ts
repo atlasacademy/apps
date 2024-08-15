@@ -4,6 +4,7 @@ export interface ScriptExtendData {
     combineResultMultipleForm?: number;
     myroomForm?: number;
     faceSize?: number;
+    faceSizeRect?: number[];
     conds?: { condType: number; value: number }[];
 }
 

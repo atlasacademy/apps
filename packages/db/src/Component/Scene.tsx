@@ -107,22 +107,27 @@ const Scene = (props: {
     if (props.figure && props.figure.face > 0 && script) {
         let face = props.figure.face - 1,
             defaultFaceSize = 256,
-            faceSize = script.extendData.faceSize ?? defaultFaceSize,
-            size = faceSize * scale,
+            faceSizeWidth = script.extendData.faceSizeRect
+                ? script.extendData.faceSizeRect[0]
+                : (script.extendData.faceSize ?? defaultFaceSize),
+            faceSizeHeight = script.extendData.faceSizeRect
+                ? script.extendData.faceSizeRect[1]
+                : (script.extendData.faceSize ?? defaultFaceSize),
             offsetX = 0,
-            offsetY = faceSize === defaultFaceSize ? 1024 - defaultFaceSize : 1024,
-            perRow = Math.floor(figureWidth / faceSize),
+            offsetY = faceSizeHeight === defaultFaceSize ? 1024 - defaultFaceSize : 1024,
+            perRow = Math.floor(figureWidth / faceSizeWidth),
             col = face % perRow,
             row = Math.floor(face / perRow),
             page = Math.floor(row / perRow),
             rowInPage = row % perRow,
-            backgroundPositionX: number | string = (col * faceSize * -1 - offsetX) * scale,
-            backgroundPositionY: number | string = ((page * figureWidth + rowInPage * faceSize) * -1 - offsetY) * scale,
+            backgroundPositionX: number | string = (col * faceSizeWidth * -1 - offsetX) * scale,
+            backgroundPositionY: number | string =
+                ((page * figureWidth + rowInPage * faceSizeHeight) * -1 - offsetY) * scale,
             backgroundSize: number | string = scale * figureWidth,
             left = script.faceX * scale + figureLeft,
             top = script.faceY * scale,
-            height = size,
-            width = size;
+            height = faceSizeHeight * scale,
+            width = faceSizeWidth * scale;
 
         faceElement = (
             <div
