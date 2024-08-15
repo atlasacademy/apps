@@ -9,6 +9,7 @@ import { ItemDescriptorId } from "./ItemDescriptor";
 import { missionRange } from "./MultipleDescriptors";
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
+import TraitDescription from "./TraitDescription";
 
 export default function CondTargetValueDescriptor(props: {
     region: Region;
@@ -90,7 +91,7 @@ export default function CondTargetValueDescriptor(props: {
         case CondType.COSTUME_GET:
             return (
                 <>
-                    <CostumeDescriptor region={region} servantId={props.target} costumeLimit={props.value} /> get
+                    <CostumeDescriptor region={region} servantId={target} costumeLimit={value} /> get
                 </>
             );
         case CondType.EVENT_END:
@@ -193,7 +194,7 @@ export default function CondTargetValueDescriptor(props: {
             if (missionGroup === undefined)
                 return (
                     <>
-                        {t("Event mission group achieve")} target {props.target}
+                        {t("Event mission group achieve")} target {target}
                     </>
                 );
             const missionDispNos = missionGroup.missionIds.map((id) => missions?.get(id)?.dispNo ?? id);
@@ -209,7 +210,7 @@ export default function CondTargetValueDescriptor(props: {
                 </>
             );
         case CondType.BATTLE_POINT_ABOVE:
-            const bpAboveName = bpNames.get(props.target)?.get(props.value);
+            const bpAboveName = bpNames.get(target)?.get(value);
             if (bpAboveName !== undefined) {
                 return (
                     <>
@@ -219,11 +220,11 @@ export default function CondTargetValueDescriptor(props: {
             }
             return (
                 <>
-                    {t("Battle point")} {props.target} ≥ {props.value}
+                    {t("Battle point")} {target} ≥ {value}
                 </>
             );
         case CondType.BATTLE_POINT_BELOW:
-            const bpBelowName = bpNames.get(props.target)?.get(props.value + 1);
+            const bpBelowName = bpNames.get(target)?.get(value + 1);
             if (bpBelowName !== undefined) {
                 return (
                     <>
@@ -233,13 +234,37 @@ export default function CondTargetValueDescriptor(props: {
             }
             return (
                 <>
-                    {t("Battle point")} {props.target} ≤ {props.value}
+                    {t("Battle point")} {target} ≤ {value}
+                </>
+            );
+        case CondType.BATTLE_FUNCTION_TARGET_ALL_INDIVIDUALITY:
+            return (
+                <>
+                    {t("All targeted enemies have trait")} <TraitDescription region={region} trait={target} />
+                </>
+            );
+        case CondType.BATTLE_FUNCTION_TARGET_ONE_INDIVIDUALITY:
+            return (
+                <>
+                    {t("Targeted enemy has trait")} <TraitDescription region={region} trait={target} />
+                </>
+            );
+        case CondType.NOT_BATTLE_FUNCTION_TARGET_ALL_INDIVIDUALITY:
+            return (
+                <>
+                    {t("No targeted enemy has trait")} <TraitDescription region={region} trait={target} />
+                </>
+            );
+        case CondType.NOT_BATTLE_FUNCTION_TARGET_ONE_INDIVIDUALITY:
+            return (
+                <>
+                    {t("Targeted enemy doesn't have trait")} <TraitDescription region={region} trait={target} />
                 </>
             );
         default:
             return (
                 <>
-                    {props.cond} value {props.value} target {props.target}
+                    {props.cond} value {value} target {target}
                 </>
             );
     }
