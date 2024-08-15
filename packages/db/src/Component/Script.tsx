@@ -1228,14 +1228,20 @@ function parseBracketComponent(region: Region, parameters: string[], parserState
         case "bgm":
             return {
                 type: ScriptComponentType.BGM,
-                bgm: getBgmObject(parameters[1], `${AssetHost}/${region}/Audio/${parameters[1]}/${parameters[1]}.mp3`),
+                bgm: getBgmObject(
+                    parameters[1],
+                    `${AssetHost}/${region}/Audio/Bgm/${parameters[1]}/${parameters[1]}.mp3`
+                ),
                 volumne: parameters[2] === undefined ? undefined : parseFloat(parameters[2]),
                 fadeinTime: parameters[3] === undefined ? undefined : parseFloat(parameters[3]),
             };
         case "bgmStop":
             return {
                 type: ScriptComponentType.BGM_STOP,
-                bgm: getBgmObject(parameters[1], `${AssetHost}/${region}/Audio/${parameters[1]}/${parameters[1]}.mp3`),
+                bgm: getBgmObject(
+                    parameters[1],
+                    `${AssetHost}/${region}/Audio/Bgm/${parameters[1]}/${parameters[1]}.mp3`
+                ),
                 fadeoutTime: parseFloat(parameters[2]),
             };
         case "voice":
