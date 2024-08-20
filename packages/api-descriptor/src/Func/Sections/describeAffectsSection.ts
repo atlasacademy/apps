@@ -27,6 +27,15 @@ export default function (func: Func.Func, dataVal: DataVal.DataVal): BasePartial
                 new ParticlePartial(")"),
             ]);
             break;
+        case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
+            addPartials(partials, [
+                new ParticlePartial("("),
+                new TextPartial("additional to targets"),
+                new ParticlePartial(" with "),
+                ...(dataVal.AndCheckIndividualityList ?? []).map((t) => new TraitReferencePartial(t)),
+                new ParticlePartial(")"),
+            ]);
+            break;
         case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
             const traitDescriptions: BasePartial[] = [];
 

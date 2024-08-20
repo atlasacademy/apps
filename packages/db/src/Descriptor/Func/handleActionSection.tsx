@@ -21,6 +21,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX, "Deal Damage with Bonus to Trait"],
     [Func.FuncType.DAMAGE_NP_COUNTER, "Reflect Damage Received"],
     [Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE, "Deal Damage with bonus based on Master Affection"],
+    [Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE, "Deal Damage with Bonus to Traits"],
     [Func.FuncType.DAMAGE_VALUE, "Deal Damage"],
     [Func.FuncType.DELAY_NPTURN, "Drain Charge"],
     [Func.FuncType.EVENT_DROP_UP, "Increase Drop Amount"],
@@ -318,7 +319,8 @@ export default function handleActionSection(
         func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL ||
         func.funcType === Func.FuncType.DAMAGE_NP_PIERCE ||
         func.funcType === Func.FuncType.DAMAGE_NP_RARE ||
-        func.funcType === Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX
+        func.funcType === Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX ||
+        func.funcType === Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY
     ) {
         parts.push("Deal damage");
         sections.amount.preposition = "of";

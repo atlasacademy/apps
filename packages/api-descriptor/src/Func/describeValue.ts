@@ -77,6 +77,7 @@ export default function (
                 case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
                 case Func.FuncType.DAMAGE_NP_COUNTER:
                 case Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE:
+                case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
                 case Func.FuncType.GAIN_HP_PER:
                 case Func.FuncType.QP_DROP_UP:
                 case Func.FuncType.GAIN_MULTIPLY_NP:
@@ -147,6 +148,7 @@ export default function (
                 case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
                 case Func.FuncType.DAMAGE_NP_RARE:
                 case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+                case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
                     if (dataVal.Rate !== undefined) {
                         // Full detailed in NP page
                         addPartials([
@@ -181,6 +183,7 @@ export default function (
                     case Func.FuncType.DAMAGE_NP_INDIVIDUAL:
                     case Func.FuncType.DAMAGE_NP_RARE:
                     case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+                    case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
                     case Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM:
                     case Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE:
                     case Func.FuncType.SERVANT_FRIENDSHIP_UP:

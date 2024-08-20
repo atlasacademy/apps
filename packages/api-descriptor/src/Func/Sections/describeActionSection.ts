@@ -19,6 +19,7 @@ const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.DAMAGE_NP_RARE, "Deal Damage with Bonus to Rarity"],
     [Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX, "Deal Damage with Bonus to Trait"],
     [Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE, "Deal Damage with bonus based on battle point"],
+    [Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY, "Deal Damage with Bonus to Traits"],
     [Func.FuncType.DAMAGE_VALUE, "Deal Damage"],
     [Func.FuncType.DELAY_NPTURN, "Drain Charge"],
     [Func.FuncType.EVENT_DROP_UP, "Increase Drop Amount"],
@@ -90,6 +91,7 @@ export default function (func: Func.Func): BasePartial[] {
         case Func.FuncType.DAMAGE_NP_PIERCE:
         case Func.FuncType.DAMAGE_NP_RARE:
         case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
+        case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
         case Func.FuncType.DAMAGE_NP_BATTLE_POINT_PHASE:
             addPartials(partials, [new TextPartial("Deal damage")]);
 

@@ -32,6 +32,20 @@ export default function handleAffectsSection(
             </span>
         );
     } else if (
+        func.funcType === Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY &&
+        dataVal.AndCheckIndividualityList &&
+        dataVal.AndCheckIndividualityList.length > 0
+    ) {
+        parts.push(
+            <span>
+                against enemy with {dataVal.AndCheckIndividualityList.length === 2 ? "both" : "all"} of{" "}
+                {mergeElements(
+                    dataVal.AndCheckIndividualityList.map((t) => <TraitDescription region={region} trait={t} />),
+                    " and "
+                )}
+            </span>
+        );
+    } else if (
         dataVal.TargetList !== undefined &&
         dataVal.TargetList.length > 0 &&
         func.funcType === Func.FuncType.DAMAGE_NP_INDIVIDUAL_SUM
