@@ -258,6 +258,10 @@ function handleChargeNpPerTraitActionSection(
 
     parts.push("trait");
 
+    if (dataVal.GainNpTargetPassiveIndividuality === 1) {
+        parts.push("(including passive traits)");
+    }
+
     if (func.funcType === Func.FuncType.GAIN_NP_INDIVIDUAL_SUM && dataVal.Value2 !== undefined) {
         switch (dataVal.Value2) {
             case 0:
@@ -270,13 +274,13 @@ function handleChargeNpPerTraitActionSection(
                 parts.push("on enemies");
                 break;
             case 3:
-                parts.push("on party memberes and enemies");
+                parts.push("on party members and enemies");
                 break;
         }
     }
 
     sections.amount.preposition = "by";
-    sections.target.preposition = "for";
+    sections.target.preposition = "per trait for";
 }
 
 export default function handleActionSection(
