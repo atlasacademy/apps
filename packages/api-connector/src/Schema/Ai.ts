@@ -202,6 +202,15 @@ export enum AiCond {
     COUNT_MASTER_SKILL_HIGHER_THIS_WAVE = "countMasterSkillHigherThisWave",
     COUNT_MASTER_SKILL_LOWER_THIS_WAVE = "countMasterSkillLowerThisWave",
     COUNT_MASTER_SKILL_EQUAL_THIS_WAVE = "countMasterSkillEqualThisWave",
+    COUNT_AVAILABLE_PLAYER_AND_MASTER_SKILL_HIGHER = "countAvailablePlayerAndMasterSkillHigher",
+    COUNT_AVAILABLE_PLAYER_AND_MASTER_SKILL_LOWER = "countAvailablePlayerAndMasterSkillLower",
+    COUNT_AVAILABLE_PLAYER_AND_MASTER_SKILL_EQUAL = "countAvailablePlayerAndMasterSkillEqual",
+    COUNT_AVAILABLE_PLAYER_SKILL_HIGHER = "countAvailablePlayerSkillHigher",
+    COUNT_AVAILABLE_PLAYER_SKILL_LOWER = "countAvailablePlayerSkillLower",
+    COUNT_AVAILABLE_PLAYER_SKILL_EQUAL = "countAvailablePlayerSkillEqual",
+    COUNT_AVAILABLE_MASTER_SKILL_HIGHER = "countAvailableMasterSkillHigher",
+    COUNT_AVAILABLE_MASTER_SKILL_LOWER = "countAvailableMasterSkillLower",
+    COUNT_AVAILABLE_MASTER_SKILL_EQUAL = "countAvailableMasterSkillEqual",
 }
 
 export enum AiTiming {

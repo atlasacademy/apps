@@ -227,6 +227,8 @@ export enum CondType {
     HAVE_CHARGE_STONE = "haveChargeStone",
     BATTLE_FUNCTION_TARGET_ALL_INDIVIDUALITY = "battleFunctionTargetAllIndividuality",
     BATTLE_FUNCTION_TARGET_ONE_INDIVIDUALITY = "battleFunctionTargetOneIndividuality",
+    BEFORE_QUEST_CLEAR_TIME = "beforeQuestClearTime",
+    AFTER_QUEST_CLEAR_TIME = "afterQuestClearTime",
     NOT_BATTLE_FUNCTION_TARGET_ALL_INDIVIDUALITY = "notBattleFunctionTargetAllIndividuality",
     NOT_BATTLE_FUNCTION_TARGET_ONE_INDIVIDUALITY = "notBattleFunctionTargetOneIndividuality",
 }
