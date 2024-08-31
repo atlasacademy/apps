@@ -9,6 +9,7 @@ import Region from "./Enum/Region";
 import ResultCache from "./ResultCache";
 import { AiActNum, AiActTarget, AiActType, AiCollection, AiCond, AiTiming, AiType } from "./Schema/Ai";
 import { Attribute, AttributeAffinityMap } from "./Schema/Attribute";
+import { BattleMasterImage } from "./Schema/BattleMaster";
 import { BgmEntity } from "./Schema/Bgm";
 import {
     BasicBuff,
@@ -135,6 +136,7 @@ class ApiConnector {
     private cache = {
         ai: new ResultCache<{ type: AiType; id: number }, AiCollection>(),
         attributeAffinityMap: new ResultCache<null, AttributeAffinityMap>(),
+        battleMasterImage: new ResultCache<string, BattleMasterImage>(),
         bgm: new ResultCache<string, BgmEntity>(),
         bgmList: new ResultCache<null, BgmEntity[]>(),
         buff: new ResultCache<number, Buff>(),
@@ -301,6 +303,22 @@ class ApiConnector {
         return ApiConnector.fetch<QuestPhaseBasic[]>(
             `${this.host}/basic/${this.region}/quest/phase/latestEnemyData${query}`
         );
+    }
+
+    battleMasterImage(id: number, cacheDuration?: number): Promise<BattleMasterImage> {
+        const params = new URLSearchParams();
+        const query = this.getQueryString(params);
+        const fetch = () => {
+            return ApiConnector.fetch<BattleMasterImage>(
+                `${this.host}/nice/${this.region}/battle-master-image/${id}${query}`
+            );
+        };
+
+        if (cacheDuration === undefined) return fetch();
+
+        const cacheKey = `${id}`;
+
+        return this.cache.battleMasterImage.get(cacheKey, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     bgm(id: number, cacheDuration?: number, fileName?: string): Promise<BgmEntity> {
