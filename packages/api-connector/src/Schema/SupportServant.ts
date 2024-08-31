@@ -3,6 +3,7 @@ import { CraftEssence } from "./CraftEssence";
 import { EntityBasic } from "./Entity";
 import { NoblePhantasm } from "./NoblePhantasm";
 import { EnemySkill, QuestEnemy } from "./QuestEnemy";
+import { Skill } from "./Skill";
 import { Trait } from "./Trait";
 
 export enum SupportServantFlag {
@@ -56,6 +57,12 @@ export interface SupportServantMisc {
     svtFollowerFlag: number;
 }
 
+export interface SupportServantPassiveSkill {
+    skillId: number;
+    skill?: Skill;
+    skillLv?: number;
+}
+
 export interface SupportServant {
     id: number;
     npcSvtFollowerId: number;
@@ -70,6 +77,7 @@ export interface SupportServant {
     traits: Trait[];
     skills: EnemySkill;
     noblePhantasm: SupportServantTd;
+    passiveSkills: SupportServantPassiveSkill[];
     flags: SupportServantFlag[];
     followerFlags: NpcFollowerFlag[];
     equips: SupportServantEquip[];

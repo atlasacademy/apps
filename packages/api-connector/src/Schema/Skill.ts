@@ -1,4 +1,5 @@
 import { ReverseData, ReverseDepth } from "../ApiConnector";
+import Card from "../Enum/Card";
 import { AiType } from "./Ai";
 import { CommandCode, CommandCodeBasic } from "./CommandCode";
 import { CommonRelease } from "./CommonRelease";
@@ -45,6 +46,19 @@ export interface TdChangeByBattlePoint {
     noblePhantasmId: number;
 }
 
+export interface SelectTreasureDeviceInfoTreasureDevice {
+    id: number;
+    type: Card;
+    message: string;
+}
+
+export interface SelectTreasureDeviceInfo {
+    dialogType: number;
+    treasureDevices: SelectTreasureDeviceInfoTreasureDevice[];
+    title: string;
+    messageOnSelected: string;
+}
+
 export interface SkillScript {
     NP_HIGHER?: number[];
     NP_LOWER?: number[];
@@ -63,6 +77,7 @@ export interface SkillScript {
     SelectAddInfo?: SelectAddInfo[];
     IgnoreBattlePointUp?: number[][];
     tdChangeByBattlePoint?: TdChangeByBattlePoint[];
+    selectTreasureDeviceInfo?: SelectTreasureDeviceInfo[];
 }
 
 export interface ExtraPassive {

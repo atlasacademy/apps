@@ -71,6 +71,8 @@ export interface Item {
     icon: string;
     background: ItemBackgroundType;
     value: number;
+    eventId: number;
+    eventGroupId: number;
     priority: number;
     dropPriority: number;
     startedAt: number;

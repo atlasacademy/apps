@@ -102,6 +102,22 @@ export interface WarAdd {
     endedAt: number;
 }
 
+export enum WarReleaseDisplayType {
+    HIDE = "hide",
+    OPEN = "open",
+    CLOSE = "close",
+    ANNOUNCEMENT = "announcement",
+}
+
+export interface WarRelease {
+    priority: number;
+    condType: CondType;
+    condId: number;
+    condNum: number;
+    warDisplayType: WarReleaseDisplayType;
+    closedDialogMessage: number;
+}
+
 export enum SpotOverwriteType {
     NONE = "none",
     FLAG = "flag",
@@ -185,6 +201,7 @@ export interface War {
     eventId: number;
     eventName: string;
     lastQuestId: number;
+    releaseConditions: WarRelease[];
     warAdds: WarAdd[];
     maps: Map[];
     spots: Spot[];
