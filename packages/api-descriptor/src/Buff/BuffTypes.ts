@@ -123,6 +123,7 @@ export const buffTypeDescriptions = new Map<Buff.BuffType, string>([
     [Buff.BuffType.INVINCIBLE, "Invincible"],
     [Buff.BuffType.MULTIATTACK, "Multiple Hits"],
     [Buff.BuffType.PIERCE_INVINCIBLE, "Ignore Invincible"],
+    [Buff.BuffType.PIERCE_SPECIAL_INVINCIBLE, "Ignore Special invincible"],
     [Buff.BuffType.PIERCE_DEFENCE, "Ignore DEF"],
     [Buff.BuffType.PIERCE_SUBDAMAGE, "Ignore Damage Cut"],
     [Buff.BuffType.PREVENT_DEATH_BY_DAMAGE, "Prevent death by damage"],

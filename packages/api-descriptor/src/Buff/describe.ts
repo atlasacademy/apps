@@ -137,5 +137,15 @@ export default function (buff: Buff.BasicBuff): Descriptor {
         partials.push(new TextPartial(" from Master Mystic Codes"));
     }
 
+    if (buff.script.NotPierceIndividuality !== undefined) {
+        partials.push(new TextPartial(" except for "));
+        buff.script.NotPierceIndividuality.forEach((traitGroup, i) => {
+            if (traitGroup.length > 1) partials.push(new TextPartial("("));
+            partials.push(...traitReferences(traitGroup, 1));
+            if (traitGroup.length > 1) partials.push(new TextPartial(")"));
+            if (i > 1) partials.push(new TextPartial(" or "));
+        });
+    }
+
     return new Descriptor(partials);
 }
