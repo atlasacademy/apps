@@ -224,17 +224,21 @@ const SupportServantTable = ({
     supportServant: SupportServant.SupportServant;
     stages: Quest.Stage[];
 }) => {
+    const { t } = useTranslation();
     return (
         <>
             <h4>
-                {supportServant.id}.{" "}
+                {supportServant.id} [{supportServant.npcSvtFollowerId}]{" "}
                 <EntityDescriptor
                     region={region}
                     entity={supportServant.svt}
                     overwriteName={supportServant.name === "NONE" ? supportServant.svt.name : supportServant.name}
                     iconHeight={40}
                 />{" "}
-                <span className="quest-svt-lv">Lv. {supportServant.lv}</span>
+                <span className="quest-svt-lv">
+                    {t("Lv")} {supportServant.lv} {t("Limit Count")}{" "}
+                    {supportServant.detail?.limit.dispLimitCount ?? supportServant.limit.limitCount}
+                </span>
             </h4>
             <Row className="quest-svt-tables">
                 <Col xs={{ span: 12 }} lg={{ span: 6 }}>

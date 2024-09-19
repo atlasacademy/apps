@@ -320,14 +320,16 @@ export const QuestEnemySubData = ({
     return (
         <Table bordered responsive className="quest-svt-data-table">
             <tbody>
-                {renderSpanningRow({
-                    title: t("Class"),
-                    content: <SvtClassDescriptor svtClass={enemy.svt.className} />,
-                })}
-                {renderSpanningRow({
-                    title: t("Attribute"),
-                    content: <SvtAttrDescriptor attribute={enemy.svt.attribute} />,
-                })}
+                {renderDoubleRow([
+                    {
+                        title: t("Class"),
+                        content: <SvtClassDescriptor svtClass={enemy.svt.className} />,
+                    },
+                    {
+                        title: t("Attribute"),
+                        content: <SvtAttrDescriptor attribute={enemy.svt.attribute} />,
+                    },
+                ])}
                 {renderSpanningRow({
                     title: t("Traits"),
                     content: <>{traitDescriptions}</>,
