@@ -149,6 +149,8 @@ export enum BuffAction {
     FUNCTION_STEP_IN_AFTER = "functionStepInAfter",
     SHORTEN_SKILL_AFTER_USE_SKILL = "shortenSkillAfterUseSkill",
     PIERCE_SPECIAL_INVINCIBLE = "pierceSpecialInvincible",
+    FUNCTIONED_FUNCTION = "functionedFunction",
+    DONOT_ACT_COMMANDCARD = "donotActCommandcard",
 }
 
 export enum BuffLimit {
@@ -351,6 +353,8 @@ export enum BuffType {
     STEP_IN_AFTER_FUNCTION = "stepInAfterFunction",
     SHORTEN_SKILL_AFTER_USE_SKILL = "shortenSkillAfterUseSkill",
     PIERCE_SPECIAL_INVINCIBLE = "pierceSpecialInvincible",
+    FUNCTIONED_FUNCTION = "functionedFunction",
+    DONOT_ACT_COMMANDCARD = "donotActCommandcard",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",

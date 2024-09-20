@@ -231,6 +231,8 @@ export enum CondType {
     AFTER_QUEST_CLEAR_TIME = "afterQuestClearTime",
     NOT_BATTLE_FUNCTION_TARGET_ALL_INDIVIDUALITY = "notBattleFunctionTargetAllIndividuality",
     NOT_BATTLE_FUNCTION_TARGET_ONE_INDIVIDUALITY = "notBattleFunctionTargetOneIndividuality",
+    EVENT_SCRIPT_NOT_PLAY = "eventScriptNotPlay",
+    EVENT_SCRIPT_FLAG = "eventScriptFlag",
 }
 
 export default CondType;

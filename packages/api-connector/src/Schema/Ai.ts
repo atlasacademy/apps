@@ -25,8 +25,11 @@ export enum AiActNum {
     REACTION_BEFORE_RESURRECTION = "reactionBeforeResurrection",
     REACTION_BEFORE_DEAD = "reactionBeforeDead",
     SHIFT_SERVANT_AFTER = "shiftServantAfter",
+    REACTION_BEFORE_MOVE_WAVE = "reactionBeforeMoveWave",
+    SHIFT_SERVANT_BEFORE = "shiftServantBefore",
     REACTION_ENEMY_TURN_START_PRIORITY = "reactionEnemyTurnStartPriority",
     REACTION_ENEMY_TURN_END_PRIORITY = "reactionEnemyTurnEndPriority",
+    SHIFT_SERVANT_BEFORE_PRIORITY = "shiftServantBeforePriority",
     UNKNOWN = "unknown",
 }
 

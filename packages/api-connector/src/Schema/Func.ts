@@ -153,6 +153,8 @@ export enum FuncType {
     LOSS_MULTIPLY_NP = "lossMultiplyNp",
     ADD_BATTLE_POINT = "addBattlePoint",
     DAMAGE_NP_BATTLE_POINT_PHASE = "damageNpBattlePointPhase",
+    SET_NP_EXECUTED_STATE = "setNpExecutedState",
+    HIDE_OVER_GAUGE = "hideOverGauge",
 }
 
 export interface BasicFunc {

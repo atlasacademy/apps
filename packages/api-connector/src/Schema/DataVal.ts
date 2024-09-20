@@ -201,6 +201,9 @@ interface BaseDataVal {
     ParamAddBattlePointPhaseId?: number;
     ParamAddBattlePointPhaseValue?: number;
     ShortenMaxCountEachSkill?: number[];
+    ChargeHpMaxBeforeBreakGaugeUp?: number;
+    TargetFunctionIndividuality?: number[];
+    TargetBuffIndividuality?: number[];
 }
 
 export type BaseDataValType = BaseDataVal[keyof BaseDataVal];
@@ -400,4 +403,6 @@ export enum DataValField {
     PARAM_ADD_BATTLE_POINT_PHASE_ID = "ParamAddBattlePointPhaseId",
     PARAM_ADD_BATTLE_POINT_PHASE_VALUE = "ParamAddBattlePointPhaseValue",
     SHORTEN_MAX_COUNT_EACH_SKILL = "ShortenMaxCountEachSkill",
+    TARGET_FUNCTION_INDIVIDUALITY = "TargetFunctionIndividuality",
+    TARGET_BUFF_INDIVIDUALITY = "TargetBuffIndividuality",
 }

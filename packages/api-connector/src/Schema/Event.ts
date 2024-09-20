@@ -47,6 +47,8 @@ export enum EventType {
     RELAXED_QUEST_REQUIREMENT_CAMPAIGN = "relaxedQuestRequirementCampaign",
     INTERLUDE_CAMPAIGN = "interludeCampaign",
     MYROOM_PHOTO_CAMPAIGN = "myroomPhotoCampaign",
+    FORTUNE_CAMPAIGN = "fortuneCampaign",
+    GENDER_SELECTION = "genderSelection",
 }
 
 export interface EventReward {
