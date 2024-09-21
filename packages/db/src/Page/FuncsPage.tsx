@@ -194,6 +194,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                     <tr>
                         <th>#</th>
                         <th>{t("Function")}</th>
+                        <th>{t("Popup Text")}</th>
                         <th>{t("Usage Count")}</th>
                     </tr>
                 </thead>
@@ -204,6 +205,9 @@ class FuncsPage extends React.Component<IProps, IState> {
                                 <td>{func.funcId}</td>
                                 <td>
                                     <FuncDescriptor region={this.props.region} func={func} />
+                                </td>
+                                <td>
+                                    <span lang={lang(this.props.region)}>{func.funcPopupText}</span>
                                 </td>
                                 <td>
                                     {(func.reverse?.basic?.NP ?? []).length + (func.reverse?.basic?.skill ?? []).length}

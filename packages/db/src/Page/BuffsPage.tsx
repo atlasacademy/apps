@@ -185,6 +185,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                     <tr>
                         <th>#</th>
                         <th>{t("Buff")}</th>
+                        <th>{t("Name")}</th>
                         <th>{t("Usage Count")}</th>
                     </tr>
                 </thead>
@@ -196,6 +197,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                                 <td>
                                     <BuffDescription region={this.props.region} buff={buff} />
                                 </td>
+                                <td lang={lang(this.props.region)}>{buff.name}</td>
                                 <td>{(buff.reverse?.basic?.function ?? []).length}</td>
                             </tr>
                         );
