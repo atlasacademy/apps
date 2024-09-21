@@ -19,10 +19,11 @@ interface IProps {
     popOver?: boolean;
     additionalSkillId?: number[];
     tableTitle?: string;
+    hideEnemyFunctions?: boolean;
 }
 
 function EffectBreakdown(props: IProps) {
-    let hideEnemy = Manager.hideEnemyFunctions();
+    let hideEnemy = props.hideEnemyFunctions !== undefined ? props.hideEnemyFunctions : Manager.hideEnemyFunctions();
     const { t } = useTranslation();
     return (
         <Table responsive>

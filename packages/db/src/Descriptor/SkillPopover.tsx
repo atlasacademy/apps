@@ -27,6 +27,7 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
                     scripts={skill.script}
                     popOver={true}
                     additionalSkillId={skill.script.additionalSkillId}
+                    hideEnemyFunctions={false}
                 />
             </Popover.Content>
         </Popover>

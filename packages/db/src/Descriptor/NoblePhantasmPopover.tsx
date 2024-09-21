@@ -23,6 +23,7 @@ const NoblePhantasmPopover = (props: { region: Region; noblePhantasm: NoblePhant
                     gain={noblePhantasm.npGain}
                     levels={noblePhantasm.functions[0]?.svals.length ?? 1}
                     popOver={true}
+                    hideEnemyFunctions={false}
                 />
             </Popover.Content>
         </Popover>

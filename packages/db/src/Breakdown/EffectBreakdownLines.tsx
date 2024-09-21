@@ -30,6 +30,7 @@ interface IProps extends WithTranslation {
     relatedNpId?: number;
     popOver?: boolean;
     additionalSkillId?: number[];
+    hideEnemyFunctions?: boolean;
 }
 
 class EffectBreakdownLines extends React.Component<IProps> {
@@ -200,6 +201,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                                                     levels={relatedSkill.skillLvs}
                                                                     level={this.props.level}
                                                                     popOver={this.props.popOver}
+                                                                    hideEnemyFunctions={this.props.hideEnemyFunctions}
                                                                 />
                                                             </tbody>
                                                         </Table>
@@ -241,6 +243,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                                                                     levels={relatedNp.npLvs}
                                                                     level={this.props.level}
                                                                     popOver={this.props.popOver}
+                                                                    hideEnemyFunctions={this.props.hideEnemyFunctions}
                                                                 />
                                                             </tbody>
                                                         </Table>

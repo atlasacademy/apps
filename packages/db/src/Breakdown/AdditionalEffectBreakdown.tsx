@@ -15,6 +15,7 @@ interface IProps {
     level?: number;
     levels?: number[];
     popOver?: boolean;
+    hideEnemyFunctions?: boolean;
 }
 
 interface IState {
@@ -38,11 +39,14 @@ class AdditionalEffectBreakdown extends React.Component<IProps, IState> {
     }
 
     render() {
-        let hasNp = this.props.isNp && this.state.noblePhantasm !== undefined;
+        const hasNp = this.props.isNp && this.state.noblePhantasm !== undefined;
         let functions = hasNp ? this.state.noblePhantasm?.functions : this.state.skill?.functions;
 
         if (functions) {
-            let hideEnemy = Manager.hideEnemyFunctions();
+            const hideEnemy =
+                this.props.hideEnemyFunctions !== undefined
+                    ? this.props.hideEnemyFunctions
+                    : Manager.hideEnemyFunctions();
             functions = functions.filter((func) => {
                 if (!hideEnemy) return true;
                 return isPlayerSideFunction(func);
