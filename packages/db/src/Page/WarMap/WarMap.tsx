@@ -166,7 +166,10 @@ class WarMap extends React.Component<IProps, IState> {
             showNonFQSpots: false,
             spots: this.props.allSpots,
             showRoads:
-                !donotSpotroad.includes(this.props.warId) && !!this.props.spotRoads.length && !this.props.isEvent,
+                !donotSpotroad.includes(this.props.warId) &&
+                !!this.props.spotRoads.length &&
+                !this.props.isEvent &&
+                this.props.warId < 400,
         };
     }
 
