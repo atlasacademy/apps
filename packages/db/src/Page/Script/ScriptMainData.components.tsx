@@ -65,7 +65,7 @@ export const QuestListComponent = ({
                             questPhase={scriptPhase ?? 1}
                         />
                     ) : (
-                        <ul>
+                        <ul className="mb-0">
                             {scriptData.quests.map((quest) => (
                                 <li key={quest.id}>
                                     <QuestWarDescriptor region={region} quest={quest} questPhase={scriptPhase ?? 1} />
