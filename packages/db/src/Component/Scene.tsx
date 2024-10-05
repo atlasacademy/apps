@@ -84,10 +84,6 @@ const Scene = (props: {
                     setFigureHeight(size.height);
                 }
             });
-            Api.svtScript(charaGraphId).then((script) => {
-                if (controller.signal.aborted) return;
-                setScript(script[0]);
-            });
         }
         return () => {
             controller.abort();
