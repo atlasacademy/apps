@@ -66,6 +66,7 @@ const Scene = (props: {
 }) => {
     const [script, setScript] = useState<Script.SvtScript | undefined>(undefined),
         [figureWidth, setFigureWidth] = useState(1024),
+        [figureHeight, setFigureHeight] = useState(1024),
         { cameraFilter, effects, region } = props,
         charaGraphId = props.figure?.charaGraphId;
 
@@ -74,11 +75,14 @@ const Scene = (props: {
         if (charaGraphId !== undefined) {
             Promise.all([
                 Api.svtScript(charaGraphId),
-                getImageSize(`${AssetHost}/${region}/CharaFigure/${charaGraphId}/${charaGraphId}_merged.png`),
+                getImageSize(`${AssetHost}/${region}/CharaFigure/${charaGraphId}/${charaGraphId}.png`),
             ]).then(([scriptInfo, size]) => {
                 if (controller.signal.aborted) return;
                 setScript(scriptInfo[0]);
-                if (size.width !== -1) setFigureWidth(size.width);
+                if (size.width !== -1) {
+                    setFigureWidth(size.width);
+                    setFigureHeight(size.height);
+                }
             });
             Api.svtScript(charaGraphId).then((script) => {
                 if (controller.signal.aborted) return;
@@ -107,22 +111,27 @@ const Scene = (props: {
     if (props.figure && props.figure.face > 0 && script) {
         let face = props.figure.face - 1,
             defaultFaceSize = 256,
+            defaultFigureHeight = 1024,
+            facePortionPageWidth = 1024,
+            facePortionPageHeight = 1024,
             faceSizeWidth = script.extendData.faceSizeRect
                 ? script.extendData.faceSizeRect[0]
                 : (script.extendData.faceSize ?? defaultFaceSize),
             faceSizeHeight = script.extendData.faceSizeRect
                 ? script.extendData.faceSizeRect[1]
                 : (script.extendData.faceSize ?? defaultFaceSize),
-            offsetX = 0,
-            offsetY = faceSizeHeight === defaultFaceSize ? 1024 - defaultFaceSize : 1024,
-            perRow = Math.floor(figureWidth / faceSizeWidth),
+            perRow = Math.floor(facePortionPageWidth / faceSizeWidth),
             col = face % perRow,
             row = Math.floor(face / perRow),
             page = Math.floor(row / perRow),
             rowInPage = row % perRow,
-            backgroundPositionX: number | string = (col * faceSizeWidth * -1 - offsetX) * scale,
-            backgroundPositionY: number | string =
-                ((page * figureWidth + rowInPage * faceSizeHeight) * -1 - offsetY) * scale,
+            offsetX = col * faceSizeWidth,
+            offsetY =
+                faceSizeHeight === defaultFaceSize && figureHeight === defaultFigureHeight
+                    ? defaultFigureHeight - defaultFaceSize + defaultFaceSize * row
+                    : figureHeight + facePortionPageHeight * page + rowInPage * faceSizeHeight,
+            backgroundPositionX: number | string = offsetX * -1 * scale,
+            backgroundPositionY: number | string = offsetY * -1 * scale,
             backgroundSize: number | string = scale * figureWidth,
             left = script.faceX * scale + figureLeft,
             top = script.faceY * scale,
