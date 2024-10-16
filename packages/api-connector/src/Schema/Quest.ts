@@ -26,6 +26,7 @@ export enum QuestType {
     EVENT = "event",
     HERO_BALLAD = "heroballad",
     WAR_BOARD = "warBoard",
+    AUTO_EXECUTE = "autoExecute",
 }
 
 export enum QuestAfterClearType {

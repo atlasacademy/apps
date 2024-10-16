@@ -151,6 +151,7 @@ export enum BuffAction {
     PIERCE_SPECIAL_INVINCIBLE = "pierceSpecialInvincible",
     FUNCTIONED_FUNCTION = "functionedFunction",
     DONOT_ACT_COMMANDCARD = "donotActCommandcard",
+    NPDAMAGE_INDIVIDUALITY = "npdamageIndividuality",
 }
 
 export enum BuffLimit {
@@ -162,6 +163,7 @@ export enum BuffLimit {
 
 export enum BuffType {
     NONE = "none",
+    INVALID = "invalid",
     UP_COMMANDATK = "upCommandatk",
     UP_STARWEIGHT = "upStarweight",
     UP_CRITICALPOINT = "upCriticalpoint",
@@ -355,6 +357,7 @@ export enum BuffType {
     PIERCE_SPECIAL_INVINCIBLE = "pierceSpecialInvincible",
     FUNCTIONED_FUNCTION = "functionedFunction",
     DONOT_ACT_COMMANDCARD = "donotActCommandcard",
+    UP_NPDAMAGE_INDIVIDUALITY_SUM = "upNpdamageIndividualitySum",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",

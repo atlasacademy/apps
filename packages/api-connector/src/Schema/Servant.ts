@@ -21,10 +21,10 @@ export enum ServantFrameType {
     BRONZE = "bronze",
     SILVER = "silver",
     GOLD = "gold",
-    FRAME_0801 = "frame0801",
-    FRAME_0802 = "frame0802",
-    FRAME_0803 = "frame0803",
-    FRAME_0804 = "frame0804",
+    GOLD_RED = "goldRed",
+    GOLD_RED_GREAT = "goldRedGreat",
+    GOLD_BLACK = "goldBlack",
+    GOLD_BLACK_GREAT = "goldBlackGreat",
 }
 
 export interface GrailCostInfo {

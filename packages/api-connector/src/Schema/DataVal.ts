@@ -204,6 +204,19 @@ interface BaseDataVal {
     ChargeHpMaxBeforeBreakGaugeUp?: number;
     TargetFunctionIndividuality?: number[];
     TargetBuffIndividuality?: number[];
+    TargetEnemyClass?: number[];
+    ParamAddIndividualityTargetType?: number;
+    TriggeredFuncIndexAndCheckList?: number;
+    FuncCheckTargetIndividualityTargetType?: number;
+    FuncCheckTargetIndividualityCountHigher?: number;
+    FuncCheckTargetIndividualityCountLower?: number;
+    FuncCheckTargetIndividualityCountEqual?: number;
+    ParamAddSelfIndividualityAndCheck?: number;
+    ParamAddOpIndividualityAndCheck?: number;
+    ParamAddFieldIndividualityAndCheck?: number;
+    SnapShotParamAddSelfIndividualityAndCheck?: number;
+    SnapShotParamAddOpIndividualityAndCheck?: number;
+    SnapShotParamAddFieldIndividualityAndCheck?: number;
 }
 
 export type BaseDataValType = BaseDataVal[keyof BaseDataVal];
@@ -405,4 +418,17 @@ export enum DataValField {
     SHORTEN_MAX_COUNT_EACH_SKILL = "ShortenMaxCountEachSkill",
     TARGET_FUNCTION_INDIVIDUALITY = "TargetFunctionIndividuality",
     TARGET_BUFF_INDIVIDUALITY = "TargetBuffIndividuality",
+    TARGET_ENEMY_CLASS = "TargetEnemyClass",
+    PARAM_ADD_INDIVIDUALITY_TARGET_TYPE = "ParamAddIndividualityTargetType",
+    TRIGGERED_FUNC_INDEX_AND_CHECK_LIST = "TriggeredFuncIndexAndCheckList",
+    FUNC_CHECK_TARGET_INDIVIDUALITY_TARGET_TYPE = "FuncCheckTargetIndividualityTargetType",
+    FUNC_CHECK_TARGET_INDIVIDUALITY_COUNT_HIGHER = "FuncCheckTargetIndividualityCountHigher",
+    FUNC_CHECK_TARGET_INDIVIDUALITY_COUNT_LOWER = "FuncCheckTargetIndividualityCountLower",
+    FUNC_CHECK_TARGET_INDIVIDUALITY_COUNT_EQUAL = "FuncCheckTargetIndividualityCountEqual",
+    PARAM_ADD_SELF_INDIVIDUALITY_AND_CHECK = "ParamAddSelfIndividualityAndCheck",
+    PARAM_ADD_OP_INDIVIDUALITY_AND_CHECK = "ParamAddOpIndividualityAndCheck",
+    PARAM_ADD_FIELD_INDIVIDUALITY_AND_CHECK = "ParamAddFieldIndividualityAndCheck",
+    SNAP_SHOT_PARAM_ADD_SELF_INDIVIDUALITY_AND_CHECK = "SnapShotParamAddSelfIndividualityAndCheck",
+    SNAP_SHOT_PARAM_ADD_OP_INDIVIDUALITY_AND_CHECK = "SnapShotParamAddOpIndividualityAndCheck",
+    SNAP_SHOT_PARAM_ADD_FIELD_INDIVIDUALITY_AND_CHECK = "SnapShotParamAddFieldIndividualityAndCheck",
 }

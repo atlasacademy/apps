@@ -155,6 +155,7 @@ export enum FuncType {
     DAMAGE_NP_BATTLE_POINT_PHASE = "damageNpBattlePointPhase",
     SET_NP_EXECUTED_STATE = "setNpExecutedState",
     HIDE_OVER_GAUGE = "hideOverGauge",
+    GAIN_NP_TARGET_SUM = "gainNpTargetSum",
 }
 
 export interface BasicFunc {
