@@ -17,9 +17,9 @@ export enum ShopType {
     GRAIL_FRAGMENTS = "grailFragments",
     SVT_COSTUME = "svtCostume",
     START_UP_SUMMON = "startUpSummon",
-    SHOP13 = "shop13",
+    PURE_PRI = "purePri",
     TRADE_AP = "tradeAp",
-    SHOP15 = "shop15",
+    REVIVAL_ITEM = "revivalItem",
     EVENT_SVT_EQUIP = "eventSvtEquip",
 }
 

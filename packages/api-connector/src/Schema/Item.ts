@@ -39,9 +39,9 @@ export enum ItemType {
     DICE = "dice",
     SVT_COIN = "svtCoin",
     FRIENDSHIP_UP_ITEM = "friendshipUpItem",
-    PP = "pp",
+    PURE_PRI = "purePri",
     TRADE_AP = "tradeAp",
-    RI = "ri",
+    REVIVAL_ITEM = "revivalItem",
     STORMPOD = "stormpod",
     BATTLE_ITEM = "battleItem",
 }

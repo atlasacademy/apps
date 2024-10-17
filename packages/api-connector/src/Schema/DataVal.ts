@@ -204,19 +204,25 @@ interface BaseDataVal {
     ChargeHpMaxBeforeBreakGaugeUp?: number;
     TargetFunctionIndividuality?: number[];
     TargetBuffIndividuality?: number[];
-    TargetEnemyClass?: number[];
+    TargetEnemyClass?: number;
     ParamAddIndividualityTargetType?: number;
     TriggeredFuncIndexAndCheckList?: number;
     FuncCheckTargetIndividualityTargetType?: number;
     FuncCheckTargetIndividualityCountHigher?: number;
     FuncCheckTargetIndividualityCountLower?: number;
     FuncCheckTargetIndividualityCountEqual?: number;
-    ParamAddSelfIndividualityAndCheck?: number;
-    ParamAddOpIndividualityAndCheck?: number;
-    ParamAddFieldIndividualityAndCheck?: number;
-    SnapShotParamAddSelfIndividualityAndCheck?: number;
-    SnapShotParamAddOpIndividualityAndCheck?: number;
-    SnapShotParamAddFieldIndividualityAndCheck?: number;
+    ParamAddSelfIndividualityAndCheck?: number[][];
+    ParamAddOpIndividualityAndCheck?: number[][];
+    ParamAddFieldIndividualityAndCheck?: number[][];
+    SnapShotParamAddSelfIndividualityAndCheck?: number[][];
+    SnapShotParamAddOpIndividualityAndCheck?: number[][];
+    SnapShotParamAddFieldIndividualityAndCheck?: number[][];
+}
+
+export enum SvtClassGroupType {
+    NORMAL = "normal",
+    OTHER = "other",
+    ALL = "all",
 }
 
 export type BaseDataValType = BaseDataVal[keyof BaseDataVal];

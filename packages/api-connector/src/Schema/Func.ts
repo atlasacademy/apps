@@ -158,6 +158,14 @@ export enum FuncType {
     GAIN_NP_TARGET_SUM = "gainNpTargetSum",
 }
 
+export enum GainNpIndividualSumTarget {
+    SELF = "self",
+    PLAYER = "player",
+    ENEMY = "enemy",
+    ALL = "all",
+    OTHER_ALL = "otherAll",
+}
+
 export interface BasicFunc {
     funcId: number;
     funcType: FuncType;
