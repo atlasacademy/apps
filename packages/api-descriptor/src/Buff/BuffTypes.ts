@@ -227,4 +227,5 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.TREASURE_DEVICE_BEFORE_FUNCTION, { after: false, event: "noble phantasm is used" }],
     [Buff.BuffType.SKILL_TARGETED_BEFORE_FUNCTION, { after: false, event: "targeted by skill" }],
     [Buff.BuffType.FUNCTIONED_FUNCTION, { after: true, event: "being NP drained or stunned" }],
+    [Buff.BuffType.SELFTURNSTART_FUNCTION, { after: false, event: "start of own turn" }],
 ]);
