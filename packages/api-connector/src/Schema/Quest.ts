@@ -308,11 +308,13 @@ export interface QuestPhase extends Quest {
     phase: number;
     className: ClassName[];
     individuality: Trait[];
+    phaseIndividuality?: Trait[];
     qp: number;
     exp: number;
     bond: number;
     isNpcOnly: boolean;
     battleBgId: number;
+    phaseGifts: Gift[];
     battleBg?: BattleBg;
     extraDetail: QuestPhaseExtraDetail;
     scripts: PhaseScript[];

@@ -1,4 +1,5 @@
 import CondType from "../Enum/Cond";
+import { CommonRelease } from "./CommonRelease";
 import { PayType } from "./Shop";
 
 export interface GachaStoryAdjust {
@@ -16,6 +17,17 @@ export enum GachaFlag {
     DISPLAY_FEATURED_SVT = "displayFeaturedSvt",
 }
 
+export interface GachaSub {
+    id: number;
+    priority: number;
+    imageId: number;
+    adjustAddId: number;
+    openedAt: number;
+    closedAt: number;
+    releaseConditions: CommonRelease[];
+    script: Record<string, any>;
+}
+
 export interface Gacha {
     id: number;
     name: string;
@@ -30,5 +42,6 @@ export interface Gacha {
     closedAt: number;
     detailUrl: string;
     flags: GachaFlag[];
+    gachaSubs: GachaSub[];
     storyAdjusts: GachaStoryAdjust[];
 }
