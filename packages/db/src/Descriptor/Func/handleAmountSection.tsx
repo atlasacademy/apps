@@ -63,6 +63,8 @@ export default function handleAmountSection(
     } else if (func.buffs[0]?.type === Buff.BuffType.OVERWRITE_SUBATTRIBUTE && dataVal.Value) {
         section.preposition = "to";
         parts.push(<AttributeDescriptor attributeId={dataVal.Value} />);
+    } else if (func.buffs[0]?.type === Buff.BuffType.OVERWRITE_BATTLECLASS) {
+        section.preposition = undefined;
     } else if (func.buffs[0]?.type === Buff.BuffType.CHANGE_BGM && dataVal.BgmId) {
         section.preposition = "to";
         parts.push(<BgmDescriptorId region={region} bgmId={dataVal.BgmId} showLink />);
