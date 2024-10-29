@@ -41,6 +41,7 @@ const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.GAIN_NP, "Charge NP"],
     [Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM, "Charge NP per Buff Trait"],
     [Func.FuncType.GAIN_NP_INDIVIDUAL_SUM, "Charge NP per Trait"],
+    [Func.FuncType.GAIN_NP_TARGET_SUM, "Charge NP per Target with Trait"],
     [Func.FuncType.GAIN_NP_FROM_TARGETS, "Absorb NP Charge"],
     [Func.FuncType.GAIN_MULTIPLY_NP, "Gain Multiple of Current NP"],
     [Func.FuncType.GAIN_STAR, "Gain Critical Stars"],
@@ -83,6 +84,7 @@ export default function (func: Func.Func): BasePartial[] {
             return describeCleanseActionSection(partials, func);
         case Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM:
         case Func.FuncType.GAIN_NP_INDIVIDUAL_SUM:
+        case Func.FuncType.GAIN_NP_TARGET_SUM:
             return describeChargeNpPerTraitActionSection(partials, func);
         case Func.FuncType.DAMAGE_NP:
         case Func.FuncType.DAMAGE_NP_HPRATIO_LOW:

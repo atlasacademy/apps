@@ -43,6 +43,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.GAIN_NP, "Charge NP"],
     [Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM, "Charge NP per Buff Trait"],
     [Func.FuncType.GAIN_NP_INDIVIDUAL_SUM, "Charge NP per Trait"],
+    [Func.FuncType.GAIN_NP_TARGET_SUM, "Charge NP per Target with Trait"],
     [Func.FuncType.GAIN_NP_FROM_TARGETS, "Absorb NP Charge"],
     [Func.FuncType.GAIN_MULTIPLY_NP, "Gain Multiple of current NP"],
     [Func.FuncType.GAIN_STAR, "Gain Critical Stars"],
@@ -249,6 +250,10 @@ function handleChargeNpPerTraitActionSection(
 
     parts.push("Charge NP per");
 
+    if (func.funcType === Func.FuncType.GAIN_NP_TARGET_SUM) {
+        parts.push("target with");
+    }
+
     if (func.traitVals?.length) {
         func.traitVals.forEach((trait, index) => {
             if (index > 0) parts.push("&");
@@ -263,7 +268,11 @@ function handleChargeNpPerTraitActionSection(
         parts.push("(including passive traits)");
     }
 
-    if (func.funcType === Func.FuncType.GAIN_NP_INDIVIDUAL_SUM && dataVal.Value2 !== undefined) {
+    if (
+        (func.funcType === Func.FuncType.GAIN_NP_INDIVIDUAL_SUM ||
+            func.funcType === Func.FuncType.GAIN_NP_TARGET_SUM) &&
+        dataVal.Value2 !== undefined
+    ) {
         switch (dataVal.Value2) {
             case 0:
                 parts.push("on self");
@@ -277,11 +286,18 @@ function handleChargeNpPerTraitActionSection(
             case 3:
                 parts.push("on party members and enemies");
                 break;
+            case 4:
+                parts.push("on the field");
+                break;
         }
     }
 
-    sections.amount.preposition = "by";
-    sections.target.preposition = "per trait for";
+    if (dataVal.Value) {
+        sections.amount.preposition = "by";
+        sections.target.preposition = "per trait for";
+    } else {
+        sections.amount.preposition = undefined;
+    }
 }
 
 export default function handleActionSection(
@@ -308,7 +324,8 @@ export default function handleActionSection(
         return;
     } else if (
         func.funcType === Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM ||
-        func.funcType === Func.FuncType.GAIN_NP_INDIVIDUAL_SUM
+        func.funcType === Func.FuncType.GAIN_NP_INDIVIDUAL_SUM ||
+        func.funcType === Func.FuncType.GAIN_NP_TARGET_SUM
     ) {
         handleChargeNpPerTraitActionSection(region, sections, func, dataVal);
 

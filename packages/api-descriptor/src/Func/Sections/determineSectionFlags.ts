@@ -38,6 +38,7 @@ export default function (func: Func.Func): Sections {
             return flags;
         case Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM:
         case Func.FuncType.GAIN_NP_INDIVIDUAL_SUM:
+        case Func.FuncType.GAIN_NP_TARGET_SUM:
             flags.amount.preposition = "by";
             flags.target.preposition = "for";
 

@@ -312,6 +312,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                                         Func.FuncType.EVENT_DROP_UP,
                                         Func.FuncType.GAIN_NP_BUFF_INDIVIDUAL_SUM,
                                         Func.FuncType.GAIN_NP_INDIVIDUAL_SUM,
+                                        Func.FuncType.GAIN_NP_TARGET_SUM,
                                     ];
                                     if (!doIntersect(this.state.type ?? [], funcTypesNotBuff)) {
                                         this.setState({ type: funcTypesNotBuff.concat(this.state.type ?? []) });
