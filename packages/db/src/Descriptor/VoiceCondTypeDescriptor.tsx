@@ -56,7 +56,7 @@ const VoiceCondTypeDescriptor = (props: IProps) => {
         case VoiceCondType.COSTUME:
             return (
                 <>
-                    {t(translationKey)} <b>{costumes[value].name}</b>
+                    {t(translationKey)} <b>{costumes[value]?.name ?? `${t("Costume")} ${value}`}</b>
                 </>
             );
         case VoiceCondType.IS_NEW_WAR:
