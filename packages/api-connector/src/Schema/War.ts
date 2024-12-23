@@ -30,6 +30,7 @@ export enum WarOverwriteType {
     EFFECT_CHANGE_WHITE_MARK = "effectChangeWhiteMark",
     COMMAND_SPELL_ICON = "commandSpellIcon",
     MASTER_FACE_ICON = "masterFaceIcon",
+    PRIORITY = "priority",
 }
 
 export enum WarFlag {
@@ -57,6 +58,8 @@ export enum WarFlag {
     IS_WAR_ICON_CENTER = "isWarIconCenter",
     NOTICE_BOARD = "noticeBoard",
     CHANGE_DISP_CLOSED_MESSAGE = "changeDispClosedMessage",
+    CHAPTER_SUB_ID_JAPANESE_NUMERALS_NORMAL = "chapterSubIdJapaneseNumeralsNormal",
+    CALDEAGATE_PRIORITY_DISPLAY = "caldeagatePriorityDisplay",
 }
 
 export interface Map {

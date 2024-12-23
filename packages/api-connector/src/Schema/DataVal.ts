@@ -217,6 +217,13 @@ interface BaseDataVal {
     SnapShotParamAddSelfIndividualityAndCheck?: number[][];
     SnapShotParamAddOpIndividualityAndCheck?: number[][];
     SnapShotParamAddFieldIndividualityAndCheck?: number[][];
+    EnemyCountChangeTime?: number;
+    EnemyCountChangeEffectId?: number;
+    EnemyCountWaitTimeAfterMessage?: number;
+    WaitMessageEnd?: number;
+    ContinueDisplayMessage?: number;
+    StartIntervalTurn?: number;
+    StartIntervalCount?: number;
 }
 
 export enum SvtClassGroupType {
@@ -437,4 +444,11 @@ export enum DataValField {
     SNAP_SHOT_PARAM_ADD_SELF_INDIVIDUALITY_AND_CHECK = "SnapShotParamAddSelfIndividualityAndCheck",
     SNAP_SHOT_PARAM_ADD_OP_INDIVIDUALITY_AND_CHECK = "SnapShotParamAddOpIndividualityAndCheck",
     SNAP_SHOT_PARAM_ADD_FIELD_INDIVIDUALITY_AND_CHECK = "SnapShotParamAddFieldIndividualityAndCheck",
+    ENEMY_COUNT_CHANGE_TIME = "EnemyCountChangeTime",
+    ENEMY_COUNT_CHANGE_EFFECT_ID = "EnemyCountChangeEffectId",
+    ENEMY_COUNT_WAIT_TIME_AFTER_MESSAGE = "EnemyCountWaitTimeAfterMessage",
+    WAIT_MESSAGE_END = "WaitMessageEnd",
+    CONTINUE_DISPLAY_MESSAGE = "ContinueDisplayMessage",
+    START_INTERVAL_TURN = "StartIntervalTurn",
+    START_INTERVAL_COUNT = "StartIntervalCount",
 }

@@ -44,6 +44,10 @@ export enum ItemType {
     REVIVAL_ITEM = "revivalItem",
     STORMPOD = "stormpod",
     BATTLE_ITEM = "battleItem",
+    ANIPLEX_PLUS_CHARGE_STONE = "aniplexPlusChargeStone",
+    PURE_PRI_SHOP_RESET = "purePriShopReset",
+    EXCHANGE_SVT_COIN = "exchangeSvtCoin",
+    REDUCE_TRADE_TIME = "reduceTradeTime",
 }
 
 export enum ItemUse {

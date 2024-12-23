@@ -21,6 +21,7 @@ export enum ShopType {
     TRADE_AP = "tradeAp",
     REVIVAL_ITEM = "revivalItem",
     EVENT_SVT_EQUIP = "eventSvtEquip",
+    EXCHANGE_SVT_COIN = "exchangeSvtCoin",
 }
 
 export enum PayType {

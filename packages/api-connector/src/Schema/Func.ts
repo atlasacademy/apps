@@ -43,6 +43,8 @@ export enum FuncTargetType {
     PT_ONE_HP_LOWEST_VALUE = "ptOneHpLowestValue",
     PT_ONE_HP_LOWEST_RATE = "ptOneHpLowestRate",
     ENEMY_RANGE = "enemyRange",
+    HAND_COMMANDCARD_RANDOM_ONE = "handCommandcardRandomOne",
+    FIELD_ALL = "fieldAll",
 }
 
 export enum FuncType {
@@ -156,6 +158,8 @@ export enum FuncType {
     SET_NP_EXECUTED_STATE = "setNpExecutedState",
     HIDE_OVER_GAUGE = "hideOverGauge",
     GAIN_NP_TARGET_SUM = "gainNpTargetSum",
+    ENEMY_COUNT_CHANGE = "enemyCountChange",
+    DISPLAY_BATTLE_MESSAGE = "displayBattleMessage",
 }
 
 export enum GainNpIndividualSumTarget {

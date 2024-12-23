@@ -152,6 +152,9 @@ export enum BuffAction {
     FUNCTIONED_FUNCTION = "functionedFunction",
     DONOT_ACT_COMMANDCARD = "donotActCommandcard",
     NPDAMAGE_INDIVIDUALITY = "npdamageIndividuality",
+    FUNCTION_COMBO_START = "functionComboStart",
+    FUNCTION_COMBO_END = "functionComboEnd",
+    OVERWRITE_SVT_CARD_TYPE = "overwriteSvtCardType",
 }
 
 export enum BuffLimit {
@@ -358,6 +361,9 @@ export enum BuffType {
     FUNCTIONED_FUNCTION = "functionedFunction",
     DONOT_ACT_COMMANDCARD = "donotActCommandcard",
     UP_NPDAMAGE_INDIVIDUALITY_SUM = "upNpdamageIndividualitySum",
+    COMBO_START_FUNCTION = "comboStartFunction",
+    COMBO_END_FUNCTION = "comboEndFunction",
+    OVERWRITE_SVT_CARD_TYPE = "overwriteSvtCardType",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",
