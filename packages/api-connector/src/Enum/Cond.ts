@@ -233,6 +233,7 @@ export enum CondType {
     NOT_BATTLE_FUNCTION_TARGET_ONE_INDIVIDUALITY = "notBattleFunctionTargetOneIndividuality",
     EVENT_SCRIPT_NOT_PLAY = "eventScriptNotPlay",
     EVENT_SCRIPT_FLAG = "eventScriptFlag",
+    IMAGE_PARTS_GROUP = "imagePartsGroup",
 }
 
 export default CondType;

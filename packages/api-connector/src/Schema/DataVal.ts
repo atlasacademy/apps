@@ -224,6 +224,7 @@ interface BaseDataVal {
     ContinueDisplayMessage?: number;
     StartIntervalTurn?: number;
     StartIntervalCount?: number;
+    CommonReleaseId?: number;
 }
 
 export enum SvtClassGroupType {
@@ -451,4 +452,5 @@ export enum DataValField {
     CONTINUE_DISPLAY_MESSAGE = "ContinueDisplayMessage",
     START_INTERVAL_TURN = "StartIntervalTurn",
     START_INTERVAL_COUNT = "StartIntervalCount",
+    COMMON_RELEASE_ID = "CommonReleaseId",
 }

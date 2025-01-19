@@ -214,6 +214,7 @@ export enum AiCond {
     COUNT_AVAILABLE_MASTER_SKILL_HIGHER = "countAvailableMasterSkillHigher",
     COUNT_AVAILABLE_MASTER_SKILL_LOWER = "countAvailableMasterSkillLower",
     COUNT_AVAILABLE_MASTER_SKILL_EQUAL = "countAvailableMasterSkillEqual",
+    COMMON_RELEASE_ID = "commonReleaseId",
 }
 
 export enum AiTiming {
@@ -252,6 +253,7 @@ export enum AiActType {
     BATTLE_END = "battleEnd",
     LOSE_END = "loseEnd",
     BATTLE_END_NOT_RELATED_SURVIVAL_STATUS = "battleEndNotRelatedSurvivalStatus",
+    BATTLE_END_NOT_RELATED_SURVIVAL_STATUS_INSTANTLY = "battleEndNotRelatedSurvivalStatusInstantly",
     CHANGE_THINKING = "changeThinking",
 }
 
