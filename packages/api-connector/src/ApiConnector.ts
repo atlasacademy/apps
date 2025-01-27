@@ -195,6 +195,7 @@ class ApiConnector {
         searchQuestPhase: new ResultCache<string, QuestPhaseBasic[]>(),
         searchScript: new ResultCache<string, ScriptSearchResult[]>(),
         servant: new ResultCache<number, Servant>(),
+        servantWithLore: new ResultCache<number, ServantWithLore>(),
         servantList: new ResultCache<null, ServantBasic[]>(),
         servantListNice: new ResultCache<null, Servant[]>(),
         servantListNiceWithLore: new ResultCache<null, ServantWithLore[]>(),
@@ -788,13 +789,14 @@ class ApiConnector {
     servant(id: number, lore: true, cacheDuration?: number): Promise<ServantWithLore>;
     servant(id: number, lore = false, cacheDuration?: number): Promise<Servant> {
         const queryString = this.getQueryString(this.getURLSearchParams({ lore }));
+        const cacheKey = lore ? "servantWithLore" : "servant";
         const fetch = () => {
             return ApiConnector.fetch<Servant>(`${this.host}/nice/${this.region}/servant/${id}${queryString}`);
         };
 
         if (cacheDuration === undefined) return fetch();
 
-        return this.cache.servant.get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
+        return this.cache[cacheKey].get(id, fetch, cacheDuration <= 0 ? null : cacheDuration);
     }
 
     servantList(cacheDuration?: number): Promise<ServantBasic[]> {
