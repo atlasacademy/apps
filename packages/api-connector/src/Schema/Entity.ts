@@ -267,6 +267,9 @@ export interface Entity {
         blank?: CardDetail;
         weak?: CardDetail;
         strength?: CardDetail;
+        weakalt1?: CardDetail;
+        weakalt2?: CardDetail;
+        addattack2?: CardDetail;
     };
     atkBase: number;
     atkMax: number;
