@@ -9,6 +9,8 @@ enum Card {
     BLANK = "blank",
     WEAK = "weak",
     STRENGTH = "strength",
+    WEAKALT1 = "weakalt1",
+    WEAKALT2 = "weakalt2",
     ADDATTACK2 = "addattack2",
 }
 

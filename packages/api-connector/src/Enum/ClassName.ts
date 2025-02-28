@@ -29,6 +29,7 @@ enum ClassName {
     BEAST_VI_BOSS = "beastVIBoss",
     U_OLGA_MARIE_FLARE = "uOlgaMarieFlare",
     U_OLGA_MARIE_AQUA = "uOlgaMarieAqua",
+    U_OLGA_MARIE_GROUND = "uOlgaMarieGround",
     UNKNOWN = "unknown",
     AGARTHA_PENTH = "agarthaPenth",
     CCC_FINALE_EMIYA_ALTER = "cccFinaleEmiyaAlter",
@@ -39,6 +40,7 @@ enum ClassName {
     EXTRA_II = "EXTRA_II",
     U_OLGA_MARIE_FLARE_COLLECTION = "uOlgaMarieFlareCollection",
     U_OLGA_MARIE_AQUA_COLLECTION = "uOlgaMarieAquaCollection",
+    U_OLGA_MARIE_GROUND_COLLECTION = "uOlgaMarieGroundCollection",
     BEAST_ERESH = "beastEresh",
 }
 

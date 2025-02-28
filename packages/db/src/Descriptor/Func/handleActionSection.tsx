@@ -74,6 +74,7 @@ export const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.LAST_USE_PLAYER_SKILL_COPY, "Copy Last Used Player Skill"],
     [Func.FuncType.DISPLAY_BUFFSTRING, "Display Buff String"],
     [Func.FuncType.ADD_BATTLE_POINT, "Add Battle Point"],
+    [Func.FuncType.GENERATE_BATTLE_SKILL_DROP, "Drop Battle Skill"],
 ]);
 
 function handleBuffActionSection(

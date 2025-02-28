@@ -79,6 +79,16 @@ export const upDownBuffs: UpDownBuffType[] = [
         up: Buff.BuffType.MASTER_SKILL_VALUE_UP,
         description: "Master Skill Effectiveness",
     },
+    {
+        up: Buff.BuffType.UP_DEFENCE_NPDAMAGE,
+        down: Buff.BuffType.DOWN_DEFENCE_NPDAMAGE,
+        description: "NP Damage Defense",
+    },
+    {
+        up: Buff.BuffType.UP_DEFENCE_CRITICALDAMAGE,
+        down: Buff.BuffType.DOWN_DEFENCE_CRITICALDAMAGE,
+        description: "Critical Damage Defense",
+    },
 ];
 
 export const buffTraitDescriptions = new Map<number, { name: string; priority: number }>([
@@ -231,4 +241,5 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
     [Buff.BuffType.SELFTURNSTART_FUNCTION, { after: false, event: "start of own turn" }],
     [Buff.BuffType.COMBO_START_FUNCTION, { after: false, event: "function" }],
     [Buff.BuffType.COMBO_END_FUNCTION, { after: true, event: "function" }],
+    [Buff.BuffType.WAVESTART_ANIMATION_BEFORE_FUNCTION, { after: false, event: "wave start" }],
 ]);

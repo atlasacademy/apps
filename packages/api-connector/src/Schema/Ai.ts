@@ -254,6 +254,7 @@ export enum AiActType {
     LOSE_END = "loseEnd",
     BATTLE_END_NOT_RELATED_SURVIVAL_STATUS = "battleEndNotRelatedSurvivalStatus",
     BATTLE_END_NOT_RELATED_SURVIVAL_STATUS_INSTANTLY = "battleEndNotRelatedSurvivalStatusInstantly",
+    ALL_BATTLE_END = "allBattleEnd",
     CHANGE_THINKING = "changeThinking",
 }
 

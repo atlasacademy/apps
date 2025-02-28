@@ -160,6 +160,7 @@ export enum FuncType {
     GAIN_NP_TARGET_SUM = "gainNpTargetSum",
     ENEMY_COUNT_CHANGE = "enemyCountChange",
     DISPLAY_BATTLE_MESSAGE = "displayBattleMessage",
+    GENERATE_BATTLE_SKILL_DROP = "generateBattleSkillDrop",
 }
 
 export enum GainNpIndividualSumTarget {

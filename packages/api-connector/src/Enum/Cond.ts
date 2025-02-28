@@ -234,6 +234,13 @@ export enum CondType {
     EVENT_SCRIPT_NOT_PLAY = "eventScriptNotPlay",
     EVENT_SCRIPT_FLAG = "eventScriptFlag",
     IMAGE_PARTS_GROUP = "imagePartsGroup",
+    USER_LEVEL_ABOVE = "userLevelAbove",
+    USER_LEVEL_BELOW = "userLevelBelow",
+    USER_LEVEL_EQUAL = "userLevelEqual",
+    HIGHEST_WAVE_ABOVE = "highestWaveAbove",
+    HIGHEST_WAVE_BELOW = "highestWaveBelow",
+    PRIVILEGE_VALID = "privilegeValid",
+    PRIVILEGE_INVALID = "privilegeInvalid",
 }
 
 export default CondType;

@@ -157,6 +157,7 @@ export enum BuffAction {
     OVERWRITE_SVT_CARD_TYPE = "overwriteSvtCardType",
     CRITICAL_DAMAGE_DEF = "criticalDamageDef",
     NPDAMAGE_DEF = "npdamageDef",
+    FUNCTION_WAVESTART_ANIMATION_BEFORE = "functionWavestartAnimationBefore",
 }
 
 export enum BuffLimit {
@@ -374,6 +375,7 @@ export enum BuffType {
     UP_DEFENCE_COMMANDSTAR = "upDefenceCommandstar",
     DOWN_COMMANDSTAR = "downCommandstar",
     DOWN_DEFENCE_COMMANDSTAR = "downDefenceCommandstar",
+    WAVESTART_ANIMATION_BEFORE_FUNCTION = "wavestartAnimationBeforeFunction",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",

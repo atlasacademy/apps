@@ -223,9 +223,13 @@ interface BaseDataVal {
     EnemyCountWaitTimeAfterMessage?: number;
     WaitMessageEnd?: number;
     ContinueDisplayMessage?: number;
+    MessageStartDelayTime?: number;
     StartIntervalTurn?: number;
     StartIntervalCount?: number;
     CommonReleaseId?: number;
+    ForceTurnProgressIfTimingIsOverInPartyTurn?: number;
+    ForceTurnProgressIfTimingIsOverInOpponentTurn?: number;
+    OverwriteFuncInvalidType?: number;
 }
 
 export enum SvtClassGroupType {
@@ -451,7 +455,11 @@ export enum DataValField {
     ENEMY_COUNT_WAIT_TIME_AFTER_MESSAGE = "EnemyCountWaitTimeAfterMessage",
     WAIT_MESSAGE_END = "WaitMessageEnd",
     CONTINUE_DISPLAY_MESSAGE = "ContinueDisplayMessage",
+    MESSAGE_START_DELAY_TIME = "MessageStartDelayTime",
     START_INTERVAL_TURN = "StartIntervalTurn",
     START_INTERVAL_COUNT = "StartIntervalCount",
     COMMON_RELEASE_ID = "CommonReleaseId",
+    FORCE_TURN_PROGRESS_IF_TIMING_IS_OVER_IN_PARTY_TURN = "ForceTurnProgressIfTimingIsOverInPartyTurn",
+    FORCE_TURN_PROGRESS_IF_TIMING_IS_OVER_IN_OPPONENT_TURN = "ForceTurnProgressIfTimingIsOverInOpponentTurn",
+    OVERWRITE_FUNC_INVALID_TYPE = "OverwriteFuncInvalidType",
 }

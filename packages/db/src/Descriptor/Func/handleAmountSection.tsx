@@ -81,6 +81,10 @@ export default function handleAmountSection(
             parts.push("that triggers");
         }
         parts.push(<SkillReferenceDescriptor region={region} id={buffTriggerSkillId} />);
+    } else if (func.funcType === Func.FuncType.GENERATE_BATTLE_SKILL_DROP && dataVal.Value !== undefined) {
+        section.preposition = undefined;
+        parts.push("that triggers");
+        parts.push(<SkillReferenceDescriptor region={region} id={dataVal.Value} />);
     } else if (func.funcType === Func.FuncType.DISPLAY_BUFFSTRING) {
         section.preposition = undefined;
         parts.push(<span lang={lang(region)}>[{func.funcPopupText}]</span>);
