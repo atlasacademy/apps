@@ -50,7 +50,7 @@ export default function (func: Func.Func): Sections {
         case Func.FuncType.DAMAGE_NP_PIERCE:
         case Func.FuncType.DAMAGE_NP_RARE:
         case Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX:
-        case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
+        case Func.FuncType.DAMAGE_NP_AND_OR_CHECK_INDIVIDUALITY:
         case Func.FuncType.DAMAGE_NP_COUNTER:
             flags.amount.preposition = "of";
 

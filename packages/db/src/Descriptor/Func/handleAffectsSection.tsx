@@ -32,7 +32,7 @@ export default function handleAffectsSection(
             </span>
         );
     } else if (
-        func.funcType === Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY &&
+        func.funcType === Func.FuncType.DAMAGE_NP_AND_OR_CHECK_INDIVIDUALITY &&
         dataVal.AndCheckIndividualityList &&
         dataVal.AndCheckIndividualityList.length > 0
     ) {

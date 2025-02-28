@@ -103,7 +103,7 @@ export enum FuncType {
     SHORTEN_USER_EQUIP_SKILL = "shortenUserEquipSkill",
     QUICK_CHANGE_BG = "quickChangeBg",
     SHIFT_SERVANT = "shiftServant",
-    DAMAGE_NP_AND_CHECK_INDIVIDUALITY = "damageNpAndCheckIndividuality",
+    DAMAGE_NP_AND_OR_CHECK_INDIVIDUALITY = "damageNpAndCheckIndividuality",
     ABSORB_NPTURN = "absorbNpturn",
     OVERWRITE_DEAD_TYPE = "overwriteDeadType",
     FORCE_ALL_BUFF_NOACT = "forceAllBuffNoact",

@@ -48,6 +48,7 @@ export enum ItemType {
     PURE_PRI_SHOP_RESET = "purePriShopReset",
     EXCHANGE_SVT_COIN = "exchangeSvtCoin",
     REDUCE_TRADE_TIME = "reduceTradeTime",
+    EVENT_PASSIVE_SKILL_GIVEN = "eventPassiveSkillGiven",
 }
 
 export enum ItemUse {

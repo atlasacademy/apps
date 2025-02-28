@@ -87,7 +87,7 @@ export default abstract class BattleFunc {
             case Func.FuncType.ADD_STATE_SHORT:
                 return addStateFunc(battle, this, actor, target, true, this.props.passive);
             case Func.FuncType.DAMAGE_NP:
-            case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
+            case Func.FuncType.DAMAGE_NP_AND_OR_CHECK_INDIVIDUALITY:
             case Func.FuncType.DAMAGE_NP_COUNTER:
             case Func.FuncType.DAMAGE_NP_HPRATIO_HIGH:
             case Func.FuncType.DAMAGE_NP_INDIVIDUAL:

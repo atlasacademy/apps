@@ -337,7 +337,7 @@ export default function handleActionSection(
         func.funcType === Func.FuncType.DAMAGE_NP_PIERCE ||
         func.funcType === Func.FuncType.DAMAGE_NP_RARE ||
         func.funcType === Func.FuncType.DAMAGE_NP_STATE_INDIVIDUAL_FIX ||
-        func.funcType === Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY
+        func.funcType === Func.FuncType.DAMAGE_NP_AND_OR_CHECK_INDIVIDUALITY
     ) {
         parts.push("Deal damage");
         sections.amount.preposition = "of";

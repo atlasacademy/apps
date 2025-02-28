@@ -478,7 +478,7 @@ async function randomAttack(battle: Battle): Promise<Variable> {
 }
 
 function selfDamageMagnification(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
-    const value = target.buffs().netBuffs(Buff.BuffAction.SELFDAMAGE, target.traits(), actor.traits(attack.traits()));
+    const value = target.buffs().netBuffs(Buff.BuffAction.DAMAGE_DEF, target.traits(), actor.traits(attack.traits()));
 
     return Variable.float(value).divide(Variable.float(1000));
 }

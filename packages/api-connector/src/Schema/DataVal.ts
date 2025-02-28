@@ -67,6 +67,7 @@ interface BaseDataVal {
     ShiftNpcId?: number;
     DisplayLastFuncInvalidType?: number;
     AndCheckIndividualityList?: number[];
+    AndOrCheckIndividualityList?: number[][];
     WinBattleNotRelatedSurvivalStatus?: number;
     ForceSelfInstantDeath?: number;
     ChangeMaxBreakGauge?: number;

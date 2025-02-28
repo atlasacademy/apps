@@ -27,7 +27,7 @@ export default function (func: Func.Func, dataVal: DataVal.DataVal): BasePartial
                 new ParticlePartial(")"),
             ]);
             break;
-        case Func.FuncType.DAMAGE_NP_AND_CHECK_INDIVIDUALITY:
+        case Func.FuncType.DAMAGE_NP_AND_OR_CHECK_INDIVIDUALITY:
             addPartials(partials, [
                 new ParticlePartial("("),
                 new TextPartial("additional to targets"),
