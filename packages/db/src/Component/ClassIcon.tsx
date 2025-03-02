@@ -45,11 +45,11 @@ const classIds = new Map<ClassName, number>([
     [ClassName.BEAST_VI_BOSS, 35],
     [ClassName.U_OLGA_MARIE_FLARE, 31],
     [ClassName.U_OLGA_MARIE_AQUA, 31],
-    [ClassName.U_OLGA_MARIE_GROUND, 31],
+    [ClassName.U_OLGA_MARIE_GRAND, 31],
     [ClassName.CCC_FINALE_EMIYA_ALTER, 124],
     [ClassName.U_OLGA_MARIE_FLARE_COLLECTION, 31],
     [ClassName.U_OLGA_MARIE_AQUA_COLLECTION, 31],
-    [ClassName.U_OLGA_MARIE_GROUND_COLLECTION, 31],
+    [ClassName.U_OLGA_MARIE_GRAND_COLLECTION, 31],
     [ClassName.BEAST_ERESH, 33],
 
     [ClassName.ALL, 1001],
