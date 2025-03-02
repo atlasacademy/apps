@@ -6,7 +6,7 @@ Source code for the Atlas Academy DB at https://apps.atlasacademy.io/db
 
 You can join our Discod to discuss the development. Feel free to make pull request or open an issue but we are usually more responsive on Discord.
 
-[![Discord server invite](https://discordapp.com/api/guilds/502554574423457812/embed.png)](https://discord.gg/TKJmuCR)
+[![Discord server invite](https://discordapp.com/api/guilds/502554574423457812/embed.png)](https://atlasacademy.io/discord)
 
 ## Development workflow
 
