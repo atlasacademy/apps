@@ -63,12 +63,12 @@ class SearchResults extends React.Component<IProps, IState> {
                         "originalName",
                         {
                             name: "overwriteName",
-                            getFn: (entity) => ("overwriteName" in entity ? entity.overwriteName ?? "" : ""),
+                            getFn: (entity) => ("overwriteName" in entity ? (entity.overwriteName ?? "") : ""),
                         },
                         {
                             name: "originalOverwriteName",
                             getFn: (entity) =>
-                                "originalOverwriteName" in entity ? entity.originalOverwriteName ?? "" : "",
+                                "originalOverwriteName" in entity ? (entity.originalOverwriteName ?? "") : "",
                         },
                     ],
                     threshold: 0.2,

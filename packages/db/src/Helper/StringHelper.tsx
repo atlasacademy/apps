@@ -99,7 +99,7 @@ const OrdinalSuperscript = new Map([
 ]);
 
 export const OrdinalNumeral = ({ index }: { index: number }) => {
-    const superscript = index % 100 >= 11 && index % 100 <= 19 ? "th" : OrdinalSuperscript.get(index % 10) ?? "th";
+    const superscript = index % 100 >= 11 && index % 100 <= 19 ? "th" : (OrdinalSuperscript.get(index % 10) ?? "th");
     return (
         <span>
             {index}

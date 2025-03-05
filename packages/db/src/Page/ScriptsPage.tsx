@@ -59,7 +59,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
         [rawScript, setRawScript] = useState<boolean>(
             searchParams.get("rawScript") !== null
                 ? searchParams.get("rawScript") === "true"
-                : thisStateCache?.rawScript ?? false
+                : (thisStateCache?.rawScript ?? false)
         ),
         [searchLimit, setSearchLimit] = useState(50),
         [scripts, setScripts] = useState<Script.ScriptSearchResult[]>(thisStateCache?.scripts ?? []),

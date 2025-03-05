@@ -81,7 +81,7 @@ export default function SearchableSelect<T>(props: IProps<T> | IPropsMultiple<T>
                 selected={props.selectedAsPlaceholder ? undefined : selectedOptions}
                 placeholder={
                     props.selectedAsPlaceholder && selectedOptions.length > 0
-                        ? selectedOptions[0].niceLabel ?? selectedOptions[0].label
+                        ? (selectedOptions[0].niceLabel ?? selectedOptions[0].label)
                         : t("All")
                 }
                 clearButton={props.hideReset ? !props.hideReset : true}

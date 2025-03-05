@@ -54,7 +54,7 @@ export default function QuestSearchDescriptor(props: IProps) {
         return null;
     }
 
-    const maxShowResults = props.hideSearchLink ? quests.length : props.maxNumQuestsShown ?? 10,
+    const maxShowResults = props.hideSearchLink ? quests.length : (props.maxNumQuestsShown ?? 10),
         remainingCount = quests.length - maxShowResults,
         queryString = getURLSearchParams({
             name: props.name,
