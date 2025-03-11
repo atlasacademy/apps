@@ -170,10 +170,11 @@ const warFaq = (region: Region) => {
                     <code>HP &le; &#123;𝑥&#125;:</code> The enemy HP has to be less than a certain HP threshold.
                 </li>
                 <li>
-                    <code>Turn: &#123;𝑥&#125;:</code> The turn has to be 𝑥.
+                    <code>Turn: &#123;𝑥&#125;:</code> The turn has to be 𝑥, starts at 1 (the visible turn counter).
                 </li>
                 <li>
-                    <code>Fieldturn: &#123;𝑥&#125;:</code> The enemy must have been on the field for x turns.
+                    <code>Fieldturn: &#123;𝑥&#125;:</code> The enemy must have been on the field for 𝑥 turns, starts at
+                    0.
                 </li>
                 <li>
                     <code>Self has &#123;𝑥&#125; buffs:</code> The enemy needs to have certain buff active.
