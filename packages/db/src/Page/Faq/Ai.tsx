@@ -161,7 +161,7 @@ const warFaq = (region: Region) => {
             Condition is a prerequisite factor that needs to be true in order for the sub AI to be eligible. A common
             example of conditions can be seen with defensive skills such as evade or guts which typically require that
             the enemy be under a certain HP threshold to be used. While there are many different possible conditions,
-            most are self explanatory and the same ones reoccur often. Here are some common conditions:
+            most are self explanatory and the same ones reoccur often. Here are a few conditions:
             <ul className="mt-1">
                 <li>
                     <code>None:</code> There is no prerequisite condition.
@@ -171,6 +171,9 @@ const warFaq = (region: Region) => {
                 </li>
                 <li>
                     <code>Turn: &#123;𝑥&#125;:</code> The turn has to be 𝑥.
+                </li>
+                <li>
+                    <code>Fieldturn: &#123;𝑥&#125;:</code> The enemy must have been on the field for x turns.
                 </li>
                 <li>
                     <code>Self has &#123;𝑥&#125; buffs:</code> The enemy needs to have certain buff active.
