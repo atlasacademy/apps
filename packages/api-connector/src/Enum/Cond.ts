@@ -241,6 +241,14 @@ export enum CondType {
     HIGHEST_WAVE_BELOW = "highestWaveBelow",
     PRIVILEGE_VALID = "privilegeValid",
     PRIVILEGE_INVALID = "privilegeInvalid",
+    BATTLE_ACTION_OPPONENT_INDIVIDUALITY = "battleActionOpponentIndividuality",
+    NOT_BATTLE_ACTION_OPPONENT_INDIVIDUALITY = "notBattleActionOpponentIndividuality",
+    TREASURE_DEVICE_OF_SELECTED_CARD = "treasureDeviceOfSelectedCard",
+    BATTLE_SVT_FRIENDSHIP_ABOVE = "battleSvtFriendshipAbove",
+    BATTLE_SVT_FRIENDSHIP_BELOW = "battleSvtFriendshipBelow",
+    ELAPSED_TIME_AFTER_SVT_GET = "elapsedTimeAfterSvtGet",
+    NOT_ELAPSED_TIME_AFTER_QUEST_CLEAR = "notElapsedTimeAfterQuestClear",
+    NOT_ELAPSED_TIME_AFTER_SVT_GET = "notElapsedTimeAfterSvtGet",
 }
 
 export default CondType;

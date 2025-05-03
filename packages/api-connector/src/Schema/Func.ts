@@ -161,6 +161,14 @@ export enum FuncType {
     ENEMY_COUNT_CHANGE = "enemyCountChange",
     DISPLAY_BATTLE_MESSAGE = "displayBattleMessage",
     GENERATE_BATTLE_SKILL_DROP = "generateBattleSkillDrop",
+    CHANGE_MASTER_FACE = "changeMasterFace",
+    ENABLE_MASTER_SKILL = "enableMasterSkill",
+    ENABLE_MASTER_COMMAND_SPELL = "enableMasterCommandSpell",
+    BATTLE_MODEL_CHANGE = "battleModelChange",
+    GAIN_NP_CRITICALSTAR_SUM = "gainNpCriticalstarSum",
+    ADD_BATTLE_MISSION_VALUE = "addBattleMissionValue",
+    SET_BATTLE_MISSION_VALUE = "setBattleMissionValue",
+    CHANGE_ENEMY_STATUS_UI_TYPE = "changeEnemyStatusUiType",
 }
 
 export enum GainNpIndividualSumTarget {

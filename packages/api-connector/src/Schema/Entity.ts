@@ -150,6 +150,14 @@ export interface ServantAscensionAdditions {
     overWriteTDFileName: ServantAscensionAdditionDetails<string>;
     overWriteTDRank: ServantAscensionAdditionDetails<string>;
     overWriteTDTypeText: ServantAscensionAdditionDetails<string>;
+    overwriteAtkBase: ServantAscensionAdditionDetails<number>;
+    overwriteAtkMax: ServantAscensionAdditionDetails<number>;
+    overwriteClassPassive: ServantAscensionAdditionDetails<number[]>;
+    overwriteCost: ServantAscensionAdditionDetails<number>;
+    overwriteExpType: ServantAscensionAdditionDetails<number>;
+    overwriteHpBase: ServantAscensionAdditionDetails<number>;
+    overwriteHpMax: ServantAscensionAdditionDetails<number>;
+    overwriteRarity: ServantAscensionAdditionDetails<number>;
     lvMax: ServantAscensionAdditionDetails<number>;
     rarity: ServantAscensionAdditionDetails<number>;
     charaGraphChange: ServantAscensionAdditionDetails<string>;
@@ -270,6 +278,7 @@ export interface Entity {
         weakalt1?: CardDetail;
         weakalt2?: CardDetail;
         addattack2?: CardDetail;
+        busteralt1?: CardDetail;
     };
     atkBase: number;
     atkMax: number;

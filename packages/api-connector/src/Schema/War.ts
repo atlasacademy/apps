@@ -60,6 +60,7 @@ export enum WarFlag {
     CHANGE_DISP_CLOSED_MESSAGE = "changeDispClosedMessage",
     CHAPTER_SUB_ID_JAPANESE_NUMERALS_NORMAL = "chapterSubIdJapaneseNumeralsNormal",
     CALDEAGATE_PRIORITY_DISPLAY = "caldeagatePriorityDisplay",
+    AREA_BOARD_SHORTCUT = "areaBoardShortcut",
 }
 
 export interface Map {

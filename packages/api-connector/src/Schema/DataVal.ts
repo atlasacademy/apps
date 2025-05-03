@@ -49,6 +49,7 @@ interface BaseDataVal {
     EndBattle?: number;
     LoseBattle?: number;
     AddIndividualty?: number;
+    AddIndividualtyList?: number[];
     AddLinkageTargetIndividualty?: number;
     SameBuffLimitTargetIndividuality?: number;
     SameBuffLimitNum?: number;
@@ -230,6 +231,13 @@ interface BaseDataVal {
     ForceTurnProgressIfTimingIsOverInPartyTurn?: number;
     ForceTurnProgressIfTimingIsOverInOpponentTurn?: number;
     OverwriteFuncInvalidType?: number;
+    BgmFadeTime?: number;
+    KeepChangeModelAfterContinue?: number;
+    DefenceDamageHigher?: number;
+    SameIndivBuffActorOnField?: number;
+    SyncUsedSameIndivBuffActorOnField?: number;
+    OnlyMaxFuncGroupId?: number;
+    UseAttack?: number;
 }
 
 export enum SvtClassGroupType {
@@ -462,4 +470,12 @@ export enum DataValField {
     FORCE_TURN_PROGRESS_IF_TIMING_IS_OVER_IN_PARTY_TURN = "ForceTurnProgressIfTimingIsOverInPartyTurn",
     FORCE_TURN_PROGRESS_IF_TIMING_IS_OVER_IN_OPPONENT_TURN = "ForceTurnProgressIfTimingIsOverInOpponentTurn",
     OVERWRITE_FUNC_INVALID_TYPE = "OverwriteFuncInvalidType",
+    ADD_INDIVIDUALTY_LIST = "AddIndividualtyList",
+    BGM_FADE_TIME = "BgmFadeTime",
+    KEEP_CHANGE_MODEL_AFTER_CONTINUE = "KeepChangeModelAfterContinue",
+    DEFENCE_DAMAGE_HIGHER = "DefenceDamageHigher",
+    SAME_INDIV_BUFF_ACTOR_ON_FIELD = "SameIndivBuffActorOnField",
+    SYNC_USED_SAME_INDIV_BUFF_ACTOR_ON_FIELD = "SyncUsedSameIndivBuffActorOnField",
+    ONLY_MAX_FUNC_GROUP_ID = "OnlyMaxFuncGroupId",
+    USE_ATTACK = "UseAttack",
 }

@@ -158,6 +158,8 @@ export enum BuffAction {
     CRITICAL_DAMAGE_DEF = "criticalDamageDef",
     NPDAMAGE_DEF = "npdamageDef",
     FUNCTION_WAVESTART_ANIMATION_BEFORE = "functionWavestartAnimationBefore",
+    RECEIVE_FIXED_DAMAGE = "receiveFixedDamage",
+    OVERWRITE_DAMAGE_DEF = "overwriteDamageDef",
 }
 
 export enum BuffLimit {
@@ -376,6 +378,8 @@ export enum BuffType {
     DOWN_COMMANDSTAR = "downCommandstar",
     DOWN_DEFENCE_COMMANDSTAR = "downDefenceCommandstar",
     WAVESTART_ANIMATION_BEFORE_FUNCTION = "wavestartAnimationBeforeFunction",
+    SUB_FIXED_SELFDAMAGE = "subFixedSelfdamage",
+    OVERWRITE_FIXED_DEFENCE_DAMAGE = "overwriteFixedDefenceDamage",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",

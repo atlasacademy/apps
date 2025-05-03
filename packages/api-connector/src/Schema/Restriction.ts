@@ -16,6 +16,7 @@ export enum RestrictionType {
     UNIQUE_INDIVIDUALITY = "uniqueIndividuality",
     MY_SVT_OR_SUPPORT = "mySvtOrSupport",
     DATA_LOST_BATTLE_UNIQUE_SVT = "dataLostBattleUniqueSvt",
+    FIXED_COSTUME = "fixedCostume",
 }
 
 export enum RestrictionRange {
