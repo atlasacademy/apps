@@ -42,7 +42,8 @@
     "Average drop rates accross all enemy versions": "統計所有敵方版本的平均掉落率",
     "Background": "背景",
     "Banner": "橫幅",
-    "bar_other": "bar",
+    "bar_one": "{{count}}血條",
+    "bar_other": "{{count}}血條",
     "Base": "基本",
     "Base Atk": "基本Atk",
     "Base Hp": "基本Hp",
@@ -634,6 +635,5 @@
     "Weight": "權重",
     "with local timestamps": "以本地時間戳記",
     "with UTC timestamps": "以UTC時間戳記",
-    "Yes": "Yes",
-    "bar_one": "{{count}} 血條"
+    "Yes": "Yes"
 }
