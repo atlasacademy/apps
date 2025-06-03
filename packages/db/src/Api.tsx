@@ -394,7 +394,7 @@ class Api {
     }
 
     static searchShop(options: Shop.ShopSearchOptions): Promise<Shop.Shop[]> {
-        return apiConnector.searchShop(options)
+        return apiConnector.searchShop(options);
     }
 
     static getUrl(

@@ -11,7 +11,7 @@ interface PaginationResult<T> {
     totalPages: number;
     items: T[];
     goToPage: (pageNumber: number) => void;
-    Paginator: React.FC
+    Paginator: React.FC;
 }
 
 export default function usePaginator<T>(arr: T[], props: Props): PaginationResult<T> {
@@ -49,16 +49,14 @@ export default function usePaginator<T>(arr: T[], props: Props): PaginationResul
         );
     };
 
-
     return {
         currentPage,
         totalPages,
         items: paginatedItems,
         goToPage,
-        Paginator
+        Paginator,
     };
 }
-
 
 function getVisiblePageNumbers(currentPage: number, totalPages: number, maxVisibleButtons: number): number[] {
     const halfButtons = Math.floor(maxVisibleButtons / 2);
