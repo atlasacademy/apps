@@ -9,6 +9,8 @@ import ItemDescriptor, { ItemDescriptorId } from "../Descriptor/ItemDescriptor";
 import ItemSetDescriptor from "../Descriptor/ItemSetDescriptor";
 import usePaginator from "../Hooks/usePaginator";
 import useShop from "../Hooks/useShop";
+import CondTargetNumDescriptor from "../Descriptor/CondTargetNumDescriptor";
+import ShopPurchaseDescriptor from "../Descriptor/ShopPurchaseDescriptor";
 
 interface Props {
     region: Region;
@@ -20,12 +22,12 @@ interface PropsShopRows {
     itemMap: Map<number, Item.Item>;
 }
 
-const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new Map() }) => {
+export const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new Map() }) => {
     switch (shop.purchaseType) {
         case Shop.PurchaseType.SET_ITEM:
             const ItemSets = shop.itemSet.map((set) => {
                 return (
-                    <li>
+                    <li key={set.id}>
                         <ItemSetDescriptor itemSet={set} itemMap={itemMap} region={region} key={set.targetId} />
                     </li>
                 );
@@ -37,7 +39,9 @@ const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new Map() })
                         <img src={shop.image} alt={shop.name} width="45px" height="45px" /> {shop.name}
                         <ul>{ItemSets}</ul>
                     </td>
-                    <td style={{ width: "33%" }}>None</td>
+                    <td style={{ width: "33%" }}>
+                        <ShopPurchaseDescriptor shop={shop} region={region} itemMap={itemMap} />
+                    </td>
                     <td style={{ width: "33%" }}>
                         <ItemDescriptor item={shop.cost.item} quantity={shop.cost.amount} region={region} height={60} />
                     </td>
@@ -45,7 +49,7 @@ const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new Map() })
             );
         case Shop.PurchaseType.ITEM:
             const Items = shop.targetIds.map((itemId) => (
-                <ItemDescriptorId height={45} region={Region.JP} itemId={itemId} quantity={shop.limitNum} />
+                <ItemDescriptorId key={itemId} height={45} region={Region.JP} itemId={itemId} quantity={shop.limitNum} />
             ));
 
             return (
@@ -58,7 +62,7 @@ const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new Map() })
                 </tr>
             );
         case Shop.PurchaseType.COMMAND_CODE:
-            const commandsCodes = shop.targetIds.map((id) => <CommandCodeDescriptorId ccId={id} region={region} />);
+            const commandsCodes = shop.targetIds.map((id) => <CommandCodeDescriptorId key={id} ccId={id} region={region} />);
 
             return (
                 <tr>
@@ -70,25 +74,35 @@ const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new Map() })
                 </tr>
             );
         default:
-            const entities = shop.targetIds.map((id) => {
-                console.log(shop);
 
+            const entities = shop.targetIds.map((id) => {
                 if (id === 0) {
                     return (
-                        <Fragment>
-                            <img src={shop.image} width={128} height={128} alt={shop.name} />
-                            <span className="hover-text">{shop.name}</span>
+                        <Fragment key={id}>
+                            <img src={shop.image} width={32} height={32} alt={shop.name} />
+                            <span className="hover-text"> {shop.name}</span>
                         </Fragment>
                     );
                 } else {
-                    return <EntityReferenceDescriptor region={region} svtId={id} />;
+                    return <EntityReferenceDescriptor key={id} region={region} svtId={id} /> ;
                 }
             });
 
             return (
                 <tr>
                     <td style={{ width: "33%" }}>{entities}</td>
-                    <td style={{ width: "33%" }}>None</td>
+                    <td style={{ width: "33%" }}>
+                        {shop?.releaseConditions.map((condition) => (
+                            <CondTargetNumDescriptor
+                                region={region}
+                                cond={condition.condType}
+                                num={condition.condNum}
+                                targets={condition.condValues}
+                                shop={shop}
+                                items={itemMap}
+                            />
+                        ))}
+                    </td>
                     <td style={{ width: "33%" }}>
                         <ItemDescriptor item={shop.cost.item} quantity={shop.cost.amount} region={region} height={60} />
                     </td>
@@ -135,8 +149,7 @@ const ShopPage: React.FC<Props> = ({ region }) => {
     const {
         items: shops,
         Paginator,
-        goToPage,
-    } = usePaginator<Shop.Shop>(filteredShops, { itemsPerPage: 20, maxVisibleButtons: 10 });
+        goToPage } = usePaginator<Shop.Shop>(filteredShops, { itemsPerPage: 20, maxVisibleButtons: 10 });
 
     function selectEventCallback() {
         goToPage(1); // Reset paginator when change tabs

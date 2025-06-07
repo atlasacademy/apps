@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 
-import { CondType, EnumList, Item, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
+import { CondType, EnumList, Item, Mission, Quest, Region, Servant, Shop } from "@atlasacademy/api-connector";
 
 import { mergeElements } from "../Helper/OutputHelper";
 import { lang } from "../Setting/Manager";
@@ -16,6 +16,8 @@ import {
 } from "./MultipleDescriptors";
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
+import ShopItemReferenceDescriptor from "./ShopItemReferenceDescriptor";
+import ShopReferenceDescriptor from "./ShopReferenceDescriptor";
 
 export default function CondTargetNumDescriptor(props: {
     region: Region;
@@ -24,15 +26,18 @@ export default function CondTargetNumDescriptor(props: {
     num: number;
     details?: Mission.MissionConditionDetail[];
     servants?: Map<number, Servant.ServantBasic>;
+    shop?: Shop.Shop;
     quests?: Map<number, Quest.QuestBasic>;
     missions?: Map<number, Mission.Mission>;
     items?: Map<number, Item.Item>;
     enums?: EnumList;
     handleNavigateMissionId?: (id: number) => void;
 }) {
-    const region = props.region,
-        targets = props.targets,
-        num = props.num;
+    const region = props.region;
+    const targets = props.targets;
+    const num = props.num;
+    
+
     switch (props.cond) {
         case CondType.NONE:
             return null;
@@ -208,6 +213,15 @@ export default function CondTargetNumDescriptor(props: {
             }
         case CondType.START_RANDOM_MISSION:
             return <>Random Mission Started</>;
+        
+        case CondType.NOT_SHOP_PURCHASE:
+            return <><ShopItemReferenceDescriptor shopId={targets[0]} region={region} /> not purchased</>;
+        case CondType.PURCHASE_SHOP:
+            return (
+                <table>
+                    <ShopReferenceDescriptor shopParent={props.shop} region={region} shopId={targets[0]} itemMap={props.items} />
+                </table>
+            );
         default:
             return (
                 <>

@@ -46,7 +46,7 @@ export default function ShopPurchaseDescriptor(props: {
                 </>
             );
         case Shop.PurchaseType.MANA_SHOP:
-            return <>Unlock entry in Mana Prism shop</>;
+            return <>Unlock entry in {shop.payType === Shop.PayType.RARE_PRI ? "Rare Prism" : "Mana Prism"} Shop</>;
         case Shop.PurchaseType.STORAGE_SVT:
             return <>Expand Servant Second Archive</>;
         case Shop.PurchaseType.STORAGE_SVTEQUIP:

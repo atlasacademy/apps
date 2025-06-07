@@ -267,6 +267,10 @@ class Api {
         return apiConnector.classBoard(id, cacheDuration);
     }
 
+    static async shop(id: number): Promise<Shop.Shop> {
+        return apiConnector.shop(id, cacheDuration);
+    }
+
     static traitList(): Promise<Trait.Trait[]> {
         return apiConnector.traitList(-1);
     }
