@@ -38,7 +38,7 @@ export default function ShopPurchaseDescriptor(props: {
             }
         case Shop.PurchaseType.QUEST:
             return <QuestDescriptor region={region} questId={target} />;
-        // case Shop.PurchaseType.EVENT_SHOP:
+        case Shop.PurchaseType.EVENT_SHOP:
         case Shop.PurchaseType.EVENT_SVT_GET:
             return (
                 <>

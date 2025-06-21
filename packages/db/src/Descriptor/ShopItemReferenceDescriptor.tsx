@@ -1,4 +1,4 @@
-import { Item, Region } from "@atlasacademy/api-connector";
+import { Region } from "@atlasacademy/api-connector";
 import useApi from "../Hooks/useApi";
 import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
 
@@ -15,7 +15,7 @@ const ShopItemReferenceDescriptor: React.FC<Props> = ({ shopId, region }) => {
     }
 
     if (!data) {
-        return <>Shop not found</>;
+        return <>Shop not found {shopId}</>;
     }
 
     return (

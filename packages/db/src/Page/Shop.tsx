@@ -11,6 +11,7 @@ import usePaginator from "../Hooks/usePaginator";
 import useShop from "../Hooks/useShop";
 import CondTargetNumDescriptor from "../Descriptor/CondTargetNumDescriptor";
 import ShopPurchaseDescriptor from "../Descriptor/ShopPurchaseDescriptor";
+import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 
 interface Props {
     region: Region;
@@ -23,9 +24,13 @@ interface PropsShopRows {
 }
 
 export const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new Map() }) => {
+    if (shop.id === 6000992) {
+        console.log(shop)
+    }
+
     switch (shop.purchaseType) {
         case Shop.PurchaseType.SET_ITEM:
-            const ItemSets = shop.itemSet.map((set) => {
+            const items = shop.itemSet.map((set) => {
                 return (
                     <li key={set.id}>
                         <ItemSetDescriptor itemSet={set} itemMap={itemMap} region={region} key={set.targetId} />
@@ -37,7 +42,7 @@ export const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new M
                 <tr>
                     <td style={{ width: "33%" }}>
                         <img src={shop.image} alt={shop.name} width="45px" height="45px" /> {shop.name}
-                        <ul>{ItemSets}</ul>
+                        <ul>{items}</ul>
                     </td>
                     <td style={{ width: "33%" }}>
                         <ShopPurchaseDescriptor shop={shop} region={region} itemMap={itemMap} />
@@ -61,6 +66,35 @@ export const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new M
                     </td>
                 </tr>
             );
+        case Shop.PurchaseType.QUEST:
+            return (
+                <tr>
+                    <td style={{ width: "33%" }}>
+                        {shop.targetIds.map((questId) => (
+                            <Fragment>
+                                <img src={shop.image} alt={shop.name} width={32} height={32} /> Unlock <QuestDescriptorId questId={questId} region={region} /> <br />
+                            </Fragment>
+                        ))}
+                    </td>
+                    <td style={{ width: "33%" }}>
+                        {shop?.releaseConditions.map((condition) => (
+                            <Fragment>
+                                <CondTargetNumDescriptor
+                                    region={region}
+                                    cond={condition.condType}
+                                    num={condition.condNum}
+                                    targets={condition.condValues}
+                                    shop={shop}
+                                    items={itemMap}
+                                /> <br />
+                            </Fragment>
+                        ))}
+                    </td>
+                    <td style={{ width: "33%" }}>
+                        <ItemDescriptor item={shop.cost.item} quantity={shop.cost.amount} region={region} height={60} />
+                    </td>
+                </tr>
+            )
         case Shop.PurchaseType.COMMAND_CODE:
             const commandsCodes = shop.targetIds.map((id) => <CommandCodeDescriptorId key={id} ccId={id} region={region} />);
 
@@ -80,11 +114,11 @@ export const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new M
                     return (
                         <Fragment key={id}>
                             <img src={shop.image} width={32} height={32} alt={shop.name} />
-                            <span className="hover-text"> {shop.name}</span>
+                            <span className="hover-text">{shop.name}</span>
                         </Fragment>
                     );
                 } else {
-                    return <EntityReferenceDescriptor key={id} region={region} svtId={id} /> ;
+                    return <EntityReferenceDescriptor key={id} region={region} svtId={id} />;
                 }
             });
 
@@ -93,14 +127,16 @@ export const ShopRow: React.FC<PropsShopRows> = ({ shop, region, itemMap = new M
                     <td style={{ width: "33%" }}>{entities}</td>
                     <td style={{ width: "33%" }}>
                         {shop?.releaseConditions.map((condition) => (
-                            <CondTargetNumDescriptor
-                                region={region}
-                                cond={condition.condType}
-                                num={condition.condNum}
-                                targets={condition.condValues}
-                                shop={shop}
-                                items={itemMap}
-                            />
+                            <Fragment>
+                                <CondTargetNumDescriptor
+                                    region={region}
+                                    cond={condition.condType}
+                                    num={condition.condNum}
+                                    targets={condition.condValues}
+                                    shop={shop}
+                                    items={itemMap}
+                                /> <br />
+                            </Fragment>
                         ))}
                     </td>
                     <td style={{ width: "33%" }}>
@@ -129,7 +165,7 @@ const ShopTable: React.FC<ShopTableProps> = ({ shops, itemCache, region }) => {
             </thead>
             <tbody>
                 {shops.map((shop) => (
-                    <ShopRow region={region} shop={shop} key={shop.id} itemMap={itemCache} />
+                    <ShopRow region={region} shop={shop} key={"row-" + shop.id} itemMap={itemCache} />
                 ))}
             </tbody>
         </Table>
@@ -174,6 +210,14 @@ const ShopPage: React.FC<Props> = ({ region }) => {
                     <ShopTable itemCache={itemCache} shops={shops} region={region} />
                 </Tab>
             </Tabs>
+
+
+            <section className="d-flex align-items-center justify-content-between w-full my-4">
+                <Button onClick={() => setAvailableActive(!availableActive)} variant={btnStyle}>
+                    Available
+                </Button>
+                <Paginator />
+            </section>
         </main>
     );
 };

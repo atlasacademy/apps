@@ -18,6 +18,8 @@ import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 import ShopItemReferenceDescriptor from "./ShopItemReferenceDescriptor";
 import ShopReferenceDescriptor from "./ShopReferenceDescriptor";
+import EntityReferenceDescriptor from "./EntityReferenceDescriptor";
+import { Fragment } from "react";
 
 export default function CondTargetNumDescriptor(props: {
     region: Region;
@@ -37,7 +39,6 @@ export default function CondTargetNumDescriptor(props: {
     const targets = props.targets;
     const num = props.num;
     
-
     switch (props.cond) {
         case CondType.NONE:
             return null;
@@ -47,6 +48,15 @@ export default function CondTargetNumDescriptor(props: {
                     {num === targets.length
                         ? `Clear ${num === 1 ? "" : "all of "}`
                         : `Clear ${num} ${num !== 1 ? "different quests from " : "quest from "}`}
+                    <MultipleQuests region={region} questIds={targets} quests={props.quests} />
+                </>
+            );
+        case CondType.QUEST_NOT_CLEAR:
+            return (
+                <>
+                    {num === targets.length
+                        ? `Not cleared ${num === 1 ? "" : "all of "}`
+                        : `Not cleared ${num} ${num !== 1 ? "different quests from " : "quest from "}`}
                     <MultipleQuests region={region} questIds={targets} quests={props.quests} />
                 </>
             );
@@ -184,6 +194,7 @@ export default function CondTargetNumDescriptor(props: {
                         {mergeElements(
                             props.details.map((detail) => (
                                 <CondMissionDetailDescriptor
+                                    key={detail.id}
                                     region={region}
                                     detail={detail}
                                     num={num}
@@ -213,15 +224,19 @@ export default function CondTargetNumDescriptor(props: {
             }
         case CondType.START_RANDOM_MISSION:
             return <>Random Mission Started</>;
-        
         case CondType.NOT_SHOP_PURCHASE:
             return <><ShopItemReferenceDescriptor shopId={targets[0]} region={region} /> not purchased</>;
         case CondType.PURCHASE_SHOP:
-            return (
-                <table>
-                    <ShopReferenceDescriptor shopParent={props.shop} region={region} shopId={targets[0]} itemMap={props.items} />
-                </table>
-            );
+            return <ShopReferenceDescriptor shopParent={props.shop} region={region} shopId={targets[0]} itemMap={props.items} />;
+        
+        case CondType.NOT_SVT_GET:
+            return targets.map((item) => {
+                return (
+                    <Fragment>
+                        <EntityReferenceDescriptor svtId={item} region={props.region} /> Not owned
+                    </Fragment>
+                ) 
+            })
         default:
             return (
                 <>
