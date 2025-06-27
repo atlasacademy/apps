@@ -24,6 +24,11 @@
     border-radius: 1rem;
 }
 
+.breakdown_wrapper[data-type="grand"] {
+    background-image: url(https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/GradBG_Star_01.png);
+    background-size: 2000px 755px;
+}
+
 .breakdown_container {
     position: relative;
     z-index: 2;
@@ -62,4 +67,27 @@
     100% {
         background-position: -100% 0;
     }
+}
+
+.grand-base {
+    display: block;
+    aspect-ratio: 1/1;
+    width: 412px;
+    position: absolute;
+    top: -185px;
+    left: -140px;
+}
+
+.grand-base.add {
+    mask-image: url("https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/GrandClassScore_add_parts_01.png");
+    mask-mode: luminance;
+    mask-size: cover;
+    mix-blend-mode: unset;
+}
+
+.grand-base.add2 {
+    mask-image: url("https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/GrandClassScore_add.png");
+    mask-mode: luminance;
+    mask-size: cover;
+    mix-blend-mode: unset;
 }

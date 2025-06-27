@@ -41,7 +41,7 @@ const ClassBoardNavigation: React.FC = () => {
                             <Button onClick={() => handleNavigation(classboard.id)}>
                                 <img
                                     height={35}
-                                    src={`${AssetHost}/JP/ClassIcons/btn_tab_${classboard.id}.png`}
+                                    src={`${AssetHost}/JP/ClassIcons/class2_${classboard.id}.png`}
                                     alt={classboard.name}
                                 />
                             </Button>

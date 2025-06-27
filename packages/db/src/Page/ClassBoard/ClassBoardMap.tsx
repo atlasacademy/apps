@@ -5,6 +5,11 @@ import { ClassBoardContext } from "../../Contexts/ClassBoard";
 
 import "./ClassBoardMap.css";
 
+const grandClassBoard: number[] = [
+    10001,
+    10007
+]
+
 interface ClassBoardIconProps {
     x: string;
     y: string;
@@ -22,13 +27,14 @@ const ClassBoardMap: React.FC = () => {
     const { classBoardData, squareData } = useContext(ClassBoardContext);
     const { loading, classBoard } = classBoardData;
     const { changeSquare } = squareData;
+    const isGrandClassBoard = grandClassBoard.includes(classBoard?.id ?? 0);
 
     if (loading) {
         return <Loading />;
     }
 
     return (
-        <section className="breakdown_wrapper">
+        <section data-type={isGrandClassBoard ? "grand" : "normal"} className="breakdown_wrapper">
             <div className="breakdown_container">
                 {classBoard?.squares.map((square) => {
                     // Need to center icons with lines
@@ -58,7 +64,11 @@ const ClassBoardMap: React.FC = () => {
                         />
                     );
                 })}
-                <img className="earth" src={classBoard?.icon} alt={classBoard?.name} />
+                {!isGrandClassBoard && (<img className="earth" src={classBoard?.icon} alt={classBoard?.name} />)}
+                {isGrandClassBoard && (<img className="grand-base" src={"https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/GrandClassScore_base.png"} alt={classBoard?.name} />)}
+                {isGrandClassBoard && (<img className="grand-base add" src={"https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/GrandClassScore_add_parts_01.png"} alt={classBoard?.name} />)}
+                {isGrandClassBoard && (<img className="grand-base add2" src={"https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/GrandClassScore_add.png"} alt={classBoard?.name} />)}
+            
             </div>
             <svg
                 className="map_lines"
