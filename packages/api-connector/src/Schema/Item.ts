@@ -49,6 +49,8 @@ export enum ItemType {
     EXCHANGE_SVT_COIN = "exchangeSvtCoin",
     REDUCE_TRADE_TIME = "reduceTradeTime",
     EVENT_PASSIVE_SKILL_GIVEN = "eventPassiveSkillGiven",
+    SHOP18_ITEM = "shop18Item",
+    NETMARBLE_CHARGE_STONE = "netmarbleChargeStone",
 }
 
 export enum ItemUse {

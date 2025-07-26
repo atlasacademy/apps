@@ -320,6 +320,8 @@ export interface EventMissionGroup {
 
 export interface EventQuest {
     questId: number;
+    phase: number;
+    isExcepted: boolean;
 }
 
 export interface EventCampaign {

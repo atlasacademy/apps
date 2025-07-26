@@ -16,6 +16,9 @@ export enum RestrictionType {
     UNIQUE_INDIVIDUALITY = "uniqueIndividuality",
     MY_SVT_OR_SUPPORT = "mySvtOrSupport",
     DATA_LOST_BATTLE_UNIQUE_SVT = "dataLostBattleUniqueSvt",
+    MY_GRAND_SVT = "myGrandSvt",
+    FIXED_MY_GRAND_SVT = "fixedMyGrandSvt",
+    MY_GRAND_SVT_POSITION_MAIN = "myGrandSvtPositionMain",
     FIXED_COSTUME = "fixedCostume",
 }
 

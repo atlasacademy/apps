@@ -249,6 +249,10 @@ export enum CondType {
     ELAPSED_TIME_AFTER_SVT_GET = "elapsedTimeAfterSvtGet",
     NOT_ELAPSED_TIME_AFTER_QUEST_CLEAR = "notElapsedTimeAfterQuestClear",
     NOT_ELAPSED_TIME_AFTER_SVT_GET = "notElapsedTimeAfterSvtGet",
+    GRAND_SVT_SET = "grandSvtSet",
+    PLAYED_MOVIE = "playedMovie",
+    NOT_PLAYED_MOVIE = "notPlayedMovie",
+    NOT_SHOP_GROUP_LIMIT_NUM = "notShopGroupLimitNum",
 }
 
 export default CondType;

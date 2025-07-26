@@ -18,6 +18,7 @@ export enum GiftType {
     EVENT_HEEL_PORTRAIT = "eventHeelPortrait",
     BATTLE_ITEM = "battleItem",
     PRIVILEGE = "privilege",
+    CLASS_SKILL = "classSkill",
 }
 
 export interface BaseGift {

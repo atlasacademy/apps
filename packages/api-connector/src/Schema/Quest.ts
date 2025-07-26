@@ -253,6 +253,12 @@ export interface QuestPhaseExtraDetail {
     interruptibleQuest?: number;
     masterImageId?: number;
     IgnoreBattlePointUp?: number[];
+    useEventDeckNo?: number;
+    masterSkillDelay?: number;
+    masterSkillDelayInfo?: string;
+    isUseGrandBoard?: number;
+    turn?: number;
+    LimitAct?: StageLimitActType;
 }
 
 export interface QuestPhaseRestriction {

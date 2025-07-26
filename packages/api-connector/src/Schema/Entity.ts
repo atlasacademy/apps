@@ -4,6 +4,7 @@ import CondType from "../Enum/Cond";
 import { Attribute } from "./Attribute";
 import { BattlePoint } from "./BattlePoint";
 import { CommonRelease } from "./CommonRelease";
+import { Gift } from "./Gift";
 import { Item, ItemAmount } from "./Item";
 import { NoblePhantasm } from "./NoblePhantasm";
 import { SvtScript } from "./Script";
@@ -35,6 +36,7 @@ export enum EntityFlag {
     SVT_EQUIP_CAMPAIGN = "svtEquipCampaign",
     SVT_EQUIP_EVENT = "svtEquipEvent",
     SVT_EQUIP_EVENT_REWARD = "svtEquipEventReward",
+    SVT_EQUIP_RARITY_LEVEL_NUM_MISSION = "svtEquipRarityLevelNumMission",
     NORMAL = "normal",
     GOETIA = "goetia",
     MAT_DROP_RATE_UP_CE = "matDropRateUpCe",
@@ -51,6 +53,7 @@ export enum EntityFlagOriginal {
     SVT_EQUIP_CAMPAIGN = "svtEquipCampaign",
     SVT_EQUIP_EVENT = "svtEquipEvent",
     SVT_EQUIP_EVENT_REWARD = "svtEquipEventReward",
+    SVT_EQUIP_RARITY_LEVEL_NUM_MISSION = "svtEquipRarityLevelNumMission",
 }
 
 export enum Gender {
@@ -289,6 +292,9 @@ export interface Entity {
     growthCurve: number;
     atkGrowth: number[];
     hpGrowth: number[];
+    expGrowth: number[];
+    expFeed: number[];
+    bondGifts: Record<number, Gift[]>;
     bondGrowth: number[];
     bondEquip: number;
     valentineEquip: number[];

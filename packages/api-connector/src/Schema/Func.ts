@@ -45,6 +45,8 @@ export enum FuncTargetType {
     ENEMY_RANGE = "enemyRange",
     HAND_COMMANDCARD_RANDOM_ONE = "handCommandcardRandomOne",
     FIELD_ALL = "fieldAll",
+    NO_TARGET = "noTarget",
+    FIELD_RANDOM = "fieldRandom",
 }
 
 export enum FuncType {
@@ -169,6 +171,7 @@ export enum FuncType {
     ADD_BATTLE_MISSION_VALUE = "addBattleMissionValue",
     SET_BATTLE_MISSION_VALUE = "setBattleMissionValue",
     CHANGE_ENEMY_STATUS_UI_TYPE = "changeEnemyStatusUiType",
+    SWAP_FIELD_POSITION = "swapFieldPosition",
 }
 
 export enum GainNpIndividualSumTarget {
