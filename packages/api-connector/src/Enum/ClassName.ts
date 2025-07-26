@@ -41,7 +41,7 @@ enum ClassName {
     U_OLGA_MARIE_FLARE_COLLECTION = "uOlgaMarieFlareCollection",
     U_OLGA_MARIE_AQUA_COLLECTION = "uOlgaMarieAquaCollection",
     U_OLGA_MARIE_GRAND_COLLECTION = "uOlgaMarieGrandCollection",
-    U_OLGA_MARIE_STELLA_COLLECTION = "uOlgaMarieStellaCollection",
+    U_OLGA_MARIE_STELLAR_COLLECTION = "uOlgaMarieStellarCollection",
     BEAST_ERESH = "beastEresh",
 }
 
