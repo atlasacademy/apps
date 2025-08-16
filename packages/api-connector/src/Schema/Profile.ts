@@ -56,6 +56,18 @@ export enum VoiceCondType {
     LEVEL_UP_LIMIT_COUNT = "levelUpLimitCount",
     LEVEL_UP_LIMIT_COUNT_ABOVE = "levelUpLimitCountAbove",
     LEVEL_UP_LIMIT_COUNT_BELOW = "levelUpLimitCountBelow",
+    SVT_EXCEED_COUNT = "svtExceedCount",
+    SVT_EXCEED_COUNT_ABOVE = "svtExceedCountAbove",
+    SVT_EXCEED_COUNT_BELOW = "svtExceedCountBelow",
+    UNKNOWN_27 = "unknown27",
+    UNKNOWN_30 = "unknown30",
+    UNKNOWN_32 = "unknown32",
+    UNKNOWN_34 = "unknown34",
+    UNKNOWN_35 = "unknown35",
+    UNKNOWN_37 = "unknown37",
+    UNKNOWN_38 = "unknown38",
+    UNKNOWN_40 = "unknown40",
+    UNKNOWN = "unknown",
 }
 
 export interface ProfileCommentAdd {

@@ -241,11 +241,11 @@ interface BaseDataVal {
     CondParamAddType?: number;
     CondParamAddValue?: number;
     CondParamAddMaxValue?: number;
-    CondParamAddTargetId?: number;
+    CondParamAddTargetId?: number[];
     CondParamRangeType?: number;
     CondParamRangeMaxCount?: number;
     CondParamRangeMaxValue?: number;
-    CondParamRangeTargetId?: number;
+    CondParamRangeTargetId?: number[];
     ExecOnce?: number;
     ApplyBuffIndividuality?: number[][];
     ExecWhenCanNotAttack?: number;
@@ -256,6 +256,8 @@ interface BaseDataVal {
     ReplacePositionTargets?: number[];
     ApplyHighestValueInFieldGroup?: number;
     IsClassIconChangeSaveGrand?: number;
+    ExecuteEffectId?: number;
+    PriorityUpHate?: number;
 }
 
 export enum SvtClassGroupType {
@@ -514,4 +516,6 @@ export enum DataValField {
     REPLACE_POSITION_TARGETS = "ReplacePositionTargets",
     APPLY_HIGHEST_VALUE_IN_FIELD_GROUP = "ApplyHighestValueInFieldGroup",
     IS_CLASS_ICON_CHANGE_SAVE_GRAND = "IsClassIconChangeSaveGrand",
+    EXECUTE_EFFECT_ID = "ExecuteEffectId",
+    PRIORITY_UP_HATE = "PriorityUpHate",
 }

@@ -59,6 +59,20 @@ export interface SelectTreasureDeviceInfo {
     messageOnSelected: string;
 }
 
+export enum BattleBranchSkillCondBranchType {
+    None = "none",
+    IsSelfTarget = "isSelfTarget",
+    Individuality = "individuality",
+}
+
+export interface CondBranchSkillInfo {
+    condType: BattleBranchSkillCondBranchType;
+    condValue: number[];
+    skillId: number;
+    detailText: string;
+    iconBuffId: number;
+}
+
 export interface SkillScript {
     NP_HIGHER?: number[];
     NP_LOWER?: number[];
@@ -78,6 +92,7 @@ export interface SkillScript {
     IgnoreBattlePointUp?: number[][];
     tdChangeByBattlePoint?: TdChangeByBattlePoint[];
     selectTreasureDeviceInfo?: SelectTreasureDeviceInfo[];
+    condBranchSkillInfo?: CondBranchSkillInfo[];
 }
 
 export interface ExtraPassive {
