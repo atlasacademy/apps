@@ -31,8 +31,10 @@ export interface SelectAddInfoBtnCond {
 }
 
 export interface SelectAddInfoButton {
-    name: string;
+    name?: string;
     conds: SelectAddInfoBtnCond[];
+    image?: string;
+    imageUrl?: string;
 }
 
 export interface SelectAddInfo {
