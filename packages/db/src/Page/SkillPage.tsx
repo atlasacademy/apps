@@ -315,6 +315,7 @@ class SkillPage extends React.Component<IProps, IState> {
                     scripts={skill.script}
                     triggerSkillIdStack={[skill.id]}
                     additionalSkillId={skill.script.additionalSkillId}
+                    condBranchSkillInfo={skill.script.condBranchSkillInfo}
                 />
                 {skill.groupOverwrites && (
                     <SkillGroupOverWrite region={this.props.region} overwrites={skill.groupOverwrites} levels={1} />

@@ -19,6 +19,7 @@ interface IProps {
     popOver?: boolean;
     additionalSkillId?: number[];
     tableTitle?: string;
+    condBranchSkillInfo?: Skill.CondBranchSkillInfo[];
     hideEnemyFunctions?: boolean;
 }
 
@@ -52,6 +53,7 @@ function EffectBreakdown(props: IProps) {
                     level={props.levels}
                     scripts={props.scripts}
                     popOver={props.popOver}
+                    condBranchSkillInfo={props.condBranchSkillInfo}
                     additionalSkillId={props.additionalSkillId}
                 />
             </tbody>

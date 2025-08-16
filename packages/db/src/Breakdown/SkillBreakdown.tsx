@@ -95,6 +95,7 @@ class SkillBreakdown extends React.Component<IProps> {
                     levels={this.props.levels}
                     scripts={skill.script}
                     additionalSkillId={skill.script.additionalSkillId}
+                    condBranchSkillInfo={skill.script.condBranchSkillInfo}
                 />
                 {skill.groupOverwrites && (
                     <SkillGroupOverWrite region={this.props.region} overwrites={skill.groupOverwrites} />

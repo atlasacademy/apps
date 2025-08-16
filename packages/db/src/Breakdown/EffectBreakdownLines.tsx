@@ -30,6 +30,7 @@ interface IProps extends WithTranslation {
     relatedNpId?: number;
     popOver?: boolean;
     additionalSkillId?: number[];
+    condBranchSkillInfo?: Skill.CondBranchSkillInfo[];
     hideEnemyFunctions?: boolean;
 }
 
@@ -259,6 +260,27 @@ class EffectBreakdownLines extends React.Component<IProps> {
                         </React.Fragment>
                     );
                 })}
+                {this.props.condBranchSkillInfo &&
+                    this.props.condBranchSkillInfo.length > 0 &&
+                    this.props.condBranchSkillInfo.map((condBranch) => (
+                        <React.Fragment key={condBranch.skillId}>
+                            {condBranch.detailText && (
+                                <tr>
+                                    <td style={effectStyle} colSpan={this.props.level ? this.props.level + 1 : 1}>
+                                        <em>{condBranch.detailText}</em>
+                                    </td>
+                                </tr>
+                            )}
+                            <AdditionalEffectBreakdown
+                                region={this.props.region}
+                                id={condBranch.skillId}
+                                level={this.props.level}
+                                popOver={this.props.popOver}
+                                hideEnemyFunctions={this.props.hideEnemyFunctions}
+                                triggerSkillIdStack={this.props.triggerSkillIdStack.concat([condBranch.skillId])}
+                            />
+                        </React.Fragment>
+                    ))}
             </React.Fragment>
         );
     }
