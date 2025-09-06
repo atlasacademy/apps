@@ -166,6 +166,8 @@ export enum BuffAction {
     CHANGE_BUFF_USE_RATE = "changeBuffUseRate",
     HATE_TO_GRANTED_OPPONENT = "hateToGrantedOpponent",
     REACTIVE_DAMAGE_GAIN_HP = "reactiveDamageGainHp",
+    BASE_HP_RATE = "baseHpRate",
+    BASE_HP_VALUE = "baseHpValue",
 }
 
 export enum BuffLimit {
@@ -391,8 +393,10 @@ export enum BuffType {
     OVERWRITE_BUFF_USE_RATE = "overwriteBuffUseRate",
     UP_BUFF_USE_RATE = "upBuffUseRate",
     DOWN_BUFF_USE_RATE = "downBuffUseRate",
-    UP_HATE_TO_GRANTED_OPPONENT = "upHateToGrantedOpponent",
     REACTIVE_DAMAGE_GAIN_HP = "reactiveDamageGainHp",
+    UP_HATE_TO_GRANTED_OPPONENT = "upHateToGrantedOpponent",
+    UP_BASE_HP = "upBaseHp",
+    ADD_BASE_HP = "addBaseHp",
     TO_FIELD_CHANGE_FIELD = "toFieldChangeField",
     TO_FIELD_AVOID_BUFF = "toFieldAvoidBuff",
     TO_FIELD_SUB_INDIVIDUALITY_FIELD = "toFieldSubIndividualityField",
