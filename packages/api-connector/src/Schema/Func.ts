@@ -105,7 +105,7 @@ export enum FuncType {
     SHORTEN_USER_EQUIP_SKILL = "shortenUserEquipSkill",
     QUICK_CHANGE_BG = "quickChangeBg",
     SHIFT_SERVANT = "shiftServant",
-    DAMAGE_NP_AND_OR_CHECK_INDIVIDUALITY = "damageNpAndCheckIndividuality",
+    DAMAGE_NP_AND_OR_CHECK_INDIVIDUALITY = "damageNpAndOrCheckIndividuality",
     ABSORB_NPTURN = "absorbNpturn",
     OVERWRITE_DEAD_TYPE = "overwriteDeadType",
     FORCE_ALL_BUFF_NOACT = "forceAllBuffNoact",
@@ -172,6 +172,7 @@ export enum FuncType {
     SET_BATTLE_MISSION_VALUE = "setBattleMissionValue",
     CHANGE_ENEMY_STATUS_UI_TYPE = "changeEnemyStatusUiType",
     SWAP_FIELD_POSITION = "swapFieldPosition",
+    SET_DISPLAY_DIRECT_BATTLE_MESSAGE_IN_FSM = "setDisplayDirectBattleMessageInFsm",
 }
 
 export enum GainNpIndividualSumTarget {

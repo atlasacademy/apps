@@ -22,7 +22,7 @@ export enum ShopType {
     REVIVAL_ITEM = "revivalItem",
     EVENT_SVT_EQUIP = "eventSvtEquip",
     EXCHANGE_SVT_COIN = "exchangeSvtCoin",
-    SHOP18 = "shop18",
+    CLASS_BOARD_RESET = "classBoardReset",
 }
 
 export enum PayType {
@@ -65,7 +65,7 @@ export enum PurchaseType {
     GIFT = "gift",
     EVENT_SVT_JOIN = "eventSvtJoin",
     ASSIST = "assist",
-    SHOP18_ITEM = "shop18Item",
+    CLASS_BOARD_RESET_ITEM = "classBoardResetItem",
     PARTS_SKILL = "partsSkill",
     KIARA_PUNISHER_RESET = "kiaraPunisherReset",
 }
