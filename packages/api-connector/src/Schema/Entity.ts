@@ -1,4 +1,4 @@
-import Card, { AttackType } from "../Enum/Card";
+import { AttackType } from "../Enum/Card";
 import ClassName from "../Enum/ClassName";
 import CondType from "../Enum/Cond";
 import { Attribute } from "./Attribute";
@@ -258,31 +258,9 @@ export interface Entity {
     starAbsorb: number;
     starGen: number;
     instantDeathChance: number;
-    cards: Card[];
-    hitsDistribution: {
-        none?: number[];
-        buster?: number[];
-        arts?: number[];
-        quick?: number[];
-        extra?: number[];
-        blank?: number[];
-        weak?: number[];
-        strength?: number[];
-    };
-    cardDetails: {
-        none?: CardDetail;
-        buster?: CardDetail;
-        arts?: CardDetail;
-        quick?: CardDetail;
-        extra?: CardDetail;
-        blank?: CardDetail;
-        weak?: CardDetail;
-        strength?: CardDetail;
-        weakalt1?: CardDetail;
-        weakalt2?: CardDetail;
-        addattack2?: CardDetail;
-        busteralt1?: CardDetail;
-    };
+    cards: string[];
+    hitsDistribution: Record<string, number[]>;
+    cardDetails: Record<string, CardDetail>;
     atkBase: number;
     atkMax: number;
     hpBase: number;

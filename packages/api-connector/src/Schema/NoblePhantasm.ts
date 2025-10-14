@@ -35,7 +35,7 @@ export interface NoblePhantasm extends NoblePhantasmBasic {
     id: number;
     num: number;
     npNum: number;
-    card: Card;
+    card: string;
     name: string;
     originalName: string;
     ruby: string;

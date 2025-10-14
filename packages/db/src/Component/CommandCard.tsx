@@ -17,7 +17,7 @@ import "./CommandCard.css";
 const supportedCardTypes = [Card.ARTS, Card.BUSTER, Card.QUICK];
 
 interface IProps {
-    card: Card;
+    card: string;
     servant: Servant.Servant;
     npText?: string;
     npTextBottom?: boolean;
@@ -59,7 +59,7 @@ class CommandCard extends React.Component<IProps> {
     }
 
     render() {
-        if (supportedCardTypes.indexOf(this.props.card) === -1) {
+        if (!supportedCardTypes.includes(this.props.card as Card)) {
             return <span>[Card: {this.props.card}]</span>;
         }
 

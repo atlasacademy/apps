@@ -1,18 +1,18 @@
 import { Trait } from "../Schema/Trait";
 
 enum Card {
-    NONE = "none",
-    BUSTER = "buster",
-    ARTS = "arts",
-    QUICK = "quick",
-    EXTRA = "extra",
-    BLANK = "blank",
-    WEAK = "weak",
-    STRENGTH = "strength",
-    WEAKALT1 = "weakalt1",
-    WEAKALT2 = "weakalt2",
-    BUSTERALT1 = "busteralt1",
-    ADDATTACK2 = "addattack2",
+    NONE = "0",
+    ARTS = "1",
+    BUSTER = "2",
+    QUICK = "3",
+    EXTRA = "4",
+    BLANK = "5",
+    WEAK = "10",
+    STRENGTH = "11",
+    WEAKALT1 = "21",
+    WEAKALT2 = "22",
+    BUSTERALT1 = "60",
+    ADDATTACK2 = "104",
 }
 
 export enum AttackType {

@@ -78,7 +78,7 @@ export default class BattleNoblePhantasm {
         }
     }
 
-    gainForCard(card: Card): number {
+    gainForCard(card: string): number {
         let gains: number[] = [];
         switch (card) {
             case Card.BUSTER:

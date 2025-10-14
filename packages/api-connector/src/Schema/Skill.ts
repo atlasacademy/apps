@@ -1,5 +1,4 @@
 import { ReverseData, ReverseDepth } from "../ApiConnector";
-import Card from "../Enum/Card";
 import { AiType } from "./Ai";
 import { CommandCode, CommandCodeBasic } from "./CommandCode";
 import { CommonRelease } from "./CommonRelease";
@@ -50,7 +49,7 @@ export interface TdChangeByBattlePoint {
 
 export interface SelectTreasureDeviceInfoTreasureDevice {
     id: number;
-    type: Card;
+    type: string;
     message: string;
 }
 

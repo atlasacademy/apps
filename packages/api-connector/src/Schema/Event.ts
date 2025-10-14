@@ -1,4 +1,3 @@
-import Card from "../Enum/Card";
 import CondType from "../Enum/Cond";
 import { BgmEntity } from "./Bgm";
 import { CombineAdjustTarget, CombineCalc } from "./Combine";
@@ -339,7 +338,7 @@ export interface EventCommandAssist {
     priority: number;
     lv: number;
     name: string;
-    assistCard: Card;
+    assistCard: string;
     image: string;
     skill: Skill;
     skillLv: number;
