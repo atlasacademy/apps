@@ -29,6 +29,40 @@
     background-size: 2000px 755px;
 }
 
+.breakdown_wrapper[data-type="grand"]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent),
+        radial-gradient(1px 1px at 15% 60%, white, transparent);
+    background-size: 200% 200%;
+    background-position: 0% 0%;
+    pointer-events: none;
+    animation: starShine 4s ease-in-out infinite;
+    opacity: 0.6;
+    border-radius: 1rem;
+}
+
+@keyframes starShine {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.02);
+    }
+}
+
 .breakdown_container {
     position: relative;
     z-index: 2;
@@ -76,18 +110,37 @@
     position: absolute;
     top: -185px;
     left: -140px;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 100, 0.3));
+    will-change: filter;
 }
 
 .grand-base.add {
     mask-image: url("https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/GrandClassScore_add_parts_01.png");
     mask-mode: luminance;
     mask-size: cover;
-    mix-blend-mode: unset;
+    mix-blend-mode: screen;
+    opacity: 0.9;
+    filter: brightness(1.3) contrast(1.1) drop-shadow(0 0 12px rgba(255, 215, 100, 0.5));
+    animation: grandGlow 3s ease-in-out infinite;
 }
 
 .grand-base.add2 {
     mask-image: url("https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/GrandClassScore_add.png");
     mask-mode: luminance;
     mask-size: cover;
-    mix-blend-mode: unset;
+    mix-blend-mode: lighten;
+    opacity: 0.85;
+    filter: brightness(1.25) saturate(1.2) drop-shadow(0 0 15px rgba(255, 215, 100, 0.4));
+    animation: grandGlow 3s ease-in-out infinite 0.5s;
+}
+
+@keyframes grandGlow {
+    0%, 100% {
+        filter: brightness(1.2) contrast(1.1) drop-shadow(0 0 8px rgba(255, 215, 100, 0.3));
+        transform: scale(1);
+    }
+    50% {
+        filter: brightness(1.4) contrast(1.15) drop-shadow(0 0 18px rgba(255, 215, 100, 0.6));
+        transform: scale(1);
+    }
 }

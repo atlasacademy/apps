@@ -7,7 +7,14 @@ import "./ClassBoardMap.css";
 
 const grandClassBoard: number[] = [
     10001,
-    10007
+    10002,
+    10003,
+    10004,
+    10005,
+    10006,
+    10007,
+    10008,
+    10009
 ]
 
 interface ClassBoardIconProps {
@@ -28,6 +35,7 @@ const ClassBoardMap: React.FC = () => {
     const { loading, classBoard } = classBoardData;
     const { changeSquare } = squareData;
     const isGrandClassBoard = grandClassBoard.includes(classBoard?.id ?? 0);
+
 
     if (loading) {
         return <Loading />;
