@@ -1,3 +1,4 @@
+import { ClassBoard } from "@atlasacademy/api-connector";
 import { useCallback, useRef, useEffect } from "react";
 
 interface CachedImage {
@@ -7,7 +8,7 @@ interface CachedImage {
 }
 
 interface UseClassBoardMapOptions {
-    classBoard: any;
+    classBoard?: ClassBoard.ClassBoard;
     currentSquare: any;
     hoveredSquareId: number | null;
     squareImages: Map<number, CachedImage>;

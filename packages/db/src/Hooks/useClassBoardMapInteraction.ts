@@ -1,3 +1,4 @@
+import { ClassBoard } from "@atlasacademy/api-connector";
 import { useCallback } from "react";
 
 interface UseClassBoardMapInteractionOptions {
@@ -5,7 +6,7 @@ interface UseClassBoardMapInteractionOptions {
     zoom: number;
     panX: number;
     panY: number;
-    classBoard: any;
+    classBoard?: ClassBoard.ClassBoard;
     isDragging: boolean;
     dragStart: { x: number; y: number };
     setHoveredSquareId: React.Dispatch<React.SetStateAction<number | null>>;

@@ -5,6 +5,7 @@ import { useResponsiveCanvas } from "./useResponsiveCanvas";
 import { useClassBoardImages } from "./useClassBoardImages";
 import { useClassBoardMapCanvas } from "./useClassBoardMapCanvas";
 import { useClassBoardMapInteraction } from "./useClassBoardMapInteraction";
+import { ClassBoard } from "@atlasacademy/api-connector";
 
 interface UseClassBoardMapOptions {
     baseWidth?: number;
@@ -38,7 +39,7 @@ interface UseClassBoardMapReturn {
     handleTouchEnd: () => void;
     
     // Data
-    classBoard: any;
+    classBoard?: ClassBoard.ClassBoard;
     squareImages: Map<number, any>;
     isLoading: boolean;
     isGrandClassBoard: boolean;

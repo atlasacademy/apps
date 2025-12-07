@@ -1,3 +1,4 @@
+import { ClassBoard } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
 
 interface CachedImage {
@@ -7,7 +8,7 @@ interface CachedImage {
 }
 
 interface UseClassBoardImagesOptions {
-    classBoard: any;
+    classBoard?: ClassBoard.ClassBoard;
 }
 
 /**
