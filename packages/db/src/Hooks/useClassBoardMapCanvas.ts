@@ -232,39 +232,38 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
         }
     };
 
-    // Handle canvas mouse move for hover
-    const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-        const canvas = canvasRef.current;
-        if (!canvas || !classBoard) return;
+    // (handleCanvasMouseMove removed; handled by interaction hook)
 
-        const rect = canvas.getBoundingClientRect();
-        const moveX = (e.clientX - rect.left - canvas.width / 2 - panX) / zoom;
-        const moveY = (e.clientY - rect.top - canvas.height / 2 - panY) / zoom;
 
-        let found = false;
-        for (const square of classBoard.squares) {
-            const x = square.posX / 2;
-            const y = -square.posY / 2;
-            const size = 35 / zoom;
 
-            if (moveX >= x - size / 2 && moveX <= x + size / 2 &&
-                moveY >= y - size / 2 && moveY <= y + size / 2) {
-                setHoveredSquareId(square.id);
-                canvas.style.cursor = 'pointer';
-                found = true;
-                break;
-            }
-        }
 
-        if (!found) {
-            setHoveredSquareId(null);
-            canvas.style.cursor = 'grab';
-        }
-    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     return {
         canvasRef,
-        handleCanvasClick,
-        handleCanvasMouseMove
+        handleCanvasClick
     };
 };
