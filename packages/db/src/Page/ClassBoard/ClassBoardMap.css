@@ -9,6 +9,8 @@
     overflow: hidden;
     border-radius: 1rem;
     padding: 0;
+    touch-action: manipulation;
+    aspect-ratio: 1100 / 700;
 }
 
 .breakdown_wrapper[data-type="grand"] {
@@ -38,6 +40,11 @@
     display: block;
     background: transparent;
     z-index: 2;
+    width: 100%;
+    height: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .classboard_canvas:active {
@@ -57,6 +64,7 @@
     z-index: 10;
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    pointer-events: auto;
 }
 
 .zoom_level {
@@ -80,6 +88,9 @@
     font-weight: bold;
     transition: all 200ms ease;
     font-size: 13px;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .btn_reset:hover {
@@ -91,10 +102,38 @@
     transform: scale(0.95);
 }
 
-/* Responsive */
+/* Tablet (1024px and down) */
+@media only screen and (max-width: 1024px) {
+    .breakdown_wrapper {
+        min-height: auto;
+        aspect-ratio: 1100 / 700;
+    }
+
+    .canvas_info {
+        bottom: 15px;
+        right: 15px;
+        padding: 12px 18px;
+        font-size: 13px;
+    }
+
+    .zoom_level {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .btn_reset {
+        padding: 7px 14px;
+        font-size: 12px;
+    }
+}
+
+/* Mobile (768px and down) */
 @media only screen and (max-width: 768px) {
     .breakdown_wrapper {
-        min-height: 500px;
+        min-height: 60vw;
+        max-height: 80vh;
+        aspect-ratio: 1100 / 700;
+        border-radius: 0.5rem;
     }
 
     .canvas_info {
@@ -106,7 +145,7 @@
 
     .zoom_level {
         margin-bottom: 8px;
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .btn_reset {
@@ -115,25 +154,58 @@
     }
 }
 
+/* Small Mobile (480px and down) */
 @media only screen and (max-width: 480px) {
     .breakdown_wrapper {
-        min-height: 400px;
+        min-height: 55vw;
+        max-height: 75vh;
+        border-radius: 0.3rem;
     }
 
     .canvas_info {
         bottom: 5px;
         right: 5px;
         padding: 8px 12px;
-        font-size: 11px;
+        font-size: 10px;
+        backdrop-filter: blur(2px);
     }
 
     .zoom_level {
-        margin-bottom: 6px;
-        font-size: 12px;
+        margin-bottom: 5px;
+        font-size: 11px;
     }
 
     .btn_reset {
         padding: 5px 10px;
+        font-size: 9px;
+        min-width: 40px;
+    }
+
+    .canvas_controls {
+        gap: 8px;
+    }
+}
+
+/* Extra Small Mobile (320px and down) */
+@media only screen and (max-width: 360px) {
+    .breakdown_wrapper {
+        min-height: 50vw;
+    }
+
+    .canvas_info {
+        bottom: 3px;
+        right: 3px;
+        padding: 6px 10px;
+        font-size: 9px;
+    }
+
+    .zoom_level {
+        margin-bottom: 4px;
         font-size: 10px;
+    }
+
+    .btn_reset {
+        padding: 4px 8px;
+        font-size: 8px;
     }
 }

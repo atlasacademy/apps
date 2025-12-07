@@ -1,7 +1,185 @@
+.classboard_nav_container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 1rem;
+}
+
 .classboard_navigation {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    padding: 0;
+    padding: 0.5rem;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 100%;
+}
+
+.classboard_navigation li {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.classboard_navigation button {
+    transition: all 200ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.classboard_navigation button:hover {
+    transform: scale(1.08);
+}
+
+.classboard_navigation button:active {
+    transform: scale(0.95);
+}
+
+.classboard_navigation img {
+    max-height: 35px;
+    width: auto;
+}
+
+.classboard_title {
+    text-align: left;
+    margin: 1rem 0 0.5rem 0;
+    font-size: 2rem;
+    word-break: break-word;
+}
+
+.classboard_controls_container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin: 1rem 0;
+}
+
+.show_skills_btn {
+    white-space: nowrap;
+}
+
+/* Tablet (1024px and down) */
+@media only screen and (max-width: 1024px) {
+    .classboard_navigation {
+        gap: 0.8rem;
+    }
+
+    .classboard_navigation button img {
+        max-height: 32px;
+    }
+
+    .classboard_title {
+        font-size: 1.75rem;
+    }
+}
+
+/* Mobile (768px and down) */
+@media only screen and (max-width: 768px) {
+    .classboard_nav_container {
+        margin-bottom: 0.8rem;
+        padding: 0.5rem;
+        background: rgba(0, 0, 0, 0.02);
+        border-radius: 0.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .classboard_navigation {
+        gap: 0.6rem;
+        padding: 0.25rem;
+        justify-content: flex-start;
+    }
+
+    .classboard_navigation button {
+        padding: 6px 12px !important;
+    }
+
+    .classboard_navigation button img {
+        max-height: 28px;
+    }
+
+    .classboard_title {
+        font-size: 1.5rem;
+        margin: 0.8rem 0 0.5rem 0;
+        text-align: left;
+    }
+
+    .classboard_controls_container {
+        margin: 0.8rem 0;
+        justify-content: flex-start;
+    }
+
+    .show_skills_btn {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem !important;
+    }
+}
+
+/* Small Mobile (480px and down) */
+@media only screen and (max-width: 480px) {
+    .classboard_nav_container {
+        margin-bottom: 0.6rem;
+        padding: 0.4rem;
+    }
+
+    .classboard_navigation {
+        gap: 0.5rem;
+        padding: 0.2rem;
+    }
+
+    .classboard_navigation button {
+        padding: 4px 8px !important;
+    }
+
+    .classboard_navigation button img {
+        max-height: 24px;
+    }
+
+    .classboard_navigation li {
+        font-size: 12px;
+    }
+
+    .classboard_title {
+        font-size: 1.25rem;
+        margin: 0.6rem 0 0.4rem 0;
+    }
+
+    .classboard_controls_container {
+        margin: 0.6rem 0;
+    }
+
+    .show_skills_btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem !important;
+    }
+
+    hr {
+        margin: 0.5rem 0;
+    }
+}
+
+/* Extra Small Mobile (360px and down) */
+@media only screen and (max-width: 360px) {
+    .classboard_navigation {
+        gap: 0.4rem;
+    }
+
+    .classboard_navigation button {
+        padding: 3px 6px !important;
+    }
+
+    .classboard_navigation button img {
+        max-height: 20px;
+    }
+
+    .classboard_title {
+        font-size: 1rem;
+        margin: 0.5rem 0 0.3rem 0;
+    }
+
+    .show_skills_btn {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem !important;
+    }
 }
