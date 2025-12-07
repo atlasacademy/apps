@@ -6,6 +6,7 @@
     width: 100%;
     min-height: 700px;
     background: #ffffff;
+    border: 1px solid #cccccc9d;
     overflow: hidden;
     border-radius: 1rem;
     padding: 0;
