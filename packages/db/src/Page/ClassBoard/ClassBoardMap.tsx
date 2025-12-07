@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext, useMemo } from "react";
 
 import Loading from "../../Component/Loading";
 import { useClassBoardMap } from "../../Hooks/useClassBoardMap";
 
 import "./ClassBoardMap.css";
+import { Region, CondType, Mission } from "@atlasacademy/api-connector";
+import { ClassBoardContext } from "../../Contexts/ClassBoard";
+import CondTargetNumDescriptor from "../../Descriptor/CondTargetNumDescriptor";
 
-const ClassBoardMap: React.FC = () => {
+const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
     // All logic consolidated in single hook
     const {
         containerRef,
@@ -24,12 +27,29 @@ const ClassBoardMap: React.FC = () => {
         handleCenter,
         handleTouchStart,
         handleTouchMove,
-        handleTouchEnd
+        handleTouchEnd,
+        classBoard
     } = useClassBoardMap();
+
+    const { missionData } = useContext(ClassBoardContext);
+    const { currentMissions } = missionData;
+
+    const missionMap = useMemo<Map<number, Mission.Mission>>(() => {
+        return new Map(
+            currentMissions.flatMap((missionGroup) => missionGroup.missions.map((mission) => [mission.id, mission]))
+        );
+    }, [currentMissions]);
+
+    const hasUnlockCondition =
+        classBoard !== undefined &&
+        classBoard.condType !== CondType.NONE &&
+        classBoard.condTargetId !== 0;
 
     if (isLoading) {
         return <Loading />;
     }
+
+
 
     return (
         <section
@@ -37,6 +57,18 @@ const ClassBoardMap: React.FC = () => {
             className="breakdown_wrapper"
             ref={containerRef}
         >
+            {hasUnlockCondition && classBoard && (
+                <div className="classboard_unlock">
+                    <h4>Unlock Requirement</h4>
+                    <CondTargetNumDescriptor
+                        region={region}
+                        cond={classBoard.condType}
+                        targets={[classBoard.condTargetId]}
+                        num={classBoard.condNum}
+                        missions={missionMap}
+                    />
+                </div>
+            )}
             <canvas
                 ref={canvasRef}
                 width={canvasSize.width}

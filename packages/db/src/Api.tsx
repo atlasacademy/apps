@@ -7,6 +7,7 @@ import {
     Change,
     ClassBoard,
     ClassName,
+    CommonRelease,
     CommandCode,
     ConstantStr,
     CraftEssence,
@@ -75,6 +76,10 @@ class Api {
 
     static constantStrs(): Promise<ConstantStr.ConstantStrs> {
         return apiConnector.constantStr(cacheDuration);
+    }
+
+    static commonRelease(id: number): Promise<CommonRelease.CommonRelease[]> {
+        return apiConnector.commonRelease(id, cacheDuration);
     }
 
     static changelog(): Promise<Change.Change[]> {

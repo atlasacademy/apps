@@ -4,6 +4,7 @@ import { CondType, EnumList, Item, Mission, Quest, Region, Servant } from "@atla
 
 import { mergeElements } from "../Helper/OutputHelper";
 import { lang } from "../Setting/Manager";
+import useApi from "../Hooks/useApi";
 import CondMissionDetailDescriptor from "./CondMissionDetailDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import {
@@ -16,6 +17,58 @@ import {
 } from "./MultipleDescriptors";
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
+
+const CommonReleaseDescriptor: React.FC<
+    {
+        region: Region;
+        commonReleaseId: number;
+        num: number;
+    } & Omit<Parameters<typeof CondTargetNumDescriptor>[0], "cond" | "targets" | "num">
+> = ({ region, commonReleaseId, num, ...props }) => {
+    const { loading, data } = useApi("commonRelease", commonReleaseId);
+
+    if (loading) {
+        return <>Checking unlock requirement…</>;
+    }
+
+    if (!data) {
+        if (num > 0) {
+            return <>Requires common release ID {commonReleaseId} value ≥ {num}</>;
+        }
+        return <>Requires common release ID {commonReleaseId}</>;
+    }
+
+    const rendered = mergeElements(
+        data.map((entry, idx) => {
+            if (entry.condType === CondType.COMMON_RELEASE) {
+                return <span key={`cr-${entry.condId}-${idx}`}>Common release chain {entry.condId}</span>;
+            }
+            return (
+                <CondTargetNumDescriptor
+                    key={`${entry.condType}-${entry.condId}-${idx}`}
+                    region={region}
+                    cond={entry.condType}
+                    targets={[entry.condId]}
+                    num={entry.condNum}
+                    details={undefined}
+                    servants={props.servants}
+                    quests={props.quests}
+                    missions={props.missions}
+                    items={props.items}
+                    enums={props.enums}
+                    handleNavigateMissionId={props.handleNavigateMissionId}
+                />
+            );
+        }),
+        " and "
+    );
+
+    if (num > 1) {
+        return <>Complete {num} of: {rendered}</>;
+    }
+
+    return <>{rendered}</>;
+};
 
 export default function CondTargetNumDescriptor(props: {
     region: Region;
@@ -36,15 +89,20 @@ export default function CondTargetNumDescriptor(props: {
     switch (props.cond) {
         case CondType.NONE:
             return null;
-        case CondType.QUEST_CLEAR:
+        case CondType.QUEST_CLEAR: {
+            const label = <MultipleQuests region={region} questIds={targets} quests={props.quests} />;
+            if (num === 0) {
+                return <>Clear the following quest(s): {label}</>;
+            }
             return (
                 <>
                     {num === targets.length
                         ? `Clear ${num === 1 ? "" : "all of "}`
                         : `Clear ${num} ${num !== 1 ? "different quests from " : "quest from "}`}
-                    <MultipleQuests region={region} questIds={targets} quests={props.quests} />
+                    {label}
                 </>
             );
+        }
         case CondType.QUEST_CLEAR_PHASE:
             return (
                 <>
@@ -172,6 +230,29 @@ export default function CondTargetNumDescriptor(props: {
                     {missionRange(missionDispNos)}
                 </>
             );
+        case CondType.MASTER_MISSION: {
+            const mission = (props.missions ?? new Map([])).get(targets[0]);
+            const missionLabel = mission ? `${mission.dispNo}: ${mission.name}` : `#${targets[0]}`;
+            if (num > 1) {
+                return <>Complete {num} master missions including {missionLabel}</>;
+            }
+            return <>Complete master mission {missionLabel}</>;
+        }
+        case CondType.COMMON_RELEASE: {
+            return (
+                <CommonReleaseDescriptor
+                    region={region}
+                    commonReleaseId={targets[0]}
+                    num={num}
+                    servants={props.servants}
+                    quests={props.quests}
+                    missions={props.missions}
+                    items={props.items}
+                    enums={props.enums}
+                    handleNavigateMissionId={props.handleNavigateMissionId}
+                />
+            );
+        }
         case CondType.MISSION_CONDITION_DETAIL:
             if (props.details) {
                 return (
