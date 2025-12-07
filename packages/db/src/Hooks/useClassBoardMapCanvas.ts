@@ -15,8 +15,6 @@ interface UseClassBoardMapOptions {
     zoom: number;
     panX: number;
     panY: number;
-    setHoveredSquareId: (id: number | null) => void;
-    changeSquare: (square: any) => void;
 }
 
 export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
@@ -28,45 +26,9 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
         zoom,
         panX,
         panY,
-        setHoveredSquareId,
-        changeSquare
     } = options;
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    // Draw grid with dashed lines
-    const drawGrid = useCallback((ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
-        const gridSize = 50;
-        ctx.strokeStyle = 'rgba(200, 200, 200, 0.4)';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([5, 5]); // Dashed lines
-
-        // Draw vertical lines
-        const startXGrid = Math.floor((-canvas.width / 2 - panX) / (gridSize * zoom)) * gridSize;
-        const endXGrid = Math.ceil((canvas.width / 2 - panX) / (gridSize * zoom)) * gridSize;
-
-        for (let x = startXGrid; x <= endXGrid; x += gridSize) {
-            const screenX = x * gridSize * zoom + canvas.width / 2 + panX;
-            ctx.beginPath();
-            ctx.moveTo(screenX, 0);
-            ctx.lineTo(screenX, canvas.height);
-            ctx.stroke();
-        }
-
-        // Draw horizontal lines
-        const startYGrid = Math.floor((-canvas.height / 2 - panY) / (gridSize * zoom)) * gridSize;
-        const endYGrid = Math.ceil((canvas.height / 2 - panY) / (gridSize * zoom)) * gridSize;
-
-        for (let y = startYGrid; y <= endYGrid; y += gridSize) {
-            const screenY = -y * gridSize * zoom + canvas.height / 2 + panY;
-            ctx.beginPath();
-            ctx.moveTo(0, screenY);
-            ctx.lineTo(canvas.width, screenY);
-            ctx.stroke();
-        }
-
-        ctx.setLineDash([]); // Reset dashed lines
-    }, [panX, panY, zoom]);
 
     // Draw connecting lines between squares
     const drawLines = useCallback((ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
@@ -113,7 +75,7 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
 
         const size = 35 * zoom;
 
-        classBoard.squares.forEach((square: any) => {
+        classBoard.squares.forEach((square: ClassBoard.ClassBoardSquare) => {
             const x = (square.posX / 2) * zoom + canvas.width / 2 + panX;
             const y = (-square.posY / 2) * zoom + canvas.height / 2 + panY;
 
@@ -196,74 +158,16 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw grid
-        drawGrid(ctx, canvas);
-
         // Draw connecting lines
         drawLines(ctx, canvas);
 
         // Draw squares
         drawSquares(ctx, canvas);
-    }, [classBoard, drawGrid, drawLines, drawSquares]);
+    }, [classBoard, drawLines, drawSquares]);
 
     useEffect(() => {
         renderCanvas();
     }, [renderCanvas]);
 
-    // Handle canvas click
-    const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-        const canvas = canvasRef.current;
-        if (!canvas || !classBoard) return;
-
-        const rect = canvas.getBoundingClientRect();
-        const clickX = (e.clientX - rect.left - canvas.width / 2 - panX) / zoom;
-        const clickY = (e.clientY - rect.top - canvas.height / 2 - panY) / zoom;
-
-        for (const square of classBoard.squares) {
-            const x = square.posX / 2;
-            const y = -square.posY / 2;
-            const size = 35 / zoom;
-
-            if (clickX >= x - size / 2 && clickX <= x + size / 2 &&
-                clickY >= y - size / 2 && clickY <= y + size / 2) {
-                changeSquare(square);
-                return;
-            }
-        }
-    };
-
-    // (handleCanvasMouseMove removed; handled by interaction hook)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    return {
-        canvasRef,
-        handleCanvasClick
-    };
+    return { canvasRef };
 };

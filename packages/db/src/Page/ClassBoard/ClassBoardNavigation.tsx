@@ -36,7 +36,7 @@ const ClassBoardNavigation: React.FC = () => {
         <>
             <div className="classboard_nav_container">
                 <ul className="classboard_navigation">
-                    {classBoards.map((classboard, index) => {
+                    {classBoards.map((classboard) => {
                         return (
                             <li key={classboard.id}>
                                 <Button 

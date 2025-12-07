@@ -43,7 +43,7 @@ export const useClassBoardImages = (options: UseClassBoardImagesOptions) => {
         /**
          * Load image for a specific square
          */
-        squaresWithImages.forEach((square: any) => {
+        squaresWithImages.forEach((square: ClassBoard.ClassBoardSquare) => {
             const imageSrc = square.lock ? square.lock.items[0]?.item.icon : square.icon;
             
             if (!imageSrc) {

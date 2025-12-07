@@ -9,18 +9,20 @@ interface UseClassBoardMapInteractionOptions {
     classBoard?: ClassBoard.ClassBoard;
     isDragging: boolean;
     dragStart: { x: number; y: number };
+    touchDistance: number;
     setHoveredSquareId: React.Dispatch<React.SetStateAction<number | null>>;
-    changeSquare: (square: any) => void;
+    changeSquare: (square: ClassBoard.ClassBoardSquare) => void;
     setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
     setDragStart: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>;
     setPanX: React.Dispatch<React.SetStateAction<number>>;
     setPanY: React.Dispatch<React.SetStateAction<number>>;
     setZoom: React.Dispatch<React.SetStateAction<number>>;
+    setTouchDistance: React.Dispatch<React.SetStateAction<number>>;
 }
 
 /**
- * Custom hook for ClassBoard map interaction handling
- * Manages canvas click detection, hover states, and dragging
+ * Hook for ClassBoard map interaction handling
+ * Manages clicks, hover, drag, zoom, and touch events
  */
 export const useClassBoardMapInteraction = (options: UseClassBoardMapInteractionOptions) => {
     const {
@@ -31,13 +33,15 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         classBoard,
         isDragging,
         dragStart,
+        touchDistance,
         setHoveredSquareId,
         changeSquare,
         setIsDragging,
         setDragStart,
         setPanX,
         setPanY,
-        setZoom
+        setZoom,
+        setTouchDistance,
     } = options;
 
     /**
@@ -100,7 +104,7 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
             canvas.style.cursor = 'pointer';
         } else {
             setHoveredSquareId(null);
-            canvas.style.cursor = isDragging ? 'grabbing' : 'grab';
+            canvas.style.cursor = 'grab';
         }
     }, [canvasRef, classBoard, isDragging, panX, panY, zoom, getSquareAtCoordinates, setHoveredSquareId]);
 
@@ -179,6 +183,51 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         setPanY(0);
     }, [setZoom, setPanX, setPanY]);
 
+    /**
+     * Handle touch start - drag or pinch zoom
+     */
+    const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+        if (e.touches.length === 1) {
+            setIsDragging(true);
+            setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+        } else if (e.touches.length === 2) {
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            setTouchDistance(Math.sqrt(dx * dx + dy * dy));
+        }
+    }, [setIsDragging, setDragStart, setTouchDistance]);
+
+    /**
+     * Handle touch move - drag or pinch zoom
+     */
+    const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+        if (e.touches.length === 1 && isDragging) {
+            const deltaX = e.touches[0].clientX - dragStart.x;
+            const deltaY = e.touches[0].clientY - dragStart.y;
+            setPanX((prev) => prev + deltaX);
+            setPanY((prev) => prev + deltaY);
+            setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+        } else if (e.touches.length === 2 && touchDistance > 0) {
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            const newDistance = Math.sqrt(dx * dx + dy * dy);
+            const zoomFactor = newDistance / touchDistance;
+            const newZoom = Math.max(0.5, Math.min(3, zoom * zoomFactor));
+            if (newZoom !== zoom) {
+                setZoom(newZoom);
+            }
+            setTouchDistance(newDistance);
+        }
+    }, [isDragging, dragStart, touchDistance, zoom, setPanX, setPanY, setDragStart, setZoom, setTouchDistance]);
+
+    /**
+     * Handle touch end
+     */
+    const handleTouchEnd = useCallback(() => {
+        setIsDragging(false);
+        setTouchDistance(0);
+    }, [setIsDragging, setTouchDistance]);
+
     return {
         handleCanvasClick,
         handleCanvasMouseMove,
@@ -187,6 +236,9 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         handleMouseMove,
         handleWheel,
         handleMouseLeave,
-        handleCenter
+        handleCenter,
+        handleTouchStart,
+        handleTouchMove,
+        handleTouchEnd,
     };
 };
