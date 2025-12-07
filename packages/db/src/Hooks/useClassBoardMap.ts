@@ -57,8 +57,7 @@ export const useClassBoardMap = (options: UseClassBoardMapOptions = {}): UseClas
     const { changeSquare, currentSquare } = squareData;
     
     // Grand classboard IDs
-    const grandClassBoardIds = [10001, 10002, 10003, 10004, 10005, 10006, 10007, 10008, 10009];
-    const isGrandClassBoard = grandClassBoardIds.includes(classBoard?.id ?? 0);
+    const isGrandClassBoard = (classBoard?.id ?? 0) >= 10000;
     
     // Interaction state
     const [hoveredSquareId, setHoveredSquareId] = useState<number | null>(null);
