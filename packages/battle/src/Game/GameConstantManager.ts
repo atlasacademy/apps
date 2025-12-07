@@ -99,11 +99,11 @@ export default class GameConstantManager {
         return this.buffConstantMap[group];
     }
 
-    cardConstants(card: Card, num: number): CardConstant | undefined {
+    cardConstants(card: string, num: number): CardConstant | undefined {
         if (!this.loaded) return undefined;
         if (!this.cardConstantMap) return undefined;
 
-        return (this.cardConstantMap[card] ?? {})[num];
+        return (this.cardConstantMap[card as Card] ?? {})[num];
     }
 
     classAffinity(attacker: ClassName, defender: ClassName): number | undefined {

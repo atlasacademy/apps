@@ -15,13 +15,13 @@ import "./CardType.css";
 const supportedCardTypes = [Card.ARTS, Card.BUSTER, Card.QUICK, Card.EXTRA];
 
 interface IProps {
-    card: Card;
+    card: string;
     height?: string | number;
 }
 
 class CardType extends React.Component<IProps> {
     render() {
-        if (supportedCardTypes.indexOf(this.props.card) === -1) {
+        if (!supportedCardTypes.includes(this.props.card as Card)) {
             return `[Card: ${this.props.card}]`;
         }
 

@@ -5,9 +5,9 @@ import { BattleActor } from "../Actor/BattleActor";
 export class BattleAttackAction {
     constructor(
         public actor: BattleActor,
-        public card: Card,
+        public card: string,
         public critical: boolean,
-        public firstCard: Card,
+        public firstCard: string,
         public grand: boolean,
         public np: boolean,
         public num: number,
@@ -39,7 +39,7 @@ export class BattleAttackActionList {
         const validCards = [Card.BUSTER, Card.QUICK, Card.ARTS],
             actorCards = this.actions
                 .filter((action) => action.actor.props.id === actor.props.id)
-                .filter((action) => validCards.includes(action.card))
+                .filter((action) => validCards.includes(action.card as Card))
                 .map((action) => action.card),
             validCardCount = actorCards.length,
             grand = actorCards.filter((actorCard) => actorCard === card).length === 3;

@@ -77,7 +77,11 @@ class ScriptBreakdown extends React.Component<IProps> {
                     <ul className="mb-0">
                         {option.btn.map((btn, i) => (
                             <li key={i}>
-                                {t("Option")} {i + 1}: <span lang={lang(this.props.region)}>{btn.name}</span> &mdash;{" "}
+                                {t("Option")} {i + 1}: <span lang={lang(this.props.region)}>{btn.name}</span>
+                                {btn.imageUrl && (
+                                    <img alt={`Option Icon ${i + 1}`} src={btn.imageUrl} style={{ height: "2em" }} />
+                                )}{" "}
+                                &mdash;{" "}
                                 {btn.conds.map((cond, i) => (
                                     <SkillScriptCondDescriptor key={i} cond={cond.cond} value={cond.value} />
                                 ))}

@@ -15,7 +15,7 @@ interface IProps extends WithTranslation {
 
 class EnemySubData extends React.Component<IProps> {
     private cardList(): Renderable {
-        const cardCount = new Map<Card, number>();
+        const cardCount = new Map<string, number>();
 
         this.props.enemy.cards.forEach((card) => {
             const count = cardCount.get(card);
@@ -34,7 +34,7 @@ class EnemySubData extends React.Component<IProps> {
     private hitDistribution() {
         const parts: Renderable[] = [],
             cardDetails = this.props.enemy.cardDetails,
-            keys = Object.keys(cardDetails) as Card[],
+            keys = Object.keys(cardDetails),
             details = Object.values(cardDetails),
             t = this.props.t;
 
@@ -46,7 +46,7 @@ class EnemySubData extends React.Component<IProps> {
 
             let attackType = "";
 
-            if ([Card.WEAK, Card.STRENGTH].includes(key)) {
+            if ([Card.WEAK, Card.STRENGTH].includes(key as Card)) {
                 attackType = this.props.enemy.cardDetails[key]?.attackType ?? "";
 
                 switch (attackType) {

@@ -70,6 +70,7 @@ export interface ClassBoard {
     condType: CondType;
     condTargetId: number;
     condNum: number;
+    parentClassBoardBaseId: number;
     classes: ClassBoardClass[];
     squares: ClassBoardSquare[];
     lines: ClassBoardLine[];

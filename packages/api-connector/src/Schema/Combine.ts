@@ -40,4 +40,6 @@ export enum CombineAdjustTarget {
     SUPER_SUCCESS_BY_CLASS = "superSuccessByClass",
     EXCHANGE_SVT = "exchangeSvt",
     QUEST_ITEM_FIRST_TIME = "questItemFirstTime",
+    QUEST_USE_REWARD_ADD_ITEM = "questUseRewardAddItem",
+    EQUIP_EXP = "equipExp",
 }

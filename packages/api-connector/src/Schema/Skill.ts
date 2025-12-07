@@ -1,5 +1,4 @@
 import { ReverseData, ReverseDepth } from "../ApiConnector";
-import Card from "../Enum/Card";
 import { AiType } from "./Ai";
 import { CommandCode, CommandCodeBasic } from "./CommandCode";
 import { CommonRelease } from "./CommonRelease";
@@ -31,8 +30,10 @@ export interface SelectAddInfoBtnCond {
 }
 
 export interface SelectAddInfoButton {
-    name: string;
+    name?: string;
     conds: SelectAddInfoBtnCond[];
+    image?: string;
+    imageUrl?: string;
 }
 
 export interface SelectAddInfo {
@@ -48,7 +49,7 @@ export interface TdChangeByBattlePoint {
 
 export interface SelectTreasureDeviceInfoTreasureDevice {
     id: number;
-    type: Card;
+    type: string;
     message: string;
 }
 
@@ -57,6 +58,20 @@ export interface SelectTreasureDeviceInfo {
     treasureDevices: SelectTreasureDeviceInfoTreasureDevice[];
     title: string;
     messageOnSelected: string;
+}
+
+export enum BattleBranchSkillCondBranchType {
+    None = "none",
+    IsSelfTarget = "isSelfTarget",
+    Individuality = "individuality",
+}
+
+export interface CondBranchSkillInfo {
+    condType: BattleBranchSkillCondBranchType;
+    condValue: number[];
+    skillId: number;
+    detailText: string;
+    iconBuffId: number;
 }
 
 export interface SkillScript {
@@ -78,6 +93,7 @@ export interface SkillScript {
     IgnoreBattlePointUp?: number[][];
     tdChangeByBattlePoint?: TdChangeByBattlePoint[];
     selectTreasureDeviceInfo?: SelectTreasureDeviceInfo[];
+    condBranchSkillInfo?: CondBranchSkillInfo[];
 }
 
 export interface ExtraPassive {

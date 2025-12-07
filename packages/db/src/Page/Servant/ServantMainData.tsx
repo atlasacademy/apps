@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 
-import { Attribute, CardDetail, Region, Servant } from "@atlasacademy/api-connector";
+import { Attribute, Card, CardDetail, Region, Servant } from "@atlasacademy/api-connector";
 
 import CommandCard from "../../Component/CommandCard";
 import CraftEssenceReferenceDescriptor from "../../Descriptor/CraftEssenceReferenceDescriptor";
@@ -156,10 +156,10 @@ class ServantMainData extends React.Component<IProps> {
                             </div>
                         ),
                     })}
-                    {this.renderSpanningRow({ title: "Buster", content: this.showHits("buster") })}
-                    {this.renderSpanningRow({ title: "Arts", content: this.showHits("arts") })}
-                    {this.renderSpanningRow({ title: "Quick", content: this.showHits("quick") })}
-                    {this.renderSpanningRow({ title: "Extra", content: this.showHits("extra") })}
+                    {this.renderSpanningRow({ title: "Buster", content: this.showHits(Card.BUSTER) })}
+                    {this.renderSpanningRow({ title: "Arts", content: this.showHits(Card.ARTS) })}
+                    {this.renderSpanningRow({ title: "Quick", content: this.showHits(Card.QUICK) })}
+                    {this.renderSpanningRow({ title: "Extra", content: this.showHits(Card.EXTRA) })}
                     {this.renderDoubleRow([
                         { title: t("Star Weight"), content: servant.starAbsorb },
                         { title: t("Star Gen"), content: asPercent(servant.starGen, 1) },

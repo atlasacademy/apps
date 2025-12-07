@@ -238,6 +238,26 @@ interface BaseDataVal {
     SyncUsedSameIndivBuffActorOnField?: number;
     OnlyMaxFuncGroupId?: number;
     UseAttack?: number;
+    CondParamAddType?: number;
+    CondParamAddValue?: number;
+    CondParamAddMaxValue?: number;
+    CondParamAddTargetId?: number[];
+    CondParamRangeType?: number;
+    CondParamRangeMaxCount?: number;
+    CondParamRangeMaxValue?: number;
+    CondParamRangeTargetId?: number[];
+    ExecOnce?: number;
+    ApplyBuffIndividuality?: number[][];
+    ExecWhenCanNotAttack?: number;
+    ExecEvenCardSelectState?: number;
+    OverwriteShift?: number;
+    IgnoreShiftWhiteFade?: number;
+    BackStepTargets?: number[];
+    ReplacePositionTargets?: number[];
+    ApplyHighestValueInFieldGroup?: number;
+    IsClassIconChangeSaveGrand?: number;
+    ExecuteEffectId?: number;
+    PriorityUpHate?: number;
 }
 
 export enum SvtClassGroupType {
@@ -478,4 +498,24 @@ export enum DataValField {
     SYNC_USED_SAME_INDIV_BUFF_ACTOR_ON_FIELD = "SyncUsedSameIndivBuffActorOnField",
     ONLY_MAX_FUNC_GROUP_ID = "OnlyMaxFuncGroupId",
     USE_ATTACK = "UseAttack",
+    COND_PARAM_ADD_TYPE = "CondParamAddType",
+    COND_PARAM_ADD_VALUE = "CondParamAddValue",
+    COND_PARAM_ADD_MAX_VALUE = "CondParamAddMaxValue",
+    COND_PARAM_ADD_TARGET_ID = "CondParamAddTargetId",
+    COND_PARAM_RANGE_TYPE = "CondParamRangeType",
+    COND_PARAM_RANGE_MAX_COUNT = "CondParamRangeMaxCount",
+    COND_PARAM_RANGE_MAX_VALUE = "CondParamRangeMaxValue",
+    COND_PARAM_RANGE_TARGET_ID = "CondParamRangeTargetId",
+    EXEC_ONCE = "ExecOnce",
+    APPLY_BUFF_INDIVIDUALITY = "ApplyBuffIndividuality",
+    EXEC_WHEN_CAN_NOT_ATTACK = "ExecWhenCanNotAttack",
+    EXEC_EVEN_CARD_SELECT_STATE = "ExecEvenCardSelectState",
+    OVERWRITE_SHIFT = "OverwriteShift",
+    IGNORE_SHIFT_WHITE_FADE = "IgnoreShiftWhiteFade",
+    BACK_STEP_TARGETS = "BackStepTargets",
+    REPLACE_POSITION_TARGETS = "ReplacePositionTargets",
+    APPLY_HIGHEST_VALUE_IN_FIELD_GROUP = "ApplyHighestValueInFieldGroup",
+    IS_CLASS_ICON_CHANGE_SAVE_GRAND = "IsClassIconChangeSaveGrand",
+    EXECUTE_EFFECT_ID = "ExecuteEffectId",
+    PRIORITY_UP_HATE = "PriorityUpHate",
 }
