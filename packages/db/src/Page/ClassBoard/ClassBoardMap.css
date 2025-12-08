@@ -25,16 +25,6 @@
     display: none;
 }
 
-@keyframes starShine {
-    0%, 100% {
-        opacity: 0.4;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.02);
-    }
-}
 
 .classboard_canvas {
     position: absolute;
