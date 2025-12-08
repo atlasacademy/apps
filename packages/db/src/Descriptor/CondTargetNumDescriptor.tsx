@@ -282,6 +282,7 @@ export default function CondTargetNumDescriptor(props: {
                     items={props.items}
                     enums={props.enums}
                     handleNavigateMissionId={props.handleNavigateMissionId}
+                    details={props.details}
                 />
             );
         }
