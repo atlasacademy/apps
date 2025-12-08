@@ -63,53 +63,59 @@ export const MergeElementsOr = (props: { elements: Renderable[]; lastJoinWord: s
     );
 };
 
-export const MultipleQuests = (props: {
+interface MultipleQuestsProps {
     region: Region;
     questIds: number[];
     quests?: Map<number, Quest.QuestBasic>;
     maxNumQuestsShown?: number;
+    nice?: boolean;
+}
+
+export const MultipleQuests: React.FC<MultipleQuestsProps> = ({
+    region,
+    questIds,
+    quests,
+    maxNumQuestsShown = 10,
+    nice,
 }) => {
-    const numQuest = props.questIds.length,
-        maxNumQuestsShown = props.maxNumQuestsShown ?? 10;
-    if (numQuest === 1) {
-        return (
-            <QuestDescriptorId
-                region={props.region}
-                questId={props.questIds[0]}
-                quests={props.quests}
-                showType={false}
-            />
-        );
-    } else {
-        const questList = (
-            <ul className="mb-0">
-                {props.questIds.map((questId) => {
-                    return (
-                        <li key={questId}>
-                            <QuestDescriptorId
-                                region={props.region}
-                                questId={questId}
-                                quests={props.quests}
-                                showType={false}
-                            />
-                        </li>
-                    );
-                })}
-            </ul>
-        );
-        if (numQuest < maxNumQuestsShown) {
-            return questList;
-        } else {
-            return (
-                <CollapsibleLight
-                    title={`The following ${numQuest} quests`}
-                    content={questList}
-                    eventKey={props.questIds.map((q) => q.toString()).join("-")}
-                    defaultActiveKey={""}
-                />
-            );
-        }
+    if (questIds.length === 1) {
+        return <QuestDescriptorId 
+            region={region} 
+            questId={questIds[0]} 
+            quests={quests} 
+            nice={nice}
+            showType={false} 
+        />;
     }
+
+    const questList = (
+        <ul className="mb-0">
+            {questIds.map((questId) => (
+                <li key={questId}>
+                    <QuestDescriptorId 
+                        region={region} 
+                        questId={questId} 
+                        quests={quests} 
+                        nice={nice}
+                        showType={false} 
+                    />
+                </li>
+            ))}
+        </ul>
+    );
+
+    if (questIds.length < maxNumQuestsShown) {
+        return questList;
+    }
+
+    return (
+        <CollapsibleLight
+            title={`The following ${questIds.length} quests`}
+            content={questList}
+            eventKey={questIds.map((q) => q.toString()).join("-")}
+            defaultActiveKey={""}
+        />
+    );
 };
 
 export const MultipleTraits = (props: { region: Region; traitIds: number[]; lastJoinWord?: string }) => {

@@ -18,15 +18,37 @@ import {
 import { QuestDescriptorId } from "./QuestDescriptor";
 import ServantDescriptorId from "./ServantDescriptorId";
 
-const CommonReleaseDescriptor: React.FC<
-    {
-        region: Region;
-        commonReleaseId: number;
-        num: number;
-    } & Omit<Parameters<typeof CondTargetNumDescriptor>[0], "cond" | "targets" | "num">
-> = ({ region, commonReleaseId, num, ...props }) => {
-    const { loading, data } = useApi("commonRelease", commonReleaseId);
+interface CommonReleaseDescriptorProps {
+    region: Region;
+    commonReleaseId: number;
+    num: number;
+    details?: Mission.MissionConditionDetail[];
+    servants?: Map<number, Servant.ServantBasic>;
+    quests?: Map<number, Quest.QuestBasic>;
+    missions?: Map<number, Mission.Mission>;
+    items?: Map<number, Item.Item>;
+    enums?: EnumList;
+    nice?: boolean;
+    handleNavigateMissionId?: (id: number) => void;
+}
 
+const CommonReleaseDescriptor: React.FC<CommonReleaseDescriptorProps> = (props) => {
+    const {
+        region,
+        commonReleaseId,
+        num,
+        details,
+        servants,
+        quests,
+        missions,
+        items,
+        enums,
+        nice,
+        handleNavigateMissionId,
+    } = props;
+    
+    const { loading, data } = useApi("commonRelease", commonReleaseId);
+    
     if (loading) {
         return <>Checking unlock requirement…</>;
     }
@@ -35,6 +57,7 @@ const CommonReleaseDescriptor: React.FC<
         if (num > 0) {
             return <>Requires common release ID {commonReleaseId} value ≥ {num}</>;
         }
+
         return <>Requires common release ID {commonReleaseId}</>;
     }
 
@@ -43,6 +66,8 @@ const CommonReleaseDescriptor: React.FC<
             if (entry.condType === CondType.COMMON_RELEASE) {
                 return <span key={`cr-${entry.condId}-${idx}`}>Common release chain {entry.condId}</span>;
             }
+            
+            
             return (
                 <CondTargetNumDescriptor
                     key={`${entry.condType}-${entry.condId}-${idx}`}
@@ -50,13 +75,14 @@ const CommonReleaseDescriptor: React.FC<
                     cond={entry.condType}
                     targets={[entry.condId]}
                     num={entry.condNum}
-                    details={undefined}
-                    servants={props.servants}
-                    quests={props.quests}
-                    missions={props.missions}
-                    items={props.items}
-                    enums={props.enums}
-                    handleNavigateMissionId={props.handleNavigateMissionId}
+                    nice={nice}
+                    details={details}
+                    servants={servants}
+                    quests={quests}
+                    missions={missions}
+                    items={items}
+                    enums={enums}
+                    handleNavigateMissionId={handleNavigateMissionId}
                 />
             );
         }),
@@ -81,19 +107,24 @@ export default function CondTargetNumDescriptor(props: {
     missions?: Map<number, Mission.Mission>;
     items?: Map<number, Item.Item>;
     enums?: EnumList;
+    nice?: boolean;
     handleNavigateMissionId?: (id: number) => void;
 }) {
-    const region = props.region,
-        targets = props.targets,
-        num = props.num;
+    const region = props.region
+    const targets = props.targets
+    const num = props.num
+    const nice = props.nice
+
     switch (props.cond) {
         case CondType.NONE:
             return null;
         case CondType.QUEST_CLEAR: {
-            const label = <MultipleQuests region={region} questIds={targets} quests={props.quests} />;
+            const label = <MultipleQuests region={region} questIds={targets} nice={nice} quests={props.quests} />;
+            
             if (num === 0) {
                 return <>Clear the following quest(s): {label}</>;
             }
+
             return (
                 <>
                     {num === targets.length
@@ -244,6 +275,7 @@ export default function CondTargetNumDescriptor(props: {
                     region={region}
                     commonReleaseId={targets[0]}
                     num={num}
+                    nice={nice}
                     servants={props.servants}
                     quests={props.quests}
                     missions={props.missions}
