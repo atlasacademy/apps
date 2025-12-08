@@ -49,8 +49,6 @@ const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
         return <Loading />;
     }
 
-
-
     return (
         <section
             data-type={isGrandClassBoard ? "grand" : "normal"}
@@ -66,6 +64,7 @@ const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
                         targets={[classBoard.condTargetId]}
                         num={classBoard.condNum}
                         missions={missionMap}
+                        nice={true}
                     />
                 </div>
             )}

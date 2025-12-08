@@ -21,75 +21,82 @@ export const useClassBoardImages = (options: UseClassBoardImagesOptions) => {
     const [imagesLoaded, setImagesLoaded] = useState(false);
 
     useEffect(() => {
+        let canceled = false;
+
         if (!classBoard?.squares) {
+            setSquareImages(new Map());
             setImagesLoaded(true);
             return;
         }
 
-        const imageMap = new Map<number, CachedImage>();
-        let loadedCount = 0;
-
-        // Filter squares that have images to load
-        const squaresWithImages = classBoard.squares.filter(
-            (s: any) => s.lock ? s.lock.items[0]?.item.icon : s.icon
+        const squaresWithImages: ClassBoard.ClassBoardSquare[] = classBoard.squares.filter(
+            (square): square is ClassBoard.ClassBoardSquare => Boolean(square.icon || square.lock?.items?.[0]?.item?.icon)
         );
 
         if (squaresWithImages.length === 0) {
-            setSquareImages(imageMap);
+            setSquareImages(new Map());
             setImagesLoaded(true);
             return;
         }
 
-        /**
-         * Load image for a specific square
-         */
-        squaresWithImages.forEach((square: ClassBoard.ClassBoardSquare) => {
-            const imageSrc = square.lock ? square.lock.items[0]?.item.icon : square.icon;
-            
+        setImagesLoaded(false);
+        // Clear previous icons so placeholders render while new ones load
+        setSquareImages(new Map());
+
+        const loadSquareImage = (square: ClassBoard.ClassBoardSquare) => new Promise<{ id: number; cache?: CachedImage }>((resolve) => {
+            const imageSrc = square.lock ? square.lock.items?.[0]?.item?.icon : square.icon;
+
             if (!imageSrc) {
-                loadedCount++;
-                if (loadedCount === squaresWithImages.length) {
-                    setSquareImages(new Map(imageMap));
-                    setImagesLoaded(true);
-                }
+                resolve({ id: square.id });
                 return;
             }
 
             const img = new Image();
+            
             img.crossOrigin = "anonymous";
-            img.src = imageSrc;
 
-            /**
-             * Handle successful image load
-             */
             img.onload = () => {
-                imageMap.set(square.id, {
-                    img,
-                    width: img.naturalWidth,
-                    height: img.naturalHeight
+                resolve({
+                    id: square.id,
+                    cache: {
+                        img,
+                        width: img.naturalWidth,
+                        height: img.naturalHeight,
+                    },
                 });
-                loadedCount++;
-                
-                if (loadedCount === squaresWithImages.length) {
-                    setSquareImages(new Map(imageMap));
-                    setImagesLoaded(true);
-                }
             };
 
-            /**
-             * Handle image load error
-             */
             img.onerror = () => {
-                // eslint-disable-next-line no-console
-                console.warn(`Failed to load image for square ${square.id}`);
-                loadedCount++;
-                
-                if (loadedCount === squaresWithImages.length) {
-                    setSquareImages(new Map(imageMap));
+                resolve({ id: square.id });
+            };
+
+            img.src = imageSrc;
+        });
+
+        const loadAll = async () => {
+            try {
+                const results = await Promise.all(squaresWithImages.map(loadSquareImage));
+                if (canceled) return;
+
+                const map = new Map<number, CachedImage>();
+                results.forEach((result) => {
+                    if (result.cache) {
+                        map.set(result.id, result.cache);
+                    }
+                });
+                setSquareImages(map);
+            } finally {
+                if (!canceled) {
                     setImagesLoaded(true);
                 }
-            };
-        });
+            }
+        };
+
+        loadAll();
+
+        return () => {
+            canceled = true;
+        };
     }, [classBoard]);
 
     return {

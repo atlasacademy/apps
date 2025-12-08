@@ -47,26 +47,35 @@ export const useResponsiveCanvas = (options: UseResponsiveCanvasOptions = {}) =>
         // Initial size calculation
         updateCanvasSize();
 
-        // Create resize observer for container
-        const resizeObserver = new ResizeObserver(() => {
-            updateCanvasSize();
-        });
+        try {
+            // Create resize observer for container
+            const resizeObserver = new ResizeObserver(() => {
+                updateCanvasSize();
+            });
 
-        if (containerRef.current) {
-            resizeObserver.observe(containerRef.current);
+            if (containerRef.current) {
+                resizeObserver.observe(containerRef.current);
+            }
+
+            // Also listen to window resize as fallback
+            const handleWindowResize = () => {
+                updateCanvasSize();
+            };
+
+            window.addEventListener("resize", handleWindowResize);
+
+            return () => {
+                resizeObserver.disconnect();
+                window.removeEventListener("resize", handleWindowResize);
+            };
+        } catch (e) {
+            // ResizeObserver not supported, fallback to window resize only
+            window.addEventListener("resize", updateCanvasSize);
+            
+            return () => {
+                window.removeEventListener("resize", updateCanvasSize);
+            };
         }
-
-        // Also listen to window resize as fallback
-        const handleWindowResize = () => {
-            updateCanvasSize();
-        };
-
-        window.addEventListener("resize", handleWindowResize);
-
-        return () => {
-            resizeObserver.disconnect();
-            window.removeEventListener("resize", handleWindowResize);
-        };
     }, [updateCanvasSize]);
 
     return {

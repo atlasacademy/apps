@@ -59,7 +59,6 @@ export const ClassBoardContext = createContext<ClassBoardContextProps>({
 export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children, id, region }) => {
     const classBoardList = useApi("classBoardList");
     const masterMissions = useApi("masterMissionList");
-
     const [currentBoardId, changeBoardId] = useState(Number(id) || 1);
     const [currentSquare, changeStateSquare] = useState<ClassBoard.ClassBoardSquare>();
     const [showAllSkills, setShowAllSkills] = useState(false);

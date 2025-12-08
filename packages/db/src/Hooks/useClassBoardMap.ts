@@ -30,7 +30,7 @@ interface UseClassBoardMapReturn {
     handleCenter: () => void;
     handleTouchStart: (e: React.TouchEvent<HTMLCanvasElement>) => void;
     handleTouchMove: (e: React.TouchEvent<HTMLCanvasElement>) => void;
-    handleTouchEnd: () => void;
+    handleTouchEnd: (e: React.TouchEvent<HTMLCanvasElement>) => void;
 }
 
 /**

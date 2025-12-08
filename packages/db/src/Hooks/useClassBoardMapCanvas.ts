@@ -9,7 +9,7 @@ interface CachedImage {
 
 interface UseClassBoardMapOptions {
     classBoard?: ClassBoard.ClassBoard;
-    currentSquare: any;
+    currentSquare?: ClassBoard.ClassBoardSquare;
     hoveredSquareId: number | null;
     squareImages: Map<number, CachedImage>;
     zoom: number;
@@ -17,6 +17,9 @@ interface UseClassBoardMapOptions {
     panY: number;
 }
 
+/**
+ * Render ClassBoard map onto canvas
+ */
 export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
     const {
         classBoard,
@@ -29,20 +32,30 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
     } = options;
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const animationFrameRef = useRef<number>();
+
+    // Create square lookup map for O(1) access
+    const squareMap = useRef<Map<number, ClassBoard.ClassBoardSquare>>(new Map());
+    
+    useEffect(() => {
+        if (classBoard?.squares) {
+            squareMap.current = new Map(classBoard.squares.map(s => [s.id, s]));
+        }
+    }, [classBoard]);
 
     // Draw connecting lines between squares
     const drawLines = useCallback((ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
         if (!classBoard) return;
 
-        ctx.strokeStyle = 'rgba(100, 150, 255, 0.7)';
-        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = 'rgba(100, 150, 255, 0.6)';
+        ctx.lineWidth = 2;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.setLineDash([10, 5]); // Dashed connecting lines
+        ctx.setLineDash([8, 4]);
 
-        classBoard.lines.forEach((line: any) => {
-            const prevSquare = classBoard.squares.find((s: any) => s.id === line.prevSquareId);
-            const nextSquare = classBoard.squares.find((s: any) => s.id === line.nextSquareId);
+        classBoard.lines.forEach((line: ClassBoard.ClassBoardLine) => {
+            const prevSquare = squareMap.current.get(line.prevSquareId);
+            const nextSquare = squareMap.current.get(line.nextSquareId);
 
             if (prevSquare && nextSquare) {
                 const x1 = (prevSquare.posX / 2) * zoom + canvas.width / 2 + panX;
@@ -50,19 +63,10 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
                 const x2 = (nextSquare.posX / 2) * zoom + canvas.width / 2 + panX;
                 const y2 = (-nextSquare.posY / 2) * zoom + canvas.height / 2 + panY;
 
-                // Line shadow
-                ctx.shadowColor = 'rgba(100, 150, 255, 0.3)';
-                ctx.shadowBlur = 6;
-                ctx.shadowOffsetX = 0;
-                ctx.shadowOffsetY = 0;
-
                 ctx.beginPath();
                 ctx.moveTo(x1, y1);
                 ctx.lineTo(x2, y2);
                 ctx.stroke();
-
-                // Reset shadow
-                ctx.shadowColor = 'transparent';
             }
         });
 
@@ -82,71 +86,42 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
             const isSelected = currentSquare?.id === square.id;
             const isHovered = hoveredSquareId === square.id;
 
-            // Shadow
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-            ctx.shadowBlur = 10 * zoom;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 3 * zoom;
-
-            // Square background
+            // Square background highlight (only if selected/hovered)
             if (isSelected) {
                 ctx.fillStyle = 'rgba(255, 215, 100, 0.5)';
                 ctx.fillRect(x - size / 2 - 8, y - size / 2 - 8, size + 16, size + 16);
             } else if (isHovered) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+                ctx.fillStyle = 'rgba(100, 150, 255, 0.3)';
                 ctx.fillRect(x - size / 2 - 5, y - size / 2 - 5, size + 10, size + 10);
             }
 
-            // Draw square image
+            // Draw square image (no shadow for performance)
             const cachedImage = squareImages.get(square.id);
             if (cachedImage) {
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-                ctx.shadowBlur = 6 * zoom;
                 ctx.drawImage(cachedImage.img, x - size / 2, y - size / 2, size, size);
             } else {
-                // Placeholder while loading
                 ctx.fillStyle = 'rgba(100, 100, 100, 0.7)';
                 ctx.fillRect(x - size / 2, y - size / 2, size, size);
             }
 
-            // Reset shadow
-            ctx.shadowColor = 'transparent';
-
             // Square border
             ctx.strokeStyle = isSelected 
                 ? '#FFD764' 
-                : (isHovered ? '#ffffff' : 'rgba(170, 170, 170, 0.7)');
+                : (isHovered ? '#6496ff' : 'rgba(170, 170, 170, 0.7)');
             ctx.lineWidth = isSelected ? 3 : (isHovered ? 2 : 1);
             ctx.strokeRect(x - size / 2, y - size / 2, size, size);
 
-            // Position label below icon
-            ctx.fillStyle = 'rgba(100, 100, 100, 0.8)';
-            ctx.font = `${11 * zoom}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            ctx.fillText(`(${square.posX}, ${square.posY})`, x, y + size / 2 + 6 * zoom);
-
-            // Lock indicator
+            // Lock indicator (simple red dot)
             if (square.lock) {
-                ctx.fillStyle = 'rgba(255, 100, 100, 0.95)';
+                ctx.fillStyle = '#ff6464';
                 ctx.beginPath();
-                ctx.arc(x + size / 3, y - size / 3, 7 * zoom, 0, Math.PI * 2);
+                ctx.arc(x + size / 3, y - size / 3, 6 * zoom, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.strokeStyle = '#ff6464';
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-
-                // Lock icon
-                ctx.fillStyle = '#ffffff';
-                ctx.font = `bold ${10 * zoom}px Arial`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('🔒', x + size / 3, y - size / 3);
             }
         });
     }, [classBoard, squareImages, currentSquare, hoveredSquareId, zoom, panX, panY]);
 
-    // Render canvas
+    // Render canvas with requestAnimationFrame for smooth updates
     const renderCanvas = useCallback(() => {
         const canvas = canvasRef.current;
         if (!canvas || !classBoard) return;
@@ -166,7 +141,16 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
     }, [classBoard, drawLines, drawSquares]);
 
     useEffect(() => {
-        renderCanvas();
+        if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+        }
+        animationFrameRef.current = requestAnimationFrame(renderCanvas);
+        
+        return () => {
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
+        };
     }, [renderCanvas]);
 
     return { canvasRef };
