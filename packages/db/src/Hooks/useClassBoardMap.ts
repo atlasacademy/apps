@@ -7,6 +7,11 @@ import { useClassBoardImages } from "./useClassBoardImages";
 import { useClassBoardMapCanvas } from "./useClassBoardMapCanvas";
 import { useClassBoardMapInteraction } from "./useClassBoardMapInteraction";
 
+// Constants
+const DEFAULT_CANVAS_WIDTH = 1100;
+const DEFAULT_CANVAS_HEIGHT = 700;
+const GRAND_CLASS_BOARD_THRESHOLD = 10000;
+
 interface UseClassBoardMapOptions {
     baseWidth?: number;
     baseHeight?: number;
@@ -38,13 +43,13 @@ interface UseClassBoardMapReturn {
  * Orchestrates canvas, interaction, images, and responsive sizing
  */
 export const useClassBoardMap = (options: UseClassBoardMapOptions = {}): UseClassBoardMapReturn => {
-    const { baseWidth = 1100, baseHeight = 700 } = options;
+    const { baseWidth = DEFAULT_CANVAS_WIDTH, baseHeight = DEFAULT_CANVAS_HEIGHT } = options;
     
     const { classBoardData, squareData } = useContext(ClassBoardContext);
     const { loading: isLoading, classBoard } = classBoardData;
     const { changeSquare, currentSquare } = squareData;
     
-    const isGrandClassBoard = (classBoard?.id ?? 0) >= 10000;
+    const isGrandClassBoard = (classBoard?.id ?? 0) >= GRAND_CLASS_BOARD_THRESHOLD;
     
     const [hoveredSquareId, setHoveredSquareId] = useState<number | null>(null);
     const [zoom, setZoom] = useState(1);

@@ -1,6 +1,20 @@
 import { ClassBoard } from "@atlasacademy/api-connector";
 import { useCallback, useRef } from "react";
 
+// Canvas interaction constants
+const SQUARE_BASE_SIZE = 35;
+const POSITION_DIVISOR = 2;
+const Y_AXIS_FLIP = -1;
+const ZOOM_MIN = 0.5;
+const ZOOM_MAX = 3;
+const ZOOM_OUT_FACTOR = 0.9;
+const ZOOM_IN_FACTOR = 1.1;
+const CURSOR_POINTER = 'pointer';
+const CURSOR_GRAB = 'grab';
+const TOUCH_TAP_DISTANCE = 15;
+const TOUCH_TAP_DURATION = 300;
+const TOUCH_TAP_PADDING = 10;
+
 /**
  * Options for useClassBoardMapInteraction hook
  * Includes refs, state values, and state setters
@@ -59,9 +73,9 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         if (!classBoard) return null;
 
         for (const square of classBoard.squares) {
-            const x = square.posX / 2;
-            const y = -square.posY / 2;
-            const size = 35 / zoom;
+            const x = square.posX / POSITION_DIVISOR;
+            const y = Y_AXIS_FLIP * (square.posY / POSITION_DIVISOR);
+            const size = SQUARE_BASE_SIZE / zoom;
             const pad = touchPadding / zoom;
 
             if (clickX >= x - size / 2 - pad && clickX <= x + size / 2 + pad &&
@@ -130,10 +144,10 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         
         if (square) {
             setHoveredSquareId(square.id);
-            canvas.style.cursor = 'pointer';
+            canvas.style.cursor = CURSOR_POINTER;
         } else {
             setHoveredSquareId(null);
-            canvas.style.cursor = 'grab';
+            canvas.style.cursor = CURSOR_GRAB;
         }
     }, [canvasRef, classBoard, isDragging, getLogicalCoordinates, getSquareAtCoordinates, setHoveredSquareId]);
 
@@ -189,8 +203,8 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         const mouseX = (e.clientX - rect.left) * scaleX;
         const mouseY = (e.clientY - rect.top) * scaleY;
 
-        const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
-        const newZoom = Math.max(0.5, Math.min(3, zoom * zoomFactor));
+        const zoomFactor = e.deltaY > 0 ? ZOOM_OUT_FACTOR : ZOOM_IN_FACTOR;
+        const newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom * zoomFactor));
 
         if (newZoom !== zoom) {
             // Adjust pan to keep zoom centered under cursor
@@ -265,7 +279,7 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
                 const dy = touch0.y - touch1.y;
                 const newDistance = Math.sqrt(dx * dx + dy * dy);
                 const zoomFactor = newDistance / touchDistance;
-                const newZoom = Math.max(0.5, Math.min(3, zoom * zoomFactor));
+                const newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom * zoomFactor));
                 if (newZoom !== zoom) {
                     setZoom(newZoom);
                 }
@@ -286,11 +300,11 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
             const distance = Math.sqrt(dx * dx + dy * dy);
             const duration = Date.now() - touchStartPosRef.current.time;
 
-            if (distance < 15 && duration < 300) {
+            if (distance < TOUCH_TAP_DISTANCE && duration < TOUCH_TAP_DURATION) {
                 const coords = getLogicalCoordinates(touchEnd.x, touchEnd.y);
                 if (coords) {
                     const { logicalX, logicalY } = coords;
-                    const square = getSquareAtCoordinates(logicalX, logicalY, 10);
+                    const square = getSquareAtCoordinates(logicalX, logicalY, TOUCH_TAP_PADDING);
                     if (square) {
                         changeSquare(square);
                     }
