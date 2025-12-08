@@ -21,9 +21,6 @@
     background: #ffffff;
 }
 
-.breakdown_wrapper[data-type="grand"]::before {
-    display: none;
-}
 
 
 .classboard_canvas {
