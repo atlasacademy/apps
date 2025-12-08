@@ -127,10 +127,6 @@ export function QuestDescriptorId(props: QuestDescriptorIdProps) {
             />
         );
     }
-
-    console.log("Using API Quest Descriptor for", props.questId);
-    console.log("Nice mode:", props.nice);
-    
     
     return (
         <QuestDescriptor
