@@ -22,7 +22,6 @@ const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
         handleMouseDown,
         handleMouseUp,
         handleMouseMove,
-        handleMouseLeave,
         handleZoomIn,
         handleZoomOut,
         handleCenter,
