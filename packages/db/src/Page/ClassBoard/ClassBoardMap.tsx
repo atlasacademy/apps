@@ -22,8 +22,9 @@ const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
         handleMouseDown,
         handleMouseUp,
         handleMouseMove,
-        handleWheel,
         handleMouseLeave,
+        handleZoomIn,
+        handleZoomOut,
         handleCenter,
         handleTouchStart,
         handleTouchMove,
@@ -80,17 +81,20 @@ const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
                 }}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
-                onWheel={handleWheel}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
             />
-            <div className="canvas_info">
-                <div className="zoom_level">Zoom: {(zoom * 100).toFixed(0)}%</div>
-                <div className="canvas_controls">
-                    <button onClick={handleCenter} className="btn_reset">↺ Center</button>
-                </div>
+
+            <div className="map_controls map_controls_primary">
+                <button aria-label="Zoom in" className="map_btn" onClick={handleZoomIn}>+</button>
+                <button aria-label="Zoom out" className="map_btn" onClick={handleZoomOut}>−</button>
+                <div className="map_divider" />
+                <button aria-label="Center" className="map_btn" onClick={handleCenter}>⟳</button>
+            </div>
+
+            <div className="map_status">
+                <span className="map_badge">Zoom {(zoom * 100).toFixed(0)}%</span>
             </div>
         </section>
     );

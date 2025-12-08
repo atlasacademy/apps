@@ -27,7 +27,6 @@ interface UseClassBoardMapInteractionOptions {
     classBoard?: ClassBoard.ClassBoard;
     isDragging: boolean;
     dragStart: { x: number; y: number };
-    touchDistance: number;
     setHoveredSquareId: React.Dispatch<React.SetStateAction<number | null>>;
     changeSquare: (square: ClassBoard.ClassBoardSquare) => void;
     setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,7 +34,6 @@ interface UseClassBoardMapInteractionOptions {
     setPanX: React.Dispatch<React.SetStateAction<number>>;
     setPanY: React.Dispatch<React.SetStateAction<number>>;
     setZoom: React.Dispatch<React.SetStateAction<number>>;
-    setTouchDistance: React.Dispatch<React.SetStateAction<number>>;
 }
 
 /**
@@ -51,7 +49,6 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         classBoard,
         isDragging,
         dragStart,
-        touchDistance,
         setHoveredSquareId,
         changeSquare,
         setIsDragging,
@@ -59,10 +56,8 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         setPanX,
         setPanY,
         setZoom,
-        setTouchDistance,
     } = options;
 
-    const rafRef = useRef<number>();
     const touchStartPosRef = useRef<{ x: number; y: number; time: number; panX: number; panY: number; zoom: number } | null>(null);
 
     /**
@@ -188,34 +183,6 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
     }, [isDragging, dragStart, setPanX, setPanY, setDragStart]);
 
     /**
-     * Handle mouse wheel events
-     * Updates zoom level while keeping the zoom centered under the cursor
-     */
-    const handleWheel = useCallback((e: React.WheelEvent<HTMLCanvasElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        const mouseX = (e.clientX - rect.left) * scaleX;
-        const mouseY = (e.clientY - rect.top) * scaleY;
-
-        const zoomFactor = e.deltaY > 0 ? ZOOM_OUT_FACTOR : ZOOM_IN_FACTOR;
-        const newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom * zoomFactor));
-
-        if (newZoom !== zoom) {
-            // Adjust pan to keep zoom centered under cursor
-            const deltaZoom = newZoom / zoom;
-            setPanX(prev => mouseX - (mouseX - prev) * deltaZoom);
-            setPanY(prev => mouseY - (mouseY - prev) * deltaZoom);
-            setZoom(newZoom);
-        }
-    }, [canvasRef, zoom, setPanX, setPanY, setZoom]);
-
-    /**
      * Handle mouse leave event
      * Clears hover state and stops dragging
      */
@@ -223,6 +190,33 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         setHoveredSquareId(null);
         setIsDragging(false);
     }, [setHoveredSquareId, setIsDragging]);
+
+    /**
+     * Zoom helpers (button-driven)
+     * Centered on canvas midpoint to mimic map controls
+     */
+    const applyZoomFactor = useCallback((zoomFactor: number) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const centerX = rect.width / 2 * scaleX;
+        const centerY = rect.height / 2 * scaleY;
+
+        const newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom * zoomFactor));
+
+        if (newZoom !== zoom) {
+            const deltaZoom = newZoom / zoom;
+            setPanX(prev => centerX - (centerX - prev) * deltaZoom);
+            setPanY(prev => centerY - (centerY - prev) * deltaZoom);
+            setZoom(newZoom);
+        }
+    }, [canvasRef, zoom, setPanX, setPanY, setZoom]);
+
+    const handleZoomIn = useCallback(() => applyZoomFactor(ZOOM_IN_FACTOR), [applyZoomFactor]);
+    const handleZoomOut = useCallback(() => applyZoomFactor(ZOOM_OUT_FACTOR), [applyZoomFactor]);
 
     /**
      * Reset zoom and pan to center
@@ -237,56 +231,27 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
      * Handle touch start - drag or pinch zoom
      */
     const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-        if (e.touches.length === 1) {
-            const pos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            touchStartPosRef.current = { ...pos, time: Date.now(), panX, panY, zoom };
-            setIsDragging(true);
-            setDragStart(pos);
-        } else if (e.touches.length === 2) {
-            touchStartPosRef.current = null;
-            const dx = e.touches[0].clientX - e.touches[1].clientX;
-            const dy = e.touches[0].clientY - e.touches[1].clientY;
-            setTouchDistance(Math.sqrt(dx * dx + dy * dy));
-        }
-    }, [panX, panY, zoom, setIsDragging, setDragStart, setTouchDistance]);
+        if (e.touches.length !== 1) return;
+        const pos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        touchStartPosRef.current = { ...pos, time: Date.now(), panX, panY, zoom };
+        setIsDragging(true);
+        setDragStart(pos);
+    }, [panX, panY, zoom, setIsDragging, setDragStart]);
 
     /**
      * Handle touch move - drag or pinch zoom (throttled with RAF)
      */
     const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+        if (!isDragging || e.touches.length !== 1) return;
         e.preventDefault();
-        
-        if (rafRef.current) {
-            return;
-        }
 
-        // Capture touch data before RAF (TouchEvent gets reused)
-        const touchCount = e.touches.length;
-        const touch0 = touchCount > 0 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
-        const touch1 = touchCount > 1 ? { x: e.touches[1].clientX, y: e.touches[1].clientY } : null;
-
-        rafRef.current = requestAnimationFrame(() => {
-            rafRef.current = undefined;
-
-            if (touchCount === 1 && touch0 && isDragging) {
-                const deltaX = touch0.x - dragStart.x;
-                const deltaY = touch0.y - dragStart.y;
-                setPanX((prev) => prev + deltaX);
-                setPanY((prev) => prev + deltaY);
-                setDragStart(touch0);
-            } else if (touchCount === 2 && touch0 && touch1 && touchDistance > 0) {
-                const dx = touch0.x - touch1.x;
-                const dy = touch0.y - touch1.y;
-                const newDistance = Math.sqrt(dx * dx + dy * dy);
-                const zoomFactor = newDistance / touchDistance;
-                const newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom * zoomFactor));
-                if (newZoom !== zoom) {
-                    setZoom(newZoom);
-                }
-                setTouchDistance(newDistance);
-            }
-        });
-    }, [isDragging, dragStart, touchDistance, zoom, setPanX, setPanY, setDragStart, setZoom, setTouchDistance]);
+        const touch0 = e.touches[0];
+        const deltaX = touch0.clientX - dragStart.x;
+        const deltaY = touch0.clientY - dragStart.y;
+        setPanX((prev) => prev + deltaX);
+        setPanY((prev) => prev + deltaY);
+        setDragStart({ x: touch0.clientX, y: touch0.clientY });
+    }, [isDragging, dragStart, setPanX, setPanY, setDragStart]);
 
     /**
      * Handle touch end
@@ -313,9 +278,8 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         }
 
         setIsDragging(false);
-        setTouchDistance(0);
         touchStartPosRef.current = null;
-    }, [canvasRef, classBoard, getLogicalCoordinates, getSquareAtCoordinates, changeSquare, setIsDragging, setTouchDistance]);
+    }, [canvasRef, classBoard, getLogicalCoordinates, getSquareAtCoordinates, changeSquare, setIsDragging]);
 
     return {
         handleCanvasClick,
@@ -323,9 +287,10 @@ export const useClassBoardMapInteraction = (options: UseClassBoardMapInteraction
         handleMouseDown,
         handleMouseUp,
         handleMouseMove,
-        handleWheel,
         handleMouseLeave,
         handleCenter,
+        handleZoomIn,
+        handleZoomOut,
         handleTouchStart,
         handleTouchMove,
         handleTouchEnd,

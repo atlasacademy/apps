@@ -12,6 +12,9 @@
     padding: 0;
     touch-action: manipulation;
     aspect-ratio: 1100 / 700;
+    background: radial-gradient(circle at 20% 20%, rgba(0,0,0,0.02), transparent 35%),
+        radial-gradient(circle at 80% 10%, rgba(0,0,0,0.02), transparent 30%),
+        #ffffff;
 }
 
 .breakdown_wrapper[data-type="grand"] {
@@ -47,6 +50,124 @@
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+}
+
+.map_controls {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: inline-flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #dfe1e5;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 6;
+}
+
+.map_controls_primary {
+    gap: 0;
+}
+
+.map_btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 120ms ease, transform 120ms ease;
+}
+
+.map_btn:hover {
+    background: #f1f3f4;
+    transform: translateY(-1px);
+}
+
+.map_btn:active {
+    background: #e8eaed;
+    transform: translateY(0);
+}
+
+.map_divider {
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.map_status {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 6;
+    font-size: 12px;
+    color: #202124;
+}
+
+.map_badge {
+    font-weight: 600;
+}
+
+/* Tablet tweaks */
+@media only screen and (max-width: 1024px) {
+    .map_controls {
+        bottom: 12px;
+        right: 12px;
+    }
+
+    .map_btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
+
+/* Mobile */
+@media only screen and (max-width: 768px) {
+    .map_controls {
+        bottom: 10px;
+        right: 10px;
+        border-radius: 8px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .map_btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .map_status {
+        bottom: 10px;
+        left: 10px;
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+}
+
+/* Small mobile */
+@media only screen and (max-width: 480px) {
+    .map_controls {
+        bottom: 8px;
+        right: 8px;
+    }
+
+    .map_btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .map_divider {
+        height: 0.5px;
+    }
 }
 
 .classboard_unlock {

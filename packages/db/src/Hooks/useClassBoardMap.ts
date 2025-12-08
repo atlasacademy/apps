@@ -30,8 +30,9 @@ interface UseClassBoardMapReturn {
     handleMouseDown: (e: React.MouseEvent<HTMLCanvasElement>) => void;
     handleMouseUp: () => void;
     handleMouseMove: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-    handleWheel: (e: React.WheelEvent<HTMLCanvasElement>) => void;
     handleMouseLeave: () => void;
+    handleZoomIn: () => void;
+    handleZoomOut: () => void;
     handleCenter: () => void;
     handleTouchStart: (e: React.TouchEvent<HTMLCanvasElement>) => void;
     handleTouchMove: (e: React.TouchEvent<HTMLCanvasElement>) => void;
@@ -57,7 +58,6 @@ export const useClassBoardMap = (options: UseClassBoardMapOptions = {}): UseClas
     const [panY, setPanY] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-    const [touchDistance, setTouchDistance] = useState(0);
 
     const { containerRef, canvasSize } = useResponsiveCanvas({ baseWidth, baseHeight });
     const { squareImages } = useClassBoardImages({ classBoard });
@@ -77,8 +77,9 @@ export const useClassBoardMap = (options: UseClassBoardMapOptions = {}): UseClas
         handleMouseDown,
         handleMouseUp,
         handleMouseMove,
-        handleWheel,
         handleMouseLeave,
+        handleZoomIn,
+        handleZoomOut,
         handleCenter,
         handleTouchStart,
         handleTouchMove,
@@ -91,7 +92,6 @@ export const useClassBoardMap = (options: UseClassBoardMapOptions = {}): UseClas
         classBoard,
         isDragging,
         dragStart,
-        touchDistance,
         setHoveredSquareId,
         changeSquare,
         setIsDragging,
@@ -99,7 +99,6 @@ export const useClassBoardMap = (options: UseClassBoardMapOptions = {}): UseClas
         setPanX,
         setPanY,
         setZoom,
-        setTouchDistance,
     });
 
     return {
@@ -115,8 +114,9 @@ export const useClassBoardMap = (options: UseClassBoardMapOptions = {}): UseClas
         handleMouseDown,
         handleMouseUp,
         handleMouseMove,
-        handleWheel,
         handleMouseLeave,
+        handleZoomIn,
+        handleZoomOut,
         handleCenter,
         handleTouchStart,
         handleTouchMove,
