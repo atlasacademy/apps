@@ -1395,6 +1395,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                 switch (parameters[0]) {
                     case "k":
                     case "page":
+                    case "q":
                         finalizeDialogueComponent();
                         resetDialogueVariables();
                         break;
@@ -1417,7 +1418,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                                 content: line,
                                 lineNumber: index,
                             });
-                            if (line.endsWith("[k]")) {
+                            if (line.endsWith("[k]") || line.endsWith("[q]")) {
                                 finalizeDialogueComponent();
                             }
                             break;
@@ -1493,7 +1494,7 @@ export function parseScript(region: Region, script: string): ScriptInfo {
                     lineNumber: index,
                 });
                 // Hacky way to do this. The proper way is to parse by characters.
-                if (line.endsWith("[k]")) {
+                if (line.endsWith("[k]") || line.endsWith("[q]")) {
                     finalizeDialogueComponent();
                     resetDialogueVariables();
                 }
