@@ -1,65 +1,340 @@
-@media only screen and (max-width: 900px) {
-    .breakdown_container,
-    .map_lines {
-        transform: translateX(100px);
-    }
-}
-
-@media only screen and (max-width: 480px) {
-    .breakdown_container,
-    .map_lines {
-        transform: translateX(350px);
-    }
-}
-
 .breakdown_wrapper {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 700px;
-    background-image: url(https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/bg.png);
-    background-size: cover;
-    overflow: auto;
+    width: 100%;
+    min-height: 700px;
+    background: #ffffff;
+    border: 1px solid #cccccc9d;
+    overflow: hidden;
     border-radius: 1rem;
+    padding: 0;
+    touch-action: manipulation;
+    aspect-ratio: 1100 / 700;
+    background: radial-gradient(circle at 20% 20%, rgba(0,0,0,0.02), transparent 35%),
+        radial-gradient(circle at 80% 10%, rgba(0,0,0,0.02), transparent 30%),
+        #ffffff;
 }
 
-.breakdown_container {
-    position: relative;
+.breakdown_wrapper[data-type="grand"] {
+    background: #ffffff;
+}
+
+
+
+.classboard_canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: grab;
+    display: block;
+    background: transparent;
     z-index: 2;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-.square_btn {
-    transition: 500ms all;
+.map_controls {
     position: absolute;
-    background: none;
+    bottom: 16px;
+    right: 16px;
+    display: inline-flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #dfe1e5;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 6;
+}
+
+.map_controls_primary {
+    gap: 0;
+}
+
+.map_btn {
+    width: 44px;
+    height: 44px;
     border: none;
-    z-index: 1;
-
-    &:hover {
-        transform: scale(1.5);
-        cursor: pointer;
-    }
+    background: transparent;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 120ms ease, transform 120ms ease;
 }
 
-.earth {
+.map_btn:hover {
+    background: #f1f3f4;
+    transform: translateY(-1px);
+}
+
+.map_btn:active {
+    background: #e8eaed;
+    transform: translateY(0);
+}
+
+.map_divider {
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.map_status {
     position: absolute;
-    height: 120px;
-    top: -45px;
-    left: -45px;
-    border-radius: 1000%;
-    background: url(https://static.atlasacademy.io/file/aa-fgo-extract-jp/ClassBoard/Bg/tex_earth.png);
-    background-size: cover;
-    box-shadow: inset 0 0 7px black;
-    animation: earthrotation linear forwards 60s infinite;
+    bottom: 16px;
+    left: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 6;
+    font-size: 12px;
+    color: #202124;
 }
 
-@keyframes earthrotation {
-    0% {
-        background-position: 100% 0;
+.map_badge {
+    font-weight: 600;
+}
+
+/* Tablet tweaks */
+@media only screen and (max-width: 1024px) {
+    .map_controls {
+        bottom: 12px;
+        right: 12px;
     }
 
-    100% {
-        background-position: -100% 0;
+    .map_btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
+
+/* Mobile */
+@media only screen and (max-width: 768px) {
+    .map_controls {
+        bottom: 10px;
+        right: 10px;
+        border-radius: 8px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .map_btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .map_status {
+        bottom: 10px;
+        left: 10px;
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+}
+
+/* Small mobile */
+@media only screen and (max-width: 480px) {
+    .map_controls {
+        bottom: 8px;
+        right: 8px;
+    }
+
+    .map_btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .map_divider {
+        height: 0.5px;
+    }
+}
+
+.classboard_unlock {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 5;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    max-width: min(420px, 85%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 0.95rem;
+}
+
+.classboard_unlock h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+}
+
+.classboard_canvas:active {
+    cursor: grabbing;
+}
+
+.canvas_info {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    pointer-events: auto;
+}
+
+.zoom_level {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.canvas_controls {
+    display: flex;
+    gap: 10px;
+}
+
+.btn_reset {
+    background: rgba(100, 150, 255, 0.8);
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 200ms ease;
+    font-size: 13px;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.btn_reset:hover {
+    background: rgba(100, 150, 255, 1);
+    transform: scale(1.05);
+}
+
+.btn_reset:active {
+    transform: scale(0.95);
+}
+
+/* Tablet (1024px and down) */
+@media only screen and (max-width: 1024px) {
+    .breakdown_wrapper {
+        min-height: auto;
+        aspect-ratio: 1100 / 700;
+    }
+
+    .canvas_info {
+        bottom: 15px;
+        right: 15px;
+        padding: 12px 18px;
+        font-size: 13px;
+    }
+
+    .zoom_level {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .btn_reset {
+        padding: 7px 14px;
+        font-size: 12px;
+    }
+}
+
+/* Mobile (768px and down) */
+@media only screen and (max-width: 768px) {
+    .breakdown_wrapper {
+        min-height: 60vw;
+        max-height: 80vh;
+        aspect-ratio: 1100 / 700;
+        border-radius: 0.5rem;
+    }
+
+    .canvas_info {
+        bottom: 10px;
+        right: 10px;
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+
+    .zoom_level {
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .btn_reset {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+}
+
+/* Small Mobile (480px and down) */
+@media only screen and (max-width: 480px) {
+    .breakdown_wrapper {
+        min-height: 55vw;
+        max-height: 75vh;
+        border-radius: 0.3rem;
+    }
+
+    .canvas_info {
+        bottom: 5px;
+        right: 5px;
+        padding: 8px 12px;
+        font-size: 10px;
+        backdrop-filter: blur(2px);
+    }
+
+    .zoom_level {
+        margin-bottom: 5px;
+        font-size: 11px;
+    }
+
+    .btn_reset {
+        padding: 5px 10px;
+        font-size: 9px;
+        min-width: 40px;
+    }
+
+    .canvas_controls {
+        gap: 8px;
+    }
+}
+
+/* Extra Small Mobile (320px and down) */
+@media only screen and (max-width: 360px) {
+    .breakdown_wrapper {
+        min-height: 50vw;
+    }
+
+    .canvas_info {
+        bottom: 3px;
+        right: 3px;
+        padding: 6px 10px;
+        font-size: 9px;
+    }
+
+    .zoom_level {
+        margin-bottom: 4px;
+        font-size: 10px;
+    }
+
+    .btn_reset {
+        padding: 4px 8px;
+        font-size: 8px;
     }
 }

@@ -5,6 +5,9 @@ import { ClassBoard, MasterMission, Region } from "@atlasacademy/api-connector";
 import ErrorStatus from "../Component/ErrorStatus";
 import useApi from "../Hooks/useApi";
 
+// Constants
+const DEFAULT_CLASS_BOARD_ID = 1;
+
 interface ClassBoardContextProps {
     classBoardData: {
         classBoards: ClassBoard.ClassBoard[];
@@ -59,8 +62,7 @@ export const ClassBoardContext = createContext<ClassBoardContextProps>({
 export const ClassBoardProvider: React.FC<ClassBoardProviderProps> = ({ children, id, region }) => {
     const classBoardList = useApi("classBoardList");
     const masterMissions = useApi("masterMissionList");
-
-    const [currentBoardId, changeBoardId] = useState(Number(id) || 1);
+    const [currentBoardId, changeBoardId] = useState(Number(id) || DEFAULT_CLASS_BOARD_ID);
     const [currentSquare, changeStateSquare] = useState<ClassBoard.ClassBoardSquare>();
     const [showAllSkills, setShowAllSkills] = useState(false);
 

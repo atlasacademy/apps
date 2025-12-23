@@ -79,10 +79,13 @@ interface IProps {
     questPhase?: number;
     questStage?: number;
     showType?: boolean;
+    nice?: boolean; // Necesary for earth blank spots
 }
 
 export default function QuestDescriptor(props: IProps) {
-    const { data: quest } = useApi("questBasic", props.questId);
+    const endpoint = props.nice ? "quest" : "questBasic";
+    const { data: quest } = useApi(endpoint, props.questId);
+
     if (quest !== undefined) {
         return (
             <QuestDescriptionNoApi
@@ -99,15 +102,18 @@ export default function QuestDescriptor(props: IProps) {
     }
 }
 
-export function QuestDescriptorId(props: {
+interface QuestDescriptorIdProps {
     text?: string;
     region: Region;
     questId: number;
     questPhase?: number;
     questStage?: number;
     showType?: boolean;
+    nice?: boolean; // Necesary for earth blank spots
     quests?: Map<number, Quest.QuestBasic>;
-}) {
+}
+
+export function QuestDescriptorId(props: QuestDescriptorIdProps) {
     if (props.quests !== undefined) {
         return (
             <QuestDescriptorMap
@@ -120,18 +126,19 @@ export function QuestDescriptorId(props: {
                 showType={props.showType}
             />
         );
-    } else {
-        return (
-            <QuestDescriptor
-                text={props.text}
-                region={props.region}
-                questId={props.questId}
-                questPhase={props.questPhase}
-                questStage={props.questStage}
-                showType={props.showType}
-            />
-        );
     }
+    
+    return (
+        <QuestDescriptor
+            text={props.text}
+            region={props.region}
+            questId={props.questId}
+            questPhase={props.questPhase}
+            nice={props.nice}
+            questStage={props.questStage}
+            showType={props.showType}
+        />
+    );
 }
 
 export function QuestDescriptorMap(props: {

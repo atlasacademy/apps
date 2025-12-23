@@ -34,30 +34,41 @@ const ClassBoardNavigation: React.FC = () => {
 
     return (
         <>
-            <ul className="classboard_navigation">
-                {classBoards.map((classboard, index) => {
-                    return (
-                        <li key={classboard.id}>
-                            <Button onClick={() => handleNavigation(classboard.id)}>
-                                <img
-                                    height={35}
-                                    src={`${AssetHost}/JP/ClassIcons/btn_tab_${classboard.id}.png`}
-                                    alt={classboard.name}
-                                />
-                            </Button>
-                        </li>
-                    );
-                })}
-            </ul>
-            <h1>{classBoard?.name}</h1>
+            <div className="classboard_nav_container">
+                <ul className="classboard_navigation">
+                    {classBoards.map((classboard) => {
+                        return (
+                            <li key={classboard.id}>
+                                <Button 
+                                    onClick={() => handleNavigation(classboard.id)}
+                                    title={classboard.name}
+                                >
+                                    <img
+                                        height={35}
+                                        src={`${AssetHost}/JP/ClassIcons/class2_${classboard.id}.png`}
+                                        alt={classboard.name}
+                                    />
+                                </Button>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+            <h1 className="classboard_title">{classBoard?.name}</h1>
             <hr />
-            <ul className="classboard_navigation">
-                <li>
-                    <Button variant={show ? "success" : "info"} onClick={handleClickState}>
-                        {t("Show All Skills")}
-                    </Button>
-                </li>
-            </ul>
+            <div className="classboard_controls_container">
+                <ul className="classboard_navigation">
+                    <li>
+                        <Button 
+                            variant={show ? "success" : "info"} 
+                            onClick={handleClickState}
+                            className="show_skills_btn"
+                        >
+                            {t("Show All Skills")}
+                        </Button>
+                    </li>
+                </ul>
+            </div>
         </>
     );
 };

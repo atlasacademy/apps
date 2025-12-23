@@ -1,93 +1,100 @@
-import { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 
 import Loading from "../../Component/Loading";
-import { ClassBoardContext } from "../../Contexts/ClassBoard";
+import { useClassBoardMap } from "../../Hooks/useClassBoardMap";
 
 import "./ClassBoardMap.css";
+import { Region, CondType, Mission } from "@atlasacademy/api-connector";
+import { ClassBoardContext } from "../../Contexts/ClassBoard";
+import CondTargetNumDescriptor from "../../Descriptor/CondTargetNumDescriptor";
 
-interface ClassBoardIconProps {
-    x: string;
-    y: string;
-    image: string;
-    clickCallback: () => void;
-}
+const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
+    // All logic consolidated in single hook
+    const {
+        containerRef,
+        canvasRef,
+        canvasSize,
+        zoom,
+        isLoading,
+        isGrandClassBoard,
+        handleCanvasClick,
+        handleCanvasMouseMove,
+        handleMouseDown,
+        handleMouseUp,
+        handleMouseMove,
+        handleZoomIn,
+        handleZoomOut,
+        handleCenter,
+        handleTouchStart,
+        handleTouchMove,
+        handleTouchEnd,
+        classBoard
+    } = useClassBoardMap();
 
-const ClassBoardIcon: React.FC<ClassBoardIconProps> = ({ x, y, image, clickCallback }) => (
-    <button onClick={clickCallback} style={{ left: x, top: y }} className="square_btn">
-        <img className="square" height={30} src={image} alt={"square"} />
-    </button>
-);
+    const { missionData } = useContext(ClassBoardContext);
+    const { currentMissions } = missionData;
 
-const ClassBoardMap: React.FC = () => {
-    const { classBoardData, squareData } = useContext(ClassBoardContext);
-    const { loading, classBoard } = classBoardData;
-    const { changeSquare } = squareData;
+    const missionMap = useMemo<Map<number, Mission.Mission>>(() => {
+        return new Map(
+            currentMissions.flatMap((missionGroup) => missionGroup.missions.map((mission) => [mission.id, mission]))
+        );
+    }, [currentMissions]);
 
-    if (loading) {
+    const hasUnlockCondition =
+        classBoard !== undefined &&
+        classBoard.condType !== CondType.NONE &&
+        classBoard.condTargetId !== 0;
+
+    if (isLoading) {
         return <Loading />;
     }
 
     return (
-        <section className="breakdown_wrapper">
-            <div className="breakdown_container">
-                {classBoard?.squares.map((square) => {
-                    // Need to center icons with lines
-                    const xOffset = 7;
+        <section
+            data-type={isGrandClassBoard ? "grand" : "normal"}
+            className="breakdown_wrapper"
+            ref={containerRef}
+        >
+            {hasUnlockCondition && classBoard && (
+                <div className="classboard_unlock">
+                    <h4>Unlock Requirement</h4>
+                    <CondTargetNumDescriptor
+                        region={region}
+                        cond={classBoard.condType}
+                        targets={[classBoard.condTargetId]}
+                        num={classBoard.condNum}
+                        missions={missionMap}
+                        nice={true}
+                    />
+                </div>
+            )}
+            <canvas
+                ref={canvasRef}
+                width={canvasSize.width}
+                height={canvasSize.height}
+                className="classboard_canvas"
+                onClick={handleCanvasClick}
+                onMouseMove={(e) => {
+                    handleCanvasMouseMove(e);
+                    handleMouseMove(e);
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            />
 
-                    if (square.lock) {
-                        return (
-                            <ClassBoardIcon
-                                clickCallback={() => changeSquare(square)}
-                                key={square.id}
-                                x={`${square.posX / 2 - xOffset}px`}
-                                y={`${-square.posY / 2}px`}
-                                image={square.lock.items[0].item.icon}
-                            />
-                        );
-                    }
-
-                    if (!square.icon) return null;
-
-                    return (
-                        <ClassBoardIcon
-                            key={square.id}
-                            clickCallback={() => changeSquare(square)}
-                            x={`${square.posX / 2 - xOffset}px`}
-                            y={`${-square.posY / 2}px`}
-                            image={square.icon}
-                        />
-                    );
-                })}
-                <img className="earth" src={classBoard?.icon} alt={classBoard?.name} />
+            <div className="map_controls map_controls_primary">
+                <button aria-label="Zoom in" className="map_btn" onClick={handleZoomIn}>+</button>
+                <button aria-label="Zoom out" className="map_btn" onClick={handleZoomOut}>−</button>
+                <div className="map_divider" />
+                <button aria-label="Center" className="map_btn" onClick={handleCenter}>⟳</button>
             </div>
-            <svg
-                className="map_lines"
-                viewBox="-565 -365 1100 700"
-                width={"1100px"}
-                height={"700px"}
-                style={{ position: "absolute" }}
-            >
-                {classBoard?.lines.map((line, key) => {
-                    const prevSquare = classBoard.squares.find((s) => s.id === line.prevSquareId);
-                    const nextSquare = classBoard.squares.find((s) => s.id === line.nextSquareId);
 
-                    if (prevSquare && nextSquare) {
-                        return (
-                            <line
-                                key={key}
-                                x1={prevSquare.posX / 2}
-                                y1={-prevSquare.posY / 2}
-                                x2={nextSquare.posX / 2}
-                                y2={-nextSquare.posY / 2}
-                                strokeWidth="1.5"
-                                stroke="white"
-                            />
-                        );
-                    }
-
-                    return null;
-                })}
-            </svg>
+            <div className="map_status">
+                <span className="map_badge">Zoom {(zoom * 100).toFixed(0)}%</span>
+            </div>
         </section>
     );
 };

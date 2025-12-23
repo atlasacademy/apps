@@ -22,7 +22,7 @@ const ClassBoardPage: React.FC<Props> = ({ region, id }) => {
     return (
         <ClassBoardProvider id={id} region={region}>
             <ClassBoardNavigation />
-            <ClassBoardMap />
+            <ClassBoardMap region={region} />
             <ClassBoardBreakdown />
         </ClassBoardProvider>
     );
