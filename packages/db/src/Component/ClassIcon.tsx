@@ -53,7 +53,7 @@ const classIds = new Map<ClassName, number>([
     [ClassName.U_OLGA_MARIE_STELLAR_COLLECTION, 31],
     [ClassName.BEAST_ERESH, 33],
     [ClassName.UN_BEAST_OLGA_MARIE, 40],
-    [ClassName.BEAST_VII, 43],
+    [ClassName.BEAST_VII, 36],
 
     [ClassName.ALL, 1001],
     [ClassName.EXTRA, 1002],
