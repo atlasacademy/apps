@@ -19,6 +19,8 @@ export enum RestrictionType {
     MY_GRAND_SVT = "myGrandSvt",
     FIXED_MY_GRAND_SVT = "fixedMyGrandSvt",
     MY_GRAND_SVT_POSITION_MAIN = "myGrandSvtPositionMain",
+    MY_GRAND_SVT_OR_SUPPORT_GRAND_SVT = "myGrandSvtOrSupportGrandSvt",
+    ACTIVE_GRAND_BOARD = "activeGrandBoard",
     FIXED_COSTUME = "fixedCostume",
 }
 

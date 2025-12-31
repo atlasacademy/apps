@@ -258,6 +258,32 @@ interface BaseDataVal {
     IsClassIconChangeSaveGrand?: number;
     ExecuteEffectId?: number;
     PriorityUpHate?: number;
+    JudgeUseEveryTime?: number;
+    IgnoreDeathRate?: number;
+    SubstituteRate?: number;
+    SubstituteResist?: number;
+    UseSvtResistRate?: number;
+    UseBuffResistRate?: number;
+    SubstituteSkillId?: number;
+    SubstituteSkillLv?: number;
+    ResistSkillId?: number;
+    ResistSkillLv?: number;
+    SubstitutePopupText?: string;
+    SubstitutePopupIconId?: number;
+    ResistPopupText?: string;
+    ResistPopupIconId?: number;
+    SubstituteEffectList?: number[];
+    ResistEffectList?: number[];
+    EnablePassiveBuffConvert?: number;
+    FieldBuffApplyTarget?: number;
+    MaxGainNp?: number;
+    MaxHastenNpTurn?: number;
+    FunctionTriggerActorTargetFlag?: number;
+    IsTurnProgressWithoutGrantActor?: number;
+    IsFuncCheckFieldIndividuality?: number;
+    IgnoreTargetFuncResult?: number;
+    ExecuteWhenHideText?: number;
+    SkipCheckAlive?: number;
 }
 
 export enum SvtClassGroupType {
@@ -518,4 +544,30 @@ export enum DataValField {
     IS_CLASS_ICON_CHANGE_SAVE_GRAND = "IsClassIconChangeSaveGrand",
     EXECUTE_EFFECT_ID = "ExecuteEffectId",
     PRIORITY_UP_HATE = "PriorityUpHate",
+    JUDGE_USE_EVERY_TIME = "JudgeUseEveryTime",
+    IGNORE_DEATH_RATE = "IgnoreDeathRate",
+    SUBSTITUTE_RATE = "SubstituteRate",
+    SUBSTITUTE_RESIST = "SubstituteResist",
+    USE_SVT_RESIST_RATE = "UseSvtResistRate",
+    USE_BUFF_RESIST_RATE = "UseBuffResistRate",
+    SUBSTITUTE_SKILL_ID = "SubstituteSkillId",
+    SUBSTITUTE_SKILL_LV = "SubstituteSkillLv",
+    RESIST_SKILL_ID = "ResistSkillId",
+    RESIST_SKILL_LV = "ResistSkillLv",
+    SUBSTITUTE_POPUP_TEXT = "SubstitutePopupText",
+    SUBSTITUTE_POPUP_ICON_ID = "SubstitutePopupIconId",
+    RESIST_POPUP_TEXT = "ResistPopupText",
+    RESIST_POPUP_ICON_ID = "ResistPopupIconId",
+    SUBSTITUTE_EFFECT_LIST = "SubstituteEffectList",
+    RESIST_EFFECT_LIST = "ResistEffectList",
+    ENABLE_PASSIVE_BUFF_CONVERT = "EnablePassiveBuffConvert",
+    FIELD_BUFF_APPLY_TARGET = "FieldBuffApplyTarget",
+    MAX_GAIN_NP = "MaxGainNp",
+    MAX_HASTEN_NP_TURN = "MaxHastenNpTurn",
+    FUNCTION_TRIGGER_ACTOR_TARGET_FLAG = "FunctionTriggerActorTargetFlag",
+    IS_TURN_PROGRESS_WITHOUT_GRANT_ACTOR = "IsTurnProgressWithoutGrantActor",
+    IS_FUNC_CHECK_FIELD_INDIVIDUALITY = "IsFuncCheckFieldIndividuality",
+    IGNORE_TARGET_FUNC_RESULT = "IgnoreTargetFuncResult",
+    EXECUTE_WHEN_HIDE_TEXT = "ExecuteWhenHideText",
+    SKIP_CHECK_ALIVE = "SkipCheckAlive",
 }

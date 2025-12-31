@@ -31,6 +31,7 @@ export enum WarOverwriteType {
     COMMAND_SPELL_ICON = "commandSpellIcon",
     MASTER_FACE_ICON = "masterFaceIcon",
     PRIORITY = "priority",
+    RECOMMEND_SUPPORT_HEADER_IMG_ID = "recommendSupportHeaderImgId",
 }
 
 export enum WarFlag {

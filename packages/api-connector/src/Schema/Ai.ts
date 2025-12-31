@@ -218,6 +218,7 @@ export enum AiCond {
     COUNT_AVAILABLE_MASTER_SKILL_LOWER = "countAvailableMasterSkillLower",
     COUNT_AVAILABLE_MASTER_SKILL_EQUAL = "countAvailableMasterSkillEqual",
     COMMON_RELEASE_ID = "commonReleaseId",
+    EXIST_REMAIN_CHARGE_TURN_MASTER_SKILL = "existRemainChargeTurnMasterSkill",
 }
 
 export enum AiTiming {
@@ -253,12 +254,17 @@ export enum AiActType {
     PLAY_MOTION = "playMotion",
     MESSAGE = "message",
     MESSAGE_GROUP = "messageGroup",
+    OVERWRITE_FIELD_MOTION = "overwriteFieldMotion",
+    OVERWRITE_ADD_UNIQUE_CAMERA = "overwriteAddUniqueCamera",
     NOBLE_PHANTASM = "noblePhantasm",
     BATTLE_END = "battleEnd",
     LOSE_END = "loseEnd",
     BATTLE_END_NOT_RELATED_SURVIVAL_STATUS = "battleEndNotRelatedSurvivalStatus",
     BATTLE_END_NOT_RELATED_SURVIVAL_STATUS_INSTANTLY = "battleEndNotRelatedSurvivalStatusInstantly",
     ALL_BATTLE_END = "allBattleEnd",
+    LOAD_MOVIE = "loadMovie",
+    PLAY_MOVIE = "playMovie",
+    WAIT_FINISH_MOVIE = "waitFinishMovie",
     CHANGE_THINKING = "changeThinking",
 }
 

@@ -173,6 +173,12 @@ export enum FuncType {
     CHANGE_ENEMY_STATUS_UI_TYPE = "changeEnemyStatusUiType",
     SWAP_FIELD_POSITION = "swapFieldPosition",
     SET_DISPLAY_DIRECT_BATTLE_MESSAGE_IN_FSM = "setDisplayDirectBattleMessageInFsm",
+    ADD_STATE_TO_FIELD = "addStateToField",
+    ADD_STATE_SHORT_TO_FIELD = "addStateShortToField",
+    GAIN_NP_FROM_OTHER_USED_NP_VALUE = "gainNpFromOtherUsedNpValue",
+    HASTEN_NPTURN_FROM_OTHER_USED_NPTURN = "hastenNpturnFromOtherUsedNpturn",
+    DAMAGE_FUNC_TYPE_164 = "damageFuncType164",
+    DAMAGE_FUNC_TYPE_165 = "damageFuncType165",
 }
 
 export enum GainNpIndividualSumTarget {

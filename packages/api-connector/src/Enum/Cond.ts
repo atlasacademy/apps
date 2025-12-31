@@ -255,6 +255,9 @@ export enum CondType {
     NOT_SHOP_GROUP_LIMIT_NUM = "notShopGroupLimitNum",
     EQUIP_GET = "equipGet",
     NOT_EQUIP_GET = "notEquipGet",
+    SVT_GET_BEFORE_DATE = "svtGetBeforeDate",
+    SVT_GET_AFTER_DATE = "svtGetAfterDate",
+    NOT_QUEST_AVAILABLE = "notQuestAvailable",
 }
 
 export default CondType;
