@@ -5,8 +5,9 @@
         "lib": ["ESNext", "DOM"],
         "declaration": true,
         "declarationMap": true,
-        "moduleResolution": "Node",
-        "outDir": "./dist",
+        "moduleResolution": "bundler",
+        "rootDir": "./src",
+        "outDir": "dist",
         "strict": true
     },
     "include": ["src/**/*"]
