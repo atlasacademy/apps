@@ -56,7 +56,7 @@ export enum QuestFlag {
     NO_DISPLAY_MISSION_NOTIFY = "noDisplayMissionNotify",
     HIDE_PROGRESS = "hideProgress",
     DROP_FIRST_TIME_ONLY = "dropFirstTimeOnly",
-    CHAPTER_SUB_ID_JAPANESE_NUMERALS = "chapterSubIdJapaneseNumerals",
+    CHAPTER_SUB_ID_JAPANESE_NUMERALS_CALLIGRAPHY = "chapterSubIdJapaneseNumeralsCalligraphy",
     SUPPORT_ONLY_FORCE_BATTLE = "supportOnlyForceBattle",
     EVENT_DECK_NO_SUPPORT = "eventDeckNoSupport",
     FATIGUE_BATTLE = "fatigueBattle",
@@ -98,6 +98,7 @@ export enum QuestFlag {
     ALLOUT_BATTLE = "alloutBattle",
     RECOLLECTION = "recollection",
     NOT_SINGLE_SUPPORT_ONLY = "notSingleSupportOnly",
+    DISABLE_CHAPTER_SUB = "disableChapterSub",
 }
 
 export interface QuestRelease {

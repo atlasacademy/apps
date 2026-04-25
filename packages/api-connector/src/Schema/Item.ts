@@ -37,6 +37,8 @@ export enum ItemType {
     ITEM_SELECT = "itemSelect",
     COMMAND_CARD_PRM_UP = "commandCardPrmUp",
     DICE = "dice",
+    CONTINUE_ITEM = "continueItem",
+    EUQIP_SKILL_USE_ITEM = "euqipSkillUseItem",
     SVT_COIN = "svtCoin",
     FRIENDSHIP_UP_ITEM = "friendshipUpItem",
     PURE_PRI = "purePri",

@@ -34,6 +34,8 @@ interface BaseDataVal {
     RatioHPHigh?: number;
     RatioHPLow?: number;
     SetPassiveFrame?: number;
+    SetPlayerSideBg?: number;
+    SetEnemySideBg?: number;
     ProcPassive?: number;
     ProcActive?: number;
     HideParam?: number;
@@ -74,7 +76,7 @@ interface BaseDataVal {
     ChangeMaxBreakGauge?: number;
     ParamAddMaxValue?: number;
     ParamAddMaxCount?: number;
-    LossHpNoChangeDamage?: number;
+    LossHpChangeDamage?: number;
     IncludePassiveIndividuality?: number;
     MotionChange?: number;
     PopLabelDelay?: number;
@@ -152,7 +154,7 @@ interface BaseDataVal {
     IntervalTurn?: number;
     IntervalCount?: number;
     TriggeredFieldCountTarget?: number;
-    TriggeredFieldCountRange?: number[];
+    TriggeredFieldCountRange?: string;
     TargetEnemyRange?: number[];
     TriggeredFuncPositionSameTarget?: number;
     TriggeredFuncPositionAll?: number;
@@ -208,7 +210,7 @@ interface BaseDataVal {
     TargetBuffIndividuality?: number[];
     TargetEnemyClass?: number;
     ParamAddIndividualityTargetType?: number;
-    TriggeredFuncIndexAndCheckList?: number;
+    TriggeredFuncIndexAndCheckList?: number[];
     FuncCheckTargetIndividualityTargetType?: number;
     FuncCheckTargetIndividualityCountHigher?: number;
     FuncCheckTargetIndividualityCountLower?: number;
@@ -284,6 +286,10 @@ interface BaseDataVal {
     IgnoreTargetFuncResult?: number;
     ExecuteWhenHideText?: number;
     SkipCheckAlive?: number;
+    CallServantPosition?: number;
+    NotActIfAlreadyAvoidStateBuff?: number;
+    AvoidFieldBuff?: number;
+    UseUserSpecifiedLimitCount?: number;
 }
 
 export enum SvtClassGroupType {
@@ -322,6 +328,8 @@ export enum DataValField {
     RATIO_HP_HIGH = "RatioHPHigh",
     RATIO_HP_LOW = "RatioHPLow",
     SET_PASSIVE_FRAME = "SetPassiveFrame",
+    SET_PLAYER_SIDE_BG = "SetPlayerSideBg",
+    SET_ENEMY_SIDE_BG = "SetEnemySideBg",
     PROC_PASSIVE = "ProcPassive",
     PROC_ACTIVE = "ProcActive",
     HIDE_PARAM = "HideParam",
@@ -360,7 +368,7 @@ export enum DataValField {
     CHANGE_MAX_BREAK_GAUGE = "ChangeMaxBreakGauge",
     PARAM_ADD_MAX_VALUE = "ParamAddMaxValue",
     PARAM_ADD_MAX_COUNT = "ParamAddMaxCount",
-    LOSS_HP_NO_CHANGE_DAMAGE = "LossHpNoChangeDamage",
+    LOSS_HP_CHANGE_DAMAGE = "LossHpChangeDamage",
     INCLUDE_PASSIVE_INDIVIDUALITY = "IncludePassiveIndividuality",
     MOTION_CHANGE = "MotionChange",
     POP_LABEL_DELAY = "PopLabelDelay",
@@ -570,4 +578,8 @@ export enum DataValField {
     IGNORE_TARGET_FUNC_RESULT = "IgnoreTargetFuncResult",
     EXECUTE_WHEN_HIDE_TEXT = "ExecuteWhenHideText",
     SKIP_CHECK_ALIVE = "SkipCheckAlive",
+    CALL_SERVANT_POSITION = "CallServantPosition",
+    NOT_ACT_IF_ALREADY_AVOID_STATE_BUFF = "NotActIfAlreadyAvoidStateBuff",
+    AVOID_FIELD_BUFF = "AvoidFieldBuff",
+    USE_USER_SPECIFIED_LIMIT_COUNT = "UseUserSpecifiedLimitCount",
 }

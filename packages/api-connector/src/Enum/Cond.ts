@@ -258,6 +258,23 @@ export enum CondType {
     SVT_GET_BEFORE_DATE = "svtGetBeforeDate",
     SVT_GET_AFTER_DATE = "svtGetAfterDate",
     NOT_QUEST_AVAILABLE = "notQuestAvailable",
+    NOT_IMAGE_PARTS_GROUP = "notImagePartsGroup",
+    USE_EVENT_PASSIVE_SKILL_GIVEN_ITEM = "useEventPassiveSkillGivenItem",
+    NOT_USE_EVENT_PASSIVE_SKILL_GIVEN_ITEM = "notUseEventPassiveSkillGivenItem",
+    SELF_INDIVIDUALITY = "selfIndividuality",
+    NOT_SELF_INDIVIDUALITY = "notSelfIndividuality",
+    BATTLE_VALUE_ABOVE = "battleValueAbove",
+    BATTLE_VALUE_BELOW = "battleValueBelow",
+    BATTLE_VALUE_EQUAL = "battleValueEqual",
+    BATTLE_VALUE_NOT_EQUAL = "battleValueNotEqual",
+    BATTLE_POINT_EQUAL = "battlePointEqual",
+    BATTLE_POINT_NOT_EQUAL = "battlePointNotEqual",
+    BATTLE_ENTRY_PLAYER_TOTAL_COUNT_ABOVE = "battleEntryPlayerTotalCountAbove",
+    BATTLE_ENTRY_PLAYER_TOTAL_COUNT_BELOW = "battleEntryPlayerTotalCountBelow",
+    BATTLE_ENTRY_PLAYER_TOTAL_COUNT_EQUAL = "battleEntryPlayerTotalCountEqual",
+    BATTLE_ENTRY_ENEMY_TOTAL_COUNT_ABOVE = "battleEntryEnemyTotalCountAbove",
+    BATTLE_ENTRY_ENEMY_TOTAL_COUNT_BELOW = "battleEntryEnemyTotalCountBelow",
+    BATTLE_ENTRY_ENEMY_TOTAL_COUNT_EQUAL = "battleEntryEnemyTotalCountEqual",
 }
 
 export default CondType;
