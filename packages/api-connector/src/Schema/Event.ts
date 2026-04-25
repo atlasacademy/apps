@@ -7,6 +7,7 @@ import { Gift } from "./Gift";
 import { Item, ItemAmount, ItemBackgroundType } from "./Item";
 import { Mission } from "./Mission";
 import { VoiceGroup, VoiceLine } from "./Profile";
+import { QuestReleaseOverwrite } from "./Quest";
 import { PayType, Shop } from "./Shop";
 import { Skill } from "./Skill";
 import { SvtClassSupportGroupType } from "./Support";
@@ -16,6 +17,61 @@ export interface EventAlloutBattle {
     eventId: number;
     alloutBattleId: number;
     warId: number;
+}
+
+export enum EventFlag {
+    TYPE_POINT = "typePoint",
+    TYPE_EXCHANGE_SHOP = "typeExchangeShop",
+    TYPE_BOX_GACHA = "typeBoxGacha",
+    TYPE_RANKING = "typeRanking",
+    TYPE_BONUS_SKILL = "typeBonusSkill",
+    TYPE_MISSION = "typeMission",
+    TYPE_RAID = "typeRaid",
+    TYPE_EVENT_SHOP = "typeEventShop",
+    MATERIAL_ADD_QUEST_GROUP = "materialAddQuestGroup",
+    MATERIAL_ADD_EVENT_END = "materialAddEventEnd",
+    SUPER_BOSS = "superBoss",
+    RAID_DEFEAT_COUNT = "raidDefeatCount",
+    BP = "bp",
+    NO_MATERIAL_BANNER = "noMaterialBanner",
+    EVENT_POINT = "eventPoint",
+    EVENT_GROUP_POINT = "eventGroupPoint",
+    EVENT_VOICE_PLAY = "eventVoicePlay",
+    DAILY_MISSION = "dailyMission",
+    EVENT_GROUP_RANKING = "eventGroupRanking",
+    EVENT_TOWER = "eventTower",
+    EVENT_FATIGUE = "eventFatigue",
+    NO_DISP_ARROW = "noDispArrow",
+    FORCED_ADJUSTMENT_DIALOG = "forcedAdjustmentDialog",
+    SHIFT_HELP_INFO = "shiftHelpInfo",
+    CLOSE_PURCHASE_SHOP = "closePurchaseShop",
+    TIME_STATUS_RECORD = "timeStatusRecord",
+    USE_EVENT_SUPPORT_DECK = "useEventSupportDeck",
+    EVENT_DAIRY_POINT = "eventDairyPoint",
+    EVENT_ACTIVITY_POINT = "eventActivityPoint",
+    EVENT_ONLY_EQUIP = "eventOnlyEquip",
+    MAP_SWITCH_BUTTON_TOP = "mapSwitchButtonTop",
+    EVENT_REVIVAL = "eventRevival",
+    EVENT_CONQUEST = "eventConquest",
+    EVENT_POINT_BY_QP = "eventPointByQp",
+    ALL_USERS_BOX_GACHA_COUNT = "allUsersBoxGachaCount",
+    NOT_DISPLAY_BONUS_ON_SUPPORT_SET = "notDisplayBonusOnSupportSet",
+    FRIEND_POINT_BOOST_ITEM = "friendPointBoostItem",
+    EVENT_BOARD_GAME = "eventBoardGame",
+    NOT_DISPLAY_DA_VINCI = "notDisplayDaVinci",
+    IS_MAIN_INTERLUDE = "isMainInterlude",
+    QUEST_COOLTIME = "questCooltime",
+    EVENT_PANEL = "eventPanel",
+    EVENT_ASSIST = "eventAssist",
+    TREASURE_BOX = "treasureBox",
+    HIDE_AFTER_PURCHASE = "hideAfterPurchase",
+    ALLOUT_BATTLE = "alloutBattle",
+    SPOT_COOLTIME = "spotCooltime",
+}
+
+export enum EventTradeGoodsBoardType {
+    TRADE = "trade",
+    CRAFT = "craft",
 }
 
 export enum EventType {
@@ -323,14 +379,60 @@ export interface EventQuest {
     isExcepted: boolean;
 }
 
+export interface EventCampaignScript {
+    OnlyMaxFuncGroupId?: number;
+    addPassiveIconOrganization?: string;
+    addPassiveContentOrganization?: string;
+    addPassiveContentDetail?: string;
+    addPassiveDescriptionDetail?: string;
+    addPassiveSkillId?: number;
+}
+
 export interface EventCampaign {
     targetIds: number[];
     warIds: number[];
+    warGroupIds: number[];
+    script: EventCampaignScript;
     target: CombineAdjustTarget;
     idx: number;
     value: number;
     calcType: CombineCalc;
     entryCondMessage: string;
+}
+
+export interface EventDetail {
+    flags: EventFlag[];
+    pointImageId: number;
+    condQuestId: number;
+    condQuestPhase: number;
+    condMessage: string;
+    shopCondQuestId: number;
+    shopCondQuestPhase: number;
+    shopCondMessage: string;
+    entryCondMessage: string;
+}
+
+export interface EventTradePickup {
+    startedAt: number;
+    endedAt: number;
+    tradeTimeRate: number;
+}
+
+export interface EventTradeGoods {
+    id: number;
+    boardType: EventTradeGoodsBoardType;
+    name: string;
+    goodsIcon: string;
+    gifts: Gift[];
+    consumes: CommonConsume[];
+    eventPointNum: number;
+    eventPointItem: Item;
+    tradeTime: number;
+    maxNum: number;
+    maxTradeTime: number;
+    releaseConditions: CommonRelease[];
+    closedMessage: string;
+    pickups: EventTradePickup[];
 }
 
 export interface EventCommandAssist {
@@ -461,6 +563,7 @@ export interface Event {
     materialOpenedAt: number;
     warIds: number[];
     eventAdds: EventAdd[];
+    eventDetail?: EventDetail;
     shop: Shop[];
     rewards: EventReward[];
     svts: EventSvt[];
@@ -480,6 +583,8 @@ export interface Event {
     fortifications: EventFortification[];
     campaigns: EventCampaign[];
     campaignQuests: EventQuest[];
+    questReleaseOverwrites: QuestReleaseOverwrite[];
+    tradeGoods: EventTradeGoods[];
     commandAssists: EventCommandAssist[];
     heelPortraits: EventHeelPortrait[];
     murals: EventMural[];

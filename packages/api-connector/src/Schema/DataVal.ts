@@ -497,6 +497,7 @@ export enum DataValField {
     PARAM_ADD_BATTLE_POINT_PHASE_ID = "ParamAddBattlePointPhaseId",
     PARAM_ADD_BATTLE_POINT_PHASE_VALUE = "ParamAddBattlePointPhaseValue",
     SHORTEN_MAX_COUNT_EACH_SKILL = "ShortenMaxCountEachSkill",
+    CHARGE_HP_MAX_BEFORE_BREAK_GAUGE_UP = "ChargeHpMaxBeforeBreakGaugeUp",
     TARGET_FUNCTION_INDIVIDUALITY = "TargetFunctionIndividuality",
     TARGET_BUFF_INDIVIDUALITY = "TargetBuffIndividuality",
     TARGET_ENEMY_CLASS = "TargetEnemyClass",

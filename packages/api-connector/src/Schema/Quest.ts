@@ -108,6 +108,19 @@ export interface QuestRelease {
     closedMessage: string;
 }
 
+export interface QuestReleaseOverwrite {
+    questId: number;
+    priority: number;
+    condType: CondType;
+    condId: number;
+    condNum: number;
+    closedMessage: string;
+    overlayClosedMessage: string;
+    eventId: number;
+    startedAt: number;
+    endedAt: number;
+}
+
 export interface QuestMessage {
     idx: number;
     message: string;
@@ -224,7 +237,8 @@ export interface QuestPhaseScript {
 }
 
 export interface QuestPhaseAiNpc {
-    npc: NpcServant;
+    npcId: number;
+    npc?: NpcServant;
     detail?: QuestEnemy;
     aiIds: number[];
 }
@@ -242,6 +256,11 @@ interface QuestPhaseOverwriteEquipSkills {
     skills: QuestPhaseOverwriteEquipSkill[];
 }
 
+interface QuestPhaseFixedMasterEquip {
+    equipId: number;
+    defaultLv?: number;
+}
+
 export interface QuestPhaseExtraDetail {
     questSelect?: number[];
     singleForceSvtId?: number;
@@ -250,6 +269,7 @@ export interface QuestPhaseExtraDetail {
     aiNpc?: QuestPhaseAiNpc;
     aiMultiNpc?: QuestPhaseAiNpc[];
     overwriteEquipSkills?: QuestPhaseOverwriteEquipSkills;
+    addEquipSkills?: QuestPhaseOverwriteEquipSkills;
     waveSetup?: number;
     interruptibleQuest?: number;
     masterImageId?: number;
@@ -260,10 +280,13 @@ export interface QuestPhaseExtraDetail {
     isUseGrandBoard?: number;
     turn?: number;
     LimitAct?: StageLimitActType;
+    fixedMasterEquip?: QuestPhaseFixedMasterEquip;
+    isInfinityCost?: number;
 }
 
 export interface QuestPhaseRestriction {
     restriction: Restriction;
+    priority: number;
     frequencyType: FrequencyType;
     dialogMessage: string;
     noticeMessage: string;
@@ -301,11 +324,13 @@ export interface Quest {
     giftIcon?: string;
     gifts: Gift[];
     releaseConditions: QuestRelease[];
+    releaseOverwrites: QuestReleaseOverwrite[];
     presents: QuestPhasePresent[];
     phases: number[];
     phasesWithEnemies: number[];
     phasesNoBattle: number[];
     phaseScripts: QuestPhaseScript[];
+    priority: number;
     noticeAt: number;
     openedAt: number;
     closedAt: number;

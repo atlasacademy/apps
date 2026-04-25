@@ -90,10 +90,16 @@ export interface SkillScript {
     actRarity?: number[][];
     battleStartRemainingTurn?: number[];
     SelectAddInfo?: SelectAddInfo[];
+    IgnoreValueUp?: boolean[];
     IgnoreBattlePointUp?: number[][];
     tdChangeByBattlePoint?: TdChangeByBattlePoint[];
     selectTreasureDeviceInfo?: SelectTreasureDeviceInfo[];
     condBranchSkillInfo?: CondBranchSkillInfo[];
+}
+
+export interface SvtPassiveSkillScript {
+    condIndividuality?: number[];
+    otherValidEventId?: number;
 }
 
 export interface ExtraPassive {
@@ -109,6 +115,7 @@ export interface ExtraPassive {
     releaseConditions: CommonRelease[];
     startedAt: number;
     endedAt: number;
+    script: SvtPassiveSkillScript;
 }
 
 export interface SkillAdd {

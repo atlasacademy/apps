@@ -34,6 +34,8 @@ export interface EnemyScript {
     shift?: number[];
     shiftPosition?: number;
     shiftClear?: Trait[];
+    skillShift?: number[];
+    missionTargetSkillShift?: number[];
     change?: number[];
     forceDropItem?: boolean;
     entryIndex?: number;

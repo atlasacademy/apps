@@ -1,6 +1,6 @@
 import Cond, { CondType } from "../Enum/Cond";
 import { Bgm } from "./Bgm";
-import { Quest } from "./Quest";
+import { Quest, QuestAfterClearType, QuestType } from "./Quest";
 
 export enum WarStartType {
     NONE = "none",
@@ -64,6 +64,18 @@ export enum WarFlag {
     AREA_BOARD_SHORTCUT = "areaBoardShortcut",
 }
 
+export interface WarGroup {
+    id: number;
+    questAfterClear: QuestAfterClearType;
+    questType: QuestType;
+}
+
+export interface WarQuestSelection {
+    quest: Quest;
+    shortcutBanner?: string;
+    priority: number;
+}
+
 export interface Map {
     id: number;
     mapImage?: string;
@@ -120,7 +132,7 @@ export interface WarRelease {
     condId: number;
     condNum: number;
     warDisplayType: WarReleaseDisplayType;
-    closedDialogMessage: number;
+    closedDialogMessage: string;
 }
 
 export enum SpotOverwriteType {
@@ -145,6 +157,7 @@ export interface SpotAdd {
 
 export interface Spot {
     id: number;
+    blankEarth: boolean;
     joinSpotIds: number[];
     mapId: number;
     name: string;
@@ -197,6 +210,7 @@ export interface War {
     priority: number;
     parentWarId: number;
     materialParentWarId: number;
+    parentBlankEarthSpotId: number;
     emptyMessage: string;
     bgm: Bgm;
     scriptId: string;
@@ -208,6 +222,8 @@ export interface War {
     lastQuestId: number;
     releaseConditions: WarRelease[];
     warAdds: WarAdd[];
+    groups: WarGroup[];
+    questSelections: WarQuestSelection[];
     maps: Map[];
     spots: Spot[];
     spotRoads: SpotRoad[];
