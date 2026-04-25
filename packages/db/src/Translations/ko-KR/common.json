@@ -17,7 +17,7 @@
     "AI Sub ID": "AI 하위 ID",
     "All": "전체",
     "All Ascensions": "All Ascensions",
-    "All Enemies": "All Enemies",
+    "All Enemies": "모든 적",
     "all entries": "모든 항목",
     "All of the Following": "all of the following",
     "Alternative version based on choices in the story": "스토리 선택에 따른 다른 버전",
@@ -635,7 +635,7 @@
         "MAIN": "메인 스토리",
         "OTHER": "기타"
     },
-    "Weight": "Weight",
+    "Weight": "무게",
     "with local timestamps": "지역 시간 기준",
     "with UTC timestamps": "UTC 기준",
     "Yes": "Yes"
