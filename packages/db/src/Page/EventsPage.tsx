@@ -46,7 +46,7 @@ class EventsPage extends React.Component<IProps, IState> {
             activeEventTypeFilters: [],
             perPage: 50,
             page: 0,
-            fuse: new Fuse([]),
+            fuse: new Fuse<Event.EventBasic>([]),
         };
     }
 

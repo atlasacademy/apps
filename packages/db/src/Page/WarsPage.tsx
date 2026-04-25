@@ -58,7 +58,7 @@ class WarsPage extends React.Component<IProps, IState> {
             activeWarTypeFilters: [],
             perPage: 50,
             page: 0,
-            fuse: new Fuse([]),
+            fuse: new Fuse<War.WarBasic>([]),
         };
     }
 

@@ -61,7 +61,7 @@ class ItemsPage extends React.Component<IProps, IState> {
             perPage: 100,
             tabs: [],
             page: 0,
-            fuse: new Fuse([]),
+            fuse: new Fuse<Item.Item>([]),
         };
     }
 

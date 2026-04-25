@@ -97,7 +97,7 @@ class ServantsPage extends React.Component<IProps, IState> {
             page: 0,
             sortDirection: "descending",
             sortKey: "collectionNo",
-            fuse: new Fuse([]),
+            fuse: new Fuse<Servant.ServantBasic>([]),
         };
     }
 

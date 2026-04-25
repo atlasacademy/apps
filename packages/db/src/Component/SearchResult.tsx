@@ -37,7 +37,7 @@ class SearchResults extends React.Component<IProps, IState> {
         this.state = {
             endpoint: "",
             entities: [],
-            fuse: new Fuse([]),
+            fuse: new Fuse<any>([]),
             loading: true,
         };
     }

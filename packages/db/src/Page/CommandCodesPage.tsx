@@ -41,7 +41,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
             loading: true,
             commandCodes: [],
             activeRarityFilters: [],
-            fuse: new Fuse([]),
+            fuse: new Fuse<CommandCode.CommandCodeBasic>([]),
         };
     }
 

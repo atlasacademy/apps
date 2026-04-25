@@ -45,7 +45,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             releaseOnlyFilter: undefined,
             perPage: 50,
             page: 0,
-            fuse: new Fuse([]),
+            fuse: new Fuse<Bgm.BgmEntity>([]),
         };
     }
 

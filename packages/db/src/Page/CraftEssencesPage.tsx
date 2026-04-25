@@ -54,7 +54,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
             activeCETypeFilters: [],
             perPage: 100,
             page: 0,
-            fuse: new Fuse([]),
+            fuse: new Fuse<CraftEssence.CraftEssenceBasic>([]),
         };
     }
 
