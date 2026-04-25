@@ -20,7 +20,7 @@ const BasicAiNpcDescriptor = ({
 }) => {
     return (
         <>
-            <EntityDescriptor region={region} entity={aiNpc.npc.svt} iconHeight={iconHeight} />{" "}
+            {aiNpc.npc && <EntityDescriptor region={region} entity={aiNpc.npc.svt} iconHeight={iconHeight} />}{" "}
             {aiNpc.aiIds.map((aiId) => (
                 <AiDescriptor
                     key={aiId}
@@ -79,12 +79,12 @@ const QuestAiNpc = ({ region, aiNpcs }: { region: Region; aiNpcs: Quest.QuestPha
     const multiNpcContent = (
         <>
             {aiNpcs.map((aiNpc) => (
-                <React.Fragment key={aiNpc.npc.npcId}>
+                <React.Fragment key={aiNpc.npcId}>
                     <h3>
-                        <BasicAiNpcDescriptor key={aiNpc.npc.npcId} region={region} aiNpc={aiNpc} iconHeight={40} />
+                        <BasicAiNpcDescriptor key={aiNpc.npcId} region={region} aiNpc={aiNpc} iconHeight={40} />
                     </h3>
                     {aiNpc.detail !== undefined && (
-                        <AiNpcDetailTable key={aiNpc.npc.npcId} region={region} enemy={aiNpc.detail} />
+                        <AiNpcDetailTable key={aiNpc.npcId} region={region} enemy={aiNpc.detail} />
                     )}
                 </React.Fragment>
             ))}
