@@ -24,7 +24,7 @@ const QuestSubData = ({ region, quest }: { region: Region; quest: Quest.QuestPha
     return (
         <DataTable
             data={[
-                { label: t("QP Reward"), value: quest.qp.toLocaleString() },
+                { label: t("QP Reward"), value: (quest.qp ?? 0).toLocaleString() },
                 { label: t("EXP"), value: quest.exp.toLocaleString() },
                 { label: t("Bond"), value: quest.bond.toLocaleString() },
                 {
