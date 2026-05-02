@@ -1,4 +1,5 @@
 import * as CardDetail from "./Enum/Card";
+import * as ClassDetail from "./Enum/ClassName";
 import * as Ai from "./Schema/Ai";
 import * as Attribute from "./Schema/Attribute";
 import * as BattlePoint from "./Schema/BattlePoint";
@@ -58,6 +59,7 @@ export {
     Attribute,
     Card,
     CardDetail,
+    ClassDetail,
     Change,
     ClassName,
     CondType,

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { Region } from "@atlasacademy/api-connector";
-import { BgmEntity } from "@atlasacademy/api-connector/dist/Schema/Bgm";
+import { Bgm, Region } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import Api from "../Api";
@@ -22,7 +21,7 @@ import Manager, { lang } from "../Setting/Manager";
 const BgmPage = (props: { region: Region; bgmId: number }) => {
     const { t } = useTranslation();
     const { region, bgmId } = props;
-    const [{ loading, data: bgm, error }, setLoadStatus] = useState<LoadStatus<BgmEntity>>({ loading: true });
+    const [{ loading, data: bgm, error }, setLoadStatus] = useState<LoadStatus<Bgm.BgmEntity>>({ loading: true });
 
     useEffect(() => {
         const controller = new AbortController();

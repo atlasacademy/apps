@@ -3,14 +3,14 @@ import {
     Attribute,
     Buff,
     Card,
+    CardDetail,
+    ClassDetail,
     ClassName,
     Constant,
     EnumList,
     Language,
     Region,
 } from "@atlasacademy/api-connector";
-import { CardConstant, CardConstantMap } from "@atlasacademy/api-connector/dist/Enum/Card";
-import { ClassAffinityMap, ClassAttackRateMap } from "@atlasacademy/api-connector/dist/Enum/ClassName";
 
 export default class GameConstantManager {
     private host: string = "https://api.atlasacademy.io";
@@ -18,9 +18,9 @@ export default class GameConstantManager {
     private region: Region = Region.JP;
     private attributeAffinityMap?: Attribute.AttributeAffinityMap = undefined;
     private buffConstantMap?: Buff.BuffConstantMap = undefined;
-    private cardConstantMap?: CardConstantMap = undefined;
-    private classAffinityMap?: ClassAffinityMap = undefined;
-    private classAttackRates?: ClassAttackRateMap = undefined;
+    private cardConstantMap?: CardDetail.CardConstantMap = undefined;
+    private classAffinityMap?: ClassDetail.ClassAffinityMap = undefined;
+    private classAttackRates?: ClassDetail.ClassAttackRateMap = undefined;
     private constants?: Constant.Constants = undefined;
     private enumMap?: EnumList = undefined;
 
@@ -28,9 +28,9 @@ export default class GameConstantManager {
         constants?: Constant.Constants,
         attributeAffinityMap?: Attribute.AttributeAffinityMap,
         buffConstantMap?: Buff.BuffConstantMap,
-        cardConstantMap?: CardConstantMap,
-        classAffinityMap?: ClassAffinityMap,
-        classAttackRates?: ClassAttackRateMap,
+        cardConstantMap?: CardDetail.CardConstantMap,
+        classAffinityMap?: ClassDetail.ClassAffinityMap,
+        classAttackRates?: ClassDetail.ClassAttackRateMap,
         enumMap?: EnumList,
     ) {
         this.attributeAffinityMap = attributeAffinityMap;
@@ -99,7 +99,7 @@ export default class GameConstantManager {
         return this.buffConstantMap[group];
     }
 
-    cardConstants(card: string, num: number): CardConstant | undefined {
+    cardConstants(card: string, num: number): CardDetail.CardConstant | undefined {
         if (!this.loaded) return undefined;
         if (!this.cardConstantMap) return undefined;
 

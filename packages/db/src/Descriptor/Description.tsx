@@ -1,6 +1,6 @@
 import React from "react";
 
-import Region from "@atlasacademy/api-connector/dist/Enum/Region";
+import { Region } from "@atlasacademy/api-connector";
 import {
     Descriptor,
     PartialType,

@@ -2,8 +2,7 @@ import React from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 
-import { Region } from "@atlasacademy/api-connector";
-import { ProfileComment } from "@atlasacademy/api-connector/dist/Schema/Profile";
+import { Profile, Region } from "@atlasacademy/api-connector";
 
 import ProfileCommentAddsDescriptor from "../../Descriptor/ProfileConditionAddDescriptor";
 import ProfileConditionDescriptor from "../../Descriptor/ProfileConditionDescriptor";
@@ -14,7 +13,7 @@ import "./ServantProfileComments.css";
 
 interface IProps extends WithTranslation {
     region: Region;
-    comments: ProfileComment[];
+    comments: Profile.ProfileComment[];
 }
 
 export class ServantProfileComments extends React.Component<IProps> {

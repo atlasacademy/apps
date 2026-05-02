@@ -1,8 +1,7 @@
 import React from "react";
 import { WithTranslation, withTranslation } from "react-i18next";
 
-import { Region } from "@atlasacademy/api-connector";
-import { SkillScript } from "@atlasacademy/api-connector/dist/Schema/Skill";
+import { Region, Skill } from "@atlasacademy/api-connector";
 
 import SkillScriptCondDescriptor from "../Descriptor/SkillScriptCondDescriptor";
 import { Renderable, asPercent } from "../Helper/OutputHelper";
@@ -10,7 +9,7 @@ import { lang } from "../Setting/Manager";
 
 interface IProps extends WithTranslation {
     region: Region;
-    scripts: SkillScript;
+    scripts: Skill.SkillScript;
     levels?: number;
 }
 
