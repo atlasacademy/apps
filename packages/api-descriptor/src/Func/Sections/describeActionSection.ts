@@ -1,8 +1,8 @@
 import { Func } from "@atlasacademy/api-connector";
 
-import { default as describeBuff } from "../../Buff/describe";
-import { BasePartial, ParticlePartial, TextPartial } from "../../Descriptor";
-import { default as describeTrait } from "../../Trait/describe";
+import { default as describeBuff } from "../../Buff/describe.js";
+import { BasePartial, ParticlePartial, TextPartial } from "../../Descriptor.js";
+import { default as describeTrait } from "../../Trait/describe.js";
 
 const funcDescriptions = new Map<Func.FuncType, string>([
     [Func.FuncType.ABSORB_NPTURN, "Absorb NP Charge"],

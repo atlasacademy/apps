@@ -103,7 +103,9 @@ export default class GameConstantManager {
         if (!this.loaded) return undefined;
         if (!this.cardConstantMap) return undefined;
 
-        return (this.cardConstantMap[card as Card] ?? {})[num];
+        return (this.cardConstantMap[card as Card] ?? this.cardConstantMap[GameConstantManager.cardConstantKey(card)] ?? {})[
+            num
+        ];
     }
 
     classAffinity(attacker: ClassName, defender: ClassName): number | undefined {
@@ -133,5 +135,20 @@ export default class GameConstantManager {
         if (!this.constants) return -1;
 
         return this.constants[key] ?? -1;
+    }
+
+    private static cardConstantKey(card: string): Card {
+        switch (card) {
+            case Card.ARTS:
+                return "arts" as Card;
+            case Card.BUSTER:
+                return "buster" as Card;
+            case Card.QUICK:
+                return "quick" as Card;
+            case Card.EXTRA:
+                return "extra" as Card;
+            default:
+                return card as Card;
+        }
     }
 }

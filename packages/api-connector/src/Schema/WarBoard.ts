@@ -1,4 +1,4 @@
-import { Gift } from "./Gift";
+import { Gift } from "./Gift.js";
 
 export enum WarBoardStageSquareType {
     NORMAL = "normal",

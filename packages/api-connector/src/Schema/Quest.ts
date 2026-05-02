@@ -1,15 +1,15 @@
-import ClassName from "../Enum/ClassName";
-import CondType from "../Enum/Cond";
-import { Bgm } from "./Bgm";
-import { FrequencyType } from "./Frequency";
-import { Gift } from "./Gift";
-import { Item, ItemAmount } from "./Item";
-import { NpcServant } from "./NpcServant";
-import { EnemyDrop, QuestEnemy } from "./QuestEnemy";
-import { Restriction } from "./Restriction";
-import { Skill } from "./Skill";
-import { SupportServant } from "./SupportServant";
-import { Trait } from "./Trait";
+import ClassName from "../Enum/ClassName.js";
+import CondType from "../Enum/Cond.js";
+import { Bgm } from "./Bgm.js";
+import { FrequencyType } from "./Frequency.js";
+import { Gift } from "./Gift.js";
+import { Item, ItemAmount } from "./Item.js";
+import { NpcServant } from "./NpcServant.js";
+import { EnemyDrop, QuestEnemy } from "./QuestEnemy.js";
+import { Restriction } from "./Restriction.js";
+import { Skill } from "./Skill.js";
+import { SupportServant } from "./SupportServant.js";
+import { Trait } from "./Trait.js";
 
 export enum QuestConsumeType {
     NONE = "none",

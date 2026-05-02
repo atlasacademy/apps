@@ -1,4 +1,4 @@
-import { Func } from "./Func";
+import { Func } from "./Func.js";
 
 export interface CheckBattlePointPhaseRange {
     battlePointId: number;

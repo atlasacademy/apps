@@ -1,4 +1,4 @@
-import { BasePartial } from "../Descriptor";
+import { BasePartial } from "../Descriptor.js";
 
 export class EffectSection {
     public showing: boolean = true;

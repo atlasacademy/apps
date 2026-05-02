@@ -1,6 +1,6 @@
-import { BattleAttackAction } from "../Action/BattleAttackAction";
-import { BattleActor } from "../Actor/BattleActor";
-import BattleEvent from "./BattleEvent";
+import { BattleAttackAction } from "../Action/BattleAttackAction.js";
+import { BattleActor } from "../Actor/BattleActor.js";
+import BattleEvent from "./BattleEvent.js";
 
 export interface BattleDamageEventData {
     attack: BattleAttackAction;

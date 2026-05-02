@@ -1,8 +1,8 @@
 import { Func } from "@atlasacademy/api-connector";
 
-import { Battle } from "../Battle";
-import { BattleTeam } from "../Enum/BattleTeam";
-import { BattleActor } from "./BattleActor";
+import { Battle } from "../Battle.js";
+import { BattleTeam } from "../Enum/BattleTeam.js";
+import { BattleActor } from "./BattleActor.js";
 
 export enum BattleSelectType {
     ACTIVE,

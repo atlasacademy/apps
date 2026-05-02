@@ -1,8 +1,8 @@
 import { ApiConnector, Language, Region } from "@atlasacademy/api-connector";
 
-import { BattleActor } from "../Actor/BattleActor";
-import { Battle } from "../Battle";
-import createServantActor, { BattleServantActorProps } from "./createServantActor";
+import { BattleActor } from "../Actor/BattleActor.js";
+import { Battle } from "../Battle.js";
+import createServantActor, { BattleServantActorProps } from "./createServantActor.js";
 
 export default class BattleFactory {
     private currentPhase = 1;

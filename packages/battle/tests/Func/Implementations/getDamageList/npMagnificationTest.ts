@@ -2,10 +2,10 @@ import { expect } from "chai";
 
 import { Card } from "@atlasacademy/api-connector";
 
-import { BattleTeam } from "../../../../src";
-import { BattleAttackAction } from "../../../../src/Action/BattleAttackAction";
-import { npMagnification } from "../../../../src/Func/Implementations/getDamageList";
-import { createBattle, servant } from "../../../helpers";
+import { BattleTeam } from "../../../../src/index.js";
+import { BattleAttackAction } from "../../../../src/Action/BattleAttackAction.js";
+import { npMagnification } from "../../../../src/Func/Implementations/getDamageList.js";
+import { createBattle, servant } from "../../../helpers.js";
 
 describe("getDamageList npMagnification", () => {
     it("check np buff", async () => {

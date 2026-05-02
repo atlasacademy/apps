@@ -1,9 +1,9 @@
-import { ReverseData, ReverseDepth } from "../ApiConnector";
-import Card from "../Enum/Card";
-import { Entity, EntityBasic } from "./Entity";
-import { Func } from "./Func";
-import { SkillScript } from "./Skill";
-import { Trait } from "./Trait";
+import { ReverseData, ReverseDepth } from "../ApiConnector.js";
+import Card from "../Enum/Card.js";
+import { Entity, EntityBasic } from "./Entity.js";
+import { Func } from "./Func.js";
+import { SkillScript } from "./Skill.js";
+import { Trait } from "./Trait.js";
 
 export enum NoblePhantasmEffectFlag {
     SUPPORT = "support",

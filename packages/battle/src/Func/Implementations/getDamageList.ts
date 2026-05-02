@@ -1,14 +1,14 @@
 import { Buff, Card, ClassName, Constant, Func } from "@atlasacademy/api-connector";
 
-import { BattleAttackAction } from "../../Action/BattleAttackAction";
-import { BattleActor } from "../../Actor/BattleActor";
-import { Battle } from "../../Battle";
-import { BattleBuff } from "../../Buff/BattleBuff";
-import { BattleTeam } from "../../Enum/BattleTeam";
-import BattleDamageEvent from "../../Event/BattleDamageEvent";
-import BattleEvent from "../../Event/BattleEvent";
-import { Variable, VariableType } from "../../Game/Variable";
-import BattleFunc from "../BattleFunc";
+import { BattleAttackAction } from "../../Action/BattleAttackAction.js";
+import { BattleActor } from "../../Actor/BattleActor.js";
+import { Battle } from "../../Battle.js";
+import { BattleBuff } from "../../Buff/BattleBuff.js";
+import { BattleTeam } from "../../Enum/BattleTeam.js";
+import BattleDamageEvent from "../../Event/BattleDamageEvent.js";
+import BattleEvent from "../../Event/BattleEvent.js";
+import { Variable, VariableType } from "../../Game/Variable.js";
+import BattleFunc from "../BattleFunc.js";
 
 function attackBonus(attack: BattleAttackAction, actor: BattleActor, target: BattleActor): Variable {
     let bonus = Variable.float(0);

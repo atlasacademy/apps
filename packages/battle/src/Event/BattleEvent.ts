@@ -1,4 +1,4 @@
-import { BattleActor } from "../Actor/BattleActor";
+import { BattleActor } from "../Actor/BattleActor.js";
 
 export default abstract class BattleEvent {
     constructor(

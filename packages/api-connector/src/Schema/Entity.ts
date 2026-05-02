@@ -1,15 +1,15 @@
-import { AttackType } from "../Enum/Card";
-import ClassName from "../Enum/ClassName";
-import CondType from "../Enum/Cond";
-import { Attribute } from "./Attribute";
-import { BattlePoint } from "./BattlePoint";
-import { CommonRelease } from "./CommonRelease";
-import { Gift } from "./Gift";
-import { Item, ItemAmount } from "./Item";
-import { NoblePhantasm } from "./NoblePhantasm";
-import { SvtScript } from "./Script";
-import { Skill } from "./Skill";
-import { Trait } from "./Trait";
+import { AttackType } from "../Enum/Card.js";
+import ClassName from "../Enum/ClassName.js";
+import CondType from "../Enum/Cond.js";
+import { Attribute } from "./Attribute.js";
+import { BattlePoint } from "./BattlePoint.js";
+import { CommonRelease } from "./CommonRelease.js";
+import { Gift } from "./Gift.js";
+import { Item, ItemAmount } from "./Item.js";
+import { NoblePhantasm } from "./NoblePhantasm.js";
+import { SvtScript } from "./Script.js";
+import { Skill } from "./Skill.js";
+import { Trait } from "./Trait.js";
 
 export enum EntityType {
     NORMAL = "normal",

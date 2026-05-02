@@ -1,5 +1,5 @@
-import { Mission } from "./Mission";
-import { QuestBasic } from "./Quest";
+import { Mission } from "./Mission.js";
+import { QuestBasic } from "./Quest.js";
 
 export interface MasterMission {
     id: number;

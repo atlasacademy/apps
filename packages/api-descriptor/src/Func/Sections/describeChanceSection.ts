@@ -1,6 +1,6 @@
 import { DataVal, Func } from "@atlasacademy/api-connector";
 
-import { BasePartial, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../../Descriptor";
+import { BasePartial, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../../Descriptor.js";
 
 export default function (func: Func.Func, dataVal: DataVal.DataVal): BasePartial[] {
     const partials: BasePartial[] = [];

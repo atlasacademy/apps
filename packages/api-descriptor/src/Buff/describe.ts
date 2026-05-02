@@ -1,10 +1,10 @@
 import { Buff, Trait } from "@atlasacademy/api-connector";
 
-import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor";
-import { insertParticles, toTitleCase } from "../Helpers";
-import TraitReferencePartial from "../Trait/TraitReferencePartial";
-import { getTraitDescription, getUpDownBuffType } from "./BuffHelpers";
-import { buffTriggerTypes, buffTypeDescriptions } from "./BuffTypes";
+import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor.js";
+import { insertParticles, toTitleCase } from "../Helpers.js";
+import TraitReferencePartial from "../Trait/TraitReferencePartial.js";
+import { getTraitDescription, getUpDownBuffType } from "./BuffHelpers.js";
+import { buffTriggerTypes, buffTypeDescriptions } from "./BuffTypes.js";
 
 function appendTraitFilters(
     selfTraits: Trait.Trait[],

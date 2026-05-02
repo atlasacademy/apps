@@ -1,5 +1,5 @@
-import CardReferencePartial from "./CardReferencePartial";
-import describe from "./describe";
+import CardReferencePartial from "./CardReferencePartial.js";
+import describe from "./describe.js";
 
 export default {
     describe,

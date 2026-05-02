@@ -2,8 +2,8 @@ import { expect } from "chai";
 
 import { ClassName } from "@atlasacademy/api-connector";
 
-import { classAttackRate } from "../../../../src/Func/Implementations/getDamageList";
-import { createBattle } from "../../../helpers";
+import { classAttackRate } from "../../../../src/Func/Implementations/getDamageList.js";
+import { createBattle } from "../../../helpers.js";
 
 describe("getDamageList classAttackRate", () => {
     it("class defined", () => {

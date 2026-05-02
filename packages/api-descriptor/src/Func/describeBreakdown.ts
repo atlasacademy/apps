@@ -1,13 +1,13 @@
 import { DataVal, Func } from "@atlasacademy/api-connector";
 
-import { Descriptor } from "../Descriptor";
-import { Breakdown } from "./Breakdown";
-import describe from "./describe";
-import describeValue from "./describeValue";
-import getMutatingDataVal from "./getMutatingDataVal";
-import getRelatedSkillIds from "./getRelatedSkillIds";
-import getStaticDataVal from "./getStaticDataVal";
-import getValList from "./getValList";
+import { Descriptor } from "../Descriptor.js";
+import { Breakdown } from "./Breakdown.js";
+import describe from "./describe.js";
+import describeValue from "./describeValue.js";
+import getMutatingDataVal from "./getMutatingDataVal.js";
+import getRelatedSkillIds from "./getRelatedSkillIds.js";
+import getStaticDataVal from "./getStaticDataVal.js";
+import getValList from "./getValList.js";
 
 export default function (func: Func.Func): Breakdown[] {
     const levels = getLevels(func),

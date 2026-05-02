@@ -1,16 +1,16 @@
 import axios from "axios";
 
-import Card, { CardConstantMap } from "./Enum/Card";
-import ClassName from "./Enum/ClassName";
-import { ClassAffinityMap, ClassAttackRateMap } from "./Enum/ClassName";
-import Cond from "./Enum/Cond";
-import Language from "./Enum/Language";
-import Region from "./Enum/Region";
-import ResultCache from "./ResultCache";
-import { AiActNum, AiActTarget, AiActType, AiCollection, AiCond, AiTiming, AiType } from "./Schema/Ai";
-import { Attribute, AttributeAffinityMap } from "./Schema/Attribute";
-import { BattleMasterImage } from "./Schema/BattleMaster";
-import { BgmEntity } from "./Schema/Bgm";
+import Card, { CardConstantMap } from "./Enum/Card.js";
+import ClassName from "./Enum/ClassName.js";
+import { ClassAffinityMap, ClassAttackRateMap } from "./Enum/ClassName.js";
+import Cond from "./Enum/Cond.js";
+import Language from "./Enum/Language.js";
+import Region from "./Enum/Region.js";
+import ResultCache from "./ResultCache.js";
+import { AiActNum, AiActTarget, AiActType, AiCollection, AiCond, AiTiming, AiType } from "./Schema/Ai.js";
+import { Attribute, AttributeAffinityMap } from "./Schema/Attribute.js";
+import { BattleMasterImage } from "./Schema/BattleMaster.js";
+import { BgmEntity } from "./Schema/Bgm.js";
 import {
     BasicBuff,
     Buff,
@@ -18,31 +18,31 @@ import {
     BuffSearchOptions,
     BuffType,
     ClassRelationOverwriteType,
-} from "./Schema/Buff";
-import { Change } from "./Schema/Change";
-import { ClassBoard } from "./Schema/ClassBoard";
-import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode";
-import { CommonRelease } from "./Schema/CommonRelease";
-import { Constants } from "./Schema/Constant";
-import { ConstantStrs } from "./Schema/ConstantStr";
-import { CraftEssence, CraftEssenceBasic } from "./Schema/CraftEssence";
-import { Cv } from "./Schema/Cv";
-import { Enemy } from "./Schema/Enemy";
-import { EnemyMaster } from "./Schema/EnemyMaster";
-import { EntityBasic, EntityFlag, EntitySearchOptions, EntityType, Gender } from "./Schema/Entity";
-import { Event, EventAlloutBattle, EventBasic, EventType } from "./Schema/Event";
-import { BasicFunc, Func, FuncSearchOptions, FuncTargetTeam, FuncTargetType, FuncType } from "./Schema/Func";
-import { Gacha } from "./Schema/Gacha";
-import { GiftType } from "./Schema/Gift";
-import { Illustrator } from "./Schema/Illustrator";
-import { Info } from "./Schema/Info";
-import { Item, ItemBackgroundType, ItemSearchOptions, ItemType } from "./Schema/Item";
-import { MasterLevelInfoMap } from "./Schema/Master";
-import { MasterMission } from "./Schema/MasterMission";
-import { DetailCondLinkType, MissionType, ProgressType, RewardType } from "./Schema/Mission";
-import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode";
-import { NPSearchOptions, NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm";
-import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile";
+} from "./Schema/Buff.js";
+import { Change } from "./Schema/Change.js";
+import { ClassBoard } from "./Schema/ClassBoard.js";
+import { CommandCode, CommandCodeBasic } from "./Schema/CommandCode.js";
+import { CommonRelease } from "./Schema/CommonRelease.js";
+import { Constants } from "./Schema/Constant.js";
+import { ConstantStrs } from "./Schema/ConstantStr.js";
+import { CraftEssence, CraftEssenceBasic } from "./Schema/CraftEssence.js";
+import { Cv } from "./Schema/Cv.js";
+import { Enemy } from "./Schema/Enemy.js";
+import { EnemyMaster } from "./Schema/EnemyMaster.js";
+import { EntityBasic, EntityFlag, EntitySearchOptions, EntityType, Gender } from "./Schema/Entity.js";
+import { Event, EventAlloutBattle, EventBasic, EventType } from "./Schema/Event.js";
+import { BasicFunc, Func, FuncSearchOptions, FuncTargetTeam, FuncTargetType, FuncType } from "./Schema/Func.js";
+import { Gacha } from "./Schema/Gacha.js";
+import { GiftType } from "./Schema/Gift.js";
+import { Illustrator } from "./Schema/Illustrator.js";
+import { Info } from "./Schema/Info.js";
+import { Item, ItemBackgroundType, ItemSearchOptions, ItemType } from "./Schema/Item.js";
+import { MasterLevelInfoMap } from "./Schema/Master.js";
+import { MasterMission } from "./Schema/MasterMission.js";
+import { DetailCondLinkType, MissionType, ProgressType, RewardType } from "./Schema/Mission.js";
+import { MysticCode, MysticCodeBasic } from "./Schema/MysticCode.js";
+import { NPSearchOptions, NoblePhantasm, NoblePhantasmBasic } from "./Schema/NoblePhantasm.js";
+import { ProfileVoiceType, VoiceCondType } from "./Schema/Profile.js";
 import {
     Quest,
     QuestBasic,
@@ -51,13 +51,13 @@ import {
     QuestPhaseBasic,
     QuestPhaseSearchOptions,
     QuestType,
-} from "./Schema/Quest";
-import { Script, ScriptSearchOptions, ScriptSearchResult, SvtScript } from "./Schema/Script";
-import { GrailCostInfoMap, Servant, ServantBasic, ServantWithLore } from "./Schema/Servant";
-import { PayType, PurchaseType, Shop, ShopSearchOptions, ShopType } from "./Schema/Shop";
-import { Skill, SkillBasic, SkillSearchOptions, SkillType } from "./Schema/Skill";
-import { Trait } from "./Schema/Trait";
-import { War, WarBasic, WarStartType } from "./Schema/War";
+} from "./Schema/Quest.js";
+import { Script, ScriptSearchOptions, ScriptSearchResult, SvtScript } from "./Schema/Script.js";
+import { GrailCostInfoMap, Servant, ServantBasic, ServantWithLore } from "./Schema/Servant.js";
+import { PayType, PurchaseType, Shop, ShopSearchOptions, ShopType } from "./Schema/Shop.js";
+import { Skill, SkillBasic, SkillSearchOptions, SkillType } from "./Schema/Skill.js";
+import { Trait } from "./Schema/Trait.js";
+import { War, WarBasic, WarStartType } from "./Schema/War.js";
 
 export enum ReverseData {
     BASIC = "basic",

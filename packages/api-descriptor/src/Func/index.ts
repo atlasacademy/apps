@@ -1,11 +1,19 @@
-import describe from "./describe";
-import describeBreakdown from "./describeBreakdown";
-import describeValue from "./describeValue";
-import { targetOpposingTeam, targetSameTeam } from "./getOpponentType";
-import getRelatedNpIds from "./getRelatedNpIds";
-import getRelatedSkillIds from "./getRelatedSkillIds";
+import describe from "./describe.js";
+import describeBreakdown from "./describeBreakdown.js";
+import describeValue from "./describeValue.js";
+import { targetOpposingTeam, targetSameTeam } from "./getOpponentType.js";
+import getRelatedNpIds from "./getRelatedNpIds.js";
+import getRelatedSkillIds from "./getRelatedSkillIds.js";
 
-export default {
+const FuncDescriptor: {
+    describe: typeof describe;
+    describeBreakdown: typeof describeBreakdown;
+    describeValue: typeof describeValue;
+    getRelatedSkillIds: typeof getRelatedSkillIds;
+    getRelatedNpIds: typeof getRelatedNpIds;
+    targetOpposingTeam: typeof targetOpposingTeam;
+    targetSameTeam: typeof targetSameTeam;
+} = {
     describe,
     describeBreakdown,
     describeValue,
@@ -14,3 +22,5 @@ export default {
     targetOpposingTeam,
     targetSameTeam,
 };
+
+export default FuncDescriptor;

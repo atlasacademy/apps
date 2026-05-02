@@ -1,13 +1,13 @@
 import { Buff, Func } from "@atlasacademy/api-connector";
 
-import { BattleActor } from "../../Actor/BattleActor";
-import { Battle } from "../../Battle";
-import { BattleTeam } from "../../Enum/BattleTeam";
-import BattleAdjustNpEvent from "../../Event/BattleAdjustNpEvent";
-import BattleEvent from "../../Event/BattleEvent";
-import { Variable } from "../../Game/Variable";
-import BattleFunc from "../BattleFunc";
-import checkFuncAction from "../checkFuncAction";
+import { BattleActor } from "../../Actor/BattleActor.js";
+import { Battle } from "../../Battle.js";
+import { BattleTeam } from "../../Enum/BattleTeam.js";
+import BattleAdjustNpEvent from "../../Event/BattleAdjustNpEvent.js";
+import BattleEvent from "../../Event/BattleEvent.js";
+import { Variable } from "../../Game/Variable.js";
+import BattleFunc from "../BattleFunc.js";
+import checkFuncAction from "../checkFuncAction.js";
 
 export default async function adjustNpFunc(
     battle: Battle,

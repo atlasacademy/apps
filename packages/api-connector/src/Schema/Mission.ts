@@ -1,6 +1,6 @@
-import Cond from "../Enum/Cond";
-import { Gift } from "./Gift";
-import { Trait } from "./Trait";
+import Cond from "../Enum/Cond.js";
+import { Gift } from "./Gift.js";
+import { Trait } from "./Trait.js";
 
 export enum MissionType {
     NONE = "none",

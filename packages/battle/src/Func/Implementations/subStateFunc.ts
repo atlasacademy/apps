@@ -1,10 +1,10 @@
-import { BattleActor } from "../../Actor/BattleActor";
-import { Battle } from "../../Battle";
-import BattleEvent from "../../Event/BattleEvent";
-import BattleRemoveBuffEvent from "../../Event/BattleRemoveBuffEvent";
-import { checkTrait } from "../../Trait/checkTrait";
-import BattleFunc from "../BattleFunc";
-import checkFuncAction from "../checkFuncAction";
+import { BattleActor } from "../../Actor/BattleActor.js";
+import { Battle } from "../../Battle.js";
+import BattleEvent from "../../Event/BattleEvent.js";
+import BattleRemoveBuffEvent from "../../Event/BattleRemoveBuffEvent.js";
+import { checkTrait } from "../../Trait/checkTrait.js";
+import BattleFunc from "../BattleFunc.js";
+import checkFuncAction from "../checkFuncAction.js";
 
 export default async function subStateFunc(
     battle: Battle,

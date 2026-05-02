@@ -1,16 +1,16 @@
-import BattleSkill, { BattleSkillProps, BattleSkillState } from "./BattleSkill";
-import BattleSkillFunc from "./BattleSkillFunc";
+import BattleSkill, { BattleSkillProps, BattleSkillState } from "./BattleSkill.js";
+import BattleSkillFunc from "./BattleSkillFunc.js";
 
 export default class BattleSkillPassive extends BattleSkill {
     constructor(
         public props: BattleSkillProps,
         state: BattleSkillState | null,
     ) {
-        super(
-            props,
-            state ?? {
+        const nextState =
+            state ??
+            {
                 cooldown: 0,
-                funcs: props.skill.functions.map((func, i) => {
+                funcs: props.skill.functions.map((func) => {
                     return new BattleSkillFunc(
                         {
                             actorId: props.actorId,
@@ -19,11 +19,12 @@ export default class BattleSkillPassive extends BattleSkill {
                             passive: true,
                         },
                         null,
-                        this,
+                        undefined as unknown as BattleSkillPassive,
                     );
                 }),
-            },
-        );
+            };
+
+        super(props, nextState);
 
         this.state.funcs.forEach((func) => (func.parent = this));
     }

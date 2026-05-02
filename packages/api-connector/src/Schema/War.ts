@@ -1,6 +1,6 @@
-import Cond, { CondType } from "../Enum/Cond";
-import { Bgm } from "./Bgm";
-import { Quest, QuestAfterClearType, QuestType } from "./Quest";
+import Cond, { CondType } from "../Enum/Cond.js";
+import { Bgm } from "./Bgm.js";
+import { Quest, QuestAfterClearType, QuestType } from "./Quest.js";
 
 export enum WarStartType {
     NONE = "none",

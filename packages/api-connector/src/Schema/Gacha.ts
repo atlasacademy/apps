@@ -1,6 +1,6 @@
-import CondType from "../Enum/Cond";
-import { CommonRelease } from "./CommonRelease";
-import { PayType } from "./Shop";
+import CondType from "../Enum/Cond.js";
+import { CommonRelease } from "./CommonRelease.js";
+import { PayType } from "./Shop.js";
 
 export interface GachaStoryAdjust {
     idx: number;

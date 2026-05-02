@@ -1,6 +1,6 @@
 import { Buff, DataVal, Func } from "@atlasacademy/api-connector";
 
-import getValList from "./getValList";
+import getValList from "./getValList.js";
 
 export interface relatedNp {
     npId: number;

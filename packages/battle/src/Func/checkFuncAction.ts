@@ -1,9 +1,9 @@
 import { Buff, Func } from "@atlasacademy/api-connector";
 
-import { BattleActor } from "../Actor/BattleActor";
-import { Battle } from "../Battle";
-import { Variable, VariableType } from "../Game/Variable";
-import BattleFunc from "./BattleFunc";
+import { BattleActor } from "../Actor/BattleActor.js";
+import { Battle } from "../Battle.js";
+import { Variable, VariableType } from "../Game/Variable.js";
+import BattleFunc from "./BattleFunc.js";
 
 export default async function checkFuncAction(
     battle: Battle,

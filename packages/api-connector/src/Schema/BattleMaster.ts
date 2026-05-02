@@ -1,5 +1,5 @@
-import { CommonRelease } from "./CommonRelease";
-import { Gender } from "./Entity";
+import { CommonRelease } from "./CommonRelease.js";
+import { Gender } from "./Entity.js";
 
 export interface BattleMasterImage {
     id: number;

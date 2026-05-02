@@ -1,10 +1,10 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../../src";
-import BattleRemoveBuffEvent from "../../../src/Event/BattleRemoveBuffEvent";
-import subStateFunc from "../../../src/Func/Implementations/subStateFunc";
-import BattleSkillFunc from "../../../src/Skill/BattleSkillFunc";
-import { createBattle, servant } from "../../helpers";
+import { BattleTeam } from "../../../src/index.js";
+import BattleRemoveBuffEvent from "../../../src/Event/BattleRemoveBuffEvent.js";
+import subStateFunc from "../../../src/Func/Implementations/subStateFunc.js";
+import BattleSkillFunc from "../../../src/Skill/BattleSkillFunc.js";
+import { createBattle, servant } from "../../helpers.js";
 
 describe("subStateFunc", () => {
     it("fails when no matching buffs", async () => {

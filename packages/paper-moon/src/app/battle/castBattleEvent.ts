@@ -1,7 +1,4 @@
-import BattleAdjustNpEvent from "@atlasacademy/battle/dist/Event/BattleAdjustNpEvent";
-import BattleBuffEvent from "@atlasacademy/battle/dist/Event/BattleBuffEvent";
-import BattleDamageEvent from "@atlasacademy/battle/dist/Event/BattleDamageEvent";
-import BattleEvent from "@atlasacademy/battle/dist/Event/BattleEvent";
+import { BattleAdjustNpEvent, BattleBuffEvent, BattleDamageEvent, BattleEvent } from "@atlasacademy/battle";
 
 import { BattleEvent as BattleStateEvent } from "./types";
 

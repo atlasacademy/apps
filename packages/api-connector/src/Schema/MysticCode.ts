@@ -1,5 +1,5 @@
-import { CommonRelease } from "./CommonRelease";
-import { Skill } from "./Skill";
+import { CommonRelease } from "./CommonRelease.js";
+import { Skill } from "./Skill.js";
 
 export interface MysticCodeAssets {
     item: {

@@ -1,7 +1,7 @@
-import CondType from "../Enum/Cond";
-import { CommonConsume } from "./CommonConsume";
-import { Gift } from "./Gift";
-import { Item, ItemAmount } from "./Item";
+import CondType from "../Enum/Cond.js";
+import { CommonConsume } from "./CommonConsume.js";
+import { Gift } from "./Gift.js";
+import { Item, ItemAmount } from "./Item.js";
 
 export enum ShopType {
     NONE = "none",

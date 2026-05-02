@@ -1,5 +1,5 @@
-import BattleFunc, { BattleFuncProps, BattleFuncState } from "../Func/BattleFunc";
-import BattleNoblePhantasm from "./BattleNoblePhantasm";
+import BattleFunc, { BattleFuncProps, BattleFuncState } from "../Func/BattleFunc.js";
+import BattleNoblePhantasm from "./BattleNoblePhantasm.js";
 
 export default class BattleNoblePhantasmFunc extends BattleFunc {
     constructor(

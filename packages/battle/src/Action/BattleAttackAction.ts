@@ -1,6 +1,6 @@
 import { Card, Trait } from "@atlasacademy/api-connector";
 
-import { BattleActor } from "../Actor/BattleActor";
+import { BattleActor } from "../Actor/BattleActor.js";
 
 export class BattleAttackAction {
     constructor(

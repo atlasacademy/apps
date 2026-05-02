@@ -1,19 +1,19 @@
 import { DataVal, Func } from "@atlasacademy/api-connector";
 
-import { BattleAttackAction } from "../Action/BattleAttackAction";
-import { BattleActor, BattleActorLogic } from "../Actor/BattleActor";
-import { Battle } from "../Battle";
-import { BattleTeam } from "../Enum/BattleTeam";
-import BattleEvent from "../Event/BattleEvent";
-import BattleUnhandledEffectEvent from "../Event/BattleUnhandledEffectEvent";
-import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
-import BattleSkill from "../Skill/BattleSkill";
-import BattleSkillPassive from "../Skill/BattleSkillPassive";
-import { checkTrait } from "../Trait/checkTrait";
-import addStateFunc from "./Implementations/addStateFunc";
-import adjustNpFunc from "./Implementations/adjustNpFunc";
-import getDamageList from "./Implementations/getDamageList";
-import subStateFunc from "./Implementations/subStateFunc";
+import { BattleAttackAction } from "../Action/BattleAttackAction.js";
+import { BattleActor, BattleActorLogic } from "../Actor/BattleActor.js";
+import { Battle } from "../Battle.js";
+import { BattleTeam } from "../Enum/BattleTeam.js";
+import BattleEvent from "../Event/BattleEvent.js";
+import BattleUnhandledEffectEvent from "../Event/BattleUnhandledEffectEvent.js";
+import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm.js";
+import BattleSkill from "../Skill/BattleSkill.js";
+import BattleSkillPassive from "../Skill/BattleSkillPassive.js";
+import { checkTrait } from "../Trait/checkTrait.js";
+import addStateFunc from "./Implementations/addStateFunc.js";
+import adjustNpFunc from "./Implementations/adjustNpFunc.js";
+import getDamageList from "./Implementations/getDamageList.js";
+import subStateFunc from "./Implementations/subStateFunc.js";
 
 export type BattleFuncParent = BattleSkill | BattleSkillPassive | BattleNoblePhantasm;
 

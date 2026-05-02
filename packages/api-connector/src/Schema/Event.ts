@@ -1,17 +1,17 @@
-import CondType from "../Enum/Cond";
-import { BgmEntity } from "./Bgm";
-import { CombineAdjustTarget, CombineCalc } from "./Combine";
-import { CommonConsume } from "./CommonConsume";
-import { CommonRelease } from "./CommonRelease";
-import { Gift } from "./Gift";
-import { Item, ItemAmount, ItemBackgroundType } from "./Item";
-import { Mission } from "./Mission";
-import { VoiceGroup, VoiceLine } from "./Profile";
-import { QuestReleaseOverwrite } from "./Quest";
-import { PayType, Shop } from "./Shop";
-import { Skill } from "./Skill";
-import { SvtClassSupportGroupType } from "./Support";
-import { WarBoard } from "./WarBoard";
+import CondType from "../Enum/Cond.js";
+import { BgmEntity } from "./Bgm.js";
+import { CombineAdjustTarget, CombineCalc } from "./Combine.js";
+import { CommonConsume } from "./CommonConsume.js";
+import { CommonRelease } from "./CommonRelease.js";
+import { Gift } from "./Gift.js";
+import { Item, ItemAmount, ItemBackgroundType } from "./Item.js";
+import { Mission } from "./Mission.js";
+import { VoiceGroup, VoiceLine } from "./Profile.js";
+import { QuestReleaseOverwrite } from "./Quest.js";
+import { PayType, Shop } from "./Shop.js";
+import { Skill } from "./Skill.js";
+import { SvtClassSupportGroupType } from "./Support.js";
+import { WarBoard } from "./WarBoard.js";
 
 export interface EventAlloutBattle {
     eventId: number;

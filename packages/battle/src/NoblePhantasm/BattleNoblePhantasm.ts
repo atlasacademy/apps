@@ -1,10 +1,10 @@
 import { Card, NoblePhantasm, Trait } from "@atlasacademy/api-connector";
 
-import { BattleAttackAction } from "../Action/BattleAttackAction";
-import { BattleActor } from "../Actor/BattleActor";
-import { Battle } from "../Battle";
-import BattleEvent from "../Event/BattleEvent";
-import BattleNoblePhantasmFunc from "./BattleNoblePhantasmFunc";
+import { BattleAttackAction } from "../Action/BattleAttackAction.js";
+import { BattleActor } from "../Actor/BattleActor.js";
+import { Battle } from "../Battle.js";
+import BattleEvent from "../Event/BattleEvent.js";
+import BattleNoblePhantasmFunc from "./BattleNoblePhantasmFunc.js";
 
 export interface BattleNoblePhantasmProps {
     actorId: number;

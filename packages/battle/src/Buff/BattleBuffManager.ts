@@ -1,8 +1,8 @@
 import { Buff, Trait } from "@atlasacademy/api-connector";
 
-import { BattleActorLogic } from "../Actor/BattleActor";
-import { Battle } from "../Battle";
-import { BattleBuff } from "./BattleBuff";
+import { BattleActorLogic } from "../Actor/BattleActor.js";
+import { Battle } from "../Battle.js";
+import { BattleBuff } from "./BattleBuff.js";
 
 export default class BattleBuffManager {
     public logic: BattleActorLogic = BattleActorLogic.NORMAL;

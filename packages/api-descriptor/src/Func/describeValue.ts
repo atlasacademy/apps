@@ -1,10 +1,10 @@
 import { DataVal, Func } from "@atlasacademy/api-connector";
 
-import { default as describeBuffValue } from "../Buff/describeValue";
-import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor";
-import describeGainHpFromTargetsValue from "./Value/describeGainHpFromTargetsValue";
-import describeGainNpFromTargets from "./Value/describeGainNpFromTargets";
-import describeNpAbsorbValue from "./Value/describeNpAbsorbValue";
+import { default as describeBuffValue } from "../Buff/describeValue.js";
+import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor.js";
+import describeGainHpFromTargetsValue from "./Value/describeGainHpFromTargetsValue.js";
+import describeGainNpFromTargets from "./Value/describeGainNpFromTargets.js";
+import describeNpAbsorbValue from "./Value/describeNpAbsorbValue.js";
 
 export default function (
     func: Func.BasicFunc,

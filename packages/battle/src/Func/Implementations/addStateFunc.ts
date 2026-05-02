@@ -1,12 +1,12 @@
 import { Buff } from "@atlasacademy/api-connector";
 
-import { BattleActor } from "../../Actor/BattleActor";
-import { Battle } from "../../Battle";
-import { BattleBuff } from "../../Buff/BattleBuff";
-import BattleBuffEvent from "../../Event/BattleBuffEvent";
-import BattleEvent from "../../Event/BattleEvent";
-import { Variable, VariableType } from "../../Game/Variable";
-import BattleFunc from "../BattleFunc";
+import { BattleActor } from "../../Actor/BattleActor.js";
+import { Battle } from "../../Battle.js";
+import { BattleBuff } from "../../Buff/BattleBuff.js";
+import BattleBuffEvent from "../../Event/BattleBuffEvent.js";
+import BattleEvent from "../../Event/BattleEvent.js";
+import { Variable, VariableType } from "../../Game/Variable.js";
+import BattleFunc from "../BattleFunc.js";
 
 function checkBuffAvoided(battle: Battle, actor: BattleActor, target: BattleActor): boolean {
     const avoidBuffs = actor.buffs().getBuffs(Buff.BuffAction.AVOID_STATE, actor.traits(), target.traits(), true, true);

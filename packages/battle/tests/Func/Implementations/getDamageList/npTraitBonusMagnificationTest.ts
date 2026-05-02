@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../../../src";
-import { npTraitBonusMagnification } from "../../../../src/Func/Implementations/getDamageList";
-import { createBattle, servant } from "../../../helpers";
+import { BattleTeam } from "../../../../src/index.js";
+import { npTraitBonusMagnification } from "../../../../src/Func/Implementations/getDamageList.js";
+import { createBattle, servant } from "../../../helpers.js";
 
 describe("getDamageList npTraitBonusMagnification", () => {
     it("check np with no bonus", async () => {

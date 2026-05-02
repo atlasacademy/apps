@@ -1,11 +1,11 @@
-import { ReverseData, ReverseDepth } from "../ApiConnector";
-import { AiType } from "./Ai";
-import { CommandCode, CommandCodeBasic } from "./CommandCode";
-import { CommonRelease } from "./CommonRelease";
-import { Entity, EntityBasic } from "./Entity";
-import { Func } from "./Func";
-import { MysticCode, MysticCodeBasic } from "./MysticCode";
-import { Trait } from "./Trait";
+import { ReverseData, ReverseDepth } from "../ApiConnector.js";
+import { AiType } from "./Ai.js";
+import { CommandCode, CommandCodeBasic } from "./CommandCode.js";
+import { CommonRelease } from "./CommonRelease.js";
+import { Entity, EntityBasic } from "./Entity.js";
+import { Func } from "./Func.js";
+import { MysticCode, MysticCodeBasic } from "./MysticCode.js";
+import { Trait } from "./Trait.js";
 
 export enum SkillType {
     ACTIVE = "active",

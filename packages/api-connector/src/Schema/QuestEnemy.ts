@@ -1,9 +1,9 @@
-import { Attribute } from "./Attribute";
-import { EntityBasic } from "./Entity";
-import { GiftType } from "./Gift";
-import { NoblePhantasm } from "./NoblePhantasm";
-import { Skill } from "./Skill";
-import { Trait } from "./Trait";
+import { Attribute } from "./Attribute.js";
+import { EntityBasic } from "./Entity.js";
+import { GiftType } from "./Gift.js";
+import { NoblePhantasm } from "./NoblePhantasm.js";
+import { Skill } from "./Skill.js";
+import { Trait } from "./Trait.js";
 
 export enum EnemyDeathType {
     ESCAPE = "escape",

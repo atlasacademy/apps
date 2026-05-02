@@ -1,7 +1,7 @@
-import { ReverseData, ReverseDepth } from "../ApiConnector";
-import ClassName from "../Enum/ClassName";
-import { Func } from "./Func";
-import { Trait } from "./Trait";
+import { ReverseData, ReverseDepth } from "../ApiConnector.js";
+import ClassName from "../Enum/ClassName.js";
+import { Func } from "./Func.js";
+import { Trait } from "./Trait.js";
 
 export enum BuffAction {
     NONE = "none",

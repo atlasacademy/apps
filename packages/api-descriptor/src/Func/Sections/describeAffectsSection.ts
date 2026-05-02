@@ -1,8 +1,8 @@
 import { DataVal, Func } from "@atlasacademy/api-connector";
 
-import { BasePartial, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../../Descriptor";
-import TraitReferencePartial from "../../Trait/TraitReferencePartial";
-import describe from "../../Trait/describe";
+import { BasePartial, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../../Descriptor.js";
+import TraitReferencePartial from "../../Trait/TraitReferencePartial.js";
+import describe from "../../Trait/describe.js";
 
 export default function (func: Func.Func, dataVal: DataVal.DataVal): BasePartial[] {
     const partials: BasePartial[] = [];

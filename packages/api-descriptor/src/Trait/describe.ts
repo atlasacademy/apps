@@ -1,8 +1,8 @@
 import { Trait } from "@atlasacademy/api-connector";
 
-import { Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor";
-import { toTitleCase } from "../Helpers";
-import TraitOverrideNames from "./TraitOverrideNames";
+import { Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor.js";
+import { toTitleCase } from "../Helpers.js";
+import TraitOverrideNames from "./TraitOverrideNames.js";
 
 export default function (
     trait: Trait.Trait | number,

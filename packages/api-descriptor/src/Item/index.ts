@@ -1,4 +1,4 @@
-import describeUse from "./describeUse";
+import describeUse from "./describeUse.js";
 
 export default {
     describeUse,

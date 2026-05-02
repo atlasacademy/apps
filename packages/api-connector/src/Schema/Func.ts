@@ -1,9 +1,9 @@
-import { ReverseData, ReverseDepth } from "../ApiConnector";
-import { Buff } from "./Buff";
-import { DataVal } from "./DataVal";
-import { NoblePhantasm, NoblePhantasmBasic } from "./NoblePhantasm";
-import { Skill, SkillBasic } from "./Skill";
-import { Trait } from "./Trait";
+import { ReverseData, ReverseDepth } from "../ApiConnector.js";
+import { Buff } from "./Buff.js";
+import { DataVal } from "./DataVal.js";
+import { NoblePhantasm, NoblePhantasmBasic } from "./NoblePhantasm.js";
+import { Skill, SkillBasic } from "./Skill.js";
+import { Trait } from "./Trait.js";
 
 export enum FuncTargetTeam {
     PLAYER = "player",

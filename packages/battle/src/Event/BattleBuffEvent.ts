@@ -1,6 +1,6 @@
-import { BattleActor } from "../Actor/BattleActor";
-import { BattleBuff } from "../Buff/BattleBuff";
-import BattleEvent from "./BattleEvent";
+import { BattleActor } from "../Actor/BattleActor.js";
+import { BattleBuff } from "../Buff/BattleBuff.js";
+import BattleEvent from "./BattleEvent.js";
 
 export default class BattleBuffEvent extends BattleEvent {
     constructor(

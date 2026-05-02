@@ -1,7 +1,7 @@
 import { DataVal, Func } from "@atlasacademy/api-connector";
 
-import { BasePartial, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../../Descriptor";
-import { targetOpposingTeam, targetSameTeam } from "../getOpponentType";
+import { BasePartial, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../../Descriptor.js";
+import { targetOpposingTeam, targetSameTeam } from "../getOpponentType.js";
 
 export default function (
     staticDataVal: DataVal.DataVal,

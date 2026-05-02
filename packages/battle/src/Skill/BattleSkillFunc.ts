@@ -1,5 +1,5 @@
-import BattleFunc, { BattleFuncProps, BattleFuncState } from "../Func/BattleFunc";
-import BattleSkill from "./BattleSkill";
+import BattleFunc, { BattleFuncProps, BattleFuncState } from "../Func/BattleFunc.js";
+import BattleSkill from "./BattleSkill.js";
 
 export default class BattleSkillFunc extends BattleFunc {
     constructor(props: BattleFuncProps, state: BattleFuncState | null, parent: BattleSkill) {

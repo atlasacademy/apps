@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../src";
-import BattleSkillFunc from "../../src/Skill/BattleSkillFunc";
-import { createBattle, servant } from "../helpers";
+import { BattleTeam } from "../../src/index.js";
+import BattleSkillFunc from "../../src/Skill/BattleSkillFunc.js";
+import { createBattle, servant } from "../helpers.js";
 
 describe("BattleFunc", () => {
     it("applicableToTarget vs no required trait", async () => {

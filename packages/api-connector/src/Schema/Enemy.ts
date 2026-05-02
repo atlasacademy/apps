@@ -1,4 +1,4 @@
-import { Entity, EntityBasic, EntityType } from "./Entity";
+import { Entity, EntityBasic, EntityType } from "./Entity.js";
 
 export interface Enemy extends Entity {
     type: EntityType.ENEMY;

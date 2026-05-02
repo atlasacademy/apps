@@ -1,6 +1,6 @@
-import { UILanguage } from "..";
-import enTranslation from "./en-US/main.json";
-import zhTranslation from "./zh-CN/main.json";
+import { UILanguage } from "../index.js";
+import enTranslation = require("./en-US/main.json");
+import zhTranslation = require("./zh-CN/main.json");
 
 export const t = (key: string, language?: UILanguage): string => {
     if (language === UILanguage.ZH_CN) {

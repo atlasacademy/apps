@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
-import { BattleRandomType } from "../../../../src/BattleRandom";
-import { randomAttack } from "../../../../src/Func/Implementations/getDamageList";
-import { createBattle } from "../../../helpers";
+import { BattleRandomType } from "../../../../src/BattleRandom.js";
+import { randomAttack } from "../../../../src/Func/Implementations/getDamageList.js";
+import { createBattle } from "../../../helpers.js";
 
 describe("getDamageList randomAttack", () => {
     it("test range", async () => {

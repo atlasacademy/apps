@@ -1,7 +1,7 @@
 import { Func } from "@atlasacademy/api-connector";
 
-import { BattleActor } from "../Actor/BattleActor";
-import BattleEvent from "./BattleEvent";
+import { BattleActor } from "../Actor/BattleActor.js";
+import BattleEvent from "./BattleEvent.js";
 
 export default class BattleUnhandledEffectEvent extends BattleEvent {
     constructor(

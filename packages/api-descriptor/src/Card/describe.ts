@@ -1,7 +1,7 @@
 import { Card } from "@atlasacademy/api-connector";
 
-import { BasePartial, Descriptor, TextPartial, ValuePartial, ValueType } from "../Descriptor";
-import { toTitleCase } from "../Helpers";
+import { BasePartial, Descriptor, TextPartial, ValuePartial, ValueType } from "../Descriptor.js";
+import { toTitleCase } from "../Helpers.js";
 
 const cardIdMap = new Map<number, Card>([
     [0, Card.NONE],

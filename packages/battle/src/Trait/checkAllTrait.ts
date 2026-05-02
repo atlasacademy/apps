@@ -1,6 +1,6 @@
 import { Trait } from "@atlasacademy/api-connector";
 
-import { getNum } from "./getTraitNums";
+import { getNum } from "./getTraitNums.js";
 
 export const checkAllTrait = <T extends Trait.Trait | number | string>(self?: T[], target?: T[]): boolean => {
     if (target === undefined || self === undefined || target.length === 0) return true;

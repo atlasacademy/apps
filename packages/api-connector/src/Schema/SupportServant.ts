@@ -1,10 +1,10 @@
-import CondType from "../Enum/Cond";
-import { CraftEssence } from "./CraftEssence";
-import { EntityBasic } from "./Entity";
-import { NoblePhantasm } from "./NoblePhantasm";
-import { EnemySkill, QuestEnemy } from "./QuestEnemy";
-import { Skill } from "./Skill";
-import { Trait } from "./Trait";
+import CondType from "../Enum/Cond.js";
+import { CraftEssence } from "./CraftEssence.js";
+import { EntityBasic } from "./Entity.js";
+import { NoblePhantasm } from "./NoblePhantasm.js";
+import { EnemySkill, QuestEnemy } from "./QuestEnemy.js";
+import { Skill } from "./Skill.js";
+import { Trait } from "./Trait.js";
 
 export enum SupportServantFlag {
     NPC = "npc",

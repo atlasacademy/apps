@@ -1,5 +1,5 @@
-import { Entity, EntityBasic, EntityScript, EntityType } from "./Entity";
-import { Profile } from "./Profile";
+import { Entity, EntityBasic, EntityScript, EntityType } from "./Entity.js";
+import { Profile } from "./Profile.js";
 
 export interface ServantScript extends EntityScript {}
 

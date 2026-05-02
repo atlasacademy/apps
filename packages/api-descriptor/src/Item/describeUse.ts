@@ -1,6 +1,6 @@
 import { Item } from "@atlasacademy/api-connector";
 
-import { toTitleCase } from "../Helpers";
+import { toTitleCase } from "../Helpers.js";
 
 export default function (use: Item.ItemUse | string): string {
     switch (use) {

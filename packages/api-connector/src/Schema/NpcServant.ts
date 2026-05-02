@@ -1,7 +1,7 @@
-import { EnemySkill } from "./QuestEnemy";
-import { ServantBasic } from "./Servant";
-import { SupportServantFlag, SupportServantLimit, SupportServantTd } from "./SupportServant";
-import { Trait } from "./Trait";
+import { EnemySkill } from "./QuestEnemy.js";
+import { ServantBasic } from "./Servant.js";
+import { SupportServantFlag, SupportServantLimit, SupportServantTd } from "./SupportServant.js";
+import { Trait } from "./Trait.js";
 
 export interface NpcServant {
     npcId: number;

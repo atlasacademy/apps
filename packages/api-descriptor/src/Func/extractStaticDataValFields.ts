@@ -1,6 +1,6 @@
 import { DataVal } from "@atlasacademy/api-connector";
 
-import { hasUniqueValues } from "../Helpers";
+import { hasUniqueValues } from "../Helpers.js";
 
 export default function (vals: DataVal.DataVal[]): DataVal.DataValField[] {
     return Object.values(DataVal.DataValField).filter((field) => {

@@ -1,7 +1,7 @@
 import { Buff, DataVal, Func } from "@atlasacademy/api-connector";
 
-import { buffTriggerTypes } from "../Buff/BuffTypes";
-import getValList from "./getValList";
+import { buffTriggerTypes } from "../Buff/BuffTypes.js";
+import getValList from "./getValList.js";
 
 export interface relatedSkill {
     skillId: number;

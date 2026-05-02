@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { BattleRandom, BattleRandomType } from "../src/BattleRandom";
+import { BattleRandom, BattleRandomType } from "../src/BattleRandom.js";
 
 describe("BattleRandom", () => {
     it("generate", async () => {

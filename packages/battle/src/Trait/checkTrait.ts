@@ -1,6 +1,6 @@
 import { Trait } from "@atlasacademy/api-connector";
 
-import { getNum } from "./getTraitNums";
+import { getNum } from "./getTraitNums.js";
 
 /**
  * Individuality::CheckIndividualities

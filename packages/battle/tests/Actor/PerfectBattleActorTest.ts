@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
-import { BattleActorLogic } from "../../dist/Actor/BattleActor";
-import { BattleTeam } from "../../src";
-import { createBattle, servant } from "../helpers";
+import { BattleActorLogic } from "../../src/Actor/BattleActor.js";
+import { BattleTeam } from "../../src/index.js";
+import { createBattle, servant } from "../helpers.js";
 
 describe("PerfectBattleActor", () => {
     it("func target trait", async () => {

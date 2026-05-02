@@ -1,8 +1,8 @@
 import { Buff } from "@atlasacademy/api-connector";
 
-import { toTitleCase } from "../Helpers";
-import { getUpDownBuffType } from "./BuffHelpers";
-import { buffTriggerTypes, buffTypeDescriptions } from "./BuffTypes";
+import { toTitleCase } from "../Helpers.js";
+import { getUpDownBuffType } from "./BuffHelpers.js";
+import { buffTriggerTypes, buffTypeDescriptions } from "./BuffTypes.js";
 
 export default function (type: Buff.BuffType): string {
     const upDownBuffType = getUpDownBuffType(type),

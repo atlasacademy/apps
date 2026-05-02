@@ -1,6 +1,6 @@
 import { DataVal } from "@atlasacademy/api-connector";
 
-import { BasePartial, ParticlePartial, ValuePartial, ValueType } from "../../Descriptor";
+import { BasePartial, ParticlePartial, ValuePartial, ValueType } from "../../Descriptor.js";
 
 export default function (staticDataVal: DataVal.DataVal, mutatingDataVal: DataVal.DataVal): BasePartial[] {
     const funcId = staticDataVal.DependFuncId ?? mutatingDataVal.DependFuncId,

@@ -1,11 +1,11 @@
 import { DataVal, Func } from "@atlasacademy/api-connector";
 
-import { BasePartial, Descriptor, ParticlePartial } from "../Descriptor";
-import describeActionSection from "./Sections/describeActionSection";
-import describeChanceSection from "./Sections/describeChanceSection";
-import describeTeamSection from "./Sections/describeTeamSection";
-import determineSectionFlags from "./Sections/determineSectionFlags";
-import extractStaticDataVal from "./extractStaticDataVal";
+import { BasePartial, Descriptor, ParticlePartial } from "../Descriptor.js";
+import describeActionSection from "./Sections/describeActionSection.js";
+import describeChanceSection from "./Sections/describeChanceSection.js";
+import describeTeamSection from "./Sections/describeTeamSection.js";
+import determineSectionFlags from "./Sections/determineSectionFlags.js";
+import extractStaticDataVal from "./extractStaticDataVal.js";
 
 export default function (
     func: Func.Func,

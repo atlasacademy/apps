@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../../src";
-import { createBattle, servant } from "../../helpers";
+import { BattleTeam } from "../../../src/index.js";
+import { createBattle, servant } from "../../helpers.js";
 
 describe("BattleServantActor traits", () => {
     it("check add trait buff", async () => {

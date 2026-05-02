@@ -1,6 +1,6 @@
 import { DataVal } from "@atlasacademy/api-connector";
 
-import { BasePartial, ParticlePartial } from "./Descriptor";
+import { BasePartial, ParticlePartial } from "./Descriptor.js";
 
 export function insertParticles(partials: BasePartial[], particle: string): BasePartial[] {
     const newPartialList: BasePartial[] = [];

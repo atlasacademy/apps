@@ -1,10 +1,10 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../src";
-import { BattleCommandAction } from "../../src/Action/BattleCommandAction";
-import inspectAvailable from "../../src/Action/inspectAvailable";
-import BattleSkill from "../../src/Skill/BattleSkill";
-import { createBattle, servant } from "../helpers";
+import { BattleTeam } from "../../src/index.js";
+import { BattleCommandAction } from "../../src/Action/BattleCommandAction.js";
+import inspectAvailable from "../../src/Action/inspectAvailable.js";
+import BattleSkill from "../../src/Skill/BattleSkill.js";
+import { createBattle, servant } from "../helpers.js";
 
 describe("inspectAvailable", () => {
     it("returns available skills", async () => {

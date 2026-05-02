@@ -1,14 +1,15 @@
 {
     "compilerOptions": {
-        "module": "CommonJS",
-        "target": "ES6",
+        "module": "NodeNext",
+        "target": "ES2020",
         "lib": ["ESNext", "DOM"],
         "declaration": true,
         "declarationMap": true,
-        "moduleResolution": "bundler",
+        "moduleResolution": "NodeNext",
         "rootDir": "./src",
-        "outDir": "dist",
-        "strict": true
+        "outDir": "dist/esm",
+        "strict": true,
+        "esModuleInterop": true
     },
     "include": ["src/**/*"]
 }

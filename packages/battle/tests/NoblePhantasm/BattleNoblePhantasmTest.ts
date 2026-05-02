@@ -1,9 +1,9 @@
 import { expect } from "chai";
 
-import { Func } from "../../../api-connector";
-import { BattleTeam } from "../../src/Enum/BattleTeam";
-import BattleDamageEvent from "../../src/Event/BattleDamageEvent";
-import { createBattle, servant } from "../helpers";
+import { Func } from "@atlasacademy/api-connector";
+import { BattleTeam } from "../../src/Enum/BattleTeam.js";
+import BattleDamageEvent from "../../src/Event/BattleDamageEvent.js";
+import { createBattle, servant } from "../helpers.js";
 
 describe("BattleNoblePhantasmTest", () => {
     it("hits", () => {

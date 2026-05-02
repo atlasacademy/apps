@@ -2,12 +2,12 @@ import { expect } from "chai";
 
 import { Card } from "@atlasacademy/api-connector";
 
-import { BattleTeam } from "../../../src";
-import { BattleAttackActionList } from "../../../src/Action/BattleAttackAction";
-import { BattleSelectType } from "../../../src/Actor/BattleActorManager";
-import BattleEvent from "../../../src/Event/BattleEvent";
-import BattleSkillFunc from "../../../src/Skill/BattleSkillFunc";
-import { createBattle, servant } from "../../helpers";
+import { BattleTeam } from "../../../src/index.js";
+import { BattleAttackActionList } from "../../../src/Action/BattleAttackAction.js";
+import { BattleSelectType } from "../../../src/Actor/BattleActorManager.js";
+import BattleEvent from "../../../src/Event/BattleEvent.js";
+import BattleSkillFunc from "../../../src/Skill/BattleSkillFunc.js";
+import { createBattle, servant } from "../../helpers.js";
 
 describe("BattleActorManager Target", () => {
     it("ally skill follow target", async () => {

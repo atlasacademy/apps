@@ -1,6 +1,6 @@
 import { DataVal } from "@atlasacademy/api-connector";
 
-import getStaticDataValFields from "./extractStaticDataValFields";
+import getStaticDataValFields from "./extractStaticDataValFields.js";
 
 export default function extractMutatingDataVals(dataVals: DataVal.DataVal[]): DataVal.DataVal[] {
     const staticFields = getStaticDataValFields(dataVals),

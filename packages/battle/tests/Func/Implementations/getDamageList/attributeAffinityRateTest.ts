@@ -2,9 +2,9 @@ import { expect } from "chai";
 
 import { Attribute } from "@atlasacademy/api-connector";
 
-import { BattleTeam } from "../../../../src";
-import { attributeAffinityRate } from "../../../../src/Func/Implementations/getDamageList";
-import { createBattle, servant } from "../../../helpers";
+import { BattleTeam } from "../../../../src/index.js";
+import { attributeAffinityRate } from "../../../../src/Func/Implementations/getDamageList.js";
+import { createBattle, servant } from "../../../helpers.js";
 
 describe("getDamageList attributeAffinityRate", () => {
     it("defined", () => {

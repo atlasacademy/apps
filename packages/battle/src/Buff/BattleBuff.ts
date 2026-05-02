@@ -1,7 +1,7 @@
 import { Buff, DataVal, Trait } from "@atlasacademy/api-connector";
 
-import { checkAllTrait } from "../Trait/checkAllTrait";
-import { checkTrait } from "../Trait/checkTrait";
+import { checkAllTrait } from "../Trait/checkAllTrait.js";
+import { checkTrait } from "../Trait/checkTrait.js";
 
 export interface BattleBuffProps {
     buff: Buff.Buff;

@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-        "module": "CommonJS",
-        "target": "ES6",
+        "module": "NodeNext",
+        "target": "ES2020",
         "lib": ["ESNext", "DOM"],
         "declaration": true,
         "declarationMap": true,
-        "moduleResolution": "bundler",
+        "moduleResolution": "NodeNext",
         "rootDir": "./src",
-        "outDir": "./dist",
+        "outDir": "./dist/esm",
         "strict": true,
         "resolveJsonModule": true,
         "esModuleInterop": true

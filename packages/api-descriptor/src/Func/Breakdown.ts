@@ -1,5 +1,5 @@
-import { Descriptor } from "../Descriptor";
-import { relatedSkill } from "./getRelatedSkillIds";
+import { Descriptor } from "../Descriptor.js";
+import { relatedSkill } from "./getRelatedSkillIds.js";
 
 export interface Breakdown {
     readonly descriptor: Descriptor;

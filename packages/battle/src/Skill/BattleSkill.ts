@@ -1,8 +1,8 @@
 import { Skill } from "@atlasacademy/api-connector";
 
-import { Battle } from "../Battle";
-import BattleEvent from "../Event/BattleEvent";
-import BattleSkillFunc from "./BattleSkillFunc";
+import { Battle } from "../Battle.js";
+import BattleEvent from "../Event/BattleEvent.js";
+import BattleSkillFunc from "./BattleSkillFunc.js";
 
 export interface BattleSkillProps {
     actorId: number;

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../src";
-import { createBattle, servant } from "../helpers";
+import { BattleTeam } from "../../src/index.js";
+import { createBattle, servant } from "../helpers.js";
 
 describe("BattleFuncQuestTraitTest", () => {
     it("event bonus will not trigger if battle does not have trait", async () => {

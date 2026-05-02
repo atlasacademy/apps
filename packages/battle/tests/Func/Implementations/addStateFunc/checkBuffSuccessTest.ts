@@ -1,10 +1,10 @@
 import { expect } from "chai";
 
-import { Battle, BattleTeam } from "../../../../src";
-import { BattleRandomType } from "../../../../src/BattleRandom";
-import { checkBuffSuccess, createBuffFromFunc } from "../../../../src/Func/Implementations/addStateFunc";
-import BattleSkillFunc from "../../../../src/Skill/BattleSkillFunc";
-import { createBattle, servant } from "../../../helpers";
+import { Battle, BattleTeam } from "../../../../src/index.js";
+import { BattleRandomType } from "../../../../src/BattleRandom.js";
+import { checkBuffSuccess, createBuffFromFunc } from "../../../../src/Func/Implementations/addStateFunc.js";
+import BattleSkillFunc from "../../../../src/Skill/BattleSkillFunc.js";
+import { createBattle, servant } from "../../../helpers.js";
 
 describe("addStateFunc checkBuffSuccess", () => {
     it("ozy imperial privilege", async () => {

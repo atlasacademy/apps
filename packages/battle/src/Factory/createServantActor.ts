@@ -1,11 +1,11 @@
 import { CommandCode, CraftEssence, Servant, Skill } from "@atlasacademy/api-connector";
 
-import { BattleActor, BattleActorLogic, BattleActorProps } from "../Actor/BattleActor";
-import BattleBuffManager from "../Buff/BattleBuffManager";
-import { BattleTeam } from "../Enum/BattleTeam";
-import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
-import BattleSkill from "../Skill/BattleSkill";
-import BattleSkillPassive from "../Skill/BattleSkillPassive";
+import { BattleActor, BattleActorLogic, BattleActorProps } from "../Actor/BattleActor.js";
+import BattleBuffManager from "../Buff/BattleBuffManager.js";
+import { BattleTeam } from "../Enum/BattleTeam.js";
+import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm.js";
+import BattleSkill from "../Skill/BattleSkill.js";
+import BattleSkillPassive from "../Skill/BattleSkillPassive.js";
 
 export interface BattleServantActorProps {
     servant: Servant.Servant;

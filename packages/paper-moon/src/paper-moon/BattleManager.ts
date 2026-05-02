@@ -1,9 +1,6 @@
 import { Language, Region } from "@atlasacademy/api-connector";
-import { BattleFactory } from "@atlasacademy/battle";
-import { BattleAttackActionList } from "@atlasacademy/battle/dist/Action/BattleAttackAction";
-import { BattleActor } from "@atlasacademy/battle/dist/Actor/BattleActor";
-import { BattleTeam } from "@atlasacademy/battle/dist/Enum/BattleTeam";
-import { BattleServantActorProps } from "@atlasacademy/battle/dist/Factory/createServantActor";
+import { BattleActor, BattleAttackActionList, BattleFactory, BattleTeam } from "@atlasacademy/battle";
+import type { BattleServantActorProps } from "@atlasacademy/battle";
 
 import { BattleQueuedAttack } from "../app/battle/types";
 

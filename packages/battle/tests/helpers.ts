@@ -2,18 +2,18 @@ import * as fs from "fs";
 
 import { Buff, CraftEssence, DataVal, EnumList, Servant } from "@atlasacademy/api-connector";
 
-import { Battle, BattleTeam } from "../src";
-import { BattleActor, BattleActorState } from "../src/Actor/BattleActor";
-import { BattleState } from "../src/Battle";
-import { BattleBuff, BattleBuffState } from "../src/Buff/BattleBuff";
-import createServantActor, { BattleServantActorProps } from "../src/Factory/createServantActor";
-import attributeAffinity from "./../test-data/data/NiceAttributeRelation.json";
-import buffConstants from "./../test-data/data/NiceBuffList.ActionList.json";
-import cards from "./../test-data/data/NiceCard.json";
-import classAttackRates from "./../test-data/data/NiceClassAttackRate.json";
-import classAffinity from "./../test-data/data/NiceClassRelation.json";
-import constants from "./../test-data/data/NiceConstant.json";
-import enums from "./../test-data/data/nice_enums.json";
+import { Battle, BattleTeam } from "../src/index.js";
+import { BattleActor, BattleActorState } from "../src/Actor/BattleActor.js";
+import { BattleState } from "../src/Battle.js";
+import { BattleBuff, BattleBuffState } from "../src/Buff/BattleBuff.js";
+import createServantActor, { BattleServantActorProps } from "../src/Factory/createServantActor.js";
+import attributeAffinity from "./../test-data/data/NiceAttributeRelation.json" with { type: "json" };
+import buffConstants from "./../test-data/data/NiceBuffList.ActionList.json" with { type: "json" };
+import cards from "./../test-data/data/NiceCard.json" with { type: "json" };
+import classAttackRates from "./../test-data/data/NiceClassAttackRate.json" with { type: "json" };
+import classAffinity from "./../test-data/data/NiceClassRelation.json" with { type: "json" };
+import constants from "./../test-data/data/NiceConstant.json" with { type: "json" };
+import enums from "./../test-data/data/nice_enums.json" with { type: "json" };
 
 const testDataPath = "./test-data/data",
     buffCache = new Map<number, Buff.Buff>(),

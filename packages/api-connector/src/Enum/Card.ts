@@ -1,4 +1,4 @@
-import { Trait } from "../Schema/Trait";
+import { Trait } from "../Schema/Trait.js";
 
 enum Card {
     NONE = "0",

@@ -1,19 +1,32 @@
 {
     "name": "@atlasacademy/api-descriptor",
-    "type": "commonjs",
+    "type": "module",
     "version": "2.0.20",
     "description": "Library to describe entities from api.atlasacademy.io",
     "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/api-descriptor",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/esm/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/esm/index.d.ts",
+            "import": "./dist/esm/index.js",
+            "require": "./dist/cjs/index.js",
+            "default": "./dist/esm/index.js"
+        }
+    },
     "files": [
         "dist"
     ],
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc",
-        "prepare": "tsc",
-        "link": "npm run build && cd dist && npm link",
+        "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:cjs-package",
+        "clean": "node ../../scripts/clean-package-dist.cjs",
+        "build:esm": "tsc -p tsconfig.json",
+        "build:cjs": "tsc -p tsconfig.cjs.json",
+        "build:cjs-package": "node ../../scripts/write-cjs-package-json.cjs dist/cjs",
+        "prepare": "npm run build",
+        "link": "npm run build && npm link",
         "watch": "tsc -w --preserveWatchOutput"
     },
     "license": "ISC",

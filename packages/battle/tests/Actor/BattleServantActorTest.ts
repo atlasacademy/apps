@@ -2,9 +2,9 @@ import { expect } from "chai";
 
 import { Card, ClassName } from "@atlasacademy/api-connector";
 
-import { BattleTeam } from "../../src";
-import { BattleAttackActionList } from "../../src/Action/BattleAttackAction";
-import { createBattle, servant } from "../helpers";
+import { BattleTeam } from "../../src/index.js";
+import { BattleAttackActionList } from "../../src/Action/BattleAttackAction.js";
+import { createBattle, servant } from "../helpers.js";
 
 describe("BattleServantActor", () => {
     it("defaults", async () => {

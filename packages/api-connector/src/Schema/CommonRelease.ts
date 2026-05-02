@@ -1,4 +1,4 @@
-import CondType from "../Enum/Cond";
+import CondType from "../Enum/Cond.js";
 
 export interface CommonRelease {
     id: number;

@@ -1,10 +1,10 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../../../src";
-import { npDamageBonus } from "../../../../src/Func/Implementations/getDamageList";
-import { Variable } from "../../../../src/Game/Variable";
-import BattleNoblePhantasmFunc from "../../../../src/NoblePhantasm/BattleNoblePhantasmFunc";
-import { servant } from "../../../helpers";
+import { BattleTeam } from "../../../../src/index.js";
+import { npDamageBonus } from "../../../../src/Func/Implementations/getDamageList.js";
+import { Variable } from "../../../../src/Game/Variable.js";
+import BattleNoblePhantasmFunc from "../../../../src/NoblePhantasm/BattleNoblePhantasmFunc.js";
+import { servant } from "../../../helpers.js";
 
 describe("getDamageList npDamageBonus", () => {
     it("no bonus", () => {

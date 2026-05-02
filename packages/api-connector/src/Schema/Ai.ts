@@ -1,6 +1,6 @@
-import { NoblePhantasm } from "./NoblePhantasm";
-import { Skill } from "./Skill";
-import { Trait } from "./Trait";
+import { NoblePhantasm } from "./NoblePhantasm.js";
+import { Skill } from "./Skill.js";
+import { Trait } from "./Trait.js";
 
 export enum AiType {
     SVT = "svt",

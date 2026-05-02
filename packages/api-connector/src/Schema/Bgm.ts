@@ -1,5 +1,5 @@
-import CondType from "../Enum/Cond";
-import { Shop } from "./Shop";
+import CondType from "../Enum/Cond.js";
+import { Shop } from "./Shop.js";
 
 export interface Bgm {
     id: number;

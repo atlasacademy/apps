@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../../src";
-import { craftEssence, createBattle, servant } from "../../helpers";
+import { BattleTeam } from "../../../src/index.js";
+import { craftEssence, createBattle, servant } from "../../helpers.js";
 
 describe("BattleServantActor craftEssence", () => {
     it("effects are added on init", async () => {

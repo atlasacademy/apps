@@ -1,4 +1,4 @@
-import SkillReferencePartial from "./SkillReferencePartial";
+import SkillReferencePartial from "./SkillReferencePartial.js";
 
 export default {
     SkillReferencePartial,

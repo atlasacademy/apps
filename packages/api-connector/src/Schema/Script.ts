@@ -1,4 +1,4 @@
-import { Quest } from "./Quest";
+import { Quest } from "./Quest.js";
 
 export interface ScriptExtendData {
     combineResultMultipleForm?: number;

@@ -1,6 +1,6 @@
-import { Battle } from "../Battle";
-import { BattleTeam } from "../Enum/BattleTeam";
-import { BattleCommandAction, BattleCommandActionFactory } from "./BattleCommandAction";
+import { Battle } from "../Battle.js";
+import { BattleTeam } from "../Enum/BattleTeam.js";
+import { BattleCommandAction, BattleCommandActionFactory } from "./BattleCommandAction.js";
 
 const targetAllyMap = new Map<number, BattleCommandAction>([
         [1, BattleCommandAction.TARGET_ALLY_1],

@@ -1,17 +1,17 @@
 import { Buff, DataVal } from "@atlasacademy/api-connector";
 
-import CardReferencePartial from "../Card/CardReferencePartial";
-import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor";
-import SkillReferencePartial from "../Skill/SkillReferencePartial";
-import TraitReferencePartial from "../Trait/TraitReferencePartial";
-import { BuffTriggerType, buffTriggerTypes } from "./BuffTypes";
+import CardReferencePartial from "../Card/CardReferencePartial.js";
+import { BasePartial, Descriptor, ParticlePartial, TextPartial, ValuePartial, ValueType } from "../Descriptor.js";
+import SkillReferencePartial from "../Skill/SkillReferencePartial.js";
+import TraitReferencePartial from "../Trait/TraitReferencePartial.js";
+import { BuffTriggerType, buffTriggerTypes } from "./BuffTypes.js";
 import {
     BuffValueCommandCardType,
     BuffValueTraitType,
     buffValueCommandCardTypes,
     buffValuePercentTypes,
     buffValueTraitTypes,
-} from "./BuffValueTypes";
+} from "./BuffValueTypes.js";
 
 export default function (buff: Buff.Buff, dataVal?: DataVal.DataVal): Descriptor | undefined {
     const buffValuePercentType = buffValuePercentTypes.get(buff.type);

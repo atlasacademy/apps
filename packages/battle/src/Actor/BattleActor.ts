@@ -1,17 +1,17 @@
 import { Attribute, Buff, Card, ClassName, QuestEnemy, Trait } from "@atlasacademy/api-connector";
 
-import { BattleAttackAction } from "../Action/BattleAttackAction";
-import { Battle } from "../Battle";
-import { BattleBuff } from "../Buff/BattleBuff";
-import BattleBuffManager from "../Buff/BattleBuffManager";
-import { BattleTeam } from "../Enum/BattleTeam";
-import BattleEvent from "../Event/BattleEvent";
-import getDamageList from "../Func/Implementations/getDamageList";
-import GameConstantManager from "../Game/GameConstantManager";
-import { Variable } from "../Game/Variable";
-import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm";
-import BattleSkill from "../Skill/BattleSkill";
-import BattleSkillPassive from "../Skill/BattleSkillPassive";
+import { BattleAttackAction } from "../Action/BattleAttackAction.js";
+import { Battle } from "../Battle.js";
+import { BattleBuff } from "../Buff/BattleBuff.js";
+import BattleBuffManager from "../Buff/BattleBuffManager.js";
+import { BattleTeam } from "../Enum/BattleTeam.js";
+import BattleEvent from "../Event/BattleEvent.js";
+import getDamageList from "../Func/Implementations/getDamageList.js";
+import GameConstantManager from "../Game/GameConstantManager.js";
+import { Variable } from "../Game/Variable.js";
+import BattleNoblePhantasm from "../NoblePhantasm/BattleNoblePhantasm.js";
+import BattleSkill from "../Skill/BattleSkill.js";
+import BattleSkillPassive from "../Skill/BattleSkillPassive.js";
 
 export enum BattleActorLogic {
     NORMAL,

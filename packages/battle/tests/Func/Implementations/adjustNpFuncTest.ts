@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../../src";
-import BattleSkill from "../../../src/Skill/BattleSkill";
-import { createBattle, servant } from "../../helpers";
+import { BattleTeam } from "../../../src/index.js";
+import BattleSkill from "../../../src/Skill/BattleSkill.js";
+import { createBattle, servant } from "../../helpers.js";
 
 describe("adjustNpFunc", () => {
     it("artoria skill 3", async () => {

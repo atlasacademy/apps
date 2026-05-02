@@ -1,8 +1,8 @@
-import ClassName from "../Enum/ClassName";
-import CondType from "../Enum/Cond";
-import { Func } from "./Func";
-import { Item, ItemAmount } from "./Item";
-import { Skill } from "./Skill";
+import ClassName from "../Enum/ClassName.js";
+import CondType from "../Enum/Cond.js";
+import { Func } from "./Func.js";
+import { Item, ItemAmount } from "./Item.js";
+import { Skill } from "./Skill.js";
 
 export interface ClassBoardClass {
     classId: number;

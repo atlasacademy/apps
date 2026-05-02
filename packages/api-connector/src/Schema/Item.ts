@@ -1,5 +1,5 @@
-import { Gift } from "./Gift";
-import { Trait } from "./Trait";
+import { Gift } from "./Gift.js";
+import { Trait } from "./Trait.js";
 
 export enum ItemBackgroundType {
     ZERO = "zero",

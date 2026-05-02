@@ -1,13 +1,13 @@
 import { ApiConnector, Func, Trait } from "@atlasacademy/api-connector";
 
-import { BattleCommandAction } from "./Action/BattleCommandAction";
-import inspectAvailable from "./Action/inspectAvailable";
-import { BattleActor } from "./Actor/BattleActor";
-import BattleActorManager from "./Actor/BattleActorManager";
-import { BattleRandom, BattleRandomType } from "./BattleRandom";
-import { BattleTeam } from "./Enum/BattleTeam";
-import BattleEvent from "./Event/BattleEvent";
-import GameConstantManager from "./Game/GameConstantManager";
+import { BattleCommandAction } from "./Action/BattleCommandAction.js";
+import inspectAvailable from "./Action/inspectAvailable.js";
+import { BattleActor } from "./Actor/BattleActor.js";
+import BattleActorManager from "./Actor/BattleActorManager.js";
+import { BattleRandom, BattleRandomType } from "./BattleRandom.js";
+import { BattleTeam } from "./Enum/BattleTeam.js";
+import BattleEvent from "./Event/BattleEvent.js";
+import GameConstantManager from "./Game/GameConstantManager.js";
 
 export interface BattleState {
     actors: BattleActorManager;

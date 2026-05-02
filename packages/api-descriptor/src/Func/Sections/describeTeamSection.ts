@@ -1,6 +1,6 @@
 import { Func } from "@atlasacademy/api-connector";
 
-import { BasePartial, ParticlePartial, TextPartial } from "../../Descriptor";
+import { BasePartial, ParticlePartial, TextPartial } from "../../Descriptor.js";
 
 export default function (func: Func.Func): BasePartial[] {
     const makePartials = (label: string): BasePartial[] => {

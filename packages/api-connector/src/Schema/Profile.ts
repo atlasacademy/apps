@@ -1,5 +1,5 @@
-import CondType from "../Enum/Cond";
-import { PhaseScript } from "./Quest";
+import CondType from "../Enum/Cond.js";
+import { PhaseScript } from "./Quest.js";
 
 export enum ProfileVoiceType {
     HOME = "home",

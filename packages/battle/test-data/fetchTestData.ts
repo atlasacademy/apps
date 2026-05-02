@@ -6,10 +6,11 @@ import tar from "tar";
 const repo = "https://github.com/atlasacademy/battle-test-data",
     hash = "74af1890ba4d13231f2a4180dc7970f3c00a4708",
     path = "./test-data/data",
-    tarPath = `${path}/${hash}.tar.gz`;
+    tarPath = `${path}/${hash}.tar.gz`,
+    extractedSentinel = `${path}/NiceAttributeRelation.json`;
 
 (async () => {
-    if (fs.existsSync(tarPath)) {
+    if (fs.existsSync(tarPath) && fs.statSync(tarPath).size > 0 && fs.existsSync(extractedSentinel)) {
         console.log("TEST DATA ALREADY EXISTS.");
         return;
     }
