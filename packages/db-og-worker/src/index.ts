@@ -30,7 +30,7 @@ function requestSinglePageAppAsset(request: Request, basePath: string) {
         lastPath = splittedPath[splittedPath.length - 1];
 
     if (!lastPath.includes(".")) {
-        url.pathname = `/${basePath}/index.html`;
+        url.pathname = `/${basePath}/`;
     }
 
     return new Request(url, request);
