@@ -3,6 +3,7 @@
 .idea/
 /app/
 /src/
+tmp/
 packages/battle/dist
 
 # dependencies

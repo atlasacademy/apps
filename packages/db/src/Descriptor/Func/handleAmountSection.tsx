@@ -255,59 +255,11 @@ export default function handleAmountSection(
     } else if (func.buffs[0] !== undefined && dataVal.Value !== undefined) {
         parts.push(<BuffValueDescription region={region} buff={func.buffs[0]} dataVal={dataVal} />);
 
-        if (
-            dataVal.ParamAddValue !== undefined ||
-            dataVal.ParamAddSelfIndividuality !== undefined ||
-            dataVal.ParamAddOpIndividuality !== undefined ||
-            dataVal.ParamAddFieldIndividuality !== undefined
-        ) {
-            let traitIds: number[] = [],
-                whoseTrait: string = "";
-            if (dataVal.ParamAddSelfIndividuality !== undefined) {
-                traitIds = dataVal.ParamAddSelfIndividuality;
-                whoseTrait = "on self";
-            } else if (dataVal.ParamAddOpIndividuality !== undefined) {
-                traitIds = dataVal.ParamAddOpIndividuality;
-                whoseTrait = "on enemy";
-            } else if (dataVal.ParamAddFieldIndividuality !== undefined) {
-                traitIds = dataVal.ParamAddFieldIndividuality;
-                whoseTrait = "on field";
-            }
-            const traitDescription = mergeElements(
-                    traitIds.map((id) => <TraitDescription region={region} trait={id} />),
-                    " or "
-                ),
-                maxStack = dataVal.ParamAddMaxCount ? `${dataVal.ParamAddMaxCount} stacks` : undefined,
-                maxValue = dataVal.ParamAddMaxValue ? (
-                    <BuffValueDescription
-                        region={region}
-                        buff={func.buffs[0]}
-                        dataVal={{ Value: dataVal.ParamAddMaxValue }}
-                    />
-                ) : undefined,
-                limitDescription =
-                    maxStack !== undefined || maxValue !== undefined ? (
-                        <>[Max {mergeElements([maxStack, maxValue], " or ")}]</>
-                    ) : (
-                        <></>
-                    ),
-                stackValue =
-                    dataVal.ParamAddValue !== undefined ? (
-                        <BuffValueDescription
-                            region={region}
-                            buff={func.buffs[0]}
-                            dataVal={{ Value: dataVal.ParamAddValue }}
-                        />
-                    ) : (
-                        "additional"
-                    );
+        const paramAddDescription = describeParamAdd(region, func.buffs[0], dataVal, false);
+        if (paramAddDescription !== undefined) parts.push(paramAddDescription);
 
-            parts.push(
-                <span>
-                    + {stackValue} per stack of {traitDescription} {whoseTrait} {limitDescription}
-                </span>
-            );
-        }
+        const snapshotParamAddDescription = describeParamAdd(region, func.buffs[0], dataVal, true);
+        if (snapshotParamAddDescription !== undefined) parts.push(snapshotParamAddDescription);
         if (dataVal.UseRate !== undefined) {
             parts.push(`with ${dataVal.UseRate / 10}% chance to work`);
         }
@@ -373,5 +325,136 @@ export default function handleAmountSection(
 
     if (support) {
         parts.push(")");
+    }
+}
+
+function describeParamAdd(
+    region: Region,
+    buff: Buff.Buff,
+    dataVal: DataVal.DataVal,
+    snapshot: boolean
+): JSX.Element | undefined {
+    const paramAddValue = snapshot ? dataVal.SnapShotParamAddValue : dataVal.ParamAddValue,
+        selfIndividuality = snapshot ? dataVal.SnapShotParamAddSelfIndv : dataVal.ParamAddSelfIndividuality,
+        opIndividuality = snapshot ? dataVal.SnapShotParamAddOpIndv : dataVal.ParamAddOpIndividuality,
+        fieldIndividuality = snapshot ? dataVal.SnapShotParamAddFieldIndv : dataVal.ParamAddFieldIndividuality,
+        selfAndCheck = snapshot
+            ? dataVal.SnapShotParamAddSelfIndividualityAndCheck
+            : dataVal.ParamAddSelfIndividualityAndCheck,
+        opAndCheck = snapshot
+            ? dataVal.SnapShotParamAddOpIndividualityAndCheck
+            : dataVal.ParamAddOpIndividualityAndCheck,
+        fieldAndCheck = snapshot
+            ? dataVal.SnapShotParamAddFieldIndividualityAndCheck
+            : dataVal.ParamAddFieldIndividualityAndCheck;
+
+    if (
+        paramAddValue === undefined &&
+        selfIndividuality === undefined &&
+        opIndividuality === undefined &&
+        fieldIndividuality === undefined &&
+        selfAndCheck === undefined &&
+        opAndCheck === undefined &&
+        fieldAndCheck === undefined
+    ) {
+        return undefined;
+    }
+
+    const fieldTargetType =
+            dataVal.ParamAddIndividualityTargetType === Func.FuncTargetTypeId.FIELD_ALL &&
+            fieldIndividuality === undefined &&
+            fieldAndCheck === undefined &&
+            hasSameParamAddTraits(selfIndividuality, selfAndCheck, opIndividuality, opAndCheck),
+        traitDescriptions = fieldTargetType
+            ? describeParamAddTraits(region, "among all allies and enemies on field", selfIndividuality, selfAndCheck)
+            : mergeElements(
+                  [
+                      describeParamAddTraits(region, "on self", selfIndividuality, selfAndCheck),
+                      describeParamAddTraits(region, "on enemy", opIndividuality, opAndCheck),
+                      describeParamAddTraits(region, "on field", fieldIndividuality, fieldAndCheck),
+                  ].filter((description): description is JSX.Element => description !== undefined),
+                  " and "
+              ),
+        maxStack = (snapshot ? dataVal.SnapShotParamAddMaxCount : dataVal.ParamAddMaxCount)
+            ? `${snapshot ? dataVal.SnapShotParamAddMaxCount : dataVal.ParamAddMaxCount} stacks`
+            : undefined,
+        maxValue = (snapshot ? dataVal.SnapShotParamAddMaxValue : dataVal.ParamAddMaxValue) ? (
+            <BuffValueDescription
+                region={region}
+                buff={buff}
+                dataVal={{ Value: snapshot ? dataVal.SnapShotParamAddMaxValue : dataVal.ParamAddMaxValue }}
+            />
+        ) : undefined,
+        limitDescription =
+            maxStack !== undefined || maxValue !== undefined ? (
+                <>[Max {mergeElements([maxStack, maxValue], " or ")}]</>
+            ) : (
+                <></>
+            ),
+        stackValue =
+            paramAddValue !== undefined ? (
+                <BuffValueDescription region={region} buff={buff} dataVal={{ Value: paramAddValue }} />
+            ) : (
+                "additional"
+            ),
+        targetTypeDescription = fieldTargetType
+            ? ""
+            : describeParamAddTargetType(dataVal.ParamAddIndividualityTargetType);
+
+    return (
+        <span>
+            + {stackValue} per stack of {traitDescriptions} {targetTypeDescription} {limitDescription}
+            {snapshot ? " (snapshot)" : ""}
+        </span>
+    );
+}
+
+function describeParamAddTraits(
+    region: Region,
+    target: string,
+    individuality?: number[],
+    andCheck?: number[][]
+): JSX.Element | undefined {
+    const traitGroups = andCheck ?? individuality?.map((trait) => [trait]);
+    if (traitGroups === undefined || traitGroups.length === 0) return undefined;
+
+    return (
+        <>
+            {mergeElements(
+                traitGroups.map((group) =>
+                    mergeElements(
+                        group.map((trait) => <TraitDescription region={region} trait={trait} />),
+                        " and "
+                    )
+                ),
+                " or "
+            )}{" "}
+            {target}
+        </>
+    );
+}
+
+function hasSameParamAddTraits(
+    leftIndividuality?: number[],
+    leftAndCheck?: number[][],
+    rightIndividuality?: number[],
+    rightAndCheck?: number[][]
+): boolean {
+    const leftTraitGroups = leftAndCheck ?? leftIndividuality?.map((trait) => [trait]),
+        rightTraitGroups = rightAndCheck ?? rightIndividuality?.map((trait) => [trait]);
+
+    return (
+        leftTraitGroups !== undefined &&
+        rightTraitGroups !== undefined &&
+        JSON.stringify(leftTraitGroups) === JSON.stringify(rightTraitGroups)
+    );
+}
+
+function describeParamAddTargetType(targetType?: number): string {
+    switch (targetType) {
+        case Func.FuncTargetTypeId.FIELD_ALL:
+            return "for all entities on field";
+        default:
+            return "";
     }
 }
