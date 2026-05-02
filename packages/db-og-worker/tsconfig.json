@@ -4,7 +4,7 @@
         "target": "es2021",
         "lib": ["es2021"],
         "strict": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "types": ["@cloudflare/workers-types"],
         "resolveJsonModule": true,
         "allowJs": true,
@@ -14,5 +14,6 @@
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true
-    }
+    },
+    "include": ["src/**/*"]
 }

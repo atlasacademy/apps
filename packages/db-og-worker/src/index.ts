@@ -1,23 +1,11 @@
-import { NotFoundError, getAssetFromKV, mapRequestToAsset } from "@cloudflare/kv-asset-handler";
-// @ts-ignore: Required import for getAssetFromKV
-import manifestJSON from "__STATIC_CONTENT_MANIFEST";
-
-const manifest = JSON.parse(manifestJSON);
-
 export interface Env {
     atlas_api_cache: KVNamespace;
-    __STATIC_CONTENT: KVNamespace;
-}
-
-export interface Event {
-    request: Request;
-    waitUntil: (promise: Promise<any>) => void;
+    ASSETS: Fetcher;
 }
 
 const DEBUG = false;
 
 const API_KV_TTL = 60 * 60 * 24;
-const KV_EDGE_TTL = 60 * 60 * 3;
 const API_FETCH_EDGE_TTL = 60 * 5;
 
 class Handler {
@@ -30,10 +18,9 @@ class Handler {
     }
 }
 
-function serveSinglePageApp(request: Request, basePath: string) {
+function requestSinglePageAppAsset(request: Request, basePath: string) {
     const url = new URL(request.url);
-    let pathname = url.pathname,
-        spaUrl = request.url;
+    let pathname = url.pathname;
 
     if (pathname.endsWith("/")) {
         pathname = pathname.slice(0, pathname.length - 1);
@@ -43,9 +30,10 @@ function serveSinglePageApp(request: Request, basePath: string) {
         lastPath = splittedPath[splittedPath.length - 1];
 
     if (!lastPath.includes(".")) {
-        spaUrl = `${url.protocol}//${url.host}/${basePath}/index.html`;
+        url.pathname = `/${basePath}/index.html`;
     }
-    return mapRequestToAsset(new Request(spaUrl, request));
+
+    return new Request(url, request);
 }
 
 function toTitleCase(value: string): string {
@@ -161,17 +149,11 @@ const tabTitles = new Map([
     ["voices", "Voice Lines"],
 ]);
 
-async function handleDBEvent(event: Event, env: Env) {
-    const { pathname } = new URL(event.request.url),
+async function handleDBEvent(request: Request, env: Env) {
+    const { pathname } = new URL(request.url),
         [region, subpage, target, ...paths] = pathname.replace("/db", "").split("/").filter(Boolean);
 
-    const response = await getAssetFromKV(event, {
-        mapRequestToAsset: (request) => serveSinglePageApp(request, "db"),
-        cacheControl: { edgeTTL: KV_EDGE_TTL, bypassCache: DEBUG },
-        ASSET_NAMESPACE: env.__STATIC_CONTENT,
-        ASSET_MANIFEST: manifest,
-    });
-
+    const response = await env.ASSETS.fetch(requestSinglePageAppAsset(request, "db"));
     const mutableResponse = new Response(response.body, response);
 
     if (region === "NA") {
@@ -188,7 +170,7 @@ async function handleDBEvent(event: Event, env: Env) {
 
     const responseDetail = {
         response: mutableResponse,
-        pageUrl: event.request.url,
+        pageUrl: request.url,
     };
 
     const listingPageTitle = listingPageTitles.get(subpage);
@@ -197,8 +179,8 @@ async function handleDBEvent(event: Event, env: Env) {
         return overwrite(responseDetail, title);
     }
 
-    const requestCountry = (event.request?.cf?.country as string) ?? "";
-    const acceptLangHeader = (event.request.headers.get("Accept-Language") ?? "").toUpperCase();
+    const requestCountry = (request?.cf?.country as string) ?? "";
+    const acceptLangHeader = (request.headers.get("Accept-Language") ?? "").toUpperCase();
 
     const language =
         ["JP", "TW", "CN", "KR"].includes(requestCountry) ||
@@ -338,14 +320,8 @@ async function handleDBEvent(event: Event, env: Env) {
 }
 
 const worker = {
-    async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-        const event: Event = {
-                request,
-                waitUntil(promise: Promise<any>) {
-                    return ctx.waitUntil(promise);
-                },
-            },
-            url = new URL(request.url),
+    async fetch(request: Request, env: Env): Promise<Response> {
+        const url = new URL(request.url),
             { pathname } = url;
 
         try {
@@ -354,7 +330,7 @@ const worker = {
             } else if (pathname.startsWith("/.well-known")) {
                 return fetch(url.href, { cf: { cacheTtl: 0 } });
             } else if (pathname.startsWith("/db")) {
-                return await handleDBEvent(event, env);
+                return await handleDBEvent(request, env);
             } else if (
                 ["chargers", "fgo-docs/", "drop-lookup/"].some((basePath) => pathname.startsWith(`/${basePath}`))
             ) {
@@ -371,19 +347,10 @@ const worker = {
                 }
             }
 
-            return await getAssetFromKV(event, {
-                cacheControl: { edgeTTL: KV_EDGE_TTL, bypassCache: DEBUG },
-                ASSET_NAMESPACE: env.__STATIC_CONTENT,
-                ASSET_MANIFEST: manifest,
-            });
+            return env.ASSETS.fetch(request);
         } catch (e) {
             if (DEBUG && e instanceof Error) {
                 console.log(e.message || e.toString());
-            }
-
-            if (e instanceof NotFoundError) {
-                const statusText = `Can't find "${pathname}"`;
-                return new Response(statusText, { status: 404, statusText });
             }
 
             const statusText = `Failed to process "${pathname}"`;

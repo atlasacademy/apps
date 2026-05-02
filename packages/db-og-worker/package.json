@@ -3,26 +3,16 @@
     "private": true,
     "main": "worker.js",
     "scripts": {
-        "build": "webpack",
-        "format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
-        "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'"
+        "format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}'",
+        "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}'"
     },
     "license": "MIT",
-    "eslintConfig": {
-        "root": true,
-        "extends": [
-            "typescript",
-            "prettier"
-        ]
-    },
     "devDependencies": {
-        "@cloudflare/kv-asset-handler": "^0.3.4",
-        "@cloudflare/workers-types": "^4.20241022.0",
-        "@typescript-eslint/eslint-plugin": "^8.12.1",
-        "@typescript-eslint/parser": "^8.12.1",
-        "eslint": "^8.57.1",
-        "eslint-config-typescript": "^3.0.0",
-        "typescript": "^5.6.3",
-        "wrangler": "^3.83.0"
+        "@cloudflare/workers-types": "^4.20260425.1",
+        "@typescript-eslint/eslint-plugin": "^8.59.0",
+        "@typescript-eslint/parser": "^8.59.0",
+        "eslint": "^10.2.1",
+        "typescript": "^6.0.3",
+        "wrangler": "^4.85.0"
     }
 }

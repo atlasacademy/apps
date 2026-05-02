@@ -7,5 +7,7 @@ kv_namespaces = [
     { binding = "atlas_api_cache", preview_id = "ea0f171f5e2544709dfccc02701a9e51", id = "6307c816b0714a5e8fc7ce5f9f58226f" },
 ]
 
-[site]
-bucket = "../../app"
+[assets]
+directory = "../../app"
+binding = "ASSETS"
+run_worker_first = true
