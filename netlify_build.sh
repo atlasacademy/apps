@@ -42,6 +42,8 @@ curl -L -o src/paper-moon.tar.gz https://github.com/atlasacademy/apps/archive/pa
 tar -C app/paper-moon --strip-components=1 -zxvf src/paper-moon.tar.gz apps-paper-moon-build
 
 cp build/index.html app/index.html
-cp build/_redirects app/_redirects
+# Workers Static Assets parses _redirects during deploy. The DB SPA fallback is
+# handled by packages/db-og-worker/src/index.ts instead.
+rm -f app/_redirects
 cp build/robots.txt app/robots.txt
 cp packages/db/public/favicon.ico app/favicon.ico
