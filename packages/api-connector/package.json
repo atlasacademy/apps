@@ -25,7 +25,7 @@
         "build:esm": "tsc -p tsconfig.json",
         "build:cjs": "tsc -p tsconfig.cjs.json",
         "build:cjs-package": "node ../../scripts/write-cjs-package-json.cjs dist/cjs",
-        "prepare": "npm run build",
+        "prepack": "npm run build",
         "link": "npm run build && npm link",
         "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
     },
