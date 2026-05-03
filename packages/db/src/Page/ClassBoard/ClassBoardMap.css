@@ -12,16 +12,14 @@
     padding: 0;
     touch-action: manipulation;
     aspect-ratio: 1100 / 700;
-    background: radial-gradient(circle at 20% 20%, rgba(0,0,0,0.02), transparent 35%),
-        radial-gradient(circle at 80% 10%, rgba(0,0,0,0.02), transparent 30%),
-        #ffffff;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.02), transparent 35%),
+        radial-gradient(circle at 80% 10%, rgba(0, 0, 0, 0.02), transparent 30%), #ffffff;
 }
 
 .breakdown_wrapper[data-type="grand"] {
     background: #ffffff;
 }
-
-
 
 .classboard_canvas {
     position: absolute;
@@ -66,7 +64,9 @@
     font-weight: 600;
     line-height: 1;
     cursor: pointer;
-    transition: background 120ms ease, transform 120ms ease;
+    transition:
+        background 120ms ease,
+        transform 120ms ease;
 }
 
 .map_btn:hover {
@@ -188,7 +188,7 @@
     color: #ffffff;
     padding: 15px 20px;
     border-radius: 8px;
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     font-size: 14px;
     z-index: 10;
     backdrop-filter: blur(4px);

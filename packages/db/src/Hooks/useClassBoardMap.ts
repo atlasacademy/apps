@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
+
 import { ClassBoard } from "@atlasacademy/api-connector";
 
 import { ClassBoardContext } from "../Contexts/ClassBoard";
-import { useResponsiveCanvas } from "./useResponsiveCanvas";
 import { useClassBoardImages } from "./useClassBoardImages";
 import { useClassBoardMapCanvas } from "./useClassBoardMapCanvas";
 import { useClassBoardMapInteraction } from "./useClassBoardMapInteraction";
+import { useResponsiveCanvas } from "./useResponsiveCanvas";
 
 // Constants
 const DEFAULT_CANVAS_WIDTH = 1100;
@@ -45,13 +46,13 @@ interface UseClassBoardMapReturn {
  */
 export const useClassBoardMap = (options: UseClassBoardMapOptions = {}): UseClassBoardMapReturn => {
     const { baseWidth = DEFAULT_CANVAS_WIDTH, baseHeight = DEFAULT_CANVAS_HEIGHT } = options;
-    
+
     const { classBoardData, squareData } = useContext(ClassBoardContext);
     const { loading: isLoading, classBoard } = classBoardData;
     const { changeSquare, currentSquare } = squareData;
-    
+
     const isGrandClassBoard = (classBoard?.id ?? 0) >= GRAND_CLASS_BOARD_THRESHOLD;
-    
+
     const [hoveredSquareId, setHoveredSquareId] = useState<number | null>(null);
     const [zoom, setZoom] = useState(1);
     const [panX, setPanX] = useState(0);

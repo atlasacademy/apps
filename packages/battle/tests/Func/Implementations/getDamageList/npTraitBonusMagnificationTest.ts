@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { BattleTeam } from "../../../../src/index.js";
 import { npTraitBonusMagnification } from "../../../../src/Func/Implementations/getDamageList.js";
+import { BattleTeam } from "../../../../src/index.js";
 import { createBattle, servant } from "../../../helpers.js";
 
 describe("getDamageList npTraitBonusMagnification", () => {

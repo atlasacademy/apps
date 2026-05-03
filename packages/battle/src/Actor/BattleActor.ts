@@ -62,7 +62,7 @@ export interface BattleActorState {
 export class BattleActor {
     constructor(
         public props: BattleActorProps,
-        public state: BattleActorState,
+        public state: BattleActorState
     ) {
         this.buffs().logic = this.props.logic;
     }
@@ -247,7 +247,7 @@ export class BattleActor {
         const multiHitBuffValue = this.state.buffs.getValue(
             Buff.BuffAction.MULTIATTACK,
             this.traits(attack.traits()),
-            target?.traits() ?? [],
+            target?.traits() ?? []
         );
 
         return multiHitBuffValue ?? 1;

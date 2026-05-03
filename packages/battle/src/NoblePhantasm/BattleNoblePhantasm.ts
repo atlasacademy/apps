@@ -21,7 +21,7 @@ export default class BattleNoblePhantasm {
 
     constructor(
         public props: BattleNoblePhantasmProps,
-        state: BattleNoblePhantasmState | null,
+        state: BattleNoblePhantasmState | null
     ) {
         this.state = state ?? {
             funcs: this.props.np.functions.map((func) => {
@@ -33,7 +33,7 @@ export default class BattleNoblePhantasm {
                         passive: false,
                     },
                     null,
-                    this,
+                    this
                 );
             }),
         };

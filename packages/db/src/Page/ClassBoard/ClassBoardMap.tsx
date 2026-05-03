@@ -1,12 +1,13 @@
 import React, { useContext, useMemo } from "react";
 
+import { CondType, Mission, Region } from "@atlasacademy/api-connector";
+
 import Loading from "../../Component/Loading";
+import { ClassBoardContext } from "../../Contexts/ClassBoard";
+import CondTargetNumDescriptor from "../../Descriptor/CondTargetNumDescriptor";
 import { useClassBoardMap } from "../../Hooks/useClassBoardMap";
 
 import "./ClassBoardMap.css";
-import { Region, CondType, Mission } from "@atlasacademy/api-connector";
-import { ClassBoardContext } from "../../Contexts/ClassBoard";
-import CondTargetNumDescriptor from "../../Descriptor/CondTargetNumDescriptor";
 
 const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
     // All logic consolidated in single hook
@@ -28,7 +29,7 @@ const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
         handleTouchStart,
         handleTouchMove,
         handleTouchEnd,
-        classBoard
+        classBoard,
     } = useClassBoardMap();
 
     const { missionData } = useContext(ClassBoardContext);
@@ -41,20 +42,14 @@ const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
     }, [currentMissions]);
 
     const hasUnlockCondition =
-        classBoard !== undefined &&
-        classBoard.condType !== CondType.NONE &&
-        classBoard.condTargetId !== 0;
+        classBoard !== undefined && classBoard.condType !== CondType.NONE && classBoard.condTargetId !== 0;
 
     if (isLoading) {
         return <Loading />;
     }
 
     return (
-        <section
-            data-type={isGrandClassBoard ? "grand" : "normal"}
-            className="breakdown_wrapper"
-            ref={containerRef}
-        >
+        <section data-type={isGrandClassBoard ? "grand" : "normal"} className="breakdown_wrapper" ref={containerRef}>
             {hasUnlockCondition && classBoard && (
                 <div className="classboard_unlock">
                     <h4>Unlock Requirement</h4>
@@ -86,10 +81,16 @@ const ClassBoardMap: React.FC<{ region: Region }> = ({ region }) => {
             />
 
             <div className="map_controls map_controls_primary">
-                <button aria-label="Zoom in" className="map_btn" onClick={handleZoomIn}>+</button>
-                <button aria-label="Zoom out" className="map_btn" onClick={handleZoomOut}>−</button>
+                <button aria-label="Zoom in" className="map_btn" onClick={handleZoomIn}>
+                    +
+                </button>
+                <button aria-label="Zoom out" className="map_btn" onClick={handleZoomOut}>
+                    −
+                </button>
                 <div className="map_divider" />
-                <button aria-label="Center" className="map_btn" onClick={handleCenter}>⟳</button>
+                <button aria-label="Center" className="map_btn" onClick={handleCenter}>
+                    ⟳
+                </button>
             </div>
 
             <div className="map_status">

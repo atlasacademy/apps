@@ -8,7 +8,7 @@ export enum VariableType {
 export class Variable {
     constructor(
         private readonly type: VariableType,
-        private _value: number,
+        private _value: number
     ) {
         switch (type) {
             case VariableType.INT:

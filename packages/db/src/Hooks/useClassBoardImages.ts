@@ -1,5 +1,6 @@
-import { ClassBoard } from "@atlasacademy/api-connector";
 import { useEffect, useState } from "react";
+
+import { ClassBoard } from "@atlasacademy/api-connector";
 
 interface CachedImage {
     img: HTMLImageElement;
@@ -30,7 +31,8 @@ export const useClassBoardImages = (options: UseClassBoardImagesOptions) => {
         }
 
         const squaresWithImages: ClassBoard.ClassBoardSquare[] = classBoard.squares.filter(
-            (square): square is ClassBoard.ClassBoardSquare => Boolean(square.icon || square.lock?.items?.[0]?.item?.icon)
+            (square): square is ClassBoard.ClassBoardSquare =>
+                Boolean(square.icon || square.lock?.items?.[0]?.item?.icon)
         );
 
         if (squaresWithImages.length === 0) {
@@ -43,35 +45,36 @@ export const useClassBoardImages = (options: UseClassBoardImagesOptions) => {
         // Clear previous icons so placeholders render while new ones load
         setSquareImages(new Map());
 
-        const loadSquareImage = (square: ClassBoard.ClassBoardSquare) => new Promise<{ id: number; cache?: CachedImage }>((resolve) => {
-            const imageSrc = square.lock ? square.lock.items?.[0]?.item?.icon : square.icon;
+        const loadSquareImage = (square: ClassBoard.ClassBoardSquare) =>
+            new Promise<{ id: number; cache?: CachedImage }>((resolve) => {
+                const imageSrc = square.lock ? square.lock.items?.[0]?.item?.icon : square.icon;
 
-            if (!imageSrc) {
-                resolve({ id: square.id });
-                return;
-            }
+                if (!imageSrc) {
+                    resolve({ id: square.id });
+                    return;
+                }
 
-            const img = new Image();
-            
-            img.crossOrigin = "anonymous";
+                const img = new Image();
 
-            img.onload = () => {
-                resolve({
-                    id: square.id,
-                    cache: {
-                        img,
-                        width: img.naturalWidth,
-                        height: img.naturalHeight,
-                    },
-                });
-            };
+                img.crossOrigin = "anonymous";
 
-            img.onerror = () => {
-                resolve({ id: square.id });
-            };
+                img.onload = () => {
+                    resolve({
+                        id: square.id,
+                        cache: {
+                            img,
+                            width: img.naturalWidth,
+                            height: img.naturalHeight,
+                        },
+                    });
+                };
 
-            img.src = imageSrc;
-        });
+                img.onerror = () => {
+                    resolve({ id: square.id });
+                };
+
+                img.src = imageSrc;
+            });
 
         const loadAll = async () => {
             try {
@@ -101,6 +104,6 @@ export const useClassBoardImages = (options: UseClassBoardImagesOptions) => {
 
     return {
         squareImages,
-        imagesLoaded
+        imagesLoaded,
     };
 };

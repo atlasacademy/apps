@@ -3,8 +3,8 @@ import { Button } from "react-bootstrap";
 import { CondType, EnumList, Item, Mission, Quest, Region, Servant } from "@atlasacademy/api-connector";
 
 import { mergeElements } from "../Helper/OutputHelper";
-import { lang } from "../Setting/Manager";
 import useApi from "../Hooks/useApi";
+import { lang } from "../Setting/Manager";
 import CondMissionDetailDescriptor from "./CondMissionDetailDescriptor";
 import EventDescriptor from "./EventDescriptor";
 import {
@@ -46,16 +46,20 @@ const CommonReleaseDescriptor: React.FC<CommonReleaseDescriptorProps> = (props) 
         nice,
         handleNavigateMissionId,
     } = props;
-    
+
     const { loading, data } = useApi("commonRelease", commonReleaseId);
-    
+
     if (loading) {
         return <>Checking unlock requirement…</>;
     }
 
     if (!data) {
         if (num > 0) {
-            return <>Requires common release ID {commonReleaseId} value ≥ {num}</>;
+            return (
+                <>
+                    Requires common release ID {commonReleaseId} value ≥ {num}
+                </>
+            );
         }
 
         return <>Requires common release ID {commonReleaseId}</>;
@@ -66,8 +70,7 @@ const CommonReleaseDescriptor: React.FC<CommonReleaseDescriptorProps> = (props) 
             if (entry.condType === CondType.COMMON_RELEASE) {
                 return <span key={`cr-${entry.condId}-${idx}`}>Common release chain {entry.condId}</span>;
             }
-            
-            
+
             return (
                 <CondTargetNumDescriptor
                     key={`${entry.condType}-${entry.condId}-${idx}`}
@@ -90,7 +93,11 @@ const CommonReleaseDescriptor: React.FC<CommonReleaseDescriptorProps> = (props) 
     );
 
     if (num > 1) {
-        return <>Complete {num} of: {rendered}</>;
+        return (
+            <>
+                Complete {num} of: {rendered}
+            </>
+        );
     }
 
     return <>{rendered}</>;
@@ -110,17 +117,17 @@ export default function CondTargetNumDescriptor(props: {
     nice?: boolean;
     handleNavigateMissionId?: (id: number) => void;
 }) {
-    const region = props.region
-    const targets = props.targets
-    const num = props.num
-    const nice = props.nice
+    const region = props.region;
+    const targets = props.targets;
+    const num = props.num;
+    const nice = props.nice;
 
     switch (props.cond) {
         case CondType.NONE:
             return null;
         case CondType.QUEST_CLEAR: {
             const label = <MultipleQuests region={region} questIds={targets} nice={nice} quests={props.quests} />;
-            
+
             if (num === 0) {
                 return <>Clear the following quest(s): {label}</>;
             }
@@ -265,7 +272,11 @@ export default function CondTargetNumDescriptor(props: {
             const mission = (props.missions ?? new Map([])).get(targets[0]);
             const missionLabel = mission ? `${mission.dispNo}: ${mission.name}` : `#${targets[0]}`;
             if (num > 1) {
-                return <>Complete {num} master missions including {missionLabel}</>;
+                return (
+                    <>
+                        Complete {num} master missions including {missionLabel}
+                    </>
+                );
             }
             return <>Complete master mission {missionLabel}</>;
         }

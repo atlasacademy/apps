@@ -31,7 +31,7 @@ export default class GameConstantManager {
         cardConstantMap?: CardDetail.CardConstantMap,
         classAffinityMap?: ClassDetail.ClassAffinityMap,
         classAttackRates?: ClassDetail.ClassAttackRateMap,
-        enumMap?: EnumList,
+        enumMap?: EnumList
     ) {
         this.attributeAffinityMap = attributeAffinityMap;
         this.buffConstantMap = buffConstantMap;
@@ -103,9 +103,9 @@ export default class GameConstantManager {
         if (!this.loaded) return undefined;
         if (!this.cardConstantMap) return undefined;
 
-        return (this.cardConstantMap[card as Card] ?? this.cardConstantMap[GameConstantManager.cardConstantKey(card)] ?? {})[
-            num
-        ];
+        return (this.cardConstantMap[card as Card] ??
+            this.cardConstantMap[GameConstantManager.cardConstantKey(card)] ??
+            {})[num];
     }
 
     classAffinity(attacker: ClassName, defender: ClassName): number | undefined {

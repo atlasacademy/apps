@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseResponsiveCanvasOptions {
     baseWidth?: number;
@@ -71,7 +71,7 @@ export const useResponsiveCanvas = (options: UseResponsiveCanvasOptions = {}) =>
         } catch (e) {
             // ResizeObserver not supported, fallback to window resize only
             window.addEventListener("resize", updateCanvasSize);
-            
+
             return () => {
                 window.removeEventListener("resize", updateCanvasSize);
             };
@@ -81,6 +81,6 @@ export const useResponsiveCanvas = (options: UseResponsiveCanvasOptions = {}) =>
     return {
         containerRef,
         canvasSize,
-        updateCanvasSize
+        updateCanvasSize,
     };
 };

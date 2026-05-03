@@ -5,9 +5,9 @@
         "packages/*"
     ],
     "devDependencies": {
-        "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+        "@trivago/prettier-plugin-sort-imports": "^6.0.2",
         "lerna": "^9.0.0",
-        "prettier": "^3.5.3"
+        "prettier": "^3.8.3"
     },
     "scripts": {
         "build:connector": "npm run build -w @atlasacademy/api-connector",

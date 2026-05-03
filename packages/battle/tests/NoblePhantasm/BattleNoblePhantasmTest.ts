@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import { Func } from "@atlasacademy/api-connector";
+
 import { BattleTeam } from "../../src/Enum/BattleTeam.js";
 import BattleDamageEvent from "../../src/Event/BattleDamageEvent.js";
 import { createBattle, servant } from "../helpers.js";

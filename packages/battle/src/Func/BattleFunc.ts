@@ -33,7 +33,7 @@ export default abstract class BattleFunc {
     constructor(
         public props: BattleFuncProps,
         public state: BattleFuncState,
-        public parent: BattleFuncParent,
+        public parent: BattleFuncParent
     ) {
         //
     }
@@ -154,7 +154,7 @@ export default abstract class BattleFunc {
                           target
                               .battle()
                               .traits()
-                              .map((trait) => trait.id),
+                              .map((trait) => trait.id)
                       )
                     : false;
 

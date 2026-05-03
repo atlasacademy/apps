@@ -39,10 +39,7 @@ const ClassBoardNavigation: React.FC = () => {
                     {classBoards.map((classboard) => {
                         return (
                             <li key={classboard.id}>
-                                <Button 
-                                    onClick={() => handleNavigation(classboard.id)}
-                                    title={classboard.name}
-                                >
+                                <Button onClick={() => handleNavigation(classboard.id)} title={classboard.name}>
                                     <img
                                         height={35}
                                         src={`${AssetHost}/JP/ClassIcons/class2_${classboard.id}.png`}
@@ -59,8 +56,8 @@ const ClassBoardNavigation: React.FC = () => {
             <div className="classboard_controls_container">
                 <ul className="classboard_navigation">
                     <li>
-                        <Button 
-                            variant={show ? "success" : "info"} 
+                        <Button
+                            variant={show ? "success" : "info"}
                             onClick={handleClickState}
                             className="show_skills_btn"
                         >

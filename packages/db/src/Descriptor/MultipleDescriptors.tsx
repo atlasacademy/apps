@@ -79,26 +79,14 @@ export const MultipleQuests: React.FC<MultipleQuestsProps> = ({
     nice,
 }) => {
     if (questIds.length === 1) {
-        return <QuestDescriptorId 
-            region={region} 
-            questId={questIds[0]} 
-            quests={quests} 
-            nice={nice}
-            showType={false} 
-        />;
+        return <QuestDescriptorId region={region} questId={questIds[0]} quests={quests} nice={nice} showType={false} />;
     }
 
     const questList = (
         <ul className="mb-0">
             {questIds.map((questId) => (
                 <li key={questId}>
-                    <QuestDescriptorId 
-                        region={region} 
-                        questId={questId} 
-                        quests={quests} 
-                        nice={nice}
-                        showType={false} 
-                    />
+                    <QuestDescriptorId region={region} questId={questId} quests={quests} nice={nice} showType={false} />
                 </li>
             ))}
         </ul>

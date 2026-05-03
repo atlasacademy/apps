@@ -2,8 +2,8 @@ import { expect } from "chai";
 
 import { Card } from "@atlasacademy/api-connector";
 
-import { BattleTeam } from "../../../src/index.js";
 import { BattleAttackActionList } from "../../../src/Action/BattleAttackAction.js";
+import { BattleTeam } from "../../../src/index.js";
 import { createBattle, servant } from "../../helpers.js";
 
 describe("BattleServantActor hits", () => {

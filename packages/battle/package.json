@@ -50,21 +50,6 @@
     "dependencies": {
         "@atlasacademy/api-connector": "^6.0.0"
     },
-    "prettier": {
-        "tabWidth": 4,
-        "printWidth": 120,
-        "importOrder": [
-            "<THIRD_PARTY_MODULES>",
-            "^@atlasacademy/(.*)$",
-            "^[./].*(?<!css)$",
-            "(.*).css$",
-            "^[./]"
-        ],
-        "importOrderSeparation": true,
-        "importOrderParserPlugins": [
-            "typescript"
-        ]
-    },
     "publishConfig": {
         "access": "public"
     }

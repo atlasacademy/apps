@@ -127,7 +127,7 @@ export function QuestDescriptorId(props: QuestDescriptorIdProps) {
             />
         );
     }
-    
+
     return (
         <QuestDescriptor
             text={props.text}

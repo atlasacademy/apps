@@ -21,7 +21,7 @@ export default class BattleSkill {
 
     constructor(
         public props: BattleSkillProps,
-        state: BattleSkillState | null,
+        state: BattleSkillState | null
     ) {
         this.state = state ?? {
             cooldown: 0,
@@ -34,7 +34,7 @@ export default class BattleSkill {
                         passive: false,
                     },
                     null,
-                    this,
+                    this
                 );
             }),
         };

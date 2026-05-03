@@ -5,7 +5,7 @@ export default class BattleNoblePhantasmFunc extends BattleFunc {
     constructor(
         public props: BattleFuncProps,
         state: BattleFuncState | null,
-        parent: BattleNoblePhantasm,
+        parent: BattleNoblePhantasm
     ) {
         super(
             props,
@@ -13,7 +13,7 @@ export default class BattleNoblePhantasmFunc extends BattleFunc {
                 dataVal: BattleFunc.dataVal(props.func, props.level, 1),
                 overcharge: 1,
             },
-            parent,
+            parent
         );
     }
 

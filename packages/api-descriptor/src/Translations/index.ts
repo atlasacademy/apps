@@ -1,4 +1,5 @@
 import { UILanguage } from "../index.js";
+
 import enTranslation = require("./en-US/main.json");
 import zhTranslation = require("./zh-CN/main.json");
 

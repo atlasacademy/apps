@@ -4,25 +4,23 @@ import BattleSkillFunc from "./BattleSkillFunc.js";
 export default class BattleSkillPassive extends BattleSkill {
     constructor(
         public props: BattleSkillProps,
-        state: BattleSkillState | null,
+        state: BattleSkillState | null
     ) {
-        const nextState =
-            state ??
-            {
-                cooldown: 0,
-                funcs: props.skill.functions.map((func) => {
-                    return new BattleSkillFunc(
-                        {
-                            actorId: props.actorId,
-                            func,
-                            level: props.level,
-                            passive: true,
-                        },
-                        null,
-                        undefined as unknown as BattleSkillPassive,
-                    );
-                }),
-            };
+        const nextState = state ?? {
+            cooldown: 0,
+            funcs: props.skill.functions.map((func) => {
+                return new BattleSkillFunc(
+                    {
+                        actorId: props.actorId,
+                        func,
+                        level: props.level,
+                        passive: true,
+                    },
+                    null,
+                    undefined as unknown as BattleSkillPassive
+                );
+            }),
+        };
 
         super(props, nextState);
 

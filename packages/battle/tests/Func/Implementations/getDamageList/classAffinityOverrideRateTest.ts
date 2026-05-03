@@ -2,9 +2,9 @@ import { expect } from "chai";
 
 import { Card, ClassName } from "@atlasacademy/api-connector";
 
-import { BattleTeam } from "../../../../src/index.js";
 import { BattleAttackActionList } from "../../../../src/Action/BattleAttackAction.js";
 import { classAffinityOverrideRate } from "../../../../src/Func/Implementations/getDamageList.js";
+import { BattleTeam } from "../../../../src/index.js";
 import { createBattle, servant } from "../../../helpers.js";
 
 describe("getDamageList classAffinityOverrideRate", () => {
