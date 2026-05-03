@@ -1,7 +1,7 @@
 {
     "name": "@atlasacademy/api-connector",
     "type": "module",
-    "version": "5.3.1",
+    "version": "6.0.0",
     "description": "Library to interface with api.atlasacademy.io",
     "homepage": "https://github.com/atlasacademy/apps/tree/master/packages/api-connector",
     "main": "./dist/cjs/index.js",
