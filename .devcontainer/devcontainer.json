@@ -1,14 +1,12 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.233.0/containers/javascript-node
+// For format details, see https://containers.dev/implementors/json_reference/.
 {
-	"name": "Node.js",
+	"name": "Atlas Academy Apps",
 	"build": {
 		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 18, 16, 14.
-		// Append -bullseye or -buster to pin to an OS version.
-		// Use -bullseye variants on local arm64/Apple Silicon.
+		// Update 'VARIANT' to pick a Node version: 24, 22, 20.
+		// Append -bookworm or -bullseye to pin to an OS version.
 		"args": {
-			"VARIANT": "18-bullseye"
+			"VARIANT": "24-bookworm"
 		}
 	},
 	"customizations": {
@@ -19,12 +17,12 @@
 					"--ignore-revs-file",
 					".git-blame-ignore-revs"
 				],
-				"typescript.inlayHints.enumMemberValues.enabled": true,
-				"typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-				"typescript.inlayHints.propertyDeclarationTypes.enabled": true,
-				"typescript.inlayHints.variableTypes.enabled": false,
-				"typescript.inlayHints.parameterNames.enabled": "none",
-				"typescript.inlayHints.parameterTypes.enabled": false,
+				"ts.inlayHints.enumMemberValues.enabled": true,
+				"ts.inlayHints.functionLikeReturnTypes.enabled": true,
+				"ts.inlayHints.propertyDeclarationTypes.enabled": true,
+				"ts.inlayHints.variableTypes.enabled": false,
+				"ts.inlayHints.parameterNames.enabled": "none",
+				"ts.inlayHints.parameterTypes.enabled": false,
 				"[css]": {
 					"editor.defaultFormatter": "esbenp.prettier-vscode"
 				},
@@ -51,7 +49,7 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [3000],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "lerna bootstrap --ci",
+	"postCreateCommand": "npm ci",
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "node"
 }
