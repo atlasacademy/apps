@@ -9,16 +9,12 @@ export default defineConfig({
     server: {
         port: 3000,
     },
-    resolve: {
-        preserveSymlinks: true,
-    },
     build: {
         target: "ios12",
         outDir: "build",
         chunkSizeWarningLimit: 1000,
     },
     optimizeDeps: {
-        // https://vitejs.dev/guide/dep-pre-bundling.html#monorepos-and-linked-dependencies
-        include: ["@atlasacademy/api-connector", "@atlasacademy/api-descriptor"],
+        exclude: ["@atlasacademy/api-connector", "@atlasacademy/api-descriptor"],
     },
 });

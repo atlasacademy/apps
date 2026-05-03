@@ -1,16 +1,21 @@
 {
     "name": "root",
     "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-        "lerna": "^3.22.1",
+        "lerna": "^9.0.0",
         "prettier": "^3.5.3"
     },
     "scripts": {
+        "build:connector": "npm run build -w @atlasacademy/api-connector",
+        "build:descriptor": "npm run build -w @atlasacademy/api-descriptor",
+        "build:db": "npm run build:connector && npm run build:descriptor && npm run build -w @atlasacademy/db",
         "format": "prettier --write packages/",
-        "watch": "lerna run watch --stream --no-sort --concurrency 99",
-        "i18n": "lerna run i18n --scope=@atlasacademy/db --stream",
-        "start:db": "lerna run start --scope=@atlasacademy/db --stream",
-        "start:paper-moon": "lerna run start --scope=paper-moon --stream"
+        "i18n": "npm run i18n -w @atlasacademy/db",
+        "start:db": "node scripts/start-db.cjs",
+        "start:paper-moon": "npm run start -w paper-moon"
     }
 }

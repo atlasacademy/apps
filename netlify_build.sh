@@ -29,10 +29,8 @@ tar -C app/drop-serializer --strip-components=1 -zxvf src/drop-serializer.tar.gz
 # fgo-docs is hosted on Github Pages
 
 npm ci
-npx lerna bootstrap --ci
-
-cd packages/db && npm run build
-cd ../../ && cp -r packages/db/build/ app/db
+npm run build:db
+cp -r packages/db/build/ app/db
 
 # Don't build paper-moon since it's currently being developed
 # cd packages/paper-moon && npm run build
