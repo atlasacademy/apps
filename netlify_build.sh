@@ -28,7 +28,11 @@ tar -C app/drop-serializer --strip-components=1 -zxvf src/drop-serializer.tar.gz
 
 # fgo-docs is hosted on Github Pages
 
-npm ci
+npm ci \
+  --workspace @atlasacademy/api-connector \
+  --workspace @atlasacademy/api-descriptor \
+  --workspace @atlasacademy/db \
+  --workspace db-og-worker
 npm run build:db
 cp -r packages/db/build/ app/db
 
