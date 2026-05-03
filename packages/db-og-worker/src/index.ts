@@ -18,6 +18,20 @@ class Handler {
     }
 }
 
+class TextHandler {
+    content = "";
+    constructor(content: string = "") {
+        this.content = content || this.content;
+    }
+    text(text: Text) {
+        if (text.lastInTextNode) {
+            text.replace(this.content);
+        } else {
+            text.remove();
+        }
+    }
+}
+
 function requestSinglePageAppAsset(request: Request, basePath: string) {
     const url = new URL(request.url);
     let pathname = url.pathname;
@@ -85,10 +99,12 @@ function overwrite(
 ) {
     const defaultDescription = "Atlas Academy DB - FGO Game Data Navigator",
         metaDescription = replacePUA(description ?? title ?? `${defaultDescription} - without any of the fluffs.`),
+        documentTitle = replacePUA(title ?? defaultDescription),
         ogTitle = replacePUA(title ?? defaultDescription),
         ogDescription = defaultDescription;
 
     const titleRewriter = new HTMLRewriter()
+        .on("title", new TextHandler(documentTitle))
         .on('[name="description"]', new Handler(metaDescription))
         .on('[property="og:url"]', new Handler(response.pageUrl))
         .on('[property="og:title"]', new Handler(ogTitle))
