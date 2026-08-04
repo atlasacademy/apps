@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
 
-import { Card, Func, NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
+import { Buff, Card, Func, NoblePhantasm, Region, Skill } from "@atlasacademy/api-connector";
 import { FuncDescriptor } from "@atlasacademy/api-descriptor";
 
 import CardType from "../Component/CardType";
@@ -10,7 +10,7 @@ import { CollapsibleLight } from "../Component/CollapsibleContent";
 import { default as FuncDescription } from "../Descriptor/FuncDescriptor";
 import { NoblePhantasmDescriptorId } from "../Descriptor/NoblePhantasmDescriptor";
 import SkillReferenceDescriptor from "../Descriptor/SkillReferenceDescriptor";
-import { describeMutators } from "../Helper/FuncHelper";
+import { describeMutators, getDataValList, getStaticFieldValues } from "../Helper/FuncHelper";
 import { asPercent } from "../Helper/OutputHelper";
 import AdditionalEffectBreakdown from "./AdditionalEffectBreakdown";
 import ScriptBreakdown from "./ScriptBreakdown";
@@ -36,7 +36,8 @@ interface IProps extends WithTranslation {
 
 class EffectBreakdownLines extends React.Component<IProps> {
     render() {
-        const effectStyle = this.props.popOver ? {} : { width: "45%", minWidth: "300px" };
+        const effectStyle = this.props.popOver ? {} : { width: "45%", minWidth: "300px" },
+            funcs = getVisibleFunctions(this.props.funcs);
         const t = this.props.t;
         return (
             <React.Fragment>
@@ -96,7 +97,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                         })}
                     </tr>
                 ) : null}
-                {this.props.funcs.map((func, index) => {
+                {funcs.map((func, index) => {
                     const mutatingDescriptions = describeMutators(this.props.region, func),
                         relatedSkillIds = FuncDescriptor.getRelatedSkillIds(func).filter(
                             (skill) => !this.props.triggerSkillIdStack.includes(skill.skillId)
@@ -104,7 +105,7 @@ class EffectBreakdownLines extends React.Component<IProps> {
                         relatedNpIds = FuncDescriptor.getRelatedNpIds(func);
                     let additionalSkillRow = <></>;
 
-                    if (index === this.props.funcs.length - 1 && this.props.additionalSkillId) {
+                    if (index === funcs.length - 1 && this.props.additionalSkillId) {
                         relatedSkillIds.push({
                             skillId: this.props.additionalSkillId[0],
                             skillLvs: [this.props.additionalSkillId.length],
@@ -287,3 +288,75 @@ class EffectBreakdownLines extends React.Component<IProps> {
 }
 
 export default withTranslation()(EffectBreakdownLines);
+
+function getVisibleFunctions(funcs: Func.Func[]): Func.Func[] {
+    const duplicateSelfTurnProgressKeys = new Set<string>();
+
+    return funcs.filter((func) => {
+        if (isHiddenBookkeepingFunction(func)) return false;
+
+        const duplicateKey = getDuplicateSelfTurnProgressKey(func);
+
+        if (duplicateKey) {
+            if (duplicateSelfTurnProgressKeys.has(duplicateKey)) return false;
+
+            duplicateSelfTurnProgressKeys.add(duplicateKey);
+        }
+
+        return true;
+    });
+}
+
+function isHiddenBookkeepingFunction(func: Func.Func): boolean {
+    if (func.funcType === Func.FuncType.DISPLAY_BUFFSTRING && !func.funcPopupText) return true;
+
+    const staticDataVal = getStaticFieldValues(getDataValList(func)),
+        hasVisibleBuff = func.buffs.some((buff) => buff.name || buff.detail || buff.vals.length > 0);
+
+    return (
+        !func.funcPopupText &&
+        !hasVisibleBuff &&
+        staticDataVal.HideMiss === 1 &&
+        staticDataVal.HideNoEffect === 1 &&
+        staticDataVal.ShowState === -1
+    );
+}
+
+function getDuplicateSelfTurnProgressKey(func: Func.Func): string | undefined {
+    const buff = func.buffs[0];
+
+    if (
+        func.funcType !== Func.FuncType.ADD_STATE ||
+        func.buffs.length !== 1 ||
+        buff?.type !== Buff.BuffType.LAST_SELFTURNPROGRESS_FUNCTION
+    ) {
+        return undefined;
+    }
+
+    const staticDataVal = getStaticFieldValues(getDataValList(func));
+
+    if (staticDataVal.SelfTurnProgressGroup === undefined) return undefined;
+
+    return JSON.stringify([
+        func.funcType,
+        func.funcTargetType,
+        func.funcPopupText,
+        staticDataVal.Rate,
+        staticDataVal.Value,
+        staticDataVal.Value2,
+        staticDataVal.UseRate,
+        staticDataVal.Turn,
+        staticDataVal.Count,
+        staticDataVal.SelfTurnProgressGroup,
+        func.functvals,
+        func.funcquestTvals,
+        func.overWriteTvalsList,
+        buff.type,
+        buff.name,
+        buff.detail,
+        buff.vals,
+        buff.tvals,
+        buff.ckSelfIndv,
+        buff.ckOpIndv,
+    ]);
+}

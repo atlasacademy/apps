@@ -205,6 +205,16 @@ export const buffTriggerTypes = new Map<Buff.BuffType, BuffTriggerType>([
             rate: DataValField.USE_RATE,
         },
     ],
+    [
+        Buff.BuffType.LAST_SELFTURNPROGRESS_FUNCTION,
+        {
+            after: true,
+            when: "when",
+            event: "countdown reaches 0",
+            skill: DataValField.VALUE,
+            level: DataValField.VALUE2,
+        },
+    ],
     [Buff.BuffType.WAVESTART_FUNCTION, { after: true, event: "wave start", rate: DataValField.USE_RATE }],
     [Buff.BuffType.DELAY_FUNCTION, { after: true, event: "Duration" }],
     [Buff.BuffType.REFLECTION_FUNCTION, { after: true, event: "end of enemy's turn" }],

@@ -149,4 +149,8 @@ export default function handleConditionSection(
             </>
         );
     }
+
+    if (dataVal.TriggeredFuncPosition !== undefined && dataVal.DisplayLastFuncInvalidType !== undefined) {
+        parts.push("If linked effect succeeds,");
+    }
 }
