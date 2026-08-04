@@ -12,6 +12,7 @@ export enum MissionType {
     COMPLETE = "complete",
     RANDOM = "random",
     SERVANT = "servant",
+    EX_ROOM = "exRoom",
 }
 
 export enum RewardType {

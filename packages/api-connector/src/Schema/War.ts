@@ -32,6 +32,13 @@ export enum WarOverwriteType {
     MASTER_FACE_ICON = "masterFaceIcon",
     PRIORITY = "priority",
     RECOMMEND_SUPPORT_HEADER_IMG_ID = "recommendSupportHeaderImgId",
+    BG_OBJECT = "bgObject",
+    RECOMMEND_SUPPORT_PARENT_WAR = "recommendSupportParentWar",
+    FOLDER_HEADER_ID = "folderHeaderId",
+    MATERIAL_PRIORITY = "materialPriority",
+    MATERIAL_FOLDER_NAME = "materialFolderName",
+    MATERIAL_HEADER_IMG_ID = "materialHeaderImgId",
+    MATERIAL_GALLERY_HEADER_IMG_ID = "materialGalleryHeaderImgId",
 }
 
 export enum WarFlag {

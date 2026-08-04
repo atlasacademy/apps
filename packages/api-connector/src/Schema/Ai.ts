@@ -266,6 +266,7 @@ export enum AiActType {
     PLAY_MOVIE = "playMovie",
     WAIT_FINISH_MOVIE = "waitFinishMovie",
     CHANGE_THINKING = "changeThinking",
+    GIMMICK_SKILL = "gimmickSkill",
 }
 
 export enum AiActTarget {

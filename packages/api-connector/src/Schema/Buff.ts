@@ -256,6 +256,7 @@ export enum BuffType {
     BATTLESTART_FUNCTION = "battlestartFunction",
     WAVESTART_FUNCTION = "wavestartFunction",
     SELFTURNEND_FUNCTION = "selfturnendFunction",
+    LAST_SELFTURNPROGRESS_FUNCTION = "lastSelfturnprogressFunction",
     DAMAGE_FUNCTION = "damageFunction",
     UP_GIVEGAIN_HP = "upGivegainHp",
     DOWN_GIVEGAIN_HP = "downGivegainHp",

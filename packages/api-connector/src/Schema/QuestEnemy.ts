@@ -6,10 +6,14 @@ import { Skill } from "./Skill.js";
 import { Trait } from "./Trait.js";
 
 export enum EnemyDeathType {
+    NORMAL = "normal",
     ESCAPE = "escape",
     STAND = "stand",
     EFFECT = "effect",
     WAIT = "wait",
+    ENERGY = "energy",
+    CRYSTAL = "crystal",
+    EXPLOSION = "explosion",
 }
 
 export interface EnemyScript {

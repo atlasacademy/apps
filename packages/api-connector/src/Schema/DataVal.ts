@@ -104,6 +104,7 @@ interface BaseDataVal {
     CallSvtEffectId?: number;
     ForceAddState?: number;
     UnSubState?: number;
+    IsStun2WaitMode?: number;
     ForceSubState?: number;
     IgnoreIndivUnreleaseable?: number;
     OnParty?: number;
@@ -290,6 +291,10 @@ interface BaseDataVal {
     NotActIfAlreadyAvoidStateBuff?: number;
     AvoidFieldBuff?: number;
     UseUserSpecifiedLimitCount?: number;
+    EnemyCountWaitTimeAfterEffect?: number;
+    SelfTurnProgressGroup?: number;
+    ResultAggregateGroupId?: number;
+    ParamAddOpCheckDead?: number;
 }
 
 export enum SvtClassGroupType {
@@ -363,6 +368,7 @@ export enum DataValField {
     SHIFT_NPC_ID = "ShiftNpcId",
     DISPLAY_LAST_FUNC_INVALID_TYPE = "DisplayLastFuncInvalidType",
     AND_CHECK_INDIVIDUALITY_LIST = "AndCheckIndividualityList",
+    AND_OR_CHECK_INDIVIDUALITY_LIST = "AndOrCheckIndividualityList",
     WIN_BATTLE_NOT_RELATED_SURVIVAL_STATUS = "WinBattleNotRelatedSurvivalStatus",
     FORCE_SELF_INSTANT_DEATH = "ForceSelfInstantDeath",
     CHANGE_MAX_BREAK_GAUGE = "ChangeMaxBreakGauge",
@@ -395,6 +401,7 @@ export enum DataValField {
     CALL_SVT_EFFECT_ID = "CallSvtEffectId",
     FORCE_ADD_STATE = "ForceAddState",
     UN_SUB_STATE = "UnSubState",
+    IS_STUN2_WAIT_MODE = "IsStun2WaitMode",
     FORCE_SUB_STATE = "ForceSubState",
     IGNORE_INDIV_UNRELEASEABLE = "IgnoreIndivUnreleaseable",
     ON_PARTY = "OnParty",
@@ -583,4 +590,8 @@ export enum DataValField {
     NOT_ACT_IF_ALREADY_AVOID_STATE_BUFF = "NotActIfAlreadyAvoidStateBuff",
     AVOID_FIELD_BUFF = "AvoidFieldBuff",
     USE_USER_SPECIFIED_LIMIT_COUNT = "UseUserSpecifiedLimitCount",
+    ENEMY_COUNT_WAIT_TIME_AFTER_EFFECT = "EnemyCountWaitTimeAfterEffect",
+    SELF_TURN_PROGRESS_GROUP = "SelfTurnProgressGroup",
+    RESULT_AGGREGATE_GROUP_ID = "ResultAggregateGroupId",
+    PARAM_ADD_OP_CHECK_DEAD = "ParamAddOpCheckDead",
 }

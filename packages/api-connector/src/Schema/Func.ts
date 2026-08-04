@@ -8,6 +8,7 @@ import { Trait } from "./Trait.js";
 export enum FuncTargetTeam {
     PLAYER = "player",
     ENEMY = "enemy",
+    ALL = "all",
     PLAYER_AND_ENEMY = "playerAndEnemy",
 }
 
@@ -85,6 +86,7 @@ export enum FuncTargetType {
     FIELD_ALL = "fieldAll",
     NO_TARGET = "noTarget",
     FIELD_RANDOM = "fieldRandom",
+    PLAYER_ATTACK_PRESELECT_TARGET_PT_ONE = "playerAttackPreselectTargetPtOne",
 }
 
 export enum FuncType {
@@ -217,6 +219,7 @@ export enum FuncType {
     HASTEN_NPTURN_FROM_OTHER_USED_NPTURN = "hastenNpturnFromOtherUsedNpturn",
     DAMAGE_FUNC_TYPE_164 = "damageFuncType164",
     DAMAGE_FUNC_TYPE_165 = "damageFuncType165",
+    SET_BATTLE_MISSION_VALUE_AS_MAX = "setBattleMissionValueAsMax",
 }
 
 export enum GainNpIndividualSumTarget {

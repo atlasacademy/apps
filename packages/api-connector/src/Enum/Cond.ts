@@ -275,6 +275,11 @@ export enum CondType {
     BATTLE_ENTRY_ENEMY_TOTAL_COUNT_ABOVE = "battleEntryEnemyTotalCountAbove",
     BATTLE_ENTRY_ENEMY_TOTAL_COUNT_BELOW = "battleEntryEnemyTotalCountBelow",
     BATTLE_ENTRY_ENEMY_TOTAL_COUNT_EQUAL = "battleEntryEnemyTotalCountEqual",
+    JOB_MAX_LEVEL_NUM_ABOVE = "jobMaxLevelNumAbove",
+    JOB_MAX_LEVEL_NUM_BELOW = "jobMaxLevelNumBelow",
+    JOB_MAX_LEVEL_NUM_EQUAL = "jobMaxLevelNumEqual",
+    SVT_HP_REACH_NUM = "svtHpReachNum",
+    SVT_ATK_REACH_NUM = "svtAtkReachNum",
 }
 
 export default CondType;

@@ -484,6 +484,8 @@ export enum EventOverwriteType {
     NAME = "name",
     BANNER = "banner",
     NOTICE_BANNER = "noticeBanner",
+    EVENT_LOGO = "eventLogo",
+    MATERIAL_FOLDER_NAME = "materialFolderName",
 }
 
 export interface EventAdd {

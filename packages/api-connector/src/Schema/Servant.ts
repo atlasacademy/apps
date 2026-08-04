@@ -25,6 +25,10 @@ export enum ServantFrameType {
     GOLD_RED_GREAT = "goldRedGreat",
     GOLD_BLACK = "goldBlack",
     GOLD_BLACK_GREAT = "goldBlackGreat",
+    HIDE = "hide",
+    BLANK = "blank",
+    SUPPORT = "support",
+    SUPPORT_ONLY = "supportOnly",
 }
 
 export interface GrailCostInfo {

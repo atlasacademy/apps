@@ -1,7 +1,7 @@
 import CondType from "../Enum/Cond.js";
 import { CommonConsume } from "./CommonConsume.js";
 import { Gift } from "./Gift.js";
-import { Item, ItemAmount } from "./Item.js";
+import { ItemAmount } from "./Item.js";
 
 export enum ShopType {
     NONE = "none",
@@ -23,6 +23,8 @@ export enum ShopType {
     EVENT_SVT_EQUIP = "eventSvtEquip",
     EXCHANGE_SVT_COIN = "exchangeSvtCoin",
     CLASS_BOARD_RESET = "classBoardReset",
+    EX_ROOM_SHOP = "exRoomShop",
+    EX_ROOM_SHOP_DAILY = "exRoomShopDaily",
 }
 
 export enum PayType {
