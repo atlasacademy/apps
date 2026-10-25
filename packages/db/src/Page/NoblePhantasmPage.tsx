@@ -218,8 +218,9 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 <h3>{t("Detailed Effects")}</h3>
                 <Row>
                     <Col>
-                        <Form className="d-flex flex-wrap align-items-center" style={{ justifyContent: "flex-end" }}>
-                            <Form.Select
+                        <Form inline style={{ justifyContent: "flex-end" }}>
+                            <Form.Control
+                                as="select"
                                 value={this.state.level}
                                 onChange={(ev) => this.changeLevel(parseInt(ev.target.value))}
                             >
@@ -228,12 +229,13 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                                         {t("NP LEVEL")} {level}
                                     </option>
                                 ))}
-                            </Form.Select>
+                            </Form.Control>
                         </Form>
                     </Col>
                     <Col>
-                        <Form className="d-flex flex-wrap align-items-center">
-                            <Form.Select
+                        <Form inline>
+                            <Form.Control
+                                as="select"
                                 value={this.state.overcharge}
                                 onChange={(ev) => this.changeOvercharge(parseInt(ev.target.value))}
                             >
@@ -242,7 +244,7 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                                         {t("OVERCHARGE")} {level}
                                     </option>
                                 ))}
-                            </Form.Select>
+                            </Form.Control>
                         </Form>
                     </Col>
                 </Row>

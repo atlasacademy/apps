@@ -231,7 +231,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                         this.search();
                     }}
                 >
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Popup Text")}</Form.Label>
                         <Form.Control
                             value={this.state.popupText ?? ""}
@@ -241,7 +241,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             lang={lang(this.props.region)}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Func.FuncType>
                             id="select-FuncType"
@@ -254,7 +254,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Target")}</Form.Label>
                         <SearchableSelect<Func.FuncTargetType>
                             id="select-FuncTargetType"
@@ -268,7 +268,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Affects Players/Enemies")}</Form.Label>
                         <SearchableSelect<Func.FuncTargetTeam>
                             id="select-FuncTargetTeam"
@@ -288,7 +288,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Tvals")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -299,7 +299,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Affects Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -322,7 +322,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Quest Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -333,7 +333,7 @@ class FuncsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Func Individuality")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}

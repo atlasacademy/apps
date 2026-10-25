@@ -1,44 +1,14 @@
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ReactNode, useContext } from "react";
-import { Accordion, AccordionContext, Card, useAccordionButton } from "react-bootstrap";
+import { useContext } from "react";
+import { Accordion, AccordionContext, Card } from "react-bootstrap";
 
 import { Renderable } from "../Helper/OutputHelper";
 
 import "./CollapsibleContent.css";
 
-function CollapsibleToggle({
-    eventKey,
-    className,
-    children,
-}: {
-    eventKey: string;
-    className: string;
-    children: ReactNode;
-}) {
-    const toggle = useAccordionButton(eventKey);
-    const { activeEventKey } = useContext(AccordionContext);
-    return (
-        <div
-            className={className}
-            role="button"
-            tabIndex={0}
-            aria-expanded={activeEventKey === eventKey}
-            onClick={toggle}
-            onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    toggle(event);
-                }
-            }}
-        >
-            {children}
-        </div>
-    );
-}
-
 export function ArrowToggle({ eventKey }: { eventKey: string }) {
-    const { activeEventKey: currentKey } = useContext(AccordionContext);
+    const currentKey = useContext(AccordionContext);
     const rotateClass = currentKey === eventKey ? "collapsible-header-rotate-arrow" : "";
     return <FontAwesomeIcon className={`collapsible-header-collapse-actions ${rotateClass}`} icon={faChevronDown} />;
 }
@@ -67,7 +37,7 @@ export default function CollapsibleContent({
         <Accordion defaultActiveKey={initialOpen ? eventKey : ""}>
             <Card className="collapsible-card">
                 {separator && <hr className="collapsible-header-separator" />}
-                <CollapsibleToggle className="collapsible-header" eventKey={eventKey}>
+                <Accordion.Toggle className="collapsible-header" as="div" eventKey={eventKey}>
                     {subheader ? (
                         <h4 className="collapsible-header-title">{title}</h4>
                     ) : (
@@ -76,7 +46,7 @@ export default function CollapsibleContent({
                     <span className="collapsible-header-arrow">
                         <ArrowToggle eventKey={eventKey} />
                     </span>
-                </CollapsibleToggle>
+                </Accordion.Toggle>
                 {/* 2 px to align the hr line with the start of content */}
                 <Accordion.Collapse eventKey={eventKey}>
                     <div style={{ marginTop: "2px", marginBottom: enableBottomMargin === false ? "unset" : "1em" }}>
@@ -106,12 +76,12 @@ export const CollapsibleLight = ({
     return (
         <Accordion defaultActiveKey={defaultActiveKey}>
             <Card className="collapsible-card" border={border}>
-                <CollapsibleToggle className="collapsible-header-tight" eventKey={eventKey}>
+                <Accordion.Toggle as="div" className="collapsible-header-tight" eventKey={eventKey}>
                     <span className="collapsible-header-title">{title}</span>
                     <span className="collapsible-header-arrow">
                         <ArrowToggle eventKey={eventKey} />
                     </span>
-                </CollapsibleToggle>
+                </Accordion.Toggle>
                 <Accordion.Collapse eventKey={eventKey} mountOnEnter={mountOnEnter}>
                     <>{content}</>
                 </Accordion.Collapse>

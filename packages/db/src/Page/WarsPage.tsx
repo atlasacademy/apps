@@ -244,7 +244,7 @@ class WarsPage extends React.Component<IProps, IState> {
                         </ButtonGroup>
                     </Col>
                     <Col md={12} lg={3} id="item-search">
-                        <Form className="d-flex flex-wrap align-items-center" onSubmit={preventDefault}>
+                        <Form inline onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={t("Search")}
                                 value={this.state.search ?? ""}

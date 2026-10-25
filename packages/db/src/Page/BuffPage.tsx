@@ -169,7 +169,7 @@ class BuffPage extends React.Component<IProps, IState> {
                         {
                             label: t("Script"),
                             value: (
-                                <div className="text-start text-prewrap">
+                                <div className="text-left text-prewrap">
                                     <code>{JSON.stringify(buff.script, undefined, 2)}</code>
                                 </div>
                             ),

@@ -170,7 +170,7 @@ class EventPage extends React.Component<IProps, IState> {
         enums?: EnumList
     ) {
         const scrollToMissions = (id: number) => {
-            let elementRef = this.state.missionRefs.get(id) as React.RefObject<HTMLDivElement | null>;
+            let elementRef = this.state.missionRefs.get(id) as React.RefObject<HTMLDivElement>;
             elementRef?.current?.scrollIntoView({ behavior: "smooth" });
         };
 

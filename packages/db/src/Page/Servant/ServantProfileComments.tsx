@@ -28,10 +28,10 @@ export class ServantProfileComments extends React.Component<IProps> {
                         <tr>
                             <th>
                                 <Row className="m-0">
-                                    <Col sm={12} md={2} className="ps-0">
+                                    <Col sm={12} md={2} className="pl-0">
                                         {t("Condition")}
                                     </Col>
-                                    <Col className="pe-0">{t("Message")}</Col>
+                                    <Col className="pr-0">{t("Message")}</Col>
                                 </Row>
                             </th>
                         </tr>
@@ -42,7 +42,7 @@ export class ServantProfileComments extends React.Component<IProps> {
                                 <tr key={`${comment.id}-${comment.priority}`}>
                                     <td>
                                         <Row className="m-0">
-                                            <Col sm={12} md={2} className="ps-0">
+                                            <Col sm={12} md={2} className="pl-0">
                                                 <b>
                                                     <ProfileConditionDescriptor
                                                         region={this.props.region}
@@ -54,7 +54,7 @@ export class ServantProfileComments extends React.Component<IProps> {
                                                     />
                                                 </b>
                                             </Col>
-                                            <Col className="text-prewrap pe-0" lang={lang(this.props.region)}>
+                                            <Col className="text-prewrap pr-0" lang={lang(this.props.region)}>
                                                 <FGOText text={comment.comment} />
                                             </Col>
                                         </Row>

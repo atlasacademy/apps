@@ -6,7 +6,7 @@ import svgrPlugin from "vite-plugin-svgr";
 export default defineConfig({
     base: "/db/",
     resolve: { dedupe: ["react", "react-dom"] },
-    plugins: [react(), eslint(), svgrPlugin()],
+    plugins: [react(), eslint({ eslintPath: import.meta.resolve("eslint") }), svgrPlugin()],
     server: {
         port: 3000,
     },

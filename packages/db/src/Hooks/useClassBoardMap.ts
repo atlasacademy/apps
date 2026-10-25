@@ -19,8 +19,8 @@ interface UseClassBoardMapOptions {
 }
 
 interface UseClassBoardMapReturn {
-    containerRef: React.RefObject<HTMLDivElement | null>;
-    canvasRef: React.RefObject<HTMLCanvasElement | null>;
+    containerRef: React.RefObject<HTMLDivElement>;
+    canvasRef: React.RefObject<HTMLCanvasElement>;
     canvasSize: { width: number; height: number };
     zoom: number;
     isLoading: boolean;

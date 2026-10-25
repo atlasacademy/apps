@@ -14,10 +14,10 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
 
     const popOverContent = (
         <Popover id={`skill-${skill.id}`} className="skill-popover">
-            <Popover.Header>
+            <Popover.Title>
                 <SkillDescriptor region={region} skill={skill} />
-            </Popover.Header>
-            <Popover.Body>
+            </Popover.Title>
+            <Popover.Content>
                 <EffectBreakdown
                     region={region}
                     cooldowns={skill.coolDown.length > 0 ? skill.coolDown : undefined}
@@ -30,7 +30,7 @@ const SkillPopover = (props: { region: Region; skill: Skill.Skill }) => {
                     condBranchSkillInfo={skill.script.condBranchSkillInfo}
                     hideEnemyFunctions={false}
                 />
-            </Popover.Body>
+            </Popover.Content>
         </Popover>
     );
 

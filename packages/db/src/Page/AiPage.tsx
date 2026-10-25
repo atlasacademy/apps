@@ -85,7 +85,7 @@ class AiPage extends React.Component<IProps, IState> {
 
         const scrollToAiId = (id: number) => {
             let elementRef = this.state.refs.get(id);
-            (elementRef as React.RefObject<HTMLDivElement | null>)?.current?.scrollIntoView({ behavior: "smooth" });
+            (elementRef as React.RefObject<HTMLDivElement>)?.current?.scrollIntoView({ behavior: "smooth" });
         };
 
         const relatedQuests =

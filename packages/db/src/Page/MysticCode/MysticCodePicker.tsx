@@ -1,5 +1,5 @@
 import React from "react";
-import { FormSelect } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 
 import { MysticCode, Region } from "@atlasacademy/api-connector";
 
@@ -20,7 +20,9 @@ class MysticCodePicker extends React.Component<IProps> {
 
     render() {
         return (
-            <FormSelect
+            <FormControl
+                as="select"
+                custom
                 onChange={(ev) => {
                     this.changeMysticCode(parseInt(ev.target.value));
                 }}
@@ -35,7 +37,7 @@ class MysticCodePicker extends React.Component<IProps> {
                         </option>
                     );
                 })}
-            </FormSelect>
+            </FormControl>
         );
     }
 }

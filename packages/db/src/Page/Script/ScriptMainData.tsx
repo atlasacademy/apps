@@ -133,7 +133,7 @@ const ScriptMainData = ({
                             </Link>
                         )}
                     </Col>
-                    <Col xs={12} sm="auto" className="ms-auto">
+                    <Col xs={12} sm="auto" className="ml-auto">
                         {nextScript === undefined ? null : (
                             <Link
                                 className="btn btn-light w-100"

@@ -161,7 +161,7 @@ class SkillsPage extends React.Component<IProps, IState> {
 
     getNumberForm(stateVar: "num" | "priority" | "strengthStatus" | "lvl1coolDown" | "numFunctions", label: string) {
         return (
-            <Form.Group className="mb-3">
+            <Form.Group>
                 <Form.Label>{label}</Form.Label>
                 <TraitsSelector
                     region={this.props.region}
@@ -240,7 +240,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                         this.search();
                     }}
                 >
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
@@ -254,7 +254,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                             lang={lang(this.props.region)}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Skill.SkillType>
                             id="select-SkillType"
@@ -276,7 +276,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                     {this.getNumberForm("strengthStatus", t("Strength Status"))}
                     {this.getNumberForm("lvl1coolDown", t("Cooldown at level 1"))}
                     {this.getNumberForm("numFunctions", t("Number of functions"))}
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>
                             <code>svals</code> {t("raw string should contain the following snippet")}
                         </Form.Label>

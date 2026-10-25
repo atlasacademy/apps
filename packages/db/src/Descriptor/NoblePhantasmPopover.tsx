@@ -13,10 +13,10 @@ const NoblePhantasmPopover = (props: { region: Region; noblePhantasm: NoblePhant
 
     const popOverContent = (
         <Popover id={`np-${noblePhantasm.id}`} className="skill-popover">
-            <Popover.Header>
+            <Popover.Title>
                 <NoblePhantasmDescriptor region={region} noblePhantasm={noblePhantasm} />
-            </Popover.Header>
-            <Popover.Body>
+            </Popover.Title>
+            <Popover.Content>
                 <EffectBreakdown
                     region={region}
                     funcs={noblePhantasm.functions}
@@ -25,7 +25,7 @@ const NoblePhantasmPopover = (props: { region: Region; noblePhantasm: NoblePhant
                     popOver={true}
                     hideEnemyFunctions={false}
                 />
-            </Popover.Body>
+            </Popover.Content>
         </Popover>
     );
 

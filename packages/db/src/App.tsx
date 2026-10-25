@@ -229,7 +229,7 @@ class App extends React.Component<any, IState> {
                                 <link
                                     key="theme"
                                     rel="stylesheet"
-                                    href={`https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/${this.state.theme}/bootstrap.min.css`}
+                                    href={`https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/${this.state.theme}/bootstrap.min.css`}
                                 />
                             )}
                         </Helmet>

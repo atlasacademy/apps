@@ -139,7 +139,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     <NavDropdownPage path="enemy-changes" description={t("Enemy Data")} />
                                 </NavDropdown>
                             </Nav>
-                            <Nav className={"ms-auto icons"} activeKey="">
+                            <Nav className={"ml-auto icons"} activeKey="">
                                 <Row>
                                     <Col>
                                         <Link
@@ -217,7 +217,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     </Col>
                                 </Row>
                                 <Dropdown
-                                    className="d-flex flex-column flex-lg-row mb-2 mb-lg-0 mr-lg-2"
+                                    className="d-flex flex-column flex-lg-row mb-2 mb-lno-gutters mr-lg-2"
                                     id="nav-uilang"
                                     title={t("UI Language")}
                                 >
@@ -226,7 +226,7 @@ class Navigation extends React.Component<IProps, IState> {
                                         <FontAwesomeIcon icon={faLanguage} title={t("UI Language")} />
                                     </Dropdown.Toggle>
 
-                                    <Dropdown.Menu align={{ lg: "end" }}>
+                                    <Dropdown.Menu align={{ lg: "right" }}>
                                         {Object.values(UILanguage).map((uiLang) => (
                                             <Dropdown.Item
                                                 key={uiLang}

@@ -155,7 +155,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
     if (error !== undefined) {
         history.replace(`/${region}/${path}`);
         return (
-            <div className="text-start">
+            <div className="text-left">
                 <ErrorStatus error={error} />
                 <Button
                     variant={"primary"}
@@ -205,7 +205,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                     searchButton(new AbortController(), query, scriptFileName, warId, rawScript, searchLimit);
                 }}
             >
-                <Form.Group className="mb-3">
+                <Form.Group>
                     <Form.Label>{t("Search Query")}</Form.Label>
                     <Form.Control
                         value={query ?? ""}
@@ -215,7 +215,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                         lang={lang(region)}
                     />
                 </Form.Group>
-                <Form.Group className="mb-3">
+                <Form.Group>
                     <Form.Label>{t("War")}</Form.Label>
                     <SearchableSelect<number>
                         id="select-warId"
@@ -228,7 +228,7 @@ const ScriptsPage = ({ region, path }: { region: Region; path: string }) => {
                         lang={lang(region)}
                     />
                 </Form.Group>
-                <Form.Group className="mb-3">
+                <Form.Group>
                     <Form.Label>{t("Script File Name")}</Form.Label>
                     <Form.Control
                         value={scriptFileName ?? ""}

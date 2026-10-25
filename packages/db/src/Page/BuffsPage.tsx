@@ -220,7 +220,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                         this.search();
                     }}
                 >
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
@@ -230,7 +230,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             lang={lang(this.props.region)}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Buff.BuffType>
                             id="select-BuffType"
@@ -242,7 +242,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Buff Group")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -255,7 +255,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             numericInput={true}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Buff Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -266,7 +266,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Tvals")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -277,7 +277,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Required Self Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -288,7 +288,7 @@ class BuffsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Required Opponent Traits")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}

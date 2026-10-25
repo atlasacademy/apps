@@ -242,7 +242,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                         this.search();
                     }}
                 >
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                         <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
@@ -254,7 +254,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                     </Form.Group>
                     <Row>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Type")}</Form.Label>
                                 <SearchableSelect<Entity.EntityType>
                                     id="select-EntityType"
@@ -268,7 +268,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Class")}</Form.Label>
                                 <SearchableSelect<ClassName>
                                     id="select-ClassName"
@@ -284,7 +284,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Gender")}</Form.Label>
                                 <SearchableSelect<Entity.Gender>
                                     id="select-Gender"
@@ -298,7 +298,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Attribute")}</Form.Label>
                                 <SearchableSelect<Attribute.Attribute>
                                     id="select-Attribute"
@@ -312,7 +312,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Traits")}</Form.Label>
                                 <TraitsSelector
                                     region={this.props.region}
@@ -325,7 +325,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Doesn't have traits")}</Form.Label>
                                 <TraitsSelector
                                     region={this.props.region}
@@ -338,7 +338,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Flag")}</Form.Label>
                                 <SearchableSelect<Entity.EntityFlag>
                                     id="select-Flag"
@@ -352,7 +352,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Illustrator")}</Form.Label>
                                 <SearchableSelect<string>
                                     id="select-illustrator"
@@ -368,7 +368,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Voice Actor")}</Form.Label>
                                 <SearchableSelect<string>
                                     id="select-voice-actor"
@@ -384,7 +384,7 @@ class EntitiesPage extends React.Component<IProps, IState> {
                             </Form.Group>
                         </Col>
                         <Col sm={4}>
-                            <Form.Group className="mb-3">
+                            <Form.Group>
                                 <Form.Label>{t("Profile text")}</Form.Label>
                                 <Form.Control
                                     value={this.state.profileContains ?? ""}

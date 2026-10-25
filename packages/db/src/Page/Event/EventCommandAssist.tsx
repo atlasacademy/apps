@@ -31,7 +31,7 @@ const EventCommandAssist = ({
                 return (
                     <div key={assistId} className="mb-4">
                         <h3 lang={lang(region)}>
-                            <img src={assist.image} alt={`Assist ${assist.name} icon`} height={50} className="me-1" />
+                            <img src={assist.image} alt={`Assist ${assist.name} icon`} height={50} className="mr-1" />
                             {assist.name}
                         </h3>
                         <div className="mb-3">
