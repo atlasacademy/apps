@@ -5,7 +5,7 @@
         "lib": ["es2021"],
         "strict": true,
         "moduleResolution": "bundler",
-        "types": ["@cloudflare/workers-types"],
+        "types": ["./worker-configuration.d.ts"],
         "resolveJsonModule": true,
         "allowJs": true,
         "checkJs": true,

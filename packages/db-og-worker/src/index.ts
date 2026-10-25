@@ -1,8 +1,3 @@
-export interface Env {
-    atlas_api_cache: KVNamespace;
-    ASSETS: Fetcher;
-}
-
 const DEBUG = false;
 
 const API_KV_TTL = 60 * 60 * 24;
@@ -335,7 +330,7 @@ async function handleDBEvent(request: Request, env: Env) {
     }
 }
 
-const worker = {
+export default {
     async fetch(request: Request, env: Env): Promise<Response> {
         const url = new URL(request.url),
             { pathname } = url;
@@ -373,6 +368,4 @@ const worker = {
             return new Response(statusText, { status: 500, statusText });
         }
     },
-};
-
-export default worker;
+} satisfies ExportedHandler<Env>;

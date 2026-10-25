@@ -1,0 +1,47 @@
+{
+    "$schema": "./node_modules/wrangler/config-schema.json",
+    "name": "db-site-worker",
+    "account_id": "fa227777c8b69f6569d4a4347a6cceb8",
+    "workers_dev": true,
+    "compatibility_date": "2026-10-23",
+    "main": "./src/index.ts",
+    "kv_namespaces": [
+        {
+            "binding": "atlas_api_cache",
+            "preview_id": "ea0f171f5e2544709dfccc02701a9e51",
+            "id": "6307c816b0714a5e8fc7ce5f9f58226f",
+        },
+    ],
+    "assets": {
+        "directory": "../../app",
+        "binding": "ASSETS",
+        // DB HTML must reach HTMLRewriter for per-page Open Graph metadata.
+        // Serve Vite bundles and public DB files directly through Static Assets.
+        "run_worker_first": [
+            "/db",
+            "/db/*",
+            "!/db/assets/*",
+            "!/db/apple-touch-icon.png",
+            "!/db/favicon-16x16.png",
+            "!/db/favicon-32x32.png",
+            "!/db/favicon.ico",
+            "!/db/logo192.png",
+            "!/db/manifest.json",
+            "!/db/robots.txt",
+            // Preserve proxy handlers, even if a matching asset is added later.
+            "/sitemap.xml",
+            "/.well-known",
+            "/.well-known/*",
+            "/chargers",
+            "/chargers/*",
+            "/fgo-docs/*",
+            "/drop-lookup/*",
+            // Preserve the Worker's trailing-slash redirects.
+            "/drop-lookup",
+            "/paper-moon",
+            "/drop-serializer",
+            "/bingo",
+            "/fgo-docs",
+        ],
+    },
+}

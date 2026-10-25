@@ -4,16 +4,17 @@
     "main": "worker.js",
     "scripts": {
         "deploy": "wrangler deploy",
-        "format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}'",
-        "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}'"
+        "format": "prettier --write '*.{json,jsonc,js}' 'src/**/*.{js,ts}'",
+        "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,jsonc,js}' 'src/**/*.{js,ts}'",
+        "types": "wrangler types",
+        "typecheck": "wrangler types --check && tsc --noEmit"
     },
     "license": "MIT",
     "devDependencies": {
-        "@cloudflare/workers-types": "^4.20260425.1",
-        "@typescript-eslint/eslint-plugin": "^8.59.0",
-        "@typescript-eslint/parser": "^8.59.0",
-        "eslint": "^10.2.1",
-        "typescript": "^6.0.3",
-        "wrangler": "^4.85.0"
+        "@typescript-eslint/eslint-plugin": "^8.72.0",
+        "@typescript-eslint/parser": "^8.72.0",
+        "eslint": "^10.13.0",
+        "typescript": "~6.0.3",
+        "wrangler": "^4.152.0"
     }
 }

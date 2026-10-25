@@ -20,6 +20,8 @@ jobs:
       - name: Build sites
         shell: bash
         run: bash netlify_build.sh
+      - name: Check Worker types
+        run: npm run typecheck -w db-og-worker
       - name: Publish to Cloudflare Worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
