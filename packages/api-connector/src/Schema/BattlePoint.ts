@@ -11,6 +11,8 @@ export enum BattlePointFlag {
     HIDE_UI_GAUGE_ALL_TIME = "hideUiGaugeAllTime",
     HIDE_UI_GAUGE_WHEN_CANT_ADD_POINT = "hideUiGaugeWhenCantAddPoint",
     HIDE_UI_GAUGE_WHEN_CANT_ADD_POINT_AND_FOLLOWER_SUPPORT = "hideUiGaugeWhenCantAddPointAndFollowerSupport",
+    BATTLE_POINT_CHECK_AS_PERCENTAGE = "battlePointCheckAsPercentage",
+    RESET_VALUE_ON_CONTINUE = "resetValueOnContinue",
 }
 
 export interface BattlePoint {

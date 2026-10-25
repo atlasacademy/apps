@@ -10,6 +10,11 @@ export interface DamageRateBattlePointPhase {
     value: number;
 }
 
+export interface TriggeredTargetBattlePointRateRange {
+    battlePointId: number;
+    range: string[];
+}
+
 interface BaseDataVal {
     Rate?: number;
     Turn?: number;
@@ -295,6 +300,14 @@ interface BaseDataVal {
     SelfTurnProgressGroup?: number;
     ResultAggregateGroupId?: number;
     ParamAddOpCheckDead?: number;
+    IgnoredCheckBuffType?: number;
+    TriggeredTargetBattlePointRateRange?: TriggeredTargetBattlePointRateRange[];
+    OnlyAvailableSkill?: number;
+    UserEquipSkillMaxTargetNum?: number;
+    ShowMasterPopupDuringNoblePhantasm?: number;
+    TypeIndividualityEachFunc?: number[][];
+    NotRemoveOnShift?: number;
+    ExecuteForEachTargetFuncExecution?: number;
 }
 
 export enum SvtClassGroupType {
@@ -594,4 +607,12 @@ export enum DataValField {
     SELF_TURN_PROGRESS_GROUP = "SelfTurnProgressGroup",
     RESULT_AGGREGATE_GROUP_ID = "ResultAggregateGroupId",
     PARAM_ADD_OP_CHECK_DEAD = "ParamAddOpCheckDead",
+    IGNORED_CHECK_BUFF_TYPE = "IgnoredCheckBuffType",
+    TRIGGERED_TARGET_BATTLE_POINT_RATE_RANGE = "TriggeredTargetBattlePointRateRange",
+    ONLY_AVAILABLE_SKILL = "OnlyAvailableSkill",
+    USER_EQUIP_SKILL_MAX_TARGET_NUM = "UserEquipSkillMaxTargetNum",
+    SHOW_MASTER_POPUP_DURING_NOBLE_PHANTASM = "ShowMasterPopupDuringNoblePhantasm",
+    TYPE_INDIVIDUALITY_EACH_FUNC = "TypeIndividualityEachFunc",
+    NOT_REMOVE_ON_SHIFT = "NotRemoveOnShift",
+    EXECUTE_FOR_EACH_TARGET_FUNC_EXECUTION = "ExecuteForEachTargetFuncExecution",
 }

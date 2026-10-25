@@ -280,6 +280,9 @@ export enum CondType {
     JOB_MAX_LEVEL_NUM_EQUAL = "jobMaxLevelNumEqual",
     SVT_HP_REACH_NUM = "svtHpReachNum",
     SVT_ATK_REACH_NUM = "svtAtkReachNum",
+    FAVORITE_SVT_ID_EQUAL = "favoriteSvtIdEqual",
+    EVENT_BALLOT_SUBMITTED = "eventBallotSubmitted",
+    EVENT_BALLOT_NOT_SUBMITTED = "eventBallotNotSubmitted",
 }
 
 export default CondType;

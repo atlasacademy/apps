@@ -178,6 +178,8 @@ export enum BuffAction {
     FUNCTION_MULTI_GUTS_BEFORE = "functionMultiGutsBefore",
     LIMIT_MAX_NP = "limitMaxNp",
     LIMIT_MIN_NP = "limitMinNp",
+    MAX_BATTLE_POINT = "maxBattlePoint",
+    FUNCTION_SELFTURNPROGRESS = "functionSelfturnprogress",
 }
 
 export enum BuffLimit {
@@ -424,6 +426,9 @@ export enum BuffType {
     UP_SELFDAMAGE = "upSelfdamage",
     DOWN_SELFDAMAGE = "downSelfdamage",
     DOWN_COMMANSTAR = "downCommanstar",
+    ADD_MAX_BATTLE_POINT = "addMaxBattlePoint",
+    SUB_MAX_BATTLE_POINT = "subMaxBattlePoint",
+    SELFTURNPROGRESS_FUNCTION = "selfturnprogressFunction",
 }
 
 export enum ClassRelationOverwriteType {

@@ -39,6 +39,7 @@ export enum WarOverwriteType {
     MATERIAL_FOLDER_NAME = "materialFolderName",
     MATERIAL_HEADER_IMG_ID = "materialHeaderImgId",
     MATERIAL_GALLERY_HEADER_IMG_ID = "materialGalleryHeaderImgId",
+    STAND_FIGURE_VISIBLE = "standFigureVisible",
 }
 
 export enum WarFlag {

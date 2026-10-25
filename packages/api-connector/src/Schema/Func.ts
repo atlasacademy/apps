@@ -220,6 +220,9 @@ export enum FuncType {
     DAMAGE_FUNC_TYPE_164 = "damageFuncType164",
     DAMAGE_FUNC_TYPE_165 = "damageFuncType165",
     SET_BATTLE_MISSION_VALUE_AS_MAX = "setBattleMissionValueAsMax",
+    SUB_BATTLE_POINT = "subBattlePoint",
+    ADD_STATE_USER_EQUIP_SKILL_AVAILABLE = "addStateUserEquipSkillAvailable",
+    ADD_STATE_SHORT_USER_EQUIP_SKILL_AVAILABLE = "addStateShortUserEquipSkillAvailable",
 }
 
 export enum GainNpIndividualSumTarget {
