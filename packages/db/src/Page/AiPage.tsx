@@ -2,8 +2,7 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Ai, Region } from "@atlasacademy/api-connector";
 
@@ -16,6 +15,8 @@ import AiDescriptor from "../Descriptor/AiDescriptor";
 import QuestDescriptor from "../Descriptor/QuestDescriptor";
 import QuestSearchDescriptor from "../Descriptor/QuestSearchDescriptor";
 import { mergeElements } from "../Helper/OutputHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager from "../Setting/Manager";
 import AiGraph from "./Ai/AiGraph";
 import AiTable from "./Ai/AiTable";
@@ -84,7 +85,7 @@ class AiPage extends React.Component<IProps, IState> {
 
         const scrollToAiId = (id: number) => {
             let elementRef = this.state.refs.get(id);
-            (elementRef as React.RefObject<HTMLDivElement>)?.current?.scrollIntoView({ behavior: "smooth" });
+            (elementRef as React.RefObject<HTMLDivElement | null>)?.current?.scrollIntoView({ behavior: "smooth" });
         };
 
         const relatedQuests =

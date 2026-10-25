@@ -38,7 +38,7 @@ const AttributeDiff = ({ servant }: { servant: Servant.Servant }) => {
 };
 
 interface TraitDiff {
-    type: "Ascension" | "Costume";
+    type: string;
     id: number;
     addedTraits: Trait.Trait[];
     removedTraits: Trait.Trait[];

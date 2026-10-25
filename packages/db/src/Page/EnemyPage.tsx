@@ -1,8 +1,6 @@
 import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { Enemy, Region, Servant } from "@atlasacademy/api-connector";
 
@@ -12,6 +10,8 @@ import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ClassIcon from "../Component/ClassIcon";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 import EnemyMainData from "./Enemy/EnemyMainData";
 import EnemySubData from "./Enemy/EnemySubData";

@@ -106,7 +106,7 @@ const EventBulletinBoard = ({
                 {bulletinBoards.map((bulletinBoard) => {
                     return (
                         <tr key={bulletinBoard.bulletinBoardId}>
-                            <td className="text-center font-weight-bold">{bulletinBoard.bulletinBoardId}</td>
+                            <td className="text-center fw-bold">{bulletinBoard.bulletinBoardId}</td>
                             <td>
                                 <div className="mb-2">
                                     <b>{t("Message")}:</b> <span lang={lang(region)}>{bulletinBoard.message}</span>

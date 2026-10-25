@@ -54,7 +54,7 @@ class SkillBreakdown extends React.Component<IProps> {
                         </>
                     ) : null}
                     {this.props.mlbSkill && (
-                        <img alt="Max Limit Break Skill" className="ml-1" title="Max Limit Break Skill" src={MLBIcon} />
+                        <img alt="Max Limit Break Skill" className="ms-1" title="Max Limit Break Skill" src={MLBIcon} />
                     )}
                 </h3>
 

@@ -599,7 +599,7 @@ const QuestEnemyTable = (props: {
                     )}
                 </span>
                 {Manager.calcStringEnabled() && (
-                    <span className="ml-3">
+                    <span className="ms-3">
                         <CopyToClipboard text={getEnemyCalcString(enemy)} title={t("Copy calc string to clipboard")} />
                     </span>
                 )}

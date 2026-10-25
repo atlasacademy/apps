@@ -47,7 +47,7 @@ export const useClassBoardMapCanvas = (options: UseClassBoardMapOptions) => {
     const { classBoard, currentSquare, hoveredSquareId, squareImages, zoom, panX, panY } = options;
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const animationFrameRef = useRef<number>();
+    const animationFrameRef = useRef<number | undefined>(undefined);
 
     // Create square lookup map for O(1) access
     const squareMap = useRef<Map<number, ClassBoard.ClassBoardSquare>>(new Map());

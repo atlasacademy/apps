@@ -29,7 +29,7 @@ class DataValMainData extends React.Component<IProps> {
                                 return {
                                     label,
                                     value: (
-                                        <div className="text-prewrap text-left">
+                                        <div className="text-prewrap text-start">
                                             <code>{JSON.stringify(value, null, 2)}</code>
                                         </div>
                                     ),

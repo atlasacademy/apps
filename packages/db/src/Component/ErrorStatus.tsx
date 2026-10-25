@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import Fuse from "fuse.js";
+import type { JSX } from "react";
 import React from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";

@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import Fuse from "fuse.js";
+import type { JSX } from "react";
 import React from "react";
 import { Button, ButtonGroup, Col, Form, Pagination, Row, Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
@@ -267,7 +268,7 @@ class CraftEssencesPage extends React.Component<IProps, IState> {
                         </ButtonGroup>
                     </Col>
                     <Col md={12} lg={3} id="item-search">
-                        <Form inline onSubmit={preventDefault}>
+                        <Form className="d-flex flex-wrap align-items-center" onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={t("Search")}
                                 value={this.state.search ?? ""}

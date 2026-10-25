@@ -4,8 +4,6 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { Region, Skill } from "@atlasacademy/api-connector";
 
@@ -17,6 +15,8 @@ import TraitsSelector from "../Component/TraitsSelector";
 import { entityDescriptorTable } from "../Descriptor/EntityDescriptor";
 import SkillDescriptor from "../Descriptor/SkillDescriptor";
 import { getURLSearchParams } from "../Helper/StringHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
@@ -161,7 +161,7 @@ class SkillsPage extends React.Component<IProps, IState> {
 
     getNumberForm(stateVar: "num" | "priority" | "strengthStatus" | "lvl1coolDown" | "numFunctions", label: string) {
         return (
-            <Form.Group>
+            <Form.Group className="mb-3">
                 <Form.Label>{label}</Form.Label>
                 <TraitsSelector
                     region={this.props.region}
@@ -240,7 +240,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                         this.search();
                     }}
                 >
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
@@ -254,7 +254,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                             lang={lang(this.props.region)}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Skill.SkillType>
                             id="select-SkillType"
@@ -276,7 +276,7 @@ class SkillsPage extends React.Component<IProps, IState> {
                     {this.getNumberForm("strengthStatus", t("Strength Status"))}
                     {this.getNumberForm("lvl1coolDown", t("Cooldown at level 1"))}
                     {this.getNumberForm("numFunctions", t("Number of functions"))}
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>
                             <code>svals</code> {t("raw string should contain the following snippet")}
                         </Form.Label>

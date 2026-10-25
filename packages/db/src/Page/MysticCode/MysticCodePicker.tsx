@@ -1,13 +1,11 @@
 import React from "react";
-import { FormControl } from "react-bootstrap";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
+import { FormSelect } from "react-bootstrap";
 
 import { MysticCode, Region } from "@atlasacademy/api-connector";
 
+import { withRouter } from "../../Routing";
+import { RouteComponentProps } from "../../Routing";
 import { lang } from "../../Setting/Manager";
-
-interface Event extends React.ChangeEvent<HTMLInputElement> {}
 
 interface IProps extends RouteComponentProps {
     region: Region;
@@ -22,10 +20,8 @@ class MysticCodePicker extends React.Component<IProps> {
 
     render() {
         return (
-            <FormControl
-                as={"select"}
-                custom
-                onChange={(ev: Event) => {
+            <FormSelect
+                onChange={(ev) => {
                     this.changeMysticCode(parseInt(ev.target.value));
                 }}
                 value={this.props.id}
@@ -39,7 +35,7 @@ class MysticCodePicker extends React.Component<IProps> {
                         </option>
                     );
                 })}
-            </FormControl>
+            </FormSelect>
         );
     }
 }

@@ -51,9 +51,9 @@ export default function BgmDescriptor(props: BgmProps & { bgm: Bgm.Bgm }) {
         const showName = getBgmName(bgm);
         const toLink = props.showLink ? (
             <>
-                <Button variant="primary" as={Link} to={`/${region}/bgm/${bgm.id}`}>
+                <Link className="btn btn-primary" to={`/${region}/bgm/${bgm.id}`}>
                     <FontAwesomeIcon icon={faShare} title={`Go to ${region} BGM ${showName}`} />
-                </Button>
+                </Link>
             </>
         ) : null;
         const downloadButton = bgm.notReleased ? (

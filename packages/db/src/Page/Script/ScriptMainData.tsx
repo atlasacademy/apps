@@ -1,4 +1,4 @@
-import { Button, Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -125,26 +125,22 @@ const ScriptMainData = ({
                 <Row className="mt-3">
                     <Col xs={12} sm="auto">
                         {previousScript === undefined ? null : (
-                            <Button
-                                className="w-100 mb-2"
-                                variant="light"
-                                as={Link}
+                            <Link
+                                className="btn btn-light w-100 mb-2"
                                 to={`/${region}/script/${previousScript}${scriptQueryString}`}
                             >
                                 {t("Previous Script")}: {previousScript}
-                            </Button>
+                            </Link>
                         )}
                     </Col>
-                    <Col xs={12} sm="auto" className="ml-auto">
+                    <Col xs={12} sm="auto" className="ms-auto">
                         {nextScript === undefined ? null : (
-                            <Button
-                                className="w-100"
-                                variant="light"
-                                as={Link}
+                            <Link
+                                className="btn btn-light w-100"
                                 to={`/${region}/script/${nextScript}${scriptQueryString}`}
                             >
                                 {t("Next Script")}: {nextScript}
-                            </Button>
+                            </Link>
                         )}
                     </Col>
                 </Row>

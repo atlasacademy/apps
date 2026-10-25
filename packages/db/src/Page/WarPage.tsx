@@ -4,9 +4,7 @@ import { AxiosError } from "axios";
 import React, { useState } from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { WithTranslation, useTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
-import { RouteComponentProps } from "react-router-dom";
 
 import { Bgm, CondType, Event, Gift, Item, Quest, Region, War } from "@atlasacademy/api-connector";
 
@@ -24,6 +22,8 @@ import ScriptDescriptor from "../Descriptor/ScriptDescriptor";
 import { dedupe } from "../Helper/ArrayHelper";
 import { Renderable, mergeElements } from "../Helper/OutputHelper";
 import { FGOText, removeSuffix } from "../Helper/StringHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 import WarMap from "./WarMap/WarMap";
 

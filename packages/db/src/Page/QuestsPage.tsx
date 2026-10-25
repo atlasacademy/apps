@@ -4,8 +4,6 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { ClassName, Quest, Region, Trait } from "@atlasacademy/api-connector";
 
@@ -18,6 +16,8 @@ import TraitsSelector from "../Component/TraitsSelector";
 import { QuestFlagDescription, QuestTypeDescriptionMap } from "../Descriptor/QuestEnumDescription";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
 import { getNumParam } from "../Helper/URLSearchParamsHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 
 import "./ListingPage.css";
@@ -220,7 +220,7 @@ class QuestsPage extends React.Component<IProps, IState> {
         label: string
     ) {
         return (
-            <Form.Group>
+            <Form.Group className="mb-3">
                 <Form.Label>{label}</Form.Label>
                 <Form.Control
                     type="number"
@@ -277,7 +277,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         this.search();
                     }}
                 >
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Quest Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
@@ -289,7 +289,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             lang={lang(this.props.region)}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Spot Name")}</Form.Label>
                         <Form.Control
                             value={this.state.spotName ?? ""}
@@ -302,7 +302,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     {this.getNumberForm("warId", "War ID")}
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Quest Type")}</Form.Label>
                         <SearchableSelect<Quest.QuestType>
                             id="select-QuestType"
@@ -314,7 +314,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Quest Flags")}</Form.Label>
                         <SearchableSelect<Quest.QuestFlag>
                             id="select-QuestFlag"
@@ -326,7 +326,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Field Trait")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -341,7 +341,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                     {this.getNumberForm("bgmId", t("BGM ID"))}
                     {this.getNumberForm("fieldAiId", t("Field AI ID"))}
                     {this.getNumberForm("enemySvtId", t("Enemy svt ID"))}
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>
                             {t("Enemy Name")} ({t("Only exact matches")})
                         </Form.Label>
@@ -356,7 +356,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                         />
                     </Form.Group>
                     {this.getNumberForm("enemySvtAiId", t("Enemy Servant AI ID"))}
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Enemy Trait")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -367,7 +367,7 @@ class QuestsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Enemy Class")}</Form.Label>
                         <SearchableSelect<ClassName>
                             id="select-ClassName"

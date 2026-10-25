@@ -21,7 +21,7 @@ const TOUCH_TAP_PADDING = 10;
  * Includes refs, state values, and state setters
  */
 interface UseClassBoardMapInteractionOptions {
-    canvasRef: React.RefObject<HTMLCanvasElement>;
+    canvasRef: React.RefObject<HTMLCanvasElement | null>;
     zoom: number;
     panX: number;
     panY: number;

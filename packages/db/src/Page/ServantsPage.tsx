@@ -2,9 +2,11 @@ import { faArrowDown19, faArrowDown91, faHashtag, faKey } from "@fortawesome/fre
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import Fuse from "fuse.js";
+import { TFunction } from "i18next";
+import type { JSX } from "react";
 import React from "react";
 import { Button, ButtonGroup, Col, Form, Pagination, Row, Table } from "react-bootstrap";
-import { TFunction, withTranslation } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { ClassName, Region, Servant } from "@atlasacademy/api-connector";
@@ -371,7 +373,7 @@ class ServantsPage extends React.Component<IProps, IState> {
                                             this.state.activeRarityFilters.includes(rarity) ? "success" : "outline-dark"
                                         }
                                         key={rarity}
-                                        onClick={(ev: MouseEvent) => this.toggleRarityFilter(rarity)}
+                                        onClick={() => this.toggleRarityFilter(rarity)}
                                     >
                                         {rarity} ★
                                     </Button>

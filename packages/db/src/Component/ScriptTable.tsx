@@ -40,7 +40,7 @@ import ScriptDialogueLine from "./ScriptDialogueLine";
 
 import "./ScriptTable.css";
 
-type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement>>;
+type RowBgmRefMap = Map<string | undefined, React.RefObject<HTMLTableRowElement | null>>;
 type ScriptOffsets = { charaGraphId: number; y?: number };
 
 const combineDialogueString = (components: DialogueChildComponent[]): string => {
@@ -100,7 +100,7 @@ const DialogueRow = (props: {
                         <BgmDescriptor
                             region={props.region}
                             bgm={props.dialogue.maleVoice}
-                            className="mr-3"
+                            className="me-3"
                             showName="Male"
                         />
                         <BgmDescriptor region={props.region} bgm={props.dialogue.femaleVoice} showName="Female" />

@@ -73,7 +73,7 @@ class ServantMaterialBreakdown extends React.Component<IProps> {
                             return (
                                 <tr key={key}>
                                     <td
-                                        className={this.props.showNextLevelInDescription ? "text-center" : "text-left"}
+                                        className={this.props.showNextLevelInDescription ? "text-center" : "text-start"}
                                         style={{ minWidth: this.props.idMinWidth }}
                                     >
                                         {this.props.showNextLevelInDescription ? (

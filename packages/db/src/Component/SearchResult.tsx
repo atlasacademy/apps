@@ -1,11 +1,11 @@
 import Fuse from "fuse.js";
 import React from "react";
-import { Redirect } from "react-router-dom";
 
 import { CraftEssence, Region, Servant, War } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import { removeDiacriticalMarks } from "../Helper/StringHelper";
+import { Redirect } from "../Routing";
 import ErrorStatus from "./ErrorStatus";
 import Loading from "./Loading";
 

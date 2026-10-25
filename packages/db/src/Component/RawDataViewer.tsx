@@ -78,7 +78,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
             <>
                 <Button
                     variant="outline-info"
-                    block={block}
+                    className={block ? "w-100" : undefined}
                     onClick={() => {
                         this.show();
                     }}
@@ -97,7 +97,7 @@ class RawDataViewer extends React.Component<IProps, IState> {
                                 href={typeof this.props.data === "string" ? this.props.data : this.props.url}
                                 variant="info"
                                 target="_blank"
-                                className="ml-2"
+                                className="ms-2"
                                 title="Open Raw Data in New Tab"
                             >
                                 <FontAwesomeIcon icon={faArrowUpRightFromSquare} title="Open Raw Data in New Tab" />

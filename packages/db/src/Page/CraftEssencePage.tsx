@@ -2,8 +2,6 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { CraftEssence, Region } from "@atlasacademy/api-connector";
 
@@ -11,6 +9,8 @@ import Api from "../Api";
 import SkillBreakdown from "../Breakdown/SkillBreakdown";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager from "../Setting/Manager";
 import CraftEssenceAssets from "./CraftEssence/CraftEssenceAssets";
 import CraftEssenceMainData from "./CraftEssence/CraftEssenceMainData";

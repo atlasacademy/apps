@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { generatePath, useHistory } from "react-router-dom";
+import { generatePath } from "react-router-dom";
 
 import { AssetHost } from "../../Api";
 import { ClassBoardContext } from "../../Contexts/ClassBoard";
+import { useHistory } from "../../Routing";
 import Manager from "../../Setting/Manager";
 
 import "./ClassBoardNavigation.css";
@@ -19,9 +20,9 @@ const ClassBoardNavigation: React.FC = () => {
     } = states;
 
     const handleNavigation = (id: number) => {
-        const path = generatePath("/:region(JP)/classboard/:id([0-9]+)", {
+        const path = generatePath("/:region/classboard/:id", {
             region: Manager.region(),
-            id: id,
+            id: String(id),
         });
 
         history.push(path);

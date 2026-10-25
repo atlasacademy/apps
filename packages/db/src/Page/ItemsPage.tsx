@@ -1,10 +1,10 @@
 import { AxiosError } from "axios";
 import Fuse from "fuse.js";
+import type { JSX } from "react";
 import React from "react";
 import { Col, Form, Pagination, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Item, Region } from "@atlasacademy/api-connector";
 
@@ -14,6 +14,8 @@ import ItemIcon from "../Component/ItemIcon";
 import Loading from "../Component/Loading";
 import { preventDefault } from "../Helper/Form";
 import { fuseGetFn, removeDiacriticalMarks } from "../Helper/StringHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 
 import "./ItemsPage.css";
@@ -306,7 +308,7 @@ class ItemsPage extends React.Component<IProps, IState> {
                         {hasPaginator && <div>{this.paginator(items.length)}</div>}
                     </Col>
                     <Col xs={12} sm={6} md={3} id="item-search">
-                        <Form inline onSubmit={preventDefault}>
+                        <Form className="d-flex flex-wrap align-items-center" onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={t("Search")}
                                 value={this.state.search ?? ""}

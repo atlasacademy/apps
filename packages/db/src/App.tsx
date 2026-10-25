@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { Container } from "react-bootstrap";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { Redirect, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { Ai, Language, Region } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";
@@ -12,6 +12,7 @@ import Loading from "./Component/Loading";
 import Navigation from "./Component/Navigation";
 import SearchResults from "./Component/SearchResult";
 import HomePage from "./Page/HomePage";
+import { Redirect, Route, Switch } from "./Routing";
 import Manager from "./Setting/Manager";
 import { Theme } from "./Setting/Theme";
 
@@ -228,7 +229,7 @@ class App extends React.Component<any, IState> {
                                 <link
                                     key="theme"
                                     rel="stylesheet"
-                                    href={`https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/${this.state.theme}/bootstrap.min.css`}
+                                    href={`https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/${this.state.theme}/bootstrap.min.css`}
                                 />
                             )}
                         </Helmet>

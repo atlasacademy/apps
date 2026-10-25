@@ -5,8 +5,6 @@ import { t } from "i18next";
 import React from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { Card, NoblePhantasm, Region, Trait } from "@atlasacademy/api-connector";
 
@@ -19,6 +17,8 @@ import TraitsSelector from "../Component/TraitsSelector";
 import { entityDescriptorTable } from "../Descriptor/EntityDescriptor";
 import NoblePhantasmDescriptor from "../Descriptor/NoblePhantasmDescriptor";
 import { getURLSearchParams, isPositiveInteger } from "../Helper/StringHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 
 let stateCache = new Map<Region, IState>([]);
@@ -175,7 +175,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
 
     getNumberForm(stateVar: "hits" | "strengthStatus" | "numFunctions", label: string) {
         return (
-            <Form.Group>
+            <Form.Group className="mb-3">
                 <Form.Label>{label}</Form.Label>
                 <TraitsSelector
                     region={this.props.region}
@@ -253,7 +253,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                         this.search();
                     }}
                 >
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Name")}</Form.Label>
                         <Form.Control
                             value={this.state.name ?? ""}
@@ -267,7 +267,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                             lang={lang(this.props.region)}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Type")}</Form.Label>
                         <SearchableSelect<Card>
                             id="select-SkillType"
@@ -285,7 +285,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Individuality")}</Form.Label>
                         <TraitsSelector
                             region={this.props.region}
@@ -299,7 +299,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                     {this.getNumberForm("hits", t("Number of hits"))}
                     {this.getNumberForm("strengthStatus", t("Strength Status"))}
                     {this.getNumberForm("numFunctions", t("Number of functions"))}
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Minimum NP gain")} (1% = 100)</Form.Label>
                         <NumberSelector
                             value={this.state.minNpNpGain ?? ""}
@@ -316,7 +316,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Maximum NP gain")} (1% = 100)</Form.Label>
                         <NumberSelector
                             value={this.state.maxNpNpGain ?? ""}
@@ -333,7 +333,7 @@ class NoblePhantasmsPage extends React.Component<IProps, IState> {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>
                             <code>svals</code> {t("raw string should contain the following snippet")}
                         </Form.Label>

@@ -1,11 +1,11 @@
 import React from "react";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { Region, Servant } from "@atlasacademy/api-connector";
 import { toTitleCase } from "@atlasacademy/api-descriptor";
 
 import SearchableSelect from "../../Component/SearchableSelect";
+import { withRouter } from "../../Routing";
+import { RouteComponentProps } from "../../Routing";
 import { lang } from "../../Setting/Manager";
 
 interface IProps extends RouteComponentProps {

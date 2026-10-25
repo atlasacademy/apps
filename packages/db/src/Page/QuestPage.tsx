@@ -2,8 +2,6 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Col, Dropdown, Row, Tab, Tabs } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { Quest, Region } from "@atlasacademy/api-connector";
 
@@ -19,6 +17,8 @@ import { QuestDescriptorId } from "../Descriptor/QuestDescriptor";
 import shortenQuestHash from "../Descriptor/QuestHashDescriptor";
 import ScriptDescriptor, { sortScript } from "../Descriptor/ScriptDescriptor";
 import { FGOText, removePrefix } from "../Helper/StringHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 import QuestDrops from "./Quest/QuestDrops";
 import QuestMainData from "./Quest/QuestMainData";

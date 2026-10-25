@@ -51,61 +51,54 @@ class SettingForm extends React.Component<IProps> {
         return (
             <div>
                 <Form>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Data Language")}</Form.Label>
-                        <Form.Control
-                            as={"select"}
+                        <Form.Select
                             value={this.props.language}
-                            onChange={(ev: Event) => this.updateLanguage(ev.target.value)}
+                            onChange={(ev) => this.updateLanguage(ev.target.value)}
                         >
                             {Object.values(Language).map((v) => (
                                 <option key={v} value={v}>
                                     {v}
                                 </option>
                             ))}
-                        </Form.Control>
+                        </Form.Select>
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("UI Language")}</Form.Label>
-                        <Form.Control
-                            as={"select"}
+                        <Form.Select
                             value={Manager.uiLanguage()}
-                            onChange={(ev: Event) => Manager.setUiLanguage(ev.target.value as UILanguage)}
+                            onChange={(ev) => Manager.setUiLanguage(ev.target.value as UILanguage)}
                         >
                             {Object.values(UILanguage).map((v) => (
                                 <option key={v} value={v} lang={UILanguageDescriptor.get(v)?.langAttribute}>
                                     {UILanguageDescriptor.get(v)?.langName}
                                 </option>
                             ))}
-                        </Form.Control>
+                        </Form.Select>
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Theme")}</Form.Label>
-                        <Form.Control
-                            as={"select"}
-                            value={this.props.theme}
-                            onChange={(ev: Event) => this.updateTheme(ev.target.value)}
-                        >
+                        <Form.Select value={this.props.theme} onChange={(ev) => this.updateTheme(ev.target.value)}>
                             {Object.values(Theme).map((v) => (
                                 <option key={v} value={v}>
                                     {v}
                                 </option>
                             ))}
-                        </Form.Control>
+                        </Form.Select>
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>{t("Calc String Type")}</Form.Label>
-                        <Form.Control
-                            as={"select"}
+                        <Form.Select
                             value={Manager.calcStringType()}
-                            onChange={(ev: Event) => Manager.setcalcStringType(ev.target.value as CalcStringType)}
+                            onChange={(ev) => Manager.setcalcStringType(ev.target.value as CalcStringType)}
                         >
                             {Object.values(CalcStringType).map((v) => (
                                 <option key={v} value={v}>
                                     {toTitleCase(v)}
                                 </option>
                             ))}
-                        </Form.Control>
+                        </Form.Select>
                     </Form.Group>
                 </Form>
                 <ButtonGroup className="mb-3 w-100">

@@ -2,8 +2,6 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Alert, Col, Row, Tab, Tabs } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { Entity, Region, Servant } from "@atlasacademy/api-connector";
 
@@ -17,6 +15,8 @@ import Loading from "../Component/Loading";
 import RawDataViewer from "../Component/RawDataViewer";
 import IllustratorDescriptor from "../Descriptor/IllustratorDescriptor";
 import VoiceActorDescriptor from "../Descriptor/VoiceActorDescriptor";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 import ServantAssets from "./Servant/ServantAssets";
 import ServantBattleNames from "./Servant/ServantBattleNames";

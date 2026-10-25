@@ -324,11 +324,10 @@ class SkillPage extends React.Component<IProps, IState> {
                 <br />
                 <br />
                 <h3>{t("Detailed Effects")}</h3>
-                <Form inline style={{ justifyContent: "center" }}>
-                    <Form.Control
-                        as={"select"}
+                <Form className="d-flex flex-wrap align-items-center" style={{ justifyContent: "center" }}>
+                    <Form.Select
                         value={this.state.level}
-                        onChange={(ev: Event) => this.changeLevel(parseInt(ev.target.value))}
+                        onChange={(ev) => this.changeLevel(parseInt(ev.target.value))}
                     >
                         {Array.from(Array(this.state.levels).keys())
                             .map((i) => i + 1)
@@ -337,7 +336,7 @@ class SkillPage extends React.Component<IProps, IState> {
                                     LEVEL {level}
                                 </option>
                             ))}
-                    </Form.Control>
+                    </Form.Select>
                 </Form>
 
                 <br />

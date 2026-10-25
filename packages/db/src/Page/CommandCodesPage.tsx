@@ -124,7 +124,7 @@ class CommandCodesPage extends React.Component<IProps, IState> {
                         </ButtonGroup>
                     </Col>
                     <Col sm={6} md={3} id="item-search">
-                        <Form inline onSubmit={preventDefault}>
+                        <Form className="d-flex flex-wrap align-items-center" onSubmit={preventDefault}>
                             <Form.Control
                                 placeholder={t("Search")}
                                 value={this.state.search ?? ""}

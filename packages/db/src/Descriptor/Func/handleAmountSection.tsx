@@ -1,3 +1,5 @@
+import type { JSX } from "react";
+
 import { Buff, DataVal, Entity, Func, Region } from "@atlasacademy/api-connector";
 import { BuffDescriptor } from "@atlasacademy/api-descriptor";
 

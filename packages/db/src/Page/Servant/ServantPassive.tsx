@@ -85,7 +85,7 @@ const ServantBattlePoint = ({ region, servant }: { region: Region; servant: Serv
                     </h3>
 
                     {bp.flags.map((flag) => (
-                        <Badge key={flag} className="mr-1" style={{ background: "green", color: "white" }}>
+                        <Badge key={flag} className="me-1" style={{ background: "green", color: "white" }}>
                             {toTitleCase(flag)}
                         </Badge>
                     ))}

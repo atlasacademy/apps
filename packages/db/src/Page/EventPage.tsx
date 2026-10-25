@@ -2,8 +2,6 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Col, Row, Tab, Table, Tabs } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
 
 import { EnumList, Event, Item, Mission, Quest, Region, Servant, War } from "@atlasacademy/api-connector";
 
@@ -17,6 +15,8 @@ import MissionConditionDescriptor from "../Descriptor/MissionConditionDescriptor
 import WarDescriptor from "../Descriptor/WarDescriptor";
 import { FGOText } from "../Helper/StringHelper";
 import { getEventStatus } from "../Helper/TimeHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 import EventBulletinBoard from "./Event/EventBulletinBoard";
 import EventCommandAssist from "./Event/EventCommandAssist";
@@ -170,7 +170,7 @@ class EventPage extends React.Component<IProps, IState> {
         enums?: EnumList
     ) {
         const scrollToMissions = (id: number) => {
-            let elementRef = this.state.missionRefs.get(id) as React.RefObject<HTMLDivElement>;
+            let elementRef = this.state.missionRefs.get(id) as React.RefObject<HTMLDivElement | null>;
             elementRef?.current?.scrollIntoView({ behavior: "smooth" });
         };
 

@@ -4,8 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Button, Col, Container, Dropdown, Modal, Nav, NavDropdown, Navbar, Row } from "react-bootstrap";
 import { WithTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Language, Region } from "@atlasacademy/api-connector";
 import { UILanguage } from "@atlasacademy/api-descriptor";
@@ -15,6 +14,8 @@ import JPFlag from "../Assets/jp.svg?react";
 import KRFlag from "../Assets/kr.svg?react";
 import TWFlag from "../Assets/tw.svg?react";
 import USFlag from "../Assets/us.svg?react";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager from "../Setting/Manager";
 import SettingForm, { UILanguageDescriptor } from "../Setting/SettingForm";
 import { Theme } from "../Setting/Theme";
@@ -138,7 +139,7 @@ class Navigation extends React.Component<IProps, IState> {
                                     <NavDropdownPage path="enemy-changes" description={t("Enemy Data")} />
                                 </NavDropdown>
                             </Nav>
-                            <Nav className={"ml-auto icons"} activeKey="">
+                            <Nav className={"ms-auto icons"} activeKey="">
                                 <Row>
                                     <Col>
                                         <Link
@@ -220,12 +221,12 @@ class Navigation extends React.Component<IProps, IState> {
                                     id="nav-uilang"
                                     title={t("UI Language")}
                                 >
-                                    <Dropdown.Toggle variant="info" className="btn-block">
+                                    <Dropdown.Toggle variant="info" className="w-100">
                                         <span className="d-lg-none">{t("UI Language")} </span>
                                         <FontAwesomeIcon icon={faLanguage} title={t("UI Language")} />
                                     </Dropdown.Toggle>
 
-                                    <Dropdown.Menu align={{ lg: "right" }}>
+                                    <Dropdown.Menu align={{ lg: "end" }}>
                                         {Object.values(UILanguage).map((uiLang) => (
                                             <Dropdown.Item
                                                 key={uiLang}

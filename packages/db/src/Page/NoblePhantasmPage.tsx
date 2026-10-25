@@ -218,33 +218,31 @@ class NoblePhantasmPage extends React.Component<IProps, IState> {
                 <h3>{t("Detailed Effects")}</h3>
                 <Row>
                     <Col>
-                        <Form inline style={{ justifyContent: "flex-end" }}>
-                            <Form.Control
-                                as={"select"}
+                        <Form className="d-flex flex-wrap align-items-center" style={{ justifyContent: "flex-end" }}>
+                            <Form.Select
                                 value={this.state.level}
-                                onChange={(ev: Event) => this.changeLevel(parseInt(ev.target.value))}
+                                onChange={(ev) => this.changeLevel(parseInt(ev.target.value))}
                             >
                                 {[1, 2, 3, 4, 5].map((level) => (
                                     <option key={level} value={level}>
                                         {t("NP LEVEL")} {level}
                                     </option>
                                 ))}
-                            </Form.Control>
+                            </Form.Select>
                         </Form>
                     </Col>
                     <Col>
-                        <Form inline>
-                            <Form.Control
-                                as={"select"}
+                        <Form className="d-flex flex-wrap align-items-center">
+                            <Form.Select
                                 value={this.state.overcharge}
-                                onChange={(ev: Event) => this.changeOvercharge(parseInt(ev.target.value))}
+                                onChange={(ev) => this.changeOvercharge(parseInt(ev.target.value))}
                             >
                                 {[1, 2, 3, 4, 5].map((level) => (
                                     <option key={level} value={level}>
                                         {t("OVERCHARGE")} {level}
                                     </option>
                                 ))}
-                            </Form.Control>
+                            </Form.Select>
                         </Form>
                     </Col>
                 </Row>

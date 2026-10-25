@@ -1,12 +1,12 @@
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
 
 import { Quest, Region } from "@atlasacademy/api-connector";
 
 import Api from "../Api";
 import ErrorStatus from "../Component/ErrorStatus";
 import Loading from "../Component/Loading";
+import { Redirect } from "../Routing";
 import Manager from "../Setting/Manager";
 
 const QuestRedirect = ({ region, id }: { region: Region; id: number }) => {

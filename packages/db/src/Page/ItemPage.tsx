@@ -1,11 +1,11 @@
 import { faSortNumericDown, faSortNumericDownAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
+import type { JSX } from "react";
 import React from "react";
 import { Button, Tab, Table, Tabs } from "react-bootstrap";
 import { WithTranslation, useTranslation, withTranslation } from "react-i18next";
-import { withRouter } from "react-router";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { ClassName, Entity, Item, Region, Servant } from "@atlasacademy/api-connector";
 
@@ -21,6 +21,8 @@ import ItemUseDescription from "../Descriptor/ItemUseDescription";
 import ServantDescriptor from "../Descriptor/ServantDescriptor";
 import TraitDescription from "../Descriptor/TraitDescription";
 import { mergeElements } from "../Helper/OutputHelper";
+import { withRouter } from "../Routing";
+import { RouteComponentProps } from "../Routing";
 import Manager, { lang } from "../Setting/Manager";
 import { t } from "../i18n";
 

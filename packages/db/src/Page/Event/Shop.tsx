@@ -154,7 +154,7 @@ const ShopTab = ({ region, shops, filters, onChange, itemCache, questCache }: IP
             <Table hover responsive className="shopTable">
                 <thead>
                     <tr>
-                        <th className="text-left">{t("Detail")}</th>
+                        <th className="text-start">{t("Detail")}</th>
                         <th className="text-nowrap">
                             {t("EventShopCurrency")}&nbsp;
                             <Dropdown as={ButtonGroup}>
