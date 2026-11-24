@@ -58,12 +58,12 @@ const getTotalUsage = (material: MaterialUsageColumn, blacklistedColumnIndexes?:
         return (
             (blacklistedColumnIndexes.includes(0) ? 0 : material.ascensions) +
             (blacklistedColumnIndexes.includes(1) ? 0 : 3 * material.skills) +
-            (blacklistedColumnIndexes.includes(2) ? 0 : 3 * material.appendSkills) +
+            (blacklistedColumnIndexes.includes(2) ? 0 : 5 * material.appendSkills) +
             (blacklistedColumnIndexes.includes(3) ? 0 : material.costumes)
         );
     }
 
-    return material.ascensions + 3 * (material.skills + material.appendSkills) + material.costumes;
+    return material.ascensions + 3 * material.skills + 5 * material.appendSkills + material.costumes;
 };
 
 let usageDataColumns: {
@@ -80,9 +80,9 @@ let usageDataColumns: {
         title: t("Per Skill (Total)"),
     },
     {
-        extractor: (usage: MaterialUsageColumn) => usage.appendSkills * 3,
+        extractor: (usage: MaterialUsageColumn) => usage.appendSkills * 5,
         displayExtractor: (usage: MaterialUsageColumn) =>
-            `${usage.appendSkills.toLocaleString()} (${(usage.appendSkills * 3).toLocaleString()})`,
+            `${usage.appendSkills.toLocaleString()} (${(usage.appendSkills * 5).toLocaleString()})`,
         title: t("Per Append Skill (Total)"),
     },
     { extractor: (usage: MaterialUsageColumn) => usage.costumes, title: t("Costume") },
@@ -309,7 +309,7 @@ class ItemPage extends React.Component<IProps, IState> {
         servantProcessed.total =
             servantProcessed.ascensions +
             servantProcessed.skills * 3 +
-            servantProcessed.appendSkills * 3 +
+            servantProcessed.appendSkills * 5 +
             servantProcessed.costumes;
 
         return servantProcessed;
@@ -388,7 +388,7 @@ class ItemPage extends React.Component<IProps, IState> {
             totalUsage.costumes += usage.costumes;
         }
         totalUsage.total =
-            totalUsage.ascensions + totalUsage.skills * 3 + totalUsage.appendSkills * 3 + totalUsage.costumes;
+            totalUsage.ascensions + totalUsage.skills * 3 + totalUsage.appendSkills * 5 + totalUsage.costumes;
 
         return (
             <>
